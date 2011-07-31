@@ -64,21 +64,36 @@ installed on the target machine(s):
 \subsection{Obtaining Source Files}
 \label{sec:install-download-runtime}
 
-You can obtain the latest snapshot of the CUTS runtime architecture from the
+The quickest method to obtain the latest snapshot of the CUTS
+runtime architecture is to download and execute the following
+Python script:
+\begin{lstlisting} 
+(*@
+\url{https://svn.dre.vanderbilt.edu/viewvc/CUTS/trunk/CUTS/etc/scripts/download_sources.py}@*)
+\end{lstlisting}
+This script will download CUTS's source code from its the 
 DOC Group Subversion repository at the following location:
 \begin{lstlisting}
 (*@\url{svn://svn.dre.vanderbilt.edu/DOC/CUTS/trunk/CUTS}@*)
 \end{lstlisting}
-If you need to download a stable version of the source code, then you can 
-access at one of the subdirectories in the repository at the following location:
+It will also download all third-party library source files
+(see Appendix~\ref{chap:thirdparty}), and define a configuration
+script to set the correct environment variables.
+If you need to download a stable version of the source code, then 
+you can access at one of the subdirectories in the repository at 
+the following location:
 \begin{lstlisting}
 (*@\url{svn://svn.dre.vanderbilt.edu/DOC/CUTS/tags}@*)
 \end{lstlisting}
+Unlike the latest snapshot, you are responsible for \textit{manually}
+downloading all third-party source files, and defining a configuration
+file to set the correct environment variables.
 
 \subsection{System Configuration}
 
-Before you can build CUTS, you must for configure you environment. Please
-set the following environment variables:
+If you use the Python script above, you can skip to the next section.
+Otherwise, you must for configure you environment before you can build 
+CUTS. This is done by setting the following environment variables:
 \begin{lstlisting}
 %> export CUTS_ROOT=location of CUTS
 %> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUTS_ROOT/lib
