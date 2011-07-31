@@ -53,12 +53,10 @@ downloaded from the following location: \url{http://www.boost.org}. Currently XS
 To build CUTS correctly, the Boost environment variables must be defined. Please 
 define the following required environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export BOOST\_ROOT=} location of Boost@*)
-(*@\texttt{\%> export BOOST\_VERSION=} name of subdirectery under \texttt{\$BOOST\_ROOT/include}, \textit{e.g.}, \texttt{boost-1\_34\_1}@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$BOOST\_ROOT/lib}\footnote{On
-Windows-based systems, please add library paths to \texttt{PATH}. On Mac OS-based
-systems, please add library paths to \texttt{DYLD\_LIBRARY\_PATH}.}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$BOOST\_ROOT/lib}@*)
+%> export BOOST_ROOT=/opt/thirdparty/boost
+%> export BOOST_VERSION=boost-1_34_1
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BOOST_ROOT/lib
+%> export PATH=$PATH:$BOOST_ROOT/bin
 \end{lstlisting}
 In some cases, Boost libraries will have an optional configuration appended to 
 their filename, such as \texttt{-mt-d}. To use a specific configuration of 
@@ -66,7 +64,7 @@ Boost, the \texttt{BOOST\_CFG} environment variable must be defined. The
 following is an example of defining the Boost configuration environment 
 variable:
 \begin{lstlisting}
-(*@\texttt{\%> export BOOST\_CFG=-mt-d}@*)
+%> export BOOST_CFG=-mt-d
 \end{lstlisting}
 The configuration of Boost is now complete. 
 
@@ -115,8 +113,8 @@ can be downloaded from the following location: \url{http://xerces.apache.org/xer
 To build CUTS correctly, the Xerces-C environment variables must be defined. Please 
 define the following required environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export XERCESCROOT=} location of Xerces-C@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XERCESCROOT/lib}@*)
+%> export XERCESCROOT=/opt/thirdparty/xerces-c
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XERCESCROOT/lib
 \end{lstlisting}
 The configuration of Xerces-C is now complete. Once all the other
 third-party libraries are installed you will be able to build CUTS
@@ -155,9 +153,9 @@ from the following location: \url{http://www.sqlite.org}
 To build CUTS correctly, the SQLite environment variables must be defined. Please 
 define the following required environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export SQLITE\_ROOT=} location of SQLite@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$SQLITE\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$SQLITE\_ROOT/bin}@*)
+%> export SQLITE_ROOT=/opt/thirdparty/SQLite
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SQLITE_ROOT/lib
+%> export PATH=$PATH:$SQLITE_ROOT/bin
 \end{lstlisting}
 The configuration of SQLite is now complete. Once all the other
 third-party libraries are installed you will be able to build CUTS
@@ -195,10 +193,10 @@ discusses how to build and install XSC.
 You must configure you system installing XSC. Once you have downloaded 
 XSC from the website above please define the following environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> svn co svn://svn.dre.vanderbilt.edu/XSC/trunk XSC}@*)
-(*@\texttt{\%> export XSC\_ROOT=} location of XSC@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$XSC\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$XSC\_ROOT/bin}@*)
+%> svn co svn://svn.dre.vanderbilt.edu/XSC/trunk XSC
+%> export XSC_ROOT=/opt/thirdparty/XSC
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XSC_ROOT/lib
+%> export PATH=$PATH:$XSC_ROOT/bin
 \end{lstlisting}
 
 \subsection{Installation}
@@ -206,8 +204,8 @@ XSC from the website above please define the following environment variables:
 After you have configured your system for XSC, you are ready to build and 
 install it. Please use the following steps to build and install XSC:
 \begin{lstlisting}
-(*@\texttt{\%> cd \$XSC\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] -features xsc=1,xerces3=1 XSC.mwc}@*)
+%> cd $XSC_ROOT
+%> $ACE_ROOT/bin/mwc.pl -type [build tool] -features xsc=1,xerces3=1 XSC.mwc
 \end{lstlisting}
 This will generate the workspace for building and installing XSC. The name of 
 the workspace depends on the build tool specified when generating the 
@@ -226,9 +224,9 @@ location: \url{http://www.pcre.org}
 To build CUTS correctly, the PCRE environment variables must be defined. Please 
 define the following required environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export PCRE\_ROOT=} location of PCRE@*)
-(*@\texttt{\%> export PCRE\_VERSION=} version of PCRE, blank if not applicable@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$PCRE\_ROOT/lib}@*)
+%> export PCRE_ROOT=/opt/thirdparty/pcre
+%> export PCRE_VERSION= version of PCRE, blank if not applicable
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PCRE_ROOT/lib
 \end{lstlisting}
 The configuration of PCRE is now complete. Once all the other
 third-party libraries are installed you will be able to build CUTS
@@ -269,14 +267,14 @@ or snapshot of trunk from the SVN repo. Otherwise, you will not have access
 to ADBC.}, please define the following 
 environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export ACE\_ROOT=} location of ACE@*)
-(*@\texttt{\%> export TAO\_ROOT=} location of TAO@*)
-(*@\texttt{\%> export CIAO\_ROOT=} location of CIAO@*)
-(*@\texttt{\%> export ADBC\_ROOT=} location of ADBC@*)
-(*@\texttt{\%> export DANCE\_ROOT=\$CIAO\_ROOT/DAnCE}@*)
+%> export ACE_ROOT=/opt/thirdparty/Middleware/ACE
+%> export TAO_ROOT=/opt/thirdparty/Middleware/TAO
+%> export CIAO_ROOT=/opt/thirdparty/Middleware/CIAO
+%> export ADBC_ROOT=/opt/thirdparty/Middleware/ADBC
+%> export DANCE_ROOT=/opt/thirdparty/Middleware/DAnCE
 
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$ACE\_ROOT/lib:\$ADBC\_ROOT/lib}@*)
-(*@\texttt{\%> export PATH=\$PATH:\$ACE\_ROOT/bin:\$CIAO\_ROOT/bin:\$DANCE\_ROOT/bin}@*)
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ACE_ROOT/lib:$ADBC_ROOT/lib
+%> export PATH=$PATH:$ACE_ROOT/bin:$CIAO_ROOT/bin:$DANCE_ROOT/bin
 \end{lstlisting}
 
 After defining the environment variables above, the next step is 
@@ -302,8 +300,8 @@ Configuring the DOC middleware on non-Windows systems requires one more
 step. The configuration for the build engine also needs to be defined. 
 Please use the following step to define the build engine's configuration:
 \begin{lstlisting}
-(*@\texttt{\%> cd \$ACE\_ROOT/include/makeinclude}@*)
-(*@\texttt{\%> ln -s platform\_*.GNU platform\_macros.GNU}@*)
+%> cd $ACE_ROOT/include/makeinclude
+%> ln -s platform_*.GNU platform_macros.GNU
 \end{lstlisting}
 where \texttt{*} is the architecture for your platform of choice.
 
@@ -313,9 +311,9 @@ After you have configured your system, you are ready to build and
 install ACE and TAO. Please use the following steps to build and 
 install the DOC middleware:
 \begin{lstlisting}
-(*@\texttt{\%> cd \$CIAO\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] -features xerces3=1 CIAO\_TAO\_DAnCE.mwc}@*)
-(*@\texttt{\%> gmake}@*)
+%> cd $CIAO_ROOT
+%> $ACE_ROOT/bin/mwc.pl -type [build tool] -features xerces3=1 CIAO_TAO_DAnCE.mwc
+%> build the workspace
 \end{lstlisting}
 
 \subsection{ACE DataBase Connector (ADBC) Framework}
@@ -330,9 +328,9 @@ build.\footnote{It is assumed that you have installed the development
 version for the database drivers that you plan to build.} Finally,
 generate the workspace and build ADBC using the following commands:
 \begin{lstlisting}
-(*@\texttt{\%> cd \$ADBC\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] ADBC.mwc}@*)
-(*@\texttt{\%> gmake}@*)
+%> cd $ADBC_ROOT
+%> $ACE_ROOT/bin/mwc.pl -type [build tool] ADBC.mwc
+%> build the workspace
 \end{lstlisting}
  
 \section{RTI-DDS}
@@ -347,9 +345,9 @@ a certain way. Otherwise, there is great chance that CUTS emulation
 code that uses RTI-DDS will not compile correctly. Please define the 
 following environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export NDDSHOME=} location of RTI-DDS@*)
-(*@\texttt{\%> export NDDSARCHITECTURE=} target arch (see \$NDDSHOME/lib)@*)
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$NDDSHOME/lib/\$NDDSARCHITECTURE}@*)
+%> export NDDSHOME=/opt/thirdparty/RTI-DDS
+%> export NDDSARCHITECTURE= target arch (see \$NDDSHOME/lib)
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NDDSHOME/lib/$NDDSARCHITECTURE
 \end{lstlisting}
 
 \subsection{Installation}
@@ -371,14 +369,13 @@ a certain way. Otherwise, there is great chance that CUTS emulation
 code that uses OpenSplice DDS will not compile correctly. Please define the 
 following environment variables:
 \begin{lstlisting}
-(*@\texttt{\%> export OSPL\_HOME=} location of OpenSplice HDE/target@*)
-(*@\texttt{\%> export OSPL\_TARGET=} target arch (see \$OPSL\_HOME)@*)
-(*@\texttt{\%> export OSPL\_TEMP\_PATH=\$OPSL\_HOME/etc/idlpp}@*)
-(*@\texttt{\%> export OSPL\_URI="file://\$OPSL\_HOME/etc/config/ospl.xml"}@*)
+%> export OSPL_TARGET=target arch
+%> export OSPL_HOME=/opt/thirdparty/OpenSplice/$OSPL_TARGET
+%> export OSPL_TEMP_PATH=$OPSL_HOME/etc/idlpp
+%> export OSPL_URI="file://$OPSL_HOME/etc/config/ospl.xml"
 
-(*@\texttt{\%> export CLASSPATH=\$OSPL\_HOME/jar/dcpssaj.jar;\$CLASSPATH}@*)
-
-(*@\texttt{\%> export LD\_LIBRARY\_PATH=\$LD\_LIBRARY\_PATH:\$OSPL\_HOME/lib}@*)
+%> export CLASSPATH=$OSPL_HOME/jar/dcpssaj.jar;$CLASSPATH
+%> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OSPL_HOME/lib
 \end{lstlisting}
 
 \subsection{Installation}
@@ -398,10 +395,10 @@ found in the following file: \texttt{\$TAO\_ROOT/VERSION}. Once you
 have identified the version number, create the following directories
 in OpenSplice DDS install directory:
 \begin{lstlisting}
-(*@\texttt{\%> cp \$OSPL\_HOME/etc/idlpp/CCPP/[current version DDS\_ACE\_TAO] \\
-  \$OSPL\_HOME/etc/idlpp/CCPP/DDS\_ACE\_TAO\_x\_y\_z}@*)
-(*@\texttt{\%> cp \$OSPL\_HOME/include/dcps/C++/CCPP/[current version DDS\_ACE\_TAO] \\
-  \$OSPL\_HOME/include/dcps/C++/CCPP/DDS\_ACE\_TAO\_x\_y\_z}@*)
+%> cp $OSPL_HOME/etc/idlpp/CCPP/[current version DDS_ACE_TAO] \\
+  $OSPL_HOME/etc/idlpp/CCPP/DDS_ACE_TAO_x_y_z
+%> cp $OSPL_HOME/include/dcps/C++/CCPP/[current version DDS_ACE_TAO] \\
+  $OSPL_HOME/include/dcps/C++/CCPP/DDS_ACE_TAO_x_y_z
 \end{lstlisting}
 where \texttt{x\_y\_z} is the correct version of TAO installed on your 
 machine. Please make sure to use underscores (\texttt{\_}) and not 
@@ -409,7 +406,7 @@ dots (\texttt{.}) in the version number. Finally, define the following
 environment variable so the OpenSplice DDS architecture knows what 
 version of the ORB to use:
 \begin{lstlisting}
-(*@\texttt{\%> export SPLICE\_ORBE=DDS\_ACE\_TAO\_x\_y\_z}@*)
+%> export SPLICE_ORB=DDS_ACE_TAO_x_y_z
 \end{lstlisting}
 where \texttt{x\_y\_z} is the correct version of TAO installed on 
 your machine as done above.
@@ -418,9 +415,9 @@ The final step in the process is rebuilding the custom library is
 actually building it. This can be accomplished using the provide
 MPC project file in CUTS and executing the following steps: 
 \begin{lstlisting}
-(*@\texttt{\%> cd \$CUTS\_ROOT/contrib/OpenSplice}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build type]}@*)
-(*@\texttt{\%> \#build the generated solution}@*)
+%> cd $CUTS_ROOT/contrib/OpenSplice
+%> $ACE_ROOT/bin/mwc.pl -type [build type]
+%> #build the generated solution
 \end{lstlisting}
 
 The build process will install the custom library in 

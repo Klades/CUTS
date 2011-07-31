@@ -1,10 +1,16 @@
+Sun Jul 31 19:08:54 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/appendix/thirdparty.tex:
+
+	  Fixed inconsistencies in the documentation.
+
 Sun Jul 31 18:31:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/getting-started/install.tex:
         * docs/manual/manual.pdf:
 
-	  Updated installation instructions to discuss using the
-	  newly created Python script to download source files.
+          Updated installation instructions to discuss using the
+          newly created Python script to download source files.
 
 Sun Jul 31 17:36:58 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
