@@ -225,18 +225,18 @@ generate (const PICML::OutputAction & action)
 // CUTS_BE_Precondition_T
 
 void CUTS_BE_Precondition_T <CUTS_BE_CPP::Context>::
-generate (const std::string & precondition)
+generate (const std::string & cond)
 {
-  this->ctx_.source_ << "if (" << precondition << ")";
+  this->ctx_.source_ << cond;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Postcondition_T
 
 void CUTS_BE_Postcondition_T <CUTS_BE_CPP::Context>::
-generate (const std::string & postcondition)
+generate (const std::string & cond)
 {
-  this->ctx_.source_ << postcondition;
+  this->ctx_.source_ << cond;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

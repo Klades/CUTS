@@ -1,10 +1,18 @@
+Sun Jul 31 05:02:41 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Bug fix where the precondition handler was generating
+          an unnecessary *if* keyword.
+
 Tue Jul 19 14:43:50 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/unite/dmac/dmac.mpc:
         * cuts/utils/unite/dmac/vertical/Dmac_Vertical.mpc:
         * cuts/utils/unite/dmac/Dmac-core.mpc:
 
-          Removed Dmac-core.mpc. Added dmac.mpc and chnaged the project name in Dmac_Vertical.mpc.
+          Removed Dmac-core.mpc. Added dmac.mpc and chnaged the project
+          name in Dmac_Vertical.mpc.
 
 Tue Jul 19 12:18:41 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
