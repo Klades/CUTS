@@ -46,7 +46,7 @@ There are no separate installation procedures for MPC.
 
 The Boost libraries are required when building and installing CUTS. All
 artifacts for Boost, such as prebuilt versions and source files, can be 
-downloaded from the following location: \url{http://www.boost.org}. 
+downloaded from the following location: \url{http://www.boost.org}. Currently XSC seems to only work with Boost 1.43.0.
 
 \subsection{System Configuration}
 
@@ -68,9 +68,7 @@ variable:
 \begin{lstlisting}
 (*@\texttt{\%> export BOOST\_CFG=-mt-d}@*)
 \end{lstlisting}
-The configuration of Boost is now complete. Once all the other
-third-party libraries are installed you will be able to build CUTS
-(see Chapter~\ref{chap:install}).
+The configuration of Boost is now complete. 
 
 \subsection{Installation}
 
@@ -80,6 +78,18 @@ If you are installing Boost on a non-Windows system, \textit{e.g.}, Linux,
 Soloris, or MacOS X, then you can download the source code directly from its
 main website (\url{http://www.boost.org}), build it, and install it using
 standard procedures.
+
+As a quick reference, you can quickly build Boost using the following
+sequence of commands:
+\begin{lstlisting}
+%> cd $BOOST_ROOT
+%> ./bootstrap.sh --prefix=$BOOST_ROOT
+%> ./bjam --without-python
+%> ./bjam --install
+\end{lstlisting}
+This will build Boost using the preferred method, and i
+Finally, please be patient when compiling Boost from sources 
+because it does take at least 30 minutes. 
 
 \subsubsection{Windows}
 
@@ -304,7 +314,7 @@ install ACE and TAO. Please use the following steps to build and
 install the DOC middleware:
 \begin{lstlisting}
 (*@\texttt{\%> cd \$CIAO\_ROOT}@*)
-(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] CIAO\_TAO\_DAnCE.mwc}@*)
+(*@\texttt{\%> \$ACE\_ROOT/bin/mwc.pl -type [build tool] -features xerces3=1 CIAO\_TAO\_DAnCE.mwc}@*)
 (*@\texttt{\%> gmake}@*)
 \end{lstlisting}
 
@@ -425,7 +435,7 @@ that the custom library in OpenSplice is able to build against
 the TAO 1.7.8 (or later), please update 
 \texttt{\$OSPL\_HOME/include/dcps/C++/CCPP/DDS\_ACE\_TAO\_x\_y\_z/orb\_abstraction.h}
 with the following content:
-\begin{lstlisting}
+\begin{lstlisting}[language=C++]
 #include "tao/LocalObject.h"
 #include "tao/Version.h"
 
