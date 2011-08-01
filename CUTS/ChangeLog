@@ -1,3 +1,9 @@
+Mon Aug  1 16:24:43 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/scripts/download_sources.py:
+
+          The configuration file is written to the prefix location.
+
 Mon Aug  1 16:17:25 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts/download_sources.py:
