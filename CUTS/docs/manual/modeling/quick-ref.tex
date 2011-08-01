@@ -189,6 +189,27 @@ settings for elements in the model. In the component assembly, the
 property element can connect to an \texttt{Attribute}, 
 \texttt{ComponentAssembly}, \texttt{ComponentInstance}, and
 \texttt{ReadonlyAttribute}.
+
+In the component assembly, the following property names have
+predefined meanings:
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lcl}
+  \hline
+  \textbf{Property Name} & \textbf{Data Type} & \textbf{Description}\\
+  \hline
+  InstanceIOR & String & Set the output location of IOR \\
+  RegisterNaming & String & Register component with naming service  \\
+  LocalityArguments & String & Set the parameters for the locality manager \\
+  CPUAffinity & String & Set the CPU affinity for the deployment \\
+  ProcessPriority & String & Set the processor priority for the deployment \\
+  \end{tabular}
+
+  \caption{Listing of reserved names for Property elements within
+  the component assembly aspect.}
+  \label{table:deployment-properties}
+\end{table}
+
 \end{modelelement}
 
 \section{Targets}
@@ -260,9 +281,10 @@ settings for elements in the model. In the deployment plan, the
 property element can connect to a \texttt{NodeRef} and a 
 \texttt{CollocationGroup}.
 
-In the deployment plan, the following properties names have
+In the deployment plan, the following property names have
 predefined meanings:
 \begin{table}[h]
+  \centering
   \begin{tabular}{lcl}
   \hline
   \textbf{Property Name} & \textbf{Data Type} & \textbf{Ex. Value}\\
@@ -270,7 +292,8 @@ predefined meanings:
   StringIOR & String & corbaloc:iiop:localhost:30000/PingNode.NodeManager \\
   \end{tabular}
 
-  \caption{Listing of reserved names for Property elements in PICML.}
+  \caption{Listing of reserved names for Property elements with the deployment
+  plan aspect of the model.}
   \label{table:deployment-properties}
 \end{table}
 
