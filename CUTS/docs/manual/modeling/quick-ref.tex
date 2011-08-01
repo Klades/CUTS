@@ -47,7 +47,7 @@ the most import elements when constructing a model that is useable
 by CUTS (listed in alphabetical order):
 
 \begin{modelelement}{Aggregate}{0.2}{modeling/figs/aggregate.png}
-The aggregate is similar to the structure construct (\textit{i.e.}, 
+The \texttt{Aggregate} is similar to the structure construct (\textit{i.e.}, 
 \texttt{struct}) in C and C++, or a tuple in dynamic languages. It 
 contains members elements, which reference their data type (\textit{e.g.}, 
 \texttt{String}, \texttt{LongInteger}, and \texttt{DateTime}). By
@@ -59,7 +59,7 @@ are most important, which are discussed in this section:
 \end{modelelement}
 
 \begin{modelelement}{Component}{0.6}{modeling/figs/component.png}
-The component is an abstraction that provides/\-requires 
+The \texttt{Component} element is an abstraction that provides/\-requires 
 a set of services or sends/\-receives events. This is determined by
 the ports it exposes to the other components. The component can
 also contain attributes, which are points-of-configuration that
@@ -77,7 +77,7 @@ and \texttt{Read\-onlyAt\-tri\-bute}.
 \clearpage
 
 \begin{modelelement}{Event}{0.2}{modeling/figs/event.png}
-The event is similar to an aggregate in PICML in 
+The \texttt{Event} element is similar to an aggregate in PICML in 
 that it is a collection of data types. It can also contain 
 more complex definitions, which are currently ignored in
 CUTS. The main difference is that an event is used to send
@@ -97,7 +97,8 @@ the model.
 \end{modelelement}
 
 \begin{modelelement}{Key}{1.0}{modeling/figs/key.png}
-The key is a child element of an aggregate element. It is
+The \texttt{Key} element is a child element of an aggregate element. 
+It is
 primarily used in DDS to define the key value(s) of a data
 type. If you are using the DDS code generators in CUTS, then
 you will definitely need to make use of this element. It
@@ -106,12 +107,13 @@ are complete.
 \end{modelelement}
 
 \begin{modelelement}{Member}{0.2}{modeling/figs/member.png}
-The member is a child element of an aggregate and event. It
+The \texttt{Member} element is a child element of an aggregate 
+and event. It
 is a reference element that points to a members data type.
 \end{modelelement}
 
 \begin{modelelement}{Object}{0.7}{modeling/figs/object.png}
-The object is representative of an interface
+The \texttt{Object} element is representative of an interface
 in a distributed system. It can also be thought of as
 a remote interface. This means that the object can have
 methods, which are invokable by other components. Currently,
@@ -128,7 +130,7 @@ the model.
 \clearpage
 
 \begin{modelelement}{Package}{0.2}{modeling/figs/package.png}
-The package element is representative of a 
+The \texttt{Package} element is representative of a 
 namespace is C++ and packages in Java. It is an object
 that provide scope hierarchy to the definition. The 
 package contains the same elements as a file. This 
@@ -152,7 +154,124 @@ the model.
 
 \section{Component Implementations}
 
+The \texttt{ComponentImplementations} folder is used to define 
+different component assemblies (\textit{i.e.}, set of inter-connected
+components that communicate with each other).
+This folder can contain only the \texttt{ComponentImplementationContainer} 
+element type, which is just a container with a view for visualizing
+a contain component assembly. Because of how component assemblies are
+defined in PICML, the \texttt{ComponentImplemenationContainer} has
+many different elements. Of those elements, the following are most 
+important when constructing a model that is useable by CUTS 
+(listed in alphabetical order):
+
+\begin{modelelement}{ComponentAssembly}{0.6}{modeling/figs/componentassembly.png}
+The \texttt{ComponentAssembly} model element is a container class that
+contains a set of related \texttt{ComponentInstance} elements and their
+connections. Within a component assembly, it is possible to instantiate
+a component assembly. This is done by, first, create a standard component
+assembly. In another component assembly, insert the former component 
+assembly as a GME model instance.
+\end{modelelement}
+
+\begin{modelelement}{ComponentInstance}{0.6}{modeling/figs/component.png}
+The \texttt{ComponentInstance} model element is used to instantiate an
+instance of a \texttt{Component} implementation, which is defined in another
+part of the model. When you insert a \texttt{ComponentInstance} into the
+model, PICML's model intelligence helps you select the component instance's
+correct implementation.
+\end{modelelement}
+
+\begin{modelelement}{Property}{0.2}{modeling/figs/property.png}
+The \texttt{Property} element (in the \texttt{DeploymentProperties}
+aspect) is used to define configuration
+settings for elements in the model. In the component assembly, the
+property element can connect to an \texttt{Attribute}, 
+\texttt{ComponentAssembly}, \texttt{ComponentInstance}, and
+\texttt{ReadonlyAttribute}.
+\end{modelelement}
+
 \section{Targets}
+
+The \texttt{Targets} folder is used to define different network
+configurations and topologies of the target execution environment. 
+This folder can contain only the \texttt{Domain} element
+type, which a single execution domain (\textit{i.e.}, set of 
+connected network entities). Within the \texttt{Target} element, the 
+following elements are the most import elements when constructing 
+a model that is useable by CUTS (listed in alphabetical order):
+
+\begin{modelelement}{Node}{0.2}{modeling/figs/node.png}
+The \texttt{Node} element represents a host in the target network. 
+If you want to use a node in a deployment plan, then it must be 
+defined here first.
+\end{modelelement}
 
 \section{Deployment Plans}
 
+The \texttt{DeploymentPlans} folder is used to different
+deployment plans of the model system. This folder can contain 
+only the \texttt{DeploymentPlan} element
+type, which is a single deployment of either the entire system or
+a subset of the system's components. Within the \texttt{DeploymentPlan} 
+element, the  following elements are the most import elements when 
+constructing a model that is useable by CUTS (listed in alphabetical order):
+
+\begin{modelelement}{CollocationGroup}{0.2}{modeling/figs/collocationgroup.png}
+The \texttt{CollocationGroup} element represents a container/\-process 
+that hosts a set of components that share the same execution environment,
+such as threading model, run-time priorities, and programming language.
+This element is a GME set. This means you need to switch to set mode
+in order to add deployed model elements (\textit{i.e.}, components
+and component assemblies) to a collocation group.
+\end{modelelement}
+
+\begin{modelelement}{ComponentAssemblyRef}{0.6}{modeling/figs/componentassemblyref.png}
+The \texttt{ComponentAssemblyRef} element is used to add a component
+assembly to a deployment plan. This means that all components in the 
+assembly are deployed to the node that the component assembly is deployed. 
+The element is a GME reference and must refer to a \texttt{ComponentAssembly} 
+element.  Finally, you specify what process the component assembly
+is deployed to by adding it to a collocation group.
+\end{modelelement}
+
+\begin{modelelement}{ComponentInstanceRef}{0.6}{modeling/figs/componentref.png}
+The \texttt{ComponentInstanceRef} element is used to add a component
+instance to a deployment plan. The element is a GME reference and 
+must refer to a \texttt{ComponentInstance} element in a 
+\texttt{ComponentAssembly} model. Finally, you specify what process
+the component instance is deployed to by adding it to a collocation 
+group.
+\end{modelelement}
+
+\begin{modelelement}{NodeRef}{0.2}{modeling/figs/node.png}
+The \texttt{NodeRef} element represents a host that is part of the
+parent deployment. This element is a GME reference that refers to
+a \texttt{Node} in the \texttt{Domain} model. Finally, the 
+node reference connects with a collocation group to show what
+processes/containers are executing on a node in the target
+environment.
+\end{modelelement}
+
+\begin{modelelement}{Property}{0.2}{modeling/figs/property.png}
+The \texttt{Property} element (in the \texttt{DeploymentProperties}
+aspect) is is used to define configuration
+settings for elements in the model. In the deployment plan, the
+property element can connect to a \texttt{NodeRef} and a 
+\texttt{CollocationGroup}.
+
+In the deployment plan, the following properties names have
+predefined meanings:
+\begin{table}[h]
+  \begin{tabular}{lcl}
+  \hline
+  \textbf{Property Name} & \textbf{Data Type} & \textbf{Ex. Value}\\
+  \hline
+  StringIOR & String & corbaloc:iiop:localhost:30000/PingNode.NodeManager \\
+  \end{tabular}
+
+  \caption{Listing of reserved names for Property elements in PICML.}
+  \label{table:deployment-properties}
+\end{table}
+
+\end{modelelement}

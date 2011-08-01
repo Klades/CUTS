@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <cuts:datagraph xmlns="http://cuts.cs.iupui.edu"
-           		xmlns:cuts="http://cuts.cs.iupui.edu"
-           		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           		xsi:schemaLocation="http://cuts.cs.iupui.edu cutsnode.xsd">
+                xmlns:cuts="http://cuts.cs.iupui.edu"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://cuts.cs.iupui.edu cutsnode.xsd">
  <logformats>
   <logformat id="LF1">
    <value>{STRING cmp_id}:sent event {INT event_id} at {INT sent}</value>

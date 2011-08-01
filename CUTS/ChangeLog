@@ -1,3 +1,23 @@
+Mon Aug  1 04:38:26 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/analysis/example.datagraph:
+        * docs/manual/analysis/unite.tex:
+
+	  Fixed grammatical and spelling errors.
+
+        * docs/manual/manual.pdf:
+        * docs/manual/manual.tex:
+        * docs/manual/modeling.tex:
+        * docs/manual/modeling/figs/collocationgroup.png:
+        * docs/manual/modeling/figs/componentassembly.png:
+        * docs/manual/modeling/figs/componentassemblyref.png:
+        * docs/manual/modeling/figs/componentref.png:
+        * docs/manual/modeling/figs/node.png:
+        * docs/manual/modeling/figs/property.png:
+        * docs/manual/modeling/quick-ref.tex:
+
+	  Finished first version of the PICML quick reference.
+
 Sun Jul 31 21:48:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/modeling/figs:
@@ -14,8 +34,8 @@ Sun Jul 31 21:48:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
         * docs/manual/modeling/figs/requiredrequestport.png:
         * docs/manual/modeling/quick-ref.tex:
 
-	  Completed interface definitions portion of the PICML quick
-	  reference guide.
+          Completed interface definitions portion of the PICML quick
+          reference guide.
 
 Sun Jul 31 19:08:54 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
