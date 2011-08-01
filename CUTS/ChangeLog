@@ -1,3 +1,9 @@
+Mon Aug  1 19:12:27 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/scripts/download_sources.py:
+
+          Updated script to work with Python 3.
+
 Mon Aug  1 16:24:43 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts/download_sources.py:
