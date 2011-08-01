@@ -99,6 +99,21 @@ def generate_configure_bat (prefix, abspath):
 
 @set XSC_ROOT=%~dp0\\XSC
 @set PATH=%PATH%;%XSC_ROOT%\\bin;%XSC_ROOT%\\lib
+
+@rem ***************************************************************************
+@rem ** Xerces-C
+@rem ***************************************************************************
+
+@set XERCESCROOT=%~dp0\\xerces-c
+@set PATH=%PATH%;%XERCESCROOT%\\lib
+
+@rem ***************************************************************************
+@rem ** Boost
+@rem ***************************************************************************
+
+@set BOOST_ROOT=%~dp0\\boost
+@set BOOST_VERSION=boost-1_43
+@set PATH=%PATH%;%BOOST_ROOT%\\lib
 """)
 
     params = {  'prefix' : prefix,
@@ -156,7 +171,22 @@ export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\$CUTS_ROOT/lib
 export XSC_ROOT=\$PREFIX/XSC
 
 export PATH=\$PATH:\$XSC_ROOT/bin
-export LD_LIBRARY_PATH=\$   LD_LIBRARY_PATH/lib:\$XSC_ROOT/lib
+export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/lib:\$XSC_ROOT/lib
+
+################################################################################
+## Xeresc-C
+################################################################################
+
+export XERCESCROOT=\$PREFIX/xerces-c
+export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/lib:\$XERCESCROOT/lib
+
+################################################################################
+## Boost
+################################################################################
+
+export BOOST_ROOT=\$PREFIX/boost
+export BOOST_VERSION=boost-1_43
+export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/lib:\$BOOST_ROOT/lib
 """)
 
     params = {  'prefix': prefix,
@@ -184,6 +214,42 @@ def generate_configure_files (prefix):
         generate_configure_sh (prefix, abspath)
 
 #
+# Download all the source from its respective source code repository.
+# This includes CUTS and all correct version of third-party libraries
+# that are need to build CUTS.
+#
+def download_source_files (prefix):
+    # Download the MPC sources
+    svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/MPC/trunk",
+                  prefix + "/MPC",
+                  username,
+                  password)
+
+    # Download the DOC middleware
+    svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/Middleware/trunk",
+                  prefix + "/Middleware",
+                  username,
+                  password)
+
+    # Download the XSC framework
+    svn_checkout ("svn://svn.dre.vanderbilt.edu/XSC/trunk",
+                  prefix + "/XSC")
+
+    # Download the CUTS source files.
+    svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/CUTS/trunk/CUTS",
+                  prefix + "/CUTS",
+                  username,
+                  password)
+
+    # Download the Boost source files.
+    svn_checkout ("https://svn.boost.org/svn/boost/tags/release/Boost_1_43_0",
+                  prefix + "/boost")
+
+    # Download the Xerces-C source files.
+    svn_checkout ("https://svn.apache.org/repos/asf/xerces/c/tags/Xerces-C_3_1_1",
+                  prefix + "/xerces-c")
+
+#
 # Main entry point for the application.
 #
 def main ():
@@ -209,27 +275,8 @@ def main ():
             else:
                 assert False, "unhandled option"
 
-        # Download the MPC sources
-        svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/MPC/trunk",
-                      prefix + "/MPC",
-                      username,
-                      password)
-
-        # Download the DOC middleware
-        svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/Middleware/trunk",
-                      prefix + "/Middleware",
-                      username,
-                      password)
-
-        # Download the XSC framework
-        svn_checkout ("svn://svn.dre.vanderbilt.edu/XSC/trunk",
-                      prefix + "/XSC")
-
-        # Download the CUTS sources
-        svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/CUTS/trunk/CUTS",
-                      prefix + "/CUTS",
-                      username,
-                      password)
+        # Download the source files
+        download_source_files (prefix)
 
         # Finally, generate the configuration files
         generate_configure_files (prefix)
