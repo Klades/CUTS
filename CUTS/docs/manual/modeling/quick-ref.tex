@@ -1,0 +1,158 @@
+% $Id$
+
+\newenvironment{modelelement}[3]{
+\begin{figure}[h!]
+  \includegraphics[scale=#2]{#3}
+\end{figure}
+\subsection*{#1}
+}{\begin{center}
+\line(1,0){300}
+\end{center}}
+
+\chapter{PICML Modeling Quick Reference}
+\label{sec:modeling-quick-ref}
+
+This section provides a quick reference to the modeling
+environment. In particular, it focuses on key elements in 
+PICML modeling language (\url{http://www.dre.vanderbilt.edu/cosmic}) 
+so you do not spend much time and
+effort trying to determine what elements you need to build
+a CUTS model.
+
+The layout of this section is as follows: each subsection
+corresponds to a folder type under the root folder in a 
+PICML model. Within each section, we then highlight the 
+important elements, \textit{i.e.}, those that are used most
+often. This does not necessarily mean you will not use elements
+covered in the section. Finally, for each element, we explain
+its purpose so you have a better understanding of its role 
+in the model.
+
+\section{Predefined Types}
+
+Predefined types, \textit{e.g.}, integer, boolean, and string, 
+are defined in the \texttt{PredefinedTypes} folder. When you 
+add a new predefined type folder to the model, PICML will 
+automatically populate it will all the predefined types it 
+currently supports.
+
+\section{Interface Definitions}
+
+The \texttt{InterfaceDefinitions} folder is used to define the 
+interfaces, complex data types, and components, of the distributed
+system. This folder can contain only the \texttt{File} element
+type, which represents a \textit{Interface Definition File (IDL)}
+file. Within the \texttt{File} element, the following elements are 
+the most import elements when constructing a model that is useable
+by CUTS (listed in alphabetical order):
+
+\begin{modelelement}{Aggregate}{0.2}{modeling/figs/aggregate.png}
+The aggregate is similar to the structure construct (\textit{i.e.}, 
+\texttt{struct}) in C and C++, or a tuple in dynamic languages. It 
+contains members elements, which reference their data type (\textit{e.g.}, 
+\texttt{String}, \texttt{LongInteger}, and \texttt{DateTime}). By
+default, all members of the aggregate are considered public.
+
+The following is a list of the aggregate's child elements that
+are most important, which are discussed in this section: 
+\texttt{Member} and \texttt{Key}.
+\end{modelelement}
+
+\begin{modelelement}{Component}{0.6}{modeling/figs/component.png}
+The component is an abstraction that provides/\-requires 
+a set of services or sends/\-receives events. This is determined by
+the ports it exposes to the other components. The component can
+also contain attributes, which are points-of-configuration that
+whose value is determined at deployment time. In CUTS, the component 
+is where you model application behavior for early integration
+testing via emulation. 
+
+The following is a list of the component's child elements that
+are most important, which are discussed in this section: 
+\texttt{ProvidedRequestPort}, \texttt{RequiredRequestPort},
+\texttt{InEventPort}, \texttt{OutEventPort}, and \texttt{At\-tri\-bute},
+and \texttt{Read\-onlyAt\-tri\-bute}.
+\end{modelelement}
+
+\clearpage
+
+\begin{modelelement}{Event}{0.2}{modeling/figs/event.png}
+The event is similar to an aggregate in PICML in 
+that it is a collection of data types. It can also contain 
+more complex definitions, which are currently ignored in
+CUTS. The main difference is that an event is used to send
+data between two components via their \texttt{InEventPort}
+and \texttt{Out\-Event\-Port} ports. 
+
+The following is a 
+list of an event's child elements that are most important, 
+which are discussed in this section: \texttt{Member}.
+\end{modelelement}
+
+\begin{modelelement}{InEventPort}{0.6}{modeling/figs/ineventport.png}
+The \texttt{InEventPort} element is a child of the \texttt{Component}
+element that represents a port for receiving events from other components.
+It is a reference element that refers to any \texttt{Event} element in
+the model.
+\end{modelelement}
+
+\begin{modelelement}{Key}{1.0}{modeling/figs/key.png}
+The key is a child element of an aggregate element. It is
+primarily used in DDS to define the key value(s) of a data
+type. If you are using the DDS code generators in CUTS, then
+you will definitely need to make use of this element. It
+is the only way to ensure you DDS data type definitions
+are complete.
+\end{modelelement}
+
+\begin{modelelement}{Member}{0.2}{modeling/figs/member.png}
+The member is a child element of an aggregate and event. It
+is a reference element that points to a members data type.
+\end{modelelement}
+
+\begin{modelelement}{Object}{0.7}{modeling/figs/object.png}
+The object is representative of an interface
+in a distributed system. It can also be thought of as
+a remote interface. This means that the object can have
+methods, which are invokable by other components. Currently,
+CUTS does not associate any behavior with objects. 
+\end{modelelement}
+
+\begin{modelelement}{OutEventPort}{0.6}{modeling/figs/outeventport.png}
+The \texttt{OutEventPort} element is a child of the \texttt{Component}
+element that represents a port for sending events to other components.
+It is a reference element that refers to any \texttt{Event} element in
+the model.
+\end{modelelement}
+
+\clearpage
+
+\begin{modelelement}{Package}{0.2}{modeling/figs/package.png}
+The package element is representative of a 
+namespace is C++ and packages in Java. It is an object
+that provide scope hierarchy to the definition. The 
+package contains the same elements as a file. This 
+means the important elements discussed in this section
+also apply to a package element. 
+\end{modelelement}
+
+\begin{modelelement}{ProvidedRequestPort}{0.6}{modeling/figs/providedrequestport.png}
+The \texttt{ProvidedRequestPort} element is a child of the \texttt{Component}
+element that represents a service that is provide by the parent component.
+It is a reference element that refers to any \texttt{Object} element in
+the model.
+\end{modelelement}
+
+\begin{modelelement}{RequiredRequestPort}{0.6}{modeling/figs/requiredrequestport.png}
+The \texttt{RequiredRequestPort} element is a child of the \texttt{Component}
+element that represents a service that is required by the parent component.
+It is a reference element that refers to any \texttt{Object} element in
+the model.
+\end{modelelement}
+
+\section{Component Implementations}
+
+\section{Targets}
+
+\section{Deployment Plans}
+

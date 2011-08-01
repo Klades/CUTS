@@ -1,8 +1,27 @@
+Sun Jul 31 21:48:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/manual/modeling/figs:
+        * docs/manual/modeling/figs/aggregate.png:
+        * docs/manual/modeling/figs/component.png:
+        * docs/manual/modeling/figs/event.png:
+        * docs/manual/modeling/figs/ineventport.png:
+        * docs/manual/modeling/figs/key.png:
+        * docs/manual/modeling/figs/member.png:
+        * docs/manual/modeling/figs/object.png:
+        * docs/manual/modeling/figs/outeventport.png:
+        * docs/manual/modeling/figs/package.png:
+        * docs/manual/modeling/figs/providedrequestport.png:
+        * docs/manual/modeling/figs/requiredrequestport.png:
+        * docs/manual/modeling/quick-ref.tex:
+
+	  Completed interface definitions portion of the PICML quick
+	  reference guide.
+
 Sun Jul 31 19:08:54 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/manual/appendix/thirdparty.tex:
 
-	  Fixed inconsistencies in the documentation.
+          Fixed inconsistencies in the documentation.
 
 Sun Jul 31 18:31:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
