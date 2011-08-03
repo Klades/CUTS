@@ -1,3 +1,14 @@
+Wed Aug  3 16:32:52 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Runtime_Arch.mwc:
+
+          Fixed errors in configuration.
+
+        * etc/scripts/generate_autobuild_properties.py:
+
+          New script that generates a default Java properties files that
+          can be used with the autobuild.
+
 Tue Aug  2 21:37:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/LargeScale:
