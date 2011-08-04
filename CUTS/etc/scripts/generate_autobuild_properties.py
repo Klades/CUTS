@@ -48,30 +48,30 @@ def generate_properties_file (prefix):
 # ${command_line}
 
 # DOC Middleware
-ace.dir=${abspath}${slash}Middleware${slash}ACE
-tao.dir=${abspath}${slash}Middleware${slash}TAO
-ciao.dir=${abspath}${slash}Middleware${slash}CIAO
-dance.dir=${abspath}${slash}Middleware${slash}DAnCE
-adbc.dir=${abspath}${slash}Middleware${slash}ADBC
+ACE_ROOT=${abspath}${slash}Middleware${slash}ACE
+TAO_ROOT=${abspath}${slash}Middleware${slash}TAO
+CIAO_ROOT=${abspath}${slash}Middleware${slash}CIAO
+DANCE_ROOT=${abspath}${slash}Middleware${slash}DAnCE
+ADBC_ROOT=${abspath}${slash}Middleware${slash}ADBC
 
 # MPC
-mpc.dir=${abspath}${slash}MPC
+MPC_ROOT=${abspath}${slash}MPC
 
 # CUTS
-cuts.dir=${abspath}${slash}CUTS
+CUTS_ROOT=${abspath}${slash}CUTS
 
 # XSC
-xsc.dir=${abspath}${slash}XSC
+XSC_ROOT=${abspath}${slash}XSC
 
 # Xerces-C
-xercesc.dir=${abspath}${slash}xerces-c
+XERCESCROOT=${abspath}${slash}xerces-c
 
 # Boost
-boost.dir=${abspath}${slash}boost
-boost.version=boost-1_43
+BOOST_ROOT=${abspath}${slash}boost
+BOOST_VERSION=boost-1_43
 
 # PCRE
-pcre.dir=${abspath}${slash}pcre
+PCRE_ROOT=${abspath}${slash}pcre
 """)
 
     slash = "/"
