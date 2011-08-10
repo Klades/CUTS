@@ -1,3 +1,9 @@
+Wed Aug 10 14:29:41 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/bmw.doxygen:
+
+          Removed this file.
+
 Thu Aug  4 19:54:30 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts/generate_autobuild_properties.py:
