@@ -11,6 +11,7 @@
 #include "ace/Sched_Params.h"
 #include "ace/streams.h"
 #include "ace/Singleton.h"
+#include "ace/Get_Opt.h"
 
 #define TEST_RUNS           10
 #define TEST_MIN_MSEC       10
@@ -102,6 +103,8 @@ int CUTS_CPU_Worker_T <T>::calibrate (int argc, char * argv [])
   ACE_DEBUG ((LM_INFO,
               "*** info (CUTS_CPU_Worker): running calibration; "
               "please be patient...\n"));
+
+  this->parse_args (argc, argv);
 
   // Initialize the calibration of the worker.
   if (!this->init_calibrate ())
@@ -434,4 +437,45 @@ make_basename (ACE_CString & basename)
 {
   basename = ACE_OS::getenv ("CUTS_ROOT");
   basename += "/etc/calibration/CUTS_CPU_Worker";
+}
+
+
+//
+// parse_args
+//
+template <typename T>
+int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
+{
+  const char * opts = ACE_TEXT ("s:");
+  ACE_Get_Opt get_opt (argc, argv, opts, 0);
+
+  int option;
+
+  while ((option = get_opt ()) != EOF)
+  {
+    switch (option)
+    {
+    case 's':
+      {
+      ACE_CString target = get_opt.opt_arg ();
+      this->target_ = ACE_OS::atoi (target.c_str ());
+      }
+      break;
+
+    case '?':
+      ACE_ERROR ((LM_ERROR,
+                  "%T (%t) - %M - -%c is an unknown option\n",
+                  get_opt.opt_opt ()));
+      break;
+
+    case ':':
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         "%T (%t) - %M - -%c is missing an argument\n",
+                         get_opt.opt_opt ()),
+                         -1);
+      break;
+    }
+  }
+
+  return 0;
 }

@@ -113,8 +113,11 @@ private:
   /// Generate the basename of the calibration file.
   void make_basename (ACE_CString & basename);
 
+  /// Helper method to parse command-line options.
+  int parse_args (int argc, char * argv []);
+
   /// The target calibration time.
-  const size_t target_;
+  size_t target_;
 
   /// The margin of error allowed in timing.
   const size_t margin_;
