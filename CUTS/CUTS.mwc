@@ -28,11 +28,4 @@ workspace (CUTS) {
 
     CUTS_Modeling.mwc
   }
-
-  exclude (!vc8) {
-    // == build the BMW
-    cmdline += -base requires_bmw
-
-    utils/BMW/BMW.mwc
-  }
 }

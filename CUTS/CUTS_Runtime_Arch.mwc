@@ -13,5 +13,4 @@ workspace (CUTS_Runtime_Arch) {
   cuts/svcs
   cuts/utils
   cuts/workers
-  contrib/CCF/CCF/CodeGenerationKit
 }
