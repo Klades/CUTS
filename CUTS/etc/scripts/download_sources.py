@@ -234,7 +234,7 @@ def download_source_files (prefix, username, password):
                   prefix + "/XSC")
 
     # Download the CUTS source files.
-    svn_checkout ("https://svn.dre.vanderbilt.edu/DOC/CUTS/trunk/CUTS",
+    svn_checkout ("https://svn.cs.iupui.edu/repos/SEM/trunk/CUTS",
                   prefix + "/CUTS",
                   username,
                   password)
