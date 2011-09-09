@@ -1,3 +1,12 @@
+Fri Sep  9 15:28:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/scripts:
+        * etc/scripts/build_sources.py:
+        * etc/scripts/mpc.py:
+
+          Initial script for building sources. It is capable of building
+          CUTS, DOC middleware, and XSC.
+
 Wed Aug 31 01:04:46 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts/download_sources.py:
