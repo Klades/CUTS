@@ -22,14 +22,10 @@ project (CUTS_RTIDDS_Deployment_Handlers_Xml) : xsc_cxx {
 }
 
 project (CUTS_RTIDDS_Deployment_Handlers) : xscrt, dance_deployment_scheduler, \
-                                            ciao_session_container_stub, \
+                                            ciao_session_container_stub, ciao_base, \
                                             cuts_rtidds_ccm, cuts_lib, cutslib {
   sharedname    = CUTS_RTIDDS_Deployment_Handlers
   dynamicflags += CUTS_RTIDDS_DEPLOYMENT_HANDLERS_BUILD_DLL
-
-  specific (prop:microsoft) {
-    link_options -= /FORCE:MULTIPLE
-  }
 
   Source_Files {
     dds.cpp

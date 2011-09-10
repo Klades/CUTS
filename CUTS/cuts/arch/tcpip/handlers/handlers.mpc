@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_TCPIP_Deployment_Handlers) : dance_deployment_scheduler, \
+project (CUTS_TCPIP_Deployment_Handlers) : dance_deployment_scheduler, ciao_base, \
                                            ciao_session_container_stub, \
                                            cuts_tcpip_ccm, cuts_lib, cutslib {
   sharedname    = CUTS_TCPIP_Deployment_Handlers

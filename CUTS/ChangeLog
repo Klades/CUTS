@@ -1,3 +1,13 @@
+Sat Sep 10 13:56:15 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/opensplice/handlers/handlers.mpc:
+        * cuts/arch/rtidds/handlers/handlers.mpc:
+        * cuts/arch/tcpip/handlers/handlers.mpc:
+
+          Fixed build errors.
+
 Fri Sep  9 15:28:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts:
