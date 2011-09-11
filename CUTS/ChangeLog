@@ -1,3 +1,20 @@
+Sun Sep 11 03:38:09 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/scripts/build_sources.py:
+
+          Fixed error that was preventing CUTS from building.
+
+        * etc/scripts/setup.py:
+
+          Rename of the script below.
+
+          Enhanced script so it is possible to select what setup actions
+          should be performed.
+
+        * etc/scripts/download_sources.py:
+
+          Removed this file.
+
 Sat Sep 10 13:56:15 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Container_T.h:

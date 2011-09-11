@@ -17,24 +17,48 @@ import subprocess
 from string import Template
 
 def print_help ():
-    usage = """Download CUTS and third-party sources from repository
+    usage = """Setup the environment for building SEM source code
 
-USAGE: download_sources.py [OPTIONS]
+USAGE: setup.py [OPTIONS]
 
 General Options:
-  --prefix=PATH               Target location for download [default=.]
+  --prefix=PATH                Target location of sandbox [default=.]
+
+Setup Operations:
+  --all                        Perform all setup operations
+
+  --download                   Download all source files
+  --generate-property-file     Generate configuration property file
+  --generate-config-script     Generate platform-specific configuration script
 
 Print Options:
-  -h, --help                  Print this help message
+  -h, --help                   Print this help message
 
 This script not only downloads the sources, but it will construct a
-configuration file that details the location of CUTS and each
-third-party project. This configuration file should be executed from
-the command-line each time a new console is open. Otherwise, the
-environment will not be configured properly."""
+configuration file that details the location of all projects in the
+SEM repo, and each third-party project. This configuration file should
+be executed from the command-line each time a new console is open.
+Otherwise, the environment will not be configured properly.
+
+The auto-generated property file is used by the build_sources.py script
+that was included in the bundle.
+"""
 
     print (usage)
     sys.exit (2)
+
+#
+# @class ScriptOpts
+#
+# Configuration options for the script.
+#
+class ScriptOpts :
+    prefix = '.'
+    download_sources = False
+    generate_property_file = False
+    generate_config_script = False
+    username = 'anonymous'
+    password = 'anonymous'
 
 #
 # Utility function for executing an SVN checkout
@@ -198,6 +222,64 @@ export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/lib:\$BOOST_ROOT/lib
     file.close ()
 
 #
+# Generate the Java properties file for this build directory. This
+# file currently assumes downloads_sources.py was used to download
+# sources from their repository.
+#
+# @param[in]            prefix          Relative/absolute location of file
+#
+def generate_properties_file (prefix):
+    template = Template ("""# This file was generated using the command:
+# ${command_line}
+
+# DOC Middleware
+ACE_ROOT=${abspath}${slash}Middleware${slash}ACE
+TAO_ROOT=${abspath}${slash}Middleware${slash}TAO
+CIAO_ROOT=${abspath}${slash}Middleware${slash}CIAO
+DANCE_ROOT=${abspath}${slash}Middleware${slash}DAnCE
+ADBC_ROOT=${abspath}${slash}Middleware${slash}ADBC
+
+# MPC
+MPC_ROOT=${abspath}${slash}MPC
+
+# CUTS
+CUTS_ROOT=${abspath}${slash}CUTS
+CCF_ROOT=${abspath}${slash}CUTS${slash}contrib${slash}CCF
+
+# XSC
+XSC_ROOT=${abspath}${slash}XSC
+
+# Xerces-C
+XERCESCROOT=${abspath}${slash}xerces-c
+
+# Boost
+BOOST_ROOT=${abspath}${slash}boost
+BOOST_VERSION=boost-1_43
+
+# PCRE
+PCRE_ROOT=${abspath}${slash}pcre
+""")
+
+    slash = "/"
+    abspath = os.path.abspath (prefix)
+
+    if sys.platform.startswith ('win32'):
+        slash = "\\\\"
+        prefix = prefix.replace ("\\", slash)
+        abspath = abspath.replace ("\\", slash)
+
+    params = {  'prefix' : prefix,
+                'abspath' : abspath,
+                'slash' : slash,
+                'command_line' : ",".join (sys.argv).replace (",", " ")}
+
+    # Write the configuration file.
+    propfile = prefix + "/autobuild.properties"
+    propfile= open (propfile, "w")
+    propfile.write (template.substitute (params))
+    propfile.close ()
+
+#
 # Generate the configuration files for the download. The generated
 # configuration file contains the enviroment variables that must
 # be defined to build the sources correctly.
@@ -255,29 +337,52 @@ def main ():
         # Parse the command-line arguments.
         opts, args = getopt.getopt (sys.argv[1:],
                                     "h",
-                                    ["help", "prefix=", "username=", "password="])
+                                    ["help", "prefix=", "username=", "password=",
+                                     "all", "download", "generate-config-script",
+                                     "generate-property-file"])
 
-        prefix = "."
-        username = "anonymous"
-        password = "anonymous"
+        the_opts = ScriptOpts ()
 
         for o, a in opts:
             if o == "--prefix":
-                prefix = a
+                the_opts.prefix = a
             elif o in ("-h", "--help"):
                 print_help ()
-            elif 0 == "--username":
-                username = a
-            elif 0 == "--password":
-                password = a
+            elif o == "--username":
+                the_opts.username = a
+            elif o == "--password":
+                the_opts.password = a
+            elif o == "--all":
+                the_opts.download_sources = True
+                the_opts.generate_config_script = True
+                the_opts.generate_property_file = True
+            elif o == "--download":
+                the_opts.download_sources = True
+            elif o == "--generate-config-script":
+                the_opts.generate_config_script = True
+            elif o == "--generate-property-file":
+                the_opts.generate_property_file = True
             else:
                 assert False, "unhandled option"
 
-        # Download the source files
-        download_source_files (prefix, username, password)
+        if (the_opts.download_sources == False and
+            the_opts.generate_property_file == False and
+            the_opts.generate_config_script == False) :
+            assert False, "setup operation not selected"
 
-        # Finally, generate the configuration files
-        generate_configure_files (prefix)
+        # Download the source files.
+        if the_opts.download_sources:
+            download_source_files (the_opts.prefix,
+                                   the_opts.username,
+                                   the_opts.password)
+
+        # Generate the configuration files.
+        if the_opts.generate_config_script:
+            generate_configure_files (the_opts.prefix)
+
+        # Generate the autobuild properties.
+        if the_opts.generate_property_file:
+            generate_properties_file (the_opts.prefix)
 
     except getopt.error as ex:
         print ("Error: " + ex.args[0])

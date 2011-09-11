@@ -120,9 +120,9 @@ def build_CUTS (type):
   workspace = os.path.join (CUTS_ROOT, 'CUTS.mwc')
 
   # Generate the workspace
-  mpc = mpc.define_workspace (workspace, type, use_ace = True)
-  mpc.generate ()
-  mpc.build ()
+  mwc = mpc.define_workspace (workspace, type, use_ace = True)
+  mwc.generate ()
+  mwc.build ()
 
 #
 # Main entry point for the application.
@@ -132,7 +132,7 @@ def main ():
     # Parse the command-line arguments.
     opts, args = getopt.getopt (sys.argv[1:],
                                 "hp:",
-                                ["help", "property-file=", 'type=', '--skip='])
+                                ["help", "property-file=", 'type=', 'skip='])
 
     config = BuildConfig ()
     property_file = None
