@@ -1,3 +1,12 @@
+Mon Sep 12 18:22:08 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/scripts:
+        * etc/scripts/build_sources.py:
+        * etc/scripts/mpc.py:
+        * etc/scripts/setup.py:
+
+          Removed these files.
+
 Mon Sep 12 18:15:12 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts/generate_autobuild_properties.py:
