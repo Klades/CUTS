@@ -1,3 +1,9 @@
+Mon Sep 12 18:15:12 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * etc/scripts/generate_autobuild_properties.py:
+
+          Removed this file.
+
 Sun Sep 11 03:38:09 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts/build_sources.py:
