@@ -45,7 +45,8 @@ workspace (CUTS_Modeling) {
       MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
 
       exclude (wix) {
-        cmdline += -static
+        cmdline += -static \
+                   -base ccf_root
 
         $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
       }

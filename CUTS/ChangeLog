@@ -1,3 +1,12 @@
+Tue Sep 20 13:45:06 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS_Modeling.mwc:
+        * CUTS_Runtime_Arch.mwc:
+        * MPC/config/ccf_root.mpb:
+
+          We no longer need to set CCF_ROOT to build CUTS. This is now
+          handled by base projects.
+
 Mon Sep 12 18:22:08 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * etc/scripts:
