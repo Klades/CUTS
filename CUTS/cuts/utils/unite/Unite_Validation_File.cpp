@@ -3,7 +3,7 @@
 #include "Unite_Validation_File.h"
 
 #if !defined (__CUTS_INLINE__)
-#include "Unite_Aspect_File.inl"
+#include "Unite_Validation_File.inl"
 #endif
 
 #include "ace/SString.h"

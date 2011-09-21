@@ -17,6 +17,8 @@
 #include "XSC/utils/XML_Schema_Resolver.h"
 #include "XSCRT/utils/File_Reader_T.h"
 
+#include "cuts/config.h"
+
 /**
  * @ingroup UNITE_XML
  *
