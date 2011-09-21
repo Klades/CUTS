@@ -15,17 +15,56 @@
 workspace (CUTS) {
   cmdline += -feature_file $CUTS_ROOT/default.features \
              -include $CUTS_ROOT/MPC/config \
-             -include $CUTS_ROOT/contrib/CCF/MPC/config\
+             -include $CUTS_ROOT/contrib/CCF/MPC/config \
              -include $ADBC_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config
 
   // == build the runtime architecture
-  CUTS_Runtime_Arch.mwc
 
-  exclude (!prop:microsoft) {
-    // == build the modeling tools
-    cmdline += -base requires_modeling
+  cuts/CUTS.mpc
+  cuts/arch
+  cuts/idl
+  cuts/svcs
+  cuts/utils
+  cuts/workers
 
-    CUTS_Modeling.mwc
+  // == build the modeling projects
+
+  exclude (!prop:windows, wix) {
+    MDE/utils
+
+    gems {
+      cmdline += -base requires_gems
+
+      MDE/GEMS
+    }
+  }
+
+  exclude (!prop:windows) {
+    cmdline += -include $COSMIC_ROOT/MPC/config \
+               -include $GAME_ROOT/MPC/config
+
+    MDE/GME/plugins
+    MDE/GME/paradigms/CHAOS
+
+    exclude (wix) {
+      MDE/GME/paradigms/CUTS
+
+      // == temp disable
+      //MDE/GME/T2M
+    }
+
+    cosmic {
+      cmdline += -base requires_cosmic
+
+      MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
+    }
+  }
+
+  exclude (wix) {
+    cmdline += -static \
+               -base ccf_root
+
+    $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
   }
 }

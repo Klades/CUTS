@@ -4,7 +4,7 @@
 //
 // CUTS_Property_Evaluator_Config
 //
-CUTS_INLINE
+inline
 CUTS_Property_Evaluator_Config::CUTS_Property_Evaluator_Config (void)
 : use_env_ (true),
   open_tag_ ("${"),
