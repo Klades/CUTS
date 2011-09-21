@@ -1,9 +1,20 @@
+Wed Sep 21 18:54:45 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+
+	  Fixed error in workspace that was preventing the CodeGenerationKit
+	  project from building.
+	
+        * cuts/utils/unite/setaf/Setaf_Code_Generator.cpp:
+
+	  Fixed build errors related to not enabling inlining.
+
 Wed Sep 21 18:45:03 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/utils/unite/Unite_Aspect_File.h:
         * cuts/utils/unite/Unite_Validation_File.cpp:
 
-	  Fixed build errors related to not enabling inlining.
+          Fixed build errors related to not enabling inlining.
 
 Wed Sep 21 13:15:30 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 

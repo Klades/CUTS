@@ -1,4 +1,11 @@
+// $Id$
+
 #include "Setaf_Code_Generator.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "Setaf_Code_Generator.inl"
+#endif
+
 #include <algorithm>
 
 //
