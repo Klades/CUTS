@@ -1,6 +1,6 @@
 // $Id$
 
-project : udm, cosmic_utils {
+project : cuts_cosmic_utils {
   includes  += $(COSMIC_ROOT)/PIM/PICML/interpreters
   libpaths  += $(COSMIC_ROOT)/lib
 
@@ -10,3 +10,8 @@ project : udm, cosmic_utils {
   macros       += UDM_DYNAMIC_LINKING
   dynamicflags += PICML_HAS_DLL
 }
+
+feature (cosmic) : udm {
+
+}
+

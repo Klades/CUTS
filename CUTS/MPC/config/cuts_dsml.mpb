@@ -1,10 +1,14 @@
  // $Id$
 
- project : game {
+ project {
   after += CUTS_DSML
   libs  += CUTS_DSML
 
-  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS 
-  
-  dynamicflags += CUTS_HAS_DLL 
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/CUTS
+
+  dynamicflags += CUTS_HAS_DLL
+}
+
+feature (gme) : game {
+
 }

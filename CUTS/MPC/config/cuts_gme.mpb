@@ -1,6 +1,6 @@
 // $Id$
 
-project : game  {
+project {
   staticflags  += GME_AS_STATIC_LIBS
   dynamicflags += GME_HAS_DLL
 
@@ -11,4 +11,8 @@ project : game  {
     midl_includes += . $(GME_ROOT)/Interfaces $(GME_ROOT)
     DisableSpecificWarnings += 4355
   }
+}
+
+feature (cosmic) : game {
+
 }

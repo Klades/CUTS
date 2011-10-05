@@ -1,13 +1,30 @@
+Wed Oct  5 17:32:51 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/plugins/cute/CUTE.mpc:
+        * MPC/config/cuts_cosmic_utils.mpb:
+        * MPC/config/cuts_dsml.mpb:
+        * MPC/config/cuts_game_mga.mpb:
+        * MPC/config/cuts_game_mga_component.mpb:
+        * MPC/config/cuts_gme.mpb:
+        * MPC/config/cuts_gme_udm_component.mpb:
+        * MPC/config/cuts_picmllib.mpb:
+        * MPC/config/picml_udm.mpb:
+
+          Bug fix where workspace generation failed if you did not
+	  have CoSMIC source code on Windows build machine.
+
 Wed Sep 21 18:54:45 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
 
-	  Fixed error in workspace that was preventing the CodeGenerationKit
-	  project from building.
-	
+          Fixed error in workspace that was preventing the CodeGenerationKit
+          project from building.
+
         * cuts/utils/unite/setaf/Setaf_Code_Generator.cpp:
 
-	  Fixed build errors related to not enabling inlining.
+          Fixed build errors related to not enabling inlining.
 
 Wed Sep 21 18:45:03 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 

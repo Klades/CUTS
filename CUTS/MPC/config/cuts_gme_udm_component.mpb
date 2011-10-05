@@ -1,0 +1,5 @@
+// $Id$
+
+feature (cosmic) : gme_udm_component {
+
+}
