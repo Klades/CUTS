@@ -20,13 +20,16 @@ workspace (CUTS) {
              -include $XSC_ROOT/MPC/config
 
   // == build the runtime architecture
+  runtime {
+    cmdline += -base requires_runtime
 
-  cuts/CUTS.mpc
-  cuts/arch
-  cuts/idl
-  cuts/svcs
-  cuts/utils
-  cuts/workers
+    cuts/CUTS.mpc
+    cuts/arch
+    cuts/idl
+    cuts/svcs
+    cuts/utils
+    cuts/workers
+  }
 
   // == build the modeling projects
 

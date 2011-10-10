@@ -22,9 +22,7 @@ workspace (CUTS_CoSMIC) {
     $(XSC_ROOT)/XSC/utils
   }
 
-  exclude (!prop:windows) {
-    $(CUTS_ROOT)/CUTS_Modeling.mwc
-  }
+  $(CUTS_ROOT)/CUTS.mwc
 
   exclude (!wix) {
     $(CUTS_ROOT)/etc/schemas

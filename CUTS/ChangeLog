@@ -1,3 +1,12 @@
+Mon Oct 10 22:11:03 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+        * MPC/config/requires_runtime.mpb:
+        * install/CUTS_CoSMIC.mwc:
+
+          Building the runtime architecture now requires you to
+          specify the 'runtime' feature.
+
 Wed Oct  5 17:32:51 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
@@ -13,7 +22,7 @@ Wed Oct  5 17:32:51 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
         * MPC/config/picml_udm.mpb:
 
           Bug fix where workspace generation failed if you did not
-	  have CoSMIC source code on Windows build machine.
+          have CoSMIC source code on Windows build machine.
 
 Wed Sep 21 18:54:45 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
