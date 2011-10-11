@@ -61,6 +61,13 @@ workspace (CUTS) {
       cmdline += -base requires_cosmic
 
       MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
+
+      // Let's make sure that the PICML extension classes are
+      // built. Otherwise, these projects will not build.
+
+      $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
+      $(COSMIC_ROOT)/Utils/GAME/GAME.mwc
+      $(COSMIC_ROOT)/Utils/Utils.mpc
     }
   }
 

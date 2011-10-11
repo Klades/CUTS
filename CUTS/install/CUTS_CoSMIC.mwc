@@ -13,11 +13,6 @@ workspace (CUTS_CoSMIC) {
     //== ACE projects
     $(ACE_ROOT)/ace/ace.mpc
 
-    //== CoSMIC projects
-    $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
-    $(COSMIC_ROOT)/Utils/GAME/GAME.mwc
-    $(COSMIC_ROOT)/Utils/Utils.mpc
-
     //== XSC projects
     $(XSC_ROOT)/XSC/utils
   }

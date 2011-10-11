@@ -1,3 +1,13 @@
+Tue Oct 11 00:58:42 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+
+          Added CoSMIC and GAME libraries used in building CUTS to the workspace.
+
+        * install/CUTS_CoSMIC.mwc:
+
+          Refactored the workspace based on what is in CUTS.mwc.
+
 Mon Oct 10 22:11:03 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
