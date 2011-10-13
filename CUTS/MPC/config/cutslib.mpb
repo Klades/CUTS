@@ -1,6 +1,6 @@
 // $Id$
 
-project : cuts_base {
+project : versioned_namespace, cuts_base {
   libout = $(CUTS_ROOT)/lib
   dllout = $(CUTS_ROOT)/lib
 

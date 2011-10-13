@@ -17,8 +17,10 @@
 #include "ace/UUID.h"
 #include "TCPIP_export.h"
 
+ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
 class ACE_InputCDR;
+ACE_END_VERSIONED_NAMESPACE_DECL
 
 // Forward decl.
 class CUTS_TCPIP_OutputCDR;
