@@ -37,13 +37,3 @@ CUTS_Property_Evaluator_List_Actor::list (void) const
 {
   return this->list_;
 }
-
-//
-// expand
-//
-template <typename IteratorT>
-CUTS_INLINE
-void CUTS_Property_Evaluator_List_Actor::append (IteratorT, IteratorT) const
-{
-
-}

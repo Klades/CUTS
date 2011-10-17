@@ -15,3 +15,13 @@ expand (IteratorT begin,
   std::string name (begin, end);
   this->list_.insert (name.c_str ());
 }
+
+//
+// append
+//
+template <typename IteratorT>
+CUTS_INLINE
+void CUTS_Property_Evaluator_List_Actor::append (IteratorT, IteratorT) const
+{
+
+}

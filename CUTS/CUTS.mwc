@@ -18,7 +18,7 @@ workspace (CUTS) {
              -include $CUTS_ROOT/contrib/CCF/MPC/config \
              -include $ADBC_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config
-
+ 
   // == build the runtime architecture
   runtime {
     cmdline += -base requires_runtime
@@ -67,13 +67,11 @@ workspace (CUTS) {
 
       // Let's make sure that the PICML extension classes are
       // built. Otherwise, these projects will not build.
-
       $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
-      $(COSMIC_ROOT)/Utils/GAME/GAME.mwc
       $(COSMIC_ROOT)/Utils/Utils.mpc
     }
   }
-
+  
   static {
     cmdline += -static \
                -base ccf_root
