@@ -15,6 +15,7 @@ workspace (CUTS_CoSMIC) {
 
     //== XSC projects
     $(XSC_ROOT)/XSC/utils
+    $(XSC_ROOT)/XSC/XSC_BE.mpc
   }
 
   $(CUTS_ROOT)/CUTS.mwc

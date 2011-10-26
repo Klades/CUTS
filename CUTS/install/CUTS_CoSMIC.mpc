@@ -2,7 +2,7 @@
 
 project (CUTS_CoSMIC) : wix_ui, wix_xml {
   after += CUTS_GME_PICML CUTS_BE_CIAO CUTS_BE_TCPIP CUTS_BE_RTIDDS \
-           CUTS_BE_OpenSplice CUTS_Isislab_Emulation CUTS_CUTE
+           CUTS_BE_OpenSplice CUTS_Isislab_Emulation CUTS_CUTE CUTS_BE_Java
 
   specific {
     wix_flags += -I$(CUTS_ROOT)
