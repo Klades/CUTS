@@ -7,7 +7,7 @@
           <File Id='xerces_c.dll'
                 Name='xerces-c_$(env.XERCESC_VERSION).dll'
                 DiskId='1'
-                Source='$(env.XERCESCROOT)\bin\xerces-c_$(env.XERCESC_VERSION).dll'  />
+                Source='$(env.XERCESCROOT)\lib\xerces-c_$(env.XERCESC_VERSION).dll'  />
         </Component>
       </Directory>
     </DirectoryRef>
