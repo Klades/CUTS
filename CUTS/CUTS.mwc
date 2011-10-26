@@ -72,7 +72,7 @@ workspace (CUTS) {
     }
   }
   
-  static {
+  exclude (!prop:microsoft, wix) {
     cmdline += -static \
                -base ccf_root
 

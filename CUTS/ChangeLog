@@ -1,3 +1,15 @@
+Wed Oct 26 06:16:31 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+        
+          Fixed scoping for CodeGenerationKit so it is not included
+          by the Wix project type.
+
+        * install/includes/udm.wxi:
+        
+          Used the UDM_VERSION enviroment variable to set the location
+          of the UDM DLL.
+
 Mon Oct 17 08:26:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
