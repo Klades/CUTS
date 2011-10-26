@@ -4,7 +4,10 @@ workspace (CUTS_CoSMIC) {
   cmdline += -include $CUTS_ROOT/MPC/config \
              -include $COSMIC_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config \
-             -feature_file $CUTS_ROOT/default.features
+             -include $GAME_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features \
+             -features runtime=0,versioned_namespace=1,cosmic=1,modeling=1,register=0,gems=0 \
+             -value_template 'configurations=Release'
 
   exclude (!prop:windows) {
     cmdline += -value_template 'install_location=bin' \
@@ -15,9 +18,18 @@ workspace (CUTS_CoSMIC) {
 
     //== XSC projects
     $(XSC_ROOT)/XSC/utils
-    $(XSC_ROOT)/XSC/XSC_BE.mpc
+    
+    $(GAME_ROOT)/game/mga/Mga.mpc
+    $(GAME_ROOT)/game/mga/component
+    $(GAME_ROOT)/game/mga/utils
   }
 
+  exclude (!prop:microsoft, wix) {
+    cmdline += -static
+    
+    $(XSC_ROOT)/XSC/XSC_BE.mpc
+  }
+  
   $(CUTS_ROOT)/CUTS.mwc
 
   exclude (!wix) {
