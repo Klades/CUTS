@@ -1,13 +1,19 @@
+Thu Oct 27 01:58:04 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.mta:
+        
+          Precompiled version of the metamodel.
+
 Wed Oct 26 16:57:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.mga:
-        
+
           Compiled version of the metamodel.
 
         * CUTS.mwc:
         * install/CUTS_CoSMIC.mpc:
         * install/CUTS_CoSMIC.mwc:
-        
+
           Fixed errors in the workspace preventing the installer from
           installing.
 
