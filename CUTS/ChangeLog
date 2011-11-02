@@ -1,3 +1,111 @@
+Wed Nov  2 19:39:03 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tests/cuts/arch/PingPong:
+
+          Relocation of the PingPong example to the test directory.
+
+        * examples/arch/PingPong:
+        * examples/arch/PingPong/arch:
+        * examples/arch/PingPong/arch/opensplice:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PingComponent.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong.mwc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/opensplice/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.h:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/opensplice/PingPong_PongComponentImpl.cpp:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.idl:
+        * examples/arch/PingPong/arch/opensplice/PongComponent.mpc:
+        * examples/arch/PingPong/arch/opensplice/Stats.h:
+        * examples/arch/PingPong/arch/opensplice/Stats.cpp:
+        * examples/arch/PingPong/arch/opensplice/descriptors:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.cdd:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong.nodemap:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong_DomainQoS.cdd:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong_DomainQoS.cdp:
+        * examples/arch/PingPong/arch/opensplice/descriptors/PingPong_DomainQoS.nodemap:
+        * examples/arch/PingPong/arch/opensplice/descriptors/domain.dqs:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-a.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-f.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-m.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-q.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/results/results-s.txt:
+        * examples/arch/PingPong/arch/opensplice/descriptors/run_test.pl:
+        * examples/arch/PingPong/arch/opensplice/descriptors/run_test_domain_qos.pl:
+        * examples/arch/PingPong/arch/rtidds:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PingComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong.mwc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/rtidds/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PongComponentImpl.h:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PongComponentImpl.cpp:
+        * examples/arch/PingPong/arch/rtidds/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.idl:
+        * examples/arch/PingPong/arch/rtidds/PongComponent.mpc:
+        * examples/arch/PingPong/arch/rtidds/Stats.h:
+        * examples/arch/PingPong/arch/rtidds/Stats.cpp:
+        * examples/arch/PingPong/arch/rtidds/descriptors:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.cdd:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/rtidds/descriptors/PingPong.nodemap:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-a.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-f.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-m.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/results/results-s.txt:
+        * examples/arch/PingPong/arch/rtidds/descriptors/run_test.pl:
+        * examples/arch/PingPong/arch/tcpip:
+        * examples/arch/PingPong/arch/tcpip/PingComponent.idl:
+        * examples/arch/PingPong/arch/tcpip/PingComponent.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong.idl:
+        * examples/arch/PingPong/arch/tcpip/PingPong.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong.mwc:
+        * examples/arch/PingPong/arch/tcpip/PingPong_Events.idl:
+        * examples/arch/PingPong/arch/tcpip/PingPong_Events.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.h:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.cpp:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PingComponentImpl.mpc:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PongComponentImpl.h:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PongComponentImpl.cpp:
+        * examples/arch/PingPong/arch/tcpip/PingPong_PongComponentImpl.mpc:
+        * examples/arch/PingPong/arch/tcpip/PongComponent.idl:
+        * examples/arch/PingPong/arch/tcpip/PongComponent.mpc:
+        * examples/arch/PingPong/arch/tcpip/Stats.h:
+        * examples/arch/PingPong/arch/tcpip/Stats.cpp:
+        * examples/arch/PingPong/arch/tcpip/descriptors:
+        * examples/arch/PingPong/arch/tcpip/descriptors/PingPong.cdd:
+        * examples/arch/PingPong/arch/tcpip/descriptors/PingPong.cdp:
+        * examples/arch/PingPong/arch/tcpip/descriptors/PingPong.nodemap:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-a.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-m.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-q.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/results/results-s.txt:
+        * examples/arch/PingPong/arch/tcpip/descriptors/run_test.pl:
+        * examples/arch/PingPong/arch/traditional-results:
+        * examples/arch/PingPong/arch/traditional-results/results-f.txt:
+        * examples/arch/PingPong/arch/traditional-results/results-m.txt:
+        * examples/arch/PingPong/arch/traditional-results/results-q.txt:
+        * examples/arch/PingPong/arch/traditional-results/results-s.txt:
+        * examples/arch/PingPong/models:
+        * examples/arch/PingPong/models/PingPong.xme:
+
+          Removed these files.
+
 Wed Nov  2 19:24:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tests/cuts/arch/tcpip:
