@@ -182,10 +182,14 @@ generate (const PICML::OutputAction & action,
   {
     // Write the contents for a simple property.
     PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+    std::string value = simple.Value ();
+
+    if (value == "$TIMEOFDAY")
+      value = "ACE_OS::gettimeofday ().msec ()";
 
     this->ctx_.source_
       << varname.str () << "->" << prop.name ()
-      << " (" << simple.Value () << ");";
+      << " (" << value << ");";
   }
   else
   {

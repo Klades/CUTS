@@ -1,3 +1,18 @@
+Wed Nov  2 19:15:09 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          $TIMEOFDAY is now a keyword that gets make to code
+          that will get the correct time of day.
+
+        * examples/arch/HelloWorld/models/HelloWorld.xme:
+
+          Update the model to support the latest version of DAnCE.
+
+        * examples/arch/HelloWorld/arch/ciao/descriptors/HelloWorld.nodemap:
+
+          Removed these files.
+
 Wed Nov  2 03:41:18 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/testing/Command_Options.h:
