@@ -20,6 +20,7 @@
 #include "cuts/utils/Property_Map.h"
 #include "ace/Thread_Mutex.h"
 #include "ace/Condition_T.h"
+#include "Command_Options_List.h"
 
 namespace CUTS
 {
@@ -89,12 +90,18 @@ private:
   /// Deploy the current test.
   int deploy_test (ACE_Process_Options & options);
 
+  /// Execute the test.
+  int execute_test ();
+
   /// Teardown the current test.
   int teardown_test (ACE_Process_Options & options);
 
   /// Load the configuration for the test.
   int load_configuration (CUTS_Testing_Service_Manager & mgr,
                           const ACE_CString & config);
+
+  /// Execute a particular command.
+  int execute (CUTS_Command_Options & opts);
 
   /// Task for the testing application.
   CUTS_Testing_App_Task task_;
@@ -107,6 +114,9 @@ private:
 
   /// Collection of properties.
   CUTS_Property_Map props_;
+
+  /// Set of commands
+  CUTS_Command_Options_List command_list_;
 
   ACE_Thread_Mutex shutdown_mutex_;
 

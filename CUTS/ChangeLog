@@ -1,11 +1,32 @@
+Wed Nov  2 03:41:18 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/testing/Command_Options.h:
+        * cuts/utils/testing/Command_Options.inl:
+        * cuts/utils/testing/Command_Options.cpp:
+        * cuts/utils/testing/Command_Options_List.h:
+        * cuts/utils/testing/Command_Options_List.inl:
+        * cuts/utils/testing/Command_Options_List.cpp:
+        * cuts/utils/testing/Test_Configuration_File.h:
+        * cuts/utils/testing/Test_Configuration_File.cpp:
+        * cuts/utils/testing/Testing_App.h:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/test.h:
+        * cuts/utils/testing/test.inl:
+        * cuts/utils/testing/test.cpp:
+        * cuts/utils/testing/testing.mpc:
+        * etc/schemas/test.xsd:
+
+          Extended the Test Manager configuration to run a test
+          application.
+
 Wed Nov  2 03:12:28 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.reg:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICMLd.reg:
-        
+
           Renamed the project.
-          
+
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
@@ -27,11 +48,11 @@ Wed Nov  2 03:12:28 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/TCPIP_Manager.cpp:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/tcpip.mpc:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/resource.h:
-        
+
           Simplified the interperter such that the backends are compiled
           into the binary instead of loaded via an XML file. This means
           that this interpreter is no longer bound to XSC.
-        
+
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.reg:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICMLd.reg:

@@ -350,6 +350,7 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                     ACE_TEXT ("%T (%t) - %M - failed to run test\n")));
       }
     }
+
     else if (this->opts_.daemonize_)
     {
       // Wait indefinitely until the process is notified externally that
@@ -360,11 +361,24 @@ int CUTS_Testing_App::run_main (int argc, char * argv [])
                         this->shutdown_mutex_,
                         -1);
 
-
       ACE_DEBUG ((LM_INFO,
                   "%T (%t) - %M - making test manager a daemon\n"));
 
       this->can_shutdown_.wait ();
+
+    }
+    /// This is the case where user has provided the testing application
+    /// as a set of commands in the config file.
+    else
+    {
+      int retval = this->execute_test ();
+
+      if (retval == -1)
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T (%t) - %M - Execution of test failed \n"));
+        return -1;
+      }
     }
 
     if (this->opts_.shutdown_.get ())
@@ -515,6 +529,34 @@ int CUTS_Testing_App::deploy_test (ACE_Process_Options & options)
   return 0;
 }
 
+
+//
+// execute_test
+//
+
+int CUTS_Testing_App::execute_test ()
+{
+  /// Execute each command in the configuration file.
+
+  CUTS_Command_Options_List::ITERATOR iter (this->command_list_);
+
+  int retval = 0;
+
+  for (; !iter.done (); ++ iter)
+  {
+    if (0 != this->execute((*iter).item_))
+    {
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to execute %s\n"),
+                  (*iter).item_.name_.c_str ()));
+
+      ++ retval;
+    }
+  }
+
+  return retval;
+}
+
 //
 // teardown_test
 //
@@ -633,6 +675,12 @@ load_configuration (CUTS_Testing_Service_Manager & mgr,
     file.get_startup_process (*options);
   }
 
+  // Get the command processes for the test, if present
+  if (file.config ().testops_p ())
+  {
+    file.get_testops (this->command_list_);
+  }
+
   if (this->opts_.shutdown_.get () == 0 &&
       file.config ().shutdown_p ())
   {
@@ -648,5 +696,76 @@ load_configuration (CUTS_Testing_Service_Manager & mgr,
     file.get_shutdown_process (*options);
   }
 
+  return 0;
+}
+
+//
+// execute
+//
+int CUTS_Testing_App::execute (CUTS_Command_Options & opts)
+{
+  // Determine if we must delay the startup of this process.
+  if (opts.delay_!= ACE_Time_Value::zero)
+    ACE_OS::sleep (opts.delay_);
+
+  // Spawn the new process.
+  ACE_DEBUG ((LM_INFO,
+              ACE_TEXT ("%T (%t) - %M - spawning process with id %s\n"),
+              opts.name_.c_str ()));
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - command-line is %s\n"),
+              opts.options_.command_line_buf ()));
+
+  ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
+  pid_t pid = proc_man->spawn (opts.options_);
+
+  if (ACE_INVALID_PID == pid)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %T - failed to spawn process %s; %m\n"),
+                       opts.name_.c_str ()),
+                       -1);
+
+  else
+  {
+    // The spawned application should return, so we can just wait on it.
+    ACE_exitcode status;
+    pid_t retval = proc_man->wait (pid, &status);
+
+    if (opts.wait_for_completion_)
+    {
+      ACE_DEBUG ((LM_INFO,
+                  ACE_TEXT ("%T (%t) - %M - waiting for process to complete\n")));
+      proc_man->wait (pid);
+    }
+
+    switch (retval)
+    {
+    case 0:
+      // Get the current time for test startup.
+      this->opts_.start_ = ACE_OS::gettimeofday ();
+      break;
+
+    case ACE_INVALID_PID:
+      ACE_ERROR_RETURN ((LM_WARNING,
+                         "%T (%t) - %M - failed to wait for testop process "
+                         "to exit [%m]\n"),
+                         1);
+      break;
+
+    default:
+      if (status == 0)
+      {
+        this->opts_.stop_ = ACE_OS::gettimeofday ();
+      }
+      else
+      {
+        ACE_ERROR_RETURN ((LM_WARNING,
+                           "%T - %M - testop proess exit status was %d\n",
+                           status),
+                           -1);
+      }
+    }
+  }
   return 0;
 }

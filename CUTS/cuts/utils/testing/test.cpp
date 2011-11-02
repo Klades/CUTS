@@ -35,7 +35,7 @@ namespace CUTS
         params (t);
       }
 
-      else 
+      else
       {
       }
     }
@@ -53,7 +53,7 @@ namespace CUTS
         add_id(temp, dynamic_cast<XSCRT::Type*> (this));
       }
 
-      else 
+      else
       {
       }
     }
@@ -80,7 +80,7 @@ namespace CUTS
         add_service (t);
       }
 
-      else 
+      else
       {
       }
     }
@@ -107,6 +107,12 @@ namespace CUTS
         startup (t);
       }
 
+      else if (n == ACE_TEXT("testops"))
+      {
+        ::CUTS::CommandList t (e);
+        testops (t);
+      }
+
       else if (n == ACE_TEXT("shutdown"))
       {
         ::CUTS::processOptions t (e);
@@ -119,7 +125,7 @@ namespace CUTS
         services (t);
       }
 
-      else 
+      else
       {
       }
     }
@@ -170,7 +176,115 @@ namespace CUTS
         error (t);
       }
 
-      else 
+      else
+      {
+      }
+    }
+  }
+
+  // CommandOptions
+  //
+
+  CommandOptions::
+  CommandOptions (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == ACE_TEXT("executable"))
+      {
+        executable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+        executable_->container (this);
+      }
+
+      else if (n == ACE_TEXT("arguments"))
+      {
+        ::XMLSchema::string< char > t (e);
+        arguments (t);
+      }
+
+      else if (n == ACE_TEXT("workingdirectory"))
+      {
+        ::XMLSchema::string< char > t (e);
+        workingdirectory (t);
+      }
+
+      else if (n == ACE_TEXT("output"))
+      {
+        ::XMLSchema::string< char > t (e);
+        output (t);
+      }
+
+      else if (n == ACE_TEXT("error"))
+      {
+        ::XMLSchema::string< char > t (e);
+        error (t);
+      }
+
+      else
+      {
+      }
+    }
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "id")
+      {
+        id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
+        id_->container (this);
+        std::basic_string<ACE_TCHAR> temp (ACE_TEXT_CHAR_TO_TCHAR ((*id_).c_str()));
+        (*ACE_Singleton<ID_Map::TSS_ID_Map, ACE_Null_Mutex>::instance())->
+        add_id(temp, dynamic_cast<XSCRT::Type*> (this));
+      }
+
+      else if (n == "delay")
+      {
+        ::XMLSchema::double_ t (a);
+        delay (t);
+      }
+
+      else if (n == "waitforcompletion")
+      {
+        ::XMLSchema::boolean t (a);
+        waitforcompletion (t);
+      }
+
+      else
+      {
+      }
+    }
+  }
+
+  // CommandList
+  //
+
+  CommandList::
+  CommandList (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == ACE_TEXT("command"))
+      {
+        ACE_Refcounted_Auto_Ptr < ::CUTS::CommandOptions, ACE_Null_Mutex >  t (new ::CUTS::CommandOptions (e));
+        add_command (t);
+      }
+
+      else
       {
       }
     }
@@ -206,4 +320,3 @@ namespace CUTS
     }
   }
 }
-

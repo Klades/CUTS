@@ -90,6 +90,8 @@ project (CUTS_Testing) : boost_base, xscrt, cuts_utils, cuts_test_database, cuts
     Testing_App_Task.cpp
     Testing_Service_DLL.cpp
     Testing_Service_Manager.cpp
+    Command_Options.cpp
+    Command_Options_List.cpp
   }
 
   Header_Files {

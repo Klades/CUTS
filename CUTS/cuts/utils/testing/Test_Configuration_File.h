@@ -18,6 +18,7 @@
 #include "XSCRT/utils/File_Reader_T.h"
 #include "XSC/utils/XML_Schema_Resolver.h"
 #include "ace/SStringfwd.h"
+#include "Command_Options_List.h"
 
 ACE_BEGIN_VERSIONED_NAMESPACE_DECL
 // Forward decl.
@@ -46,12 +47,19 @@ public:
   /// Destructor.
   virtual ~CUTS_Test_Configuration_File (void);
 
+  /// Load the configuration file using the file name
   bool load (const ACE_CString & str);
 
+  /// Sets the configurations related to rhe startup process
   int get_startup_process (ACE_Process_Options & options);
 
+  /// Sets  the configuration related to the shutdown process
   int get_shutdown_process (ACE_Process_Options & options);
 
+  /// Sets the configuration related to test commands
+  int get_testops (CUTS_Command_Options_List & testops);
+
+  /// Gets the configuration
   CUTS::testFile & config (void);
 
 private:

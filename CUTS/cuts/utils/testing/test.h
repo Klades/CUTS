@@ -9,6 +9,8 @@ namespace CUTS
   class serviceList;
   class testFile;
   class processOptions;
+  class CommandOptions;
+  class CommandList;
 }
 
 #include <memory>
@@ -32,7 +34,7 @@ namespace CUTS
     typedef ACE_Refcounted_Auto_Ptr < serviceDescription, ACE_Null_Mutex > _ptr;
 
     // location
-    // 
+    //
     public:
     ::XMLSchema::string< char > const& location () const;
     void location (::XMLSchema::string< char > const& );
@@ -41,7 +43,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > location_;
 
     // entryPoint
-    // 
+    //
     public:
     ::XMLSchema::string< char > const& entryPoint () const;
     void entryPoint (::XMLSchema::string< char > const& );
@@ -50,7 +52,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > entryPoint_;
 
     // params
-    // 
+    //
     public:
     bool params_p () const;
     ::XMLSchema::string< char > const& params () const;
@@ -60,7 +62,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > params_;
 
     // id
-    // 
+    //
     public:
     ::XMLSchema::ID< char > const& id () const;
     ::XMLSchema::ID< char >& id ();
@@ -93,7 +95,7 @@ namespace CUTS
     typedef ACE_Refcounted_Auto_Ptr < serviceList, ACE_Null_Mutex > _ptr;
 
     // service
-    // 
+    //
     public:
     typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > >::iterator service_iterator;
     typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex > >::const_iterator service_const_iterator;
@@ -131,7 +133,7 @@ namespace CUTS
     typedef ACE_Refcounted_Auto_Ptr < testFile, ACE_Null_Mutex > _ptr;
 
     // startup
-    // 
+    //
     public:
     bool startup_p () const;
     ::CUTS::processOptions const& startup () const;
@@ -140,8 +142,18 @@ namespace CUTS
     protected:
     ::std::auto_ptr< ::CUTS::processOptions > startup_;
 
+    // testops
+    //
+    public:
+    bool testops_p () const;
+    ::CUTS::CommandList const& testops () const;
+    void testops (::CUTS::CommandList const& );
+
+    protected:
+    ::std::auto_ptr< ::CUTS::CommandList > testops_;
+
     // shutdown
-    // 
+    //
     public:
     bool shutdown_p () const;
     ::CUTS::processOptions const& shutdown () const;
@@ -151,7 +163,7 @@ namespace CUTS
     ::std::auto_ptr< ::CUTS::processOptions > shutdown_;
 
     // services
-    // 
+    //
     public:
     bool services_p () const;
     ::CUTS::serviceList const& services () const;
@@ -182,7 +194,7 @@ namespace CUTS
     typedef ACE_Refcounted_Auto_Ptr < processOptions, ACE_Null_Mutex > _ptr;
 
     // executable
-    // 
+    //
     public:
     ::XMLSchema::string< char > const& executable () const;
     void executable (::XMLSchema::string< char > const& );
@@ -191,7 +203,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > executable_;
 
     // arguments
-    // 
+    //
     public:
     bool arguments_p () const;
     ::XMLSchema::string< char > const& arguments () const;
@@ -201,7 +213,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > arguments_;
 
     // workingdirectory
-    // 
+    //
     public:
     bool workingdirectory_p () const;
     ::XMLSchema::string< char > const& workingdirectory () const;
@@ -211,7 +223,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > workingdirectory_;
 
     // output
-    // 
+    //
     public:
     bool output_p () const;
     ::XMLSchema::string< char > const& output () const;
@@ -221,7 +233,7 @@ namespace CUTS
     ::std::auto_ptr< ::XMLSchema::string< char > > output_;
 
     // error
-    // 
+    //
     public:
     bool error_p () const;
     ::XMLSchema::string< char > const& error () const;
@@ -238,6 +250,147 @@ namespace CUTS
 
     processOptions&
     operator= (processOptions const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class CommandOptions : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < CommandOptions, ACE_Null_Mutex > _ptr;
+
+    // executable
+    //
+    public:
+    ::XMLSchema::string< char > const& executable () const;
+    void executable (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > executable_;
+
+    // arguments
+    //
+    public:
+    bool arguments_p () const;
+    ::XMLSchema::string< char > const& arguments () const;
+    void arguments (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > arguments_;
+
+    // workingdirectory
+    //
+    public:
+    bool workingdirectory_p () const;
+    ::XMLSchema::string< char > const& workingdirectory () const;
+    void workingdirectory (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > workingdirectory_;
+
+    // output
+    //
+    public:
+    bool output_p () const;
+    ::XMLSchema::string< char > const& output () const;
+    void output (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > output_;
+
+    // error
+    //
+    public:
+    bool error_p () const;
+    ::XMLSchema::string< char > const& error () const;
+    void error (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > error_;
+
+    // id
+    //
+    public:
+    ::XMLSchema::ID< char > const& id () const;
+    ::XMLSchema::ID< char >& id ();
+    void id (::XMLSchema::ID< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
+
+    // delay
+    //
+    public:
+    bool delay_p () const;
+    ::XMLSchema::double_ const& delay () const;
+    ::XMLSchema::double_& delay ();
+    void delay (::XMLSchema::double_ const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::double_ > delay_;
+
+    // waitforcompletion
+    //
+    public:
+    bool waitforcompletion_p () const;
+    ::XMLSchema::boolean const& waitforcompletion () const;
+    ::XMLSchema::boolean& waitforcompletion ();
+    void waitforcompletion (::XMLSchema::boolean const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::boolean > waitforcompletion_;
+
+    public:
+    CommandOptions (::XMLSchema::string< char > const& executable__,
+                    ::XMLSchema::ID< char > const& id__);
+
+    CommandOptions (::XSCRT::XML::Element< char > const&);
+    CommandOptions (CommandOptions const& s);
+
+    CommandOptions&
+    operator= (CommandOptions const& s);
+
+    private:
+    char regulator__;
+  };
+
+
+  class CommandList : public ::XSCRT::Type
+  {
+    typedef ::XSCRT::Type Base;
+
+    public:
+    typedef ACE_Refcounted_Auto_Ptr < CommandList, ACE_Null_Mutex > _ptr;
+
+    // command
+    //
+    public:
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::CommandOptions, ACE_Null_Mutex > >::iterator command_iterator;
+    typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::CommandOptions, ACE_Null_Mutex > >::const_iterator command_const_iterator;
+    command_iterator begin_command ();
+    command_iterator end_command ();
+    command_const_iterator begin_command () const;
+    command_const_iterator end_command () const;
+    void add_command ( ACE_Refcounted_Auto_Ptr < ::CUTS::CommandOptions, ACE_Null_Mutex > const& );
+    XSCRT::Type* get_command_ptr ( std::basic_string<char> idref );
+    void set_command_ptr (std::basic_string<char> idref );
+    size_t count_command (void) const;
+
+    protected:
+    ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::CommandOptions, ACE_Null_Mutex > > command_;
+
+    public:
+    CommandList ();
+
+    CommandList (::XSCRT::XML::Element< char > const&);
+    CommandList (CommandList const& s);
+
+    CommandList&
+    operator= (CommandList const& s);
 
     private:
     char regulator__;
