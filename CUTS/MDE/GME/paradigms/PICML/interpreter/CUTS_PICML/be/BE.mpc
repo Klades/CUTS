@@ -17,8 +17,6 @@ project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
     BE_IDL_Node.cpp
     BE_Impl_Node.cpp
     BE_Manager.cpp
-    BE_Manager_Factory.cpp
-    BE_Manager_Factory_Repo.cpp
     BE_MPC_Workspace.cpp
     BE_nil.cpp
     BE_Options.cpp

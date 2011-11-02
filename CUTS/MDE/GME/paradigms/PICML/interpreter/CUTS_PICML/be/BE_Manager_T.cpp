@@ -8,8 +8,8 @@
 //
 // CUTS_BE_Manager_T
 //
-template <typename CONTEXT>
-CUTS_BE_Manager_T <CONTEXT>::CUTS_BE_Manager_T (void)
+template <typename T, typename CONTEXT>
+CUTS_BE_Manager_T <T, CONTEXT>::CUTS_BE_Manager_T (void)
 {
 
 }
@@ -17,17 +17,26 @@ CUTS_BE_Manager_T <CONTEXT>::CUTS_BE_Manager_T (void)
 //
 // ~CUTS_BE_Manager_T
 //
-template <typename CONTEXT>
-CUTS_BE_Manager_T <CONTEXT>::~CUTS_BE_Manager_T (void)
+template <typename T, typename CONTEXT>
+CUTS_BE_Manager_T <T, CONTEXT>::~CUTS_BE_Manager_T (void)
 {
 
 }
 
 //
+// _create
+//
+template <typename T, typename CONTEXT>
+CUTS_BE_Manager * CUTS_BE_Manager_T <T, CONTEXT>::_create (void)
+{
+  return new T ();
+}
+
+//
 // handle
 //
-template <typename CONTEXT>
-bool CUTS_BE_Manager_T <CONTEXT>::handle (const PICML::RootFolder & root)
+template <typename T, typename CONTEXT>
+bool CUTS_BE_Manager_T <T, CONTEXT>::handle (const PICML::RootFolder & root)
 {
   CUTS_BE_Preprocessor_T <CONTEXT> preprocessor;
 

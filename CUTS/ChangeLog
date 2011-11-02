@@ -1,7 +1,55 @@
+Wed Nov  2 03:12:28 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICMLd.reg:
+        
+          Renamed the project.
+          
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Manager.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/BE_OpenSplice.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Manager.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Manager.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/TCPIP_Manager.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/TCPIP_Manager.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/tcpip/tcpip.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/resource.h:
+        
+          Simplified the interperter such that the backends are compiled
+          into the binary instead of loaded via an XML file. This means
+          that this interpreter is no longer bound to XSC.
+        
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICML.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_PICMLd.reg:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Manager_Factory_Repo.cpp:
+        * bin/cuts.config:
+        * bin/cuts.user.config:
+
+          Removed these files.
+
 Thu Oct 27 01:58:04 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/paradigms/CHAOS.mta:
-        
+
           Precompiled version of the metamodel.
 
 Wed Oct 26 16:57:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>

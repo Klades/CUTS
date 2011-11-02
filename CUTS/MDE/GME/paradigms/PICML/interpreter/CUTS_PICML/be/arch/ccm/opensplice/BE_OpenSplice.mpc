@@ -9,7 +9,7 @@ project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   Source_Files {
     Event_Traits_Generator.cpp
     Generators.cpp
-    Manager_Factory.cpp
+    Manager.cpp
     Preprocessor_Handlers.cpp
     Stub_Generator.cpp
     Traits.cpp
@@ -17,46 +17,9 @@ project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 
   Header_Files {
     Context.h
-    Manager.h
   }
 
   Inline_Files {
 
-  }
-
-  specific (wix) {
-    components += CUTS_PICML.config.OpenSplice
-  }
-
-  verbatim (wix, component_bottom) {
-"        <Component Id='CUTS_PICML.config.OpenSplice' Guid='C285C003-4BE1-4B0F-85C6-6D25ECB15DFF'>"
-"          <CreateFolder />"
-"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
-"                   Id='generator.OpenSplice'"
-"                   File='[INSTALLDIR]bin\\cuts.config'"
-"                   ElementPath='\/\/cuts:modelgen\/backend'"
-"                   Action='createElement'"
-"                   Name='cuts:generator'"
-"                   Sequence='10'"
-"                   Permanent='no' />"
-"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
-"                   Id='generator.OpenSplice.id'"
-"                   File='[INSTALLDIR]bin\\cuts.config'"
-"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]not(@id)[\\]]'"
-"                   Action='setValue'"
-"                   Name='id'"
-"                   Value='OpenSplice'"
-"                   Permanent='no'"
-"                   Sequence='11' />"
-"          <XmlFile xmlns='http:\/\/schemas.microsoft.com\/wix\/UtilExtension'"
-"                   Id='generator.OpenSplice.location'"
-"                   File='[INSTALLDIR]bin\\cuts.config'"
-"                   Action='createElement'"
-"                   ElementPath='\/\/cuts:modelgen\/backend\/cuts:generator[\\[]@id=\"OpenSplice\"[\\]]'"
-"                   Name='cuts:location'"
-"                   Sequence='12'"
-"                   Permanent='no'"
-"                   Value='[INSTALLDIR]bin\\CUTS_BE_OpenSplice' />"
-"        </Component>"
   }
 }

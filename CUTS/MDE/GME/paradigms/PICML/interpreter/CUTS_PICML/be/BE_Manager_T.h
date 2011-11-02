@@ -22,10 +22,13 @@
  * parameterizes this manager to customize how the points-of-visitation
  * and points-of-generation function.
  */
-template <typename CONTEXT>
+template <typename T, typename CONTEXT>
 class CUTS_BE_Manager_T : public CUTS_BE_Manager
 {
 public:
+  /// Factory method for creating the manager.
+  static CUTS_BE_Manager * _create (void);
+
   /// Type definition of the manager's context.
   typedef CONTEXT context_type;
 

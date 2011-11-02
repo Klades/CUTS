@@ -18,7 +18,24 @@
 #include "../../../BE_Manager_T.h"
 #include "../../../BE_MPC_Workspace.h"
 
-/// Type definition for the CIAO backend manager.
-typedef CUTS_BE_Manager_T <CUTS_BE_CIAO::Context> CIAO_BE_Manager;
+namespace CUTS_BE_CIAO
+{
+/**
+ * @class Manager
+ *
+ * Implementation of the CIAO backend manager.
+ */
+class CUTS_BE_CIAO_Export Manager :
+  public CUTS_BE_Manager_T <Manager, Context>
+{
+public:
+  /// Default constructor.
+  Manager (void);
+
+  /// Destructor.
+  virtual ~Manager (void);
+};
+
+}
 
 #endif  // !defined _CUTS_BE_CIAO_MANAGER_H_

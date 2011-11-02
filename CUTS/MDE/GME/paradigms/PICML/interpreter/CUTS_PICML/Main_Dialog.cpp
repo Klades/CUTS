@@ -3,35 +3,21 @@
 #include "StdAfx.h"
 #include "Resource.h"
 #include "Main_Dialog.h"
+
+#include "boost/bind.hpp"
 #include "Utils/Utils.h"
 
-#include "be/BE_Options.h"
-#include "be/BE_Manager_Factory.h"
-
-#include "XSCRT/utils/File_Reader_T.h"
-#include "XSC/utils/XML_Schema_Resolver.h"
-#include "XSC/utils/XML_Error_Handler.h"
-#include "boost/bind.hpp"
-
-#include "ace/Env_Value_T.h"
-#include "ace/OS_NS_string.h"
-
-#include <strstream>
 #include <algorithm>
 
 BEGIN_MESSAGE_MAP (Main_Dialog, CDialog)
-  ON_LBN_SELCHANGE (IDC_BE_LIST, On_BE_List_SelChange)
-  ON_BN_CLICKED (IDC_BROWSE, handle_browse_clicked)
+  ON_BN_CLICKED (IDC_BROWSE, on_browse_clicked)
 END_MESSAGE_MAP ()
 
 //
 // Main_Dialog
 //
-Main_Dialog::Main_Dialog (CUTS_BE_Options * options,
-                          CWnd * parent)
-: CDialog (IDD_MAINDIALOG, parent),
-  options_ (options),
-  factory_ (0)
+Main_Dialog::Main_Dialog (CWnd * parent)
+: CDialog (IDD_MAINDIALOG, parent)
 {
 
 }
@@ -44,109 +30,46 @@ Main_Dialog::~Main_Dialog (void)
 
 }
 
+/**
+ * @struct add_string_t
+ */
+struct add_string_t
+{
+  add_string_t (CComboBox & item)
+    : item_ (item),
+      index_ (0)
+  {
+
+  }
+
+  void operator () (const CString & iter)
+  {
+    int index = this->item_.AddString (iter);
+
+    if (index >= 0)
+      this->item_.SetItemData (index, this->index_ ++);
+  }
+
+private:
+  /// The current index for the string.
+  int index_;
+
+  /// Target combobox for inserting strings.
+  CComboBox & item_;
+};
+
 //
 // OnInitDialog
 //
 BOOL Main_Dialog::OnInitDialog (void)
 {
-  // Let the base class perform its initialization.
   CDialog::OnInitDialog ();
 
-  // Get the CUTS_ROOT environment variable. We need this to locate
-  // the default/user configuration values.
-  std::string CUTS_ROOT;
+  // Insert the backend strings into the list box.
+  std::for_each (this->opts_.backends_.begin (),
+                 this->opts_.backends_.end (),
+                 add_string_t (this->generators_));
 
-  if (this->resolve_CUTS_ROOT (CUTS_ROOT) == 0)
-  {
-    try
-    {
-      // Create the user and default configuration.
-      std::ostringstream cuts_config, cuts_schema;
-      cuts_config << CUTS_ROOT << "bin\\cuts.config";
-      cuts_schema << CUTS_ROOT << "etc\\schemas\\";
-
-      // Create the file reader for the configuration file.
-      XSCRT::utils::File_Reader_T <CUTS::Configuration> reader (&CUTS::reader::modelgen);
-      XSC::XML::Basic_Resolver < > br (cuts_schema.str ().c_str ());
-      XSC::XML::XML_Schema_Resolver <XSC::XML::Basic_Resolver < > > resolver (br);
-      reader->setEntityResolver (&resolver);
-
-      XSC::XML::XML_Error_Handler error_handler;
-      reader->setErrorHandler (&error_handler);
-
-      // Discard comment nodes in the document.
-      reader->setCreateCommentNodes (false);
-
-      // Disable datatype normalization. The XML 1.0 attribute value
-      // normalization always occurs though.
-      //if (reader.parser ()->canSetFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true))
-      //  reader.parser ()->setFeature (xercesc::XMLUni::fgDOMDatatypeNormalization, true);
-
-      // Do not create EntityReference nodes in the DOM tree. No
-      // EntityReference nodes will be created, only the nodes
-      // corresponding to their fully expanded substitution text will be
-      // created.
-      reader->setCreateEntityReferenceNodes (false);
-
-      // Perform Namespace processing.
-      reader->setDoNamespaces (true);
-
-      // Do not include ignorable whitespace in the DOM tree.
-      reader->setIncludeIgnorableWhitespace (false);
-
-      // Perform Validation
-      reader->setValidationScheme (AbstractDOMParser::Val_Auto);
-
-      // Enable the GetParser()'s schema support.
-      reader->setDoSchema (true);
-
-      // Enable full schema constraint checking, including checking which
-      // may be time-consuming or memory intensive. Currently, particle
-      // unique attribution constraint checking and particle derivation
-      // restriction checking are controlled by this option.
-      reader->setValidationSchemaFullChecking (true);
-
-      // The GetParser() will treat validation error as fatal and will exit.
-      reader->setValidationConstraintFatal (false);
-
-      CUTS::Configuration config;
-
-      // Open the default configuration.
-      if (reader.read (cuts_config.str ().c_str ()))
-      {
-        // Read the default configuration.
-        reader >>= config;
-
-        // Load the generators from the configuration.
-        this->init_generators (config);
-      }
-      else
-      {
-        ::AfxMessageBox ("Failed to open configuration file",
-                         MB_OK | MB_ICONERROR);
-      }
-    }
-    catch (const xercesc::DOMException & ex)
-    {
-      ::AfxMessageBox (reinterpret_cast <LPCTSTR> (ex.getMessage ()),
-                      MB_OK | MB_ICONERROR);
-    }
-    catch (const xercesc::XMLException & )
-    {
-      ::AfxMessageBox ("Caught XML exception", MB_OK | MB_ICONERROR);
-    }
-    catch (...)
-    {
-      ::AfxMessageBox ("Caught unknown exception", MB_OK | MB_ICONERROR);
-    }
-  }
-  else
-  {
-    ::AfxMessageBox ("Failed to load configuration file",
-                     MB_OK | MB_ICONWARNING);
-  }
-
-  // Load backend generators from parsed file.
   return TRUE;
 }
 
@@ -158,182 +81,50 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
   // Let the base class handle its business first.
   CDialog::DoDataExchange (pDX);
 
-  // Since we aren't saving the data, we need to initialize
-  // <outdir> with the data to store in the control.
-  CString outdir;
-
-  if (!pDX->m_bSaveAndValidate)
-    outdir = CUTS_BE_OPTIONS ()->output_directory_.c_str ();
-
-  DDX_Text (pDX, IDC_OUTPUTDIR, outdir);
+  // Exchange the text for the output directory.
+  DDX_Text (pDX, IDC_OUTPUTDIR, this->opts_.output_dir_);
 
   if (pDX->m_bSaveAndValidate)
   {
     // We need to validate the output directory. The output directory
     // is invalid if it is empty. Eventually, we want to make sure
     // the output directory exists.
-    outdir.Trim ();
+    this->opts_.output_dir_.Trim ();
 
-    if (outdir.GetLength () == 0)
+    if (this->opts_.output_dir_.GetLength () == 0)
     {
-      ::AfxMessageBox ("Please select a valid output directory",
-                      MB_ICONEXCLAMATION);
+      ::AfxMessageBox ("Output directory is empty", MB_ICONEXCLAMATION);
 
       // Set the focus of the control and change to fail state.
       this->GetDlgItem (IDC_OUTPUTDIR)->SetFocus ();
       pDX->Fail ();
     }
-
-    // Save the output directory in the cache.
-    CUTS_BE_OPTIONS ()->output_directory_ = outdir;
   }
 
   // We need to exchange data with the list box control. If we are
   // actually saving data from the control and the user has selected
   // to generate source, we need to save the manager factory.
-  DDX_Control (pDX, IDC_BE_LIST, this->be_list_);
+  DDX_Control (pDX, IDC_CODEGEN, this->generators_);
 
-  if (pDX->m_bSaveAndValidate)
+  int index;
+  DDX_CBIndex (pDX, IDC_CODEGEN, index);
+
+  if (pDX->m_bSaveAndValidate && index < 0)
   {
-    int index = this->be_list_.GetCurSel ();
+    ::AfxMessageBox ("Please select backend generator", MB_ICONEXCLAMATION);
 
-    if (index != LB_ERR)
-    {
-      this->factory_ = (CUTS_BE_Manager_Factory *) this->be_list_.GetItemData (index);
-    }
-    else
-    {
-      ::AfxMessageBox ("Please select a backend for generating implementation",
-                       MB_OK | MB_ICONEXCLAMATION);
-
-      this->GetDlgItem (IDC_BE_LIST)->SetFocus ();
-      pDX->Fail ();
-    }
+    // Set the focus of the control and change to fail state.
+    this->GetDlgItem (IDC_CODEGEN)->SetFocus ();
+    pDX->Fail ();
   }
+
+  this->opts_.selected_backend_ = this->generators_.GetItemData (index);
 }
 
 //
-// manager_factory
+// on_browse_clicked
 //
-CUTS_BE_Manager_Factory * Main_Dialog::factory (void) const
-{
-  return this->factory_;
-}
-
-//
-// On_BE_List_SelChange
-//
-void Main_Dialog::On_BE_List_SelChange (void)
-{
-  // Get the current selection.
-  int index = this->be_list_.GetCurSel ();
-
-  if (index != LB_ERR)
-  {
-    // Get the data for the select item. The data is actually the
-    // factory object we initially stored with the item.
-    CUTS_BE_Manager_Factory * factory =
-      (CUTS_BE_Manager_Factory *) this->be_list_.GetItemData (index);
-
-    if (factory != 0)
-    {
-      // Update the description for the select item.
-      this->SetDlgItemText (IDC_BE_DESCRIPTION,
-                            factory->description ());
-    }
-    else
-    {
-      ::AfxMessageBox ("Selected item not properly initialized",
-                       MB_OK | MB_ICONERROR);
-    }
-  }
-}
-
-//
-// init_generators
-//
-void Main_Dialog::
-init_generators (const CUTS::Configuration & config)
-{
-  if (config.backend_p ())
-    std::for_each (config.backend ().begin_generator (),
-                   config.backend ().end_generator (),
-                   boost::bind (&Main_Dialog::load_backend_generator,
-                                this,
-                                _1));
-}
-
-//
-// load_backend_generator
-//
-void Main_Dialog::
-load_backend_generator (const CUTS::Generators::generator_iterator::value_type & desc)
-{
-  // Temporary variable for the generator's factory.
-  CUTS_BE_Manager_Factory * factory = 0;
-
-  // Load the backend manager factory.
-  if (this->factory_repo_.load (desc->id (), desc->location (), factory))
-  {
-    // Insert name of factory into listbox.
-    int index = this->be_list_.InsertString (-1, factory->name ());
-
-    if (index != LB_ERR)
-    {
-      this->be_list_.SetItemDataPtr (index, factory);
-    }
-    else
-    {
-      // Display an error message to the user.
-      std::ostringstream ostr;
-      ostr << "Failed to add " << factory->name ()
-           << " to backend list";
-
-      ::AfxMessageBox (ostr.str ().c_str (), MB_ICONEXCLAMATION | MB_OK);
-    }
-  }
-  else
-  {
-    // Display an error message for the user.
-    std::ostringstream ostr;
-    ostr << "Failed to load backend <" << desc->id () << ">.\r\n"
-         << this->factory_repo_.last_error_message () << "";
-
-    ::AfxMessageBox (ostr.str ().c_str (),
-                     MB_ICONEXCLAMATION | MB_OK);
-  }
-}
-
-//
-// resolve_CUTS_ROOT
-//
-int Main_Dialog::resolve_CUTS_ROOT (std::string & root)
-{
-  // Get the install location of CUTS from the Windows registry.
-  char path [MAX_PATH];
-  long path_size = sizeof (char) * sizeof (path);
-
-  if (::RegQueryValue (HKEY_LOCAL_MACHINE,
-                       "Software\\CUTS",
-                       path,
-                       &path_size) == ERROR_SUCCESS)
-  {
-    root = path;
-  }
-  else
-  {
-    ACE_Env_Value <const char *> CUTS_ROOT ("CUTS_ROOT", "");
-    root = CUTS_ROOT;
-    root += "\\";
-  }
-
-  return 0;
-}
-
-//
-// handle_browse_clicked
-//
-void Main_Dialog::handle_browse_clicked (void)
+void Main_Dialog::on_browse_clicked (void)
 {
   CString outdir;
   std::string path;

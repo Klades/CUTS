@@ -13,52 +13,49 @@
 #ifndef _CUTS_PICML_MAIN_DIALOG_H_
 #define _CUTS_PICML_MAIN_DIALOG_H_
 
-// Forward decl.
-struct CUTS_BE_Options;
-
-#include "be/BE_Manager_Factory_Repo.h"
-#include "modelgen.h"
-
-// Forward decl.
-class CUTS_BE_Manager_Factory;
-
-namespace CUTS
-{
-  // Forward decl.
-  class Configuration;
-
-  // Forward decl.
-  class Generator_Description;
-}
+#include <string>
+#include <vector>
 
 /**
  * @class Main_Dialog
  *
- * Main dialog for the CUTS PICML interpreter.
+ * Main dialog for the CUTS code generator interpreter. It allows
+ * the end user to select target directory for generation and the
+ * backend generator to execute.
  */
 class Main_Dialog : public CDialog
 {
 public:
+  /**
+   * @struct Options
+   *
+   * Configuration options for the dialog.
+   */
+  struct Options
+  {
+    /// Output directory for the code generation.
+    CString output_dir_;
+
+    /// List of backends to display.
+    std::vector <CString> backends_;
+
+    /// The selected backend from the list of backends.
+    int selected_backend_;
+  };
+
   /**
    * Main constructor.
    *
    * @param[in]     options       The backend options.
    * @param[in]     parent        Parent of the dialog.
    */
-  Main_Dialog (CUTS_BE_Options * options,
-               CWnd * parent = 0);
+  Main_Dialog (CWnd * parent = 0);
 
   /// Destructor.
   virtual ~Main_Dialog (void);
 
-  /**
-   * Get the selected manager factory for model generation. This
-   * factory pointer will be one located in the factory repository
-   * used in the constructor.
-   *
-   * @return        Pointer to the manager factory.
-   */
-  CUTS_BE_Manager_Factory * factory (void) const;
+  /// Configuration options for the dialog.
+  Options opts_;
 
 protected:
   /// Handle the initialize dialog method.
@@ -67,30 +64,15 @@ protected:
   /// Handle the data exchange message.
   void DoDataExchange (CDataExchange * pDX);
 
-  afx_msg void On_BE_List_SelChange (void);
-
-  afx_msg void handle_browse_clicked (void);
+  /// Handle the user clicking the browse button.
+  afx_msg void on_browse_clicked (void);
 
 private:
+  /// Declaration of the message map.
   DECLARE_MESSAGE_MAP ();
 
-  void load_backend_generator (const CUTS::Generators::generator_iterator::value_type & desc);
-
-  void init_generators (const CUTS::Configuration & config);
-
-  int resolve_CUTS_ROOT (std::string & root);
-
-  /// Pointer to the backend options.
-  CUTS_BE_Options * options_;
-
-  /// The selected backend module.
-  CUTS_BE_Manager_Factory * factory_;
-
-  /// Factory repository for the GUI.
-  CUTS_BE_Manager_Factory_Repo factory_repo_;
-
-  /// The backend list box control.
-  CListBox be_list_;
+  /// List of generators for the combo box.
+  CComboBox generators_;
 };
 
 #endif  // !defined _CUTS_PICML_MAIN_DIALOG_H_

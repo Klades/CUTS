@@ -11,7 +11,7 @@ REGEDIT4
 @="CUTS.Interpreter.PICML"
 
 [HKEY_CURRENT_USER\Software\Classes\CLSID\{DD5752C3-12EF-43D0-978C-F5C395D5BF13}\InProcServer32]
-@="CUTS_PICML.dll"
+@="CUTS_GME_PICMLd.dll"
 
 [HKEY_CURRENT_USER\Software\Classes\CUTS.Interpreter.PICML]
 @="CUTS.Interpreter.PICML"
