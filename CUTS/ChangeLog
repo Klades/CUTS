@@ -1,3 +1,18 @@
+Wed Nov  2 21:07:50 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/models.mpc:
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+        * MDE/GME/paradigms/PICML/models/workers/testing.xme:
+        * install/CUTS_CoSMIC.mpc:
+        * install/CUTS_CoSMIC.mwc:
+
+          Upgraded to latest version of PICML.
+
+          The installer now installs the models.
+
 Wed Nov  2 19:39:03 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tests/cuts/arch/PingPong:

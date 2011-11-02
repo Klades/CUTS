@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{E500FA15-DBD2-4CAC-8D5E-D6CA8D908E7B}" cdate="Tue Apr 26 11:02:04 2011" mdate="Tue Apr 26 11:02:04 2011" version="" metaguid="{0036ADCA-2A43-4F2B-9A4A-2AC2DBD958FA}" metaversion="" metaname="PICML">
+<project guid="{E500FA15-DBD2-4CAC-8D5E-D6CA8D908E7B}" cdate="Wed Nov 02 16:49:52 2011" mdate="Wed Nov 02 16:49:52 2011" version="" metaguid="{F474D912-08B5-48EB-80CA-50FA888D5FB2}" metaversion="" metaname="PICML">
 	<name>ClientLogger</name>
 	<comment></comment>
 	<author></author>
 	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{a02dcdb8-8f1f-44d2-8ce2-b091b5c66973}">
 		<name>ClientLogger</name>
-		<folder id="id-006a-00000004" relid="0x1" childrelidcntr="0x1" kind="WorkerLibraries" guid="{9a6dc861-cbdd-4aad-a844-b90864e3330d}">
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x1" kind="WorkerLibraries" guid="{9a6dc861-cbdd-4aad-a844-b90864e3330d}">
 			<name>ClientLogger</name>
-			<model id="id-0065-00000007" kind="WorkerLibrary" guid="{d47dfe58-27f4-421d-b1d0-a842dfa88928}" relid="0x1" childrelidcntr="0x1">
+			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{d47dfe58-27f4-421d-b1d0-a842dfa88928}" relid="0x1" childrelidcntr="0x1">
 				<name>CUTS_Client_Logger</name>
 				<attribute kind="Location">
 					<value>$(CUTS_ROOT)/lib</value>
 				</attribute>
-				<model id="id-0065-00000008" kind="WorkerFile" role="WorkerFile" guid="{cbe2c8cf-94c7-4cb7-8725-41371869c63d}" relid="0x1" childrelidcntr="0x1">
+				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{cbe2c8cf-94c7-4cb7-8725-41371869c63d}" relid="0x1" childrelidcntr="0x1">
 					<name>Client_Logger</name>
 					<attribute kind="Location">
 						<value>$(CUTS_ROOT)/cuts/utils/logging/client/logger</value>
 					</attribute>
-					<model id="id-0065-00000009" kind="Worker" role="Worker" guid="{5e0a8f7b-9aa5-49ce-b7fb-619f8eb40d32}" relid="0x1" childrelidcntr="0x3">
+					<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{5e0a8f7b-9aa5-49ce-b7fb-619f8eb40d32}" relid="0x1" childrelidcntr="0x3">
 						<name>CUTS_Client_Logger</name>
 						<attribute kind="Abstract" status="meta">
 							<value>false</value>
 						</attribute>
-						<model id="id-0065-0000000a" kind="Operation" role="Operation" guid="{9892f2b0-5f2b-4e05-ab7c-17a6221887fb}" relid="0x1" childrelidcntr="0x3">
+						<model id="id-0065-00000004" kind="Operation" role="Operation" guid="{9892f2b0-5f2b-4e05-ab7c-17a6221887fb}" relid="0x1" childrelidcntr="0x3">
 							<name>log</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -35,7 +35,7 @@
 									</regnode>
 								</regnode>
 							</regnode>
-							<reference id="id-0067-00000002" kind="InParameter" role="InParameter" guid="{a86cd908-dbc2-4fbc-a136-e5db296027b9}" relid="0x1" referred="id-0066-0000000a">
+							<reference id="id-0067-00000001" kind="InParameter" role="InParameter" guid="{a86cd908-dbc2-4fbc-a136-e5db296027b9}" relid="0x1" referred="id-0066-00000006">
 								<name>severity</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -47,7 +47,7 @@
 									</regnode>
 								</regnode>
 							</reference>
-							<reference id="id-0067-00000003" kind="InParameter" role="InParameter" guid="{9ee46a49-9eb6-406e-85ca-78d04974a7d2}" relid="0x2" referred="id-0066-00000015">
+							<reference id="id-0067-00000002" kind="InParameter" role="InParameter" guid="{9ee46a49-9eb6-406e-85ca-78d04974a7d2}" relid="0x2" referred="id-0066-00000011">
 								<name>message</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -59,7 +59,7 @@
 									</regnode>
 								</regnode>
 							</reference>
-							<reference id="id-0067-00000004" kind="InParameter" role="InParameter" guid="{f778857b-9f19-4b47-ab8f-4d351a9dc21e}" relid="0x3" referred="id-0066-00000015">
+							<reference id="id-0067-00000003" kind="InParameter" role="InParameter" guid="{f778857b-9f19-4b47-ab8f-4d351a9dc21e}" relid="0x3" referred="id-0066-00000011">
 								<name>varargs</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -72,7 +72,7 @@
 								</regnode>
 							</reference>
 						</model>
-						<model id="id-0065-0000000b" kind="Operation" role="Operation" guid="{16db65a4-272b-4a9a-a2a2-116a74aad485}" relid="0x2" childrelidcntr="0x1">
+						<model id="id-0065-00000005" kind="Operation" role="Operation" guid="{16db65a4-272b-4a9a-a2a2-116a74aad485}" relid="0x2" childrelidcntr="0x1">
 							<name>connect</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -83,7 +83,7 @@
 									</regnode>
 								</regnode>
 							</regnode>
-							<reference id="id-0067-00000001" kind="InParameter" role="InParameter" guid="{4152fbc3-b2cd-4032-bf43-61c8c4c71a08}" relid="0x1" referred="id-0066-00000015">
+							<reference id="id-0067-00000004" kind="InParameter" role="InParameter" guid="{4152fbc3-b2cd-4032-bf43-61c8c4c71a08}" relid="0x1" referred="id-0066-00000011">
 								<name>client</name>
 								<regnode name="PartRegs" status="undefined">
 									<value></value>
@@ -96,7 +96,7 @@
 								</regnode>
 							</reference>
 						</model>
-						<model id="id-0065-0000000c" kind="Operation" role="Operation" guid="{7cf79ac4-4d3c-42ac-bdb6-3fe6dcba202f}" relid="0x3" childrelidcntr="0x0">
+						<model id="id-0065-00000006" kind="Operation" role="Operation" guid="{7cf79ac4-4d3c-42ac-bdb6-3fe6dcba202f}" relid="0x3" childrelidcntr="0x0">
 							<name>disconnect</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -112,57 +112,57 @@
 				</model>
 			</model>
 		</folder>
-		<folder id="id-006a-00000005" relid="0x2" childrelidcntr="0x11" kind="PredefinedTypes" guid="{bc6ada21-1cec-4cd8-b90e-42317e6f2749}">
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x11" kind="PredefinedTypes" guid="{bc6ada21-1cec-4cd8-b90e-42317e6f2749}">
 			<name>PredefinedTypes</name>
-			<atom id="id-0066-00000005" kind="Boolean" guid="{5a566943-159b-42b3-ae0f-abf3abcb63f1}" relid="0x1">
+			<atom id="id-0066-00000001" kind="Boolean" guid="{5a566943-159b-42b3-ae0f-abf3abcb63f1}" relid="0x1">
 				<name>Boolean</name>
 			</atom>
-			<atom id="id-0066-00000006" kind="Byte" guid="{b1d750e4-f8e6-4c40-9e1d-cedce6934baf}" relid="0x2">
+			<atom id="id-0066-00000002" kind="Byte" guid="{b1d750e4-f8e6-4c40-9e1d-cedce6934baf}" relid="0x2">
 				<name>Byte</name>
 			</atom>
-			<atom id="id-0066-00000007" kind="Char" guid="{6a212674-d370-4ed6-9829-ab579b9d0282}" relid="0x3">
+			<atom id="id-0066-00000003" kind="Char" guid="{6a212674-d370-4ed6-9829-ab579b9d0282}" relid="0x3">
 				<name>Char</name>
 			</atom>
-			<atom id="id-0066-00000008" kind="WideChar" guid="{558fe7a2-a02f-4aea-b770-ba7700d2758e}" relid="0x4">
+			<atom id="id-0066-00000004" kind="WideChar" guid="{558fe7a2-a02f-4aea-b770-ba7700d2758e}" relid="0x4">
 				<name>WideChar</name>
 			</atom>
-			<atom id="id-0066-00000009" kind="ShortInteger" guid="{5d3be4a9-d50f-4f6a-884d-4d05ed5928ed}" relid="0x5">
+			<atom id="id-0066-00000005" kind="ShortInteger" guid="{5d3be4a9-d50f-4f6a-884d-4d05ed5928ed}" relid="0x5">
 				<name>ShortInteger</name>
 			</atom>
-			<atom id="id-0066-0000000a" kind="LongInteger" guid="{a445904d-71ec-4a5a-9ab8-21571331c587}" relid="0x6">
+			<atom id="id-0066-00000006" kind="LongInteger" guid="{a445904d-71ec-4a5a-9ab8-21571331c587}" relid="0x6">
 				<name>LongInteger</name>
 			</atom>
-			<atom id="id-0066-0000000b" kind="LongLongInteger" guid="{2b75b493-5857-42d1-9045-02a9e8cbac4d}" relid="0x7">
+			<atom id="id-0066-00000007" kind="LongLongInteger" guid="{2b75b493-5857-42d1-9045-02a9e8cbac4d}" relid="0x7">
 				<name>LongLongInteger</name>
 			</atom>
-			<atom id="id-0066-0000000c" kind="UnsignedShortInteger" guid="{c2ad0a48-0573-4e46-866d-53a3b9fab0e1}" relid="0x8">
+			<atom id="id-0066-00000008" kind="UnsignedShortInteger" guid="{c2ad0a48-0573-4e46-866d-53a3b9fab0e1}" relid="0x8">
 				<name>UnsignedShortInteger</name>
 			</atom>
-			<atom id="id-0066-0000000d" kind="UnsignedLongInteger" guid="{17172fae-73ee-4bda-8a70-775d9a48ea17}" relid="0x9">
+			<atom id="id-0066-00000009" kind="UnsignedLongInteger" guid="{17172fae-73ee-4bda-8a70-775d9a48ea17}" relid="0x9">
 				<name>UnsignedLongInteger</name>
 			</atom>
-			<atom id="id-0066-0000000e" kind="UnsignedLongLongInteger" guid="{590b6db6-064d-40a0-9e8c-cdf588e1d517}" relid="0xa">
+			<atom id="id-0066-0000000a" kind="UnsignedLongLongInteger" guid="{590b6db6-064d-40a0-9e8c-cdf588e1d517}" relid="0xa">
 				<name>UnsignedLongLongInteger</name>
 			</atom>
-			<atom id="id-0066-0000000f" kind="FloatNumber" guid="{26aa0c28-d3c0-4784-a156-d8e52f9d1ffc}" relid="0xb">
+			<atom id="id-0066-0000000b" kind="FloatNumber" guid="{26aa0c28-d3c0-4784-a156-d8e52f9d1ffc}" relid="0xb">
 				<name>FloatNumber</name>
 			</atom>
-			<atom id="id-0066-00000010" kind="DoubleNumber" guid="{73510302-1585-4e05-86a0-93ed270320f4}" relid="0xc">
+			<atom id="id-0066-0000000c" kind="DoubleNumber" guid="{73510302-1585-4e05-86a0-93ed270320f4}" relid="0xc">
 				<name>DoubleNumber</name>
 			</atom>
-			<atom id="id-0066-00000011" kind="LongDoubleNumber" guid="{ab5fae0b-e222-440d-a5d8-f8166fe8206a}" relid="0xd">
+			<atom id="id-0066-0000000d" kind="LongDoubleNumber" guid="{ab5fae0b-e222-440d-a5d8-f8166fe8206a}" relid="0xd">
 				<name>LongDoubleNumber</name>
 			</atom>
-			<atom id="id-0066-00000012" kind="GenericObject" guid="{aa93058a-c42a-4f00-a64d-69d10fd42e55}" relid="0xe">
+			<atom id="id-0066-0000000e" kind="GenericObject" guid="{aa93058a-c42a-4f00-a64d-69d10fd42e55}" relid="0xe">
 				<name>GenericObject</name>
 			</atom>
-			<atom id="id-0066-00000013" kind="GenericValue" guid="{204b4f8f-b218-4067-956c-8390a495112f}" relid="0xf">
+			<atom id="id-0066-0000000f" kind="GenericValue" guid="{204b4f8f-b218-4067-956c-8390a495112f}" relid="0xf">
 				<name>GenericValue</name>
 			</atom>
-			<atom id="id-0066-00000014" kind="GenericValueObject" guid="{8075c7ec-bdbf-483e-a93c-fdb39d44ba0b}" relid="0x10">
+			<atom id="id-0066-00000010" kind="GenericValueObject" guid="{8075c7ec-bdbf-483e-a93c-fdb39d44ba0b}" relid="0x10">
 				<name>GenericValueObject</name>
 			</atom>
-			<atom id="id-0066-00000015" kind="String" guid="{5230be04-38e4-4de6-87d9-490375eea5b8}" relid="0x11">
+			<atom id="id-0066-00000011" kind="String" guid="{5230be04-38e4-4de6-87d9-490375eea5b8}" relid="0x11">
 				<name>String</name>
 			</atom>
 		</folder>

@@ -18,7 +18,7 @@ workspace (CUTS) {
              -include $CUTS_ROOT/contrib/CCF/MPC/config \
              -include $ADBC_ROOT/MPC/config \
              -include $XSC_ROOT/MPC/config
- 
+
   // == build the runtime architecture
   runtime {
     cmdline += -base requires_runtime
@@ -28,11 +28,11 @@ workspace (CUTS) {
     cuts/idl
     cuts/svcs
     cuts/workers
-    
+
     //== We have to manually list the folders here since the utils project
     //== below is in cuts/utils and will not build if the runtime feature
     //== is not enabled.
-    
+
     cuts/utils/antispam
     cuts/utils/archiving
     cuts/utils/barrier
@@ -65,9 +65,6 @@ workspace (CUTS) {
 
     exclude (wix) {
       MDE/GME/paradigms/CUTS
-
-      // == temp disable
-      //MDE/GME/T2M
     }
 
     cosmic {
@@ -87,7 +84,7 @@ workspace (CUTS) {
       $(COSMIC_ROOT)/Utils/Utils.mpc
     }
   }
-  
+
   exclude (!prop:microsoft, wix) {
     cmdline += -static \
                -base ccf_root

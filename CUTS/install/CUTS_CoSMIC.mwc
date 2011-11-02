@@ -16,24 +16,15 @@ workspace (CUTS_CoSMIC) {
     //== ACE projects
     $(ACE_ROOT)/ace/ace.mpc
 
-    //== XSC projects
-    $(XSC_ROOT)/XSC/utils
-    
     $(GAME_ROOT)/game/mga/Mga.mpc
     $(GAME_ROOT)/game/mga/component
     $(GAME_ROOT)/game/mga/utils
   }
 
-  exclude (!prop:microsoft, wix) {
-    cmdline += -static
-    
-    $(XSC_ROOT)/XSC/XSC_BE.mpc
-  }
-  
   $(CUTS_ROOT)/CUTS.mwc
 
   exclude (!wix) {
-    $(CUTS_ROOT)/etc/schemas
+    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models
   }
 
   exclude (!prop:microsoft, wix) {

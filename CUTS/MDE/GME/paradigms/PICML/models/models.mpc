@@ -1,0 +1,65 @@
+// $Id$
+
+project (CUTS_PICML_Models_Upgrade) : gme_upgrade {
+  custom_only = 1
+
+  Upgrade_Files {
+    *.xme
+  }
+}
+
+project (CUTS_PICML_Models) {
+  after += CUTS_PICML_Models_Upgrade
+
+  specific (wix) {
+    no_binary         = 1
+    install_location  = paradigm PICML models
+    install_resources = 1
+  }
+
+  Resource_Files {
+    conditional (wix) {
+      CAPI.xme
+      CAPI.mga
+
+      XMLSchema.xme
+      XMLSchema.mga
+    }
+  }
+
+  Source_Files {
+
+  }
+}
+
+project (CUTS_PICML_Model_Workers_Upgrade) : gme_upgrade {
+  custom_only = 1
+
+  Upgrade_Files {
+    workers/*.xme
+  }
+}
+
+project (CUTS_PICML_Model_Workers) {
+  after += CUTS_PICML_Model_Workers_Upgrade
+
+  specific (wix) {
+    no_binary         = 1
+    install_location  = paradigm PICML models workers
+    install_resources = 1
+  }
+
+  Resource_Files {
+    conditional (wix) {
+      workers/logging.xme
+      workers/logging.mga
+
+      workers/testing.xme
+      workers/testing.mga
+    }
+  }
+
+  Source_Files {
+
+  }
+}
