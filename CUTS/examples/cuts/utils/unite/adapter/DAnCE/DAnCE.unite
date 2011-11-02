@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<cuts:test xmlns="http://cuts.cs.iupui.edu"
-            xmlns:cuts="http://cuts.cs.iupui.edu"
+<cuts:test xmlns="http://www.cs.iupui.edu/CUTS/XML"
+            xmlns:cuts="http://www.cs.iupui.edu/CUTS/XML"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://cuts.cs.iupui.edu cuts-unite.xsd">
+            xsi:schemaLocation="http://www.cs.iupui.edu/CUTS/XML cuts-unite.xsd">
 
   <name>deploymenttime</name>
   <evaluation>strftime('%s',LF13.t13) - strftime('%s',LF1.t1)</evaluation>

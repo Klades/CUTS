@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<cuts:datagraph xmlns="http://cuts.cs.iupui.edu"
-            xmlns:cuts="http://cuts.cs.iupui.edu"
+<cuts:datagraph xmlns="http://www.cs.iupui.edu/CUTS/XML"
+            xmlns:cuts="http://www.cs.iupui.edu/CUTS/XML"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://cuts.cs.iupui.edu cuts-unite.xsd">
+            xsi:schemaLocation="http://www.cs.iupui.edu/CUTS/XML cuts-unite.xsd">
 
 
   <name>Ant</name>
-  <adapter>C:/research/unite-projects/script-working/script-backup/output/Ant/Ant_Adapterd.dll</adapter>
+  <adapter>C:/research/cuts/CUTS/examples/cuts/utils/unite/adapter/Ant/Ant_Adapterd.dll</adapter>
   <logformats>
     <logformat id="LF1">
       <value>Task "{STRING task}" started. [{STRING startTime}]</value>

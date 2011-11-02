@@ -1,3 +1,17 @@
+Wed Nov  2 22:49:38 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.datagraph:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.unite:
+        * examples/cuts/utils/unite/adapter/Ant/Ant.datagraph:
+        * examples/cuts/utils/unite/adapter/Ant/Ant.unite:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE.datagraph:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE.unite:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat.datagraph:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat.unite:
+
+          Updated the example files to compatible with the namespace in the
+          schema file.
+
 Wed Nov  2 21:07:50 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
