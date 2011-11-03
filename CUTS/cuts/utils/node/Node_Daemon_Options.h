@@ -44,6 +44,9 @@ public:
   ACE_ARGV_T <char> server_opts_;
 
   bool disable_server_;
+
+  /// Flag that allows multiple daemons on the same host.
+  bool allow_multiple_;
 };
 
 #endif  // !defined _CUTS_NODE_DAEMON_SERVER_OPTIONS_H_

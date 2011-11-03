@@ -256,6 +256,8 @@ static const char * __HELP__ =
 "  -c, --config=FILE                  initial configuration file\n"
 "  --active-env=NAME                  set NAME as the active environment\n"
 "\n"
+"  --allow-multiple                   Allow multiple node daemons on host\n"
+"\n"
 "  --disable-server                   disable remoting server\n"
 "  --server-args=ARGS                 arguments for the server\n"
 "\n"
@@ -270,7 +272,8 @@ static const char * __HELP__ =
 //
 CUTS_Node_Daemon_App::CUTS_Node_Daemon_App (void)
 : is_shutdown_ (shutdown_),
-  server_ (virtual_envs_)
+  server_ (virtual_envs_),
+  process_lock_ (ACE_TEXT ("cutsnode_d"))
 {
 
 }
@@ -283,6 +286,17 @@ int CUTS_Node_Daemon_App::run_main (int argc, char * argv [])
   // Parse the remaining arguments.
   if (this->parse_args (argc, argv) == -1)
     return 1;
+
+  // We only allow one instance of the daemon to run at a time. This
+  // way we don't have any confusion as to which one we are talking to.
+  // This, however, can be overriden the user sets the --allow-mulitple
+  // command-line option.
+  ACE_Guard <ACE_Process_Mutex> multiple_daemons (this->process_lock_, 0);
+
+  if (!this->opts_.allow_multiple_ && 0 == multiple_daemons.locked ())
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - cutsnode_d is already active\n")),
+                       -1);
 
   // Load the initial configuration.
   ACE_CString active_env;
@@ -356,6 +370,8 @@ int CUTS_Node_Daemon_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("config", 'c', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("active-env", ACE_Get_Opt::ARG_REQUIRED);
 
+  get_opt.long_option ("allow-multiple", ACE_Get_Opt::NO_ARG);
+
   get_opt.long_option ("disable-server");
   get_opt.long_option ("server-args", ACE_Get_Opt::ARG_REQUIRED);
 
@@ -412,6 +428,10 @@ int CUTS_Node_Daemon_App::parse_args (int argc, char * argv [])
       {
         this->opts_.disable_server_ = true;
       }
+      else if (0 == ACE_OS::strcmp (get_opt.long_option (), "allow-multiple"))
+      {
+        this->opts_.allow_multiple_ = true;
+      }
       break;
 
     case 'c':
@@ -448,7 +468,7 @@ int CUTS_Node_Daemon_App::parse_args (int argc, char * argv [])
 
     case ':':
       ACE_ERROR ((LM_ERROR,
-                  "%T (%t) - %M - %c is missing an argument\n",
+                  ACE_TEXT ("%T (%t) - %M - %c is missing an argument\n"),
                   get_opt.opt_opt ()));
       return -1;
       break;
@@ -479,7 +499,7 @@ int CUTS_Node_Daemon_App::load_initial_config (ACE_CString & active)
     return -1;
 
   ACE_DEBUG ((LM_INFO,
-              "%T (%t) - %M - loading initial configuration [file=%s]\n",
+              ACE_TEXT ("%T (%t) - %M - loading initial configuration [file=%s]\n"),
               this->opts_.config_.c_str ()));
 
   try

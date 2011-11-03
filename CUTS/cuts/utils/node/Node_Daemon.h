@@ -15,6 +15,8 @@
 
 #include "ace/Condition_T.h"
 #include "ace/Service_Gestalt.h"
+#include "ace/Process_Mutex.h"
+
 #include "Node_Daemon_Options.h"
 #include "Virtual_Env_Manager.h"
 #include "server/NodeDaemon_Server.h"
@@ -66,6 +68,9 @@ private:
 
   /// The server object for the node daemon.
   CUTS_NodeDaemon_Server server_;
+
+  /// The mutex for preventing multiple node daemons.
+  ACE_Process_Mutex process_lock_;
 };
 
 #if defined (__CUTS_INLINE__)

@@ -1,3 +1,15 @@
+Thu Nov  3 22:22:05 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/node/Node_Daemon.h:
+        * cuts/utils/node/Node_Daemon.cpp:
+        * cuts/utils/node/Node_Daemon_Options.h:
+        * cuts/utils/node/Node_Daemon_Options.cpp:
+        * cuts/utils/node/cutsnode_d.cpp:
+
+          Added the --allow-multiple command-line option that allows more
+          than one node daemon to run on the same host. This is useful for
+          debugging.
+
 Thu Nov  3 04:15:20 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/PingPong:
