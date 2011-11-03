@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <label/>
+
+  <UUID>17FA2E66-2511-11E0-8000-000C2958D27B</UUID>
+
+  <implementation xmi:id="_59E7486C-2459-11E0-8004-000C2958D27B">
+    <name>PingPong.ComponentImplementations.PingPong_PongComponentImpl.PingPong_PongComponentImpl</name>
+    <source/>
+    <artifact xmi:idref="_59E7486C-2459-11E0-8001-000C2958D27B"/>
+    <artifact xmi:idref="_59E7486C-2459-11E0-8003-000C2958D27B"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_PingPong_PongComponent_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PingPong.ImplementationArtifacts.PingPong_PongComponentArtifacts.PingPong_PongComponent_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_PingPong_PongComponent_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PingPong.ImplementationArtifacts.PingPong_PongComponentArtifacts.PingPong_PongComponent_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_60603258-2459-11E0-8003-000C2958D27B">
+    <name>PingPong.ComponentImplementations.PingPong_PingComponentImpl.PingPong_PingComponentImpl</name>
+    <source/>
+    <artifact xmi:idref="_60603258-2459-11E0-8000-000C2958D27B"/>
+    <artifact xmi:idref="_60603258-2459-11E0-8002-000C2958D27B"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_PingPong_PingComponent_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PingPong.ImplementationArtifacts.PingPong_PingComponentArtifacts.PingPong_PingComponent_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_PingPong_PingComponent_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PingPong.ImplementationArtifacts.PingPong_PingComponentArtifacts.PingPong_PingComponent_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_1C073253-AACD-4130-B0A8-6AED69931E25_">
+    <name>DAnCE_LocalityManager_Impl</name>
+    <source/>
+    <artifact xmi:idref="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1"/>
+    <execParameter>
+      <name>edu.vanderbilt.dre.DAnCE.ImplementationType</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>edu.vanderbilt.dre.DAnCE.LocalityManager</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="_149E58BE-250C-11E0-8000-000C2958D27B">
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping</name>
+    <node>PingPong</node>
+    <source/>
+    <implementation xmi:idref="_60603258-2459-11E0-8003-000C2958D27B"/>
+  </instance>
+
+  <instance xmi:id="_22EE9B0E-250C-11E0-8000-000C2958D27B">
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong</name>
+    <node>PingPong</node>
+    <source/>
+    <implementation xmi:idref="_59E7486C-2459-11E0-8004-000C2958D27B"/>
+  </instance>
+
+  <instance xmi:id="PingPong.DefaultGroup">
+    <name>PingPong.DefaultGroup</name>
+    <node>PingPong</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_min_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_min_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_min_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_min_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_seq_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_seq_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_seq_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_seq_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_string_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_string_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_string_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_string_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_fixed_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_fixed_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_fixed_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_fixed_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_array_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_array_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_array_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_array_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_min_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_min_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_min_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_min_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_seq_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_seq_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_seq_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_seq_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_fixed_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_fixed_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_fixed_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_fixed_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_string_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_string_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_string_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_string_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong.PP_array_msg_out::PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping.PP_array_msg_in</name>
+    <internalEndpoint>
+      <portName>PP_array_msg_out</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>PP_array_msg_in</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    </internalEndpoint>
+  </connection>
+
+  <artifact xmi:id="_59E7486C-2459-11E0-8001-000C2958D27B">
+    <name>PingPong.ImplementationArtifacts.PingPong_PongComponentArtifacts.PingPong_PongComponent_svnt</name>
+    <source/>
+    <node/>
+    <location>PongComponent_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_59E7486C-2459-11E0-8003-000C2958D27B">
+    <name>PingPong.ImplementationArtifacts.PingPong_PongComponentArtifacts.PingPong_PongComponent_impl</name>
+    <source/>
+    <node/>
+    <location>PingPong_PongComponent_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_60603258-2459-11E0-8000-000C2958D27B">
+    <name>PingPong.ImplementationArtifacts.PingPong_PingComponentArtifacts.PingPong_PingComponent_svnt</name>
+    <source/>
+    <node/>
+    <location>PingComponent_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_60603258-2459-11E0-8002-000C2958D27B">
+    <name>PingPong.ImplementationArtifacts.PingPong_PingComponentArtifacts.PingPong_PingComponent_impl</name>
+    <source/>
+    <node/>
+    <location>PingPong_PingComponent_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1">
+    <name>DAnCE_LocalityManager_Artifact</name>
+    <source/>
+    <node/>
+    <location>dance_locality_manager</location>
+  </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="PingPong.DefaultGroup"/>
+    <!--PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Ping-->
+    <constrainedInstance xmi:idref="_149E58BE-250C-11E0-8000-000C2958D27B"/>
+    <!--PingPong.ComponentImplementations.PingPong_Impl.PingPong_Impl.Pong-->
+    <constrainedInstance xmi:idref="_22EE9B0E-250C-11E0-8000-000C2958D27B"/>
+  </localityConstraint>
+
+</Deployment:DeploymentPlan>

@@ -1,3 +1,34 @@
+Thu Nov  3 03:44:46 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tests/cuts/arch/PingPong/arch/ciao:
+        * tests/cuts/arch/PingPong/arch/ciao/PingComponent.idl:
+        * tests/cuts/arch/PingPong/arch/ciao/PingComponent.mpc:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong.idl:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong.mpc:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong.mwc:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_Events.idl:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_Events.mpc:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_PingComponentImpl.h:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_PingComponentImpl.cpp:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_PingComponentImpl.mpc:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_PongComponentImpl.h:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_PongComponentImpl.cpp:
+        * tests/cuts/arch/PingPong/arch/ciao/PingPong_PongComponentImpl.mpc:
+        * tests/cuts/arch/PingPong/arch/ciao/PongComponent.idl:
+        * tests/cuts/arch/PingPong/arch/ciao/PongComponent.mpc:
+        * tests/cuts/arch/PingPong/arch/ciao/descriptors:
+        * tests/cuts/arch/PingPong/arch/ciao/descriptors/PingPong.cdd:
+        * tests/cuts/arch/PingPong/arch/ciao/descriptors/PingPong.cdp:
+        * tests/cuts/arch/PingPong/arch/ciao/descriptors/PingPong_DomainQoS.cdd:
+        * tests/cuts/arch/PingPong/arch/ciao/descriptors/PingPong_DomainQoS.cdp:
+        * tests/cuts/arch/PingPong/arch/ciao/descriptors/run_test.pl:
+
+          CIAO implementation of the PingPong example.
+
+        * tests/cuts/arch/PingPong/models/PingPong.xme:
+
+          Fixed errors in servant location.
+
 Wed Nov  2 22:49:38 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.datagraph:

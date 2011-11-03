@@ -1,0 +1,44 @@
+#ifndef _PINGCOMPONENT_IDL_
+#define _PINGCOMPONENT_IDL_
+
+#include <Components.idl>
+#include "./PingPong_Events.idl"
+
+#pragma ciao lem "PingComponentE.idl"
+
+module PingPong
+{
+  component PingComponent
+  {
+    consumes ::PingPong::PP_min_msg_ev PP_min_msg_in;
+    
+    consumes ::PingPong::PP_seq_msg_ev PP_seq_msg_in;
+    
+    consumes ::PingPong::PP_string_msg_ev PP_string_msg_in;
+    
+    consumes ::PingPong::PP_fixed_msg_ev PP_fixed_msg_in;
+    
+    consumes ::PingPong::PP_array_msg_ev PP_array_msg_in;
+    
+    publishes ::PingPong::PP_min_msg_ev PP_min_msg_out;
+    
+    publishes ::PingPong::PP_seq_msg_ev PP_seq_msg_out;
+    
+    publishes ::PingPong::PP_string_msg_ev PP_string_msg_out;
+    
+    publishes ::PingPong::PP_fixed_msg_ev PP_fixed_msg_out;
+    
+    publishes ::PingPong::PP_array_msg_ev PP_array_msg_out;
+    
+    publishes ::PingPong::PP_quit_msg_ev PP_quit_msg_in;
+    
+    attribute unsigned long nof_cycles;
+    attribute string result_file;
+    
+  };
+  
+  
+};
+
+#endif    // !defined _PINGCOMPONENT_IDL_
+

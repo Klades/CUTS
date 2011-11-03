@@ -1,0 +1,50 @@
+#ifndef _PINGPONG_EVENTS_IDL_
+#define _PINGPONG_EVENTS_IDL_
+
+#include <Components.idl>
+#include "./PingPong.idl"
+
+#pragma ciao lem "PingPong_EventsE.idl"
+
+module PingPong
+{
+  eventtype PP_quit_msg_ev
+  {
+    public ::PingPong::PP_quit_msg content;
+    
+  };
+  eventtype PP_min_msg_ev
+  {
+    public ::PingPong::PP_min_msg content;
+    
+  };
+  eventtype PP_string_msg_ev
+  {
+    public ::PingPong::PP_string_msg content;
+    
+  };
+  eventtype PP_array_msg_ev
+  {
+    public ::PingPong::PP_array_msg content;
+    
+  };
+  eventtype PP_fixed_msg_ev
+  {
+    public ::PingPong::PP_fixed_msg content;
+    
+  };
+  eventtype PP_seq_msg_ev
+  {
+    public ::PingPong::PP_seq_msg content;
+    
+  };
+  eventtype PP_bseq_msg_ev
+  {
+    public ::PingPong::PP_bseq_msg content;
+    
+  };
+  
+};
+
+#endif    // !defined _PINGPONG_EVENTS_IDL_
+
