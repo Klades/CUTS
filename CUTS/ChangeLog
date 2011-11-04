@@ -1,3 +1,41 @@
+Fri Nov  4 12:54:43 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CUTS:
+        * MDE/GME/paradigms/CUTS/addons:
+        * MDE/GME/paradigms/CUTS/interpreters:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.mpc:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITE.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/CUTS_GME_UNITEd.reg:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/StdAfx.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE.idl:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Impl.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UNITE_Module.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmApp.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UdmConfig.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.h:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/UniteVisitor.cpp:
+        * MDE/GME/paradigms/CUTS/interpreters/UNITE/resource.h:
+        * MDE/GME/paradigms/CUTS/paradigm:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xme:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xml:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS.xmp:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_DSML.mpc:
+        * MDE/GME/paradigms/CUTS/paradigm/CUTS_uml.xme:
+        * MDE/GME/paradigms/CUTS/paradigm/icons:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Group.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/GroupItem.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Key.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/LogFormat.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Service.bmp:
+        * MDE/GME/paradigms/CUTS/paradigm/icons/Variable.bmp:
+
+          Removed these files since it has been superceded by SETAF
+          and DMAC. Thanks Manjula!
+
 Thu Nov  3 22:22:05 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/utils/node/Node_Daemon.h:
