@@ -1,7 +1,7 @@
 // $Id$
 
 project (CUTS_CoSMIC) : wix_ui, wix_xml {
-  after += CUTS_GME_PICML \
+  after += CUTS_GME_PICML CUTS_BE_Java \
            CUTS_CHAOS_paradigm CUTS_CHAOS_Codegen \
            CUTS_PICML_Models_Upgrade CUTS_PICML_Model_Workers_Upgrade
 
