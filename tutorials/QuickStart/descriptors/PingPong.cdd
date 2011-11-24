@@ -20,7 +20,7 @@
             <kind>tk_string</kind>
           </type>
           <value>
-            <string>corbaloc:iiop:localhost:30000/PingNode.NodeManager</string>
+            <string>corbaloc:iiop:localhost:30000</string>
           </value>
         </value>
       </property>
@@ -42,7 +42,7 @@
             <kind>tk_string</kind>
           </type>
           <value>
-            <string>corbaloc:iiop:localhost:30001/PongNode.NodeManager</string>
+            <string>corbaloc:iiop:localhost:30001</string>
           </value>
         </value>
       </property>
