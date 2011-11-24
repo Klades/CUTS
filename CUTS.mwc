@@ -73,9 +73,7 @@ workspace (CUTS) {
       // For now we are placing these projects in the CoSMIC
       // area. In the future, they should be moved to the GAME
       // area since we only need GAME to build them.
-      MDE/GME/plugins
       MDE/GME/paradigms/CHAOS
-
       MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
 
       // Let's make sure that the PICML extension classes are

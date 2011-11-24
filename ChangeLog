@@ -1,3 +1,49 @@
+Thu Nov 24 19:39:36 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+        * MDE/GME/plugins:
+        * MDE/GME/plugins/cute:
+        * MDE/GME/plugins/cute/CUTE.ico:
+        * MDE/GME/plugins/cute/CUTE.idl:
+        * MDE/GME/plugins/cute/CUTE.mpc:
+        * MDE/GME/plugins/cute/CUTE_Dialog.h:
+        * MDE/GME/plugins/cute/CUTE_Dialog.inl:
+        * MDE/GME/plugins/cute/CUTE_Dialog.cpp:
+        * MDE/GME/plugins/cute/CUTE_Impl.h:
+        * MDE/GME/plugins/cute/CUTE_Impl.cpp:
+        * MDE/GME/plugins/cute/CUTE_Module.cpp:
+        * MDE/GME/plugins/cute/CUTS_CUTE.rc:
+        * MDE/GME/plugins/cute/CUTS_CUTEd.reg:
+        * MDE/GME/plugins/cute/Interpreter_List.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.h:
+        * MDE/GME/plugins/cute/Model_Interpreter.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.h:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action.cpp:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.h:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.inl:
+        * MDE/GME/plugins/cute/Model_Interpreter_Action_List.cpp:
+        * MDE/GME/plugins/cute/Property_Element_Map.h:
+        * MDE/GME/plugins/cute/Property_Locator.h:
+        * MDE/GME/plugins/cute/Property_Locator.inl:
+        * MDE/GME/plugins/cute/Property_Locator.cpp:
+        * MDE/GME/plugins/cute/Property_Locator_Handler.h:
+        * MDE/GME/plugins/cute/Property_Locator_Handler.inl:
+        * MDE/GME/plugins/cute/Property_Locator_Handler.cpp:
+        * MDE/GME/plugins/cute/Unique_Property_Bag.h:
+        * MDE/GME/plugins/cute/Unique_Property_Bag.inl:
+        * MDE/GME/plugins/cute/Unique_Property_Bag.cpp:
+        * MDE/GME/plugins/cute/Windows_Registry.h:
+        * MDE/GME/plugins/cute/Windows_Registry.inl:
+        * MDE/GME/plugins/cute/Windows_Registry.cpp:
+        * MDE/GME/plugins/cute/resource.h:
+        * MDE/GME/plugins/cute/stdafx.h:
+        * MDE/GME/plugins/cute/stdafx.cpp:
+
+          Removed these files sicne the CUTE plugin has been move
+          to the GAME repo as the Template Engine plugin.
+
 Thu Nov 24 19:38:19 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart/descriptors/PingPong.cdd:
