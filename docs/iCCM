@@ -1,0 +1,36 @@
+.: Document: iCCM :.
+.: Last Modified: November 29, 2011 :.
+
+Table of Contents
+===========================================================
+1. Overview of iCCM
+2. Starting an iCCM Project
+
+
+1. Overview of iCCM
+---------------------------------------
+iCCM, which is short for integrated CCM (iCCM), is a framework for
+integrating third-party distributed middleware into CCM. Unlike existing
+approaches that rely on direct integration at the implementation level,
+or integration via CCM connectors, iCCM integrates third-party
+distributed middleware at the servant-level. This is possible because
+CCM servants serve as mediators between the outside world and the
+component's implementation. iCCM therefore leverages this capability
+and allows such interaction with the outside world be with any distributed
+middleware technology---not just CORBA or CCM. The only challenge is
+mapping third-party distributed middleware events to CCM events.
+
+2. Starting an iCCM Project
+---------------------------------------
+Starting an iCCM project is very simple. We have provided a Python3
+script that will generate all the skeleton code needed to build an
+iCCM project that integrated with both CCM and the Deployment And
+Configuration Engine (DAnCE), which is a tool and framework for
+deploying CCM applications.
+
+Just execute the following command:
+
+  %> $CUTS_ROOT/bin/generate_iccm_project.py -n NAME -o GENDIR
+
+where NAME is the name of your project and GENDIR is the directory
+for the generated files. The NAME parameter cannot contain any spaces.

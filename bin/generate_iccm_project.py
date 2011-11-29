@@ -21,19 +21,24 @@ def main () :
   try:
     # Parse command-line arguments.
     opts = parse_args (sys.argv[1:])
-  
-    # Prepare the template parser.
-    TemplateFile = __import__ ('iCCM.TemplateFile',
-                               globals (),
-                               locals (),
-                               'TemplateFile')
-    
+
+    # Import iCCM template generator.  
+    CUTS_ROOT = os.environ['CUTS_ROOT']
+    iCCM_ROOT = os.path.join (CUTS_ROOT, 'bin', 'iCCM')
+    sys.path.append (iCCM_ROOT)
+
+    import iCCM.TemplateFile
+
+    output = opts["output"]
     params = { 'arch_name' : opts["name"]}
-    
+
     # Evaluate the templates.
-    dir = TemplateFile.TemplateDirectory ()
-    dir.evaluate ('iCCM/templates/cpp', params, opts["output"])
-        
+    if not os.path.exists (output):
+      os.makedirs (output)
+
+    template_dir = iCCM.TemplateFile.TemplateDirectory ()
+    template_dir.evaluate ('iCCM/templates/cpp', params, output)
+
   except getopt.error as ex:
     print ("*** error: " + ex.args[0])
     sys.exit (1)
@@ -62,4 +67,3 @@ def parse_args (args) :
 
 if __name__ == "__main__" :
   main ()
-  
