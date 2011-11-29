@@ -1,0 +1,52 @@
+// -*- C++ -*-
+
+#ifndef _${arch_name.upper()}_CCM_EXPORT_H_
+#define _${arch_name.upper()}_CCM_EXPORT_H_
+
+#include "ace/config-all.h"
+
+#if defined (ACE_AS_STATIC_LIBS) && !defined (${arch_name.upper()}_CCM_HAS_DLL)
+#  define ${arch_name.upper()}_CCM_HAS_DLL 0
+#endif /* ACE_AS_STATIC_LIBS && ${arch_name.upper()}_CCM_HAS_DLL */
+
+#if !defined (${arch_name.upper()}_CCM_HAS_DLL)
+#  define ${arch_name.upper()}_CCM_HAS_DLL 1
+#endif /* ! ${arch_name.upper()}_CCM_HAS_DLL */
+
+#if defined (${arch_name.upper()}_CCM_HAS_DLL) && (${arch_name.upper()}_CCM_HAS_DLL == 1)
+#  if defined (${arch_name.upper()}_CCM_BUILD_DLL)
+#    define ${arch_name.upper()}_CCM_Export ACE_Proper_Export_Flag
+#    define ${arch_name.upper()}_CCM_SINGLETON_DECLARATION(T) ACE_EXPORT_SINGLETON_DECLARATION (T)
+#    define ${arch_name.upper()}_CCM_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) ACE_EXPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK)
+#  else /* ${arch_name.upper()}_CCM_BUILD_DLL */
+#    define ${arch_name.upper()}_CCM_Export ACE_Proper_Import_Flag
+#    define ${arch_name.upper()}_CCM_SINGLETON_DECLARATION(T) ACE_IMPORT_SINGLETON_DECLARATION (T)
+#    define ${arch_name.upper()}_CCM_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK) ACE_IMPORT_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK)
+#  endif /* ${arch_name.upper()}_CCM_BUILD_DLL */
+#else /* ${arch_name.upper()}_CCM_HAS_DLL == 1 */
+#  define ${arch_name.upper()}_CCM_Export
+#  define ${arch_name.upper()}_CCM_SINGLETON_DECLARATION(T)
+#  define ${arch_name.upper()}_CCM_SINGLETON_DECLARE(SINGLETON_TYPE, CLASS, LOCK)
+#endif /* ${arch_name.upper()}_CCM_HAS_DLL == 1 */
+
+// Set ${arch_name.upper()}_CCM_NTRACE = 0 to turn on library specific tracing even if
+// tracing is turned off for ACE.
+#if !defined (${arch_name.upper()}_CCM_NTRACE)
+#  if (ACE_NTRACE == 1)
+#    define ${arch_name.upper()}_CCM_NTRACE 1
+#  else /* (ACE_NTRACE == 1) */
+#    define ${arch_name.upper()}_CCM_NTRACE 0
+#  endif /* (ACE_NTRACE == 1) */
+#endif /* !${arch_name.upper()}_CCM_NTRACE */
+
+#if (${arch_name}_CCM_NTRACE == 1)
+#  define ${arch_name.upper()}_CCM_TRACE(X)
+#else /* (${arch_name.upper()}_CCM_NTRACE == 1) */
+#  if !defined (ACE_HAS_TRACE)
+#    define ACE_HAS_TRACE
+#  endif /* ACE_HAS_TRACE */
+#  define ${arch_name.upper()}_CCM_TRACE(X) ACE_TRACE_IMPL(X)
+#  include "ace/Trace.h"
+#endif /* (${arch_name.upper()}_CCM_NTRACE == 1) */
+
+#endif /* ${arch_name.upper()}_CCM_EXPORT_H */

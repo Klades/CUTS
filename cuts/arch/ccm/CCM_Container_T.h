@@ -108,9 +108,6 @@ public:
                        ::CIAO::Container_Types::OA_Type type,
                        ::PortableServer::ObjectId_out oid);
 
-  virtual ::CIAO::Servant_Activator_ptr
-    ports_servant_activator (void);
-
   virtual ::CORBA::Object_ptr
     generate_reference (const char * obj_id,
                         const char * repo_id,

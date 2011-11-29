@@ -1,3 +1,55 @@
+Tue Nov 29 03:58:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * .:
+
+          Added default.features to the ignore list.
+
+        * bin/generate_iccm_project.py:
+        * bin/iCCM:
+        * bin/iCCM/TemplateFile.py:
+        * bin/iCCM/__init__.py:
+        * bin/iCCM/templates:
+        * bin/iCCM/templates/cpp:
+        * bin/iCCM/templates/cpp/CCM.mwc.tmpl:
+        * bin/iCCM/templates/cpp/ccm:
+        * bin/iCCM/templates/cpp/ccm/CCM.mpc.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant_T.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant_T.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_export.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container.cpp.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container.inl.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container_Strategy.cpp.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container_Strategy.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container_Strategy.inl.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Deployment_Handlers.mpc.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Deployment_Handlers_export.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Instance_Handler.cpp.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Instance_Handler.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Instance_Handler.inl.tmpl:
+        * bin/iCCM/templates/cpp/locality.config.tmpl:
+
+          First implementation of iCCM project generator. The generated
+          files will build, but do nothing useful.
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+          Updated to latest version of ACE+TAO+CIAO+DAnCE.
+
+        * bin/cuts-generate-ccm-arch-skeleton.py:
+        * bin/cuts_manager.pl:
+        * bin/cuts_node.pl:
+        * bin/cuts_planner.pl:
+        * bin/cuts_test.pl:
+
+          Removed these files.
+
 Thu Nov 24 19:45:30 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart/descriptors/PingPong.nodemap:
