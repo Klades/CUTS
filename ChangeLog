@@ -1,3 +1,17 @@
+Tue Nov 29 14:22:39 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * LICENSE.rtf:
+        * install/CUTS_CoSMIC.wxs:
+
+          Moved the RichText version of the license to the root directory.
+
+        * docs/License.rtf:
+        * install/BMW.wxs:
+        * install/BMW_installers.mpc:
+        * install/BMW_installers.mwc:
+
+          Removed these files.
+
 Tue Nov 29 03:58:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * .:
