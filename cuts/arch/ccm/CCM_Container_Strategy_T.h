@@ -16,6 +16,8 @@
 #include "ccm/CCM_EnterpriseComponentC.h"
 #include "ccm/CCM_StandardConfiguratorC.h"
 #include "tao/PortableServer/PS_ForwardC.h"
+#include "cuts/config.h"
+
 #include "CCM_export.h"
 
 /**

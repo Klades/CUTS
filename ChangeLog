@@ -1,3 +1,23 @@
+Wed Nov 30 21:42:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Container_Strategy_T.h:
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/config.h:
+
+          The CCM container in the 6.0.5 release of DOC middelwre has
+          a port activator, which is has been removed in the latest
+          version of DOC middleware. Unfortunately, the version numbers
+          are still the same so we are using a compiler flag to control
+          inclusion of the port activator on the container. This must
+          be defined when using version later than what has been tagged
+          as 6.0.5 in the DOC middleware repo.
+
+        * cuts/performance_i.cpp:
+
+          Fixed compile warning.
+
 Tue Nov 29 14:55:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * bin/generate_iccm_project.py:

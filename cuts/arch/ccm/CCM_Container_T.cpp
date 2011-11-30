@@ -441,3 +441,17 @@ initialize_the_port_POA (::PortableServer::POA_ptr poa)
   for (::CORBA::ULong i = 0; i < policies.length (); ++ i)
     policies[i]->destroy ();
 }
+
+#if !defined (CUTS_CCM_CONTAINER_LACKS_SERVANT_ACTIVATOR)
+//
+// ports_servant_activator
+//
+template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+CUTS_INLINE
+::CIAO::Servant_Activator_ptr
+CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::
+ports_servant_activator (void)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+#endif

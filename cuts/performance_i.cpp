@@ -276,7 +276,7 @@ operator <<= (CUTS::TimeValue & ts, const ACE_Time_Value & tv)
 {
   CUTS_TRACE ("operator <<= (CUTS::TimeValue &, const ACE_Time_Value &)");
 
-  ts.sec = tv.sec ();
+  ts.sec = static_cast <::CORBA::ULong> (tv.sec ());
   ts.usec = tv.usec ();
   return true;
 }

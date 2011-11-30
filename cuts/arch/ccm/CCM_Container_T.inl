@@ -61,4 +61,3 @@ void CUTS_CCM_Container_T <T, SERVER, STRATEGY, SERVANT_BASE>::fini (void)
 {
 
 }
-
