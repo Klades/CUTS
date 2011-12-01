@@ -34,7 +34,6 @@ workspace (CUTS) {
     //== is not enabled.
 
     cuts/utils/antispam
-    cuts/utils/archiving
     cuts/utils/barrier
     cuts/utils/calibrate
     cuts/utils/deployment
