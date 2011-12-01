@@ -22,9 +22,9 @@ class CUTS_Test_Archive_Options
 {
 public:
   CUTS_Test_Archive_Options (void)
-    : hostname_ (CUTS_DEFAULT_HOSTNAME),
-      username_ (CUTS_USERNAME),
-      password_ (CUTS_PASSWORD)
+    : hostname_ (ACE_TEXT ("localhost")),
+      username_ (ACE_TEXT ("cuts")),
+      password_ (ACE_TEXT ("cuts"))
   {
 
   }

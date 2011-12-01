@@ -24,29 +24,17 @@
 # define CUTS_INLINE
 #endif
 
-#define CUTS_USERNAME                     "cuts"
-
-#define CUTS_PASSWORD                     "cuts"
-
-#define CUTS_DEFAULT_HOSTNAME             "localhost"
-
 #define CUTS_DEFAULT_PORT                 3306
 
 #define CUTS_DEFAULT_EVENT_COUNT          20
 
 #define CUTS_EVENT_HANDLER_THREAD_COUNT   1
 
-#define CUTS_UNKNOWN_TYPE                 1
-
 #define CUTS_UNKNOWN_IMPL                 1
 
 #define CUTS_DEFAULT_LOG_SIZE             50
 
 #define CUTS_UNKNOWN_ID                   -1
-
-#define CUTS_UNKNOWN_HOSTNAME             "unknown"
-
-#define CUTS_UNKNOWN_IPADDR               "0.0.0.0"
 
 #define CUTS_RESULT_DEFAULT_BUFFER_SIZE   1024
 

@@ -1,3 +1,28 @@
+Thu Dec  1 16:05:43 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/config.h:
+
+          Removed some obsolete configuration macros.
+
+        * cuts/utils/archiving/archiving.mpc.disable:
+        * cuts/utils/archiving/server/Test_Archive_Options.h:
+        * cuts/utils/archiving/archiving.mpc:
+        * integration:
+        * integration/_ACE_TAO_CIAO.build:
+        * integration/_CoSMIC.build:
+        * integration/_MPC.build:
+        * integration/autobuild.build:
+        * integration/connector:
+        * integration/connector/picmlin.build:
+        * integration/formatlog.build:
+        * integration/perl:
+        * integration/perl/svn-update-tag.pl:
+        * integration/test.build:
+        * integration/xsl:
+        * integration/xsl/update-messages.xsl:
+
+          Removed these files.
+
 Wed Nov 30 21:42:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Container_Strategy_T.h:
