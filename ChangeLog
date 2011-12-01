@@ -1,3 +1,11 @@
+Thu Dec  1 16:09:21 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/config-common.h:
+        * cuts/config.h:
+
+          Moved all definitions in config.h to config-common.h since
+          in the near future config.h will be defined by the user.
+
 Thu Dec  1 16:07:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/config.h:
