@@ -38,8 +38,6 @@
 
 #define CUTS_RESULT_DEFAULT_BUFFER_SIZE   1024
 
-#define CUTS_CCM_CONTAINER_LACKS_SERVANT_ACTIVATOR
-
 #if defined (CUTS_HAS_DOXYGEN)
 #include "config-doxygen.h"
 #endif

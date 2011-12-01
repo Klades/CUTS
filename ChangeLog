@@ -1,3 +1,10 @@
+Thu Dec  1 16:07:01 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/config.h:
+
+          Accidently committed a macro that controls build figures into
+          the main configuration file.
+
 Thu Dec  1 16:05:43 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/config.h:
