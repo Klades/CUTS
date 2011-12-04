@@ -6,7 +6,7 @@ workspace (CUTS_CoSMIC) {
              -include $XSC_ROOT/MPC/config \
              -include $GAME_ROOT/MPC/config \
              -feature_file $CUTS_ROOT/default.features \
-             -features runtime=0,versioned_namespace=1,cosmic=1,modeling=1,register=0,gems=0 \
+             -features runtime=0,versioned_namespace=1,cosmic=1,modeling=1,register=0,gems=0,gme_upgrade=1 \
              -value_template 'configurations=Release'
 
   exclude (!prop:windows) {
@@ -17,8 +17,6 @@ workspace (CUTS_CoSMIC) {
     $(ACE_ROOT)/ace/ace.mpc
 
     $(GAME_ROOT)/game/mga/Mga.mpc
-    $(GAME_ROOT)/game/mga/component
-    $(GAME_ROOT)/game/mga/utils
   }
 
   $(CUTS_ROOT)/CUTS.mwc

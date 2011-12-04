@@ -1,3 +1,9 @@
+Sun Dec  4 04:48:57 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * install/CUTS_CoSMIC.mwc:
+
+          Removed unnecessary projects from the workspace.
+
 Thu Dec  1 18:34:55 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
