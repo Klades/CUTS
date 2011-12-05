@@ -1,3 +1,15 @@
+Mon Dec  5 19:31:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/archiving/client/cutsarc.mpc.disable:
+        * cuts/utils/archiving/server/cutsarc_d.mpc.disable:
+
+          Temp disable for the projects below.
+
+        * cuts/utils/archiving/client/cutsarc.mpc:
+        * cuts/utils/archiving/server/cutsarc_d.mpc:
+
+          Removed these files.
+
 Mon Dec  5 00:21:26 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
