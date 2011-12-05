@@ -28,25 +28,10 @@ workspace (CUTS) {
     cuts/idl
     cuts/svcs
     cuts/workers
-
-    //== We have to manually list the folders here since the utils project
-    //== below is in cuts/utils and will not build if the runtime feature
-    //== is not enabled.
-
-    cuts/utils/antispam
-    cuts/utils/barrier
-    cuts/utils/calibrate
-    cuts/utils/deployment
-    cuts/utils/logging
-    cuts/utils/node
-    cuts/utils/template
-    cuts/utils/testing
-    cuts/utils/unite
-    cuts/utils/uuidgen
+    cuts/utils
   }
 
   // == always build this project
-  cuts/utils/utils.mpc
 
   // == build the modeling projects
 
