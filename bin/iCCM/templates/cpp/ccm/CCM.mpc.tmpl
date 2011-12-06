@@ -1,6 +1,65 @@
 // $$Id$$
 
-project (${arch_name}_CCM) : cuts_ccm, cuts_lib, cutslib {
+project (${arch_name}_CCM_stub) : ccm_stub, cutslib {
+  sharedname    = ${arch_name}_CCM_stub
+  dynamicflags += ${arch_name}_CCM_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=${arch_name}_CCM_STUB_Export \
+              -Wb,stub_export_include=${arch_name}_CCM_stub_export.h \
+              -Wb,skel_export_macro=${arch_name}_CCM_SKEL_Export \
+              -Wb,skel_export_include=${arch_name}_CCM_skel_export.h \
+              -Gxhst -Gxhsk
+
+  IDL_Files {
+    ${arch_name}_Events.idl
+  }
+
+  Source_Files {
+    ${arch_name}_EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (${arch_name}_CCM_skel) : ccm_svnt, cutslib {
+  sharedname    = ${arch_name}_CCM_skel
+  dynamicflags += ${arch_name}_CCM_SKEL_BUILD_DLL
+
+  after += ${arch_name}_CCM_stub
+  libs  += ${arch_name}_CCM_stub
+
+  Source_Files {
+    ${arch_name}_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (${arch_name}_CCM) : cuts_ccm, cutslib {
   sharedname    = ${arch_name}_CCM
   dynamicflags += ${arch_name.upper()}_CCM_BUILD_DLL
 
@@ -10,5 +69,9 @@ project (${arch_name}_CCM) : cuts_ccm, cuts_lib, cutslib {
 
   Template_Files {
     ${arch_name}_CCM_Servant_T.cpp
+  }
+
+  IDL_Files {
+
   }
 }

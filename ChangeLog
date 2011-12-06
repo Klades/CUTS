@@ -1,3 +1,14 @@
+Tue Dec  6 03:24:15 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/iCCM/templates/cpp/CCM.mwc.tmpl:
+
+          Fixed error in generated workspace.
+
+        * bin/iCCM/templates/cpp/ccm/CCM.mpc.tmpl:
+        * bin/iCCM/templates/cpp/ccm/Events.idl.tmpl:
+
+          Added the Event.idl template file to the project.
+
 Tue Dec  6 01:12:13 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/portico:
