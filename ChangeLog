@@ -1,3 +1,16 @@
+Tue Dec  6 01:12:13 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/portico:
+        * examples/portico/ExampleCPPFederate.h:
+        * examples/portico/ExampleCPPFederate.cpp:
+        * examples/portico/ExampleFedAmb.h:
+        * examples/portico/ExampleFedAmb.cpp:
+        * examples/portico/example.mpc:
+        * examples/portico/main.cpp:
+        * examples/portico/testfom.fed:
+
+          Portico example build using MPC.
+
 Mon Dec  5 19:31:22 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/utils/archiving/client/cutsarc.mpc.disable:
