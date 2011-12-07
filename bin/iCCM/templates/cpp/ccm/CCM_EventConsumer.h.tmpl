@@ -1,0 +1,53 @@
+// -*- C++ -*-
+
+//=============================================================================
+/**
+ *  @file         ${arch_name}_CCM_EventConsumer.h
+ *
+ *  $Id${arch_name}_CCM_EventConsumer.h 3093 2011-02-01 16:50:21Z hillj $
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
+#ifndef _${arch_name.upper()}_CCM_EVENTCONSUMER_H_
+#define _${arch_name.upper()}_CCM_EVENTCONSUMER_H_
+
+#include "cuts/arch/ccm/CCM_EventConsumer.h"
+#include "${arch_name}_EventsS.h"
+#include "${arch_name}_CCM_export.h"
+
+// Forward decl.
+class ${arch_name}_Servant;
+
+/**
+ * @class ${arch_name}_CCM_EventConsumer
+ *
+ * Servant implmentation of the ::Components::${arch_name}::EventConsumer
+ * object that is defined in ${arch_name}_Events.idl. This class also
+ * inherits from CUTS_CCM_EventConsumer so that it can be used in the
+ * CUTS_CCM_Servant_T class, which implements common behavior for all CCM
+ * servant objects.
+ */
+class ${arch_name.upper()}_CCM_Export ${arch_name}_CCM_EventConsumer :
+  public virtual CUTS_CCM_EventConsumer,
+  public virtual ::POA_Components::${arch_name}::EventConsumer
+{
+public:
+  /// Default constructor.
+  ${arch_name}_CCM_EventConsumer (void);
+
+  /// Destructor.
+  virtual ~${arch_name}_CCM_EventConsumer (void);
+
+  /// INSERT CODE HERE
+
+private:
+  /// INSERT CODE HERE
+};
+
+#if defined (__CUTS_INLINE__)
+#include "${arch_name}_CCM_EventConsumer.inl"
+#endif
+
+#endif  // !defined _${arch_name}_CCM_EVENTCONSUMER_H_

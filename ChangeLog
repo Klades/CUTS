@@ -1,3 +1,26 @@
+Wed Dec  7 04:10:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/iCCM/templates/cpp/ccm/CCM.mpc.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_EventConsumer.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_EventConsumer.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_EventConsumer.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher_Table.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher_Table.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher_Table.inl.tmpl:
+
+          Added templates for generating the default EventConsumer, Publisher,
+          and Publisher_Table object for a new architecture.
+
+        * examples/portico/ExampleCPPFederate.h:
+        * examples/portico/ExampleCPPFederate.cpp:
+        * examples/portico/ExampleFedAmb.h:
+        * examples/portico/main.cpp:
+
+          Cleaned up the code.
+
 Tue Dec  6 03:24:15 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * bin/iCCM/templates/cpp/CCM.mwc.tmpl:

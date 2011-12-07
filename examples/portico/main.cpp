@@ -3,6 +3,9 @@
 #include "ExampleCPPFederate.h"
 #include <memory>
 
+//
+// main
+//
 int main (int argc, char * argv [])
 {
   // check to see if we have a federate name

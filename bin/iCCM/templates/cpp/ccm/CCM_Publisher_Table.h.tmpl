@@ -1,0 +1,43 @@
+// -*- C++ -*-
+
+//=============================================================================
+/**
+ *  @file         ${arch_name}_Publisher_Table.h
+ *
+ *  $Id${arch_name}_Publisher_Table.h 3086 2011-01-22 05:53:51Z hillj $
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
+#ifndef _${arch_name.upper()}_CCM_SUBSCRIBER_TABLE_H_
+#define _${arch_name.upper()}_CCM_SUBSCRIBER_TABLE_H_
+
+#include "cuts/arch/ccm/CCM_Publisher_Table.h"
+
+#include "${arch_name}_CCM_export.h"
+
+/**
+ * @class ${arch_name}_CCM_Publisher_Table
+ */
+class ${arch_name.upper()}_CCM_Export ${arch_name}_CCM_Publisher_Table :
+  public CUTS_CCM_Publisher_Table
+{
+public:
+  /// Default constructor.
+  ${arch_name}_CCM_Publisher_Table (void);
+
+  /// Destructor.
+  virtual ~${arch_name}_CCM_Publisher_Table (void);
+
+  /// INSERT CODE HERE
+
+private:
+  /// INSERT CODE HERE
+};
+
+#if defined (__CUTS_INLINE__)
+#include "${arch_name}_CCM_Publisher_Table.inl"
+#endif
+
+#endif  // !defined _${arch_name.upper()}_CCM_SUBSCRIBER_TABLE_H_

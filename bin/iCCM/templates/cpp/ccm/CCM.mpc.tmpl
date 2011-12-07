@@ -63,12 +63,19 @@ project (${arch_name}_CCM) : cuts_ccm, cutslib {
   sharedname    = ${arch_name}_CCM
   dynamicflags += ${arch_name.upper()}_CCM_BUILD_DLL
 
+  after += ${arch_name}_CCM_skel
+  libs  += ${arch_name}_CCM_skel ${arch_name}_CCM_stub
+
   Source_Files {
+    ${arch_name}_CCM_EventConsumer.cpp
     ${arch_name}_CCM_Servant.cpp
+    ${arch_name}_CCM_Publisher.cpp
+    ${arch_name}_CCM_Publisher_Table.cpp
   }
 
   Template_Files {
     ${arch_name}_CCM_Servant_T.cpp
+    ${arch_name}_CCM_Publisher_T.cpp
   }
 
   IDL_Files {
