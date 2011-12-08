@@ -1,0 +1,6 @@
+// $Id$
+
+project : portico, ccm_stub {
+  libs  += Portico_CCM_stub
+  after += Portico_CCM_stub
+}

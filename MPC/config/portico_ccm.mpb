@@ -1,0 +1,6 @@
+// $Id$
+
+project : boost_base, portico_ccm_skel, cuts_ccm {
+  libs  += Portico_CCM
+  after += Portico_CCM
+}

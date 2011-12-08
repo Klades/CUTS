@@ -1,3 +1,11 @@
+Thu Dec  8 23:06:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/portico_ccm.mpb:
+        * MPC/config/portico_ccm_skel.mpb:
+        * MPC/config/portico_ccm_stub.mpb:
+
+          Base project for the Portico implementation of HLA.
+
 Wed Dec  7 04:10:40 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * bin/iCCM/templates/cpp/ccm/CCM.mpc.tmpl:

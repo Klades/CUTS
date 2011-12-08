@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_svnt, portico_ccm_stub {
+  libs  += Portico_CCM_skel
+  after += Portico_CCM_skel
+}
