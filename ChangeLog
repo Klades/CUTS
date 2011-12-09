@@ -1,3 +1,13 @@
+Fri Dec  9 05:53:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld/arch/ciao/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldE.idl:
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/ciao/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/ciao/descriptors/run_test.pl:
+
+          Updated example to latest version of CIAO+DAnCE.
+
 Thu Dec  8 23:06:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/portico_ccm.mpb:

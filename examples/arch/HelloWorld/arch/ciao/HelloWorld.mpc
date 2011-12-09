@@ -14,8 +14,6 @@ project (HelloWorld_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
               -Wb,svnt_export_include=HelloWorld_svnt_export.h \
               -Sa -Sal
 
-  idlflags -= -Gsv
-
   IDL_Files {
     HelloWorld.idl
   }

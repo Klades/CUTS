@@ -23,7 +23,7 @@ $daemons = 1;
 @nodenames = ( "MainNode" );
 
 $status = 0;
-$dat_file = "HelloWorld.nodemap";
+$dat_file = "HelloWorld.cdd";
 $cdp_file = "HelloWorld.cdp";
 
 $nsior = PerlACE::LocalFile ("ns.ior");
@@ -100,7 +100,7 @@ sub run_node_daemons {
 delete_ior_files ();
 
 # Invoke naming service
-$NS = new PerlACE::Process ("$TAO_ROOT/orbsvcs/Naming_Service/Naming_Service", "-m 0 -ORBEndpoint iiop://localhost:60003 -o ns.ior");
+$NS = new PerlACE::Process ("$TAO_ROOT/orbsvcs/Naming_Service/tao_cosnaming", "-m 0 -ORBEndpoint iiop://localhost:60003 -o ns.ior");
 $NS->Spawn ();
 print STDERR "Starting Naming Service\n";
 
@@ -130,7 +130,7 @@ $daemons_running = 1;
 
 # Invoke execution manager.
 print "Invoking execution manager\n";
-$EM = new PerlACE::Process ("$DANCE_ROOT/bin/dance_execution_manager", "-eEM.ior --node-map $dat_file");
+$EM = new PerlACE::Process ("$DANCE_ROOT/bin/dance_execution_manager", "-eEM.ior --cdd $dat_file");
 $EM->Spawn ();
 
 if (PerlACE::waitforfile_timed ("EM.ior", $PerlACE::wait_interval_for_process_creation) == -1) {

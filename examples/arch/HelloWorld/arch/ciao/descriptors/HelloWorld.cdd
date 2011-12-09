@@ -20,7 +20,7 @@
             <kind>tk_string</kind>
           </type>
           <value>
-            <string>corbaloc:iiop:localhost:60001/MainNode.NodeManager</string>
+            <string>corbaloc:iiop:localhost:60001</string>
           </value>
         </value>
       </property>
