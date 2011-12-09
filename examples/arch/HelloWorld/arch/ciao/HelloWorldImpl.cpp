@@ -50,8 +50,6 @@ namespace HelloWorldImpl
   //
   void HelloWorld::message (const char * message)
   {
-    ACE_OS::sleep (15);
-
     this->message_ = message;
   }
 

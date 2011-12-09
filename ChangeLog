@@ -1,3 +1,9 @@
+Fri Dec  9 06:53:58 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld/arch/ciao/HelloWorldImpl.cpp:
+
+          Removed unnecessary sleep () call.
+
 Fri Dec  9 05:53:17 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/HelloWorld/arch/ciao/HelloWorld.mpc:
