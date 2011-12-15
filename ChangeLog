@@ -1,8 +1,79 @@
+Thu Dec 15 21:06:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/handlers/opensplice.locality.config:
+        * bin/handlers/portico.locality.config:
+        * bin/handlers/rtidds.locality.config:
+        * bin/handlers/tcpip.locality.config:
+
+          Added the Standard_Error deployment interceptor to the configurations
+          since DAnCE crashes if there are no interceptors defined in the
+          configuration.
+
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.h:
+        * cuts/arch/ccm/CCM_Component_Instance_Handler_T.cpp:
+
+          Converted the container variable to an auto pointer of the
+          type CONTAINER. This allows the deployment handlers to get
+          access to the concrete container type.
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.inl:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+        * cuts/arch/tcpip/handlers/TCPIP_CCM_Container_Strategy.cpp:
+
+          Renamed the SERVER parameter to INST_HANDLER.
+
+        * cuts/arch/ccm/CCM_Events_T.h:
+        * cuts/arch/ccm/CCM_Events_T.inl:
+        * cuts/arch/ccm/CCM_Events_T.cpp:
+
+          Renamed OBV_EVENT parameter to EVENT.
+
+        * cuts/arch/ccm/CCM_Publisher_Table_T.h:
+        * cuts/arch/ccm/CCM_Publisher_Table_T.inl:
+        * cuts/arch/ccm/CCM_Publisher_Table_T.cpp:
+
+          Added a BASE template parameter so you can sublcass from a concrete
+          type that should provide standard interface.
+
+          Added a PUBLISHER parameter that determines the individual publisher
+          type for a consumer.
+
+        * cuts/arch/ccm/CCM_Servant.inl:
+        * cuts/arch/ccm/CCM_Servant_T.h:
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h:
+        * cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.inl:
+
+          Bug fix where casting to T * in the constructor failed. This was
+          resolved by passing 'this' to the constructor from the subclass.
+
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/tcpip/HelloWorld_svnt.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/TCPIP_HelloWorldC.h:
+        * examples/arch/HelloWorld/arch/tcpip/TCPIP_HelloWorldC.cpp:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/tcpip/descriptors/run_test.pl:
+
+          Updated to the latest version of DAnCE.
+
+        * examples/portico:
+        * examples/portico/ExampleCPPFederate.h:
+        * examples/portico/ExampleCPPFederate.cpp:
+        * examples/portico/ExampleFedAmb.h:
+        * examples/portico/ExampleFedAmb.cpp:
+        * examples/portico/example.mpc:
+        * examples/portico/main.cpp:
+        * examples/portico/testfom.fed:
+
+          Removed these files.
+
 Tue Dec 13 15:29:56 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/performance_i.cpp:
 
-	  Fixed compilation errors on Linux.
+          Fixed compilation errors on Linux.
 
 Fri Dec  9 06:53:58 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 

@@ -61,7 +61,7 @@ void CUTS_CCM_Servant::remove (void)
 //
 CUTS_INLINE
 void CUTS_CCM_Servant::
-set_attributes (const ::Components::ConfigValues & values)
+set_attributes (const ::Components::ConfigValues &)
 {
 
 }

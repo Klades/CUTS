@@ -7,12 +7,22 @@
 //
 // CUTS_CCM_Event_T
 //
-template <typename OBV_TYPE>
-CUTS_CCM_Event_T <OBV_TYPE>::CUTS_CCM_Event_T (void)
+template <typename EVENT>
+CUTS_CCM_Event_T <EVENT>::CUTS_CCM_Event_T (void)
 {
   _ptr_type ev = 0;
-  ACE_NEW_THROW_EX (ev, OBV_TYPE (), ::CORBA::NO_MEMORY ());
+  ACE_NEW_THROW_EX (ev, EVENT (), ::CORBA::NO_MEMORY ());
   this->event_ = ev;
+}
+
+//
+// CUTS_CCM_Event_T
+//
+template <typename EVENT>
+CUTS_CCM_Event_T <EVENT>::CUTS_CCM_Event_T (EVENT * ev)
+: event_ (ev)
+{
+
 }
 
 //
@@ -24,6 +34,9 @@ CUTS_Event_T <EVENTTYPE>::CUTS_Event_T (void)
 
 }
 
+//
+// ~CUTS_Event_T
+//
 template <typename EVENTTYPE>
 CUTS_Event_T <EVENTTYPE>::~CUTS_Event_T (void)
 {

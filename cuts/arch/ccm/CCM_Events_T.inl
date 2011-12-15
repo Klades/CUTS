@@ -1,30 +1,33 @@
 // $Id$
 
-//=============================================================================
-/*
- * CUTS_CCM_Event_T
- */
-//=============================================================================
-
-template <typename OBV_TYPE>
+//
+// ~CUTS_CCM_Event_T
+//
+template <typename EVENT>
 CUTS_INLINE
-CUTS_CCM_Event_T <OBV_TYPE>::~CUTS_CCM_Event_T (void)
+CUTS_CCM_Event_T <EVENT>::~CUTS_CCM_Event_T (void)
 {
 
 }
 
-template <typename OBV_TYPE>
+//
+// CUTS_CCM_Event_T
+//
+template <typename EVENT>
 CUTS_INLINE
-typename CUTS_CCM_Event_T <OBV_TYPE>::_ptr_type
-CUTS_CCM_Event_T <OBV_TYPE>::in (void) const
+typename CUTS_CCM_Event_T <EVENT>::_ptr_type
+CUTS_CCM_Event_T <EVENT>::in (void) const
 {
   return this->event_.in ();
 }
 
-template <typename OBV_TYPE>
+//
+// CUTS_CCM_Event_T
+//
+template <typename EVENT>
 CUTS_INLINE
-typename CUTS_CCM_Event_T <OBV_TYPE>::_ptr_type
-CUTS_CCM_Event_T <OBV_TYPE>::operator -> (void) const
+typename CUTS_CCM_Event_T <EVENT>::_ptr_type
+CUTS_CCM_Event_T <EVENT>::operator -> (void) const
 {
   return this->event_.in ();
 }

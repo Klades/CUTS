@@ -7,9 +7,8 @@
 #include "HelloWorldS.h"
 
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Context_T.h"
-#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Remote_Endpoint_T.h"
 #include "cuts/arch/tcpip/ccm/TCPIP_CCM_Servant_T.h"
-#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Subscriber_Table_T.h"
+#include "cuts/arch/tcpip/ccm/TCPIP_CCM_Publisher_Table_T.h"
 
 #include "HelloWorld_svnt_export.h"
 
@@ -37,24 +36,24 @@ class HelloWorld_Servant_Context : public HelloWorld_Servant_Context_Base
   // push method for output ev port: output_message
   virtual void push_output_message (::Message * ev);
 
-  CUTS_TCPIP_CCM_Subscriber & endpoint_output_message (void);
+  CUTS_TCPIP_CCM_Publisher & endpoint_output_message (void);
 
   private:
-  CUTS_TCPIP_CCM_Subscriber_T < ::Message > output_message_;
+  CUTS_TCPIP_CCM_Publisher_T < ::Message > output_message_;
 
   public:
   // push method for output ev port: handle_message_ex
   virtual void push_handle_message_ex (::Message * ev);
 
-  CUTS_TCPIP_CCM_Subscriber_Table & endpoints_handle_message_ex (void);
+  CUTS_TCPIP_CCM_Publisher_Table & endpoints_handle_message_ex (void);
 
   private:
-  CUTS_TCPIP_CCM_Subscriber_Table_T < ::Message > handle_message_ex_;
+  CUTS_TCPIP_CCM_Publisher_Table_T < ::Message > handle_message_ex_;
 };
 
 
 // Type definition of the this->servant_'s base class
-typedef CUTS_TCPIP_CCM_Servant_T < 
+typedef CUTS_TCPIP_CCM_Servant_T <
   HelloWorld_Servant,
   HelloWorld_Servant_Context,
   CIAO_HelloWorld_Impl::HelloWorld_Exec,
@@ -85,8 +84,7 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
   public:
   ::MessageConsumer_ptr get_consumer_input_message (void);
 
-  static int tcpip_input_message (HelloWorld_Servant * svnt,
-                                  CUTS_TCPIP_InputCDR & input);
+  static int tcpip_input_message (HelloWorld_Servant * svnt, ACE_InputCDR & input);
 
   private:
   CUTS_TCPIP_CCM_EventConsumer input_message_consumer_;
@@ -103,7 +101,7 @@ class HelloWorld_Servant : public HelloWorld_Servant_Base
 };
 
 extern "C" HELLOWORLD_SVNT_Export
-::PortableServer::Servant 
+::PortableServer::Servant
 create_HelloWorld_Servant (const char *,
                            ::PortableServer::POA_ptr poa,
                             ::Components::EnterpriseComponent_ptr);

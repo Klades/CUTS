@@ -13,21 +13,20 @@
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-CUTS_CCM_Servant_T (const char * name,
+CUTS_CCM_Servant_T (T * this_,
+                    const char * name,
                     ::PortableServer::POA_ptr poa,
                     typename EXECUTOR::_ptr_type exec)
-  : SERVANT_BASE (name),
-    impl_ (EXECUTOR::_duplicate (exec))
+: SERVANT_BASE (name),
+  impl_ (EXECUTOR::_duplicate (exec))
 {
   // Initialize the port POA.
   this->initialize_the_port_POA (name, poa);
 
   // Create the context for the servant/executor.
   CONTEXT * context = 0;
-  T * self = dynamic_cast <T *> (this);
-
   ACE_NEW_THROW_EX (context,
-                    CONTEXT (*self),
+                    CONTEXT (*this_),
                     ::CORBA::NO_MEMORY ());
 
   // Set the session context of the implementation

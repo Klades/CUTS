@@ -24,21 +24,26 @@
  * the real event. Therefore, code generators do not have to worry
  * about dynamically allocating/freeing memory acquired by the event.
  */
-template <typename OBV_TYPE>
+template <typename EVENT>
 class CUTS_CCM_Event_T
 {
 public:
   /// Type definition of the _var type.
-  typedef typename OBV_TYPE::_var_type _var_type;
+  typedef typename EVENT::_var_type _var_type;
 
   /// Type definition of the _ptr type.
-  typedef typename OBV_TYPE::_ptr_type _ptr_type;
+  typedef typename EVENT::_ptr_type _ptr_type;
 
   /// Type definition of the _out type.
-  typedef typename OBV_TYPE::_out_type _out_type;
+  typedef typename EVENT::_out_type _out_type;
 
   /// Default constructor.
   CUTS_CCM_Event_T (void);
+
+  /**
+   * Initializing constructor.
+   */
+  CUTS_CCM_Event_T (EVENT * ev);
 
   /// Destructor.
   ~CUTS_CCM_Event_T (void);

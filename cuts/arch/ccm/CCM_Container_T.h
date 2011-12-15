@@ -25,7 +25,7 @@
 /**
  * @class CUTS_CCM_Container_T
  */
-template <typename T, typename SERVER, typename STRATEGY, typename SERVANT_BASE>
+template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 class CUTS_CCM_Container_T :
   public ::CIAO::Session_Container
 {
@@ -34,7 +34,7 @@ public:
   typedef T container_type;
 
   /// Type definition of the container's component server.
-  typedef SERVER server_type;
+  typedef INST_HANDLER server_type;
 
   /// Type definition of the container's strategy.
   typedef STRATEGY strategy_type;
@@ -45,13 +45,13 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_CCM_Container_T (SERVER * server, ::PortableServer::POA_ptr poa);
+  CUTS_CCM_Container_T (INST_HANDLER * server, ::PortableServer::POA_ptr poa);
 
   /// Destructor.
   virtual ~CUTS_CCM_Container_T (void);
 
   /// Get the component server that create the container.
-  SERVER * server (void);
+  INST_HANDLER * inst_handler (void);
 
   virtual void init (const char * name);
 
@@ -132,7 +132,7 @@ protected:
   void initialize_the_port_POA (::PortableServer::POA_ptr);
 
   /// Pointer to the concrete container object.
-  SERVER * server_;
+  INST_HANDLER * inst_handler_;
 
   /// The actual strategy for the container.
   ACE_Auto_Ptr <STRATEGY> strategy_;

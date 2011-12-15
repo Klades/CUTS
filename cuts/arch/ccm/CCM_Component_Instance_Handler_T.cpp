@@ -59,7 +59,7 @@ void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::close (void)
 template <typename HANDLER, typename CONTAINER>
 char * CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type (void)
 {
-  return CORBA::string_dup ("edu.dre.vanderbilt.dre.CCM.Component");
+  return CORBA::string_dup ("edu.vanderbilt.dre.CCM.Component");
 }
 
 //
@@ -208,12 +208,10 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
   if (::CORBA::is_nil (comp_ref.in ()))
     throw StartError (idd.name.in (), "container provided nil object reference");
 
-  CORBA::Any *retval = 0;
-  ACE_NEW_THROW_EX (retval,
+  ACE_NEW_THROW_EX (instance_reference,
                     ::CORBA::Any (),
                     ::CORBA::NO_MEMORY ());
 
-  instance_reference = retval;
   *instance_reference <<= comp_ref;
 }
 
@@ -493,7 +491,7 @@ configure (const ::Deployment::Properties & prop)
                     CONTAINER (handler, this->poa_.in ()),
                     ::CORBA::NO_MEMORY ());
 
-  this->container_ = temp;
+  this->container_.reset (temp);
 }
 
 //

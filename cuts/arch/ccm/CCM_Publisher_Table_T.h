@@ -13,6 +13,10 @@
 #ifndef _CUTS_CCM_SUBSCRIBER_TABLE_H_
 #define _CUTS_CCM_SUBSCRIBER_TABLE_H_
 
+#include "ace/UUID.h"
+#include "ace/RW_Thread_Mutex.h"
+#include "ace/Hash_Map_Manager.h"
+
 #include "CCM_Publisher_Table.h"
 
 /**
@@ -21,10 +25,16 @@
  * Template version of the publisher table that is bound to a specific
  * event type. The event type is determined by the parameter.
  */
-template <typename T>
-class CUTS_CCM_Publisher_Table_T : public CUTS_CCM_Publisher_Table
+template <typename BASE, typename PUBLISHER>
+class CUTS_CCM_Publisher_Table_T : public BASE
 {
 public:
+  /// Type definition of the publisher type.
+  typedef PUBLISHER publisher_type;
+
+  /// Type definition of the event type.
+  typedef typename PUBLISHER::event_type event_type;
+
   /// Default constructor.
   CUTS_CCM_Publisher_Table_T (void);
 
@@ -42,12 +52,12 @@ public:
    *
    * @param[in]         ev          The event to publish
    */
-  virtual void send_event (T * ev);
+  virtual void send_event (event_type * ev) = 0;
 
-private:
+protected:
   /// Type definition of the consumer map.
   typedef ACE_Hash_Map_Manager <ACE_Utils::UUID,
-                                CUTS_CCM_Publisher_T <T> *,
+                                PUBLISHER *,
                                 ACE_RW_Thread_Mutex> consumer_table_t;
 
   /// The collection of consumers.

@@ -17,14 +17,14 @@ ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR & stream, const ::Message & e
   return stream.good_bit ();
 }
 
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::TimeValue & val)
+ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, ::TimeValue & val)
 {
   stream >> val.sec;
   stream >> val.usec;
   return stream.good_bit ();
 }
 
-ACE_CDR::Boolean operator >> (CUTS_TCPIP_InputCDR & stream, ::Message & ev)
+ACE_CDR::Boolean operator >> (ACE_InputCDR & stream, ::Message & ev)
 {
   ACE_CString _val_300000018;
   stream >> _val_300000018;

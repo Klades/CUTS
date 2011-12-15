@@ -21,7 +21,7 @@ install_servant (::PortableServer::Servant servant)
     dynamic_cast <CUTS_TCPIP_CCM_Servant *> (servant);
 
   if (0 != tcpip_servant)
-    this->container_.server ()->the_ORB ().the_OM ().activate_object (tcpip_servant);
+    this->container_.inst_handler ()->the_ORB ().the_OM ().activate_object (tcpip_servant);
 }
 
 //
@@ -37,5 +37,5 @@ remove_servant (::PortableServer::Servant servant)
     return;
 
   const ACE_Utils::UUID & uuid = tcpip_servant->the_UUID ();
-  this->container_.server ()->the_ORB ().the_OM ().deactivate_object (uuid);
+  this->container_.inst_handler ()->the_ORB ().the_OM ().deactivate_object (uuid);
 }

@@ -11,7 +11,8 @@
 #include "cuts/arch/tcpip/TCPIP_Remote_Endpoint.h"
 #include "cuts/arch/tcpip/TCPIP_Servant_Manager.h"
 
-HelloWorld_Servant_Context::HelloWorld_Servant_Context (HelloWorld_Servant & parent)
+HelloWorld_Servant_Context::
+HelloWorld_Servant_Context (HelloWorld_Servant & parent)
 : HelloWorld_Servant_Context_Base (parent)
 {
 }
@@ -31,7 +32,7 @@ void HelloWorld_Servant_Context::push_output_message (::Message * ev)
 //
 // endpoint_output_message
 //
-CUTS_TCPIP_CCM_Subscriber & HelloWorld_Servant_Context::endpoint_output_message (void)
+CUTS_TCPIP_CCM_Publisher & HelloWorld_Servant_Context::endpoint_output_message (void)
 {
   return this->output_message_;
 }
@@ -47,7 +48,7 @@ void HelloWorld_Servant_Context::push_handle_message_ex (::Message * ev)
 //
 // endpoints_handle_message_ex
 //
-CUTS_TCPIP_CCM_Subscriber_Table & HelloWorld_Servant_Context::endpoints_handle_message_ex (void)
+CUTS_TCPIP_CCM_Publisher_Table & HelloWorld_Servant_Context::endpoints_handle_message_ex (void)
 {
   return this->handle_message_ex_;
 }
@@ -59,7 +60,7 @@ HelloWorld_Servant::
 HelloWorld_Servant (const char * name,
                     ::PortableServer::POA_ptr poa,
                     executor_type::_ptr_type executor)
-: HelloWorld_Servant_Base (name, poa, executor),
+: HelloWorld_Servant_Base (this, name, poa, executor),
   input_message_consumer_ (this, 0)
 {
   // Initializing the consumer table.
@@ -134,7 +135,7 @@ get_consumer_input_message (void)
 // tcpip_input_message
 //
 int HelloWorld_Servant::
-tcpip_input_message (HelloWorld_Servant * svnt, CUTS_TCPIP_InputCDR & stream)
+tcpip_input_message (HelloWorld_Servant * svnt, ACE_InputCDR & stream)
 {
   // Extract the ev from the stream.
   CUTS_CCM_Event_T < ::OBV_Message > ev;
@@ -216,7 +217,7 @@ set_attributes (const ::Components::ConfigValues & config)
 //
 // create_HelloWorld_Servant
 //
-::PortableServer::Servant 
+::PortableServer::Servant
 create_HelloWorld_Servant (const char * name,
                            ::PortableServer::POA_ptr poa,
                            ::Components::EnterpriseComponent_ptr p)

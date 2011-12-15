@@ -87,7 +87,7 @@ public:
 
 protected:
   /// The only and only container for now. :-)
-  ::CIAO::Container_var container_;
+  std::auto_ptr <CONTAINER> container_;
 
 private:
   const char * get_implementation (const char *name,
