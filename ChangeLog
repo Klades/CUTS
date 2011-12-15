@@ -1,3 +1,10 @@
+Thu Dec 15 23:06:38 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Container_T.h:
+        * cuts/arch/ccm/CCM_Container_T.cpp:
+
+          Added preprocessor guards for CIAO 1.0.5.
+
 Thu Dec 15 21:06:24 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * bin/handlers/opensplice.locality.config:

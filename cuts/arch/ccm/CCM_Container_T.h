@@ -14,6 +14,8 @@
 #define _CUTS_CCM_CONTAINER_T_H_
 
 #include "ciao/Containers/Session/Session_ContainerC.h"
+#include "ciao/Version.h"
+
 #include "tao/PortableServer/Servant_Base.h"
 
 #include "ace/Hash_Map_Manager.h"
@@ -123,7 +125,7 @@ public:
   virtual ::CORBA::Object_ptr
     resolve_service_reference (const char * service_id);
 
-#if !defined (CUTS_CCM_CONTAINER_LACKS_SERVANT_ACTIVATOR)
+#if !(CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 0 && CIAO_BETA_VERSION > 5)
   virtual ::CIAO::Servant_Activator_ptr ports_servant_activator (void);
 #endif
 

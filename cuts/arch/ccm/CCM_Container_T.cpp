@@ -443,7 +443,7 @@ initialize_the_port_POA (::PortableServer::POA_ptr poa)
     policies[i]->destroy ();
 }
 
-#if !defined (CUTS_CCM_CONTAINER_LACKS_SERVANT_ACTIVATOR)
+#if !(CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 0 && CIAO_BETA_VERSION > 5)
 //
 // ports_servant_activator
 //
