@@ -1,3 +1,86 @@
+Fri Dec 16 21:36:45 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/handlers/portico.locality.config:
+        * cuts/arch/portico:
+        * cuts/arch/portico/ccm:
+        * cuts/arch/portico/ccm/Portico_AttributeHandle.h:
+        * cuts/arch/portico/ccm/Portico_AttributeHandle.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM.mpc:
+        * cuts/arch/portico/ccm/Portico_CCM_EventConsumer.h:
+        * cuts/arch/portico/ccm/Portico_CCM_EventConsumer.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_EventConsumer.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_EventConsumer_T.h:
+        * cuts/arch/portico/ccm/Portico_CCM_EventConsumer_T.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_EventConsumer_T.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher.h:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_T.h:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_T.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_T.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_Table.h:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_Table.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_Table.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_Table_T.h:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_Table_T.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_Publisher_Table_T.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_Servant.h:
+        * cuts/arch/portico/ccm/Portico_CCM_Servant.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_Servant.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_Servant_T.h:
+        * cuts/arch/portico/ccm/Portico_CCM_Servant_T.inl:
+        * cuts/arch/portico/ccm/Portico_CCM_Servant_T.cpp:
+        * cuts/arch/portico/ccm/Portico_CCM_export.h:
+        * cuts/arch/portico/ccm/Portico_CCM_skel_export.h:
+        * cuts/arch/portico/ccm/Portico_CCM_stub_export.h:
+        * cuts/arch/portico/ccm/Portico_Events.idl:
+        * cuts/arch/portico/ccm/Portico_ObjectClass.h:
+        * cuts/arch/portico/ccm/Portico_ObjectClass.cpp:
+        * cuts/arch/portico/ccm/Portico_ObjectClass_Factory.h:
+        * cuts/arch/portico/ccm/Portico_ObjectClass_Factory.cpp:
+        * cuts/arch/portico/ccm/Portico_ObjectClass_Trait_T.h:
+        * cuts/arch/portico/handlers:
+        * cuts/arch/portico/handlers/Portico_CCM_Container.h:
+        * cuts/arch/portico/handlers/Portico_CCM_Container.inl:
+        * cuts/arch/portico/handlers/Portico_CCM_Container.cpp:
+        * cuts/arch/portico/handlers/Portico_CCM_Container_Strategy.h:
+        * cuts/arch/portico/handlers/Portico_CCM_Container_Strategy.inl:
+        * cuts/arch/portico/handlers/Portico_CCM_Container_Strategy.cpp:
+        * cuts/arch/portico/handlers/Portico_CCM_Deployment_Handlers.mpc:
+        * cuts/arch/portico/handlers/Portico_CCM_Deployment_Handlers_export.h:
+        * cuts/arch/portico/handlers/Portico_CCM_Instance_Handler.h:
+        * cuts/arch/portico/handlers/Portico_CCM_Instance_Handler.inl:
+        * cuts/arch/portico/handlers/Portico_CCM_Instance_Handler.cpp:
+
+          Prototype implementation for integrating Portico implementation
+          of HLA 1.3 into CCM.
+
+        * examples/arch/HelloWorld/arch/portico:
+        * examples/arch/HelloWorld/arch/portico/HelloReceiverImpl.h:
+        * examples/arch/HelloWorld/arch/portico/HelloReceiverImpl.cpp:
+        * examples/arch/HelloWorld/arch/portico/HelloReceiverImpl.mpc:
+        * examples/arch/HelloWorld/arch/portico/HelloSenderImpl.h:
+        * examples/arch/HelloWorld/arch/portico/HelloSenderImpl.cpp:
+        * examples/arch/HelloWorld/arch/portico/HelloSenderImpl.mpc:
+        * examples/arch/HelloWorld/arch/portico/HelloWorld.idl:
+        * examples/arch/HelloWorld/arch/portico/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/portico/HelloWorld.mwc:
+        * examples/arch/HelloWorld/arch/portico/HelloWorld_iCCM.idl:
+        * examples/arch/HelloWorld/arch/portico/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/portico/HelloWorld_svnt.cpp:
+        * examples/arch/HelloWorld/arch/portico/descriptors:
+        * examples/arch/HelloWorld/arch/portico/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/portico/descriptors/HelloWorld.cdp:
+        * examples/arch/HelloWorld/arch/portico/descriptors/HelloWorld.fed:
+        * examples/arch/HelloWorld/arch/portico/descriptors/run_test.pl:
+        * examples/arch/HelloWorld/arch/portico/model:
+        * examples/arch/HelloWorld/arch/portico/model/HelloWorld.xme:
+        * examples/arch/HelloWorld/arch/portico/portico:
+        * examples/arch/HelloWorld/arch/portico/portico/HelloWorld_ObjectClass.h:
+        * examples/arch/HelloWorld/arch/portico/portico/HelloWorld_ObjectClass.cpp:
+
+          HelloWorld example for Portico integration into iCCM.
+
 Fri Dec 16 21:29:56 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Servant_T.cpp:

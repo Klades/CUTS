@@ -1,0 +1,21 @@
+// -*- IDL -*-
+
+#ifndef _HELLOWORLD_ICCM_IDL_
+#define _HELLOWORLD_ICCM_IDL_
+
+#include "HelloWorldE.idl"
+
+local interface iCCM_HelloReceiver_Context : ::CCM_HelloReceiver_Context
+{
+  void tick ();
+};
+
+local interface iCCM_HelloSender_Context : ::CCM_HelloSender_Context
+{
+  void tick ();
+  void advance_time (in double amount);
+
+  Message push_greeting_event ();
+};
+
+#endif  // !defined _HELLOWORLD_ICCM_IDL_

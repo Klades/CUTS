@@ -1,0 +1,15 @@
+// $Id$
+
+project (Portico_CCM_Deployment_Handlers) : portico, dance_deployment_scheduler, \
+                                            ciao_session_container_stub, ciao_base, \
+                                            cuts_ccm, cuts_lib, cutslib {
+
+  sharedname    = Portico_CCM_Deployment_Handlers
+  dynamicflags += PORTICO_CCM_DEPLOYMENT_HANDLERS_BUILD_DLL
+
+  Source_Files {
+    Portico_CCM_Container.cpp
+    Portico_CCM_Container_Strategy.cpp
+    Portico_CCM_Instance_Handler.cpp
+  }
+}
