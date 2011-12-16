@@ -1,3 +1,14 @@
+Fri Dec 16 13:54:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/models/CAPI.mga:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.mga:
+        * MDE/GME/paradigms/PICML/models/workers/logging.mga:
+        * MDE/GME/paradigms/PICML/models/workers/testing.mga:
+
+          Temp commit of binary version of models so installer can build. Once
+          we are able to import models during the build process, we will remove
+          these models from the repo.
+
 Fri Dec 16 05:55:55 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/Periodic_Event.cpp:
