@@ -1,3 +1,9 @@
+Fri Dec 16 21:29:56 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Servant_T.cpp:
+
+          Moved port POA destruction to the remove () method.
+
 Fri Dec 16 13:54:37 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/models/CAPI.mga:

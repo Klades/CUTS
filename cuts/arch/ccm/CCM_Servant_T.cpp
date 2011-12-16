@@ -43,9 +43,6 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, ty
 CUTS_INLINE
 CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::~CUTS_CCM_Servant_T (void)
 {
-  // Destroy the port POA.
-  if (!::CORBA::is_nil (this->port_POA_.in ()))
-    this->port_POA_->destroy (0, 0);
 }
 
 //
@@ -91,6 +88,10 @@ void CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::remove (
   // Since we are removing the component, it is safe to deactivate
   // all its ports.
   this->deactivate_ports ();
+
+  // We are also going to destroy the port POA.
+  if (!::CORBA::is_nil (this->port_POA_.in ()))
+    this->port_POA_->destroy (0, 0);
 }
 
 //
