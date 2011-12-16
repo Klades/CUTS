@@ -9,6 +9,7 @@
 #include "Exponential_Periodic_Event_Strategy.h"
 #include "Constant_Periodic_Event_Strategy.h"
 #include "ace/OS_Memory.h"
+#include "ace/Trace.h"
 
 //
 // configure
@@ -46,23 +47,18 @@ int CUTS_Periodic_Event::configure (Strategy_Type type, double hertz)
 //
 int CUTS_Periodic_Event::schedule_timeout (const ACE_Time_Value & curr_time)
 {
-  // Do we really next to cancel the current timeout??
-  if (this->timer_ != -1)
-    this->cancel_timeout ();
+  if (this->strategy_.get () == 0)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - periodic event strategy ")
+                       ACE_TEXT ("is not defined\n")),
+                       -1);
 
-  if (this->strategy_.get () != 0)
-  {
-    // Get the next arrival based on the current time.
-    ACE_Time_Value next_arrival (curr_time);
-    this->strategy_->next_arrival (next_arrival);
+  // Get the next arrival based on the current time.
+  ACE_Time_Value next_arrival (curr_time);
+  this->strategy_->next_arrival (next_arrival);
 
-    // Schedule the arrival of the next event.
-    this->timer_ = this->timer_queue_.schedule (this, 0, next_arrival);
-  }
-  else
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - periodic strategy not set\n"));
-
+  // Schedule the arrival of the next event.
+  this->timer_ = this->timer_queue_.schedule (this, 0, next_arrival);
   return this->timer_ != -1 ? 0 : -1;
 }
 
@@ -71,11 +67,11 @@ int CUTS_Periodic_Event::schedule_timeout (const ACE_Time_Value & curr_time)
 //
 void CUTS_Periodic_Event::cancel_timeout (void)
 {
-  if (this->timer_ != -1)
-  {
-    this->timer_queue_.cancel (this->timer_);
-    this->timer_ = -1;
-  }
+  if (this->timer_ == -1)
+    return;
+
+  this->timer_queue_.cancel (this->timer_);
+  this->timer_ = -1;
 }
 
 //
@@ -83,16 +79,15 @@ void CUTS_Periodic_Event::cancel_timeout (void)
 //
 int CUTS_Periodic_Event::activate (void)
 {
-  // Activate the timer queue.
+  // Activate the timer queue, then schedule the first timeout.
   int retval = this->timer_queue_.activate ();
 
-  if (retval == 0)
-    return this->schedule_timeout (ACE_OS::gettimeofday ());
-  else
-    ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - failed to activate task\n"));
+  if (retval != 0)
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to activate timer queue\n")),
+                       -1);
 
-  return -1;
+  return this->schedule_timeout (ACE_OS::gettimeofday ());
 }
 
 //
@@ -100,8 +95,12 @@ int CUTS_Periodic_Event::activate (void)
 //
 int CUTS_Periodic_Event::deactivate (void)
 {
-  this->timer_queue_.deactivate ();
+  // Cancel the current timeout.
   this->cancel_timeout ();
+
+  // Deactivate the timer queue and wait for its thread(s) to return.
+  this->timer_queue_.deactivate ();
+  this->timer_queue_.wait ();
 
   return 0;
 }
