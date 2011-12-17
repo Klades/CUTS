@@ -1,6 +1,6 @@
 // $Id$
 
-project (Portico_CCM_stub) : portico,ccm_stub, cutslib {
+project (Portico_CCM_stub) : portico, ccm_stub, cutslib {
   sharedname    = Portico_CCM_stub
   dynamicflags += Portico_CCM_STUB_BUILD_DLL
 
@@ -34,7 +34,7 @@ project (Portico_CCM_stub) : portico,ccm_stub, cutslib {
   }
 }
 
-project (Portico_CCM_skel) : ccm_svnt, cutslib {
+project (Portico_CCM_skel) : portico, ccm_svnt, cutslib {
   sharedname    = Portico_CCM_skel
   dynamicflags += Portico_CCM_SKEL_BUILD_DLL
 
