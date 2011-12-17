@@ -1,12 +1,12 @@
 // $Id$
 
-project (CUTS_GME_PICML) : codegenerationkit, xscrt, cuts_picmllib, boost_base, cuts_gme, \
+project (CUTS_GME_PICML) : codegenerationkit, cuts_picmllib, boost_base, cuts_gme, \
                            picml_udm, cuts_gme_udm_component, cuts_game_mga, cuts_cosmic {
 
   sharedname = CUTS_GME_PICML
 
   // -- dependencies
-  after += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_TCPIP 
+  after += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_TCPIP
   libs  += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_TCPIP
 
   Source_Files {

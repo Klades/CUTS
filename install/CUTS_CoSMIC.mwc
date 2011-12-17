@@ -3,23 +3,47 @@
 workspace (CUTS_CoSMIC) {
   cmdline += -include $CUTS_ROOT/MPC/config \
              -include $COSMIC_ROOT/MPC/config \
-             -include $XSC_ROOT/MPC/config \
              -include $GAME_ROOT/MPC/config \
              -feature_file $CUTS_ROOT/default.features \
-             -features runtime=0,versioned_namespace=1,cosmic=1,modeling=1,register=0,gems=0,gme_upgrade=1 \
-             -value_template 'configurations=Release'
+             -features runtime=0,versioned_namespace=1,cosmic=1,modeling=1,register=0,gems=0,gme_upgrade=1,zlib=0 \
+             -value_template 'configurations=Release' \
+             -value_template 'runtime_library=2' \
+             -name_modifier CMTS_*
 
-  exclude (!prop:windows) {
-    cmdline += -value_template 'install_location=bin' \
+  exclude (!prop:microsoft, wix) {
+    // Because we may run into DLL hell when installing CUTS, we are
+    // going to build all import libraries as static projects. The
+    // main components will be built as DLLs against the static import
+    // libraries.
+
+    cmdline += -static \
+               -value_template 'install_location=bin' \
                -value_template 'gme_register=HKCU'
 
-    //== ACE projects
+    // Projects from other workspaces/repositories.
     $(ACE_ROOT)/ace/ace.mpc
-
     $(GAME_ROOT)/game/mga/Mga.mpc
+    $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
+    $(COSMIC_ROOT)/Utils/Utils.mpc
+
+    // Backend projects for the main interpreter.
+    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be
   }
 
-  $(CUTS_ROOT)/CUTS.mwc
+  components {
+    // The components are GME components (i.e., interpreters, plugins,
+    // and add-ons) built as shared libraries. They, however, must link
+    // against all the other libraries that were built as static import
+    // libraries.
+    cmdline += -value_template 'use_lib_modifier=1' \
+               -value_template 'lib_modifier=s' \
+               -value_project 'macros += ACE_AS_STATIC_LIBS' \
+               -value_project 'dynamicflags -= GME_HAS_DLL' \
+               -value_project 'dynamicflags -= PICML_HAS_DLL'
+
+    $(CUTS_ROOT)/MDE/GME/paradigms/CHAOS
+    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc
+  }
 
   exclude (!wix) {
     $(CUTS_ROOT)/MDE/GME/paradigms/PICML/models
@@ -27,5 +51,18 @@ workspace (CUTS_CoSMIC) {
 
   exclude (!prop:microsoft, wix) {
     CUTS_CoSMIC.mpc
+
+    codegenerationkit {
+      // Build the code generation kit requires a little trickery
+      // since we need to make sure that CCF_ROOT is defined w/o
+      // actually defining it as an enviroment variable. This way
+      // CUTS use its own version of the code generation kit.
+
+      cmdline += -static -base ccf_root \
+                 -include $CUTS_ROOT/contrib/CCF/MPC/config \
+                 -value_template 'lib_modifier=ss'
+
+      $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
+    }
   }
 }

@@ -1,6 +1,6 @@
 // $Id$
 
-project : udmdefaults, codegenerationkit {
+project : udm, codegenerationkit {
   after += CUTS_BE
   libs  += CUTS_BE
 

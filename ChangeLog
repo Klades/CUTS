@@ -1,3 +1,38 @@
+Sat Dec 17 21:41:38 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+
+          Removed unused projects.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
+
+          Removed the xscrt base project.
+
+        * MDE/GME/paradigms/PICML/models/CAPI.mga:
+        * MDE/GME/paradigms/PICML/models/CAPI.xme:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.mga:
+        * MDE/GME/paradigms/PICML/models/XMLSchema.xme:
+        * MDE/GME/paradigms/PICML/models/workers/logging.mga:
+        * MDE/GME/paradigms/PICML/models/workers/logging.xme:
+        * MDE/GME/paradigms/PICML/models/workers/testing.mga:
+        * MDE/GME/paradigms/PICML/models/workers/testing.xme:
+
+          Upgraded the models.
+
+        * MPC/config/cuts_be.mpb:
+        * MPC/config/udm_component.mpb:
+
+          Replaced the udmdefaults base project with the udm project.
+
+        * install/CUTS_CoSMIC.mwc:
+
+          Fixed install error where the application installed correctly,
+          but none of the interpreters worked. This was due to DLL hell!!
+
+        * MPC/config/udmdefaults.mpb:
+
+          Removed this file.
+
 Fri Dec 16 21:36:45 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * bin/handlers/portico.locality.config:
