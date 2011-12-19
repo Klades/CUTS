@@ -1,3 +1,14 @@
+Mon Dec 19 14:56:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/cuts_chaos_dsml.mpb:
+
+          Added UDM_DYNAMIC_LINKING to the project configuration.
+
+        * install/CUTS_CoSMIC.mwc:
+
+          Fixed build errors in installer for building the
+          CHAOS projects.
+
 Sat Dec 17 21:56:27 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/portico/ccm/Portico_CCM.mpc:

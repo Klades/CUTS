@@ -5,6 +5,7 @@ project : udm_component {
   after += CUTS_CHAOS_DSML
 
   dynamicflags += CHAOS_HAS_DLL
+  macros       += UDM_DYNAMIC_LINKING
 
   includes += $(CIAO_ROOT)/CCF
   libpaths += $(CIAO_ROOT)/CCF/CCF

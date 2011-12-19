@@ -27,6 +27,7 @@ workspace (CUTS_CoSMIC) {
     $(COSMIC_ROOT)/Utils/Utils.mpc
 
     // Backend projects for the main interpreter.
+    $(CUTS_ROOT)/MDE/GME/paradigms/CHAOS/paradigms
     $(CUTS_ROOT)/MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be
   }
 
@@ -38,11 +39,19 @@ workspace (CUTS_CoSMIC) {
     cmdline += -value_template 'use_lib_modifier=1' \
                -value_template 'lib_modifier=s' \
                -value_project 'macros += ACE_AS_STATIC_LIBS' \
-               -value_project 'dynamicflags -= GME_HAS_DLL' \
-               -value_project 'dynamicflags -= PICML_HAS_DLL'
+               -value_project 'dynamicflags -= GME_HAS_DLL'
 
-    $(CUTS_ROOT)/MDE/GME/paradigms/CHAOS
-    $(CUTS_ROOT)/MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc
+    picml {
+      cmdline += -value_project 'dynamicflags -= PICML_HAS_DLL'
+
+      $(CUTS_ROOT)/MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc
+    }
+
+    chaos {
+      cmdline += -value_project 'dynamicflags -= CHAOS_HAS_DLL'
+
+      $(CUTS_ROOT)/MDE/GME/paradigms/CHAOS/interpreters
+    }
   }
 
   exclude (!wix) {
@@ -53,10 +62,10 @@ workspace (CUTS_CoSMIC) {
     CUTS_CoSMIC.mpc
 
     codegenerationkit {
-      // Build the code generation kit requires a little trickery
-      // since we need to make sure that CCF_ROOT is defined w/o
-      // actually defining it as an enviroment variable. This way
-      // CUTS use its own version of the code generation kit.
+      // Building the code generation kit requires a little trickery
+      // since we need to make sure that CCF_ROOT is defined w/o actually
+      // defining it as an enviroment variable. This will allow CUTS to use
+      // its own version of the code generation kit.
 
       cmdline += -static -base ccf_root \
                  -include $CUTS_ROOT/contrib/CCF/MPC/config \
