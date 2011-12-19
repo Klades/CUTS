@@ -28,7 +28,6 @@
         <Directory Id="INSTALLDIR" Name="CUTS">
           <Component Id="CUTS_ROOT" Guid="B2E31064-65DF-49C3-B6C6-F93C8846C2DA">
             <!-- location of the install -->
-            <Environment Id="PATH" Name="PATH" Part="last" System="yes" Value="[INSTALLDIR]bin" Action="set" />
             <RegistryKey Root="HKLM" Key="SOFTWARE\CUTS" Action="createAndRemoveOnUninstall">
               <RegistryValue Type="string" Value="[INSTALLDIR]" Action="write" />
             </RegistryKey>

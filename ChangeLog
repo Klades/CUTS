@@ -1,3 +1,10 @@
+Mon Dec 19 15:08:06 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * install/CUTS_CoSMIC.wxs:
+
+          Removed adding CUTS_ROOT to the environment variables, and from
+          adding CUTS_ROOT/bin to the PATH.
+
 Mon Dec 19 15:06:21 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CUTS_CCM.mpc:
