@@ -51,7 +51,6 @@ project (CUTS_CCM) : cuts_ccm_stub, cuts_component_dnc, \
     CCM_Container_T.cpp
     CCM_Container_Strategy_T.cpp
     CCM_Context_T.cpp
-    CCM_CoWorkEr_Proxy_T.cpp
     CCM_EventConsumer_T.cpp
     CCM_Event_Handler_T.cpp
     CCM_Event_Producer_T.cpp
