@@ -1,3 +1,14 @@
+Mon Dec 19 15:02:11 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.h:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.inl:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy.cpp:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy_T.h:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy_T.inl:
+        * cuts/arch/ccm/CCM_CoWorkEr_Proxy_T.cpp:
+
+          Removed these files.
+
 Mon Dec 19 14:56:34 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/cuts_chaos_dsml.mpb:
