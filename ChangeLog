@@ -1,3 +1,11 @@
+Tue Dec 20 16:03:47 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * tutorials/QuickStart2/descriptors/DeploymentPlan.cdd:
+        * tutorials/QuickStart2/descriptors/DeploymentPlan.nodemap:
+        * tutorials/QuickStart2/descriptors/deployment.config:
+
+          Fixed the issues in the confihuration files of the SLICE scenario.
+
 Mon Dec 19 15:08:06 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * install/CUTS_CoSMIC.wxs:
