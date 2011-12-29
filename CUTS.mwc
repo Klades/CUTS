@@ -54,11 +54,6 @@ workspace (CUTS) {
       // area since we only need GAME to build them.
       MDE/GME/paradigms/CHAOS
       MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
-
-      // Let's make sure that the PICML extension classes are
-      // built. Otherwise, these projects will not build.
-      $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
-      $(COSMIC_ROOT)/Utils/Utils.mpc
     }
   }
 

@@ -1,0 +1,9 @@
+// $Id$
+
+project {
+  requires += portico
+}
+
+feature (portico) : portico {
+  macros += CUTS_HAS_PORTICO
+}

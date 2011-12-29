@@ -1,3 +1,18 @@
+Thu Dec 29 15:51:12 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+
+          Removed CoSMIC projects from the workspace.
+
+        * MPC/config/requires_portico.mpb:
+        * cuts/arch/portico/ccm/Portico_CCM.mpc:
+        * cuts/arch/portico/ccm/Portico_CCM_skel_export.h:
+        * cuts/arch/portico/ccm/Portico_CCM_stub_export.h:
+        * cuts/arch/portico/handlers/Portico_CCM_Deployment_Handlers.mpc:
+
+          Added requires_portico base class to fix project generation
+          errors related to not finding the portico base project.
+
 Thu Dec 29 06:18:05 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/utils/unite/dmac/CUTS_Dmac_Log_Miner.cpp:

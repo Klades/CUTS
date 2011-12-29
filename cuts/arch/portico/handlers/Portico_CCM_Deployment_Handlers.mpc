@@ -1,6 +1,6 @@
 // $Id$
 
-project (Portico_CCM_Deployment_Handlers) : portico, dance_deployment_scheduler, \
+project (Portico_CCM_Deployment_Handlers) : requires_portico, dance_deployment_scheduler, \
                                             ciao_session_container_stub, ciao_base, \
                                             cuts_ccm, cuts_lib, cutslib {
 
