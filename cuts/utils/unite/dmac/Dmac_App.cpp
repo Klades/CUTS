@@ -7,6 +7,13 @@
 #include "ace/Log_Msg.h"
 #include "ace/Process_Manager.h"
 #include "ace/Process.h"
+#include "Dmac_Log_File_Miner.h"
+#include "Dmac_Log_Database_Miner.h"
+#include "Dmac_Vertical_Generator.h"
+#include "Dmac_Relation_Miner.h"
+#include "cuts/Auto_Functor_T.h"
+
+#define COVERAGE 80
 
 static const char * __HELP__ =
 "cuts-dmac - Generate the dataflow model for a given system execution trace\n"
@@ -17,17 +24,18 @@ static const char * __HELP__ =
 "  -f, --file=FILE        Database file containing the system execution trace\n"
 "  -s, --min-sup=MIN-SUP  Minimum support\n"
 "  -n, --name=PATH        Name of the dataflow model\n"
-"  -l, --spade-loc=LOCATION location of spade\n"
-"  -d                     Delete inter\n"
+"  -d, --delims=DELIMITERS Set of the delimiters to break the message\n"
 "  -h, --help             print this help message\n";
 
 //
 // CUTS_Dmac_App
 //
 CUTS_Dmac_App::CUTS_Dmac_App (void)
+: round_ (0),
+  coverage_ (0.0),
+  current_coverage_ (0)
 {
-  this->delete_intermediate_ = false;
-  this->spade_location_ = "";
+
 }
 
 //
@@ -46,30 +54,34 @@ int CUTS_Dmac_App::run_main (int argc, char * argv [])
   if (this->parse_args (argc, argv) == -1)
     return -1;
 
-  // Convert to vertical format
-  std::cout << "Converting to...." << std::endl;
-  if (this->convert_to_vertical () == -1)
+  // Open the database
+
+  if (!this->open_database ())
     return -1;
 
-  // Sequence minging
-  std::cout << "Frequent-Sequence mining...." << std::endl;
-  if (this->mine_sequences () == -1)
-    return -1;
+  // Find the log formats
+  this->find_log_formats ();
+
+  this->print_final_patterns ();
+
+  this->print_coverage ();
+
+  std::cout << std::endl;
 
   // Generation of dataflow
   std::cout << "Generating Dataflow...." << std::endl << std::endl;
-  if (this->generate_dataflow () == -1)
-    return -1;
 
-  // Delete intermediate files created in the previous steps
-  if (this->delete_intermediate_)
-  {
-    if (remove ("frequent-sequences") != 0)
-      return -1;
+  // Relation mining step
+  CUTS_Dmac_Relation_Miner rel_miner (this->name_,
+                                      this->testdata_,
+                                      this->log_formats_);
 
-    if (remove ("Vertical.data") != 0)
-      return -1;
-  }
+  std::string temp (this->delims_.c_str ());
+  std::string delimitters = " \n\t" + temp;
+
+  rel_miner.delims (delimitters);
+
+  rel_miner.mine_relations ();
 
   std::cout << std::endl;
   std::cout << "Done." << std::endl;
@@ -78,26 +90,107 @@ int CUTS_Dmac_App::run_main (int argc, char * argv [])
 }
 
 //
-// convert_to_vertical
+// find_log_formats
 //
-int CUTS_Dmac_App::convert_to_vertical ()
+void CUTS_Dmac_App::find_log_formats ()
 {
-  std::stringstream data_file;
-  data_file << this->data_file_.c_str ();
+  // Add the user provided delimitters to the
+  // default delimitters
 
-  // set the output file
-  std::string vertical_str (
-    "cuts-dmac-vertical --file=" + data_file.str ());
+  std::string temp (this->delims_.c_str ());
+  std::string delimitters = " \n\t" + temp;
 
-  int flags = O_WRONLY | O_CREAT;
-  ACE_HANDLE pipe = ACE_OS::open ("Vertical.data", flags);
+  // In the first round we always mine the database file
 
-  // Run the vertical converter
-  if (pipe != ACE_INVALID_HANDLE)
-    return this->execute_process (vertical_str.c_str (), ".", pipe);
-  else
-    return -1;
+  this->round_ = 1;
 
+  CUTS_Dmac_DB_Vertical_Generator db_vgen (delimitters);
+
+  if ((db_vgen.generate (this->data_file_, this->round_)) == -1)
+    ACE_ERROR ((LM_ERROR,
+                "%T (%t) - %M - Vertical generator failed"));
+
+  // Frequent-sequence mining step
+  if (this->mine_sequences () == -1)
+    return;
+
+  std::stringstream pattern_file;
+
+  pattern_file << this->round_ << "-sequence";
+
+  ACE_CString str (pattern_file.str ().c_str ());
+
+  // Now we have the frequent-sequences , lets construct the log formats
+  CUTS_Dmac_Log_Database_Miner db_miner (str,
+                                         this->data_file_,
+                                         this->log_formats_,
+                                         this->testdata_);
+
+  // set the delimitters
+  db_miner.delim (delimitters);
+
+  // Find the maximal sequences
+  db_miner.refine ();
+
+  // Mine for log formats
+  db_miner.mine ();
+
+  // Generate the next dataset for next round of mining
+  db_miner.create_next_dataset (this->round_);
+
+  // Accumulate the results
+  this->accumulate (&db_miner);
+
+  // Keep on iterating the process until we get a
+  // satisfiable coverage
+
+  while (this->coverage_ < COVERAGE)
+  {
+    // Now we do the mining process for the intermediate datasets
+    // which are stored in files
+    this->round_++;
+    std::stringstream data_file;
+
+    // File name
+
+    data_file << this->round_ << "-dataset";
+    ACE_CString file_name (data_file.str ().c_str ());
+
+    // Vertical generation
+
+    CUTS_Dmac_File_Vertical_Generator file_vgen (delimitters);
+    file_vgen.generate (file_name, this->round_);
+
+    this->current_records_ = file_vgen.row_count_;
+
+    // Sequence mining
+
+    if (this->mine_sequences () == -1)
+      return;
+
+    std::stringstream new_pattern_file;
+    new_pattern_file << this->round_ << "-sequence";
+    ACE_CString new_str (new_pattern_file.str ().c_str ());
+    CUTS_Dmac_Log_File_Miner file_miner (new_str,
+                                         file_name,
+                                         this->log_formats_);
+
+    // log format mining
+
+    file_miner.delim (delimitters);
+
+    file_miner.refine ();
+
+    file_miner.mine ();
+
+    // create the next dataset
+
+    file_miner.create_next_dataset (this->round_);
+
+    // Add the found log formats to the log format list
+
+    this->accumulate (&file_miner);
+  }
 }
 
 //
@@ -106,51 +199,159 @@ int CUTS_Dmac_App::convert_to_vertical ()
 int CUTS_Dmac_App::mine_sequences ()
 {
   std::stringstream min_sup;
+  std::stringstream v_data_file;
   std::string sequence_str;
-  min_sup << this->min_sup_.c_str ();
+  std::stringstream output_stream;
 
-  // set the spade location
-  if (this->spade_location_ == "")
-    sequence_str = "sequence-test -i Vertical.data -s " + min_sup.str () + " -p";
+  // For the first round we use the min-sup provided
+  // by the user.
+
+  if (this->round_ == 1)
+    min_sup << this->min_sup_.c_str ();
+
+  // Otherwise we calculate the min-sup based on the ratio of
+  // the current number of records in the dataset and the total
+  // number of records
+
   else
   {
-    std::string s (this->spade_location_.c_str ());
-    sequence_str = s +  "/sequence-test -i Vertical.data -s " + min_sup.str () + " -p";
+    float reducing_factor = 1 / (float)this->round_;
+    long original = ACE_OS::atol (this->min_sup_.c_str ());
+    long relative_min_sup = (long)((float)original / (float)this->total_records_ *
+                            (float)this->current_records_ * reducing_factor);
+    min_sup << relative_min_sup;
+    std::cout << "Minimum support is " << relative_min_sup << std::endl;
   }
+  // Name of the vertical data file
+
+  v_data_file << this->round_ << ".data";
+
+  // Command to execute the sequence mining tool
+  sequence_str = "sequence-test -i " + v_data_file.str () +
+                 " -s " + min_sup.str () + " -p";
+
+  // Name of the file where the output of sequence mining is written
+
+  output_stream << this->round_ << "-sequence";
 
   int flags = O_WRONLY | O_CREAT;
-  ACE_HANDLE pipe = ACE_OS::open ("frequent-sequences", flags);
+
+  ACE_HANDLE pipe = ACE_OS::open (output_stream.str ().c_str (), flags);
 
   // Run the sequence minign app
   if (pipe != ACE_INVALID_HANDLE)
     return this->execute_process (sequence_str.c_str (), ".", pipe);
   else
     return -1;
+}
 
+//
+// accumulate
+//
+void CUTS_Dmac_App::accumulate (CUTS_Dmac_Log_Miner * log_miner)
+{
+  // Get the current log format set
+
+  std::vector <CUTS_Dmac_Log_Format *> temp
+    = log_miner->current_items ();
+
+  std::vector <CUTS_Dmac_Log_Format *>::iterator it;
+
+  for (it = temp.begin (); it != temp.end (); it++)
+  {
+    // Add the new log formats and Increment the coverage
+    this->log_formats_.push_back (*it);
+    this->current_coverage_ += (*it)->coverage ();
+  }
+
+  // Update the current coverage
+
+  this->coverage_ = ((float)this->current_coverage_/
+                    (float)this->total_records_)*100;
+}
+
+
+bool CUTS_Dmac_App::open_database ()
+{
+  // Open the connection with the database
+
+  if (!this->testdata_.open (this->data_file_))
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
+                       data_file_.c_str()),
+                       false);
+  }
+  else
+  {
+    // Find the total number of log messages
+
+    ADBC::SQLite::Query * query = this->testdata_.create_query ();
+
+    CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (
+      query, &ADBC::SQLite::Query::destroy);
+
+    ADBC::SQLite::Record * record = &query->execute (
+          "SELECT COUNT(*) AS result FROM cuts_logging");
+
+    long count;
+    record->get_data (0, count);
+
+    this->total_records_ = count;
+
+    record->reset ();
+
+    return true;
+
+  }
 }
 
 
 //
-// generate_dataflow
+// print_coverage
 //
-int CUTS_Dmac_App::generate_dataflow ()
+void CUTS_Dmac_App::print_coverage ()
 {
-  // final log format mingng
+  std::cout << "Total Records = " << this->total_records_ << std::endl;
+  float total_coverage = 0;
 
-  std::stringstream data_file;
-  data_file << this->data_file_.c_str ();
+  for (unsigned int i=0; i < this->log_formats_.size (); i++)
+  {
+    // Print the log formats and the coverage
+    long count = this->log_formats_ [i]->coverage ();
+    float percentage = ((float)count/(float)this->total_records_)*100;
+    total_coverage += percentage;
+    std::stringstream lfstring;
+    lfstring << " LF" << this->log_formats_[i]->id () << " - ";
+    lfstring << "Count = " << count << " Percent = " << percentage << "%";
+    std::cout << lfstring.str ();
+    std::cout << std::endl;
+  }
+  std::cout << "Total coverage : " << total_coverage;
+}
 
-  std::stringstream name;
-  name << this->name_.c_str ();
+//
+// print_final_patterns
+//
+void CUTS_Dmac_App::print_final_patterns ()
+{
+  // Print the results
 
-  std::string dmac_core_str (
-    "cuts-dmac-core -i frequent-sequences -f " + data_file.str ()
-    + " -n" + name.str ());
+  std::cout << "Results" << std::endl;
+  std::cout << "=======" << std::endl << std::endl;
+  for (unsigned int i=0; i < this->log_formats_.size (); i++)
+  {
+    std::stringstream lfstring;
+    lfstring << " LF" << this->log_formats_[i]->id ();
+    std::cout << lfstring.str () <<" = ";
 
-  ACE_HANDLE handle = ACE_INVALID_HANDLE;
+    for (unsigned int j=0;
+         j < this->log_formats_[i]->log_format_items ().size ();
+         j++)
+      std::cout << this->log_formats_[i]->log_format_items ().at (j) <<" ";
 
-  return execute_process (dmac_core_str.c_str (), ".", handle);
-
+    std::cout << std::endl;
+  }
 }
 
 
@@ -170,14 +371,13 @@ void CUTS_Dmac_App::print_help (void)
 
 int CUTS_Dmac_App::parse_args (int argc, char * argv [])
 {
-  const char * optstr = "dhf:s:n:l:";
+  const char * optstr = "hf:s:n:d:";
 
   ACE_Get_Opt get_opt (argc, argv, optstr);
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("min-sup", 's', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("spade-loc", 'l', ACE_Get_Opt::ARG_OPTIONAL);
-  get_opt.long_option ("delete", 'd');
+  get_opt.long_option ("delims", 'd', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
 
   char ch;
@@ -199,9 +399,9 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       {
         this->name_ = get_opt.opt_arg ();
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "spade-loc") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "delims") == 0)
       {
-        this->spade_location_ = get_opt.opt_arg ();
+        this->delims_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -221,12 +421,8 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       this->name_ = get_opt.opt_arg ();
       break;
 
-    case 'l':
-      this->spade_location_ = get_opt.opt_arg ();
-      break;
-
     case 'd':
-      this->delete_intermediate_ = true;
+      this->delims_ = get_opt.opt_arg ();
       break;
 
     case 'h':

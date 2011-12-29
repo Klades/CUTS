@@ -1,15 +1,16 @@
 #include "Dmac_Log_Format.h"
-#include "Dmac_Sequence.h"
+
 
 
 //
 // CUTS_Dmac_Log_Format
 //
-CUTS_Dmac_Log_Format::CUTS_Dmac_Log_Format (int id,
-                                            CUTS_DMAC_UTILS::string_vector & log_format_items)
-: id_ (id),
-  log_format_items_ (log_format_items),
-  coverage_ (0)
+CUTS_Dmac_Log_Format::CUTS_Dmac_Log_Format (
+    int id,
+    CUTS_DMAC_UTILS::string_vector & log_format_items)
+  : id_ (id),
+    log_format_items_ (log_format_items),
+    coverage_ (0)
 {
 
 }

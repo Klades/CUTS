@@ -7,10 +7,11 @@
 //
 // CUTS_Dmac_Execution
 //
-CUTS_Dmac_Execution::CUTS_Dmac_Execution (ACE_CString host_name,
-                                          int thread_id,
-                                          CUTS_Test_Database & test_data,
-                                          std::vector <CUTS_Dmac_Log_Format *> & final_patterns)
+CUTS_Dmac_Execution::CUTS_Dmac_Execution (
+    ACE_CString host_name,
+    int thread_id,
+    CUTS_Test_Database & test_data,
+    std::vector <CUTS_Dmac_Log_Format *> & final_patterns)
 : host_name_ (host_name),
   thread_id_ (thread_id),
   test_data_ (test_data),
@@ -24,7 +25,7 @@ CUTS_Dmac_Execution::CUTS_Dmac_Execution (ACE_CString host_name,
 //
 // ~CUTS_Dmac_Execution
 //
-CUTS_Dmac_Execution::~CUTS_Dmac_Execution ()
+CUTS_Dmac_Execution::~CUTS_Dmac_Execution (void)
 {
 
 
@@ -33,7 +34,7 @@ CUTS_Dmac_Execution::~CUTS_Dmac_Execution ()
 //
 // thread_id
 //
-int CUTS_Dmac_Execution::thread_id ()
+int CUTS_Dmac_Execution::thread_id (void)
 {
   return this->thread_id_;
 }
@@ -41,15 +42,20 @@ int CUTS_Dmac_Execution::thread_id ()
 //
 // host_name
 //
-ACE_CString CUTS_Dmac_Execution::host_name ()
+ACE_CString CUTS_Dmac_Execution::host_name (void)
 {
   return this->host_name_;
+}
+
+void CUTS_Dmac_Execution::delims (std::string delims)
+{
+  this->delims_ = delims;
 }
 
 //
 // Extract_Relations
 //
-void CUTS_Dmac_Execution::Extract_Relations ()
+void CUTS_Dmac_Execution::Extract_Relations (void)
 {
   ADBC::SQLite::Query * query = this->test_data_.create_query ();
 
@@ -69,7 +75,7 @@ void CUTS_Dmac_Execution::Extract_Relations ()
   ADBC::SQLite::Record * record =
     &query->execute (sqlstr.str ().c_str ());
 
-  char message[1024];
+  char message[10000];
 
   // check the log format with each message in the trace and
   // fill the execution history in terms of the log formats
@@ -79,9 +85,12 @@ void CUTS_Dmac_Execution::Extract_Relations ()
     CUTS_DMAC_UTILS::string_vector trace_items;
     record->get_data (5, message, sizeof (message));
     std::string message_str (message);
-    CUTS_DMAC_UTILS::tokenize (message_str, trace_items);
+    CUTS_DMAC_UTILS::tokenize (message_str, trace_items, this->delims_);
 
-    cur_id = this->match_log_format (trace_items);
+    //cur_id = this->match_log_format (trace_items);
+    cur_id = CUTS_DMAC_UTILS::match_log_format (trace_items,
+                                                this->final_patterns_,
+                                                true);
 
     if (cur_id > -1)
       this->lf_order_list_.push_back (cur_id);
@@ -95,56 +104,9 @@ void CUTS_Dmac_Execution::Extract_Relations ()
 }
 
 //
-// match_log_format
-//
-int CUTS_Dmac_Execution::match_log_format (CUTS_DMAC_UTILS::string_vector & trace_items)
-{
-  std::string empty_str ("{}");
-  int matching_format = -1;
-
-  for (unsigned int i = 0; i < this->final_patterns_.size (); i++)
-  {
-    // Staic parts should be matched and if it is a mismatch
-    // the log format should have a {} in the corrsponding
-    // item for continue the matching
-    CUTS_DMAC_UTILS::string_vector & log_format =
-        this->final_patterns_ [i]->log_format_items ();
-
-    if (trace_items.size () == log_format.size ())
-    {
-      for (unsigned int j = 0; j < log_format.size (); j++)
-      {
-        if (log_format [j].compare (empty_str) != 0)
-        {
-          if (log_format [j].compare (trace_items [j]) != 0)
-          {
-            matching_format = -1;
-            break;
-          }
-          else
-            matching_format = this->final_patterns_ [i]->id ();
-        }
-      }
-
-      // For each matching log message incrment the coverage
-      // value for this log format.
-
-      if (matching_format >= 0)
-      {
-        this->final_patterns_ [i]->add_varaible_values (trace_items);
-        this->final_patterns_ [i]->increment_coverage ();
-        break;
-      }
-    }
-  }
-
-  return matching_format;
-}
-
-//
 // create_data_flow_graph
 //
-void CUTS_Dmac_Execution::create_data_flow_graph ()
+void CUTS_Dmac_Execution::create_data_flow_graph (void)
 {
   ACE_NEW_THROW_EX (this->lf_graph_,
                     CUTS_Dmac_Log_Format_Graph (this->lf_order_list_,

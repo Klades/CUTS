@@ -63,7 +63,7 @@ void CUTS_Dmac_Vertical_Format::populate
 //
 // print_row_words
 //
-void CUTS_Dmac_Vertical_Format::print_row_words ()
+void CUTS_Dmac_Vertical_Format::print_row_words (std::ofstream & output)
 {
   CUTS_DMAC_UTILS::s_iter iter;
   int i = 0;
@@ -71,6 +71,6 @@ void CUTS_Dmac_Vertical_Format::print_row_words ()
     iter++)
   {
     i++;
-    std::cout<< this->tid_ << " " << i << " 1 " <<*iter << std::endl;
+    output << this->tid_ << " " << i << " 1 " <<*iter << std::endl;
   }
 }

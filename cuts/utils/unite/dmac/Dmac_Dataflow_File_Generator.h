@@ -56,10 +56,10 @@ public:
   void ctx (CUTS_DMAC_XML_GEN::Context_t & ctx);
 
   // Open file for output stream
-  void open_file ();
+  void open_file (void);
 
   // Close the file after writting
-  void close_file ();
+  void close_file (void);
 
   /**
    * Generate the datagraph for a given execution
@@ -69,7 +69,7 @@ public:
   void generate_xml (CUTS_Dmac_Execution * ex);
 
   // Intialize the xml file with declarations
-  void init_xml ();
+  void init_xml (void);
 
 
 private:
@@ -81,7 +81,7 @@ private:
   void generate_logformats (CUTS_Dmac_Execution * ex);
 
   // Finalize the xml generation
-  void generate_close_tag ();
+  void generate_close_tag (void);
 
   // List of identified log formats
   std::vector <CUTS_Dmac_Log_Format *> & log_formats_;

@@ -1,3 +1,52 @@
+Thu Dec 29 06:18:05 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/unite/dmac/CUTS_Dmac_Log_Miner.cpp:
+        * cuts/utils/unite/dmac/Dmac_App.h:
+        * cuts/utils/unite/dmac/Dmac_App.cpp:
+        * cuts/utils/unite/dmac/Dmac_Dataflow_File_Generator.h:
+        * cuts/utils/unite/dmac/Dmac_Dataflow_File_Generator.cpp:
+        * cuts/utils/unite/dmac/Dmac_Execution.h:
+        * cuts/utils/unite/dmac/Dmac_Execution.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_Database_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Database_Miner.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_File_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Log_File_Miner.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_Format.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Format.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_Format_Graph.cpp:
+        * cuts/utils/unite/dmac/Dmac_Log_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Miner.cpp:
+        * cuts/utils/unite/dmac/Dmac_Relation.h:
+        * cuts/utils/unite/dmac/Dmac_Relation_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Relation_Miner.cpp:
+        * cuts/utils/unite/dmac/Dmac_Static_Part.h:
+        * cuts/utils/unite/dmac/Dmac_Static_Part.cpp:
+        * cuts/utils/unite/dmac/Dmac_Utils.h:
+        * cuts/utils/unite/dmac/Dmac_Utils.cpp:
+        * cuts/utils/unite/dmac/Dmac_Vertical_Format.h:
+        * cuts/utils/unite/dmac/Dmac_Vertical_Format.cpp:
+        * cuts/utils/unite/dmac/Dmac_Vertical_Generator.h:
+        * cuts/utils/unite/dmac/Dmac_Vertical_Generator.cpp:
+        * cuts/utils/unite/dmac/dmac.mpc:
+
+          Improved version of DMAC. And code refatoring chnages.
+
+        * cuts/utils/unite/dmac/Dmac_Core.cpp:
+        * cuts/utils/unite/dmac/Dmac_Core_App.h:
+        * cuts/utils/unite/dmac/Dmac_Core_App.cpp:
+        * cuts/utils/unite/dmac/Dmac_Sequence.h:
+        * cuts/utils/unite/dmac/Dmac_Sequence.inl:
+        * cuts/utils/unite/dmac/Dmac_Sequence.cpp:
+        * cuts/utils/unite/dmac/vertical:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical.mpc:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical.cpp:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_App.h:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_App.cpp:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_Format.h:
+        * cuts/utils/unite/dmac/vertical/Dmac_Vertical_Format.cpp:
+
+          Removed these files.
+
 Tue Dec 20 16:03:47 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * tutorials/QuickStart2/descriptors/DeploymentPlan.cdd:

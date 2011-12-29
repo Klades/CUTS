@@ -40,8 +40,9 @@ void which_causes_which (EdgeIter first, EdgeIter last, const LF_Graph_Type & gr
 //
 // CUTS_Dmac_Log_Format_Graph
 //
-CUTS_Dmac_Log_Format_Graph::CUTS_Dmac_Log_Format_Graph (CUTS_DMAC_UTILS::int_vector & history,
-                                                        std::vector <CUTS_Dmac_Log_Format *> & lf_list)
+CUTS_Dmac_Log_Format_Graph::CUTS_Dmac_Log_Format_Graph (
+    CUTS_DMAC_UTILS::int_vector & history,
+    std::vector <CUTS_Dmac_Log_Format *> & lf_list)
 : history_ (history),
   lf_list_ (lf_list)
 {

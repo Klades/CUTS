@@ -4,7 +4,6 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include "Dmac_Sequence.h"
 #include "Dmac_Relation.h"
 #include "Dmac_Utils.h"
 
@@ -19,8 +18,10 @@ class CUTS_Dmac_Log_Format
 {
 public:
 
+  // Type definition of variable table
   typedef std::map <int, std::vector <std::string> > variable_table;
 
+  // Type definition of variable table iterator
   typedef variable_table::iterator var_iterator;
 
   /**
@@ -65,14 +66,14 @@ public:
    *
    * @return        vector of log format items
    */
-  CUTS_DMAC_UTILS::string_vector & log_format_items ();
+  CUTS_DMAC_UTILS::string_vector & log_format_items (void);
 
   /**
    * Get the log format id
    *
    * @return        id
    */
-  int id ();
+  int id (void);
 
    /**
    * Print the relations for a particular execution related to
@@ -128,7 +129,7 @@ public:
   long coverage (void);
 
   // Increment the coverage by one
-  void increment_coverage ();
+  void increment_coverage (void);
 
 private:
 

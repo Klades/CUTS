@@ -6,6 +6,8 @@
 #include "ace/OS_Memory.h"
 #include "cuts/config.h"
 #include "cuts/utils/unite/dmac/Dmac_Utils.h"
+#include <fstream>
+#include <sstream>
 
 /**
  * @class CUTS_Dmac_Vertical_Format
@@ -18,10 +20,10 @@ class CUTS_Dmac_Vertical_Format
 public:
 
   /// Default Constructor
-  CUTS_Dmac_Vertical_Format ();
+  CUTS_Dmac_Vertical_Format (void);
 
   /// Destructor
-  ~CUTS_Dmac_Vertical_Format ();
+  ~CUTS_Dmac_Vertical_Format (void);
 
   /**
    * Set the transaction id
@@ -48,7 +50,7 @@ public:
   void populate (CUTS_DMAC_UTILS::sequence_details & word_index);
 
   /// Print the set of words
-  void print_row_words ();
+  void print_row_words (std::ofstream & output);
 
 private:
 

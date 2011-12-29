@@ -5,7 +5,8 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
-#include "Dmac_Sequence.h"
+#include "Dmac_Utils.h"
+
 
 // Forward declerations
 class CUTS_Dmac_Log_Format;
@@ -31,7 +32,7 @@ public:
                       CUTS_Dmac_Execution * execution);
 
   // Destructor
-  ~CUTS_Dmac_Relation ();
+  ~CUTS_Dmac_Relation (void);
 
   /**
    * Add a cause effect variable pair
@@ -77,7 +78,7 @@ public:
    *
    * @return    CUTS_Dmac_Execution     The execution context
    */
-  CUTS_Dmac_Execution * execution ();
+  CUTS_Dmac_Execution * execution (void);
 
 private:
 

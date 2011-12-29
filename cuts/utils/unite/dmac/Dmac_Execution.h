@@ -33,29 +33,31 @@ public:
                        std::vector <CUTS_Dmac_Log_Format *> & final_patterns_);
 
   // Destructor
-  ~CUTS_Dmac_Execution ();
+  ~CUTS_Dmac_Execution (void);
 
   /**
    * Get thread_id
    *
    * @return   the thread_id of the execution
    */
-  int thread_id ();
+  int thread_id (void);
 
   /**
    * Get host_name
    *
    * @return    the host_name of the execution
    */
-  ACE_CString host_name ();
+  ACE_CString host_name (void);
 
-  // Create the dataflow model using the log format
-  void create_data_flow_graph ();
+  /** Create the dataflow model using the log format
+   *
+   */
+  void create_data_flow_graph (void);
 
   /**
    * Extract the relations from log formats
    */
-  void Extract_Relations ();
+  void Extract_Relations (void);
 
   /**
    * Match the log format with the trace
@@ -75,6 +77,13 @@ public:
    */
   bool operator == (CUTS_Dmac_Execution & execution);
 
+  /**
+   * Set the delimitters
+   * @param[in]   delims
+   *
+   */
+  void delims (std::string delims);
+
 
 private:
 
@@ -86,6 +95,9 @@ private:
 
   // The central database stroring the data
   CUTS_Test_Database & test_data_;
+
+  // Delimitters to seperate the words
+  std::string delims_;
 
   // The set of identified log formats
   std::vector <CUTS_Dmac_Log_Format *> & final_patterns_;

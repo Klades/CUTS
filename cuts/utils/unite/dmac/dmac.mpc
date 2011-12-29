@@ -1,35 +1,24 @@
 // $Id$
 
-project (CUTS_Dmac_Core) : boost_base, codegenerationkit, cuts_test_database, cutsexe {
-  exename = cuts-dmac-core
+project (CUTS_Dmac) : boost_base, codegenerationkit, cuts_test_database, cutsexe {
+  exename = cuts-dmac
 
   Source_Files {
-    Dmac_Core_App.cpp
-    Dmac_Core.cpp
     Dmac_Relation.cpp
-    Dmac_Sequence.cpp
     Dmac_Log_Format_Graph.cpp
     Dmac_Log_Format.cpp
     Dmac_Execution.cpp
     Dmac_Utils.cpp
     Dmac_Dataflow_File_Generator.cpp
-  }
-
-  Inline_Files {
-
-  }
-
-  Header_Files {
-
-  }
-}
-
-project (CUTS_Dmac_Exe) : acelib, cutsexe {
-  exename = cuts-dmac
-  
-  Source_Files {
-   Dmac_App.cpp
-   Dmac.cpp
+    Dmac_Vertical_Format.cpp
+    Dmac_Vertical_Generator.cpp
+    Dmac_Log_Miner.cpp
+    Dmac_Log_Database_Miner.cpp
+    Dmac_Log_File_Miner.cpp
+    Dmac_Relation_Miner.cpp
+    Dmac_Static_Part.cpp
+    Dmac_App.cpp
+    Dmac.cpp
   }
 
   Inline_Files {
