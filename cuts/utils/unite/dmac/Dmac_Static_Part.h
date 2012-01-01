@@ -1,3 +1,5 @@
+// $Id: Dmac_Static_Part.h
+
 #ifndef _CUTS_DMAC_STATIC_PART_H
 #define _CUTS_DMAC_STATIC_PART_H
 

@@ -1,3 +1,5 @@
+// $Id: Dmac_Log_File_Miner.h
+
 #ifndef _CUTS_DMAC_LOG_FILE_MINER_H_
 #define _CUTS_DMAC_LOG_FILE_MINER_H_
 

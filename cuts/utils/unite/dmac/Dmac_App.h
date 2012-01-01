@@ -1,3 +1,5 @@
+// $Id: Dmac_App.h
+
 #ifndef _CUTS_DMAC_APP_H_
 #define _CUTS_DMAC_APP_H_
 
@@ -9,6 +11,13 @@
 #include "Dmac_Log_Format.h"
 #include "Dmac_Log_Miner.h"
 #include <vector>
+
+/**
+ * @class CUTS_Dmac_App
+ *
+ * Defines the main entry point for the DMAC
+ * application
+ */
 
 class CUTS_Dmac_App
 {

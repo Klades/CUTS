@@ -1,3 +1,31 @@
+Sun Jan  1 00:44:38 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/utils/unite/dmac/Dmac_App.h:
+        * cuts/utils/unite/dmac/Dmac_Dataflow_File_Generator.h:
+        * cuts/utils/unite/dmac/Dmac_Execution.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Database_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Log_File_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Format.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Format_Graph.h:
+        * cuts/utils/unite/dmac/Dmac_Log_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Relation.h:
+        * cuts/utils/unite/dmac/Dmac_Relation_Miner.h:
+        * cuts/utils/unite/dmac/Dmac_Static_Part.h:
+        * cuts/utils/unite/dmac/Dmac_Utils.h:
+        * cuts/utils/unite/dmac/Dmac_Vertical_Format.h:
+        * cuts/utils/unite/dmac/Dmac_Vertical_Generator.h:
+
+          Code formatting in DMAC project.
+
+        * cuts/utils/unite/setaf/Cpp.h:
+        * cuts/utils/unite/setaf/Setaf_Code_Generator.h:
+        * cuts/utils/unite/setaf/Setaf_Format.h:
+        * cuts/utils/unite/setaf/Setaf_Lang_Compiler.h:
+        * cuts/utils/unite/setaf/Setaf_Utils.h:
+        * cuts/utils/unite/setaf/Setaf_app.h:
+
+          Code formatting in SETAF project.
+
 Thu Dec 29 15:51:12 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
@@ -68,7 +96,7 @@ Tue Dec 20 16:03:47 UTC 2011  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * tutorials/QuickStart2/descriptors/DeploymentPlan.nodemap:
         * tutorials/QuickStart2/descriptors/deployment.config:
 
-          Fixed the issues in the confihuration files of the SLICE scenario.
+          Fixed the issues in the configuration files of the SLICE scenario.
 
 Mon Dec 19 15:08:06 UTC 2011  James H. Hill  <hillj at cs dot iupui dot edu>
 

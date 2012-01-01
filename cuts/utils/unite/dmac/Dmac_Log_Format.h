@@ -1,3 +1,5 @@
+// $Id: Dmac_Log_Format.h
+
 #ifndef _CUTS_DMAC_LOG_FORMAT_H_
 #define _CUTS_DMAC_LOG_FORMAT_H_
 
