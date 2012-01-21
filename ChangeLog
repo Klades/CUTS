@@ -1,3 +1,66 @@
+Sat Jan 21 22:25:55 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm:
+
+          New location of iCCM.
+
+        * cuts/iccm/compiler:
+        * cuts/iccm/compiler/Downcall_Event.h:
+        * cuts/iccm/compiler/Downcall_Event.cpp:
+        * cuts/iccm/compiler/Event_Traits.h:
+        * cuts/iccm/compiler/Event_Traits.cpp:
+        * cuts/iccm/compiler/Executor_IDL_File.h:
+        * cuts/iccm/compiler/Executor_IDL_File.cpp:
+        * cuts/iccm/compiler/Executor_IDL_File_Visitor.h:
+        * cuts/iccm/compiler/Executor_IDL_File_Visitor.cpp:
+        * cuts/iccm/compiler/Includes_Visitor.h:
+        * cuts/iccm/compiler/Includes_Visitor.cpp:
+        * cuts/iccm/compiler/Scope_Visitor.h:
+        * cuts/iccm/compiler/Scope_Visitor.cpp:
+        * cuts/iccm/compiler/Servant_Context.h:
+        * cuts/iccm/compiler/Servant_Context.cpp:
+        * cuts/iccm/compiler/Servant_File.h:
+        * cuts/iccm/compiler/Servant_File.cpp:
+        * cuts/iccm/compiler/Servant_Impl.h:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+        * cuts/iccm/compiler/Stub_File.h:
+        * cuts/iccm/compiler/Stub_File.cpp:
+        * cuts/iccm/compiler/Upcall_Event.h:
+        * cuts/iccm/compiler/Upcall_Event.cpp:
+        * cuts/iccm/compiler/be_extern.h:
+        * cuts/iccm/compiler/be_global.h:
+        * cuts/iccm/compiler/be_global.cpp:
+        * cuts/iccm/compiler/be_init.cpp:
+        * cuts/iccm/compiler/be_produce.cpp:
+        * cuts/iccm/compiler/be_util.h:
+        * cuts/iccm/compiler/be_util.cpp:
+        * cuts/iccm/compiler/dds2ccm_impl.h:
+        * cuts/iccm/compiler/dds2ccm_impl.cpp:
+        * cuts/iccm/compiler/iCCM_OpenSplice_Compiler.mpc:
+        * cuts/iccm/compiler/null_ast_visitor.h:
+
+          First version of compiler that generates servants for iCCM. This
+          implementation is hard-coded to generate OpenSplice servants. As
+          we port over the other backends, this will change.
+
+        * cuts/iccm/dds2ccm:
+        * cuts/iccm/dds2ccm/Includes_Visitor.h:
+        * cuts/iccm/dds2ccm/Includes_Visitor.cpp:
+        * cuts/iccm/dds2ccm/be_extern.h:
+        * cuts/iccm/dds2ccm/be_global.h:
+        * cuts/iccm/dds2ccm/be_global.cpp:
+        * cuts/iccm/dds2ccm/be_init.cpp:
+        * cuts/iccm/dds2ccm/be_produce.cpp:
+        * cuts/iccm/dds2ccm/be_util.h:
+        * cuts/iccm/dds2ccm/be_util.cpp:
+        * cuts/iccm/dds2ccm/dds2ccm.mpc:
+        * cuts/iccm/dds2ccm/dds2ccm_impl.h:
+        * cuts/iccm/dds2ccm/dds2ccm_impl.cpp:
+        * cuts/iccm/dds2ccm/null_ast_visitor.h:
+
+          First version of compiler that transforms DDS types into CCM
+          events. This compiler is built atop TAO_IDL
+
 Sun Jan  1 08:30:01 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * ChangeLog
