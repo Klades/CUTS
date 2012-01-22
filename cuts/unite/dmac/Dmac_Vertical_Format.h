@@ -7,7 +7,7 @@
 
 #include "ace/OS_Memory.h"
 #include "cuts/config.h"
-#include "cuts/utils/unite/dmac/Dmac_Utils.h"
+#include "cuts/unite/dmac/Dmac_Utils.h"
 #include <fstream>
 #include <sstream>
 

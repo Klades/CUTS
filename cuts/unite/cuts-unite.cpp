@@ -61,7 +61,7 @@ namespace CUTS
           services (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -94,7 +94,7 @@ namespace CUTS
           relations (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -112,7 +112,7 @@ namespace CUTS
           add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
-        else 
+        else
         {
         }
       }
@@ -139,7 +139,7 @@ namespace CUTS
           add_relation (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -171,7 +171,7 @@ namespace CUTS
           effect_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -198,7 +198,7 @@ namespace CUTS
           add_causality (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -213,7 +213,7 @@ namespace CUTS
           effectref_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -240,7 +240,7 @@ namespace CUTS
           add_logformat (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -266,7 +266,7 @@ namespace CUTS
           name_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -293,7 +293,7 @@ namespace CUTS
           add_groupitem (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -332,7 +332,7 @@ namespace CUTS
           logformats (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -358,7 +358,7 @@ namespace CUTS
           location_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -385,7 +385,7 @@ namespace CUTS
           add_filter (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -412,7 +412,7 @@ namespace CUTS
           add_variable (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -436,7 +436,7 @@ namespace CUTS
           target_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -468,7 +468,7 @@ namespace CUTS
           when (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -507,7 +507,7 @@ namespace CUTS
           params (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -525,7 +525,7 @@ namespace CUTS
           add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
-        else 
+        else
         {
         }
       }
@@ -552,7 +552,7 @@ namespace CUTS
           add_service (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -569,7 +569,7 @@ namespace CUTS
 
       if (v == "conjunction") v_ = conjunction_l;
       else if (v == "disjunction") v_ = disjunction_l;
-      else 
+      else
       {
       }
     }
@@ -582,7 +582,7 @@ namespace CUTS
 
       if (v == "conjunction") v_ = conjunction_l;
       else if (v == "disjunction") v_ = disjunction_l;
-      else 
+      else
       {
       }
     }
@@ -628,7 +628,7 @@ namespace CUTS
           negate (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -670,7 +670,7 @@ namespace CUTS
           condition_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -702,7 +702,7 @@ namespace CUTS
           after (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -729,7 +729,7 @@ namespace CUTS
           condition_->container (this);
         }
 
-        else 
+        else
         {
         }
       }
@@ -771,7 +771,7 @@ namespace CUTS
           isvalid (t);
         }
 
-        else 
+        else
         {
         }
       }
@@ -804,7 +804,7 @@ namespace CUTS
           add_state (t);
         }
 
-        else 
+        else
         {
         }
       }

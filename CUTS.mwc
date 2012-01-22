@@ -28,6 +28,7 @@ workspace (CUTS) {
     cuts/svcs
     cuts/workers
     cuts/utils
+	cuts/unite
   }
 
   // == always build this project

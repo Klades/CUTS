@@ -7,13 +7,13 @@
 #endif
 
 #include "TE_Score_Evaluator.h"
-#include "cuts/utils/unite/cuts-unite.h"
-#include "cuts/utils/unite/Dataflow_Graph.h"
-#include "cuts/utils/unite/Dataflow_Graph_Builder.h"
-#include "cuts/utils/unite/Dataset_Repo.h"
-#include "cuts/utils/unite/Dataset_Result.h"
-#include "cuts/utils/unite/Unite_Datagraph_File.h"
-#include "cuts/utils/unite/Validation_Test_File.h"
+#include "cuts/unite/cuts-unite.h"
+#include "cuts/unite/Dataflow_Graph.h"
+#include "cuts/unite/Dataflow_Graph_Builder.h"
+#include "cuts/unite/Dataset_Repo.h"
+#include "cuts/unite/Dataset_Result.h"
+#include "cuts/unite/Unite_Datagraph_File.h"
+#include "cuts/unite/Validation_Test_File.h"
 #include "cuts/utils/testing/Test_Database.h"
 
 #include "XSC/utils/XML_Error_Handler.h"

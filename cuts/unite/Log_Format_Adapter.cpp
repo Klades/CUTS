@@ -1,6 +1,6 @@
 #include "Log_Format_Adapter.h"
 #include "ace/CORBA_macros.h"
-#include "cuts/utils/unite/Variable.h"
+#include "cuts/unite/Variable.h"
 
 //
 // Destructor

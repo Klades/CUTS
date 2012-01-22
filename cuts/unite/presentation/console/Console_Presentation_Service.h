@@ -13,7 +13,7 @@
 #ifndef _CUTS_CONSOLE_PRESENTATION_SERVICE_H_
 #define _CUTS_CONSOLE_PRESENTATION_SERVICE_H_
 
-#include "cuts/utils/unite/Presentation_Service.h"
+#include "cuts/unite/Presentation_Service.h"
 #include "Console_Presentation_Service_export.h"
 
 /**

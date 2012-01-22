@@ -6,8 +6,8 @@
 #include "Gnuplot_Presentation_Service.inl"
 #endif
 
-#include "cuts/utils/unite/Dataset_Result.h"
-#include "cuts/utils/unite/Unite_Test.h"
+#include "cuts/unite/Dataset_Result.h"
+#include "cuts/unite/Unite_Test.h"
 #include "ace/Get_Opt.h"
 #include "ace/Service_Config.h"
 #include "ace/streams.h"

@@ -13,7 +13,7 @@
 #ifndef _CUTS_GNUPLOT_PRESENTATION_SERVICE_H_
 #define _CUTS_GNUPLOT_PRESENTATION_SERVICE_H_
 
-#include "cuts/utils/unite/Presentation_Service.h"
+#include "cuts/unite/Presentation_Service.h"
 #include "Gnuplot_Presentation_Service_export.h"
 #include "ace/SString.h"
 

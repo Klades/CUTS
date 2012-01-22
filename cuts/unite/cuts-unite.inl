@@ -3,7 +3,7 @@ namespace CUTS
   namespace XML
   {
     // testConfig
-    // 
+    //
 
     inline
     testConfig::
@@ -11,8 +11,8 @@ namespace CUTS
                 ::XMLSchema::string< char > const& evaluation__,
                 ::XMLSchema::string< char > const& aggregation__,
                 ::CUTS::XML::datagraphLink const& datagraph__)
-    : 
-    ::XSCRT::Type (), 
+    :
+    ::XSCRT::Type (),
     name_ (new ::XMLSchema::string< char > (name__)),
     evaluation_ (new ::XMLSchema::string< char > (evaluation__)),
     aggregation_ (new ::XMLSchema::string< char > (aggregation__)),
@@ -80,7 +80,7 @@ namespace CUTS
 
 
     // testConfig
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& testConfig::
     name () const
@@ -96,7 +96,7 @@ namespace CUTS
     }
 
     // testConfig
-    // 
+    //
     inline
     bool testConfig::
     description_p () const
@@ -128,7 +128,7 @@ namespace CUTS
     }
 
     // testConfig
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& testConfig::
     evaluation () const
@@ -144,7 +144,7 @@ namespace CUTS
     }
 
     // testConfig
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& testConfig::
     aggregation () const
@@ -160,7 +160,7 @@ namespace CUTS
     }
 
     // testConfig
-    // 
+    //
     inline
     ::CUTS::XML::datagraphLink const& testConfig::
     datagraph () const
@@ -176,7 +176,7 @@ namespace CUTS
     }
 
     // testConfig
-    // 
+    //
     inline
     bool testConfig::
     grouping_p () const
@@ -208,7 +208,7 @@ namespace CUTS
     }
 
     // testConfig
-    // 
+    //
     inline
     bool testConfig::
     services_p () const
@@ -241,13 +241,13 @@ namespace CUTS
 
 
     // logformatType
-    // 
+    //
 
     inline
     logformatType::
     logformatType (::XMLSchema::string< char > const& value__,
                    ::XMLSchema::ID< char > const& id__)
-    : 
+    :
     value_ (new ::XMLSchema::string< char > (value__)),
     id_ (new ::XMLSchema::ID< char > (id__)),
     regulator__ ()
@@ -289,7 +289,7 @@ namespace CUTS
 
 
     // logformatType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& logformatType::
     value () const
@@ -305,7 +305,7 @@ namespace CUTS
     }
 
     // logformatType
-    // 
+    //
     inline
     bool logformatType::
     relations_p () const
@@ -337,7 +337,7 @@ namespace CUTS
     }
 
     // logformatType
-    // 
+    //
     inline
     ::XMLSchema::ID< char > const& logformatType::
     id () const
@@ -361,12 +361,12 @@ namespace CUTS
 
 
     // relationList
-    // 
+    //
 
     inline
     relationList::
     relationList ()
-    : 
+    :
     regulator__ ()
     {
     }
@@ -392,7 +392,7 @@ namespace CUTS
 
 
     // relationList
-    // 
+    //
     inline
     relationList::relation_iterator relationList::
     begin_relation ()
@@ -437,13 +437,13 @@ namespace CUTS
 
 
     // causalityType
-    // 
+    //
 
     inline
     causalityType::
     causalityType (::XMLSchema::string< char > const& cause__,
                    ::XMLSchema::string< char > const& effect__)
-    : 
+    :
     cause_ (new ::XMLSchema::string< char > (cause__)),
     effect_ (new ::XMLSchema::string< char > (effect__)),
     regulator__ ()
@@ -477,7 +477,7 @@ namespace CUTS
 
 
     // causalityType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& causalityType::
     cause () const
@@ -500,7 +500,7 @@ namespace CUTS
     }
 
     // causalityType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& causalityType::
     effect () const
@@ -524,12 +524,12 @@ namespace CUTS
 
 
     // relationType
-    // 
+    //
 
     inline
     relationType::
     relationType (::XMLSchema::NCName< char > const& effectref__)
-    : 
+    :
     effectref_ (new ::XMLSchema::NCName< char > (effectref__)),
     regulator__ ()
     {
@@ -561,7 +561,7 @@ namespace CUTS
 
 
     // relationType
-    // 
+    //
     inline
     relationType::causality_iterator relationType::
     begin_causality ()
@@ -605,7 +605,7 @@ namespace CUTS
     }
 
     // relationType
-    // 
+    //
     inline
     ::XMLSchema::NCName< char > const& relationType::
     effectref () const
@@ -629,12 +629,12 @@ namespace CUTS
 
 
     // logformatList
-    // 
+    //
 
     inline
     logformatList::
     logformatList ()
-    : 
+    :
     regulator__ ()
     {
     }
@@ -660,7 +660,7 @@ namespace CUTS
 
 
     // logformatList
-    // 
+    //
     inline
     logformatList::logformat_iterator logformatList::
     begin_logformat ()
@@ -705,12 +705,12 @@ namespace CUTS
 
 
     // groupitemType
-    // 
+    //
 
     inline
     groupitemType::
     groupitemType (::XMLSchema::string< char > const& name__)
-    : 
+    :
     name_ (new ::XMLSchema::string< char > (name__)),
     regulator__ ()
     {
@@ -738,7 +738,7 @@ namespace CUTS
 
 
     // groupitemType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& groupitemType::
     name () const
@@ -762,12 +762,12 @@ namespace CUTS
 
 
     // groupingType
-    // 
+    //
 
     inline
     groupingType::
     groupingType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupitemType, ACE_Null_Mutex > > const& groupitem__)
-    : 
+    :
     groupitem_ (groupitem__),
     regulator__ ()
     {
@@ -794,7 +794,7 @@ namespace CUTS
 
 
     // groupingType
-    // 
+    //
     inline
     groupingType::groupitem_iterator groupingType::
     begin_groupitem ()
@@ -839,12 +839,12 @@ namespace CUTS
 
 
     // datagraphType
-    // 
+    //
 
     inline
     datagraphType::
     datagraphType (::XMLSchema::string< char > const& name__)
-    : 
+    :
     name_ (new ::XMLSchema::string< char > (name__)),
     regulator__ ()
     {
@@ -887,7 +887,7 @@ namespace CUTS
 
 
     // datagraphType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& datagraphType::
     name () const
@@ -903,7 +903,7 @@ namespace CUTS
     }
 
     // datagraphType
-    // 
+    //
     inline
     bool datagraphType::
     adapter_p () const
@@ -935,7 +935,7 @@ namespace CUTS
     }
 
     // datagraphType
-    // 
+    //
     inline
     bool datagraphType::
     logformats_p () const
@@ -968,12 +968,12 @@ namespace CUTS
 
 
     // datagraphLink
-    // 
+    //
 
     inline
     datagraphLink::
     datagraphLink (::XMLSchema::anyURI< char > const& location__)
-    : 
+    :
     location_ (new ::XMLSchema::anyURI< char > (location__)),
     regulator__ ()
     {
@@ -1001,7 +1001,7 @@ namespace CUTS
 
 
     // datagraphLink
-    // 
+    //
     inline
     ::XMLSchema::anyURI< char > const& datagraphLink::
     location () const
@@ -1025,12 +1025,12 @@ namespace CUTS
 
 
     // filterList
-    // 
+    //
 
     inline
     filterList::
     filterList ()
-    : 
+    :
     regulator__ ()
     {
     }
@@ -1056,7 +1056,7 @@ namespace CUTS
 
 
     // filterList
-    // 
+    //
     inline
     filterList::filter_iterator filterList::
     begin_filter ()
@@ -1101,14 +1101,14 @@ namespace CUTS
 
 
     // filterType
-    // 
+    //
 
     inline
     filterType::
     filterType (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > > const& variable__,
                 ::XMLSchema::ID< char > const& id__,
                 ::XMLSchema::string< char > const& target__)
-    : 
+    :
     variable_ (variable__),
     id_ (new ::XMLSchema::ID< char > (id__)),
     target_ (new ::XMLSchema::string< char > (target__)),
@@ -1147,7 +1147,7 @@ namespace CUTS
 
 
     // filterType
-    // 
+    //
     inline
     filterType::variable_iterator filterType::
     begin_variable ()
@@ -1191,7 +1191,7 @@ namespace CUTS
     }
 
     // filterType
-    // 
+    //
     inline
     ::XMLSchema::ID< char > const& filterType::
     id () const
@@ -1214,7 +1214,7 @@ namespace CUTS
     }
 
     // filterType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& filterType::
     target () const
@@ -1238,12 +1238,12 @@ namespace CUTS
 
 
     // filterVariableType
-    // 
+    //
 
     inline
     filterVariableType::
     filterVariableType ()
-    : 
+    :
     regulator__ ()
     {
     }
@@ -1275,7 +1275,7 @@ namespace CUTS
 
 
     // filterVariableType
-    // 
+    //
     inline
     bool filterVariableType::
     name_p () const
@@ -1314,7 +1314,7 @@ namespace CUTS
     }
 
     // filterVariableType
-    // 
+    //
     inline
     bool filterVariableType::
     when_p () const
@@ -1354,14 +1354,14 @@ namespace CUTS
 
 
     // serviceType
-    // 
+    //
 
     inline
     serviceType::
     serviceType (::XMLSchema::string< char > const& location__,
                  ::XMLSchema::string< char > const& classname__,
                  ::XMLSchema::ID< char > const& id__)
-    : 
+    :
     location_ (new ::XMLSchema::string< char > (location__)),
     classname_ (new ::XMLSchema::string< char > (classname__)),
     id_ (new ::XMLSchema::ID< char > (id__)),
@@ -1409,7 +1409,7 @@ namespace CUTS
 
 
     // serviceType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& serviceType::
     location () const
@@ -1425,7 +1425,7 @@ namespace CUTS
     }
 
     // serviceType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& serviceType::
     classname () const
@@ -1441,7 +1441,7 @@ namespace CUTS
     }
 
     // serviceType
-    // 
+    //
     inline
     bool serviceType::
     params_p () const
@@ -1473,7 +1473,7 @@ namespace CUTS
     }
 
     // serviceType
-    // 
+    //
     inline
     ::XMLSchema::ID< char > const& serviceType::
     id () const
@@ -1497,12 +1497,12 @@ namespace CUTS
 
 
     // serviceList
-    // 
+    //
 
     inline
     serviceList::
     serviceList (::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceType, ACE_Null_Mutex > > const& service__)
-    : 
+    :
     service_ (service__),
     regulator__ ()
     {
@@ -1529,7 +1529,7 @@ namespace CUTS
 
 
     // serviceList
-    // 
+    //
     inline
     serviceList::service_iterator serviceList::
     begin_service ()
@@ -1574,7 +1574,7 @@ namespace CUTS
 
 
     // joinType
-    // 
+    //
 
     inline
     joinType::Value joinType::
@@ -1605,14 +1605,14 @@ namespace CUTS
     }
 
     // expressionType
-    // 
+    //
 
     inline
     expressionType::
     expressionType (::XMLSchema::string< char > const& format__,
                     ::XMLSchema::string< char > const& variable__,
                     ::XMLSchema::string< char > const& value__)
-    : 
+    :
     format_ (new ::XMLSchema::string< char > (format__)),
     variable_ (new ::XMLSchema::string< char > (variable__)),
     value_ (new ::XMLSchema::string< char > (value__)),
@@ -1657,7 +1657,7 @@ namespace CUTS
 
 
     // expressionType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& expressionType::
     format () const
@@ -1680,7 +1680,7 @@ namespace CUTS
     }
 
     // expressionType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& expressionType::
     variable () const
@@ -1703,7 +1703,7 @@ namespace CUTS
     }
 
     // expressionType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& expressionType::
     value () const
@@ -1726,7 +1726,7 @@ namespace CUTS
     }
 
     // expressionType
-    // 
+    //
     inline
     bool expressionType::
     negate_p () const
@@ -1766,12 +1766,12 @@ namespace CUTS
 
 
     // aspectType
-    // 
+    //
 
     inline
     aspectType::
     aspectType (::XMLSchema::string< char > const& condition__)
-    : 
+    :
     condition_ (new ::XMLSchema::string< char > (condition__)),
     regulator__ ()
     {
@@ -1814,7 +1814,7 @@ namespace CUTS
 
 
     // aspectType
-    // 
+    //
     inline
     bool aspectType::
     name_p () const
@@ -1846,7 +1846,7 @@ namespace CUTS
     }
 
     // aspectType
-    // 
+    //
     inline
     bool aspectType::
     viewpoint_p () const
@@ -1878,7 +1878,7 @@ namespace CUTS
     }
 
     // aspectType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& aspectType::
     condition () const
@@ -1895,12 +1895,12 @@ namespace CUTS
 
 
     // viewpointType
-    // 
+    //
 
     inline
     viewpointType::
     viewpointType ()
-    : 
+    :
     regulator__ ()
     {
     }
@@ -1932,7 +1932,7 @@ namespace CUTS
 
 
     // viewpointType
-    // 
+    //
     inline
     bool viewpointType::
     before_p () const
@@ -1971,7 +1971,7 @@ namespace CUTS
     }
 
     // viewpointType
-    // 
+    //
     inline
     bool viewpointType::
     after_p () const
@@ -2011,14 +2011,14 @@ namespace CUTS
 
 
     // stateType
-    // 
+    //
 
     inline
     stateType::
     stateType (::XMLSchema::string< char > const& condition__,
                ::XMLSchema::ID< char > const& name__,
                ::XMLSchema::unsignedInt const& priority__)
-    : 
+    :
     condition_ (new ::XMLSchema::string< char > (condition__)),
     name_ (new ::XMLSchema::ID< char > (name__)),
     priority_ (new ::XMLSchema::unsignedInt (priority__)),
@@ -2074,7 +2074,7 @@ namespace CUTS
 
 
     // stateType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& stateType::
     condition () const
@@ -2090,7 +2090,7 @@ namespace CUTS
     }
 
     // stateType
-    // 
+    //
     inline
     ::XMLSchema::ID< char > const& stateType::
     name () const
@@ -2113,7 +2113,7 @@ namespace CUTS
     }
 
     // stateType
-    // 
+    //
     inline
     ::XMLSchema::unsignedInt const& stateType::
     priority () const
@@ -2136,7 +2136,7 @@ namespace CUTS
     }
 
     // stateType
-    // 
+    //
     inline
     bool stateType::
     minoccurs_p () const
@@ -2175,7 +2175,7 @@ namespace CUTS
     }
 
     // stateType
-    // 
+    //
     inline
     bool stateType::
     maxoccurs_p () const
@@ -2214,7 +2214,7 @@ namespace CUTS
     }
 
     // stateType
-    // 
+    //
     inline
     bool stateType::
     isvalid_p () const
@@ -2254,12 +2254,12 @@ namespace CUTS
 
 
     // validationType
-    // 
+    //
 
     inline
     validationType::
     validationType (::XMLSchema::string< char > const& datagraph__)
-    : 
+    :
     datagraph_ (new ::XMLSchema::string< char > (datagraph__)),
     regulator__ ()
     {
@@ -2291,7 +2291,7 @@ namespace CUTS
 
 
     // validationType
-    // 
+    //
     inline
     ::XMLSchema::string< char > const& validationType::
     datagraph () const
@@ -2307,7 +2307,7 @@ namespace CUTS
     }
 
     // validationType
-    // 
+    //
     inline
     validationType::state_iterator validationType::
     begin_state ()

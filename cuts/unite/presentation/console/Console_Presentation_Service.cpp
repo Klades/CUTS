@@ -6,7 +6,7 @@
 #include "Console_Presentation_Service.inl"
 #endif
 
-#include "cuts/utils/unite/Dataset_Result.h"
+#include "cuts/unite/Dataset_Result.h"
 #include "ace/Service_Config.h"
 #include "ace/streams.h"
 
