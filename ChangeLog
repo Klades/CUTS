@@ -1,3 +1,29 @@
+Mon Jan 23 22:45:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/arch/HelloWorld/models/HelloWorld.xme:
+
+          Separated the sender and receiver components.
+
+        * examples/arch/HelloWorld/arch/opensplice:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld.idl:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld.mpc:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld.mwc:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorldImpl.h:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorldImpl.cpp:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorldImpl.mpc:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_OSPL.idl:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_svnt.h:
+        * examples/arch/HelloWorld/arch/opensplice/HelloWorld_svnt.cpp:
+        * examples/arch/HelloWorld/arch/opensplice/OpenSplice_HelloWorldC.h:
+        * examples/arch/HelloWorld/arch/opensplice/OpenSplice_HelloWorldC.cpp:
+        * examples/arch/HelloWorld/arch/opensplice/descriptors:
+        * examples/arch/HelloWorld/arch/opensplice/descriptors/HelloWorld.cdd:
+        * examples/arch/HelloWorld/arch/opensplice/descriptors/HelloWorld.cdp:
+        * examples/arch/HelloWorld/arch/opensplice/descriptors/HelloWorld.nodemap:
+        * examples/arch/HelloWorld/arch/opensplice/descriptors/run_test.pl:
+
+          Removed these files.
+
 Mon Jan 23 20:16:26 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch:
