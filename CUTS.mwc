@@ -25,10 +25,11 @@ workspace (CUTS) {
     cuts/CUTS.mpc
     cuts/arch
     cuts/idl
+    cuts/iccm
     cuts/svcs
     cuts/workers
     cuts/utils
-	cuts/unite
+    cuts/unite
   }
 
   // == always build this project

@@ -1,0 +1,23 @@
+// $Id$
+
+project (iCCM_Servant) : ccm_svnt, cutslib {
+  sharedname = iCCM_Servant
+
+  dynamicflags += ICCM_SERVANT_BUILD_DLL
+
+  Source_Files {
+    Cookie.cpp
+    EventConsumer.cpp
+    Publisher.cpp
+    Publisher_Table.cpp
+    Servant.cpp
+  }
+
+  Template_Files {
+    Container_T.cpp
+    Context_T.cpp
+    EventConsumer_T.cpp
+    Publisher_Table_T.cpp
+    Servant_T.cpp
+  }
+}

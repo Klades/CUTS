@@ -1,3 +1,57 @@
+Mon Jan 23 04:17:10 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/deployment:
+        * cuts/iccm/deployment/Component_Instance_Handler_T.h:
+        * cuts/iccm/deployment/Component_Instance_Handler_T.inl:
+        * cuts/iccm/deployment/Component_Instance_Handler_T.cpp:
+        * cuts/iccm/deployment/Container_Strategy.h:
+        * cuts/iccm/deployment/Container_Strategy.inl:
+        * cuts/iccm/deployment/Container_Strategy.cpp:
+        * cuts/iccm/deployment/Container_Strategy_T.h:
+        * cuts/iccm/deployment/Container_Strategy_T.inl:
+        * cuts/iccm/deployment/Container_Strategy_T.cpp:
+        * cuts/iccm/deployment/Container_T.h:
+        * cuts/iccm/deployment/Container_T.inl:
+        * cuts/iccm/deployment/Container_T.cpp:
+        * cuts/iccm/deployment/Deployment_Handlers.mpc:
+        * cuts/iccm/deployment/Deployment_Handlers_export.h:
+
+          First implementation of the DAnCE deployment handlers
+          for iCCM.
+
+        * cuts/iccm/servant:
+        * cuts/iccm/servant/Context_T.h:
+        * cuts/iccm/servant/Context_T.inl:
+        * cuts/iccm/servant/Context_T.cpp:
+        * cuts/iccm/servant/Cookie.h:
+        * cuts/iccm/servant/Cookie.inl:
+        * cuts/iccm/servant/Cookie.cpp:
+        * cuts/iccm/servant/EventConsumer.h:
+        * cuts/iccm/servant/EventConsumer.inl:
+        * cuts/iccm/servant/EventConsumer.cpp:
+        * cuts/iccm/servant/EventConsumer_T.h:
+        * cuts/iccm/servant/EventConsumer_T.inl:
+        * cuts/iccm/servant/EventConsumer_T.cpp:
+        * cuts/iccm/servant/Publisher.h:
+        * cuts/iccm/servant/Publisher.inl:
+        * cuts/iccm/servant/Publisher.cpp:
+        * cuts/iccm/servant/Publisher_Table.h:
+        * cuts/iccm/servant/Publisher_Table.inl:
+        * cuts/iccm/servant/Publisher_Table.cpp:
+        * cuts/iccm/servant/Publisher_Table_T.h:
+        * cuts/iccm/servant/Publisher_Table_T.inl:
+        * cuts/iccm/servant/Publisher_Table_T.cpp:
+        * cuts/iccm/servant/Servant.h:
+        * cuts/iccm/servant/Servant.inl:
+        * cuts/iccm/servant/Servant.cpp:
+        * cuts/iccm/servant/Servant.mpc:
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.inl:
+        * cuts/iccm/servant/Servant_T.cpp:
+        * cuts/iccm/servant/Servant_export.h:
+
+          First implementation of the servant artifacts for iCCM.
+
 Sun Jan 22 03:44:33 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * CUTS.mwc:
