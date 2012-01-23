@@ -1,0 +1,83 @@
+// $Id$
+
+project (iCCM_OpenSplice_stub) : requires_opensplice, ccm_stub, cutslib {
+  sharedname    = iCCM_OpenSplice_stub
+  dynamicflags += ICCM_OPENSPLICE_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_OPENSPLICE_STUB_Export \
+              -Wb,stub_export_include=OpenSplice_stub_export.h \
+              -Wb,skel_export_macro=ICCM_OPENSPLICE_SKEL_Export \
+              -Wb,skel_export_include=OpenSplice_skel_export.h
+
+  IDL_Files {
+    OpenSplice_Events.idl
+  }
+
+  Source_Files {
+    OpenSplice_EventsC.cpp
+  }
+
+  Template_Files {
+  }
+
+  Header_Files {
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_OpenSplice_skel) : ccm_svnt, iccm_opensplice_stub, cutslib {
+  sharedname    = iCCM_OpenSplice_skel
+  dynamicflags += ICCM_OPENSPLICE_SKEL_BUILD_DLL
+
+  Source_Files {
+    OpenSplice_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_OpenSplice_svnt) : iccm_opensplice_skel, iccm_servant, cutslib {
+  sharedname    = iCCM_OpenSplice_svnt
+  dynamicflags += ICCM_OPENSPLICE_SVNT_BUILD_DLL
+
+  Source_Files {
+    OpenSplice_EventConsumer.cpp
+    OpenSplice_Servant.cpp
+    OpenSplice_Publisher.cpp
+    OpenSplice_Publisher_Table.cpp
+  }
+
+  Template_Files {
+    OpenSplice_Servant_T.cpp
+    OpenSplice_Event_T.cpp
+    OpenSplice_Event_Listener_T.cpp
+    OpenSplice_EventConsumer_T.cpp
+    OpenSplice_Publisher_T.cpp
+    OpenSplice_Publisher_Table_T.cpp
+  }
+
+  Header_Files {
+    OpenSplice_Traits_T.h
+  }
+
+  IDL_Files {
+
+  }
+}

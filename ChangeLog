@@ -1,3 +1,59 @@
+Mon Jan 23 20:16:26 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch:
+        * cuts/iccm/arch/opensplice:
+        * cuts/iccm/arch/opensplice/deployment:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Configurator.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Configurator.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container.inl:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.inl:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment_Handlers_export.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Domain_File.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Domain_File.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Participant_File.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Participant_File.cpp:
+        * cuts/iccm/arch/opensplice/servant:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Event_Listener_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Event_Listener_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Events.idl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_T.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.mpc:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Traits_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_skel_export.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_stub_export.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_svnt_export.h:
+
+          First port of OpenSplice to iCCM framework.
+
 Mon Jan 23 20:12:30 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/iccm_deployment_handlers.mpb:

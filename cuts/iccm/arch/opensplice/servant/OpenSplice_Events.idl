@@ -1,0 +1,23 @@
+#ifndef _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
+#define _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
+
+#include "ccm/CCM_Events.idl"
+
+module Components
+{
+  module OpenSplice
+  {
+    /**
+     * Extension interface for connecting to subscriber using CCM
+     * component connections. The event consumer exposes methods that
+     * control what topics it listens to.
+     */
+    interface EventConsumer : ::Components::EventConsumerBase
+    {
+      void add_topic (in string topic_name);
+      void remove_topic (in string topic_name);
+    };
+  };
+};
+
+#endif  // !defined _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
