@@ -1,3 +1,20 @@
+Mon Jan 23 16:44:16 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/compiler/Event_Traits.cpp:
+        * cuts/iccm/compiler/Servant_File.cpp:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+        * cuts/iccm/compiler/Stub_File.cpp:
+        * cuts/iccm/compiler/be_global.cpp:
+        * cuts/iccm/servant/Context_T.h:
+        * cuts/iccm/servant/Context_T.inl:
+        * cuts/iccm/servant/Cookie.h:
+        * cuts/iccm/servant/EventConsumer.h:
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.inl:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Fixed build errors related to the migration.
+
 Mon Jan 23 04:17:10 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/deployment:

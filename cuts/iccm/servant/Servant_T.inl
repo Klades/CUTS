@@ -1,7 +1,10 @@
 // -*- C++ -*-
 // $Id$
 
-#if !defined (LW)
+namespace iCCM
+{
+
+#if !defined (CCM_LW)
 
 //
 // get_all_consumers
@@ -84,7 +87,7 @@ Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::provide_facet (const c
   throw CORBA::NO_IMPLEMENT ();
 }
 
-#if !defined (LW)
+#if !defined (CCM_LW)
 
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 CUTS_INLINE
@@ -123,7 +126,7 @@ disconnect (const char *, ::Components::Cookie *)
   throw CORBA::NO_IMPLEMENT ();
 }
 
-#if !defined (LW)
+#if !defined (CCM_LW)
 //
 // get_connections
 //
@@ -169,7 +172,7 @@ Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_ccm_home (void)
 }
 
 
-#if !defined (LW)
+#if !defined (CCM_LW)
 //
 // same_component
 //
@@ -211,3 +214,5 @@ Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_all_ports (void)
 }
 
 #endif
+
+}

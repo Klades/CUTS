@@ -66,12 +66,12 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
 
   this->hfile_
     << "/**" << std::endl
-    << " * @class CUTS_OpenSplice_CCM_Traits_T < ::" << full_name << " >" << std::endl
+    << " * @class iCCM::OpenSplice_Traits_T < ::" << full_name << " >" << std::endl
     << " *" << std::endl
     << " * Trait information for " << full_name << "Event event type." << std::endl
     << " */" << std::endl
     << "template < >" << std::endl
-    << "class CUTS_OpenSplice_CCM_Traits_T < ::" << full_name << " >"
+    << "class iCCM::OpenSplice_Traits_T < ::" << full_name << " >"
     << "{"
     << "public:" << std::endl
     << "// traits for the reader(s)" << std::endl

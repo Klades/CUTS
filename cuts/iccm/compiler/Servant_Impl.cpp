@@ -687,7 +687,7 @@ int Servant_Impl::visit_component (AST_Component * node)
       << "::PortableServer::POA_ptr poa," << std::endl
       << "::Components::EnterpriseComponent_ptr p)"
       << "{"
-      << "return ::CUTS::CCM::create_servant <"
+      << "return ::iCCM::create_servant <"
       << " CIAO_" << node->local_name ()->get_string ()
       << "_Impl::" << node->local_name ()->get_string () << "_Exec, "
       << servant << " > (name, poa, p);"

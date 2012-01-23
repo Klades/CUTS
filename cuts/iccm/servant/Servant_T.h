@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file         TCPIP_Servant_T.h
+ *  @file         Servant_T.h
  *
  *  $Id$
  *
@@ -10,16 +10,19 @@
  */
 //=============================================================================
 
-#ifndef _SERVANT_T_H_
-#define _SERVANT_T_H_
+#ifndef _ICCM_SERVANT_T_H_
+#define _ICCM_SERVANT_T_H_
 
-#include "ccm/ObjectS.h"
+#include "ccm/CCM_ObjectS.h"
+
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
+
 #include "cuts/config.h"
 
 namespace iCCM
+{
 
 // Forward decl.
 class EventConsumer;
@@ -86,7 +89,7 @@ public:
   virtual Components::EventConsumerBase_ptr
     disconnect_consumer (const char *);
 
-#if !defined (LW)
+#if !defined (CCM_LW)
   virtual Components::ConsumerDescriptions *
     get_all_consumers (void);
 
@@ -110,7 +113,7 @@ public:
 
   ::CORBA::Object_ptr provide_facet (const char *);
 
-#if !defined (LW)
+#if !defined (CCM_LW)
   ::Components::FacetDescriptions * get_all_facets (void);
 
   ::Components::FacetDescriptions * get_named_facets (const Components::NameList &);
@@ -120,7 +123,7 @@ public:
 
   ::CORBA::Object_ptr disconnect (const char *, ::Components::Cookie *);
 
-#if !defined (LW)
+#if !defined (CCM_LW)
   ::Components::ConnectionDescriptions * get_connections (const char *);
 
   ::Components::ReceptacleDescriptions * get_all_receptacles (void);
@@ -129,7 +132,7 @@ public:
 #endif
 
 
-#if !defined (LW)
+#if !defined (CCM_LW)
   ::CORBA::Boolean same_component (::CORBA::Object_ptr);
 
   ::CORBA::IRObject_ptr get_component_def (void);
@@ -190,7 +193,7 @@ private:
 };
 
 /**
- * Standard method for creating a CCM servant.
+ * Standard method for creating an iCCM servant.
  *
  * @param[in]       name      Name of the servant
  * @param[in]       p         Pointer to the executor
@@ -210,4 +213,4 @@ create_servant (const char * name,
 
 #include "Servant_T.cpp"
 
-#endif  // !defined _SERVANT_T_H_
+#endif  // !defined _ICCM_SERVANT_T_H_

@@ -255,7 +255,7 @@ get_event_mapping_source_filename (void) const
 const ACE_CString & BE_GlobalData::
 get_context_template_header_filename (void) const
 {
-  static const ACE_CString value ("cuts/arch/ccm/CCM_Context_T.h");
+  static const ACE_CString value ("cuts/iccm/servant/Context_T.h");
   return value;
 }
 
@@ -265,7 +265,7 @@ get_context_template_header_filename (void) const
 const ACE_CString & BE_GlobalData::
 get_servant_template_header_filename (void) const
 {
-  static const ACE_CString value ("cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h");
+  static const ACE_CString value ("cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.h");
   return value;
 }
 
@@ -274,7 +274,7 @@ get_servant_template_header_filename (void) const
 //
 const ACE_CString & BE_GlobalData::get_context_typename (void) const
 {
-  static const ACE_CString value ("CUTS_CCM_Context_T");
+  static const ACE_CString value ("iCCM::Context_T");
   return value;
 }
 
@@ -283,7 +283,7 @@ const ACE_CString & BE_GlobalData::get_context_typename (void) const
 //
 const ACE_CString & BE_GlobalData::get_servant_template_typename (void) const
 {
-  static const ACE_CString value ("CUTS_OpenSplice_CCM_Servant_T");
+  static const ACE_CString value ("iCCM::OpenSplice_Servant_T");
   return value;
 }
 
@@ -292,7 +292,7 @@ const ACE_CString & BE_GlobalData::get_servant_template_typename (void) const
 //
 const ACE_CString & BE_GlobalData::get_publisher_template_typename (void) const
 {
-  static const ACE_CString value ("CUTS_OpenSplice_CCM_Publisher_T");
+  static const ACE_CString value ("iCCM::OpenSplice_Publisher_T");
   return value;
 }
 
@@ -302,7 +302,7 @@ const ACE_CString & BE_GlobalData::get_publisher_template_typename (void) const
 const ACE_CString & BE_GlobalData::
 get_publisher_table_template_typename (void) const
 {
-  static const ACE_CString value ("CUTS_OpenSplice_CCM_Publisher_Table_T");
+  static const ACE_CString value ("iCCM::OpenSplice_Publisher_Table_T");
   return value;
 }
 
@@ -311,7 +311,7 @@ get_publisher_table_template_typename (void) const
 //
 const ACE_CString & BE_GlobalData::get_publisher_typename (void) const
 {
-  static const ACE_CString value ("CUTS_OpenSplice_CCM_Publisher");
+  static const ACE_CString value ("iCCM::OpenSplice_Publisher");
   return value;
 }
 
@@ -321,7 +321,7 @@ const ACE_CString & BE_GlobalData::get_publisher_typename (void) const
 const ACE_CString & BE_GlobalData::
 get_publisher_table_typename (void) const
 {
-  static const ACE_CString value ("CUTS_OpenSplice_CCM_Publisher_Table");
+  static const ACE_CString value ("iCCM::OpenSplice_Publisher_Table");
   return value;
 }
 
@@ -331,7 +331,7 @@ get_publisher_table_typename (void) const
 const ACE_CString & BE_GlobalData::
 get_consumer_template_typename (void) const
 {
-  static const ACE_CString value ("CUTS_OpenSplice_CCM_EventConsumer_T");
+  static const ACE_CString value ("iCCM::OpenSplice_EventConsumer_T");
   return value;
 }
 

@@ -13,7 +13,8 @@
 #ifndef _CUTS_ICCM_CONTEXT_T_H_
 #define _CUTS_ICCM_CONTEXT_T_H_
 
-#include "ccm/Session/SessionContextC.h"
+#include "ccm/Session/CCM_SessionContextC.h"
+
 #include "cuts/config.h"
 
 namespace iCCM
@@ -44,9 +45,9 @@ public:
   /// Destructor.
   virtual ~Context_T (void);
 
-  virtual ::Components::CCMHome_ptr get_home (void);
+  virtual ::Components::CCMHome_ptr get_CCM_home (void);
 
-#if !defined (LW)
+#if !defined (CCM_LW)
   virtual ::Components::Principal_ptr get_caller_principal (void);
 
   virtual ::CORBA::Boolean get_rollback_only (void);
@@ -60,7 +61,7 @@ public:
 
   virtual ::CORBA::Object_ptr resolve_service_reference (const char *);
 
-  virtual ::CORBA::Object_ptr get_object (void);
+  virtual ::CORBA::Object_ptr get_CCM_object (void);
 
 protected:
   SVNT & svnt_;

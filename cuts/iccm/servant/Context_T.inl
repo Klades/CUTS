@@ -30,7 +30,7 @@ Context_T <T, SVNT>::~Context_T (void)
 //
 template <typename T, typename SVNT>
 CUTS_INLINE
-::Components::CCMHome_ptr Context_T <T, SVNT>::get_home (void)
+::Components::CCMHome_ptr Context_T <T, SVNT>::get_CCM_home (void)
 {
   return ::Components::CCMHome::_nil ();
 }
@@ -51,12 +51,12 @@ Context_T <T, SVNT>::resolve_service_reference (const char *)
 //
 template <typename T, typename SVNT>
 CUTS_INLINE
-::CORBA::Object_ptr Context_T <T, SVNT>::get_object (void)
+::CORBA::Object_ptr Context_T <T, SVNT>::get_CCM_object (void)
 {
   return this->svnt_._this ();
 }
 
-#if !defined (LW)
+#if !defined (CCM_LW)
 //
 // get_caller_principal
 //

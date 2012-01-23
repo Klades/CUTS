@@ -199,7 +199,7 @@ int Stub_File::visit_root (AST_Root * node)
     << "#define " << file_guard << std::endl
     << std::endl
     << include_t (be_global->get_source_basename () + "C.h")
-    << include_t ("cuts/arch/opensplice/ccm/OpenSplice_CCM_Traits_T.h")
+    << include_t ("cuts/iccm/arch/opensplice/servant/OpenSplice_Traits_T.h")
     << std::endl;
 
   // List the include files for the DDS event types.

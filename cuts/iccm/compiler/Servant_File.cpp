@@ -181,7 +181,6 @@ int Servant_File::visit_root (AST_Root * node)
     << "// $" << "Id" << "$" << std::endl
     << std::endl
     << include_t (be_global->get_svnt_header_filename ())
-    << include_t ("cuts/arch/ccm/CCM_T.h")
     << std::endl;
 
   if (!be_global->svnt_export_macro_filename_.empty ())

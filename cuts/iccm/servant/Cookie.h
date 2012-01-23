@@ -11,7 +11,7 @@
 //=============================================================================
 
 #ifndef _CUTS_ICCM_COOKIE_H_
-#define _COOKIE_H_
+#define _CUTS_ICCM_COOKIE_H_
 
 #include "ccm/CCM_CookieC.h"
 #include "ace/UUID.h"

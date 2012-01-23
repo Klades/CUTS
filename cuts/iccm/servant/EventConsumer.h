@@ -39,6 +39,11 @@ public:
 
   /// Method for sending a CORBA event.
   virtual void push_event (::Components::EventBase *);
+
+private:
+  // prevent the following operations
+  EventConsumer (const EventConsumer &);
+  const EventConsumer & operator = (const EventConsumer &);
 };
 
 }

@@ -8,6 +8,9 @@
 #include "Publisher.h"
 #include "Publisher_Table.h"
 
+namespace iCCM
+{
+
 //
 // Servant_T
 //
@@ -277,4 +280,6 @@ create_servant (const char * name,
                   0);
 
   return servant;
+}
+
 }
