@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_opensplice_skel, iccm_servant {
+  libs  += iCCM_OpenSplice_svnt
+  after += iCCM_OpenSplice_svnt
+}

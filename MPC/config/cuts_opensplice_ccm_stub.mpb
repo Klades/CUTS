@@ -1,6 +1,0 @@
-// $Id$
-
-project : cuts_opensplice, ccm_stub {
-  libs  += CUTS_OpenSplice_CCM_stub
-  after += CUTS_OpenSplice_CCM_stub
-}

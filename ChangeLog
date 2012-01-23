@@ -1,3 +1,23 @@
+Mon Jan 23 20:12:30 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/iccm_deployment_handlers.mpb:
+        * MPC/config/iccm_ospl.mpb:
+        * MPC/config/iccm_servant.mpb:
+
+          Base project for iCCM
+
+        * MPC/config/iccm_opensplice_skel.mpb:
+        * MPC/config/iccm_opensplice_stub.mpb:
+        * MPC/config/iccm_opensplice_svnt.mpb:
+
+          Old projects below.
+
+        * MPC/config/cuts_opensplice_ccm.mpb:
+        * MPC/config/cuts_opensplice_ccm_skel.mpb:
+        * MPC/config/cuts_opensplice_ccm_stub.mpb:
+
+          Removed these files.
+
 Mon Jan 23 20:09:05 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/deployment/Component_Instance_Handler_T.h:

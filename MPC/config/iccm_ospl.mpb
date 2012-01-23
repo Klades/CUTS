@@ -1,0 +1,16 @@
+// $Id$
+
+project {
+  Define_Custom (IDL) {
+    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
+    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
+    inputext              = .idl
+
+    source_outputext      = C.cpp
+    header_outputext      = C.h
+    source_pre_filename   = OpenSplice_
+    generic_outputext     = _iCCM.idl
+
+    keyword iccm_ospl_flags = commandflags
+  }
+}

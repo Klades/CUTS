@@ -1,0 +1,6 @@
+// $Id$
+
+project {
+  libs  += iCCM_Servant
+  after += iCCM_Servant
+}

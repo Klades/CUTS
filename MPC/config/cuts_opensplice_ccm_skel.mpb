@@ -1,6 +1,0 @@
-// $Id$
-
-project : ccm_svnt, cuts_opensplice_ccm_stub {
-  libs  += CUTS_OpenSplice_CCM_skel
-  after += CUTS_OpenSplice_CCM_skel
-}
