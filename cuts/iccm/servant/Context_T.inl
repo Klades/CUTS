@@ -26,7 +26,7 @@ Context_T <T, SVNT>::~Context_T (void)
 }
 
 //
-// get_home
+// get_CCM_home
 //
 template <typename T, typename SVNT>
 CUTS_INLINE
@@ -47,7 +47,7 @@ Context_T <T, SVNT>::resolve_service_reference (const char *)
 }
 
 //
-// get_object
+// get_CCM_object
 //
 template <typename T, typename SVNT>
 CUTS_INLINE

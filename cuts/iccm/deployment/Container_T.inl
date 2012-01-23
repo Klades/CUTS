@@ -1,12 +1,15 @@
 // -*- C++ -*-
 // $Id$
 
+namespace iCCM
+{
+
 //
-// ~CUTS_CCM_Container_T
+// ~Container_T
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
-INST_HANDLER * CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::inst_handler (void)
+INST_HANDLER * Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::inst_handler (void)
 {
   return this->inst_handler_;
 }
@@ -17,7 +20,7 @@ INST_HANDLER * CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::i
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
 ::Components::Cookie *
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 connect_local_facet (::Components::CCMObject_ptr,
                      const char * ,
                      ::Components::CCMObject_ptr,
@@ -31,7 +34,7 @@ connect_local_facet (::Components::CCMObject_ptr,
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 disconnect_local_facet (::Components::Cookie *,
                         ::Components::CCMObject_ptr,
                         const char * ,
@@ -46,7 +49,7 @@ disconnect_local_facet (::Components::Cookie *,
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 init (const char * name)
 {
   this->name_ = name;
@@ -57,7 +60,9 @@ init (const char * name)
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::fini (void)
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::fini (void)
 {
+
+}
 
 }

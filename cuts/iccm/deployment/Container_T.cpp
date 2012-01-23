@@ -1,18 +1,21 @@
 // $Id$
 
 #if !defined (__CUTS_INLINE__)
-#include "CCM_Container_T.inl"
+#include "Container_T.inl"
 #endif
 
 #include "ccm/CCM_ObjectC.h"
 #include "ace/UUID.h"
 #include "ace/OS_NS_unistd.h"
 
+namespace iCCM
+{
+
 //
-// ~CUTS_CCM_Container_T
+// ~Container_T
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::~CUTS_CCM_Container_T (void)
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::~Container_T (void)
 {
   if (!::CORBA::is_nil (this->poa_.in ()))
     this->poa_->destroy (1, 1);
@@ -22,12 +25,12 @@ CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::~CUTS_CCM_Contai
 }
 
 //
-// CUTS_CCM_Container_T
+// Container_T
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
-CUTS_CCM_Container_T (INST_HANDLER * inst_handler, ::PortableServer::POA_ptr poa)
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T (INST_HANDLER * inst_handler, ::PortableServer::POA_ptr poa)
 : inst_handler_ (inst_handler)
 {
   this->initialize_the_POA (poa);
@@ -48,7 +51,7 @@ CUTS_CCM_Container_T (INST_HANDLER * inst_handler, ::PortableServer::POA_ptr poa
 // install_home
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-::Components::CCMHome_ptr CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+::Components::CCMHome_ptr Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 install_home (const char * primary_artifact,
               const char * entry_point,
               const char * servant_artifact,
@@ -62,7 +65,7 @@ install_home (const char * primary_artifact,
 // remove_home
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 uninstall_home (::Components::CCMHome_ptr)
 {
   throw CORBA::NO_IMPLEMENT ();
@@ -72,7 +75,7 @@ uninstall_home (::Components::CCMHome_ptr)
 // remove
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::remove (void)
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::remove (void)
 {
   ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - removing all components in the container\n")));
@@ -101,7 +104,7 @@ void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::remove (voi
 // install_component
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-::Components::CCMObject_ptr CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+::Components::CCMObject_ptr Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 install_component (const char * primary_artifact,
                    const char * entry_point,
                    const char * servant_artifact,
@@ -150,7 +153,7 @@ install_component (const char * primary_artifact,
 // activate_component
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 activate_component (::Components::CCMObject_ptr ref)
 {
   // Locate the id of this reference.
@@ -175,7 +178,7 @@ activate_component (::Components::CCMObject_ptr ref)
 // passivate_component
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 passivate_component (::Components::CCMObject_ptr ref)
 {
   // Locate the id of this reference.
@@ -200,7 +203,7 @@ passivate_component (::Components::CCMObject_ptr ref)
 // uninstall_component
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 uninstall_component (::Components::CCMObject_ptr ref)
 {
   // Locate the id of this reference.
@@ -232,7 +235,7 @@ uninstall_component (::Components::CCMObject_ptr ref)
 // set_attributes
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 set_attributes (::CORBA::Object_ptr ref,
                 const ::Components::ConfigValues & values)
 {
@@ -266,7 +269,7 @@ set_attributes (::CORBA::Object_ptr ref,
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::CORBA::Object_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 install_servant (::PortableServer::Servant svnt,
                  ::CIAO::Container_Types::OA_Type type,
                  ::PortableServer::ObjectId_out oid)
@@ -278,7 +281,7 @@ install_servant (::PortableServer::Servant svnt,
 // uninstall_servant
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 uninstall_servant (::PortableServer::Servant compptr,
                    ::CIAO::Container_Types::OA_Type type,
                    ::PortableServer::ObjectId_out oid)
@@ -291,7 +294,7 @@ uninstall_servant (::PortableServer::Servant compptr,
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::CORBA::Object_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 generate_reference (const char * obj_id,
                     const char * repo_id,
                     ::CIAO::Container_Types::OA_Type type)
@@ -318,7 +321,7 @@ generate_reference (const char * obj_id,
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::CORBA::Object_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 get_objref (::PortableServer::Servant p)
 {
   throw ::CORBA::NO_IMPLEMENT ();
@@ -329,7 +332,7 @@ get_objref (::PortableServer::Servant p)
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::PortableServer::POA_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_POA (void)
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_POA (void)
 {
   return ::PortableServer::POA::_duplicate (this->poa_.in ());
 }
@@ -339,7 +342,7 @@ CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_POA (void)
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::PortableServer::POA_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_port_POA (void)
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_port_POA (void)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
@@ -349,7 +352,7 @@ CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_port_POA (vo
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::CORBA::Object_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 resolve_service_reference (const char * service_id)
 {
   throw ::CORBA::NO_IMPLEMENT ();
@@ -359,7 +362,7 @@ resolve_service_reference (const char * service_id)
 // initialize_to_POA
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 initialize_the_POA (::PortableServer::POA_ptr poa)
 {
   using ACE_Utils::UUID_GENERATOR;
@@ -403,7 +406,7 @@ initialize_the_POA (::PortableServer::POA_ptr poa)
 // initialize_to_port_POA
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 initialize_the_port_POA (::PortableServer::POA_ptr poa)
 {
   using ACE_Utils::UUID_GENERATOR;
@@ -450,9 +453,11 @@ initialize_the_port_POA (::PortableServer::POA_ptr poa)
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
 ::CIAO::Servant_Activator_ptr
-CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
 ports_servant_activator (void)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
 #endif
+
+}

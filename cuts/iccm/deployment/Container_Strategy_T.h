@@ -33,10 +33,10 @@ public:
    *
    * @param[in]       container       Host container of strategy.
    */
-  CUTS_CCM_Container_Strategy_T (CONTAINER & container);
+  Container_Strategy_T (CONTAINER & container);
 
   /// Destructor.
-  virtual ~CUTS_CCM_Container_Strategy_T (void);
+  virtual ~Container_Strategy_T (void);
 
 protected:
   /// Pointer to the component server hosting the container.

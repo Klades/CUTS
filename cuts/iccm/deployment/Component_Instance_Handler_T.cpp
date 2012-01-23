@@ -1,7 +1,6 @@
 // $Id$
 
-#include "CCM_ConfigValue_i.h"
-#include "CCM_Cookie.h"
+#include "cuts/iccm/servant/Cookie.h"
 
 #include "dance/DAnCE_Utility.h"
 
@@ -10,22 +9,23 @@
 
 #include "dance/LocalityManager/Scheduler/Plugin_Manager.h"
 
+namespace iCCM
+{
+
 //
-// CUTS_CCM_Component_Instance_Handler_T
+// Component_Instance_Handler_T
 //
 template <typename HANDLER, typename CONTAINER>
-CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
-CUTS_CCM_Component_Instance_Handler_T (void)
+Component_Instance_Handler_T <HANDLER, CONTAINER>::Component_Instance_Handler_T (void)
 {
 
 }
 
 //
-// ~CUTS_CCM_Component_Instance_Handler_T
+// ~Component_Instance_Handler_T
 //
 template <typename HANDLER, typename CONTAINER>
-CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
-~CUTS_CCM_Component_Instance_Handler_T (void)
+Component_Instance_Handler_T <HANDLER, CONTAINER>::~Component_Instance_Handler_T (void)
 {
 }
 
@@ -34,7 +34,7 @@ CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
 //
 template <typename HANDLER, typename CONTAINER>
 ::CORBA::StringSeq *
-CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+Component_Instance_Handler_T <HANDLER, CONTAINER>::
 dependencies (void)
 {
   ::CORBA::StringSeq * retval = 0;
@@ -48,7 +48,7 @@ dependencies (void)
 // close
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::close (void)
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::close (void)
 {
 
 }
@@ -57,7 +57,7 @@ void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::close (void)
 // instance_type
 //
 template <typename HANDLER, typename CONTAINER>
-char * CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type (void)
+char * Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type (void)
 {
   return CORBA::string_dup ("edu.vanderbilt.dre.CCM.Component");
 }
@@ -66,7 +66,7 @@ char * CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type
 // install_instance
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 install_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong instance_ref,
                   ::CORBA::Any_out instance_reference)
@@ -219,7 +219,7 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
 // activate_instance
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 activate_instance (const ::Deployment::DeploymentPlan & ,
                    ::CORBA::ULong ,
                    const ::CORBA::Any & any)
@@ -238,7 +238,7 @@ activate_instance (const ::Deployment::DeploymentPlan & ,
 // passivate_instance
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 passivate_instance (const ::Deployment::DeploymentPlan & ,
                     ::CORBA::ULong index,
                     const ::CORBA::Any & any)
@@ -257,7 +257,7 @@ passivate_instance (const ::Deployment::DeploymentPlan & ,
 // remove_instance
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 remove_instance (const ::Deployment::DeploymentPlan &,
                  ::CORBA::ULong index,
                  const ::CORBA::Any & any_ref)
@@ -276,7 +276,7 @@ remove_instance (const ::Deployment::DeploymentPlan &,
 // provide_endpoint_reference
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
                             ::CORBA::ULong index,
                             ::CORBA::Any_out any_out)
@@ -351,7 +351,7 @@ provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
 // connect_instance
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 connect_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong index,
                   const ::CORBA::Any & any_ref)
@@ -447,7 +447,7 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
 // disconnect_instance
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong index)
 {
   ACE_DEBUG ((LM_DEBUG,
@@ -459,7 +459,7 @@ disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong inde
 // configure
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 configure (const ::Deployment::Properties & prop)
 {
   using ::Deployment::StartError;
@@ -498,7 +498,7 @@ configure (const ::Deployment::Properties & prop)
 // instance_configured
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 instance_configured (const ::Deployment::DeploymentPlan & plan,
                      ::CORBA::ULong index)
 {
@@ -535,7 +535,7 @@ instance_configured (const ::Deployment::DeploymentPlan & plan,
 //
 template <typename HANDLER, typename CONTAINER>
 const char *
-CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+Component_Instance_Handler_T <HANDLER, CONTAINER>::
 get_implementation (const char *name, const ::Deployment::DeploymentPlan &plan)
 {
   if (name == 0)
@@ -570,7 +570,7 @@ get_implementation (const char *name, const ::Deployment::DeploymentPlan &plan)
 // create_attribute_configuration
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 create_attribute_configuration (const ::Deployment::Properties &props,
                                 ::Components::ConfigValues & values)
 {
@@ -580,7 +580,16 @@ create_attribute_configuration (const ::Deployment::Properties &props,
   for (CORBA::ULong i = 0; i < props.length (); ++ i)
   {
     const ::Deployment::Property & p = props[i];
-    values[i] = new CUTS_CCM_ConfigValue_i (p.name.in (), p.value);
+    ::Components::ConfigValue_var value;
+
+    ACE_NEW_THROW_EX (value,
+                      ::OBV_Components::ConfigValue (),
+                      ::CORBA::NO_MEMORY ());
+
+    value->name (p.name);
+    value->value (p.value);
+
+    values[i] = value;
   }
 }
 
@@ -588,16 +597,18 @@ create_attribute_configuration (const ::Deployment::Properties &props,
 // register_valuetypes
 //
 template <typename HANDLER, typename CONTAINER>
-void CUTS_CCM_Component_Instance_Handler_T <HANDLER, CONTAINER>::
+void Component_Instance_Handler_T <HANDLER, CONTAINER>::
 register_valuetypes (::CORBA::ORB_ptr orb)
 {
   ::CORBA::ValueFactory_var prev;
 
   prev = orb->register_value_factory (
-    CUTS_CCM_Cookie::_tao_obv_static_repository_id (),
-    new CUTS_CCM_Cookie_Factory ());
+    Cookie::_tao_obv_static_repository_id (),
+    new Cookie_Factory ());
 
   prev = orb->register_value_factory (
     ::Components::ConfigValue::_tao_obv_static_repository_id (),
     new ::Components::ConfigValue_init ());
+}
+
 }

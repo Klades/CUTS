@@ -26,11 +26,14 @@
 #include <set>
 #include <map>
 
+namespace iCCM
+{
+
 /**
- * @class CUTS_CCM_Component_Instance_Handler_T
+ * @class Component_Instance_Handler_T
  */
 template <typename HANDLER, typename CONTAINER>
-class CUTS_CCM_Component_Instance_Handler_T :
+class Component_Instance_Handler_T :
   public virtual ::DAnCE::InstanceDeploymentHandler,
   public virtual ::CORBA::LocalObject
 {
@@ -42,10 +45,10 @@ public:
   typedef CONTAINER container_type;
 
   /// Default constructor
-  CUTS_CCM_Component_Instance_Handler_T (void);
+  Component_Instance_Handler_T (void);
 
   /// Destructor
-  virtual ~CUTS_CCM_Component_Instance_Handler_T (void);
+  virtual ~Component_Instance_Handler_T (void);
 
   virtual char * instance_type (void);
 
@@ -112,6 +115,8 @@ private:
   cookie_map cookies_;
 };
 
-#include "CCM_Component_Instance_Handler_T.cpp"
+}
+
+#include "Component_Instance_Handler_T.cpp"
 
 #endif  // !defined _CUTS_COMPONENT_INSTANCE_HANDLER_H_

@@ -10,8 +10,8 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_CCM_CONTAINER_T_H_
-#define _CUTS_CCM_CONTAINER_T_H_
+#ifndef _CUTS_ICCM_CONTAINER_T_H_
+#define _CUTS_ICCM_CONTAINER_T_H_
 
 #include "ciao/Containers/Session/Session_ContainerC.h"
 #include "ciao/Version.h"
@@ -22,13 +22,16 @@
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
 
-#include "CCM_Container_Strategy_T.h"
+#include "Container_Strategy_T.h"
+
+namespace iCCM
+{
 
 /**
- * @class CUTS_CCM_Container_T
+ * @class Container_T
  */
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
-class CUTS_CCM_Container_T :
+class Container_T :
   public ::CIAO::Session_Container
 {
 public:
@@ -47,10 +50,10 @@ public:
   /**
    * Initializing constructor.
    */
-  CUTS_CCM_Container_T (INST_HANDLER * server, ::PortableServer::POA_ptr poa);
+  Container_T (INST_HANDLER * server, ::PortableServer::POA_ptr poa);
 
   /// Destructor.
-  virtual ~CUTS_CCM_Container_T (void);
+  virtual ~Container_T (void);
 
   /// Get the component server that create the container.
   INST_HANDLER * inst_handler (void);
@@ -160,10 +163,12 @@ protected:
   ACE_CString name_;
 };
 
+}
+
 #if defined (__CUTS_INLINE__)
-#include "CCM_Container_T.inl"
+#include "Container_T.inl"
 #endif
 
-#include "CCM_Container_T.cpp"
+#include "Container_T.cpp"
 
 #endif  // !defined _CUTS_TCPIP_CCM_CONTAINER_H_
