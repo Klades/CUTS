@@ -1,0 +1,8 @@
+// -*- IDL -*-
+
+#ifndef _HELLOWORLD_ICCM_IDL_
+#define _HELLOWORLD_ICCM_IDL_
+
+#include "HelloWorldE.idl"
+
+#endif  // !defined _HELLOWORLD_ICCM_IDL_

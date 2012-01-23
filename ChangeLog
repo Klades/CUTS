@@ -1,3 +1,28 @@
+Mon Jan 23 22:50:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/iccm:
+        * examples/iccm/HelloWorld:
+        * examples/iccm/HelloWorld/opensplice:
+        * examples/iccm/HelloWorld/opensplice/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/opensplice/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/opensplice/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/HelloReceiver_impl_export.h:
+        * examples/iccm/HelloWorld/opensplice/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/opensplice/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/opensplice/HelloSender_impl_export.h:
+        * examples/iccm/HelloWorld/opensplice/HelloWorld.idl:
+        * examples/iccm/HelloWorld/opensplice/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/opensplice/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/opensplice/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/opensplice/HelloWorld_iCCM.idl:
+        * examples/iccm/HelloWorld/opensplice/descriptors:
+        * examples/iccm/HelloWorld/opensplice/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/opensplice/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/opensplice/descriptors/run_test.pl:
+
+          HelloWorld example for OpenSplice backend in iCCM.
+
 Mon Jan 23 22:45:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/arch/HelloWorld/models/HelloWorld.xme:
