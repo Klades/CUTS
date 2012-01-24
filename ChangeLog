@@ -1,3 +1,76 @@
+Tue Jan 24 02:13:01 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/handlers/opensplice.locality.config:
+
+          Updated locality configuration to latest version.
+
+        * cuts/arch/opensplice:
+        * cuts/arch/opensplice/OpenSplice.mpc:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.h:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.inl:
+        * cuts/arch/opensplice/OpenSplice_Endpoint.cpp:
+        * cuts/arch/opensplice/OpenSplice_ListenerBase.h:
+        * cuts/arch/opensplice/OpenSplice_ListenerBase.cpp:
+        * cuts/arch/opensplice/OpenSplice_Servant.h:
+        * cuts/arch/opensplice/OpenSplice_Servant.inl:
+        * cuts/arch/opensplice/OpenSplice_Servant.cpp:
+        * cuts/arch/opensplice/OpenSplice_Traits_T.h:
+        * cuts/arch/opensplice/OpenSplice_export.h:
+        * cuts/arch/opensplice/ccm:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM.mpc:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_Servant_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_export.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_skel_export.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_CCM_stub_export.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_EventConsumer_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Event_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Event_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Event_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Events.idl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_T.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_T.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table.inl:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table.cpp:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table_T.h:
+        * cuts/arch/opensplice/ccm/OpenSplice_Publisher_Table_T.cpp:
+        * cuts/arch/opensplice/handlers:
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Configurator.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container_Strategy.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container_Strategy.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_Container_Strategy.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Deployment_Handlers_export.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Domain_File.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Domain_File.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.inl:
+        * cuts/arch/opensplice/handlers/OpenSplice_Instance_Handler.cpp:
+        * cuts/arch/opensplice/handlers/OpenSplice_Participant_File.h:
+        * cuts/arch/opensplice/handlers/OpenSplice_Participant_File.cpp:
+        * cuts/arch/opensplice/handlers/dds.h:
+        * cuts/arch/opensplice/handlers/dds.inl:
+        * cuts/arch/opensplice/handlers/dds.cpp:
+        * cuts/arch/opensplice/handlers/handlers.mpc:
+
+          Removed these files.
+
 Mon Jan 23 22:50:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/iccm:
