@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : requires_opensplice {
   Define_Custom (IDL) {
     command               = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
     dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>

@@ -1,6 +1,6 @@
 // $Id$
 
-project : splicelib, ccm_stub {
+project : splicelib, ccm_stub, requires_opensplice {
   libs  += iCCM_OpenSplice_stub
   after += iCCM_OpenSplice_stub
 
