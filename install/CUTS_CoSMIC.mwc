@@ -22,7 +22,10 @@ workspace (CUTS_CoSMIC) {
 
     // Projects from other workspaces/repositories.
     $(ACE_ROOT)/ace/ace.mpc
+
     $(GAME_ROOT)/game/mga/Mga.mpc
+    $(GAME_ROOT)/game/mga/upgrade
+
     $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
     $(COSMIC_ROOT)/Utils/Utils.mpc
 

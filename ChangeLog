@@ -1,3 +1,10 @@
+Sat Jan 28 18:19:39 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * install/CUTS_CoSMIC.mwc:
+
+          Added gme_upgrade to the installer, but it is not included
+          in the installer.
+
 Wed Jan 25 17:25:08 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/iccm_opensplice_stub.mpb:
