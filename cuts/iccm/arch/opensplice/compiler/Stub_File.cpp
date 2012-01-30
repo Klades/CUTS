@@ -52,7 +52,7 @@ static ostream & operator << (ostream & out, const include_t & i)
  * Visitor that is responsible for listing the include files for
  * a CORBA's corresponding DDS event type.
  */
-class List_Dcps_Impl_Includes : public Scope_Visitor
+class List_Dcps_Impl_Includes : public iCCM::Scope_Visitor
 {
 public:
   //
@@ -101,7 +101,7 @@ public:
   {
     // Get the corresponding DDS event type.
     ACE_CString dds_event;
-    if (!be_global->get_dds_eventtype (node, dds_event))
+    if (!be_global->get_wrapper_eventtype (node, dds_event))
       return 0;
 
     // Search for the type declaration of this DDS event type. It
@@ -258,7 +258,7 @@ int Stub_File::visit_module (AST_Module * node)
 //
 int Stub_File::visit_eventtype (AST_EventType * node)
 {
-  if (!be_global->is_dds_eventtype (node))
+  if (!be_global->is_wrapper_eventtype (node))
     return 0;
 
   Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);

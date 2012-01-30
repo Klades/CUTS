@@ -9,6 +9,9 @@
 
 #include "be_global.h"
 
+namespace iCCM
+{
+
 //
 // Includes_Visitor
 //
@@ -151,4 +154,6 @@ int Includes_Visitor::visit_field (AST_Field *node)
   }
 
   return 0;
+}
+
 }

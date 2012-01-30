@@ -10,6 +10,9 @@
 
 #include <fstream>
 
+namespace iCCM
+{
+
 //
 // Executor_IDL_File
 //
@@ -69,4 +72,6 @@ int Executor_IDL_File::visit_root (AST_Root *node)
   idl_file.close ();
 
   return 0;
+}
+
 }

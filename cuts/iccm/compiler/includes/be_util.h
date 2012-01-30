@@ -2,23 +2,23 @@
 
 //=============================================================================
 /**
- *  @file    be_util.h
+ * @file    $File$
  *
- *  $Id$
- *
- *  Static helper methods used by multiple visitors.
- *
- *
- *  @author Jeff Parsons
+ * $Id$
+
+ * @author  James H. Hill
  */
 //=============================================================================
 
-#ifndef TAO_BE_UTIL_H
-#define TAO_BE_UTIL_H
+#ifndef _CUTS_ICCM_COMPILER_BE_UTIL_H_
+#define _CUTS_ICCM_COMPILER_BE_UTIL_H_
 
+#include "Compiler_export.h"
+
+// Forward decl
 class AST_Generator;
 
-class be_util
+class ICCM_COMPILER_Export be_util
 {
 public:
   /// Special BE arg call factored out of DRV_args.

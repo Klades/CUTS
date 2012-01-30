@@ -1,7 +1,7 @@
 // $Id$
 
 #include "be_global.h"
-#include "be_extern.h"
+#include "idl_defines.h"
 
 #include "ast_generator.h"
 #include "ast_module.h"
@@ -12,11 +12,6 @@
 #include "utl_identifier.h"
 #include "utl_string.h"
 
-#include "fe_extern.h"
-#include "global_extern.h"
-#include "nr_extern.h"
-#include "idl_defines.h"
-
 #include "ace/OS_NS_stdio.h"
 #include "ace/streams.h"
 
@@ -24,9 +19,6 @@
 #include <sstream>
 #include <string>
 
-//
-// be_global
-//
 BE_GlobalData * be_global = 0;
 
 //
@@ -35,7 +27,7 @@ BE_GlobalData * be_global = 0;
 BE_GlobalData::BE_GlobalData (void)
 : output_path_ ("."),
   executor_idl_suffix_ ("_iCCM.idl"),
-  dds2ccm_event_suffix_ ("Event")
+  wrapper_event_suffix_ ("Event")
 {
 
 }
@@ -60,9 +52,6 @@ ACE_CString BE_GlobalData::spawn_options (void)
 //
 void BE_GlobalData::parse_args (long &i, char **av)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("parse_args ()\n")));
-
   switch (av[i][1])
   {
   case 'o':
@@ -78,6 +67,69 @@ void BE_GlobalData::parse_args (long &i, char **av)
 
     idl_global->set_compile_flags (idl_global->compile_flags () | IDL_CF_ONLY_USAGE);
   }
+}
+
+//
+// prep_be_arg
+//
+void BE_GlobalData::prep_be_arg (char * s)
+{
+  static const char stub_export_macro[] = "stub_export_macro=";
+  static const char stub_export_include[] = "stub_export_include=";
+  static const char svnt_export_macro[] = "svnt_export_macro=";
+  static const char svnt_export_include[] = "svnt_export_include=";
+
+  char* last = 0;
+
+  for (char * arg = ACE_OS::strtok_r (s, ",", &last);
+       0 != arg;
+       arg = ACE_OS::strtok_r (0, ",", &last))
+  {
+    if (ACE_OS::strstr (arg, stub_export_macro) == arg)
+    {
+      char * val = arg + sizeof (stub_export_macro) - 1;
+      be_global->stub_export_macro_ = val;
+    }
+    else if (ACE_OS::strstr (arg, stub_export_include) == arg)
+    {
+      char * val = arg + sizeof (stub_export_include) - 1;
+      be_global->stub_export_macro_filename_ = val;
+    }
+    else if (ACE_OS::strstr (arg, svnt_export_macro) == arg)
+    {
+      char * val = arg + sizeof (svnt_export_macro) - 1;
+      be_global->svnt_export_macro_ = val;
+    }
+    else if (ACE_OS::strstr (arg, svnt_export_include) == arg)
+    {
+      char * val = arg + sizeof (svnt_export_include) - 1;
+      be_global->svnt_export_macro_filename_ = val;
+    }
+  }
+}
+
+//
+// print_usage
+//
+void BE_GlobalData::print_usage (void)
+{
+
+}
+
+//
+// arg_post_proc
+//
+void BE_GlobalData::arg_post_proc (void)
+{
+
+}
+
+//
+// post_produce
+//
+void BE_GlobalData::post_produce (void)
+{
+
 }
 
 //
@@ -250,110 +302,25 @@ get_event_mapping_source_filename (void) const
 }
 
 //
-// get_context_template_header_filename
-//
-const ACE_CString & BE_GlobalData::
-get_context_template_header_filename (void) const
-{
-  static const ACE_CString value ("cuts/iccm/servant/Context_T.h");
-  return value;
-}
-
-//
-// get_servant_template_header_filename
-//
-const ACE_CString & BE_GlobalData::
-get_servant_template_header_filename (void) const
-{
-  static const ACE_CString value ("cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.h");
-  return value;
-}
-
-//
-// get_context_typename
-//
-const ACE_CString & BE_GlobalData::get_context_typename (void) const
-{
-  static const ACE_CString value ("iCCM::Context_T");
-  return value;
-}
-
-//
-// get_servant_template_typename
-//
-const ACE_CString & BE_GlobalData::get_servant_template_typename (void) const
-{
-  static const ACE_CString value ("iCCM::OpenSplice_Servant_T");
-  return value;
-}
-
-//
-// get_publisher_template_typename
-//
-const ACE_CString & BE_GlobalData::get_publisher_template_typename (void) const
-{
-  static const ACE_CString value ("iCCM::OpenSplice_Publisher_T");
-  return value;
-}
-
-//
-// get_publisher_table_template_typename
-//
-const ACE_CString & BE_GlobalData::
-get_publisher_table_template_typename (void) const
-{
-  static const ACE_CString value ("iCCM::OpenSplice_Publisher_Table_T");
-  return value;
-}
-
-//
-// get_publisher_template_typename
-//
-const ACE_CString & BE_GlobalData::get_publisher_typename (void) const
-{
-  static const ACE_CString value ("iCCM::OpenSplice_Publisher");
-  return value;
-}
-
-//
-// get_publisher_table_template_typename
-//
-const ACE_CString & BE_GlobalData::
-get_publisher_table_typename (void) const
-{
-  static const ACE_CString value ("iCCM::OpenSplice_Publisher_Table");
-  return value;
-}
-
-//
-// get_publisher_table_template_typename
-//
-const ACE_CString & BE_GlobalData::
-get_consumer_template_typename (void) const
-{
-  static const ACE_CString value ("iCCM::OpenSplice_EventConsumer_T");
-  return value;
-}
-
-//
 // is_dds_eventtype
 //
-bool BE_GlobalData::is_dds_eventtype (AST_EventType * node) const
+bool BE_GlobalData::
+is_wrapper_eventtype (AST_EventType * node) const
 {
   const ACE_CString local_name (node->local_name ()->get_string ());
-  const size_t index = local_name.strstr (this->dds2ccm_event_suffix_);
+  const size_t index = local_name.strstr (this->wrapper_event_suffix_);
 
-  return local_name.length () - index == this->dds2ccm_event_suffix_.length ();
+  return local_name.length () - index == this->wrapper_event_suffix_.length ();
 }
 
 //
 // get_dds_eventtype
 //
 bool BE_GlobalData::
-get_dds_eventtype (AST_EventType * node, ACE_CString & type) const
+get_wrapper_eventtype (AST_EventType * node, ACE_CString & type) const
 {
   const ACE_CString local_name (node->local_name ()->get_string ());
-  const size_t index = local_name.strstr (this->dds2ccm_event_suffix_);
+  const size_t index = local_name.strstr (this->wrapper_event_suffix_);
 
   if (index == ACE_CString::npos)
     return false;

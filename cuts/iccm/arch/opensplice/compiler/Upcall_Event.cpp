@@ -1,6 +1,6 @@
 // $Id$
 
-#include "Downcall_Event.h"
+#include "Upcall_Event.h"
 
 #include "be_extern.h"
 #include "be_global.h"
@@ -15,9 +15,9 @@ namespace iCCM
 {
 
 //
-// Downcall_Event
+// Upcall_Event
 //
-Downcall_Event::Downcall_Event (std::ofstream & hfile, std::ofstream & sfile)
+Upcall_Event::Upcall_Event (std::ofstream & hfile, std::ofstream & sfile)
 : hfile_ (hfile),
   sfile_ (sfile)
 {
@@ -25,9 +25,9 @@ Downcall_Event::Downcall_Event (std::ofstream & hfile, std::ofstream & sfile)
 }
 
 //
-// ~Downcall_Event
+// ~Upcall_Event
 //
-Downcall_Event::~Downcall_Event (void)
+Upcall_Event::~Upcall_Event (void)
 {
 
 }
@@ -35,17 +35,17 @@ Downcall_Event::~Downcall_Event (void)
 //
 // visit_eventtype
 //
-int Downcall_Event::visit_eventtype (AST_EventType * node)
+int Upcall_Event::visit_eventtype (AST_EventType * node)
 {
-  if (!be_global->is_dds_eventtype (node))
+  if (!be_global->is_wrapper_eventtype (node))
     return 0;
 
   const char * local_name = node->local_name ()->get_string ();
   const char * full_name = node->full_name ();
-  this->downcall_event_ = ACE_CString (local_name) + "Downcall";
+  this->upcall_event_ = ACE_CString (local_name) + "Upcall";
 
   ACE_CString dds_event;
-  be_global->get_dds_eventtype (node, dds_event);
+  be_global->get_wrapper_eventtype (node, dds_event);
 
   this->hfile_
     << "class ";
@@ -54,43 +54,38 @@ int Downcall_Event::visit_eventtype (AST_EventType * node)
     this->hfile_ << be_global->stub_export_macro_ << " ";
 
   this->hfile_
-    << this->downcall_event_ << " :" << std::endl
+    << this->upcall_event_ << " :" << std::endl
     << "  public virtual ::" << local_name << "," << std::endl
     << "  public virtual ::CORBA::DefaultValueRefCountBase" << std::endl
     << "{"
     << "public:" << std::endl
-    << this->downcall_event_ << " (void);"
-    << "virtual ~" << this->downcall_event_ << " (void);"
-    << std::endl
-    << "const " << dds_event << " & dds_event (void) const;"
+    << this->upcall_event_ << " (::" << dds_event << " & dds_event);"
+    << "virtual ~" << this->upcall_event_ << " (void);"
     << std::endl;
 
   this->sfile_
-    << this->downcall_event_ << "::" << this->downcall_event_ << " (void)" << std::endl
+    << this->upcall_event_ << "::" << this->upcall_event_ << " (::" << dds_event << " & dds_event)" << std::endl
+    << ": dds_event_ (dds_event)"
     << "{"
     << "}"
-    << this->downcall_event_ << "::~" << this->downcall_event_ << " (void)"
+    << this->upcall_event_ << "::~" << this->upcall_event_ << " (void)"
     << "{"
-    << "}"
-    << "const " << dds_event << " & " << this->downcall_event_ << "::"
-    << "dds_event (void) const{"
-    << "return this->dds_event_;"
     << "}";
 
   this->visit_scope (node);
 
   this->hfile_
     << "private:" << std::endl
-    << "::" << dds_event << " dds_event_;"
+    << "::" << dds_event << " & dds_event_;"
     << std::endl
     << "::CORBA::Boolean _tao_marshal__" << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const;"
     << "::CORBA::Boolean _tao_unmarshal__" << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &);"
     << "};";
 
   this->sfile_
-    << "::CORBA::Boolean " << this->downcall_event_
+    << "::CORBA::Boolean " << this->upcall_event_
     << "::_tao_marshal__" << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const{return false;}"
-    << "::CORBA::Boolean " << this->downcall_event_
+    << "::CORBA::Boolean " << this->upcall_event_
     << "::_tao_unmarshal__" << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &){return false;}";
 
   return 0;
@@ -99,7 +94,7 @@ int Downcall_Event::visit_eventtype (AST_EventType * node)
 //
 // visit_attribute
 //
-int Downcall_Event::visit_field (AST_Field * node)
+int Upcall_Event::visit_field (AST_Field * node)
 {
   AST_Type * field_type = node->field_type ();
   const char * local_name = node->local_name ()->get_string ();
@@ -114,11 +109,11 @@ int Downcall_Event::visit_field (AST_Field * node)
       << std::endl;
 
     this->sfile_
-      << "void " << this->downcall_event_ << "::"
+      << "void " << this->upcall_event_ << "::"
       << local_name << " (const ::" << param_type << " val){"
       << "this->dds_event_." << local_name << " = val;"
       << "}"
-      << param_type << " " << this->downcall_event_ << "::"
+      << param_type << " " << this->upcall_event_ << "::"
       << local_name << " (void) const{"
       << "return this->dds_event_." << local_name << ";"
       << "}";
@@ -133,20 +128,20 @@ int Downcall_Event::visit_field (AST_Field * node)
       << std::endl;
 
     this->sfile_
-      << "void " << this->downcall_event_
+      << "void " << this->upcall_event_
       << "::" << local_name << " (" << param_type << " val){"
       << "this->dds_event_." << local_name << " = val;"
       << "}"
-      << "void " << this->downcall_event_
+      << "void " << this->upcall_event_
       << "::" << local_name << " (const " << param_type << " val){"
       << "this->dds_event_." << local_name << " = CORBA::string_dup (val);"
       << "}"
-      << "void " << this->downcall_event_
+      << "void " << this->upcall_event_
       << "::" << local_name << " (const ::CORBA::String_var & val){"
       << "::CORBA::String_var dup = val;"
       << "this->dds_event_." << local_name << " = dup._retn ();"
       << "}"
-      << "const " << param_type << " " << this->downcall_event_
+      << "const " << param_type << " " << this->upcall_event_
       << "::" << local_name << " (void) const {"
       << "return this->dds_event_." << local_name << ".in ();"
       << "}";
@@ -160,15 +155,15 @@ int Downcall_Event::visit_field (AST_Field * node)
       << std::endl;
 
     this->sfile_
-      << "void " << this->downcall_event_
+      << "void " << this->upcall_event_
       << "::" << local_name << " (const ::" << param_type << " & val){"
       << "this->dds_event_." << local_name << " = val;"
       << "}"
-      << "const " << this->downcall_event_
+      << "const " << this->upcall_event_
       << "::" << param_type << " & " << local_name << " (void) const{"
       << "return this->dds_event_." << local_name << ";"
       << "}"
-      << param_type << " & " << this->downcall_event_
+      << param_type << " & " << this->upcall_event_
       << "::" << local_name << " (void){"
       << "return this->dds_event_." << local_name << ";"
       << "}";

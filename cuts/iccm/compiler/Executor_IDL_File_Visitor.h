@@ -16,6 +16,9 @@
 #include <fstream>
 #include "Scope_Visitor.h"
 
+namespace iCCM
+{
+
 /**
  * @class Executor_IDL_File_Visitor
  *
@@ -39,5 +42,7 @@ private:
   /// Target idl file for generation.
   std::ofstream & idl_;
 };
+
+}
 
 #endif  // !defined _ICCM_EXECUTOR_IDL_FILE_VISITOR_H_

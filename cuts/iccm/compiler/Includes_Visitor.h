@@ -13,16 +13,19 @@
 #ifndef _DDS4CCM_INCLUDES_VISITOR_H_
 #define _DDS4CCM_INCLUDES_VISITOR_H_
 
-#include "null_ast_visitor.h"
+#include "Null_Visitor.h"
 #include "ace/Unbounded_Set.h"
 #include "ace/SString.h"
 
 #include <fstream>
 
+namespace iCCM
+{
+
 /**
  * @class Includes_Visitor
  */
-class Includes_Visitor : public null_ast_visitor
+class Includes_Visitor : public Null_Visitor
 {
 public:
   /// Initializing constructor.
@@ -44,5 +47,7 @@ private:
   /// List of seen includes.
   ACE_Unbounded_Set <ACE_CString> includes_;
 };
+
+}
 
 #endif  // !defined _DDS4CCM_INCLUDES_VISITOR_H_

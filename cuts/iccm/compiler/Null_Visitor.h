@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file       null_ast_visitor.h
+ *  @file       Null_Visitor.h
  *
  *  $Id$
  *
@@ -15,18 +15,23 @@
 
 #include "ast_visitor.h"
 
+#include "Compiler_export.h"
+
+namespace iCCM
+{
+
 /**
- * @class null_ast_visitor
+ * @class Null_Visitor
  */
-class null_ast_visitor : public ast_visitor
+class ICCM_COMPILER_Export Null_Visitor : public ast_visitor
 {
 protected:
   /// Default constructor.
-  null_ast_visitor (void) { };
+  Null_Visitor (void) { };
 
 public:
   /// Destructor.
-  virtual ~null_ast_visitor (void) { };
+  virtual ~Null_Visitor (void) { };
 
   virtual int visit_root (AST_Root *node) { return 0; }
   virtual int visit_scope (UTL_Scope *node) { return 0; }
@@ -80,5 +85,7 @@ public:
   virtual int visit_native (AST_Native *node){ return 0; }
   virtual int visit_valuebox (AST_ValueBox *node){ return 0; }
 };
+
+}
 
 #endif  // !defined _ICCM_NULL_AST_VISITOR_H_

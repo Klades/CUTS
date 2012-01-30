@@ -5,6 +5,9 @@
 #include "ast_root.h"
 #include "utl_scope.h"
 
+namespace iCCM
+{
+
 //
 // Scope_Visitor
 //
@@ -65,4 +68,6 @@ int Scope_Visitor::visit_scope (UTL_Scope *node)
   }
 
   return 0;
+}
+
 }

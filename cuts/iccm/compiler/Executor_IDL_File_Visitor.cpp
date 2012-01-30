@@ -18,6 +18,9 @@
 #include "CCF/CodeGenerationKit/IndentationIDL.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 
+namespace iCCM
+{
+
 /**
  * @class Local_Context_Method_Visitor
  *
@@ -126,4 +129,6 @@ int Executor_IDL_File_Visitor::visit_component (AST_Component *node)
     << "};";
 
   return 0;
+}
+
 }

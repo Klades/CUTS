@@ -24,7 +24,7 @@ namespace iCCM
  *
  * Main visitor that converts a DDS type model into CCM event model.
  */
-class Servant_File : public Scope_Visitor
+class ICCM_COMPILER_Export Servant_File : public Scope_Visitor
 {
 public:
   /// Default constructor.

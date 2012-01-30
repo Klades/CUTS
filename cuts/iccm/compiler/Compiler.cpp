@@ -1,13 +1,38 @@
 // $Id$
 
-#include "global_extern.h"
 #include "be_extern.h"
 #include "fe_extern.h"
+
+#include "global_extern.h"
 #include "ast_root.h"
+
+#include "tao/Version.h"
 
 #include "Executor_IDL_File.h"
 #include "Servant_File.h"
-#include "Stub_File.h"
+
+#include <iostream>
+
+//
+// BE_version
+//
+void BE_version (void)
+{
+  std::cerr << "iCCM compiler, version " << std::endl;
+}
+
+//
+// BE_post_init
+//
+void BE_post_init (char * files [], long nfiles)
+{
+  // We do not support processing multiple files.
+  idl_global->multi_file_input (false);
+
+  // Set the source file, which will always be the first file
+  // in our case.
+  be_global->source_file_ = files[0];
+}
 
 //
 // BE_cleanup
@@ -37,18 +62,17 @@ void BE_produce (void)
   {
     AST_Root * root = idl_global->root ();
 
-    // Generate the stub files.
-    iCCM::Stub_File stub_file;
-    root->ast_accept (&stub_file);
-
     // Generate the executor idl file.
-    Executor_IDL_File executor_idl_file;
+    iCCM::Executor_IDL_File executor_idl_file;
     root->ast_accept (&executor_idl_file);
 
     // Generate the servant files.
     iCCM::Servant_File svnt_file;
     root->ast_accept (&svnt_file);
 
+    be_global->post_produce ();
+
+    // Clean up the backend.
     BE_cleanup ();
   }
   catch (...)

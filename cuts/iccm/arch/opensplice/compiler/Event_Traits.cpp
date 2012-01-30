@@ -55,14 +55,14 @@ int Event_Traits::visit_module (AST_Module * node)
 //
 int Event_Traits::visit_eventtype (AST_EventType * node)
 {
-  if (!be_global->is_dds_eventtype (node))
+  if (!be_global->is_wrapper_eventtype (node))
     return 0;
 
   Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
   const char * full_name = node->full_name ();
 
   ACE_CString dds_event;
-  be_global->get_dds_eventtype (node, dds_event);
+  be_global->get_wrapper_eventtype (node, dds_event);
 
   this->hfile_
     << "/**" << std::endl

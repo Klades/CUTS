@@ -1,0 +1,44 @@
+// $Id$
+
+project : boost_base, codegenerationkit, tao_idl_fe, cutsexe {
+  after    += iCCM_Compiler
+  libs     += iCCM_Compiler
+
+  includes += $(TAO_ROOT) \
+              $(CUTS_ROOT)/cuts/iccm/compiler \
+              $(CUTS_ROOT)/cuts/iccm/compiler/includes
+
+  verbatim (gnuace, local) {
+    ifeq ($(TAO_IDL_PREPROCESSOR),)
+      CPPFLAGS += -DTAO_IDL_PREPROCESSOR=\\\"$(strip $(CXX))\\\"
+    else
+      CPPFLAGS += -DTAO_IDL_PREPROCESSOR=\\\"$(subst \\,\\,$(TAO_IDL_PREPROCESSOR))\\\"
+    endif
+
+    VPATH = $(TAO_ROOT)/TAO_IDL $(TAO_ROOT)/TAO_IDL/driver
+
+    ifeq ($(static_libs_only), 1)
+      ifneq ($(with_ld), macosx)
+        LDFLAGS += -static
+      endif
+    endif
+  }
+
+  specific (prop:microsoft) {
+    subsystem = 0
+    macros += _SCL_SECURE_NO_WARNINGS
+  }
+
+  Source_Files {
+    $(TAO_ROOT)/TAO_IDL/driver/drv_args.cpp
+    $(TAO_ROOT)/TAO_IDL/driver/drv_preproc.cpp
+    $(TAO_ROOT)/TAO_IDL/tao_idl.cpp
+  }
+
+  Header_Files {
+    $(TAO_ROOT)/TAO_IDL/include/drv_extern.h
+
+    $(CUTS_ROOT)/cuts/iccm/compiler/includes/be_extern.h
+    $(CUTS_ROOT)/cuts/iccm/compiler/includes/be_init.hpp
+  }
+}

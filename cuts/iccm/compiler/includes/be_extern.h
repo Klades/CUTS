@@ -64,8 +64,8 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 
 */
 
-#ifndef IDL_TO_PICML_BE_EXTERN_H
-#define IDL_TO_PICML_BE_EXTERN_H
+#ifndef _CUTS_ICCM_BE_EXTERN_H_
+#define _CUTS_ICCM_BE_EXTERN_H_
 
 #include "be_global.h"
 
@@ -73,13 +73,21 @@ trademarks or registered trademarks of Sun Microsystems, Inc.
 # pragma once
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
-extern BE_GlobalData * be_global;
-
 int BE_init (int &, char*[]);
+
+ICCM_COMPILER_Export
 void BE_post_init (char *[], long);
+
+ICCM_COMPILER_Export
 void BE_version (void);
+
+ICCM_COMPILER_Export
 void BE_produce (void);
+
+ICCM_COMPILER_Export
 void BE_cleanup (void);
+
+ICCM_COMPILER_Export
 void BE_abort (void);
 
 #endif /* IDL_TO_PICML_BE_EXTERN_H */
