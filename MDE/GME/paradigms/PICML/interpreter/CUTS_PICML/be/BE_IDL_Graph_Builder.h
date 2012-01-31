@@ -40,6 +40,9 @@ public:
   /// Visit a File in a PICML model.
   void Visit_File (const PICML::File &);
 
+  /// Visit a FileRef in a PICML model.
+  void Visit_FileRef (const PICML::FileRef & f);
+
   /// Visit a Package in a PICML model.
   void Visit_Package (const PICML::Package &);
 

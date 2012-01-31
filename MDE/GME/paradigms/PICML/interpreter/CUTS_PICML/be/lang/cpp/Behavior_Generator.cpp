@@ -166,6 +166,11 @@ generate (const PICML::OutputAction & action)
 
     this->ctx_.skip_action_ = false;
   }
+  else
+  {
+    this->ctx_.source_
+      << "// could not locate scoped name for " << action.name () << std::endl;
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

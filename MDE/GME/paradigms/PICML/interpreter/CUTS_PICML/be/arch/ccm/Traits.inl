@@ -43,6 +43,15 @@ const char * Traits::svnt_base_project (void)
 }
 
 //
+// skel_base_project
+//
+CUTS_INLINE
+const char * Traits::skel_base_project (void)
+{
+  return "";
+}
+
+//
 // write_top
 //
 CUTS_INLINE
@@ -62,7 +71,6 @@ write_stub_source_files (std::ostream &, const CUTS_BE_IDL_Node &)
 
 }
 
-
 //
 // write_stub_after
 //
@@ -79,6 +87,26 @@ write_stub_after (std::ostream &, const CUTS_BE_IDL_Node &)
 CUTS_INLINE
 void Traits::
 write_idl_gen_files (std::ostream &, const CUTS_BE_IDL_Node &)
+{
+
+}
+
+//
+// write_exec_idl_files
+//
+CUTS_INLINE
+void Traits::
+write_exec_idl_files (std::ostream &, const CUTS_BE_IDL_Node &)
+{
+
+}
+
+//
+// write_exec_source_files
+//
+CUTS_INLINE
+void Traits::
+write_exec_source_files (std::ostream &, const CUTS_BE_IDL_Node &)
 {
 
 }

@@ -77,6 +77,11 @@ Visit_File (const PICML::File & file)
     this->current_node_->flags_[CUTS_BE_IDL_Node::IDL_VISITED] = true;
     this->current_node_->file_ = file;
 
+    std::vector <PICML::FileRef> filerefs = file.FileRef_children ();
+    std::for_each (filerefs.begin (),
+                   filerefs.end (),
+                   boost::bind (&PICML::FileRef::Accept, _1, boost::ref (*this)));
+
     // Save the active file and visit its contents.
     this->active_file_ = file;
     this->visit_file_and_package_contents (file);
@@ -91,6 +96,29 @@ Visit_File (const PICML::File & file)
       this->pending_files_.erase (iter);
       file.Accept (*this);
     }
+  }
+}
+
+//
+// Visit_FileRef
+//
+void CUTS_BE_IDL_Graph_Builder::
+Visit_FileRef (const PICML::FileRef & f)
+{
+  // Find the node with the name of the parent.
+  PICML::File file = f.ref ();
+
+  CUTS_BE_IDL_Node * node = 0;
+  this->graph_.find (file.name (), node);
+
+  if (node != 0)
+  {
+    // Update this new's references.
+    node->file_ = file;
+    this->current_node_->references_.insert (node);
+
+    // We still need to parse this file.
+    this->pending_files_.insert (file);
   }
 }
 

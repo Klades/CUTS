@@ -494,12 +494,13 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << ", cuts_codegen_defaults {" << std::endl
     << "  sharedname    = " << stub_name << std::endl
     << "  dynamicflags += " << stub_export << "_BUILD_DLL" << std::endl
+    << std::endl
     << "  after        += " << node.file_.name () << "_IDL_Gen";
 
   this->ctx_.traits_->write_stub_after (this->ctx_.project_, node);
 
   this->ctx_.project_
-    << std::endl << std::endl;
+    << std::endl;
 
   if (!node.references_.empty ())
   {
@@ -583,7 +584,9 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
 
   // Generate the project.
   this->ctx_.project_
-    << "project (" << skel_name << ") : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaults {" << std::endl
+    << "project (" << skel_name << ") : avoids_ace_for_tao, "
+    << this->ctx_.traits_->skel_base_project ()
+    << ", cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << skel_name << std::endl
     << "  dynamicflags = " << skel_export << "_BUILD_DLL" << std::endl
     << std::endl
@@ -664,7 +667,7 @@ generate_eidl_project (const CUTS_BE_IDL_Node & node)
     << "project (" << name << "_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {" << std::endl
     << "  custom_only = 1" << std::endl
     << std::endl
-    << "  after    += " << name << "_IDL_Gen";
+    << "  after    += " << name << "_IDL_Gen " << name << "_iCCM_IDL_Gen";
 
   this->visited_nodes_.clear ();
   std::for_each (node.references_.begin (),
@@ -681,12 +684,17 @@ generate_eidl_project (const CUTS_BE_IDL_Node & node)
                   &::toupper);
 
   this->ctx_.project_
+    << std::endl
     << "  idlflags += -Wb,export_macro=" << export_basename << "_EXEC_Export \\" << std::endl
     << "              -Wb,export_include=" << name << "_exec_export.h \\" << std::endl
     << "              -Sa -Sal -SS" << std::endl
     << std::endl
     << "  IDL_Files {" << std::endl
-    << "    " << name << "E.idl" << std::endl
+    << "    " << name << "E.idl" << std::endl;
+
+  this->ctx_.traits_->write_exec_idl_files (this->ctx_.project_, node);
+
+  this->ctx_.project_
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
@@ -708,7 +716,9 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
                   &::toupper);
 
   this->ctx_.project_
-    << "project (" << project_name << ") : ciao_executor, cuts_codegen_defaults {" << std::endl
+    << "project (" << project_name << ") : "
+    << this->ctx_.traits_->skel_base_project ()
+    << ", cuts_codegen_defaults {" << std::endl
     << "  sharedname    = " << project_name << std::endl
     << "  dynamicflags += " << macro_basename << "_EXEC_BUILD_DLL" << std::endl
     << std::endl
@@ -756,7 +766,11 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     << std::endl
     << "  Source_Files {" << std::endl
-    << "    " << name << "EC.cpp" << std::endl
+    << "    " << name << "EC.cpp" << std::endl;
+
+  this->ctx_.traits_->write_exec_source_files (this->ctx_.project_, node);
+
+  this->ctx_.project_
     << "  }" << std::endl
     << std::endl
     << "  Inline_Files {" << std::endl
