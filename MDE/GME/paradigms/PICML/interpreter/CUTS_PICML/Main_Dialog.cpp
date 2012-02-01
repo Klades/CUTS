@@ -119,6 +119,10 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
   }
 
   this->opts_.selected_backend_ = this->generators_.GetItemData (index);
+
+  // Get the remaining control values.
+  DDX_Check (pDX, IDC_ICCM_COMPLIANT, this->opts_.iccm_compliant_);
+
 }
 
 //

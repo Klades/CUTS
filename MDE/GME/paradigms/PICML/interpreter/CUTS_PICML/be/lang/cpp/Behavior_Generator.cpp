@@ -6,6 +6,7 @@
 #include "Behavior_Generator.inl"
 #endif
 
+#include "../../BE_Options.h"
 #include "Variable_Type.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -151,25 +152,29 @@ void CUTS_BE_OutputAction_Begin_T <CUTS_BE_CPP::Context>::
 generate (const PICML::OutputAction & action)
 {
   std::string scoped_name;
+  const std::string name = action.name ();
 
-  if (this->ctx_.outevent_mgr_.get_scoped_typename (action.name (), scoped_name))
+  if (this->ctx_.outevent_mgr_.get_scoped_typename (name, scoped_name))
   {
-    // We are going to use a special event for CUTS::Payload_Event. This
-    // object will actually create a payload of the correct size with the
-    // size () setter method is invoked.
-    if (scoped_name == "CUTS::Payload_Event")
-      scoped_name += "_i";
-
-    this->ctx_.source_
-      << "CUTS_CCM_Event_T <OBV_" << scoped_name
-      << "> __event_" << action.uniqueId () << "__;";
+    if (CUTS_BE_OPTIONS ()->iccm_compliant_)
+    {
+      this->ctx_.source_
+        << "::" << scoped_name << "_var __event_"
+        << action.uniqueId () << "__ = this->ctx_->new_" << name << "_event ();";
+    }
+    else
+    {
+      this->ctx_.source_
+        << "CUTS_CCM_Event_T <OBV_" << scoped_name
+        << "> __event_" << action.uniqueId () << "__;";
+    }
 
     this->ctx_.skip_action_ = false;
   }
   else
   {
     this->ctx_.source_
-      << "// could not locate scoped name for " << action.name () << std::endl;
+      << "// could not locate scoped name for " << name << std::endl;
   }
 }
 

@@ -210,8 +210,14 @@ generate (const PICML::ComponentImplementationContainer & container,
     << "#pragma once" << std::endl
     << "#endif /* ACE_LACKS_PRAGMA_ONCE */" << std::endl
     << std::endl
-    << CUTS_BE_CPP::include ("ace/pre")
-    << CUTS_BE_CPP::include (pathname + "EC")
+    << CUTS_BE_CPP::include ("ace/pre");
+
+  if (CUTS_BE_OPTIONS ()->iccm_compliant_)
+    this->ctx_.header_ << CUTS_BE_CPP::include (pathname + "_iCCMC");
+  else
+    this->ctx_.header_ << CUTS_BE_CPP::include (pathname + "EC");
+
+  this->ctx_.header_
     << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Component_T")
     << std::endl;
 
@@ -308,7 +314,13 @@ generate (const PICML::MonolithicImplementation & impl,
 
   // Construct the name of the context.
   std::string context (CUTS_BE_CPP::scope (component));
-  context += "CCM_" + implname + "_Context";
+
+  if (CUTS_BE_OPTIONS ()->iccm_compliant_)
+    context += "iCCM_";
+  else
+    context += "CCM_";
+
+  context += implname + "_Context";
 
   std::string basetype ("CUTS_CCM_Component_T < ");
   basetype += exec + ", " + context + " >";

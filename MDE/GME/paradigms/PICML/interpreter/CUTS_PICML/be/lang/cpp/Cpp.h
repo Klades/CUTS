@@ -44,6 +44,8 @@ namespace CUTS_BE_CPP
 
     bool skip_action_;
 
+    bool iccm_compliant_;
+
     /// Manager for mapping port types to their scoped name.
     CUTS_UDM_Port_Manager_T <PICML::OutEventPort> outevent_mgr_;
   };

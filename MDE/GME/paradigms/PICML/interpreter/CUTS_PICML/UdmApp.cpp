@@ -79,6 +79,7 @@ void CUdmApp::UdmMain (Udm::DataNetwork* p_backend,
   {
     CUTS_BE_OPTIONS ()->output_directory_ = dialog.opts_.output_dir_.GetBuffer ();
     CUTS_BE_OPTIONS ()->exec_suffix_  = "_exec";
+    CUTS_BE_OPTIONS ()->iccm_compliant_ = dialog.opts_.iccm_compliant_;
 
     // Create the manager from the factory.
     CUTS_Auto_Functor_T <CUTS_BE_Manager>

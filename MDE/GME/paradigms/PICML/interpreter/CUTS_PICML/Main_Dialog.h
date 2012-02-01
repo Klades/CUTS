@@ -41,6 +41,9 @@ public:
 
     /// The selected backend from the list of backends.
     int selected_backend_;
+
+    /// iCCM compliant code generation.
+    int iccm_compliant_;
   };
 
   /**
