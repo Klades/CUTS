@@ -584,9 +584,15 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
 
   // Generate the project.
   this->ctx_.project_
-    << "project (" << skel_name << ") : avoids_ace_for_tao, "
-    << this->ctx_.traits_->skel_base_project ()
-    << ", cuts_codegen_defaults {" << std::endl
+    << "project (" << skel_name << ") : avoids_ace_for_tao, ";
+
+  const std::string skel_base = this->ctx_.traits_->skel_base_project ();
+
+  if (!skel_base.empty ())
+    this->ctx_.project_ << skel_base << ", ";
+
+  this->ctx_.project_
+    << "cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << skel_name << std::endl
     << "  dynamicflags = " << skel_export << "_BUILD_DLL" << std::endl
     << std::endl
@@ -716,9 +722,15 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
                   &::toupper);
 
   this->ctx_.project_
-    << "project (" << project_name << ") : "
-    << this->ctx_.traits_->skel_base_project ()
-    << ", cuts_codegen_defaults {" << std::endl
+    << "project (" << project_name << ") : ";
+
+  const std::string skel_base = this->ctx_.traits_->skel_base_project ();
+
+  if (!skel_base.empty ())
+    this->ctx_.project_ << skel_base << ", ";
+
+  this->ctx_.project_
+    << "cuts_codegen_defaults {" << std::endl
     << "  sharedname    = " << project_name << std::endl
     << "  dynamicflags += " << macro_basename << "_EXEC_BUILD_DLL" << std::endl
     << std::endl

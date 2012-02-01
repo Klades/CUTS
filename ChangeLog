@@ -1,3 +1,15 @@
+Wed Feb  1 14:07:56 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.inl:
+
+          Updated CIAO to support latest changes to project traits.
+
+        * MPC/config/cuts_codegen_defaults.mpb:
+
+          Removed 'idlflags' the base project.
+
 Wed Feb  1 03:38:48 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Component.rc:

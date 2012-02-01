@@ -34,7 +34,7 @@ public:
   virtual bool generate_default_servant (void);
 
   virtual const char * stub_base_project (void);
-
+  virtual const char * skel_base_project (void);
   virtual const char * svnt_base_project (void);
 };
 

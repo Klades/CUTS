@@ -4,8 +4,6 @@ project : cuts_base {
   includes += $(PROJECT_ROOT)
   libpaths += $(PROJECT_ROOT)/lib
 
-  idlflags += -I $(PROJECT_ROOT)
-
   dllout = $(PROJECT_ROOT)/lib
   libout = $(PROJECT_ROOT)/lib
 }
