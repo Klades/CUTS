@@ -92,6 +92,9 @@ void CUTS_Setaf_Code_Generator::generate_project (void)
     << "  sharedname    = " << this->adapter_name_ << std::endl
     << std::endl
     << "  dynamicflags += " << class_export << "_BUILD_DLL" << std::endl
+    << std::endl
+    << "  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl " << class_export
+    << " > " << this->adapter_name_ << "_export.h" << std::endl
     << "  includes += $(CUTS_ROOT)" << std::endl
     << "  includes += $(ADBC_ROOT)" << std::endl
     << "  libpaths += $(CUTS_ROOT)/lib" << std::endl
@@ -193,7 +196,7 @@ void CUTS_Setaf_Code_Generator::generate_includes (void)
     << "#endif /* ACE_LACKS_PRAGMA_ONCE */" << std::endl
     << std::endl
     << CUTS_SETAF_CPP::include ("ace/OS_Memory")
-    << CUTS_SETAF_CPP::include ("cuts/utils/unite/Log_Format_Adapter")
+    << CUTS_SETAF_CPP::include ("cuts/unite/Log_Format_Adapter")
     << CUTS_SETAF_CPP::include (export_name) << std::endl
     << std::endl;
 
@@ -201,8 +204,8 @@ void CUTS_Setaf_Code_Generator::generate_includes (void)
     << CUTS_SETAF_CPP::include (this->adapter_name_)
     << CUTS_SETAF_CPP::include ("ace/svc_export")
     << CUTS_SETAF_CPP::include ("ace/CORBA_macros")
-    << CUTS_SETAF_CPP::include ("cuts/utils/unite/Log_Format")
-    << CUTS_SETAF_CPP::include ("cuts/utils/unite/Variable")
+    << CUTS_SETAF_CPP::include ("cuts/unite/Log_Format")
+    << CUTS_SETAF_CPP::include ("cuts/unite/Variable")
     << std::endl
     << std::endl;
 }

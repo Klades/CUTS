@@ -1,3 +1,21 @@
+Mon Feb  6 05:39:21 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/setaf/Setaf_App.h:
+        * cuts/unite/setaf/Setaf_App.cpp:
+        * cuts/unite/setaf/setaf.mpc:
+
+          Rename to Setaf_App.
+
+        * cuts/unite/setaf/Setaf_Code_Generator.cpp:
+
+          Now UNITE project is directly in cuts/unite. Change the code generator
+          accoardingly.
+
+        * cuts/unite/setaf/Setaf_app.h:
+        * cuts/unite/setaf/Setaf_app.cpp:
+
+          Removed these files.
+
 Wed Feb  1 14:07:56 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:

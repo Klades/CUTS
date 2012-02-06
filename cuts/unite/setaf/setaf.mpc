@@ -9,7 +9,7 @@ project (CUTS_Setaf) : boost_base, codegenerationkit, cutsexe {
     Setaf_Format.cpp
     Cpp.cpp
     Setaf_Code_Generator.cpp
-    Setaf_app.cpp
+    Setaf_App.cpp
     Setaf.cpp
   }
 
