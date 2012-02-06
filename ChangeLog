@@ -1,3 +1,55 @@
+Mon Feb  6 21:03:13 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/unite:
+        * examples/cuts/unite/adapter:
+        * examples/cuts/unite/adapter/ActiveMQ:
+        * examples/cuts/unite/adapter/ActiveMQ/Activemq.datagraph:
+        * examples/cuts/unite/adapter/ActiveMQ/Activemq.unite:
+        * examples/cuts/unite/adapter/ActiveMQ/Activemq_Adapter.uas:
+        * examples/cuts/unite/adapter/Ant:
+        * examples/cuts/unite/adapter/Ant/Ant.datagraph:
+        * examples/cuts/unite/adapter/Ant/Ant.unite:
+        * examples/cuts/unite/adapter/Ant/Ant_Adapter.uas:
+        * examples/cuts/unite/adapter/DAnCE:
+        * examples/cuts/unite/adapter/DAnCE/DAnCE.datagraph:
+        * examples/cuts/unite/adapter/DAnCE/DAnCE.unite:
+        * examples/cuts/unite/adapter/DAnCE/DAnCE_Adapter.uas:
+        * examples/cuts/unite/adapter/README.txt:
+        * examples/cuts/unite/adapter/Tomcat:
+        * examples/cuts/unite/adapter/Tomcat/Tomcat.datagraph:
+        * examples/cuts/unite/adapter/Tomcat/Tomcat.unite:
+        * examples/cuts/unite/adapter/Tomcat/Tomcat_Adapter.uas:
+        * examples/cuts/unite/example.aspect:
+        * examples/cuts/unite/example.datagraph:
+        * examples/cuts/unite/example.unite:
+
+          Moved examples/cuts/utils/unite to examples/cuts/unite.
+
+        * examples/cuts/utils/unite:
+        * examples/cuts/utils/unite/adapter:
+        * examples/cuts/utils/unite/adapter/ActiveMQ:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.datagraph:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq.unite:
+        * examples/cuts/utils/unite/adapter/ActiveMQ/Activemq_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/Ant:
+        * examples/cuts/utils/unite/adapter/Ant/Ant.datagraph:
+        * examples/cuts/utils/unite/adapter/Ant/Ant.unite:
+        * examples/cuts/utils/unite/adapter/Ant/Ant_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/DAnCE:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE.datagraph:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE.unite:
+        * examples/cuts/utils/unite/adapter/DAnCE/DAnCE_Adapter.uas:
+        * examples/cuts/utils/unite/adapter/README.txt:
+        * examples/cuts/utils/unite/adapter/Tomcat:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat.datagraph:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat.unite:
+        * examples/cuts/utils/unite/adapter/Tomcat/Tomcat_Adapter.uas:
+        * examples/cuts/utils/unite/example.aspect:
+        * examples/cuts/utils/unite/example.datagraph:
+        * examples/cuts/utils/unite/example.unite:
+
+          Removed these files.
+
 Mon Feb  6 05:53:35 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/setaf/Setaf.cpp:
