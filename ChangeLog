@@ -1,3 +1,11 @@
+Mon Feb  6 05:53:35 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/setaf/Setaf.cpp:
+        * cuts/unite/setaf/Setaf_App.cpp:
+
+          Changed the name of the include files.
+
+
 Mon Feb  6 05:39:21 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/setaf/Setaf_App.h:
