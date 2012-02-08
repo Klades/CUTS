@@ -1182,8 +1182,8 @@ namespace iccm
 
       if (n == ACE_TEXT("entity_factory"))
       {
-        entity_factory_ = ::std::auto_ptr< ::iccm::EntityFactoryQosPolicy > (new ::iccm::EntityFactoryQosPolicy (e));
-        entity_factory_->container (this);
+        ::iccm::EntityFactoryQosPolicy t (e);
+        entity_factory (t);
       }
 
       else

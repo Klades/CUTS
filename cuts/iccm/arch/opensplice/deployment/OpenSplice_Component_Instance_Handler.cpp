@@ -6,8 +6,25 @@
 #include "OpenSplice_Component_Instance_Handler.inl"
 #endif
 
-//#include "OpenSplice_Domain_File.h"
-//#include "XSC/utils/XML_Error_Handler.h"
+#include "cuts/iccm/ddsxml/DDS_Domain_File.h"
+#include "XSC/utils/XML_Error_Handler.h"
+
+//
+// operator <<=
+//
+void operator <<= (DDS::EntityFactoryQosPolicy & qos, const iccm::EntityFactoryQosPolicy & policy)
+{
+  qos.autoenable_created_entities = policy.autoenable_created_entities ();
+}
+
+//
+// operator <<=
+//
+void operator <<= (DDS::DomainParticipantFactoryQos & qos, const iccm::DomainParticipantFactoryQos & policy)
+{
+  if (policy.entity_factory_p ())
+    qos.entity_factory <<= policy.entity_factory ();
+}
 
 namespace iCCM
 {
@@ -44,41 +61,33 @@ configure_DDSDomainQoS (const Deployment::Property & prop)
 
   if ((prop.value >>= filename))
   {
-    //ACE_DEBUG ((LM_DEBUG,
-    //            ACE_TEXT ("%T (%t) - %M - configuring DomainQoS [file=%s]\n"),
-    //            filename));
+    // Read the contents of the extracted filename.
+    iCCM::DDS_Domain_File file;
+    XSC::XML::XML_Error_Handler error_handler;
+    file->setErrorHandler (&error_handler);
 
-    //// Read the contents of the extracted filename.
-    //CUTS_OpenSplice_Domain_File file;
+    if (file.read (filename))
+    {
+      // Extract the contents of the XML document.
+      iccm::DomainParticipantFactoryQos dpf_qos;
+      file >>= dpf_qos;
 
-    //XSC::XML::XML_Error_Handler error_handler;
-    //file->setErrorHandler (&error_handler);
+      // Get the current QoS values, update them, and set them.
+      ::DDS::DomainParticipantFactory_var dpf =
+        ::DDS::DomainParticipantFactory::get_instance ();
 
-    //if (file.read (filename))
-    //{
-    //  // Extract the contents of the XML document.
-    //  iccm::dds::EntityFactoryQosPolicy ef_qos (true);
-    //  iccm::dds::DomainParticipantFactoryQos dpf_qos (ef_qos);
+      ::DDS::DomainParticipantFactoryQos qos;
 
-    //  file >>= dpf_qos;
-
-    //  // Set the DomainParticipantFactory QoS properties.
-    //  DDS::DomainParticipantFactory_var dpf =
-    //    DDS::DomainParticipantFactory::get_instance ();
-
-    //  DDS::DomainParticipantFactoryQos qos;
-    //  qos.entity_factory.autoenable_created_entities =
-    //    dpf_qos.entity_factory ().autoenable_created_entities ();
-
-    //  ACE_DEBUG ((LM_DEBUG,
-    //              ACE_TEXT ("%T (%t) - %M - setting the DomainParticipantFactoryQos\n")));
-
-    //  dpf->set_qos (qos);
-    //}
-    //else
-    //  ACE_ERROR ((LM_ERROR,
-    //              ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
-    //              filename));
+      dpf->get_qos (qos);
+      qos <<= dpf_qos;
+      dpf->set_qos (qos);
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
+                  filename));
+    }
   }
   else
   {

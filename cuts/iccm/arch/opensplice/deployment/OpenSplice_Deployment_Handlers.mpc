@@ -22,7 +22,7 @@ project (iCCM_OpenSplice_Deployment_Handlers_Xml) : xsc_cxx {
 }
 
 project (iCCM_OpenSplice_Deployment_Handlers) : iccm_deployment_handlers, \
-                                                iccm_opensplice_svnt, \
+                                                iccm_opensplice_svnt, iccm_ddsxml, \
                                                 dance_deployment_scheduler, \
                                                 cutslib {
 
@@ -32,7 +32,6 @@ project (iCCM_OpenSplice_Deployment_Handlers) : iccm_deployment_handlers, \
   Source_Files {
     OpenSplice_Container.cpp
     OpenSplice_Container_Strategy.cpp
-    //OpenSplice_Domain_File.cpp
     OpenSplice_Component_Instance_Handler.cpp
   }
 }

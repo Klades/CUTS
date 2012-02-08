@@ -2597,12 +2597,10 @@ namespace iccm
 
   inline
   DomainParticipantFactoryQos::
-  DomainParticipantFactoryQos (::iccm::EntityFactoryQosPolicy const& entity_factory__)
+  DomainParticipantFactoryQos ()
   :
-  entity_factory_ (new ::iccm::EntityFactoryQosPolicy (entity_factory__)),
   regulator__ ()
   {
-    entity_factory_->container (this);
   }
 
   inline
@@ -2610,17 +2608,20 @@ namespace iccm
   DomainParticipantFactoryQos (DomainParticipantFactoryQos const& s)
   :
   ::XSCRT::Type (),
-  entity_factory_ (new ::iccm::EntityFactoryQosPolicy (*s.entity_factory_)),
+  entity_factory_ (s.entity_factory_.get () ? new ::iccm::EntityFactoryQosPolicy (*s.entity_factory_) : 0),
   regulator__ ()
   {
-    entity_factory_->container (this);
+    if (entity_factory_.get ()) entity_factory_->container (this);
   }
 
   inline
   DomainParticipantFactoryQos& DomainParticipantFactoryQos::
   operator= (DomainParticipantFactoryQos const& s)
   {
-    entity_factory (*s.entity_factory_);
+    if (s.entity_factory_.get ())
+      entity_factory (*(s.entity_factory_));
+    else
+      entity_factory_.reset (0);
 
     return *this;
   }
@@ -2628,6 +2629,13 @@ namespace iccm
 
   // DomainParticipantFactoryQos
   //
+  inline
+  bool DomainParticipantFactoryQos::
+  entity_factory_p () const
+  {
+    return entity_factory_.get () != 0;
+  }
+
   inline
   ::iccm::EntityFactoryQosPolicy const& DomainParticipantFactoryQos::
   entity_factory () const
@@ -2639,7 +2647,16 @@ namespace iccm
   void DomainParticipantFactoryQos::
   entity_factory (::iccm::EntityFactoryQosPolicy const& e)
   {
-    *entity_factory_ = e;
+    if (entity_factory_.get ())
+    {
+      *entity_factory_ = e;
+    }
+
+    else
+    {
+      entity_factory_ = ::std::auto_ptr< ::iccm::EntityFactoryQosPolicy > (new ::iccm::EntityFactoryQosPolicy (e));
+      entity_factory_->container (this);
+    }
   }
 
 

@@ -1,3 +1,26 @@
+Wed Feb  8 03:32:29 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment_Handlers.mpc:
+
+          Added support for configuring the DomainQoS via the <iccm:domain>
+          XML document element.
+
+        * cuts/iccm/ddsxml/dds.h:
+        * cuts/iccm/ddsxml/dds.inl:
+        * cuts/iccm/ddsxml/dds.cpp:
+        * etc/schemas/iccm/dds.xsd:
+
+          The entity_factory is now an optional element of the
+          DomainParticipantFactoryQoS complex type.
+
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Domain_File.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Domain_File.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Participant_File.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Participant_File.cpp:
+
+          Removed these files.
+
 Wed Feb  8 01:58:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/ddsxml/DDS_Domain_File.h:

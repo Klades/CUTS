@@ -1457,6 +1457,7 @@ namespace iccm
     // entity_factory
     //
     public:
+    bool entity_factory_p () const;
     ::iccm::EntityFactoryQosPolicy const& entity_factory () const;
     void entity_factory (::iccm::EntityFactoryQosPolicy const& );
 
@@ -1464,7 +1465,7 @@ namespace iccm
     ::std::auto_ptr< ::iccm::EntityFactoryQosPolicy > entity_factory_;
 
     public:
-    DomainParticipantFactoryQos (::iccm::EntityFactoryQosPolicy const& entity_factory__);
+    DomainParticipantFactoryQos ();
 
     DomainParticipantFactoryQos (::XSCRT::XML::Element< char > const&);
     DomainParticipantFactoryQos (DomainParticipantFactoryQos const& s);

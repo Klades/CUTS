@@ -277,7 +277,7 @@
  
   <xsd:complexType name="DomainParticipantFactoryQos">
     <xsd:sequence>
-      <xsd:element name="entity_factory" type="EntityFactoryQosPolicy" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="entity_factory" type="EntityFactoryQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
