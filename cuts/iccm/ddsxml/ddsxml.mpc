@@ -1,0 +1,45 @@
+// $Id$
+
+project (iCCM_DDS_Xml_Gen) : xsc_cxx {
+  custom_only = 1
+
+  Modify_Custom (XSC) {
+    header_outputext = .h
+    inline_outputext = .inl
+  }
+
+  xscflags += --cxx-header-suffix .h \
+              --cxx-source-suffix .cpp \
+              --cxx-inline-suffix .inl \
+              --cxx-generate-inline \
+              --cxx-export-symbol ICCM_DDS_XML_Export \
+              --cxx-export-header DDS_Xml_export.h \
+              --cxx-char-type char
+
+  Xsc_Files {
+    gendir = .
+
+    $(CUTS_ROOT)/etc/schemas/iccm/dds.xsd
+  }
+}
+
+project (iCCM_DDS_Xml) : xscrt, cutslib {
+  sharedname    = iCCM_DDS_Xml
+  dynamicflags += ICCM_DDS_XML_BUILD_DLL
+
+  after += iCCM_DDS_Xml_Gen
+
+  Source_Files {
+    dds.cpp
+    DDS_Participant_File.cpp
+    DDS_Domain_File.cpp
+  }
+
+  Header_Files {
+    dds.h
+  }
+
+  Inline_Files {
+    dds.inl
+  }
+}
