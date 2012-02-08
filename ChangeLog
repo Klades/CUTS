@@ -1,3 +1,14 @@
+Wed Feb  8 01:58:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/ddsxml/DDS_Domain_File.h:
+        * cuts/iccm/ddsxml/DDS_Domain_File.inl:
+        * cuts/iccm/ddsxml/DDS_Domain_File.cpp:
+        * cuts/iccm/ddsxml/DDS_Participant_File.h:
+        * cuts/iccm/ddsxml/DDS_Participant_File.inl:
+        * cuts/iccm/ddsxml/DDS_Participant_File.cpp:
+
+          Wrapper classes for reading XML documents.
+
 Wed Feb  8 01:34:10 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/ddsxml:
