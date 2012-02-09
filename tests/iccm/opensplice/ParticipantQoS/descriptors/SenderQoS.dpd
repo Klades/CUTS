@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dds:participant xmlns="http://cuts.cs.iupui.edu/iccm"
+            xmlns:dds="http://cuts.cs.iupui.edu/iccm"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://cuts.cs.iupui.edu/iccm dds.xsd">
+
+  <!-- BEGIN DDS::DomainParticipantQoS parameters -->
+  <entity_factory autoenable_created_entities="true" />
+
+  <watchdog_scheduling scheduling_priority="1">
+    <scheduling_class kind="SCHEDULING_DEFAULT" />
+    <scheduling_priority_kind kind="PRIORITY_RELATIVE" />
+  </watchdog_scheduling>
+
+  <listener_scheduling scheduling_priority="1">
+    <scheduling_class kind="SCHEDULING_TIMESHARING" />
+    <scheduling_priority_kind kind="PRIORITY_ABSOLUTE" />
+  </listener_scheduling>
+
+  <!-- BEGIN DDS::TopicQoS parameters -->
+
+  <topic name="Message">
+    <durability kind="VOLATILE_DURABILITY_QOS" />
+    <durability_service history_depth="1"
+                        max_samples="1"
+                        max_instances="1"
+                        max_samples_per_instance="1"
+                        history_kind="KEEP_LAST_HISTORY_QOS"
+                        service_cleanup_delay="1.0" />
+
+    <deadline period="1" />
+    <latency_budget duration="1" />
+    <liveliness lease_duration="1" kind="AUTOMATIC_LIVELINESS_QOS" />
+    <reliability kind="BEST_EFFORT_RELIABILITY_QOS" synchronous="true" max_blocking_time="1" />
+    <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
+    <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
+    <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
+    <transport_priority value="1" />
+    <lifespan duration="1" />
+    <ownership kind="SHARED_OWNERSHIP_QOS" />
+  </topic>
+
+  <!-- BEGIN DDS::PublisherQoS parameters -->
+
+  <publisher name="@default">
+    <presentation access_scope="INSTANCE_PRESENTATION_QOS" coherent_access="true" ordered_access="true" />
+    <partition>
+      <name>
+        <item>A</item>
+      </name>
+    </partition>
+    <entity_factory autoenable_created_entities="true" />
+  </publisher>
+
+  <!-- BEGIN DDS::DataWriterQoS parameters -->
+
+  <datawriter name="greeting" isinstance="false">
+    <durability kind="VOLATILE_DURABILITY_QOS" />
+    <deadline period="1" />
+    <latency_budget duration="1" />
+    <liveliness lease_duration="1" kind="AUTOMATIC_LIVELINESS_QOS" />
+    <reliability kind="BEST_EFFORT_RELIABILITY_QOS" synchronous="true" max_blocking_time="1" />
+    <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
+    <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
+    <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
+    <transport_priorty value="1" />
+    <lifespan duration="1" />
+    <user_data />
+    <ownership kind="SHARED_OWNERSHIP_QOS" />
+    <ownership_strength value="1" />
+    <writer_data_lifecycle autodispose_unregistered_instances="true"
+                           autopurge_suspended_samples_delay="1.0"
+                           autounregister_instance_delay="1.0" />
+  </datawriter>
+
+</dds:participant>

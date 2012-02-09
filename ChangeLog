@@ -1,3 +1,31 @@
+Thu Feb  9 22:10:51 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tests/iccm/opensplice/ParticipantQoS:
+        * tests/iccm/opensplice/ParticipantQoS/HelloReceiverImpl.h:
+        * tests/iccm/opensplice/ParticipantQoS/HelloReceiverImpl.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloReceiverImpl.cpp:
+        * tests/iccm/opensplice/ParticipantQoS/HelloReceiver_impl_export.h:
+        * tests/iccm/opensplice/ParticipantQoS/HelloSenderImpl.h:
+        * tests/iccm/opensplice/ParticipantQoS/HelloSenderImpl.cpp:
+        * tests/iccm/opensplice/ParticipantQoS/HelloSenderImpl.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloSender_impl_export.h:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld.idl:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld.mwc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld_Components.idl:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/HelloWorld.cdd:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/HelloWorld.cdp:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/ReceiverQoS.dpd:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/SenderQoS.dpd:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/run_test.pl:
+        * tests/iccm/opensplice/ParticipantQoS/lib:
+        * tests/iccm/opensplice/ParticipantQoS/models:
+        * tests/iccm/opensplice/ParticipantQoS/models/ParticipantQoS.xme:
+
+          Smoke test that validates configuring a participant via an
+          Xml configuration file.
+
 Thu Feb  9 22:06:05 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.cpp:
