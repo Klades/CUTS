@@ -55,6 +55,11 @@ public:
   // Disconnect the consumer.
   virtual ::Components::EventConsumerBase_ptr disconnect (void);
 
+  ::DDS::DataWriter_ptr get_datawriter (void);
+
+  /// Test if the publisher is configured.
+  bool is_configured (void) const;
+
 protected:
   /**
    * Configure the publish with the DDS publisher object. This object

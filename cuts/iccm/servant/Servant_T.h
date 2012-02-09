@@ -148,6 +148,15 @@ public:
 
   virtual void remove (void);
 
+  int get_consumer (const char * name,
+                    typename SERVANT_BASE::eventconsumer_type * & result) const;
+
+  int get_publisher (const char * name,
+                     typename SERVANT_BASE::publisher_type * & result) const;
+
+  int get_publisher_table (const char * name,
+                           typename SERVANT_BASE::publisher_table_type * & result) const;
+
 protected:
   /// Type definition of the consumer map.
   typedef ACE_Hash_Map_Manager <ACE_CString,

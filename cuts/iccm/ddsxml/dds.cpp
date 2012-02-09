@@ -372,14 +372,41 @@ namespace iccm
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
       if (n == "sec")
       {
-        ::XMLSchema::long_ t (a);
-        sec (t);
+        sec_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (a));
+        sec_->container (this);
       }
 
       else if (n == "nanosec")
       {
-        ::XMLSchema::unsignedLong t (a);
-        nanosec (t);
+        nanosec_ = ::std::auto_ptr< ::XMLSchema::unsignedLong > (new ::XMLSchema::unsignedLong (a));
+        nanosec_->container (this);
+      }
+
+      else
+      {
+      }
+    }
+  }
+
+  // StringSeq
+  //
+
+  StringSeq::
+  StringSeq (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == ACE_TEXT("item"))
+      {
+        ACE_Refcounted_Auto_Ptr < ::XMLSchema::string< char >, ACE_Null_Mutex >  t (new ::XMLSchema::string< char > (e));
+        add_item (t);
       }
 
       else
@@ -432,8 +459,8 @@ namespace iccm
 
       if (n == ACE_TEXT("name"))
       {
-        ::XMLSchema::string< char > t (e);
-        name (t);
+        name_ = ::std::auto_ptr< ::iccm::StringSeq > (new ::iccm::StringSeq (e));
+        name_->container (this);
       }
 
       else
@@ -457,10 +484,10 @@ namespace iccm
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("period"))
+      if (n == ACE_TEXT("duration"))
       {
         ::iccm::Duration_t t (e);
-        period (t);
+        duration (t);
       }
 
       else
@@ -543,8 +570,8 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::DurabilityQosPolicyKind > (new ::iccm::DurabilityQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::DurabilityQosPolicyKind t (e);
+        kind (t);
       }
 
       else
@@ -570,20 +597,20 @@ namespace iccm
 
       if (n == ACE_TEXT("access_scope"))
       {
-        access_scope_ = ::std::auto_ptr< ::iccm::PresentationQosPolicyAccessScopeKind > (new ::iccm::PresentationQosPolicyAccessScopeKind (e));
-        access_scope_->container (this);
+        ::iccm::PresentationQosPolicyAccessScopeKind t (e);
+        access_scope (t);
       }
 
       else if (n == ACE_TEXT("coherent_access"))
       {
-        coherent_access_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
-        coherent_access_->container (this);
+        ::XMLSchema::boolean t (e);
+        coherent_access (t);
       }
 
       else if (n == ACE_TEXT("ordered_access"))
       {
-        ordered_access_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
-        ordered_access_->container (this);
+        ::XMLSchema::boolean t (e);
+        ordered_access (t);
       }
 
       else
@@ -609,8 +636,8 @@ namespace iccm
 
       if (n == ACE_TEXT("period"))
       {
-        period_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        period_->container (this);
+        ::iccm::Duration_t t (e);
+        period (t);
       }
 
       else
@@ -636,8 +663,8 @@ namespace iccm
 
       if (n == ACE_TEXT("duration"))
       {
-        duration_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        duration_->container (this);
+        ::iccm::Duration_t t (e);
+        duration (t);
       }
 
       else
@@ -663,8 +690,8 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::OwnershipQosPolicyKind > (new ::iccm::OwnershipQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::OwnershipQosPolicyKind t (e);
+        kind (t);
       }
 
       else
@@ -690,8 +717,8 @@ namespace iccm
 
       if (n == ACE_TEXT("value"))
       {
-        value_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
-        value_->container (this);
+        ::XMLSchema::long_ t (e);
+        value (t);
       }
 
       else
@@ -717,14 +744,14 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::LivelinessQosPolicyKind > (new ::iccm::LivelinessQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::LivelinessQosPolicyKind t (e);
+        kind (t);
       }
 
       else if (n == ACE_TEXT("lease_duration"))
       {
-        lease_duration_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        lease_duration_->container (this);
+        ::iccm::Duration_t t (e);
+        lease_duration (t);
       }
 
       else
@@ -750,8 +777,8 @@ namespace iccm
 
       if (n == ACE_TEXT("minimum_separation"))
       {
-        minimum_separation_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        minimum_separation_->container (this);
+        ::iccm::Duration_t t (e);
+        minimum_separation (t);
       }
 
       else
@@ -777,14 +804,20 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::ReliabilityQosPolicyKind > (new ::iccm::ReliabilityQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::ReliabilityQosPolicyKind t (e);
+        kind (t);
       }
 
       else if (n == ACE_TEXT("max_blocking_time"))
       {
-        max_blocking_time_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        max_blocking_time_->container (this);
+        ::iccm::Duration_t t (e);
+        max_blocking_time (t);
+      }
+
+      else if (n == ACE_TEXT("synchronous"))
+      {
+        ::XMLSchema::boolean t (e);
+        synchronous (t);
       }
 
       else
@@ -810,8 +843,8 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::DestinationOrderQosPolicyKind > (new ::iccm::DestinationOrderQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::DestinationOrderQosPolicyKind t (e);
+        kind (t);
       }
 
       else
@@ -837,14 +870,14 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > (new ::iccm::HistoryQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::HistoryQosPolicyKind t (e);
+        kind (t);
       }
 
       else if (n == ACE_TEXT("depth"))
       {
-        depth_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
-        depth_->container (this);
+        ::XMLSchema::long_ t (e);
+        depth (t);
       }
 
       else
@@ -870,20 +903,20 @@ namespace iccm
 
       if (n == ACE_TEXT("max_samples"))
       {
-        max_samples_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
-        max_samples_->container (this);
+        ::XMLSchema::long_ t (e);
+        max_samples (t);
       }
 
       else if (n == ACE_TEXT("max_instances"))
       {
-        max_instances_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
-        max_instances_->container (this);
+        ::XMLSchema::long_ t (e);
+        max_instances (t);
       }
 
       else if (n == ACE_TEXT("max_samples_per_instance"))
       {
-        max_samples_per_instance_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
-        max_samples_per_instance_->container (this);
+        ::XMLSchema::long_ t (e);
+        max_samples_per_instance (t);
       }
 
       else
@@ -909,8 +942,8 @@ namespace iccm
 
       if (n == ACE_TEXT("autoenable_created_entities"))
       {
-        autoenable_created_entities_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
-        autoenable_created_entities_->container (this);
+        ::XMLSchema::boolean t (e);
+        autoenable_created_entities (t);
       }
 
       else
@@ -934,10 +967,22 @@ namespace iccm
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("autoenable_created_entities"))
+      if (n == ACE_TEXT("autodispose_unregistered_instances"))
       {
-        autoenable_created_entities_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
-        autoenable_created_entities_->container (this);
+        ::XMLSchema::boolean t (e);
+        autodispose_unregistered_instances (t);
+      }
+
+      else if (n == ACE_TEXT("autopurge_suspended_samples_delay"))
+      {
+        ::iccm::Duration_t t (e);
+        autopurge_suspended_samples_delay (t);
+      }
+
+      else if (n == ACE_TEXT("autounregister_instance_delay"))
+      {
+        ::iccm::Duration_t t (e);
+        autounregister_instance_delay (t);
       }
 
       else
@@ -963,14 +1008,20 @@ namespace iccm
 
       if (n == ACE_TEXT("autopurge_nowriter_samples_delay"))
       {
-        autopurge_nowriter_samples_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        autopurge_nowriter_samples_delay_->container (this);
+        ::iccm::Duration_t t (e);
+        autopurge_nowriter_samples_delay (t);
       }
 
       else if (n == ACE_TEXT("autopurge_disposed_samples_delay"))
       {
-        autopurge_disposed_samples_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-        autopurge_disposed_samples_delay_->container (this);
+        ::iccm::Duration_t t (e);
+        autopurge_disposed_samples_delay (t);
+      }
+
+      else if (n == ACE_TEXT("enable_invalid_samples"))
+      {
+        ::XMLSchema::boolean t (e);
+        enable_invalid_samples (t);
       }
 
       else
@@ -996,8 +1047,8 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::SchedulingClassQosPolicyKind > (new ::iccm::SchedulingClassQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::SchedulingClassQosPolicyKind t (e);
+        kind (t);
       }
 
       else
@@ -1023,8 +1074,8 @@ namespace iccm
 
       if (n == ACE_TEXT("kind"))
       {
-        kind_ = ::std::auto_ptr< ::iccm::SchedulingPriorityQosPolicyKind > (new ::iccm::SchedulingPriorityQosPolicyKind (e));
-        kind_->container (this);
+        ::iccm::SchedulingPriorityQosPolicyKind t (e);
+        kind (t);
       }
 
       else
@@ -1050,20 +1101,119 @@ namespace iccm
 
       if (n == ACE_TEXT("scheduling_class"))
       {
-        scheduling_class_ = ::std::auto_ptr< ::iccm::SchedulingClassQosPolicy > (new ::iccm::SchedulingClassQosPolicy (e));
-        scheduling_class_->container (this);
+        ::iccm::SchedulingClassQosPolicy t (e);
+        scheduling_class (t);
       }
 
       else if (n == ACE_TEXT("scheduling_priority_kind"))
       {
-        scheduling_priority_kind_ = ::std::auto_ptr< ::iccm::SchedulingPriorityQosPolicy > (new ::iccm::SchedulingPriorityQosPolicy (e));
-        scheduling_priority_kind_->container (this);
+        ::iccm::SchedulingPriorityQosPolicy t (e);
+        scheduling_priority_kind (t);
       }
 
       else if (n == ACE_TEXT("scheduling_priority"))
       {
-        scheduling_priority_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
-        scheduling_priority_->container (this);
+        ::XMLSchema::long_ t (e);
+        scheduling_priority (t);
+      }
+
+      else
+      {
+      }
+    }
+  }
+
+  // SubscriptionKeyQosPolicy
+  //
+
+  SubscriptionKeyQosPolicy::
+  SubscriptionKeyQosPolicy (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == ACE_TEXT("use_key_list"))
+      {
+        ::XMLSchema::boolean t (e);
+        use_key_list (t);
+      }
+
+      else if (n == ACE_TEXT("key_list"))
+      {
+        ::iccm::StringSeq t (e);
+        key_list (t);
+      }
+
+      else
+      {
+      }
+    }
+  }
+
+  // ShareQosPolicy
+  //
+
+  ShareQosPolicy::
+  ShareQosPolicy (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == ACE_TEXT("name"))
+      {
+        ::XMLSchema::string< char > t (e);
+        name (t);
+      }
+
+      else if (n == ACE_TEXT("enable"))
+      {
+        ::XMLSchema::boolean t (e);
+        enable (t);
+      }
+
+      else
+      {
+      }
+    }
+  }
+
+  // ReaderLifespanQosPolicy
+  //
+
+  ReaderLifespanQosPolicy::
+  ReaderLifespanQosPolicy (::XSCRT::XML::Element< char > const& e)
+  :Base (e), regulator__ ()
+  {
+
+    ::XSCRT::Parser< char > p (e);
+
+    while (p.more_elements ())
+    {
+      ::XSCRT::XML::Element< char > e (p.next_element ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
+
+      if (n == ACE_TEXT("use_lifespan"))
+      {
+        ::XMLSchema::boolean t (e);
+        use_lifespan (t);
+      }
+
+      else if (n == ACE_TEXT("duration"))
+      {
+        ::iccm::Duration_t t (e);
+        duration (t);
       }
 
       else
@@ -1123,6 +1273,12 @@ namespace iccm
         liveliness (t);
       }
 
+      else if (n == ACE_TEXT("reliability"))
+      {
+        ::iccm::ReliabilityQosPolicy t (e);
+        reliability (t);
+      }
+
       else if (n == ACE_TEXT("destination_order"))
       {
         ::iccm::DestinationOrderQosPolicy t (e);
@@ -1157,6 +1313,21 @@ namespace iccm
       {
         ::iccm::OwnershipQosPolicy t (e);
         ownership (t);
+      }
+
+      else
+      {
+      }
+    }
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "name")
+      {
+        name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (a));
+        name_->container (this);
       }
 
       else
@@ -1277,6 +1448,24 @@ namespace iccm
       {
         ::iccm::ReaderDataLifecycleQosPolicy t (e);
         reader_data_lifecycle (t);
+      }
+
+      else if (n == ACE_TEXT("subscription_keys"))
+      {
+        ::iccm::SubscriptionKeyQosPolicy t (e);
+        subscription_keys (t);
+      }
+
+      else if (n == ACE_TEXT("reader_lifespan"))
+      {
+        ::iccm::ReaderLifespanQosPolicy t (e);
+        reader_lifespan (t);
+      }
+
+      else if (n == ACE_TEXT("share"))
+      {
+        ::iccm::ShareQosPolicy t (e);
+        share (t);
       }
 
       else
@@ -1537,6 +1726,12 @@ namespace iccm
         entity_factory (t);
       }
 
+      else if (n == ACE_TEXT("share"))
+      {
+        ::iccm::ShareQosPolicy t (e);
+        share (t);
+      }
+
       else
       {
       }
@@ -1595,6 +1790,12 @@ namespace iccm
       {
         ::iccm::SchedulingQosPolicy t (e);
         listener_scheduling (t);
+      }
+
+      else if (n == ACE_TEXT("topic"))
+      {
+        ACE_Refcounted_Auto_Ptr < ::iccm::TopicQos, ACE_Null_Mutex >  t (new ::iccm::TopicQos (e));
+        add_topic (t);
       }
 
       else if (n == ACE_TEXT("publisher"))

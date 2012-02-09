@@ -61,6 +61,10 @@ configure_DDSDomainQoS (const Deployment::Property & prop)
 
   if ((prop.value >>= filename))
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - loading domain configuration from %s\n"),
+                filename));
+
     // Read the contents of the extracted filename.
     iCCM::DDS_Domain_File file;
     XSC::XML::XML_Error_Handler error_handler;

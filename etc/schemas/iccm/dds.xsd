@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://cuts.cs.iupui.edu/iccm" 
-            xmlns="http://cuts.cs.iupui.edu/iccm" 
-            xmlns:dds="http://cuts.cs.iupui.edu/iccm" 
-            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-            xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd" 
+<xsd:schema targetNamespace="http://cuts.cs.iupui.edu/iccm"
+            xmlns="http://cuts.cs.iupui.edu/iccm"
+            xmlns:dds="http://cuts.cs.iupui.edu/iccm"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.w3.org/2001/XMLSchema XMLSchema.xsd"
             elementFormDefault="qualified" version="1.0">
 
-  <!-- 
+  <!--
     BEGIN KIND (SIMPLE TYPE) DEFINITIONS
     -->
 
@@ -80,7 +80,7 @@
   </xsd:simpleType>
 
 
-  <!-- 
+  <!--
     BEGIN POLICY (COMPLEX TYPE) DEFINITIONS
     -->
 
@@ -103,8 +103,14 @@
   </xsd:complexType>
 
   <xsd:complexType name="Duration_t">
-    <xsd:attribute name="sec" type="xsd:long" />
-    <xsd:attribute name="nanosec" type="xsd:unsignedLong" />
+    <xsd:attribute name="sec" type="xsd:long" use="required" />
+    <xsd:attribute name="nanosec" type="xsd:unsignedLong" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="StringSeq">
+    <xsd:sequence>
+      <xsd:element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="TransportPriorityQosPolicy">
@@ -115,13 +121,13 @@
 
   <xsd:complexType name="PartitionQosPolicy">
     <xsd:sequence>
-      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="name" type="StringSeq" minOccurs="1" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="LifespanQosPolicy">
     <xsd:sequence>
-      <xsd:element name="period" type="Duration_t" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="duration" type="Duration_t" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
@@ -138,126 +144,151 @@
 
   <xsd:complexType name="DurabilityQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="DurabilityQosPolicyKind" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="DurabilityQosPolicyKind" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="PresentationQosPolicy">
     <xsd:sequence>
-      <xsd:element name="access_scope" type="PresentationQosPolicyAccessScopeKind" />
-      <xsd:element name="coherent_access" type="xsd:boolean" />
-      <xsd:element name="ordered_access" type="xsd:boolean" />
+      <xsd:element name="access_scope" type="PresentationQosPolicyAccessScopeKind" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="coherent_access" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ordered_access" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="DeadlineQosPolicy">
     <xsd:sequence>
-      <xsd:element name="period" type="Duration_t" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="period" type="Duration_t" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="LatencyBudgetQosPolicy">
     <xsd:sequence>
-      <xsd:element name="duration" type="Duration_t" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="duration" type="Duration_t" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="OwnershipQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="OwnershipQosPolicyKind" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="OwnershipQosPolicyKind" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="OwnershipStrengthQosPolicy">
     <xsd:sequence>
-      <xsd:element name="value" type="xsd:long" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="value" type="xsd:long" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="LivelinessQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="LivelinessQosPolicyKind" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="lease_duration" type="Duration_t" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="LivelinessQosPolicyKind" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="lease_duration" type="Duration_t" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="TimeBasedFilterQosPolicy">
     <xsd:sequence>
-      <xsd:element name="minimum_separation" type="Duration_t" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="minimum_separation" type="Duration_t" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="ReliabilityQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="ReliabilityQosPolicyKind" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="max_blocking_time" type="Duration_t" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="ReliabilityQosPolicyKind" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="max_blocking_time" type="Duration_t" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="synchronous" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="DestinationOrderQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="DestinationOrderQosPolicyKind" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="DestinationOrderQosPolicyKind" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="HistoryQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="HistoryQosPolicyKind" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="depth" type="xsd:long" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="HistoryQosPolicyKind" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="depth" type="xsd:long" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="ResourceLimitsQosPolicy">
     <xsd:sequence>
-      <xsd:element name="max_samples" type="xsd:long" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="max_instances" type="xsd:long" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="max_samples_per_instance" type="xsd:long" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="max_samples" type="xsd:long" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="max_instances" type="xsd:long" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="max_samples_per_instance" type="xsd:long" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="EntityFactoryQosPolicy">
     <xsd:sequence>
-      <xsd:element name="autoenable_created_entities" type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="autoenable_created_entities" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="WriterDataLifecycleQosPolicy">
     <xsd:sequence>
-      <xsd:element name="autoenable_created_entities" type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="autodispose_unregistered_instances" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="autopurge_suspended_samples_delay" type="Duration_t" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="autounregister_instance_delay" type="Duration_t" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="ReaderDataLifecycleQosPolicy">
     <xsd:sequence>
-      <xsd:element name="autopurge_nowriter_samples_delay" type="Duration_t" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="autopurge_disposed_samples_delay" type="Duration_t" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="autopurge_nowriter_samples_delay" type="Duration_t" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="autopurge_disposed_samples_delay" type="Duration_t" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="enable_invalid_samples" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="SchedulingClassQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="SchedulingClassQosPolicyKind" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="SchedulingClassQosPolicyKind" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="SchedulingPriorityQosPolicy">
     <xsd:sequence>
-      <xsd:element name="kind" type="SchedulingPriorityQosPolicyKind" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="kind" type="SchedulingPriorityQosPolicyKind" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="SchedulingQosPolicy">
     <xsd:sequence>
-      <xsd:element name="scheduling_class" type="SchedulingClassQosPolicy" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="scheduling_priority_kind" type="SchedulingPriorityQosPolicy" minOccurs="1" maxOccurs="1" />
-      <xsd:element name="scheduling_priority" type="xsd:long" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="scheduling_class" type="SchedulingClassQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="scheduling_priority_kind" type="SchedulingPriorityQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="scheduling_priority" type="xsd:long" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 
-  <!-- 
+  <xsd:complexType name="SubscriptionKeyQosPolicy">
+    <xsd:sequence>
+      <xsd:element name="use_key_list" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="key_list" type="StringSeq" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ShareQosPolicy">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="enable" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ReaderLifespanQosPolicy">
+    <xsd:sequence>
+      <xsd:element name="use_lifespan" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="duration" type="Duration_t" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--
     BEGIN TOP-LEVEL QOS DEFINITIONS
     -->
-  
+
   <xsd:complexType name="TopicQos">
     <xsd:sequence>
       <xsd:element name="topic_data" type="TopicDataQosPolicy" minOccurs="0" maxOccurs="1" />
@@ -266,6 +297,7 @@
       <xsd:element name="deadline" type="DeadlineQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="latency_budget" type="LatencyBudgetQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="liveliness" type="LivelinessQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="reliability" type="ReliabilityQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="destination_order" type="DestinationOrderQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="history" type="HistoryQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="resource_limits" type="ResourceLimitsQosPolicy" minOccurs="0" maxOccurs="1" />
@@ -273,8 +305,10 @@
       <xsd:element name="lifespan" type="LifespanQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="ownership" type="OwnershipQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
+
+    <xsd:attribute name="name" type="xsd:string" use="required" />
   </xsd:complexType>
- 
+
   <xsd:complexType name="DomainParticipantFactoryQos">
     <xsd:sequence>
       <xsd:element name="entity_factory" type="EntityFactoryQosPolicy" minOccurs="0" maxOccurs="1" />
@@ -295,6 +329,9 @@
       <xsd:element name="ownership" type="OwnershipQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="time_based_filter" type="TimeBasedFilterQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="reader_data_lifecycle" type="ReaderDataLifecycleQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="subscription_keys" type="SubscriptionKeyQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="reader_lifespan" type="ReaderLifespanQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="share" type="ShareQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
 
     <!-- name of the target DataReader -->
@@ -333,7 +370,7 @@
       <xsd:element name="group_data" type="GroupDataQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="entity_factory" type="EntityFactoryQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
-    
+
     <xsd:attribute name="name" type="xsd:string" use="required" />
   </xsd:complexType>
 
@@ -343,6 +380,7 @@
       <xsd:element name="partition" type="PartitionQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="group_data" type="GroupDataQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="entity_factory" type="EntityFactoryQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="share" type="ShareQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
 
     <xsd:attribute name="name" type="xsd:string" use="required" />
@@ -355,6 +393,8 @@
       <xsd:element name="watchdog_scheduling" type="SchedulingQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="listener_scheduling" type="SchedulingQosPolicy" minOccurs="0" maxOccurs="1" />
 
+      <xsd:element name="topic" type="TopicQos" minOccurs="0" maxOccurs="unbounded" />
+
       <!-- The following is for partitioning the readers and writers -->
       <xsd:element name="publisher" type="PublisherQos" minOccurs="0" maxOccurs="unbounded" />
       <xsd:element name="subscriber" type="SubscriberQos" minOccurs="0" maxOccurs="unbounded" />
@@ -365,7 +405,7 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <!-- 
+  <!--
     BEGIN ROOT ELEMENTS
     -->
 

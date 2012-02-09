@@ -53,7 +53,7 @@ project (iCCM_OpenSplice_skel) : ccm_svnt, iccm_opensplice_stub, cutslib {
   }
 }
 
-project (iCCM_OpenSplice_svnt) : iccm_opensplice_skel, iccm_servant, cutslib {
+project (iCCM_OpenSplice_svnt) : boost_base, iccm_ddsxml, iccm_opensplice_skel, iccm_servant, cutslib {
   sharedname    = iCCM_OpenSplice_svnt
   dynamicflags += ICCM_OPENSPLICE_SVNT_BUILD_DLL
 

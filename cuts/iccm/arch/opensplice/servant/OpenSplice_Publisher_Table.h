@@ -44,6 +44,12 @@ public:
   virtual void configure (::DDS::Publisher_ptr publisher,
                           const ACE_CString & topic_name) = 0;
 
+  /// Get the publisher table data writer.
+  ::DDS::DataWriter_ptr get_datawriter (void);
+
+  /// Test if the publisher table is configured.
+  bool is_configured (void) const;
+
 protected:
   /**
    * Helper method for configuring the publisher table.

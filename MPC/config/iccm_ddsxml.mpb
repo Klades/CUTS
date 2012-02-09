@@ -1,0 +1,6 @@
+// $Id$
+
+project : xscrt {
+  after += iCCM_DDS_Xml
+  libs  += iCCM_DDS_Xml
+}

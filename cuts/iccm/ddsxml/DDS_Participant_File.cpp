@@ -21,7 +21,7 @@ void DDS_Participant_File::configure (void)
 
   // Locate the schemas directory
   ACE_CString schemas_dir (CUTS_ROOT);
-  schemas_dir += "/etc/schemas/iccm";
+  schemas_dir += "/etc/schemas/iccm/";
 
   // Configure the entity resolver.
   this->br_.path (schemas_dir.c_str ());

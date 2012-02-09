@@ -19,7 +19,26 @@
 #include "OpenSplice_Publisher.h"
 #include "OpenSplice_Publisher_Table.h"
 
-#include "ccpp_dds_dcps.h"
+namespace iccm
+{
+  // Forward decl.
+  class DomainParticipantQos;
+
+  // Forward decl.
+  class TopicQos;
+
+  // Forward decl.
+  class PublisherQos;
+
+  // Forward decl.
+  class SubscriberQos;
+
+  // Forward decl.
+  class DataReaderQos;
+
+  // Forward decl.
+  class DataWriterQos;
+}
 
 namespace iCCM
 {
@@ -44,6 +63,8 @@ public:
 
   /// Configure the underlying servant.
   virtual void configure (void);
+
+  void configure (const ::iccm::DomainParticipantQos & qos);
 
   /**
    * Get the domain participant for the servant.
@@ -76,14 +97,39 @@ protected:
   /// Default constructor.
   OpenSplice_Servant (const char * name);
 
+  virtual ::DDS::DataWriter_ptr
+    create_datawriter (const char * name,
+                       ::DDS::Publisher_ptr publisher) = 0;
+
+  virtual ::DDS::DataReader_ptr
+    create_datareader (const char * name,
+                       ::DDS::Subscriber_ptr publisher) = 0;
+
   /// The domain participant for the servant.
   ::DDS::DomainParticipant_var participant_;
 
   /// The publisher for the servant.
   ::DDS::Publisher_var publisher_;
 
+  /// Collection of non-default publishers for this servant.
+  ACE_Hash_Map_Manager <ACE_CString,
+                        ::DDS::Publisher_var,
+                        ACE_Null_Mutex> publishers_;
+
   /// The subscriber for the servant.
   ::DDS::Subscriber_var subscriber_;
+
+  /// Collection of non-default subscribers.
+  ACE_Hash_Map_Manager <ACE_CString,
+                        ::DDS::Subscriber_var,
+                        ACE_Null_Mutex> subscribers_;
+
+private:
+  void configure_topic (const ::iccm::TopicQos & value);
+  void configure_publisher (const ::iccm::PublisherQos & value);
+  void configure_subscriber (const ::iccm::SubscriberQos & value);
+  void configure_datareader (const ::iccm::DataReaderQos & value);
+  void configure_datawriter (const ::iccm::DataWriterQos & value);
 };
 
 }

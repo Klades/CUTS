@@ -61,6 +61,14 @@ public:
   virtual void configure (void);
 
 protected:
+  virtual ::DDS::DataWriter_ptr
+    create_datawriter (const char * name,
+                       ::DDS::Publisher_ptr publisher);
+
+  virtual ::DDS::DataReader_ptr
+    create_datareader (const char * name,
+                       ::DDS::Subscriber_ptr publisher);
+
   /// Type definition of the consumer map.
   typedef typename base_type::consumer_map_type consumer_map_type;
 

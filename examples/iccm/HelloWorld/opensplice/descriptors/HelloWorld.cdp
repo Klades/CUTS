@@ -166,24 +166,13 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>FEDFile</name>
+      <name>DomainQoS</name>
       <value>
         <type>
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld.fed</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
-      <name>FEDExecution</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorldExecution</string>
+          <string>HelloWorld.ddd</string>
         </value>
       </value>
     </configProperty>
@@ -206,24 +195,13 @@
       </value>
     </configProperty>
     <configProperty>
-      <name>FEDFile</name>
+      <name>DomainQoS</name>
       <value>
         <type>
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld.fed</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
-      <name>FEDExecution</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorldExecution</string>
+          <string>HelloWorld.ddd</string>
         </value>
       </value>
     </configProperty>
