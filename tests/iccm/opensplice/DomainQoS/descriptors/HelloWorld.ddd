@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<dds:domain xmlns="http://cuts.cs.iupui.edu/iccm"
+            xmlns:dds="http://cuts.cs.iupui.edu/iccm"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://cuts.cs.iupui.edu/iccm dds.xsd">
+
+  <entity_factory>
+    <autoenable_created_entities>true</autoenable_created_entities>
+  </entity_factory>
+</dds:domain>

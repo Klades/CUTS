@@ -1,3 +1,31 @@
+Thu Feb  9 15:38:15 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tests/iccm:
+        * tests/iccm/opensplice:
+        * tests/iccm/opensplice/DomainQoS:
+        * tests/iccm/opensplice/DomainQoS/HelloReceiverImpl.h:
+        * tests/iccm/opensplice/DomainQoS/HelloReceiverImpl.mpc:
+        * tests/iccm/opensplice/DomainQoS/HelloReceiverImpl.cpp:
+        * tests/iccm/opensplice/DomainQoS/HelloReceiver_impl_export.h:
+        * tests/iccm/opensplice/DomainQoS/HelloSenderImpl.h:
+        * tests/iccm/opensplice/DomainQoS/HelloSenderImpl.cpp:
+        * tests/iccm/opensplice/DomainQoS/HelloSenderImpl.mpc:
+        * tests/iccm/opensplice/DomainQoS/HelloSender_impl_export.h:
+        * tests/iccm/opensplice/DomainQoS/HelloWorld.idl:
+        * tests/iccm/opensplice/DomainQoS/HelloWorld.mpc:
+        * tests/iccm/opensplice/DomainQoS/HelloWorld.mwc:
+        * tests/iccm/opensplice/DomainQoS/HelloWorld_Components.idl:
+        * tests/iccm/opensplice/DomainQoS/descriptors:
+        * tests/iccm/opensplice/DomainQoS/descriptors/HelloWorld.cdd:
+        * tests/iccm/opensplice/DomainQoS/descriptors/HelloWorld.cdp:
+        * tests/iccm/opensplice/DomainQoS/descriptors/HelloWorld.ddd:
+        * tests/iccm/opensplice/DomainQoS/descriptors/run_test.pl:
+        * tests/iccm/opensplice/DomainQoS/lib:
+        * tests/iccm/opensplice/DomainQoS/models:
+        * tests/iccm/opensplice/DomainQoS/models/DomainQoS.xme:
+
+          Test for DomainQoS configuration.
+
 Thu Feb  9 15:28:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/iccm/HelloWorld/models/HelloWorld.xme:
