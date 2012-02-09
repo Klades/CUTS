@@ -363,93 +363,6 @@ namespace iccm
 
 
 
-  // Duration_t
-  //
-
-  inline
-  Duration_t::
-  Duration_t (::XMLSchema::long_ const& sec__,
-              ::XMLSchema::unsignedLong const& nanosec__)
-  :
-  sec_ (new ::XMLSchema::long_ (sec__)),
-  nanosec_ (new ::XMLSchema::unsignedLong (nanosec__)),
-  regulator__ ()
-  {
-    sec_->container (this);
-    nanosec_->container (this);
-  }
-
-  inline
-  Duration_t::
-  Duration_t (Duration_t const& s)
-  :
-  sec_ (new ::XMLSchema::long_ (*s.sec_)),
-  nanosec_ (new ::XMLSchema::unsignedLong (*s.nanosec_)),
-  regulator__ ()
-  {
-    sec_->container (this);
-    nanosec_->container (this);
-  }
-
-  inline
-  Duration_t& Duration_t::
-  operator= (Duration_t const& s)
-  {
-    sec (s.sec ());
-
-    nanosec (s.nanosec ());
-
-    return *this;
-  }
-
-
-  // Duration_t
-  //
-  inline
-  ::XMLSchema::long_ const& Duration_t::
-  sec () const
-  {
-    return *sec_;
-  }
-
-  inline
-  ::XMLSchema::long_& Duration_t::
-  sec ()
-  {
-    return *sec_;
-  }
-
-  inline
-  void Duration_t::
-  sec (::XMLSchema::long_ const& e)
-  {
-    *sec_ = e;
-  }
-
-  // Duration_t
-  //
-  inline
-  ::XMLSchema::unsignedLong const& Duration_t::
-  nanosec () const
-  {
-    return *nanosec_;
-  }
-
-  inline
-  ::XMLSchema::unsignedLong& Duration_t::
-  nanosec ()
-  {
-    return *nanosec_;
-  }
-
-  inline
-  void Duration_t::
-  nanosec (::XMLSchema::unsignedLong const& e)
-  {
-    *nanosec_ = e;
-  }
-
-
   // StringSeq
   //
 
@@ -542,7 +455,6 @@ namespace iccm
   TransportPriorityQosPolicy::
   TransportPriorityQosPolicy (TransportPriorityQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   value_ (s.value_.get () ? new ::XMLSchema::long_ (*s.value_) : 0),
   regulator__ ()
   {
@@ -553,10 +465,8 @@ namespace iccm
   TransportPriorityQosPolicy& TransportPriorityQosPolicy::
   operator= (TransportPriorityQosPolicy const& s)
   {
-    if (s.value_.get ())
-      value (*(s.value_));
-    else
-      value_.reset (0);
+    if (s.value_.get ()) value (*(s.value_));
+    else value_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
     return *this;
   }
@@ -574,6 +484,13 @@ namespace iccm
   inline
   ::XMLSchema::long_ const& TransportPriorityQosPolicy::
   value () const
+  {
+    return *value_;
+  }
+
+  inline
+  ::XMLSchema::long_& TransportPriorityQosPolicy::
+  value ()
   {
     return *value_;
   }
@@ -661,8 +578,7 @@ namespace iccm
   LifespanQosPolicy::
   LifespanQosPolicy (LifespanQosPolicy const& s)
   :
-  ::XSCRT::Type (),
-  duration_ (s.duration_.get () ? new ::iccm::Duration_t (*s.duration_) : 0),
+  duration_ (s.duration_.get () ? new ::XMLSchema::double_ (*s.duration_) : 0),
   regulator__ ()
   {
     if (duration_.get ()) duration_->container (this);
@@ -672,10 +588,8 @@ namespace iccm
   LifespanQosPolicy& LifespanQosPolicy::
   operator= (LifespanQosPolicy const& s)
   {
-    if (s.duration_.get ())
-      duration (*(s.duration_));
-    else
-      duration_.reset (0);
+    if (s.duration_.get ()) duration (*(s.duration_));
+    else duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
@@ -691,15 +605,22 @@ namespace iccm
   }
 
   inline
-  ::iccm::Duration_t const& LifespanQosPolicy::
+  ::XMLSchema::double_ const& LifespanQosPolicy::
   duration () const
   {
     return *duration_;
   }
 
   inline
+  ::XMLSchema::double_& LifespanQosPolicy::
+  duration ()
+  {
+    return *duration_;
+  }
+
+  inline
   void LifespanQosPolicy::
-  duration (::iccm::Duration_t const& e)
+  duration (::XMLSchema::double_ const& e)
   {
     if (duration_.get ())
     {
@@ -708,7 +629,7 @@ namespace iccm
 
     else
     {
-      duration_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
+      duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
       duration_->container (this);
     }
   }
@@ -729,124 +650,47 @@ namespace iccm
   DurabilityServiceQosPolicy::
   DurabilityServiceQosPolicy (DurabilityServiceQosPolicy const& s)
   :
-  ::XSCRT::Type (),
-  service_cleanup_delay_ (s.service_cleanup_delay_.get () ? new ::iccm::Duration_t (*s.service_cleanup_delay_) : 0),
-  history_kind_ (s.history_kind_.get () ? new ::iccm::HistoryQosPolicyKind (*s.history_kind_) : 0),
   history_depth_ (s.history_depth_.get () ? new ::XMLSchema::long_ (*s.history_depth_) : 0),
   max_samples_ (s.max_samples_.get () ? new ::XMLSchema::long_ (*s.max_samples_) : 0),
   max_instances_ (s.max_instances_.get () ? new ::XMLSchema::long_ (*s.max_instances_) : 0),
   max_samples_per_instance_ (s.max_samples_per_instance_.get () ? new ::XMLSchema::long_ (*s.max_samples_per_instance_) : 0),
+  history_kind_ (s.history_kind_.get () ? new ::iccm::HistoryQosPolicyKind (*s.history_kind_) : 0),
+  service_cleanup_delay_ (s.service_cleanup_delay_.get () ? new ::XMLSchema::double_ (*s.service_cleanup_delay_) : 0),
   regulator__ ()
   {
-    if (service_cleanup_delay_.get ()) service_cleanup_delay_->container (this);
-    if (history_kind_.get ()) history_kind_->container (this);
     if (history_depth_.get ()) history_depth_->container (this);
     if (max_samples_.get ()) max_samples_->container (this);
     if (max_instances_.get ()) max_instances_->container (this);
     if (max_samples_per_instance_.get ()) max_samples_per_instance_->container (this);
+    if (history_kind_.get ()) history_kind_->container (this);
+    if (service_cleanup_delay_.get ()) service_cleanup_delay_->container (this);
   }
 
   inline
   DurabilityServiceQosPolicy& DurabilityServiceQosPolicy::
   operator= (DurabilityServiceQosPolicy const& s)
   {
-    if (s.service_cleanup_delay_.get ())
-      service_cleanup_delay (*(s.service_cleanup_delay_));
-    else
-      service_cleanup_delay_.reset (0);
+    if (s.history_depth_.get ()) history_depth (*(s.history_depth_));
+    else history_depth_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
-    if (s.history_kind_.get ())
-      history_kind (*(s.history_kind_));
-    else
-      history_kind_.reset (0);
+    if (s.max_samples_.get ()) max_samples (*(s.max_samples_));
+    else max_samples_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
-    if (s.history_depth_.get ())
-      history_depth (*(s.history_depth_));
-    else
-      history_depth_.reset (0);
+    if (s.max_instances_.get ()) max_instances (*(s.max_instances_));
+    else max_instances_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
-    if (s.max_samples_.get ())
-      max_samples (*(s.max_samples_));
-    else
-      max_samples_.reset (0);
+    if (s.max_samples_per_instance_.get ()) max_samples_per_instance (*(s.max_samples_per_instance_));
+    else max_samples_per_instance_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
-    if (s.max_instances_.get ())
-      max_instances (*(s.max_instances_));
-    else
-      max_instances_.reset (0);
+    if (s.history_kind_.get ()) history_kind (*(s.history_kind_));
+    else history_kind_ = ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > (0);
 
-    if (s.max_samples_per_instance_.get ())
-      max_samples_per_instance (*(s.max_samples_per_instance_));
-    else
-      max_samples_per_instance_.reset (0);
+    if (s.service_cleanup_delay_.get ()) service_cleanup_delay (*(s.service_cleanup_delay_));
+    else service_cleanup_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
 
-
-  // DurabilityServiceQosPolicy
-  //
-  inline
-  bool DurabilityServiceQosPolicy::
-  service_cleanup_delay_p () const
-  {
-    return service_cleanup_delay_.get () != 0;
-  }
-
-  inline
-  ::iccm::Duration_t const& DurabilityServiceQosPolicy::
-  service_cleanup_delay () const
-  {
-    return *service_cleanup_delay_;
-  }
-
-  inline
-  void DurabilityServiceQosPolicy::
-  service_cleanup_delay (::iccm::Duration_t const& e)
-  {
-    if (service_cleanup_delay_.get ())
-    {
-      *service_cleanup_delay_ = e;
-    }
-
-    else
-    {
-      service_cleanup_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-      service_cleanup_delay_->container (this);
-    }
-  }
-
-  // DurabilityServiceQosPolicy
-  //
-  inline
-  bool DurabilityServiceQosPolicy::
-  history_kind_p () const
-  {
-    return history_kind_.get () != 0;
-  }
-
-  inline
-  ::iccm::HistoryQosPolicyKind const& DurabilityServiceQosPolicy::
-  history_kind () const
-  {
-    return *history_kind_;
-  }
-
-  inline
-  void DurabilityServiceQosPolicy::
-  history_kind (::iccm::HistoryQosPolicyKind const& e)
-  {
-    if (history_kind_.get ())
-    {
-      *history_kind_ = e;
-    }
-
-    else
-    {
-      history_kind_ = ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > (new ::iccm::HistoryQosPolicyKind (e));
-      history_kind_->container (this);
-    }
-  }
 
   // DurabilityServiceQosPolicy
   //
@@ -860,6 +704,13 @@ namespace iccm
   inline
   ::XMLSchema::long_ const& DurabilityServiceQosPolicy::
   history_depth () const
+  {
+    return *history_depth_;
+  }
+
+  inline
+  ::XMLSchema::long_& DurabilityServiceQosPolicy::
+  history_depth ()
   {
     return *history_depth_;
   }
@@ -897,6 +748,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::long_& DurabilityServiceQosPolicy::
+  max_samples ()
+  {
+    return *max_samples_;
+  }
+
+  inline
   void DurabilityServiceQosPolicy::
   max_samples (::XMLSchema::long_ const& e)
   {
@@ -924,6 +782,13 @@ namespace iccm
   inline
   ::XMLSchema::long_ const& DurabilityServiceQosPolicy::
   max_instances () const
+  {
+    return *max_instances_;
+  }
+
+  inline
+  ::XMLSchema::long_& DurabilityServiceQosPolicy::
+  max_instances ()
   {
     return *max_instances_;
   }
@@ -961,6 +826,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::long_& DurabilityServiceQosPolicy::
+  max_samples_per_instance ()
+  {
+    return *max_samples_per_instance_;
+  }
+
+  inline
   void DurabilityServiceQosPolicy::
   max_samples_per_instance (::XMLSchema::long_ const& e)
   {
@@ -973,6 +845,84 @@ namespace iccm
     {
       max_samples_per_instance_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (e));
       max_samples_per_instance_->container (this);
+    }
+  }
+
+  // DurabilityServiceQosPolicy
+  //
+  inline
+  bool DurabilityServiceQosPolicy::
+  history_kind_p () const
+  {
+    return history_kind_.get () != 0;
+  }
+
+  inline
+  ::iccm::HistoryQosPolicyKind const& DurabilityServiceQosPolicy::
+  history_kind () const
+  {
+    return *history_kind_;
+  }
+
+  inline
+  ::iccm::HistoryQosPolicyKind& DurabilityServiceQosPolicy::
+  history_kind ()
+  {
+    return *history_kind_;
+  }
+
+  inline
+  void DurabilityServiceQosPolicy::
+  history_kind (::iccm::HistoryQosPolicyKind const& e)
+  {
+    if (history_kind_.get ())
+    {
+      *history_kind_ = e;
+    }
+
+    else
+    {
+      history_kind_ = ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > (new ::iccm::HistoryQosPolicyKind (e));
+      history_kind_->container (this);
+    }
+  }
+
+  // DurabilityServiceQosPolicy
+  //
+  inline
+  bool DurabilityServiceQosPolicy::
+  service_cleanup_delay_p () const
+  {
+    return service_cleanup_delay_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& DurabilityServiceQosPolicy::
+  service_cleanup_delay () const
+  {
+    return *service_cleanup_delay_;
+  }
+
+  inline
+  ::XMLSchema::double_& DurabilityServiceQosPolicy::
+  service_cleanup_delay ()
+  {
+    return *service_cleanup_delay_;
+  }
+
+  inline
+  void DurabilityServiceQosPolicy::
+  service_cleanup_delay (::XMLSchema::double_ const& e)
+  {
+    if (service_cleanup_delay_.get ())
+    {
+      *service_cleanup_delay_ = e;
+    }
+
+    else
+    {
+      service_cleanup_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      service_cleanup_delay_->container (this);
     }
   }
 
@@ -992,7 +942,6 @@ namespace iccm
   DurabilityQosPolicy::
   DurabilityQosPolicy (DurabilityQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::DurabilityQosPolicyKind (*s.kind_) : 0),
   regulator__ ()
   {
@@ -1003,10 +952,8 @@ namespace iccm
   DurabilityQosPolicy& DurabilityQosPolicy::
   operator= (DurabilityQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::DurabilityQosPolicyKind > (0);
 
     return *this;
   }
@@ -1024,6 +971,13 @@ namespace iccm
   inline
   ::iccm::DurabilityQosPolicyKind const& DurabilityQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::DurabilityQosPolicyKind& DurabilityQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -1060,7 +1014,6 @@ namespace iccm
   PresentationQosPolicy::
   PresentationQosPolicy (PresentationQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   access_scope_ (s.access_scope_.get () ? new ::iccm::PresentationQosPolicyAccessScopeKind (*s.access_scope_) : 0),
   coherent_access_ (s.coherent_access_.get () ? new ::XMLSchema::boolean (*s.coherent_access_) : 0),
   ordered_access_ (s.ordered_access_.get () ? new ::XMLSchema::boolean (*s.ordered_access_) : 0),
@@ -1075,20 +1028,14 @@ namespace iccm
   PresentationQosPolicy& PresentationQosPolicy::
   operator= (PresentationQosPolicy const& s)
   {
-    if (s.access_scope_.get ())
-      access_scope (*(s.access_scope_));
-    else
-      access_scope_.reset (0);
+    if (s.access_scope_.get ()) access_scope (*(s.access_scope_));
+    else access_scope_ = ::std::auto_ptr< ::iccm::PresentationQosPolicyAccessScopeKind > (0);
 
-    if (s.coherent_access_.get ())
-      coherent_access (*(s.coherent_access_));
-    else
-      coherent_access_.reset (0);
+    if (s.coherent_access_.get ()) coherent_access (*(s.coherent_access_));
+    else coherent_access_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
-    if (s.ordered_access_.get ())
-      ordered_access (*(s.ordered_access_));
-    else
-      ordered_access_.reset (0);
+    if (s.ordered_access_.get ()) ordered_access (*(s.ordered_access_));
+    else ordered_access_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
     return *this;
   }
@@ -1106,6 +1053,13 @@ namespace iccm
   inline
   ::iccm::PresentationQosPolicyAccessScopeKind const& PresentationQosPolicy::
   access_scope () const
+  {
+    return *access_scope_;
+  }
+
+  inline
+  ::iccm::PresentationQosPolicyAccessScopeKind& PresentationQosPolicy::
+  access_scope ()
   {
     return *access_scope_;
   }
@@ -1143,6 +1097,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::boolean& PresentationQosPolicy::
+  coherent_access ()
+  {
+    return *coherent_access_;
+  }
+
+  inline
   void PresentationQosPolicy::
   coherent_access (::XMLSchema::boolean const& e)
   {
@@ -1170,6 +1131,13 @@ namespace iccm
   inline
   ::XMLSchema::boolean const& PresentationQosPolicy::
   ordered_access () const
+  {
+    return *ordered_access_;
+  }
+
+  inline
+  ::XMLSchema::boolean& PresentationQosPolicy::
+  ordered_access ()
   {
     return *ordered_access_;
   }
@@ -1206,8 +1174,7 @@ namespace iccm
   DeadlineQosPolicy::
   DeadlineQosPolicy (DeadlineQosPolicy const& s)
   :
-  ::XSCRT::Type (),
-  period_ (s.period_.get () ? new ::iccm::Duration_t (*s.period_) : 0),
+  period_ (s.period_.get () ? new ::XMLSchema::double_ (*s.period_) : 0),
   regulator__ ()
   {
     if (period_.get ()) period_->container (this);
@@ -1217,10 +1184,8 @@ namespace iccm
   DeadlineQosPolicy& DeadlineQosPolicy::
   operator= (DeadlineQosPolicy const& s)
   {
-    if (s.period_.get ())
-      period (*(s.period_));
-    else
-      period_.reset (0);
+    if (s.period_.get ()) period (*(s.period_));
+    else period_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
@@ -1236,15 +1201,22 @@ namespace iccm
   }
 
   inline
-  ::iccm::Duration_t const& DeadlineQosPolicy::
+  ::XMLSchema::double_ const& DeadlineQosPolicy::
   period () const
   {
     return *period_;
   }
 
   inline
+  ::XMLSchema::double_& DeadlineQosPolicy::
+  period ()
+  {
+    return *period_;
+  }
+
+  inline
   void DeadlineQosPolicy::
-  period (::iccm::Duration_t const& e)
+  period (::XMLSchema::double_ const& e)
   {
     if (period_.get ())
     {
@@ -1253,7 +1225,7 @@ namespace iccm
 
     else
     {
-      period_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
+      period_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
       period_->container (this);
     }
   }
@@ -1274,8 +1246,7 @@ namespace iccm
   LatencyBudgetQosPolicy::
   LatencyBudgetQosPolicy (LatencyBudgetQosPolicy const& s)
   :
-  ::XSCRT::Type (),
-  duration_ (s.duration_.get () ? new ::iccm::Duration_t (*s.duration_) : 0),
+  duration_ (s.duration_.get () ? new ::XMLSchema::double_ (*s.duration_) : 0),
   regulator__ ()
   {
     if (duration_.get ()) duration_->container (this);
@@ -1285,10 +1256,8 @@ namespace iccm
   LatencyBudgetQosPolicy& LatencyBudgetQosPolicy::
   operator= (LatencyBudgetQosPolicy const& s)
   {
-    if (s.duration_.get ())
-      duration (*(s.duration_));
-    else
-      duration_.reset (0);
+    if (s.duration_.get ()) duration (*(s.duration_));
+    else duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
@@ -1304,15 +1273,22 @@ namespace iccm
   }
 
   inline
-  ::iccm::Duration_t const& LatencyBudgetQosPolicy::
+  ::XMLSchema::double_ const& LatencyBudgetQosPolicy::
   duration () const
   {
     return *duration_;
   }
 
   inline
+  ::XMLSchema::double_& LatencyBudgetQosPolicy::
+  duration ()
+  {
+    return *duration_;
+  }
+
+  inline
   void LatencyBudgetQosPolicy::
-  duration (::iccm::Duration_t const& e)
+  duration (::XMLSchema::double_ const& e)
   {
     if (duration_.get ())
     {
@@ -1321,7 +1297,7 @@ namespace iccm
 
     else
     {
-      duration_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
+      duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
       duration_->container (this);
     }
   }
@@ -1342,7 +1318,6 @@ namespace iccm
   OwnershipQosPolicy::
   OwnershipQosPolicy (OwnershipQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::OwnershipQosPolicyKind (*s.kind_) : 0),
   regulator__ ()
   {
@@ -1353,10 +1328,8 @@ namespace iccm
   OwnershipQosPolicy& OwnershipQosPolicy::
   operator= (OwnershipQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::OwnershipQosPolicyKind > (0);
 
     return *this;
   }
@@ -1374,6 +1347,13 @@ namespace iccm
   inline
   ::iccm::OwnershipQosPolicyKind const& OwnershipQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::OwnershipQosPolicyKind& OwnershipQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -1410,7 +1390,6 @@ namespace iccm
   OwnershipStrengthQosPolicy::
   OwnershipStrengthQosPolicy (OwnershipStrengthQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   value_ (s.value_.get () ? new ::XMLSchema::long_ (*s.value_) : 0),
   regulator__ ()
   {
@@ -1421,10 +1400,8 @@ namespace iccm
   OwnershipStrengthQosPolicy& OwnershipStrengthQosPolicy::
   operator= (OwnershipStrengthQosPolicy const& s)
   {
-    if (s.value_.get ())
-      value (*(s.value_));
-    else
-      value_.reset (0);
+    if (s.value_.get ()) value (*(s.value_));
+    else value_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
     return *this;
   }
@@ -1442,6 +1419,13 @@ namespace iccm
   inline
   ::XMLSchema::long_ const& OwnershipStrengthQosPolicy::
   value () const
+  {
+    return *value_;
+  }
+
+  inline
+  ::XMLSchema::long_& OwnershipStrengthQosPolicy::
+  value ()
   {
     return *value_;
   }
@@ -1478,32 +1462,66 @@ namespace iccm
   LivelinessQosPolicy::
   LivelinessQosPolicy (LivelinessQosPolicy const& s)
   :
-  ::XSCRT::Type (),
+  lease_duration_ (s.lease_duration_.get () ? new ::XMLSchema::double_ (*s.lease_duration_) : 0),
   kind_ (s.kind_.get () ? new ::iccm::LivelinessQosPolicyKind (*s.kind_) : 0),
-  lease_duration_ (s.lease_duration_.get () ? new ::iccm::Duration_t (*s.lease_duration_) : 0),
   regulator__ ()
   {
-    if (kind_.get ()) kind_->container (this);
     if (lease_duration_.get ()) lease_duration_->container (this);
+    if (kind_.get ()) kind_->container (this);
   }
 
   inline
   LivelinessQosPolicy& LivelinessQosPolicy::
   operator= (LivelinessQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.lease_duration_.get ()) lease_duration (*(s.lease_duration_));
+    else lease_duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.lease_duration_.get ())
-      lease_duration (*(s.lease_duration_));
-    else
-      lease_duration_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::LivelinessQosPolicyKind > (0);
 
     return *this;
   }
 
+
+  // LivelinessQosPolicy
+  //
+  inline
+  bool LivelinessQosPolicy::
+  lease_duration_p () const
+  {
+    return lease_duration_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& LivelinessQosPolicy::
+  lease_duration () const
+  {
+    return *lease_duration_;
+  }
+
+  inline
+  ::XMLSchema::double_& LivelinessQosPolicy::
+  lease_duration ()
+  {
+    return *lease_duration_;
+  }
+
+  inline
+  void LivelinessQosPolicy::
+  lease_duration (::XMLSchema::double_ const& e)
+  {
+    if (lease_duration_.get ())
+    {
+      *lease_duration_ = e;
+    }
+
+    else
+    {
+      lease_duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      lease_duration_->container (this);
+    }
+  }
 
   // LivelinessQosPolicy
   //
@@ -1517,6 +1535,13 @@ namespace iccm
   inline
   ::iccm::LivelinessQosPolicyKind const& LivelinessQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::LivelinessQosPolicyKind& LivelinessQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -1537,38 +1562,6 @@ namespace iccm
     }
   }
 
-  // LivelinessQosPolicy
-  //
-  inline
-  bool LivelinessQosPolicy::
-  lease_duration_p () const
-  {
-    return lease_duration_.get () != 0;
-  }
-
-  inline
-  ::iccm::Duration_t const& LivelinessQosPolicy::
-  lease_duration () const
-  {
-    return *lease_duration_;
-  }
-
-  inline
-  void LivelinessQosPolicy::
-  lease_duration (::iccm::Duration_t const& e)
-  {
-    if (lease_duration_.get ())
-    {
-      *lease_duration_ = e;
-    }
-
-    else
-    {
-      lease_duration_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-      lease_duration_->container (this);
-    }
-  }
-
 
   // TimeBasedFilterQosPolicy
   //
@@ -1585,8 +1578,7 @@ namespace iccm
   TimeBasedFilterQosPolicy::
   TimeBasedFilterQosPolicy (TimeBasedFilterQosPolicy const& s)
   :
-  ::XSCRT::Type (),
-  minimum_separation_ (s.minimum_separation_.get () ? new ::iccm::Duration_t (*s.minimum_separation_) : 0),
+  minimum_separation_ (s.minimum_separation_.get () ? new ::XMLSchema::double_ (*s.minimum_separation_) : 0),
   regulator__ ()
   {
     if (minimum_separation_.get ()) minimum_separation_->container (this);
@@ -1596,10 +1588,8 @@ namespace iccm
   TimeBasedFilterQosPolicy& TimeBasedFilterQosPolicy::
   operator= (TimeBasedFilterQosPolicy const& s)
   {
-    if (s.minimum_separation_.get ())
-      minimum_separation (*(s.minimum_separation_));
-    else
-      minimum_separation_.reset (0);
+    if (s.minimum_separation_.get ()) minimum_separation (*(s.minimum_separation_));
+    else minimum_separation_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
@@ -1615,15 +1605,22 @@ namespace iccm
   }
 
   inline
-  ::iccm::Duration_t const& TimeBasedFilterQosPolicy::
+  ::XMLSchema::double_ const& TimeBasedFilterQosPolicy::
   minimum_separation () const
   {
     return *minimum_separation_;
   }
 
   inline
+  ::XMLSchema::double_& TimeBasedFilterQosPolicy::
+  minimum_separation ()
+  {
+    return *minimum_separation_;
+  }
+
+  inline
   void TimeBasedFilterQosPolicy::
-  minimum_separation (::iccm::Duration_t const& e)
+  minimum_separation (::XMLSchema::double_ const& e)
   {
     if (minimum_separation_.get ())
     {
@@ -1632,7 +1629,7 @@ namespace iccm
 
     else
     {
-      minimum_separation_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
+      minimum_separation_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
       minimum_separation_->container (this);
     }
   }
@@ -1653,35 +1650,28 @@ namespace iccm
   ReliabilityQosPolicy::
   ReliabilityQosPolicy (ReliabilityQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::ReliabilityQosPolicyKind (*s.kind_) : 0),
-  max_blocking_time_ (s.max_blocking_time_.get () ? new ::iccm::Duration_t (*s.max_blocking_time_) : 0),
   synchronous_ (s.synchronous_.get () ? new ::XMLSchema::boolean (*s.synchronous_) : 0),
+  max_blocking_time_ (s.max_blocking_time_.get () ? new ::XMLSchema::double_ (*s.max_blocking_time_) : 0),
   regulator__ ()
   {
     if (kind_.get ()) kind_->container (this);
-    if (max_blocking_time_.get ()) max_blocking_time_->container (this);
     if (synchronous_.get ()) synchronous_->container (this);
+    if (max_blocking_time_.get ()) max_blocking_time_->container (this);
   }
 
   inline
   ReliabilityQosPolicy& ReliabilityQosPolicy::
   operator= (ReliabilityQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::ReliabilityQosPolicyKind > (0);
 
-    if (s.max_blocking_time_.get ())
-      max_blocking_time (*(s.max_blocking_time_));
-    else
-      max_blocking_time_.reset (0);
+    if (s.synchronous_.get ()) synchronous (*(s.synchronous_));
+    else synchronous_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
-    if (s.synchronous_.get ())
-      synchronous (*(s.synchronous_));
-    else
-      synchronous_.reset (0);
+    if (s.max_blocking_time_.get ()) max_blocking_time (*(s.max_blocking_time_));
+    else max_blocking_time_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
     return *this;
   }
@@ -1699,6 +1689,13 @@ namespace iccm
   inline
   ::iccm::ReliabilityQosPolicyKind const& ReliabilityQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::ReliabilityQosPolicyKind& ReliabilityQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -1723,38 +1720,6 @@ namespace iccm
   //
   inline
   bool ReliabilityQosPolicy::
-  max_blocking_time_p () const
-  {
-    return max_blocking_time_.get () != 0;
-  }
-
-  inline
-  ::iccm::Duration_t const& ReliabilityQosPolicy::
-  max_blocking_time () const
-  {
-    return *max_blocking_time_;
-  }
-
-  inline
-  void ReliabilityQosPolicy::
-  max_blocking_time (::iccm::Duration_t const& e)
-  {
-    if (max_blocking_time_.get ())
-    {
-      *max_blocking_time_ = e;
-    }
-
-    else
-    {
-      max_blocking_time_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-      max_blocking_time_->container (this);
-    }
-  }
-
-  // ReliabilityQosPolicy
-  //
-  inline
-  bool ReliabilityQosPolicy::
   synchronous_p () const
   {
     return synchronous_.get () != 0;
@@ -1763,6 +1728,13 @@ namespace iccm
   inline
   ::XMLSchema::boolean const& ReliabilityQosPolicy::
   synchronous () const
+  {
+    return *synchronous_;
+  }
+
+  inline
+  ::XMLSchema::boolean& ReliabilityQosPolicy::
+  synchronous ()
   {
     return *synchronous_;
   }
@@ -1783,6 +1755,45 @@ namespace iccm
     }
   }
 
+  // ReliabilityQosPolicy
+  //
+  inline
+  bool ReliabilityQosPolicy::
+  max_blocking_time_p () const
+  {
+    return max_blocking_time_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& ReliabilityQosPolicy::
+  max_blocking_time () const
+  {
+    return *max_blocking_time_;
+  }
+
+  inline
+  ::XMLSchema::double_& ReliabilityQosPolicy::
+  max_blocking_time ()
+  {
+    return *max_blocking_time_;
+  }
+
+  inline
+  void ReliabilityQosPolicy::
+  max_blocking_time (::XMLSchema::double_ const& e)
+  {
+    if (max_blocking_time_.get ())
+    {
+      *max_blocking_time_ = e;
+    }
+
+    else
+    {
+      max_blocking_time_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      max_blocking_time_->container (this);
+    }
+  }
+
 
   // DestinationOrderQosPolicy
   //
@@ -1799,7 +1810,6 @@ namespace iccm
   DestinationOrderQosPolicy::
   DestinationOrderQosPolicy (DestinationOrderQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::DestinationOrderQosPolicyKind (*s.kind_) : 0),
   regulator__ ()
   {
@@ -1810,10 +1820,8 @@ namespace iccm
   DestinationOrderQosPolicy& DestinationOrderQosPolicy::
   operator= (DestinationOrderQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::DestinationOrderQosPolicyKind > (0);
 
     return *this;
   }
@@ -1831,6 +1839,13 @@ namespace iccm
   inline
   ::iccm::DestinationOrderQosPolicyKind const& DestinationOrderQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::DestinationOrderQosPolicyKind& DestinationOrderQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -1867,7 +1882,6 @@ namespace iccm
   HistoryQosPolicy::
   HistoryQosPolicy (HistoryQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::HistoryQosPolicyKind (*s.kind_) : 0),
   depth_ (s.depth_.get () ? new ::XMLSchema::long_ (*s.depth_) : 0),
   regulator__ ()
@@ -1880,15 +1894,11 @@ namespace iccm
   HistoryQosPolicy& HistoryQosPolicy::
   operator= (HistoryQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > (0);
 
-    if (s.depth_.get ())
-      depth (*(s.depth_));
-    else
-      depth_.reset (0);
+    if (s.depth_.get ()) depth (*(s.depth_));
+    else depth_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
     return *this;
   }
@@ -1906,6 +1916,13 @@ namespace iccm
   inline
   ::iccm::HistoryQosPolicyKind const& HistoryQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::HistoryQosPolicyKind& HistoryQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -1943,6 +1960,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::long_& HistoryQosPolicy::
+  depth ()
+  {
+    return *depth_;
+  }
+
+  inline
   void HistoryQosPolicy::
   depth (::XMLSchema::long_ const& e)
   {
@@ -1974,7 +1998,6 @@ namespace iccm
   ResourceLimitsQosPolicy::
   ResourceLimitsQosPolicy (ResourceLimitsQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   max_samples_ (s.max_samples_.get () ? new ::XMLSchema::long_ (*s.max_samples_) : 0),
   max_instances_ (s.max_instances_.get () ? new ::XMLSchema::long_ (*s.max_instances_) : 0),
   max_samples_per_instance_ (s.max_samples_per_instance_.get () ? new ::XMLSchema::long_ (*s.max_samples_per_instance_) : 0),
@@ -1989,20 +2012,14 @@ namespace iccm
   ResourceLimitsQosPolicy& ResourceLimitsQosPolicy::
   operator= (ResourceLimitsQosPolicy const& s)
   {
-    if (s.max_samples_.get ())
-      max_samples (*(s.max_samples_));
-    else
-      max_samples_.reset (0);
+    if (s.max_samples_.get ()) max_samples (*(s.max_samples_));
+    else max_samples_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
-    if (s.max_instances_.get ())
-      max_instances (*(s.max_instances_));
-    else
-      max_instances_.reset (0);
+    if (s.max_instances_.get ()) max_instances (*(s.max_instances_));
+    else max_instances_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
-    if (s.max_samples_per_instance_.get ())
-      max_samples_per_instance (*(s.max_samples_per_instance_));
-    else
-      max_samples_per_instance_.reset (0);
+    if (s.max_samples_per_instance_.get ()) max_samples_per_instance (*(s.max_samples_per_instance_));
+    else max_samples_per_instance_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
     return *this;
   }
@@ -2020,6 +2037,13 @@ namespace iccm
   inline
   ::XMLSchema::long_ const& ResourceLimitsQosPolicy::
   max_samples () const
+  {
+    return *max_samples_;
+  }
+
+  inline
+  ::XMLSchema::long_& ResourceLimitsQosPolicy::
+  max_samples ()
   {
     return *max_samples_;
   }
@@ -2057,6 +2081,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::long_& ResourceLimitsQosPolicy::
+  max_instances ()
+  {
+    return *max_instances_;
+  }
+
+  inline
   void ResourceLimitsQosPolicy::
   max_instances (::XMLSchema::long_ const& e)
   {
@@ -2084,6 +2115,13 @@ namespace iccm
   inline
   ::XMLSchema::long_ const& ResourceLimitsQosPolicy::
   max_samples_per_instance () const
+  {
+    return *max_samples_per_instance_;
+  }
+
+  inline
+  ::XMLSchema::long_& ResourceLimitsQosPolicy::
+  max_samples_per_instance ()
   {
     return *max_samples_per_instance_;
   }
@@ -2120,7 +2158,6 @@ namespace iccm
   EntityFactoryQosPolicy::
   EntityFactoryQosPolicy (EntityFactoryQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   autoenable_created_entities_ (s.autoenable_created_entities_.get () ? new ::XMLSchema::boolean (*s.autoenable_created_entities_) : 0),
   regulator__ ()
   {
@@ -2131,10 +2168,8 @@ namespace iccm
   EntityFactoryQosPolicy& EntityFactoryQosPolicy::
   operator= (EntityFactoryQosPolicy const& s)
   {
-    if (s.autoenable_created_entities_.get ())
-      autoenable_created_entities (*(s.autoenable_created_entities_));
-    else
-      autoenable_created_entities_.reset (0);
+    if (s.autoenable_created_entities_.get ()) autoenable_created_entities (*(s.autoenable_created_entities_));
+    else autoenable_created_entities_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
     return *this;
   }
@@ -2152,6 +2187,13 @@ namespace iccm
   inline
   ::XMLSchema::boolean const& EntityFactoryQosPolicy::
   autoenable_created_entities () const
+  {
+    return *autoenable_created_entities_;
+  }
+
+  inline
+  ::XMLSchema::boolean& EntityFactoryQosPolicy::
+  autoenable_created_entities ()
   {
     return *autoenable_created_entities_;
   }
@@ -2188,39 +2230,110 @@ namespace iccm
   WriterDataLifecycleQosPolicy::
   WriterDataLifecycleQosPolicy (WriterDataLifecycleQosPolicy const& s)
   :
-  ::XSCRT::Type (),
+  autopurge_suspended_samples_delay_ (s.autopurge_suspended_samples_delay_.get () ? new ::XMLSchema::double_ (*s.autopurge_suspended_samples_delay_) : 0),
+  autounregister_instance_delay_ (s.autounregister_instance_delay_.get () ? new ::XMLSchema::double_ (*s.autounregister_instance_delay_) : 0),
   autodispose_unregistered_instances_ (s.autodispose_unregistered_instances_.get () ? new ::XMLSchema::boolean (*s.autodispose_unregistered_instances_) : 0),
-  autopurge_suspended_samples_delay_ (s.autopurge_suspended_samples_delay_.get () ? new ::iccm::Duration_t (*s.autopurge_suspended_samples_delay_) : 0),
-  autounregister_instance_delay_ (s.autounregister_instance_delay_.get () ? new ::iccm::Duration_t (*s.autounregister_instance_delay_) : 0),
   regulator__ ()
   {
-    if (autodispose_unregistered_instances_.get ()) autodispose_unregistered_instances_->container (this);
     if (autopurge_suspended_samples_delay_.get ()) autopurge_suspended_samples_delay_->container (this);
     if (autounregister_instance_delay_.get ()) autounregister_instance_delay_->container (this);
+    if (autodispose_unregistered_instances_.get ()) autodispose_unregistered_instances_->container (this);
   }
 
   inline
   WriterDataLifecycleQosPolicy& WriterDataLifecycleQosPolicy::
   operator= (WriterDataLifecycleQosPolicy const& s)
   {
-    if (s.autodispose_unregistered_instances_.get ())
-      autodispose_unregistered_instances (*(s.autodispose_unregistered_instances_));
-    else
-      autodispose_unregistered_instances_.reset (0);
+    if (s.autopurge_suspended_samples_delay_.get ()) autopurge_suspended_samples_delay (*(s.autopurge_suspended_samples_delay_));
+    else autopurge_suspended_samples_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.autopurge_suspended_samples_delay_.get ())
-      autopurge_suspended_samples_delay (*(s.autopurge_suspended_samples_delay_));
-    else
-      autopurge_suspended_samples_delay_.reset (0);
+    if (s.autounregister_instance_delay_.get ()) autounregister_instance_delay (*(s.autounregister_instance_delay_));
+    else autounregister_instance_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.autounregister_instance_delay_.get ())
-      autounregister_instance_delay (*(s.autounregister_instance_delay_));
-    else
-      autounregister_instance_delay_.reset (0);
+    if (s.autodispose_unregistered_instances_.get ()) autodispose_unregistered_instances (*(s.autodispose_unregistered_instances_));
+    else autodispose_unregistered_instances_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
     return *this;
   }
 
+
+  // WriterDataLifecycleQosPolicy
+  //
+  inline
+  bool WriterDataLifecycleQosPolicy::
+  autopurge_suspended_samples_delay_p () const
+  {
+    return autopurge_suspended_samples_delay_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& WriterDataLifecycleQosPolicy::
+  autopurge_suspended_samples_delay () const
+  {
+    return *autopurge_suspended_samples_delay_;
+  }
+
+  inline
+  ::XMLSchema::double_& WriterDataLifecycleQosPolicy::
+  autopurge_suspended_samples_delay ()
+  {
+    return *autopurge_suspended_samples_delay_;
+  }
+
+  inline
+  void WriterDataLifecycleQosPolicy::
+  autopurge_suspended_samples_delay (::XMLSchema::double_ const& e)
+  {
+    if (autopurge_suspended_samples_delay_.get ())
+    {
+      *autopurge_suspended_samples_delay_ = e;
+    }
+
+    else
+    {
+      autopurge_suspended_samples_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      autopurge_suspended_samples_delay_->container (this);
+    }
+  }
+
+  // WriterDataLifecycleQosPolicy
+  //
+  inline
+  bool WriterDataLifecycleQosPolicy::
+  autounregister_instance_delay_p () const
+  {
+    return autounregister_instance_delay_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& WriterDataLifecycleQosPolicy::
+  autounregister_instance_delay () const
+  {
+    return *autounregister_instance_delay_;
+  }
+
+  inline
+  ::XMLSchema::double_& WriterDataLifecycleQosPolicy::
+  autounregister_instance_delay ()
+  {
+    return *autounregister_instance_delay_;
+  }
+
+  inline
+  void WriterDataLifecycleQosPolicy::
+  autounregister_instance_delay (::XMLSchema::double_ const& e)
+  {
+    if (autounregister_instance_delay_.get ())
+    {
+      *autounregister_instance_delay_ = e;
+    }
+
+    else
+    {
+      autounregister_instance_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      autounregister_instance_delay_->container (this);
+    }
+  }
 
   // WriterDataLifecycleQosPolicy
   //
@@ -2234,6 +2347,13 @@ namespace iccm
   inline
   ::XMLSchema::boolean const& WriterDataLifecycleQosPolicy::
   autodispose_unregistered_instances () const
+  {
+    return *autodispose_unregistered_instances_;
+  }
+
+  inline
+  ::XMLSchema::boolean& WriterDataLifecycleQosPolicy::
+  autodispose_unregistered_instances ()
   {
     return *autodispose_unregistered_instances_;
   }
@@ -2254,70 +2374,6 @@ namespace iccm
     }
   }
 
-  // WriterDataLifecycleQosPolicy
-  //
-  inline
-  bool WriterDataLifecycleQosPolicy::
-  autopurge_suspended_samples_delay_p () const
-  {
-    return autopurge_suspended_samples_delay_.get () != 0;
-  }
-
-  inline
-  ::iccm::Duration_t const& WriterDataLifecycleQosPolicy::
-  autopurge_suspended_samples_delay () const
-  {
-    return *autopurge_suspended_samples_delay_;
-  }
-
-  inline
-  void WriterDataLifecycleQosPolicy::
-  autopurge_suspended_samples_delay (::iccm::Duration_t const& e)
-  {
-    if (autopurge_suspended_samples_delay_.get ())
-    {
-      *autopurge_suspended_samples_delay_ = e;
-    }
-
-    else
-    {
-      autopurge_suspended_samples_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-      autopurge_suspended_samples_delay_->container (this);
-    }
-  }
-
-  // WriterDataLifecycleQosPolicy
-  //
-  inline
-  bool WriterDataLifecycleQosPolicy::
-  autounregister_instance_delay_p () const
-  {
-    return autounregister_instance_delay_.get () != 0;
-  }
-
-  inline
-  ::iccm::Duration_t const& WriterDataLifecycleQosPolicy::
-  autounregister_instance_delay () const
-  {
-    return *autounregister_instance_delay_;
-  }
-
-  inline
-  void WriterDataLifecycleQosPolicy::
-  autounregister_instance_delay (::iccm::Duration_t const& e)
-  {
-    if (autounregister_instance_delay_.get ())
-    {
-      *autounregister_instance_delay_ = e;
-    }
-
-    else
-    {
-      autounregister_instance_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-      autounregister_instance_delay_->container (this);
-    }
-  }
-
 
   // ReaderDataLifecycleQosPolicy
   //
@@ -2334,9 +2390,8 @@ namespace iccm
   ReaderDataLifecycleQosPolicy::
   ReaderDataLifecycleQosPolicy (ReaderDataLifecycleQosPolicy const& s)
   :
-  ::XSCRT::Type (),
-  autopurge_nowriter_samples_delay_ (s.autopurge_nowriter_samples_delay_.get () ? new ::iccm::Duration_t (*s.autopurge_nowriter_samples_delay_) : 0),
-  autopurge_disposed_samples_delay_ (s.autopurge_disposed_samples_delay_.get () ? new ::iccm::Duration_t (*s.autopurge_disposed_samples_delay_) : 0),
+  autopurge_nowriter_samples_delay_ (s.autopurge_nowriter_samples_delay_.get () ? new ::XMLSchema::double_ (*s.autopurge_nowriter_samples_delay_) : 0),
+  autopurge_disposed_samples_delay_ (s.autopurge_disposed_samples_delay_.get () ? new ::XMLSchema::double_ (*s.autopurge_disposed_samples_delay_) : 0),
   enable_invalid_samples_ (s.enable_invalid_samples_.get () ? new ::XMLSchema::boolean (*s.enable_invalid_samples_) : 0),
   regulator__ ()
   {
@@ -2349,20 +2404,14 @@ namespace iccm
   ReaderDataLifecycleQosPolicy& ReaderDataLifecycleQosPolicy::
   operator= (ReaderDataLifecycleQosPolicy const& s)
   {
-    if (s.autopurge_nowriter_samples_delay_.get ())
-      autopurge_nowriter_samples_delay (*(s.autopurge_nowriter_samples_delay_));
-    else
-      autopurge_nowriter_samples_delay_.reset (0);
+    if (s.autopurge_nowriter_samples_delay_.get ()) autopurge_nowriter_samples_delay (*(s.autopurge_nowriter_samples_delay_));
+    else autopurge_nowriter_samples_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.autopurge_disposed_samples_delay_.get ())
-      autopurge_disposed_samples_delay (*(s.autopurge_disposed_samples_delay_));
-    else
-      autopurge_disposed_samples_delay_.reset (0);
+    if (s.autopurge_disposed_samples_delay_.get ()) autopurge_disposed_samples_delay (*(s.autopurge_disposed_samples_delay_));
+    else autopurge_disposed_samples_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.enable_invalid_samples_.get ())
-      enable_invalid_samples (*(s.enable_invalid_samples_));
-    else
-      enable_invalid_samples_.reset (0);
+    if (s.enable_invalid_samples_.get ()) enable_invalid_samples (*(s.enable_invalid_samples_));
+    else enable_invalid_samples_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
     return *this;
   }
@@ -2378,15 +2427,22 @@ namespace iccm
   }
 
   inline
-  ::iccm::Duration_t const& ReaderDataLifecycleQosPolicy::
+  ::XMLSchema::double_ const& ReaderDataLifecycleQosPolicy::
   autopurge_nowriter_samples_delay () const
   {
     return *autopurge_nowriter_samples_delay_;
   }
 
   inline
+  ::XMLSchema::double_& ReaderDataLifecycleQosPolicy::
+  autopurge_nowriter_samples_delay ()
+  {
+    return *autopurge_nowriter_samples_delay_;
+  }
+
+  inline
   void ReaderDataLifecycleQosPolicy::
-  autopurge_nowriter_samples_delay (::iccm::Duration_t const& e)
+  autopurge_nowriter_samples_delay (::XMLSchema::double_ const& e)
   {
     if (autopurge_nowriter_samples_delay_.get ())
     {
@@ -2395,7 +2451,7 @@ namespace iccm
 
     else
     {
-      autopurge_nowriter_samples_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
+      autopurge_nowriter_samples_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
       autopurge_nowriter_samples_delay_->container (this);
     }
   }
@@ -2410,15 +2466,22 @@ namespace iccm
   }
 
   inline
-  ::iccm::Duration_t const& ReaderDataLifecycleQosPolicy::
+  ::XMLSchema::double_ const& ReaderDataLifecycleQosPolicy::
   autopurge_disposed_samples_delay () const
   {
     return *autopurge_disposed_samples_delay_;
   }
 
   inline
+  ::XMLSchema::double_& ReaderDataLifecycleQosPolicy::
+  autopurge_disposed_samples_delay ()
+  {
+    return *autopurge_disposed_samples_delay_;
+  }
+
+  inline
   void ReaderDataLifecycleQosPolicy::
-  autopurge_disposed_samples_delay (::iccm::Duration_t const& e)
+  autopurge_disposed_samples_delay (::XMLSchema::double_ const& e)
   {
     if (autopurge_disposed_samples_delay_.get ())
     {
@@ -2427,7 +2490,7 @@ namespace iccm
 
     else
     {
-      autopurge_disposed_samples_delay_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
+      autopurge_disposed_samples_delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
       autopurge_disposed_samples_delay_->container (this);
     }
   }
@@ -2444,6 +2507,13 @@ namespace iccm
   inline
   ::XMLSchema::boolean const& ReaderDataLifecycleQosPolicy::
   enable_invalid_samples () const
+  {
+    return *enable_invalid_samples_;
+  }
+
+  inline
+  ::XMLSchema::boolean& ReaderDataLifecycleQosPolicy::
+  enable_invalid_samples ()
   {
     return *enable_invalid_samples_;
   }
@@ -2480,7 +2550,6 @@ namespace iccm
   SchedulingClassQosPolicy::
   SchedulingClassQosPolicy (SchedulingClassQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::SchedulingClassQosPolicyKind (*s.kind_) : 0),
   regulator__ ()
   {
@@ -2491,10 +2560,8 @@ namespace iccm
   SchedulingClassQosPolicy& SchedulingClassQosPolicy::
   operator= (SchedulingClassQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::SchedulingClassQosPolicyKind > (0);
 
     return *this;
   }
@@ -2512,6 +2579,13 @@ namespace iccm
   inline
   ::iccm::SchedulingClassQosPolicyKind const& SchedulingClassQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::SchedulingClassQosPolicyKind& SchedulingClassQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -2548,7 +2622,6 @@ namespace iccm
   SchedulingPriorityQosPolicy::
   SchedulingPriorityQosPolicy (SchedulingPriorityQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   kind_ (s.kind_.get () ? new ::iccm::SchedulingPriorityQosPolicyKind (*s.kind_) : 0),
   regulator__ ()
   {
@@ -2559,10 +2632,8 @@ namespace iccm
   SchedulingPriorityQosPolicy& SchedulingPriorityQosPolicy::
   operator= (SchedulingPriorityQosPolicy const& s)
   {
-    if (s.kind_.get ())
-      kind (*(s.kind_));
-    else
-      kind_.reset (0);
+    if (s.kind_.get ()) kind (*(s.kind_));
+    else kind_ = ::std::auto_ptr< ::iccm::SchedulingPriorityQosPolicyKind > (0);
 
     return *this;
   }
@@ -2580,6 +2651,13 @@ namespace iccm
   inline
   ::iccm::SchedulingPriorityQosPolicyKind const& SchedulingPriorityQosPolicy::
   kind () const
+  {
+    return *kind_;
+  }
+
+  inline
+  ::iccm::SchedulingPriorityQosPolicyKind& SchedulingPriorityQosPolicy::
+  kind ()
   {
     return *kind_;
   }
@@ -2641,10 +2719,8 @@ namespace iccm
     else
       scheduling_priority_kind_.reset (0);
 
-    if (s.scheduling_priority_.get ())
-      scheduling_priority (*(s.scheduling_priority_));
-    else
-      scheduling_priority_.reset (0);
+    if (s.scheduling_priority_.get ()) scheduling_priority (*(s.scheduling_priority_));
+    else scheduling_priority_ = ::std::auto_ptr< ::XMLSchema::long_ > (0);
 
     return *this;
   }
@@ -2731,6 +2807,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::long_& SchedulingQosPolicy::
+  scheduling_priority ()
+  {
+    return *scheduling_priority_;
+  }
+
+  inline
   void SchedulingQosPolicy::
   scheduling_priority (::XMLSchema::long_ const& e)
   {
@@ -2763,63 +2846,29 @@ namespace iccm
   SubscriptionKeyQosPolicy (SubscriptionKeyQosPolicy const& s)
   :
   ::XSCRT::Type (),
-  use_key_list_ (s.use_key_list_.get () ? new ::XMLSchema::boolean (*s.use_key_list_) : 0),
   key_list_ (s.key_list_.get () ? new ::iccm::StringSeq (*s.key_list_) : 0),
+  use_key_list_ (s.use_key_list_.get () ? new ::XMLSchema::boolean (*s.use_key_list_) : 0),
   regulator__ ()
   {
-    if (use_key_list_.get ()) use_key_list_->container (this);
     if (key_list_.get ()) key_list_->container (this);
+    if (use_key_list_.get ()) use_key_list_->container (this);
   }
 
   inline
   SubscriptionKeyQosPolicy& SubscriptionKeyQosPolicy::
   operator= (SubscriptionKeyQosPolicy const& s)
   {
-    if (s.use_key_list_.get ())
-      use_key_list (*(s.use_key_list_));
-    else
-      use_key_list_.reset (0);
-
     if (s.key_list_.get ())
       key_list (*(s.key_list_));
     else
       key_list_.reset (0);
 
+    if (s.use_key_list_.get ()) use_key_list (*(s.use_key_list_));
+    else use_key_list_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+
     return *this;
   }
 
-
-  // SubscriptionKeyQosPolicy
-  //
-  inline
-  bool SubscriptionKeyQosPolicy::
-  use_key_list_p () const
-  {
-    return use_key_list_.get () != 0;
-  }
-
-  inline
-  ::XMLSchema::boolean const& SubscriptionKeyQosPolicy::
-  use_key_list () const
-  {
-    return *use_key_list_;
-  }
-
-  inline
-  void SubscriptionKeyQosPolicy::
-  use_key_list (::XMLSchema::boolean const& e)
-  {
-    if (use_key_list_.get ())
-    {
-      *use_key_list_ = e;
-    }
-
-    else
-    {
-      use_key_list_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
-      use_key_list_->container (this);
-    }
-  }
 
   // SubscriptionKeyQosPolicy
   //
@@ -2853,6 +2902,45 @@ namespace iccm
     }
   }
 
+  // SubscriptionKeyQosPolicy
+  //
+  inline
+  bool SubscriptionKeyQosPolicy::
+  use_key_list_p () const
+  {
+    return use_key_list_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::boolean const& SubscriptionKeyQosPolicy::
+  use_key_list () const
+  {
+    return *use_key_list_;
+  }
+
+  inline
+  ::XMLSchema::boolean& SubscriptionKeyQosPolicy::
+  use_key_list ()
+  {
+    return *use_key_list_;
+  }
+
+  inline
+  void SubscriptionKeyQosPolicy::
+  use_key_list (::XMLSchema::boolean const& e)
+  {
+    if (use_key_list_.get ())
+    {
+      *use_key_list_ = e;
+    }
+
+    else
+    {
+      use_key_list_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
+      use_key_list_->container (this);
+    }
+  }
+
 
   // ShareQosPolicy
   //
@@ -2869,7 +2957,6 @@ namespace iccm
   ShareQosPolicy::
   ShareQosPolicy (ShareQosPolicy const& s)
   :
-  ::XSCRT::Type (),
   name_ (s.name_.get () ? new ::XMLSchema::string< char > (*s.name_) : 0),
   enable_ (s.enable_.get () ? new ::XMLSchema::boolean (*s.enable_) : 0),
   regulator__ ()
@@ -2882,15 +2969,11 @@ namespace iccm
   ShareQosPolicy& ShareQosPolicy::
   operator= (ShareQosPolicy const& s)
   {
-    if (s.name_.get ())
-      name (*(s.name_));
-    else
-      name_.reset (0);
+    if (s.name_.get ()) name (*(s.name_));
+    else name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
 
-    if (s.enable_.get ())
-      enable (*(s.enable_));
-    else
-      enable_.reset (0);
+    if (s.enable_.get ()) enable (*(s.enable_));
+    else enable_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
     return *this;
   }
@@ -2908,6 +2991,13 @@ namespace iccm
   inline
   ::XMLSchema::string< char > const& ShareQosPolicy::
   name () const
+  {
+    return *name_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& ShareQosPolicy::
+  name ()
   {
     return *name_;
   }
@@ -2945,6 +3035,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::boolean& ShareQosPolicy::
+  enable ()
+  {
+    return *enable_;
+  }
+
+  inline
   void ShareQosPolicy::
   enable (::XMLSchema::boolean const& e)
   {
@@ -2976,32 +3073,66 @@ namespace iccm
   ReaderLifespanQosPolicy::
   ReaderLifespanQosPolicy (ReaderLifespanQosPolicy const& s)
   :
-  ::XSCRT::Type (),
+  duration_ (s.duration_.get () ? new ::XMLSchema::double_ (*s.duration_) : 0),
   use_lifespan_ (s.use_lifespan_.get () ? new ::XMLSchema::boolean (*s.use_lifespan_) : 0),
-  duration_ (s.duration_.get () ? new ::iccm::Duration_t (*s.duration_) : 0),
   regulator__ ()
   {
-    if (use_lifespan_.get ()) use_lifespan_->container (this);
     if (duration_.get ()) duration_->container (this);
+    if (use_lifespan_.get ()) use_lifespan_->container (this);
   }
 
   inline
   ReaderLifespanQosPolicy& ReaderLifespanQosPolicy::
   operator= (ReaderLifespanQosPolicy const& s)
   {
-    if (s.use_lifespan_.get ())
-      use_lifespan (*(s.use_lifespan_));
-    else
-      use_lifespan_.reset (0);
+    if (s.duration_.get ()) duration (*(s.duration_));
+    else duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.duration_.get ())
-      duration (*(s.duration_));
-    else
-      duration_.reset (0);
+    if (s.use_lifespan_.get ()) use_lifespan (*(s.use_lifespan_));
+    else use_lifespan_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
     return *this;
   }
 
+
+  // ReaderLifespanQosPolicy
+  //
+  inline
+  bool ReaderLifespanQosPolicy::
+  duration_p () const
+  {
+    return duration_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::double_ const& ReaderLifespanQosPolicy::
+  duration () const
+  {
+    return *duration_;
+  }
+
+  inline
+  ::XMLSchema::double_& ReaderLifespanQosPolicy::
+  duration ()
+  {
+    return *duration_;
+  }
+
+  inline
+  void ReaderLifespanQosPolicy::
+  duration (::XMLSchema::double_ const& e)
+  {
+    if (duration_.get ())
+    {
+      *duration_ = e;
+    }
+
+    else
+    {
+      duration_ = ::std::auto_ptr< ::XMLSchema::double_ > (new ::XMLSchema::double_ (e));
+      duration_->container (this);
+    }
+  }
 
   // ReaderLifespanQosPolicy
   //
@@ -3020,6 +3151,13 @@ namespace iccm
   }
 
   inline
+  ::XMLSchema::boolean& ReaderLifespanQosPolicy::
+  use_lifespan ()
+  {
+    return *use_lifespan_;
+  }
+
+  inline
   void ReaderLifespanQosPolicy::
   use_lifespan (::XMLSchema::boolean const& e)
   {
@@ -3032,38 +3170,6 @@ namespace iccm
     {
       use_lifespan_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
       use_lifespan_->container (this);
-    }
-  }
-
-  // ReaderLifespanQosPolicy
-  //
-  inline
-  bool ReaderLifespanQosPolicy::
-  duration_p () const
-  {
-    return duration_.get () != 0;
-  }
-
-  inline
-  ::iccm::Duration_t const& ReaderLifespanQosPolicy::
-  duration () const
-  {
-    return *duration_;
-  }
-
-  inline
-  void ReaderLifespanQosPolicy::
-  duration (::iccm::Duration_t const& e)
-  {
-    if (duration_.get ())
-    {
-      *duration_ = e;
-    }
-
-    else
-    {
-      duration_ = ::std::auto_ptr< ::iccm::Duration_t > (new ::iccm::Duration_t (e));
-      duration_->container (this);
     }
   }
 

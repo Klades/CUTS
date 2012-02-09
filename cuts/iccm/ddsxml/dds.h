@@ -18,7 +18,6 @@ namespace iccm
   class TopicDataQosPolicy;
   class GroupDataQosPolicy;
   class UserDataQosPolicy;
-  class Duration_t;
   class StringSeq;
   class TransportPriorityQosPolicy;
   class PartitionQosPolicy;
@@ -357,13 +356,13 @@ namespace iccm
     SchedulingClassQosPolicyKind (::XSCRT::XML::Element< char > const&);
     SchedulingClassQosPolicyKind (::XSCRT::XML::Attribute< char > const&);
 
-    static SchedulingClassQosPolicyKind const SCHEDULING_DEFUALT;
+    static SchedulingClassQosPolicyKind const SCHEDULING_DEFAULT;
     static SchedulingClassQosPolicyKind const SCHEDULING_TIMESHARING;
     static SchedulingClassQosPolicyKind const SCHEDULING_REALTIME;
 
     enum Value
     {
-      SCHEDULING_DEFUALT_l, SCHEDULING_TIMESHARING_l, SCHEDULING_REALTIME_l
+      SCHEDULING_DEFAULT_l, SCHEDULING_TIMESHARING_l, SCHEDULING_REALTIME_l
     };
 
 
@@ -453,48 +452,6 @@ namespace iccm
   };
 
 
-  class ICCM_DDS_XML_Export Duration_t : public ::XSCRT::Type
-  {
-    typedef ::XSCRT::Type Base;
-
-    public:
-    typedef ACE_Refcounted_Auto_Ptr < Duration_t, ACE_Null_Mutex > _ptr;
-
-    // sec
-    //
-    public:
-    ::XMLSchema::long_ const& sec () const;
-    ::XMLSchema::long_& sec ();
-    void sec (::XMLSchema::long_ const& );
-
-    protected:
-    ::std::auto_ptr< ::XMLSchema::long_ > sec_;
-
-    // nanosec
-    //
-    public:
-    ::XMLSchema::unsignedLong const& nanosec () const;
-    ::XMLSchema::unsignedLong& nanosec ();
-    void nanosec (::XMLSchema::unsignedLong const& );
-
-    protected:
-    ::std::auto_ptr< ::XMLSchema::unsignedLong > nanosec_;
-
-    public:
-    Duration_t (::XMLSchema::long_ const& sec__,
-                ::XMLSchema::unsignedLong const& nanosec__);
-
-    Duration_t (::XSCRT::XML::Element< char > const&);
-    Duration_t (Duration_t const& s);
-
-    Duration_t&
-    operator= (Duration_t const& s);
-
-    private:
-    char regulator__;
-  };
-
-
   class ICCM_DDS_XML_Export StringSeq : public ::XSCRT::Type
   {
     typedef ::XSCRT::Type Base;
@@ -545,6 +502,7 @@ namespace iccm
     public:
     bool value_p () const;
     ::XMLSchema::long_ const& value () const;
+    ::XMLSchema::long_& value ();
     void value (::XMLSchema::long_ const& );
 
     protected:
@@ -605,11 +563,12 @@ namespace iccm
     //
     public:
     bool duration_p () const;
-    ::iccm::Duration_t const& duration () const;
-    void duration (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& duration () const;
+    ::XMLSchema::double_& duration ();
+    void duration (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > duration_;
+    ::std::auto_ptr< ::XMLSchema::double_ > duration_;
 
     public:
     LifespanQosPolicy ();
@@ -632,31 +591,12 @@ namespace iccm
     public:
     typedef ACE_Refcounted_Auto_Ptr < DurabilityServiceQosPolicy, ACE_Null_Mutex > _ptr;
 
-    // service_cleanup_delay
-    //
-    public:
-    bool service_cleanup_delay_p () const;
-    ::iccm::Duration_t const& service_cleanup_delay () const;
-    void service_cleanup_delay (::iccm::Duration_t const& );
-
-    protected:
-    ::std::auto_ptr< ::iccm::Duration_t > service_cleanup_delay_;
-
-    // history_kind
-    //
-    public:
-    bool history_kind_p () const;
-    ::iccm::HistoryQosPolicyKind const& history_kind () const;
-    void history_kind (::iccm::HistoryQosPolicyKind const& );
-
-    protected:
-    ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > history_kind_;
-
     // history_depth
     //
     public:
     bool history_depth_p () const;
     ::XMLSchema::long_ const& history_depth () const;
+    ::XMLSchema::long_& history_depth ();
     void history_depth (::XMLSchema::long_ const& );
 
     protected:
@@ -667,6 +607,7 @@ namespace iccm
     public:
     bool max_samples_p () const;
     ::XMLSchema::long_ const& max_samples () const;
+    ::XMLSchema::long_& max_samples ();
     void max_samples (::XMLSchema::long_ const& );
 
     protected:
@@ -677,6 +618,7 @@ namespace iccm
     public:
     bool max_instances_p () const;
     ::XMLSchema::long_ const& max_instances () const;
+    ::XMLSchema::long_& max_instances ();
     void max_instances (::XMLSchema::long_ const& );
 
     protected:
@@ -687,10 +629,33 @@ namespace iccm
     public:
     bool max_samples_per_instance_p () const;
     ::XMLSchema::long_ const& max_samples_per_instance () const;
+    ::XMLSchema::long_& max_samples_per_instance ();
     void max_samples_per_instance (::XMLSchema::long_ const& );
 
     protected:
     ::std::auto_ptr< ::XMLSchema::long_ > max_samples_per_instance_;
+
+    // history_kind
+    //
+    public:
+    bool history_kind_p () const;
+    ::iccm::HistoryQosPolicyKind const& history_kind () const;
+    ::iccm::HistoryQosPolicyKind& history_kind ();
+    void history_kind (::iccm::HistoryQosPolicyKind const& );
+
+    protected:
+    ::std::auto_ptr< ::iccm::HistoryQosPolicyKind > history_kind_;
+
+    // service_cleanup_delay
+    //
+    public:
+    bool service_cleanup_delay_p () const;
+    ::XMLSchema::double_ const& service_cleanup_delay () const;
+    ::XMLSchema::double_& service_cleanup_delay ();
+    void service_cleanup_delay (::XMLSchema::double_ const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::double_ > service_cleanup_delay_;
 
     public:
     DurabilityServiceQosPolicy ();
@@ -718,6 +683,7 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::DurabilityQosPolicyKind const& kind () const;
+    ::iccm::DurabilityQosPolicyKind& kind ();
     void kind (::iccm::DurabilityQosPolicyKind const& );
 
     protected:
@@ -749,6 +715,7 @@ namespace iccm
     public:
     bool access_scope_p () const;
     ::iccm::PresentationQosPolicyAccessScopeKind const& access_scope () const;
+    ::iccm::PresentationQosPolicyAccessScopeKind& access_scope ();
     void access_scope (::iccm::PresentationQosPolicyAccessScopeKind const& );
 
     protected:
@@ -759,6 +726,7 @@ namespace iccm
     public:
     bool coherent_access_p () const;
     ::XMLSchema::boolean const& coherent_access () const;
+    ::XMLSchema::boolean& coherent_access ();
     void coherent_access (::XMLSchema::boolean const& );
 
     protected:
@@ -769,6 +737,7 @@ namespace iccm
     public:
     bool ordered_access_p () const;
     ::XMLSchema::boolean const& ordered_access () const;
+    ::XMLSchema::boolean& ordered_access ();
     void ordered_access (::XMLSchema::boolean const& );
 
     protected:
@@ -799,11 +768,12 @@ namespace iccm
     //
     public:
     bool period_p () const;
-    ::iccm::Duration_t const& period () const;
-    void period (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& period () const;
+    ::XMLSchema::double_& period ();
+    void period (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > period_;
+    ::std::auto_ptr< ::XMLSchema::double_ > period_;
 
     public:
     DeadlineQosPolicy ();
@@ -830,11 +800,12 @@ namespace iccm
     //
     public:
     bool duration_p () const;
-    ::iccm::Duration_t const& duration () const;
-    void duration (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& duration () const;
+    ::XMLSchema::double_& duration ();
+    void duration (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > duration_;
+    ::std::auto_ptr< ::XMLSchema::double_ > duration_;
 
     public:
     LatencyBudgetQosPolicy ();
@@ -862,6 +833,7 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::OwnershipQosPolicyKind const& kind () const;
+    ::iccm::OwnershipQosPolicyKind& kind ();
     void kind (::iccm::OwnershipQosPolicyKind const& );
 
     protected:
@@ -893,6 +865,7 @@ namespace iccm
     public:
     bool value_p () const;
     ::XMLSchema::long_ const& value () const;
+    ::XMLSchema::long_& value ();
     void value (::XMLSchema::long_ const& );
 
     protected:
@@ -919,25 +892,27 @@ namespace iccm
     public:
     typedef ACE_Refcounted_Auto_Ptr < LivelinessQosPolicy, ACE_Null_Mutex > _ptr;
 
+    // lease_duration
+    //
+    public:
+    bool lease_duration_p () const;
+    ::XMLSchema::double_ const& lease_duration () const;
+    ::XMLSchema::double_& lease_duration ();
+    void lease_duration (::XMLSchema::double_ const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::double_ > lease_duration_;
+
     // kind
     //
     public:
     bool kind_p () const;
     ::iccm::LivelinessQosPolicyKind const& kind () const;
+    ::iccm::LivelinessQosPolicyKind& kind ();
     void kind (::iccm::LivelinessQosPolicyKind const& );
 
     protected:
     ::std::auto_ptr< ::iccm::LivelinessQosPolicyKind > kind_;
-
-    // lease_duration
-    //
-    public:
-    bool lease_duration_p () const;
-    ::iccm::Duration_t const& lease_duration () const;
-    void lease_duration (::iccm::Duration_t const& );
-
-    protected:
-    ::std::auto_ptr< ::iccm::Duration_t > lease_duration_;
 
     public:
     LivelinessQosPolicy ();
@@ -964,11 +939,12 @@ namespace iccm
     //
     public:
     bool minimum_separation_p () const;
-    ::iccm::Duration_t const& minimum_separation () const;
-    void minimum_separation (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& minimum_separation () const;
+    ::XMLSchema::double_& minimum_separation ();
+    void minimum_separation (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > minimum_separation_;
+    ::std::auto_ptr< ::XMLSchema::double_ > minimum_separation_;
 
     public:
     TimeBasedFilterQosPolicy ();
@@ -996,30 +972,33 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::ReliabilityQosPolicyKind const& kind () const;
+    ::iccm::ReliabilityQosPolicyKind& kind ();
     void kind (::iccm::ReliabilityQosPolicyKind const& );
 
     protected:
     ::std::auto_ptr< ::iccm::ReliabilityQosPolicyKind > kind_;
-
-    // max_blocking_time
-    //
-    public:
-    bool max_blocking_time_p () const;
-    ::iccm::Duration_t const& max_blocking_time () const;
-    void max_blocking_time (::iccm::Duration_t const& );
-
-    protected:
-    ::std::auto_ptr< ::iccm::Duration_t > max_blocking_time_;
 
     // synchronous
     //
     public:
     bool synchronous_p () const;
     ::XMLSchema::boolean const& synchronous () const;
+    ::XMLSchema::boolean& synchronous ();
     void synchronous (::XMLSchema::boolean const& );
 
     protected:
     ::std::auto_ptr< ::XMLSchema::boolean > synchronous_;
+
+    // max_blocking_time
+    //
+    public:
+    bool max_blocking_time_p () const;
+    ::XMLSchema::double_ const& max_blocking_time () const;
+    ::XMLSchema::double_& max_blocking_time ();
+    void max_blocking_time (::XMLSchema::double_ const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::double_ > max_blocking_time_;
 
     public:
     ReliabilityQosPolicy ();
@@ -1047,6 +1026,7 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::DestinationOrderQosPolicyKind const& kind () const;
+    ::iccm::DestinationOrderQosPolicyKind& kind ();
     void kind (::iccm::DestinationOrderQosPolicyKind const& );
 
     protected:
@@ -1078,6 +1058,7 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::HistoryQosPolicyKind const& kind () const;
+    ::iccm::HistoryQosPolicyKind& kind ();
     void kind (::iccm::HistoryQosPolicyKind const& );
 
     protected:
@@ -1088,6 +1069,7 @@ namespace iccm
     public:
     bool depth_p () const;
     ::XMLSchema::long_ const& depth () const;
+    ::XMLSchema::long_& depth ();
     void depth (::XMLSchema::long_ const& );
 
     protected:
@@ -1119,6 +1101,7 @@ namespace iccm
     public:
     bool max_samples_p () const;
     ::XMLSchema::long_ const& max_samples () const;
+    ::XMLSchema::long_& max_samples ();
     void max_samples (::XMLSchema::long_ const& );
 
     protected:
@@ -1129,6 +1112,7 @@ namespace iccm
     public:
     bool max_instances_p () const;
     ::XMLSchema::long_ const& max_instances () const;
+    ::XMLSchema::long_& max_instances ();
     void max_instances (::XMLSchema::long_ const& );
 
     protected:
@@ -1139,6 +1123,7 @@ namespace iccm
     public:
     bool max_samples_per_instance_p () const;
     ::XMLSchema::long_ const& max_samples_per_instance () const;
+    ::XMLSchema::long_& max_samples_per_instance ();
     void max_samples_per_instance (::XMLSchema::long_ const& );
 
     protected:
@@ -1170,6 +1155,7 @@ namespace iccm
     public:
     bool autoenable_created_entities_p () const;
     ::XMLSchema::boolean const& autoenable_created_entities () const;
+    ::XMLSchema::boolean& autoenable_created_entities ();
     void autoenable_created_entities (::XMLSchema::boolean const& );
 
     protected:
@@ -1196,35 +1182,38 @@ namespace iccm
     public:
     typedef ACE_Refcounted_Auto_Ptr < WriterDataLifecycleQosPolicy, ACE_Null_Mutex > _ptr;
 
-    // autodispose_unregistered_instances
-    //
-    public:
-    bool autodispose_unregistered_instances_p () const;
-    ::XMLSchema::boolean const& autodispose_unregistered_instances () const;
-    void autodispose_unregistered_instances (::XMLSchema::boolean const& );
-
-    protected:
-    ::std::auto_ptr< ::XMLSchema::boolean > autodispose_unregistered_instances_;
-
     // autopurge_suspended_samples_delay
     //
     public:
     bool autopurge_suspended_samples_delay_p () const;
-    ::iccm::Duration_t const& autopurge_suspended_samples_delay () const;
-    void autopurge_suspended_samples_delay (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& autopurge_suspended_samples_delay () const;
+    ::XMLSchema::double_& autopurge_suspended_samples_delay ();
+    void autopurge_suspended_samples_delay (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > autopurge_suspended_samples_delay_;
+    ::std::auto_ptr< ::XMLSchema::double_ > autopurge_suspended_samples_delay_;
 
     // autounregister_instance_delay
     //
     public:
     bool autounregister_instance_delay_p () const;
-    ::iccm::Duration_t const& autounregister_instance_delay () const;
-    void autounregister_instance_delay (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& autounregister_instance_delay () const;
+    ::XMLSchema::double_& autounregister_instance_delay ();
+    void autounregister_instance_delay (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > autounregister_instance_delay_;
+    ::std::auto_ptr< ::XMLSchema::double_ > autounregister_instance_delay_;
+
+    // autodispose_unregistered_instances
+    //
+    public:
+    bool autodispose_unregistered_instances_p () const;
+    ::XMLSchema::boolean const& autodispose_unregistered_instances () const;
+    ::XMLSchema::boolean& autodispose_unregistered_instances ();
+    void autodispose_unregistered_instances (::XMLSchema::boolean const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::boolean > autodispose_unregistered_instances_;
 
     public:
     WriterDataLifecycleQosPolicy ();
@@ -1251,27 +1240,30 @@ namespace iccm
     //
     public:
     bool autopurge_nowriter_samples_delay_p () const;
-    ::iccm::Duration_t const& autopurge_nowriter_samples_delay () const;
-    void autopurge_nowriter_samples_delay (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& autopurge_nowriter_samples_delay () const;
+    ::XMLSchema::double_& autopurge_nowriter_samples_delay ();
+    void autopurge_nowriter_samples_delay (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > autopurge_nowriter_samples_delay_;
+    ::std::auto_ptr< ::XMLSchema::double_ > autopurge_nowriter_samples_delay_;
 
     // autopurge_disposed_samples_delay
     //
     public:
     bool autopurge_disposed_samples_delay_p () const;
-    ::iccm::Duration_t const& autopurge_disposed_samples_delay () const;
-    void autopurge_disposed_samples_delay (::iccm::Duration_t const& );
+    ::XMLSchema::double_ const& autopurge_disposed_samples_delay () const;
+    ::XMLSchema::double_& autopurge_disposed_samples_delay ();
+    void autopurge_disposed_samples_delay (::XMLSchema::double_ const& );
 
     protected:
-    ::std::auto_ptr< ::iccm::Duration_t > autopurge_disposed_samples_delay_;
+    ::std::auto_ptr< ::XMLSchema::double_ > autopurge_disposed_samples_delay_;
 
     // enable_invalid_samples
     //
     public:
     bool enable_invalid_samples_p () const;
     ::XMLSchema::boolean const& enable_invalid_samples () const;
+    ::XMLSchema::boolean& enable_invalid_samples ();
     void enable_invalid_samples (::XMLSchema::boolean const& );
 
     protected:
@@ -1303,6 +1295,7 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::SchedulingClassQosPolicyKind const& kind () const;
+    ::iccm::SchedulingClassQosPolicyKind& kind ();
     void kind (::iccm::SchedulingClassQosPolicyKind const& );
 
     protected:
@@ -1334,6 +1327,7 @@ namespace iccm
     public:
     bool kind_p () const;
     ::iccm::SchedulingPriorityQosPolicyKind const& kind () const;
+    ::iccm::SchedulingPriorityQosPolicyKind& kind ();
     void kind (::iccm::SchedulingPriorityQosPolicyKind const& );
 
     protected:
@@ -1385,6 +1379,7 @@ namespace iccm
     public:
     bool scheduling_priority_p () const;
     ::XMLSchema::long_ const& scheduling_priority () const;
+    ::XMLSchema::long_& scheduling_priority ();
     void scheduling_priority (::XMLSchema::long_ const& );
 
     protected:
@@ -1411,16 +1406,6 @@ namespace iccm
     public:
     typedef ACE_Refcounted_Auto_Ptr < SubscriptionKeyQosPolicy, ACE_Null_Mutex > _ptr;
 
-    // use_key_list
-    //
-    public:
-    bool use_key_list_p () const;
-    ::XMLSchema::boolean const& use_key_list () const;
-    void use_key_list (::XMLSchema::boolean const& );
-
-    protected:
-    ::std::auto_ptr< ::XMLSchema::boolean > use_key_list_;
-
     // key_list
     //
     public:
@@ -1430,6 +1415,17 @@ namespace iccm
 
     protected:
     ::std::auto_ptr< ::iccm::StringSeq > key_list_;
+
+    // use_key_list
+    //
+    public:
+    bool use_key_list_p () const;
+    ::XMLSchema::boolean const& use_key_list () const;
+    ::XMLSchema::boolean& use_key_list ();
+    void use_key_list (::XMLSchema::boolean const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::boolean > use_key_list_;
 
     public:
     SubscriptionKeyQosPolicy ();
@@ -1457,6 +1453,7 @@ namespace iccm
     public:
     bool name_p () const;
     ::XMLSchema::string< char > const& name () const;
+    ::XMLSchema::string< char >& name ();
     void name (::XMLSchema::string< char > const& );
 
     protected:
@@ -1467,6 +1464,7 @@ namespace iccm
     public:
     bool enable_p () const;
     ::XMLSchema::boolean const& enable () const;
+    ::XMLSchema::boolean& enable ();
     void enable (::XMLSchema::boolean const& );
 
     protected:
@@ -1493,25 +1491,27 @@ namespace iccm
     public:
     typedef ACE_Refcounted_Auto_Ptr < ReaderLifespanQosPolicy, ACE_Null_Mutex > _ptr;
 
+    // duration
+    //
+    public:
+    bool duration_p () const;
+    ::XMLSchema::double_ const& duration () const;
+    ::XMLSchema::double_& duration ();
+    void duration (::XMLSchema::double_ const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::double_ > duration_;
+
     // use_lifespan
     //
     public:
     bool use_lifespan_p () const;
     ::XMLSchema::boolean const& use_lifespan () const;
+    ::XMLSchema::boolean& use_lifespan ();
     void use_lifespan (::XMLSchema::boolean const& );
 
     protected:
     ::std::auto_ptr< ::XMLSchema::boolean > use_lifespan_;
-
-    // duration
-    //
-    public:
-    bool duration_p () const;
-    ::iccm::Duration_t const& duration () const;
-    void duration (::iccm::Duration_t const& );
-
-    protected:
-    ::std::auto_ptr< ::iccm::Duration_t > duration_;
 
     public:
     ReaderLifespanQosPolicy ();

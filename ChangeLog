@@ -1,3 +1,25 @@
+Thu Feb  9 22:06:05 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.cpp:
+
+          Bug fix where PublisherQoS, SubscriberQos, DataReaderQos, and
+          DataWriterQos were not configured correctly via the Xml file.
+
+        * cuts/iccm/ddsxml/dds.h:
+        * cuts/iccm/ddsxml/dds.inl:
+        * cuts/iccm/ddsxml/dds.cpp:
+        * etc/schemas/iccm/dds.xsd:
+
+          Converted all elements of simpleType to attributes.
+
 Thu Feb  9 15:38:15 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tests/iccm:

@@ -32,7 +32,7 @@ OpenSplice_EventConsumer_T <SERVANT, EVENT>::
 //
 template <typename SERVANT, typename EVENT>
 void OpenSplice_EventConsumer_T <SERVANT, EVENT>::
-configure (::DDS::Subscriber_ptr subscriber)
+configure (::DDS::Subscriber_ptr subscriber, const ::DDS::DataReaderQos & qos)
 {
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
@@ -63,6 +63,7 @@ configure (::DDS::Subscriber_ptr subscriber)
   // Save the subscriber for when we create the topic, which happens
   // when set_topic () is called.
   this->subscriber_ = ::DDS::Subscriber::_duplicate (subscriber);
+  this->qos_ = qos;
 }
 
 //
@@ -118,7 +119,7 @@ add_topic (const char * topic_name)
 
     // Use the listener to create a new data reader.
     this->subscriber_->create_datareader (topic.in (),
-                                          DATAREADER_QOS_DEFAULT,
+                                          this->qos_,
                                           listener,
                                           ::DDS::ANY_STATUS);
   }

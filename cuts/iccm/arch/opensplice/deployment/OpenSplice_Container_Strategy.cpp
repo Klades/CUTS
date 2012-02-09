@@ -51,11 +51,21 @@ configure_servant (::PortableServer::Servant servant,
 
   if (0 == filename)
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - using default configuration ")
+                ACE_TEXT ("for %s\n"),
+                ospl_servant->name ().c_str ()));
+
     // Use the default configuration.
     ospl_servant->configure ();
   }
   else
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring %s using %s\n"),
+                ospl_servant->name ().c_str (),
+                filename));
+
     // Read the contents of the extracted filename.
     iCCM::DDS_Participant_File file;
     XSC::XML::XML_Error_Handler error_handler;

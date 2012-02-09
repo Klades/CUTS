@@ -60,12 +60,9 @@ public:
   /// Destructor.
   virtual ~OpenSplice_EventConsumer_T (void);
 
-  /**
-   * Configure the event consumer.
-   *
-   * @param[in]         subscriber      Parent subscriber
-   */
-  virtual void configure (::DDS::Subscriber_ptr subscriber);
+  // Configure the event consumer object.
+  virtual void configure (::DDS::Subscriber_ptr subscriber,
+                          const ::DDS::DataReaderQos & qos);
 
   /**
    * Add a topic to the event consumer. This will results in a new
@@ -73,6 +70,11 @@ public:
    */
   virtual void add_topic (const char * topic);
 
+  /**
+   * Remove a topic from the event consumer. This will delete the
+   * associated event listener. If the topic does not exist, then
+   * nothing happens.
+   */
   virtual void remove_topic (const char * topic);
 
 private:

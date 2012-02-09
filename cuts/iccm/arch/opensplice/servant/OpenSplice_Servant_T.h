@@ -28,6 +28,12 @@
 #include "OpenSplice_Publisher_T.h"
 #include "OpenSplice_Publisher_Table_T.h"
 
+namespace iccm
+{
+// Forward decl.
+class DomainParticipantQos;
+}
+
 namespace iCCM
 {
 
@@ -59,15 +65,20 @@ public:
 
   /// Configure the servant.
   virtual void configure (void);
+  virtual void configure (const ::iccm::DomainParticipantQos & qos);
 
 protected:
+  /// Do the default configuration.
+  void do_default_configure (void);
+
   virtual ::DDS::DataWriter_ptr
     create_datawriter (const char * name,
                        ::DDS::Publisher_ptr publisher);
 
-  virtual ::DDS::DataReader_ptr
-    create_datareader (const char * name,
-                       ::DDS::Subscriber_ptr publisher);
+  virtual void
+    configure_eventconsumer (const char * name,
+                             const ::DDS::DataReaderQos & qos,
+                             ::DDS::Subscriber_ptr publisher);
 
   /// Type definition of the consumer map.
   typedef typename base_type::consumer_map_type consumer_map_type;

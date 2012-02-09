@@ -64,7 +64,7 @@ public:
   /// Configure the underlying servant.
   virtual void configure (void);
 
-  void configure (const ::iccm::DomainParticipantQos & qos);
+  virtual void configure (const ::iccm::DomainParticipantQos & qos);
 
   /**
    * Get the domain participant for the servant.
@@ -97,13 +97,15 @@ protected:
   /// Default constructor.
   OpenSplice_Servant (const char * name);
 
+  /// Create a data writer object.
   virtual ::DDS::DataWriter_ptr
-    create_datawriter (const char * name,
-                       ::DDS::Publisher_ptr publisher) = 0;
+    create_datawriter (const char * name, ::DDS::Publisher_ptr publisher) = 0;
 
-  virtual ::DDS::DataReader_ptr
-    create_datareader (const char * name,
-                       ::DDS::Subscriber_ptr publisher) = 0;
+  /// Configure the event consumer for future data readers.
+  virtual void
+    configure_eventconsumer (const char * name,
+                             const ::DDS::DataReaderQos & qos,
+                             ::DDS::Subscriber_ptr publisher) = 0;
 
   /// The domain participant for the servant.
   ::DDS::DomainParticipant_var participant_;

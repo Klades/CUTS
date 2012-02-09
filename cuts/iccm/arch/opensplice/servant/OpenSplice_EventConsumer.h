@@ -37,7 +37,22 @@ public:
   /// Destructor.
   virtual ~OpenSplice_EventConsumer (void);
 
-  virtual void configure (::DDS::Subscriber_ptr subscriber) = 0;
+  /**
+   * Configure the event consumer. This method stores the target
+   * subscriber and QoS parameter for future data readers that will
+   * be created for each connection.
+   *
+   * @param[in]         subscriber        DDS subscriber entity
+   * @param[in]         qos               Data reader QoS
+   */
+  virtual void configure (::DDS::Subscriber_ptr subscriber,
+                          const ::DDS::DataReaderQos & qos) = 0;
+
+  /// Test if the consumer has been configured.
+  bool is_configured (void) const;
+
+  /// Get the data reader.
+  ::DDS::DataReader_ptr get_datareader (void);
 
 protected:
   /// The parent subscriber.
@@ -45,6 +60,9 @@ protected:
 
   /// The abstract reader for the event consumer.
   ::DDS::DataReader_var abstract_reader_;
+
+  /// QoS parameters for the data reader.
+  ::DDS::DataReaderQos qos_;
 };
 
 }

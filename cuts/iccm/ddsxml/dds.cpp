@@ -279,7 +279,7 @@ namespace iccm
   {
     ::std::basic_string< char > v (e.value ());
 
-    if (v == "SCHEDULING_DEFUALT") v_ = SCHEDULING_DEFUALT_l;
+    if (v == "SCHEDULING_DEFAULT") v_ = SCHEDULING_DEFAULT_l;
     else if (v == "SCHEDULING_TIMESHARING") v_ = SCHEDULING_TIMESHARING_l;
     else if (v == "SCHEDULING_REALTIME") v_ = SCHEDULING_REALTIME_l;
     else
@@ -293,7 +293,7 @@ namespace iccm
   {
     ::std::basic_string< char > v (a.value ());
 
-    if (v == "SCHEDULING_DEFUALT") v_ = SCHEDULING_DEFUALT_l;
+    if (v == "SCHEDULING_DEFAULT") v_ = SCHEDULING_DEFAULT_l;
     else if (v == "SCHEDULING_TIMESHARING") v_ = SCHEDULING_TIMESHARING_l;
     else if (v == "SCHEDULING_REALTIME") v_ = SCHEDULING_REALTIME_l;
     else
@@ -301,7 +301,7 @@ namespace iccm
     }
   }
 
-  SchedulingClassQosPolicyKind const SchedulingClassQosPolicyKind::SCHEDULING_DEFUALT (SchedulingClassQosPolicyKind::SCHEDULING_DEFUALT_l);
+  SchedulingClassQosPolicyKind const SchedulingClassQosPolicyKind::SCHEDULING_DEFAULT (SchedulingClassQosPolicyKind::SCHEDULING_DEFAULT_l);
   SchedulingClassQosPolicyKind const SchedulingClassQosPolicyKind::SCHEDULING_TIMESHARING (SchedulingClassQosPolicyKind::SCHEDULING_TIMESHARING_l);
   SchedulingClassQosPolicyKind const SchedulingClassQosPolicyKind::SCHEDULING_REALTIME (SchedulingClassQosPolicyKind::SCHEDULING_REALTIME_l);
 
@@ -356,38 +356,6 @@ namespace iccm
   {
   }
 
-  // Duration_t
-  //
-
-  Duration_t::
-  Duration_t (::XSCRT::XML::Element< char > const& e)
-  :Base (e), regulator__ ()
-  {
-
-    ::XSCRT::Parser< char > p (e);
-
-    while (p.more_attributes ())
-    {
-      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-      if (n == "sec")
-      {
-        sec_ = ::std::auto_ptr< ::XMLSchema::long_ > (new ::XMLSchema::long_ (a));
-        sec_->container (this);
-      }
-
-      else if (n == "nanosec")
-      {
-        nanosec_ = ::std::auto_ptr< ::XMLSchema::unsignedLong > (new ::XMLSchema::unsignedLong (a));
-        nanosec_->container (this);
-      }
-
-      else
-      {
-      }
-    }
-  }
-
   // StringSeq
   //
 
@@ -425,14 +393,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("value"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "value")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         value (t);
       }
 
@@ -479,14 +446,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("duration"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "duration")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         duration (t);
       }
 
@@ -506,45 +472,44 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("service_cleanup_delay"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "history_depth")
       {
-        ::iccm::Duration_t t (e);
-        service_cleanup_delay (t);
-      }
-
-      else if (n == ACE_TEXT("history_kind"))
-      {
-        ::iccm::HistoryQosPolicyKind t (e);
-        history_kind (t);
-      }
-
-      else if (n == ACE_TEXT("history_depth"))
-      {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         history_depth (t);
       }
 
-      else if (n == ACE_TEXT("max_samples"))
+      else if (n == "max_samples")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         max_samples (t);
       }
 
-      else if (n == ACE_TEXT("max_instances"))
+      else if (n == "max_instances")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         max_instances (t);
       }
 
-      else if (n == ACE_TEXT("max_samples_per_instance"))
+      else if (n == "max_samples_per_instance")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         max_samples_per_instance (t);
+      }
+
+      else if (n == "history_kind")
+      {
+        ::iccm::HistoryQosPolicyKind t (a);
+        history_kind (t);
+      }
+
+      else if (n == "service_cleanup_delay")
+      {
+        ::XMLSchema::double_ t (a);
+        service_cleanup_delay (t);
       }
 
       else
@@ -563,14 +528,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::DurabilityQosPolicyKind t (e);
+        ::iccm::DurabilityQosPolicyKind t (a);
         kind (t);
       }
 
@@ -590,26 +554,25 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("access_scope"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "access_scope")
       {
-        ::iccm::PresentationQosPolicyAccessScopeKind t (e);
+        ::iccm::PresentationQosPolicyAccessScopeKind t (a);
         access_scope (t);
       }
 
-      else if (n == ACE_TEXT("coherent_access"))
+      else if (n == "coherent_access")
       {
-        ::XMLSchema::boolean t (e);
+        ::XMLSchema::boolean t (a);
         coherent_access (t);
       }
 
-      else if (n == ACE_TEXT("ordered_access"))
+      else if (n == "ordered_access")
       {
-        ::XMLSchema::boolean t (e);
+        ::XMLSchema::boolean t (a);
         ordered_access (t);
       }
 
@@ -629,14 +592,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("period"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "period")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         period (t);
       }
 
@@ -656,14 +618,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("duration"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "duration")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         duration (t);
       }
 
@@ -683,14 +644,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::OwnershipQosPolicyKind t (e);
+        ::iccm::OwnershipQosPolicyKind t (a);
         kind (t);
       }
 
@@ -710,14 +670,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("value"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "value")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         value (t);
       }
 
@@ -737,21 +696,20 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "lease_duration")
       {
-        ::iccm::LivelinessQosPolicyKind t (e);
-        kind (t);
+        ::XMLSchema::double_ t (a);
+        lease_duration (t);
       }
 
-      else if (n == ACE_TEXT("lease_duration"))
+      else if (n == "kind")
       {
-        ::iccm::Duration_t t (e);
-        lease_duration (t);
+        ::iccm::LivelinessQosPolicyKind t (a);
+        kind (t);
       }
 
       else
@@ -770,14 +728,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("minimum_separation"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "minimum_separation")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         minimum_separation (t);
       }
 
@@ -797,27 +754,26 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::ReliabilityQosPolicyKind t (e);
+        ::iccm::ReliabilityQosPolicyKind t (a);
         kind (t);
       }
 
-      else if (n == ACE_TEXT("max_blocking_time"))
+      else if (n == "synchronous")
       {
-        ::iccm::Duration_t t (e);
-        max_blocking_time (t);
+        ::XMLSchema::boolean t (a);
+        synchronous (t);
       }
 
-      else if (n == ACE_TEXT("synchronous"))
+      else if (n == "max_blocking_time")
       {
-        ::XMLSchema::boolean t (e);
-        synchronous (t);
+        ::XMLSchema::double_ t (a);
+        max_blocking_time (t);
       }
 
       else
@@ -836,14 +792,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::DestinationOrderQosPolicyKind t (e);
+        ::iccm::DestinationOrderQosPolicyKind t (a);
         kind (t);
       }
 
@@ -863,20 +818,19 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::HistoryQosPolicyKind t (e);
+        ::iccm::HistoryQosPolicyKind t (a);
         kind (t);
       }
 
-      else if (n == ACE_TEXT("depth"))
+      else if (n == "depth")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         depth (t);
       }
 
@@ -896,26 +850,25 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("max_samples"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "max_samples")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         max_samples (t);
       }
 
-      else if (n == ACE_TEXT("max_instances"))
+      else if (n == "max_instances")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         max_instances (t);
       }
 
-      else if (n == ACE_TEXT("max_samples_per_instance"))
+      else if (n == "max_samples_per_instance")
       {
-        ::XMLSchema::long_ t (e);
+        ::XMLSchema::long_ t (a);
         max_samples_per_instance (t);
       }
 
@@ -935,14 +888,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("autoenable_created_entities"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "autoenable_created_entities")
       {
-        ::XMLSchema::boolean t (e);
+        ::XMLSchema::boolean t (a);
         autoenable_created_entities (t);
       }
 
@@ -962,27 +914,26 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("autodispose_unregistered_instances"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "autopurge_suspended_samples_delay")
       {
-        ::XMLSchema::boolean t (e);
-        autodispose_unregistered_instances (t);
-      }
-
-      else if (n == ACE_TEXT("autopurge_suspended_samples_delay"))
-      {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         autopurge_suspended_samples_delay (t);
       }
 
-      else if (n == ACE_TEXT("autounregister_instance_delay"))
+      else if (n == "autounregister_instance_delay")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         autounregister_instance_delay (t);
+      }
+
+      else if (n == "autodispose_unregistered_instances")
+      {
+        ::XMLSchema::boolean t (a);
+        autodispose_unregistered_instances (t);
       }
 
       else
@@ -1001,26 +952,25 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("autopurge_nowriter_samples_delay"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "autopurge_nowriter_samples_delay")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         autopurge_nowriter_samples_delay (t);
       }
 
-      else if (n == ACE_TEXT("autopurge_disposed_samples_delay"))
+      else if (n == "autopurge_disposed_samples_delay")
       {
-        ::iccm::Duration_t t (e);
+        ::XMLSchema::double_ t (a);
         autopurge_disposed_samples_delay (t);
       }
 
-      else if (n == ACE_TEXT("enable_invalid_samples"))
+      else if (n == "enable_invalid_samples")
       {
-        ::XMLSchema::boolean t (e);
+        ::XMLSchema::boolean t (a);
         enable_invalid_samples (t);
       }
 
@@ -1040,14 +990,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::SchedulingClassQosPolicyKind t (e);
+        ::iccm::SchedulingClassQosPolicyKind t (a);
         kind (t);
       }
 
@@ -1067,14 +1016,13 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("kind"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "kind")
       {
-        ::iccm::SchedulingPriorityQosPolicyKind t (e);
+        ::iccm::SchedulingPriorityQosPolicyKind t (a);
         kind (t);
       }
 
@@ -1111,9 +1059,18 @@ namespace iccm
         scheduling_priority_kind (t);
       }
 
-      else if (n == ACE_TEXT("scheduling_priority"))
+      else
       {
-        ::XMLSchema::long_ t (e);
+      }
+    }
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "scheduling_priority")
+      {
+        ::XMLSchema::long_ t (a);
         scheduling_priority (t);
       }
 
@@ -1138,16 +1095,25 @@ namespace iccm
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("use_key_list"))
-      {
-        ::XMLSchema::boolean t (e);
-        use_key_list (t);
-      }
-
-      else if (n == ACE_TEXT("key_list"))
+      if (n == ACE_TEXT("key_list"))
       {
         ::iccm::StringSeq t (e);
         key_list (t);
+      }
+
+      else
+      {
+      }
+    }
+
+    while (p.more_attributes ())
+    {
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "use_key_list")
+      {
+        ::XMLSchema::boolean t (a);
+        use_key_list (t);
       }
 
       else
@@ -1166,20 +1132,19 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("name"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "name")
       {
-        ::XMLSchema::string< char > t (e);
+        ::XMLSchema::string< char > t (a);
         name (t);
       }
 
-      else if (n == ACE_TEXT("enable"))
+      else if (n == "enable")
       {
-        ::XMLSchema::boolean t (e);
+        ::XMLSchema::boolean t (a);
         enable (t);
       }
 
@@ -1199,21 +1164,20 @@ namespace iccm
 
     ::XSCRT::Parser< char > p (e);
 
-    while (p.more_elements ())
+    while (p.more_attributes ())
     {
-      ::XSCRT::XML::Element< char > e (p.next_element ());
-      ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
-
-      if (n == ACE_TEXT("use_lifespan"))
+      ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
+      ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
+      if (n == "duration")
       {
-        ::XMLSchema::boolean t (e);
-        use_lifespan (t);
+        ::XMLSchema::double_ t (a);
+        duration (t);
       }
 
-      else if (n == ACE_TEXT("duration"))
+      else if (n == "use_lifespan")
       {
-        ::iccm::Duration_t t (e);
-        duration (t);
+        ::XMLSchema::boolean t (a);
+        use_lifespan (t);
       }
 
       else

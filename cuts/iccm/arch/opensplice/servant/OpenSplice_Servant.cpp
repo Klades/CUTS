@@ -11,6 +11,9 @@
 #include "boost/lambda/lambda.hpp"
 #include "boost/lambda/bind.hpp"
 
+#define ICCM_DDS_DEFAULT_PUBLISHER "@default"
+#define ICCM_DDS_DEFAULT_SUBSCRIBER "@default"
+
 namespace boost
 {
 namespace detail
@@ -47,15 +50,16 @@ namespace detail
 }
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 // Simple Type Definitions [*PolicyKind]
 ///////////////////////////////////////////////////////////////////////////////
 
-void operator <<= (DDS::Duration_t & dst, const ::iccm::Duration_t & src)
+void operator <<= (DDS::Duration_t & dst, const double & src)
 {
-  dst.sec = static_cast <CORBA::Long> (src.sec ());
-  dst.nanosec = static_cast <CORBA::ULong> (src.nanosec ());
+  dst.sec = static_cast < ::CORBA::Long > (src);
+
+  const double remainder = src - static_cast <double> (dst.sec);
+  dst.nanosec = static_cast < ::CORBA::Long > (remainder) * ACE_ONE_SECOND_IN_NSECS;
 }
 
 void operator <<= (DDS::StringSeq & dst, const ::iccm::StringSeq & src)
@@ -87,7 +91,7 @@ void operator <<= (DDS::SchedulingClassQosPolicyKind & dst, const ::iccm::Schedu
 {
   switch (src.integral ())
   {
-  case ::iccm::SchedulingClassQosPolicyKind::SCHEDULING_DEFUALT_l:
+  case ::iccm::SchedulingClassQosPolicyKind::SCHEDULING_DEFAULT_l:
     dst = DDS::SCHEDULE_DEFAULT;
     break;
 
@@ -653,10 +657,6 @@ void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & src)
   // the configuration file.
   namespace lambda = boost::lambda;
 
-  std::for_each (src.begin_topic (),
-                 src.end_topic (),
-                 lambda::bind (&OpenSplice_Servant::configure_topic, this, *lambda::_1));
-
   std::for_each (src.begin_publisher (),
                  src.end_publisher (),
                  lambda::bind (&OpenSplice_Servant::configure_publisher, this, *lambda::_1));
@@ -672,6 +672,13 @@ void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & src)
   std::for_each (src.begin_datawriter (),
                  src.end_datawriter (),
                  lambda::bind (&OpenSplice_Servant::configure_datawriter, this, *lambda::_1));
+
+  // We have to configure the topics last. This way, the publisher
+  // and subscribers have had their chance to create the topic. When
+  // we configure the topic has now impact on other entities.
+  std::for_each (src.begin_topic (),
+                 src.end_topic (),
+                 lambda::bind (&OpenSplice_Servant::configure_topic, this, *lambda::_1));
 
   // Finally, configure all the remaining ports/entities.
   this->configure ();
@@ -716,12 +723,19 @@ configure_publisher (const ::iccm::PublisherQos & value)
   // are setting the values for new one.
   ::DDS::Publisher_var publisher;
 
-  if (value.name () == "@default")
+  if (value.name () == ICCM_DDS_DEFAULT_PUBLISHER)
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring default publisher\n")));
+
     publisher = ::DDS::Publisher::_duplicate (this->publisher_.in ());
   }
   else
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring publisher <%s>\n"),
+                value.name ().c_str ()));
+
     // Create a new publisher, and save it for later usage.
     publisher =
       this->participant_->create_publisher (PUBLISHER_QOS_DEFAULT,
@@ -751,12 +765,19 @@ configure_subscriber (const ::iccm::SubscriberQos & value)
   // are setting the values for new one.
   ::DDS::Subscriber_var subscriber;
 
-  if (value.name () == "@default")
+  if (value.name () == ICCM_DDS_DEFAULT_SUBSCRIBER)
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring default subscriber\n")));
+
     subscriber = ::DDS::Subscriber::_duplicate (this->subscriber_.in ());
   }
   else
   {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring subscriber <%s>\n"),
+                value.name ().c_str ()));
+
     // Create a new subscriber, and save it for later usage.
     subscriber =
       this->participant_->create_subscriber (SUBSCRIBER_QOS_DEFAULT,
@@ -787,28 +808,30 @@ configure_datareader (const ::iccm::DataReaderQos & value)
   // message to the user so he/she can correct it! ;-)
   ::DDS::Subscriber_var subscriber;
 
-  if (0 != this->subscribers_.find (value.name ().c_str (), subscriber))
+  if (value.subscriber () == ICCM_DDS_DEFAULT_SUBSCRIBER)
+  {
+    subscriber = ::DDS::Subscriber::_duplicate (this->subscriber_.in ());
+  }
+  else if (0 != this->subscribers_.find (value.subscriber ().c_str (), subscriber))
   {
     ACE_ERROR ((LM_WARNING,
-                ACE_TEXT ("%T (%t) - %M - failed to locate <%s> in <%s>; using ")
-                ACE_TEXT ("default publisher\n"),
-                value.name ().c_str (),
+                ACE_TEXT ("%T (%t) - %M - failed to locate subscriber <%s> ")
+                ACE_TEXT ("in <%s>; using default subscriber\n"),
+                value.subscriber ().c_str (),
                 this->name_.c_str ()));
 
     subscriber = ::DDS::Subscriber::_duplicate (this->subscriber_.in ());
   }
 
-  // Create the DDS reader entity.
-  ::DDS::DataReader_var reader =
-    this->create_datareader (value.name ().c_str (), subscriber.in ());
-
-  // Configure the data reader's QoS properties.
-  ::DDS::DataReaderQos current;
-  reader->get_qos (current);
-
+  // The way we configure the data reader's QoS parameters is different
+  // from the data writer. This is because the a data reader is not
+  // created until a connection is made between an input/output port.
+  // We therefore need to initialize the data reader's QoS parameters
+  // and the consumer will use it when instantiating the data readers.
+  ::DDS::DataReaderQos current (DATAREADER_QOS_DEFAULT);
   current <<= value;
 
-  reader->set_qos (current);
+  this->configure_eventconsumer (value.name ().c_str (), current, subscriber.in ());
 }
 
 //
@@ -823,12 +846,16 @@ configure_datawriter (const ::iccm::DataWriterQos & value)
   // message to the user so he/she can correct it! ;-)
   ::DDS::Publisher_var publisher;
 
-  if (0 != this->publishers_.find (value.name ().c_str (), publisher))
+  if (value.publisher () == ICCM_DDS_DEFAULT_PUBLISHER)
+  {
+    publisher = ::DDS::Publisher::_duplicate (this->publisher_.in ());
+  }
+  else if (0 != this->publishers_.find (value.publisher ().c_str (), publisher))
   {
     ACE_ERROR ((LM_WARNING,
-                ACE_TEXT ("%T (%t) - %M - failed to locate <%s> in <%s>; using ")
-                ACE_TEXT ("default publisher\n"),
-                value.name ().c_str (),
+                ACE_TEXT ("%T (%t) - %M - failed to locate publisher <%s> ")
+                ACE_TEXT ("in <%s>; using default publisher\n"),
+                value.publisher ().c_str (),
                 this->name_.c_str ()));
 
     publisher = ::DDS::Publisher::_duplicate (this->publisher_.in ());
@@ -838,13 +865,29 @@ configure_datawriter (const ::iccm::DataWriterQos & value)
   ::DDS::DataWriter_var writer =
     this->create_datawriter (value.name ().c_str (), publisher.in ());
 
-  // Configure the data writer's QoS properties.
-  ::DDS::DataWriterQos current;
-  writer->get_qos (current);
+  if (!CORBA::is_nil (writer.in ()))
+  {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring data writer ")
+                ACE_TEXT ("<%s> of <%s>\n"),
+                value.name ().c_str (),
+                this->name_.c_str ()));
 
-  current <<= value;
+    // Configure the data writer's QoS properties.
+    ::DDS::DataWriterQos current;
+    writer->get_qos (current);
 
-  writer->set_qos (current);
+    current <<= value;
+
+    writer->set_qos (current);
+  }
+  else
+  {
+    ACE_ERROR ((LM_WARNING,
+                ACE_TEXT ("%T (%t) - %M - failed to create data writer ")
+                ACE_TEXT ("for <%s> port\n"),
+                value.name ().c_str ()));
+  }
 }
 
 }
