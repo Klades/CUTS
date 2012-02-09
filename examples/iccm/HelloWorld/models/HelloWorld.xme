@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{1A80F9AF-F4F2-41C3-A818-9778C0B62373}" cdate="Fri Dec 09 15:55:28 2011" mdate="Fri Dec 09 15:55:28 2011" version="" metaguid="{F474D912-08B5-48EB-80CA-50FA888D5FB2}" metaversion="" metaname="PICML">
+<project guid="{6DF472BD-9812-496C-9453-71F2329E804F}" cdate="Fri Dec 09 15:55:28 2011" mdate="Fri Dec 09 15:55:28 2011" version="" metaguid="{29894D80-C5DC-4B65-9050-9D30D64662F7}" metaversion="" metaname="PICML">
 	<name>HelloWorld</name>
 	<comment></comment>
 	<author></author>
@@ -9,7 +9,7 @@
 		<name>HelloWorld</name>
 		<folder id="id-006a-00000002" relid="0x0" childrelidcntr="0x2" kind="InterfaceDefinitions" guid="{2456f9cb-c32e-4314-add6-8a742ba35a83}">
 			<name>InterfaceDefinitions</name>
-			<model id="id-0065-00000001" kind="File" guid="{6eef5f06-29ce-4908-bbff-bc5e55df6e6b}" relid="0x0" childrelidcntr="0x3">
+			<model id="id-0065-00000001" kind="File" guid="{6eef5f06-29ce-4908-bbff-bc5e55df6e6b}" relid="0x0" childrelidcntr="0x5">
 				<name>HelloWorld</name>
 				<attribute kind="Path">
 					<value></value>
@@ -597,7 +597,7 @@
 				<name>WideString</name>
 			</atom>
 		</folder>
-		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x2" kind="ImplementationArtifacts" guid="{b289d73d-0448-475d-bbd7-cf7ab7260fa3}">
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x3" kind="ImplementationArtifacts" guid="{b289d73d-0448-475d-bbd7-cf7ab7260fa3}">
 			<name>ImplementationArtifacts</name>
 			<model id="id-0065-0000000c" kind="ArtifactContainer" guid="{fec796f0-7565-4986-80ec-fdb60301e7e2}" relid="0x1" childrelidcntr="0x2">
 				<name>HelloWorldArtifacts</name>
@@ -738,7 +738,7 @@
 				</atom>
 			</model>
 		</folder>
-		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x4" kind="ComponentImplementations" guid="{45b0762f-e68c-404a-83f5-0bd87d953309}">
+		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x5" kind="ComponentImplementations" guid="{45b0762f-e68c-404a-83f5-0bd87d953309}">
 			<name>ComponentImplementations</name>
 			<model id="id-0065-0000000d" kind="ComponentImplementationContainer" guid="{5c8e719d-f19f-4fa3-bae6-a6cc6a8f1a98}" relid="0x1" childrelidcntr="0x7">
 				<name>HelloSenderImpl</name>
@@ -823,7 +823,7 @@
 			</model>
 			<model id="id-0065-0000001c" kind="ComponentImplementationContainer" guid="{69f8b757-4765-4b2a-b7b1-0405cdcc1590}" relid="0x3" childrelidcntr="0x1">
 				<name>HelloWorld_asm</name>
-				<model id="id-0065-0000001d" kind="ComponentAssembly" role="ComponentAssembly" guid="{2d27c383-2d52-40e6-bec0-61f0302ec2c6}" relid="0x1" childrelidcntr="0xa">
+				<model id="id-0065-0000001d" kind="ComponentAssembly" role="ComponentAssembly" guid="{2d27c383-2d52-40e6-bec0-61f0302ec2c6}" relid="0x1" childrelidcntr="0xc">
 					<name>HelloWorld_asm</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1080,7 +1080,7 @@
 		</folder>
 		<folder id="id-006a-00000007" relid="0x6" childrelidcntr="0x2" kind="DeploymentPlans" guid="{0d0d3394-ee3a-484f-b8a7-53600dddedba}">
 			<name>DeploymentPlans</name>
-			<model id="id-0065-00000020" kind="DeploymentPlan" guid="{549373c8-b004-4337-a5b5-fcc1d1520d96}" relid="0x2" childrelidcntr="0x13">
+			<model id="id-0065-00000020" kind="DeploymentPlan" guid="{549373c8-b004-4337-a5b5-fcc1d1520d96}" relid="0x2" childrelidcntr="0x18">
 				<name>HelloWorld</name>
 				<attribute kind="UUID">
 					<value>B991F41E-22AB-11E1-8000-000C29A84559</value>
@@ -1101,7 +1101,7 @@
 						<regnode name="NodeMapping" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>326,39</value>
+								<value>328,34</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -1125,9 +1125,12 @@
 						<regnode name="NodeMapping" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>187,257</value>
+								<value>182,252</value>
 							</regnode>
 						</regnode>
+					</regnode>
+					<regnode name="decorator" isopaque="yes">
+						<value></value>
 					</regnode>
 				</reference>
 				<reference id="id-0067-0000002b" kind="SimpleProperty" role="SimpleProperty" guid="{91ac248c-c0b9-4300-841f-f80060847d33}" relid="0x7" referred="id-0066-00000016">
@@ -1145,36 +1148,6 @@
 						<value>corbaloc:iiop:localhost:60001</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-0000002d" kind="SimpleProperty" role="SimpleProperty" guid="{b83cbac4-fed7-44ae-ab2e-6780e006ca0c}" relid="0x8" referred="id-0066-00000016">
-					<name>FEDFile</name>
-					<regnode name="PartRegs" status="undefined">
-						<value></value>
-						<regnode name="DeploymentProperties" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>328,202</value>
-							</regnode>
-						</regnode>
-					</regnode>
-					<attribute kind="Value">
-						<value>HelloWorld.fed</value>
-					</attribute>
-				</reference>
-				<reference id="id-0067-0000002e" kind="SimpleProperty" role="SimpleProperty" guid="{e8522651-3fd2-4657-9242-150fd591d684}" relid="0x9" referred="id-0066-00000016">
-					<name>FEDExecution</name>
-					<regnode name="PartRegs" status="undefined">
-						<value></value>
-						<regnode name="DeploymentProperties" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>328,293</value>
-							</regnode>
-						</regnode>
-					</regnode>
-					<attribute kind="Value">
-						<value>HelloWorldExecution</value>
-					</attribute>
-				</reference>
 				<reference id="id-0067-0000002f" kind="NodeReference" role="NodeReference" guid="{b472e9af-9401-43e3-9a72-21c009701fe2}" relid="0xd" referred="id-0065-00000021">
 					<name>SecondNode</name>
 					<regnode name="PartRegs" status="undefined">
@@ -1188,7 +1161,7 @@
 						<regnode name="NodeMapping" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>495,40</value>
+								<value>496,34</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -1208,27 +1181,6 @@
 						<value>corbaloc:iiop:localhost:60002</value>
 					</attribute>
 				</reference>
-				<connection id="id-0068-00000017" kind="InstanceMapping" role="InstanceMapping" guid="{b9fbd077-7076-4afa-a4f6-09408a6b5ee0}" relid="0x3">
-					<name></name>
-					<connpoint role="dst" target="id-0067-00000027"/>
-					<connpoint role="src" target="id-0069-00000002"/>
-				</connection>
-				<connection id="id-0068-00000019" kind="CollocationGroupProperty" role="CollocationGroupProperty" guid="{f38476d8-6fab-46f7-8e75-61ce8b8d9d20}" relid="0xa">
-					<name>CollocationGroupProperty</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>We</value>
-					</regnode>
-					<connpoint role="src" target="id-0067-0000002d"/>
-					<connpoint role="dst" target="id-0069-00000002"/>
-				</connection>
-				<connection id="id-0068-0000001a" kind="CollocationGroupProperty" role="CollocationGroupProperty" guid="{4549af4b-0264-4571-b8ca-9fb444313c9d}" relid="0xb">
-					<name>CollocationGroupProperty</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>Ne</value>
-					</regnode>
-					<connpoint role="src" target="id-0067-0000002e"/>
-					<connpoint role="dst" target="id-0069-00000002"/>
-				</connection>
 				<connection id="id-0068-0000001b" kind="PropertyMapping" role="PropertyMapping" guid="{1a103899-f52a-4044-bbcd-157a1c3ff739}" relid="0xc">
 					<name>PropertyMapping</name>
 					<regnode name="autorouterPref" isopaque="yes">
@@ -1250,21 +1202,13 @@
 					<connpoint role="src" target="id-0067-0000002f"/>
 					<connpoint role="dst" target="id-0067-00000030"/>
 				</connection>
-				<connection id="id-0068-0000001e" kind="CollocationGroupProperty" role="CollocationGroupProperty" guid="{9db3e4cd-3a92-474d-a66a-aa4295839d09}" relid="0x12">
-					<name>CollocationGroupProperty</name>
+				<connection id="id-0068-00000026" kind="InstanceMapping" role="InstanceMapping" guid="{a7bc4e1a-83d0-4a8c-a12f-2951e98a8de3}" relid="0x14">
+					<name>InstanceMapping</name>
 					<regnode name="autorouterPref" isopaque="yes">
-						<value>Ew</value>
+						<value>Ns</value>
 					</regnode>
-					<connpoint role="src" target="id-0067-0000002d"/>
-					<connpoint role="dst" target="id-0069-00000003"/>
-				</connection>
-				<connection id="id-0068-0000001f" kind="CollocationGroupProperty" role="CollocationGroupProperty" guid="{b865dd2a-d052-4555-9b27-69ae0ef3ec55}" relid="0x13">
-					<name>CollocationGroupProperty</name>
-					<regnode name="autorouterPref" isopaque="yes">
-						<value>Nw</value>
-					</regnode>
-					<connpoint role="src" target="id-0067-0000002e"/>
-					<connpoint role="dst" target="id-0069-00000003"/>
+					<connpoint role="dst" target="id-0067-00000027"/>
+					<connpoint role="src" target="id-0069-00000002"/>
 				</connection>
 				<set id="id-0069-00000002" kind="CollocationGroup" role="CollocationGroup" guid="{f037bf7b-b636-4af2-86cb-3d27df40f266}" relid="0x2" members="id-0067-00000029">
 					<name>DefaultGroup</name>
@@ -1406,7 +1350,7 @@
 				<value>1</value>
 			</regnode>
 			<regnode name="OutputPath" isopaque="yes">
-				<value>E:\proj\vc9\SEM\CUTS\examples\arch\HelloWorld\arch\portico\descriptors</value>
+				<value>E:\proj\vc9\SEM\CUTS\examples\iccm\HelloWorld\opensplice\descriptors</value>
 			</regnode>
 		</regnode>
 		<regnode name="__OutputDir__" status="undefined">

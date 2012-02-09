@@ -165,17 +165,6 @@
         </value>
       </value>
     </configProperty>
-    <configProperty>
-      <name>DomainQoS</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorld.ddd</string>
-        </value>
-      </value>
-    </configProperty>
   </instance>
 
   <instance xmi:id="SecondNode.DefaultGroup">
@@ -191,17 +180,6 @@
         </type>
         <value>
           <string>DefaultGroup</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
-      <name>DomainQoS</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorld.ddd</string>
         </value>
       </value>
     </configProperty>

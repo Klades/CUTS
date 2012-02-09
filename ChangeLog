@@ -1,3 +1,15 @@
+Thu Feb  9 15:28:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/iccm/HelloWorld/models/HelloWorld.xme:
+        * examples/iccm/HelloWorld/opensplice/descriptors:
+        * examples/iccm/HelloWorld/opensplice/descriptors/HelloWorld.cdp:
+
+          Removed the DomainQoS aspect from the configuration.
+
+        * examples/iccm/HelloWorld/opensplice/descriptors/HelloWorld.ddd:
+
+          Removed this file.
+
 Thu Feb  9 15:11:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/iccm_ddsxml.mpb:
