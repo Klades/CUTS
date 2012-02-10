@@ -42,6 +42,7 @@ public:
    * @param[in]         topic_name        Topic name for writer
    */
   virtual void configure (::DDS::Publisher_ptr publisher,
+                          const ::DDS::TopicQos & qos,
                           const ACE_CString & topic_name) = 0;
 
   /// Get the publisher table data writer.

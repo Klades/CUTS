@@ -9,6 +9,8 @@ namespace iCCM
 //
 CUTS_INLINE
 OpenSplice_EventConsumer::OpenSplice_EventConsumer (void)
+: subscriber_ (0),
+  topic_qos_ (0)
 {
 
 }

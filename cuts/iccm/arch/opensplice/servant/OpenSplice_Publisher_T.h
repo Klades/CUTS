@@ -51,7 +51,9 @@ public:
    * @param[in]         publisher         Target DDS publisher
    * @param[in]         topic             Topic for writer
    */
-  virtual void configure (::DDS::Publisher_ptr pub, const ACE_CString & topic_name);
+  virtual void configure (::DDS::Publisher_ptr pub,
+                          const ::DDS::TopicQos & qos,
+                          const ACE_CString & topic_name);
 
   // Connect the consumer.
   virtual void connect (::Components::EventConsumerBase_ptr consumer);

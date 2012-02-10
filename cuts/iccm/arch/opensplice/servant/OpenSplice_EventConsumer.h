@@ -46,6 +46,7 @@ public:
    * @param[in]         qos               Data reader QoS
    */
   virtual void configure (::DDS::Subscriber_ptr subscriber,
+                          const ::DDS::TopicQos * topic_qos,
                           const ::DDS::DataReaderQos & qos) = 0;
 
   /// Test if the consumer has been configured.
@@ -63,6 +64,9 @@ protected:
 
   /// QoS parameters for the data reader.
   ::DDS::DataReaderQos qos_;
+
+  /// Topic QoS for the data reader.
+  const ::DDS::TopicQos * topic_qos_;
 };
 
 }

@@ -44,7 +44,9 @@ EVENT * OpenSplice_Publisher_Table_T <EVENT>::allocate_event (void)
 //
 template <typename EVENT>
 void OpenSplice_Publisher_Table_T <EVENT>::
-configure (::DDS::Publisher_ptr pub, const ACE_CString & topic_name)
+configure (::DDS::Publisher_ptr pub,
+           const ::DDS::TopicQos & qos,
+           const ACE_CString & topic_name)
 {
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
@@ -80,7 +82,7 @@ configure (::DDS::Publisher_ptr pub, const ACE_CString & topic_name)
   ::DDS::Topic_var topic =
     participant->create_topic (normalized.c_str (),
                                type_name,
-                               TOPIC_QOS_DEFAULT,
+                               qos,
                                ::DDS::TopicListener::_nil (),
                                ::DDS::ANY_STATUS);
 

@@ -30,7 +30,9 @@ OpenSplice_Publisher::~OpenSplice_Publisher (void)
 // configure
 //
 void OpenSplice_Publisher::
-configure (::DDS::Publisher_ptr publisher, ::DDS::Topic_ptr topic)
+configure (::DDS::Publisher_ptr publisher,
+           const ::DDS::TopicQos & qos,
+           ::DDS::Topic_ptr topic)
 {
   this->abstract_writer_ =
     publisher->create_datawriter (topic,

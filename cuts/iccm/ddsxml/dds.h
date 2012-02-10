@@ -1897,6 +1897,17 @@ namespace iccm
     protected:
     ::std::auto_ptr< ::XMLSchema::string< char > > subscriber_;
 
+    // topic
+    //
+    public:
+    bool topic_p () const;
+    ::XMLSchema::string< char > const& topic () const;
+    ::XMLSchema::string< char >& topic ();
+    void topic (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > topic_;
+
     public:
     DataReaderQos (::XMLSchema::string< char > const& name__);
 
@@ -2078,6 +2089,17 @@ namespace iccm
 
     protected:
     ::std::auto_ptr< ::XMLSchema::string< char > > publisher_;
+
+    // topic
+    //
+    public:
+    bool topic_p () const;
+    ::XMLSchema::string< char > const& topic () const;
+    ::XMLSchema::string< char >& topic ();
+    void topic (::XMLSchema::string< char > const& );
+
+    protected:
+    ::std::auto_ptr< ::XMLSchema::string< char > > topic_;
 
     // isinstance
     //

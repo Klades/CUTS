@@ -62,6 +62,7 @@ public:
 
   // Configure the event consumer object.
   virtual void configure (::DDS::Subscriber_ptr subscriber,
+                          const ::DDS::TopicQos * topic_qos,
                           const ::DDS::DataReaderQos & qos);
 
   /**

@@ -73,11 +73,13 @@ protected:
 
   virtual ::DDS::DataWriter_ptr
     create_datawriter (const char * name,
+                       const ::DDS::TopicQos & topic_qos,
                        ::DDS::Publisher_ptr publisher);
 
   virtual void
     configure_eventconsumer (const char * name,
                              const ::DDS::DataReaderQos & qos,
+                             const ::DDS::TopicQos * topic_qos,
                              ::DDS::Subscriber_ptr publisher);
 
   /// Type definition of the consumer map.

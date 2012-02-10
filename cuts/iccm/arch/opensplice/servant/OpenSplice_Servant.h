@@ -99,12 +99,15 @@ protected:
 
   /// Create a data writer object.
   virtual ::DDS::DataWriter_ptr
-    create_datawriter (const char * name, ::DDS::Publisher_ptr publisher) = 0;
+    create_datawriter (const char * name,
+                       const ::DDS::TopicQos & topic_qos,
+                       ::DDS::Publisher_ptr publisher) = 0;
 
   /// Configure the event consumer for future data readers.
   virtual void
     configure_eventconsumer (const char * name,
                              const ::DDS::DataReaderQos & qos,
+                             const ::DDS::TopicQos * topic_qos,
                              ::DDS::Subscriber_ptr publisher) = 0;
 
   /// The domain participant for the servant.
@@ -125,6 +128,11 @@ protected:
   ACE_Hash_Map_Manager <ACE_CString,
                         ::DDS::Subscriber_var,
                         ACE_Null_Mutex> subscribers_;
+
+  /// Collection to topic QoS entities.
+  ACE_Hash_Map_Manager <ACE_CString,
+                        ::DDS::TopicQos *,
+                        ACE_Null_Mutex> topic_qos_;
 
 private:
   void configure_topic (const ::iccm::TopicQos & value);

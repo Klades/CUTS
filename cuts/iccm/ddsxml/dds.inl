@@ -3842,6 +3842,7 @@ namespace iccm
   share_ (s.share_.get () ? new ::iccm::ShareQosPolicy (*s.share_) : 0),
   name_ (new ::XMLSchema::string< char > (*s.name_)),
   subscriber_ (s.subscriber_.get () ? new ::XMLSchema::string< char > (*s.subscriber_) : 0),
+  topic_ (s.topic_.get () ? new ::XMLSchema::string< char > (*s.topic_) : 0),
   regulator__ ()
   {
     if (durability_.get ()) durability_->container (this);
@@ -3861,6 +3862,7 @@ namespace iccm
     if (share_.get ()) share_->container (this);
     name_->container (this);
     if (subscriber_.get ()) subscriber_->container (this);
+    if (topic_.get ()) topic_->container (this);
   }
 
   inline
@@ -3946,6 +3948,9 @@ namespace iccm
 
     if (s.subscriber_.get ()) subscriber (*(s.subscriber_));
     else subscriber_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+
+    if (s.topic_.get ()) topic (*(s.topic_));
+    else topic_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
 
     return *this;
   }
@@ -4493,6 +4498,45 @@ namespace iccm
     }
   }
 
+  // DataReaderQos
+  //
+  inline
+  bool DataReaderQos::
+  topic_p () const
+  {
+    return topic_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::string< char > const& DataReaderQos::
+  topic () const
+  {
+    return *topic_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& DataReaderQos::
+  topic ()
+  {
+    return *topic_;
+  }
+
+  inline
+  void DataReaderQos::
+  topic (::XMLSchema::string< char > const& e)
+  {
+    if (topic_.get ())
+    {
+      *topic_ = e;
+    }
+
+    else
+    {
+      topic_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+      topic_->container (this);
+    }
+  }
+
 
   // DataWriterQos
   //
@@ -4528,6 +4572,7 @@ namespace iccm
   writer_data_lifecycle_ (s.writer_data_lifecycle_.get () ? new ::iccm::WriterDataLifecycleQosPolicy (*s.writer_data_lifecycle_) : 0),
   name_ (new ::XMLSchema::string< char > (*s.name_)),
   publisher_ (s.publisher_.get () ? new ::XMLSchema::string< char > (*s.publisher_) : 0),
+  topic_ (s.topic_.get () ? new ::XMLSchema::string< char > (*s.topic_) : 0),
   isinstance_ (s.isinstance_.get () ? new ::XMLSchema::boolean (*s.isinstance_) : 0),
   regulator__ ()
   {
@@ -4547,6 +4592,7 @@ namespace iccm
     if (writer_data_lifecycle_.get ()) writer_data_lifecycle_->container (this);
     name_->container (this);
     if (publisher_.get ()) publisher_->container (this);
+    if (topic_.get ()) topic_->container (this);
     if (isinstance_.get ()) isinstance_->container (this);
   }
 
@@ -4628,6 +4674,9 @@ namespace iccm
 
     if (s.publisher_.get ()) publisher (*(s.publisher_));
     else publisher_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+
+    if (s.topic_.get ()) topic (*(s.topic_));
+    else topic_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
 
     if (s.isinstance_.get ()) isinstance (*(s.isinstance_));
     else isinstance_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
@@ -5143,6 +5192,45 @@ namespace iccm
     {
       publisher_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
       publisher_->container (this);
+    }
+  }
+
+  // DataWriterQos
+  //
+  inline
+  bool DataWriterQos::
+  topic_p () const
+  {
+    return topic_.get () != 0;
+  }
+
+  inline
+  ::XMLSchema::string< char > const& DataWriterQos::
+  topic () const
+  {
+    return *topic_;
+  }
+
+  inline
+  ::XMLSchema::string< char >& DataWriterQos::
+  topic ()
+  {
+    return *topic_;
+  }
+
+  inline
+  void DataWriterQos::
+  topic (::XMLSchema::string< char > const& e)
+  {
+    if (topic_.get ())
+    {
+      *topic_ = e;
+    }
+
+    else
+    {
+      topic_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+      topic_->container (this);
     }
   }
 

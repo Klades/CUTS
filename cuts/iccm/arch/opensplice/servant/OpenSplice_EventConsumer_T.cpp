@@ -21,8 +21,7 @@ OpenSplice_EventConsumer_T (SERVANT * servant, DESERIALIZE_METHOD callback)
 // ~OpenSplice_EventConsumer_T
 //
 template <typename SERVANT, typename EVENT>
-OpenSplice_EventConsumer_T <SERVANT, EVENT>::
-~OpenSplice_EventConsumer_T (void)
+OpenSplice_EventConsumer_T <SERVANT, EVENT>::~OpenSplice_EventConsumer_T (void)
 {
 
 }
@@ -32,7 +31,9 @@ OpenSplice_EventConsumer_T <SERVANT, EVENT>::
 //
 template <typename SERVANT, typename EVENT>
 void OpenSplice_EventConsumer_T <SERVANT, EVENT>::
-configure (::DDS::Subscriber_ptr subscriber, const ::DDS::DataReaderQos & qos)
+configure (::DDS::Subscriber_ptr subscriber,
+           const ::DDS::TopicQos * topic_qos,
+           const ::DDS::DataReaderQos & qos)
 {
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
@@ -64,6 +65,7 @@ configure (::DDS::Subscriber_ptr subscriber, const ::DDS::DataReaderQos & qos)
   // when set_topic () is called.
   this->subscriber_ = ::DDS::Subscriber::_duplicate (subscriber);
   this->qos_ = qos;
+  this->topic_qos_ = topic_qos;
 }
 
 //
@@ -89,7 +91,7 @@ add_topic (const char * topic_name)
   ::DDS::Topic_var topic =
     participant->create_topic (topic_name,
                                type_name.in (),
-                               TOPIC_QOS_DEFAULT,
+                               *this->topic_qos_,
                                ::DDS::TopicListener::_nil (),
                                ::DDS::ANY_STATUS);
 

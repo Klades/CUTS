@@ -1453,6 +1453,12 @@ namespace iccm
         subscriber (t);
       }
 
+      else if (n == "topic")
+      {
+        ::XMLSchema::string< char > t (a);
+        topic (t);
+      }
+
       else
       {
       }
@@ -1577,6 +1583,12 @@ namespace iccm
       {
         ::XMLSchema::string< char > t (a);
         publisher (t);
+      }
+
+      else if (n == "topic")
+      {
+        ::XMLSchema::string< char > t (a);
+        topic (t);
       }
 
       else if (n == "isinstance")

@@ -294,6 +294,7 @@
     <!-- name of the target DataReader -->
     <xsd:attribute name="name" type="xsd:string" use="required" />
     <xsd:attribute name="subscriber" type="xsd:string" default="@default" />
+    <xsd:attribute name="topic" type="xsd:string" default="@default" />
   </xsd:complexType>
 
   <xsd:complexType name="DataWriterQos">
@@ -317,6 +318,7 @@
     <!-- name of the target DataReader -->
     <xsd:attribute name="name" type="xsd:string" use="required" />
     <xsd:attribute name="publisher" type="xsd:string" default="@default" />
+    <xsd:attribute name="topic" type="xsd:string" default="@default" />
     <xsd:attribute name="isinstance" type="xsd:boolean" default="false" />
   </xsd:complexType>
 

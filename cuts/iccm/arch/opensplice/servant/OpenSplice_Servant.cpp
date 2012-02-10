@@ -13,6 +13,7 @@
 
 #define ICCM_DDS_DEFAULT_PUBLISHER "@default"
 #define ICCM_DDS_DEFAULT_SUBSCRIBER "@default"
+#define ICCM_DDS_DEFAULT_TOPIC "@default"
 
 namespace boost
 {
@@ -657,6 +658,10 @@ void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & src)
   // the configuration file.
   namespace lambda = boost::lambda;
 
+  std::for_each (src.begin_topic (),
+                 src.end_topic (),
+                 lambda::bind (&OpenSplice_Servant::configure_topic, this, *lambda::_1));
+
   std::for_each (src.begin_publisher (),
                  src.end_publisher (),
                  lambda::bind (&OpenSplice_Servant::configure_publisher, this, *lambda::_1));
@@ -673,13 +678,6 @@ void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & src)
                  src.end_datawriter (),
                  lambda::bind (&OpenSplice_Servant::configure_datawriter, this, *lambda::_1));
 
-  // We have to configure the topics last. This way, the publisher
-  // and subscribers have had their chance to create the topic. When
-  // we configure the topic has now impact on other entities.
-  std::for_each (src.begin_topic (),
-                 src.end_topic (),
-                 lambda::bind (&OpenSplice_Servant::configure_topic, this, *lambda::_1));
-
   // Finally, configure all the remaining ports/entities.
   this->configure ();
 }
@@ -689,28 +687,17 @@ void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & src)
 //
 void OpenSplice_Servant::configure_topic (const ::iccm::TopicQos & value)
 {
-  // Locate the topic in the participant.
-  ::DDS::Topic_var topic =
-    this->participant_->find_topic (value.name ().c_str (), ::DDS::DURATION_INFINITE);
+  ::DDS::TopicQos * qos = 0;
+  ACE_NEW_THROW_EX (qos,
+                    ::DDS::TopicQos (TOPIC_QOS_DEFAULT),
+                    ::CORBA::NO_MEMORY ());
 
-  if (!::CORBA::is_nil (topic.in ()))
-  {
-    // Configure the topic's QoS parameters. This is done by taking
-    // the current configuration, updating its values, and storing it
-    // back into the QoS.
-    DDS::TopicQos current;
-    topic->get_qos (current);
+  ACE_Auto_Ptr <::DDS::TopicQos> auto_clean (qos);
 
-    current <<= value;
+  *qos <<= value;
 
-    topic->set_qos (current);
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to locate topic %s\n"),
-                value.name ().c_str ()));
-  }
+  if (0 == this->topic_qos_.bind (value.name ().c_str (), qos))
+    auto_clean.release ();
 }
 
 //
@@ -823,6 +810,20 @@ configure_datareader (const ::iccm::DataReaderQos & value)
     subscriber = ::DDS::Subscriber::_duplicate (this->subscriber_.in ());
   }
 
+  // Next, we need to locate the TopicQos object for this data writer.
+  // If we cannot find the TopicQos object, we fallback to the default
+  // data writer. Of course, we are going to notify the user via an exception.
+  ::DDS::TopicQos * temp = 0;
+  const ::DDS::TopicQos * topic_qos = 0;
+  const std::string & topic = value.topic ();
+
+  if (topic == ICCM_DDS_DEFAULT_TOPIC)
+    topic_qos = ::DDS::DomainParticipantFactory::topic_qos_default ();
+  else if (0 == this->topic_qos_.find (topic.c_str (), temp))
+    topic_qos = temp;
+  else
+    throw ::CORBA::INTERNAL ();
+
   // The way we configure the data reader's QoS parameters is different
   // from the data writer. This is because the a data reader is not
   // created until a connection is made between an input/output port.
@@ -831,7 +832,10 @@ configure_datareader (const ::iccm::DataReaderQos & value)
   ::DDS::DataReaderQos current (DATAREADER_QOS_DEFAULT);
   current <<= value;
 
-  this->configure_eventconsumer (value.name ().c_str (), current, subscriber.in ());
+  this->configure_eventconsumer (value.name ().c_str (),
+                                 current,
+                                 topic_qos,
+                                 subscriber.in ());
 }
 
 //
@@ -861,9 +865,25 @@ configure_datawriter (const ::iccm::DataWriterQos & value)
     publisher = ::DDS::Publisher::_duplicate (this->publisher_.in ());
   }
 
+  // Next, we need to locate the TopicQos object for this data writer.
+  // If we cannot find the TopicQos object, we fallback to the default
+  // data writer. Of course, we are going to notify the user via an exception.
+  ::DDS::TopicQos * temp = 0;
+  const ::DDS::TopicQos * topic_qos = 0;
+  const std::string & topic = value.topic ();
+
+  if (topic == ICCM_DDS_DEFAULT_TOPIC)
+    topic_qos = ::DDS::DomainParticipantFactory::topic_qos_default ();
+  else if (0 == this->topic_qos_.find (topic.c_str (), temp))
+    topic_qos = temp;
+  else
+    throw ::CORBA::INTERNAL ();
+
   // Create the DDS writer entity.
   ::DDS::DataWriter_var writer =
-    this->create_datawriter (value.name ().c_str (), publisher.in ());
+    this->create_datawriter (value.name ().c_str (),
+                             *topic_qos,
+                             publisher.in ());
 
   if (!CORBA::is_nil (writer.in ()))
   {

@@ -12,12 +12,10 @@ namespace iCCM
 //
 template <typename EVENT>
 void OpenSplice_Publisher_T <EVENT>::
-configure (::DDS::Publisher_ptr pub, const ACE_CString & topic_name)
+configure (::DDS::Publisher_ptr pub,
+           const ::DDS::TopicQos & topic_qos,
+           const ACE_CString & topic_name)
 {
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("configuring publisher %s\n"),
-              topic_name.c_str ()));
-
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
   // going to use the type support to get the actual type name. Finally,
@@ -49,13 +47,13 @@ configure (::DDS::Publisher_ptr pub, const ACE_CString & topic_name)
   ::DDS::Topic_var topic =
     participant->create_topic (topic_name.c_str (),
                                type_name,
-                               TOPIC_QOS_DEFAULT,
+                               topic_qos,
                                ::DDS::TopicListener::_nil (),
                                ::DDS::ANY_STATUS);
 
   // Finally, pass control to the base class. It will finish configuring
   // this provider object.
-  OpenSplice_Publisher::configure (pub, topic.in ());
+  OpenSplice_Publisher::configure (pub, topic_qos, topic.in ());
 
   // Finally, store the concrete writer type.
   this->writer_ = traits_type::writer_type::_narrow (this->abstract_writer_.in ());

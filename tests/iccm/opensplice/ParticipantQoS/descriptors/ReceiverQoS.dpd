@@ -19,7 +19,7 @@
 
   <!-- BEGIN DDS::TopicQoS parameters -->
 
-  <topic name="Message">
+  <topic name="MessageTopic">
     <durability kind="VOLATILE_DURABILITY_QOS" />
     <durability_service history_depth="1"
                         max_samples="1"
@@ -54,7 +54,7 @@
 
   <!-- BEGIN DDS::DataReaderQoS parameters -->
 
-  <datareader name="greeting" subscriber="NoDefaultSubscriber">
+  <datareader name="greeting" topic="MessageTopic" subscriber="NoDefaultSubscriber">
     <durability kind="VOLATILE_DURABILITY_QOS" />
     <deadline period="1" />
     <latency_budget duration="1" />

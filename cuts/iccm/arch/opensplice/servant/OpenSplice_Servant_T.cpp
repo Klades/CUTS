@@ -65,13 +65,18 @@ void OpenSplice_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
     if (!consumer->is_configured ())
     {
+      // Configure the consumer with the default configuration. This
+      // includes using the default DDS::Subscriber entity and the
+      // default TOPIC_QOS_DEFAULT.
       ACE_ERROR ((LM_DEBUG,
                   ACE_TEXT ("%T (%t) - %M - using default configuration ")
                   ACE_TEXT ("for data reader <%s> in <%s>\n"),
                   consumer_iter->key ().c_str (),
                   this->name_.c_str ()));
 
-      consumer->configure (this->subscriber_.in (), DATAREADER_QOS_DEFAULT);
+      consumer->configure (this->subscriber_.in (),
+                           ::DDS::DomainParticipantFactory::topic_qos_default (),
+                           DATAREADER_QOS_DEFAULT);
     }
   }
 
@@ -87,12 +92,17 @@ void OpenSplice_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
     if (!emits->is_configured ())
     {
+      // Configure the publisher with the default configuration. This
+      // includes using the default DDS::Publisher entity and the
+      // default TOPIC_QOS_DEFAULT.
       ACE_ERROR ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - using default configuration")
-                  ACE_TEXT (" for %s\n"),
+                  ACE_TEXT ("%T (%t) - %M - using default configuration ")
+                  ACE_TEXT ("for <%s>\n"),
                   emits_iter->key ().c_str ()));
 
-      emits->configure (this->publisher_.in (), topic_name);
+      emits->configure (this->publisher_.in (),
+                        TOPIC_QOS_DEFAULT,
+                        topic_name);
     }
   }
 
@@ -108,12 +118,15 @@ void OpenSplice_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
     if (!pub_table->is_configured ())
     {
+      // Configure the publisher table with the default configuration.
+      // This includes using the default DDS::Publisher entity and the
+      // default TOPIC_QOS_DEFAULT.
       ACE_ERROR ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - using default configuration")
-                  ACE_TEXT (" for %s\n"),
+                  ACE_TEXT ("%T (%t) - %M - using default configuration ")
+                  ACE_TEXT ("for <%s>\n"),
                   publishes_iter->key ().c_str ()));
 
-      pub_table->configure (this->publisher_.in (), topic_name);
+      pub_table->configure (this->publisher_.in (), TOPIC_QOS_DEFAULT, topic_name);
     }
   }
 }
@@ -124,7 +137,9 @@ void OpenSplice_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 ::DDS::DataWriter_ptr
 OpenSplice_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
-create_datawriter (const char * name, ::DDS::Publisher_ptr publisher)
+create_datawriter (const char * name,
+                   const ::DDS::TopicQos & topic_qos,
+                   ::DDS::Publisher_ptr publisher)
 {
   // Locate the target publisher, or publisher table.
   OpenSplice_Publisher * emits = 0;
@@ -137,12 +152,12 @@ create_datawriter (const char * name, ::DDS::Publisher_ptr publisher)
 
   if (0 == this->emits_.find (name, emits))
   {
-    emits->configure (publisher, topic_name);
+    emits->configure (publisher, topic_qos, topic_name);
     data_writer = emits->get_datawriter ();
   }
   else if (0 == this->publishes_.find (name, publishes))
   {
-    publishes->configure (publisher, topic_name);
+    publishes->configure (publisher, topic_qos, topic_name);
     data_writer = publishes->get_datawriter ();
   }
   else
@@ -164,7 +179,8 @@ create_datawriter (const char * name, ::DDS::Publisher_ptr publisher)
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 void OpenSplice_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
 configure_eventconsumer (const char * name,
-                         const ::DDS::DataReaderQos & qos,
+                         const ::DDS::DataReaderQos & reader_qos,
+                         const ::DDS::TopicQos * topic_qos,
                          ::DDS::Subscriber_ptr publisher)
 {
   OpenSplice_EventConsumer * consumer = 0;
@@ -172,7 +188,7 @@ configure_eventconsumer (const char * name,
 
   if (0 == this->consumers_.find (name, consumer))
   {
-    consumer->configure (publisher, qos);
+    consumer->configure (publisher, topic_qos, reader_qos);
     data_reader = consumer->get_datareader ();
   }
   else

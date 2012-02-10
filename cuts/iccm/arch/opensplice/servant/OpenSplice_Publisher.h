@@ -47,7 +47,9 @@ public:
    * @param[in]         publisher         Target DDS publisher
    * @param[in]         topic             Topic for writer
    */
-  virtual void configure (::DDS::Publisher_ptr, const ACE_CString &) = 0;
+  virtual void configure (::DDS::Publisher_ptr,
+                          const ::DDS::TopicQos & topic_qos,
+                          const ACE_CString & topic_name) = 0;
 
   // Connect a consumer.
   virtual void connect (::Components::EventConsumerBase_ptr consumer);
@@ -68,7 +70,9 @@ protected:
    * @param[in]         publisher         Target DDS publisher
    * @param[in]         topic             Topic for writer
    */
-  void configure (::DDS::Publisher_ptr publisher, ::DDS::Topic_ptr topic);
+  void configure (::DDS::Publisher_ptr publisher,
+                  const ::DDS::TopicQos & qos,
+                  ::DDS::Topic_ptr topic);
 
   /// The consumer connected to this publisher.
   ::Components::OpenSplice::EventConsumer_var consumer_;
