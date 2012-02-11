@@ -1,3 +1,54 @@
+Sat Feb 11 23:37:37 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/generate_iccm_project.py:
+
+          Implemented -h, --help command-line option
+
+        * bin/iCCM/TemplateFile.py:
+
+          Bug fix where the generator failed if executed outside of
+          the CUTS_ROOT/bin directory.
+
+        * bin/iCCM/templates/cpp/deployment:
+        * bin/iCCM/templates/cpp/servant:
+
+          Changed the directory names to be consistent with new iCCM
+          architecture layout.
+
+        * bin/iCCM/templates/cpp/ccm:
+        * bin/iCCM/templates/cpp/ccm/CCM.mpc.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_EventConsumer.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_EventConsumer.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_EventConsumer.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher_Table.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher_Table.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Publisher_Table.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant_T.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_Servant_T.inl.tmpl:
+        * bin/iCCM/templates/cpp/ccm/CCM_export.h.tmpl:
+        * bin/iCCM/templates/cpp/ccm/Events.idl.tmpl:
+        * bin/iCCM/templates/cpp/handlers:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container.cpp.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container.inl.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container_Strategy.cpp.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container_Strategy.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Container_Strategy.inl.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Deployment_Handlers.mpc.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Deployment_Handlers_export.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Instance_Handler.cpp.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Instance_Handler.h.tmpl:
+        * bin/iCCM/templates/cpp/handlers/CCM_Instance_Handler.inl.tmpl:
+
+          Removed these files.
+
 Fri Feb 10 02:31:27 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.h:

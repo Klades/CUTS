@@ -16,7 +16,7 @@ class TemplateDirectory :
   def evaluate (self, dir, locals, gendir) :
     import os
     from os.path import join, relpath, exists
-    
+        
     for root, dirs, files in os.walk (dir):
       for name in files:
         # Make sure the file is actually a template file. Template
