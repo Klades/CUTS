@@ -1,0 +1,49 @@
+// -*- C++ -*-
+// $$Id$$
+
+#include "${arch_name}_Container_Strategy.h"
+
+#if !defined (__CUTS_INLINE__)
+#include "${arch_name}_Container_Strategy.inl"
+#endif
+
+#include "${arch_name}_Container.h"
+#include "../servant/${arch_name}_Servant.h"
+
+namespace iCCM
+{
+
+//
+// install_servant
+//
+void ${arch_name}_Container_Strategy::
+install_servant (::PortableServer::Servant servant)
+{
+  // NOTE: The servant can be casted to an ${arch_name}_Servant
+  // by using 'dynamic_cast <${arch_name}_Servant *> (servant)'.
+}
+
+//
+// configure_servant
+//
+void ${arch_name}_Container_Strategy::
+configure_servant (::PortableServer::Servant servant,
+                   const ::Components::ConfigValues & values)
+{
+  // NOTE: The servant can be casted to an ${arch_name}_Servant
+  // by using 'dynamic_cast <${arch_name}_Servant *> (servant)'.
+  // Also, the ConfigValues passed into this method are the same
+  // configuration values attached to a component instance.
+}
+
+//
+// remove_servant
+//
+void ${arch_name}_Container_Strategy::
+remove_servant (::PortableServer::Servant servant)
+{
+  // NOTE: The servant can be casted to an ${arch_name}_Servant
+  // by using 'dynamic_cast <${arch_name}_Servant *> (servant)'.
+}
+
+}

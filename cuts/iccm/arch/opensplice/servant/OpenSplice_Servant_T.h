@@ -13,14 +13,6 @@
 #ifndef _CUTS_ICCM_OPENSPLICE_SERVANT_T_H_
 #define _CUTS_ICCM_OPENSPLICE_SERVANT_T_H_
 
-#include "ccm/CCM_EventsS.h"
-#include "ccm/CCM_HomeS.h"
-#include "ccm/CCM_EnumerationS.h"
-
-#include "ace/Hash_Map_Manager.h"
-#include "ace/RW_Thread_Mutex.h"
-#include "ace/SString.h"
-
 #include "cuts/iccm/servant/Servant_T.h"
 
 #include "OpenSplice_Servant.h"

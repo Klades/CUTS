@@ -1,3 +1,87 @@
+Sun Feb 12 22:08:55 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/iccm_servant.mpb:
+
+          Added missing ciao/ccm base project.
+
+        * bin/iCCM/templates/cpp/deployment/Component_Instance_Handler.cpp.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Component_Instance_Handler.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Component_Instance_Handler.inl.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container.cpp.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container.inl.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container_Strategy.cpp.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container_Strategy.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container_Strategy.inl.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Deployment_Handlers.mpc.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Deployment_Handlers_export.h.tmpl:
+        * bin/iCCM/templates/cpp/iCCM.mwc.tmpl:
+        * bin/iCCM/templates/cpp/locality.config.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer_T.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer_T.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Events.idl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_T.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_T.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table_T.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table_T.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant.mpc.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant_T.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Servant_T.inl.tmpl:
+
+          Updated to latest version of iCCM.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.h:
+
+          Removed unused include files.
+
+        * bin/iCCM/templates/cpp/CCM.mwc.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Container.cpp.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Container.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Container.inl.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Container_Strategy.cpp.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Container_Strategy.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Container_Strategy.inl.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Deployment_Handlers.mpc.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Deployment_Handlers_export.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Instance_Handler.cpp.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Instance_Handler.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/CCM_Instance_Handler.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM.mpc.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_EventConsumer.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_EventConsumer.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_EventConsumer.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Publisher.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Publisher.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Publisher.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Publisher_Table.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Publisher_Table.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Publisher_Table.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Servant.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Servant.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Servant.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Servant_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Servant_T.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_Servant_T.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/CCM_export.h.tmpl:
+
+          Removed these files.
+
 Sat Feb 11 23:37:37 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * bin/generate_iccm_project.py:
