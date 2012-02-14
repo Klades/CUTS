@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_tron_skel, iccm_servant {
+  libs  += iCCM_Tron_svnt
+  after += iCCM_Tron_svnt
+}

@@ -1,0 +1,5 @@
+// $Id$
+
+feature (tron) {
+  macros += CUTS_HAS_TRON
+}

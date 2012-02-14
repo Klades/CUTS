@@ -1,3 +1,13 @@
+Tue Feb 14 20:25:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/cuts_tron.mpb:
+        * MPC/config/iccm_tron_skel.mpb:
+        * MPC/config/iccm_tron_stub.mpb:
+        * MPC/config/iccm_tron_svnt.mpb:
+        * MPC/config/requires_tron.mpb:
+
+          Forgot to add base projects on previous commit.
+
 Tue Feb 14 20:21:10 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/Button:
