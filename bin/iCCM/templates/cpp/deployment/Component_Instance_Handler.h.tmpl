@@ -21,6 +21,9 @@
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
 #include "${arch_name}_Container.h"
 
+namespace iCCM
+{
+
 /**
  * @class ${arch_name}_Component_Instance_Handler
  *
@@ -56,9 +59,11 @@ private:
   /// INSERT YOUR VARIABLES HERE
 };
 
+}
+
 extern "C"
-::DAnCE::InstanceDeploymentHandler_ptr
 ICCM_${arch_name.upper()}_DEPLOYMENT_HANDLERS_Export
+::DAnCE::InstanceDeploymentHandler_ptr
 create_iCCM_${arch_name}_Component_Instance_Handler (void);
 
 #if defined (__CUTS_INLINE__)

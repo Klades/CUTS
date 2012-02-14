@@ -35,7 +35,7 @@ class TemplateDirectory :
           os.makedirs (target_dir)
           
         def get_basename (template):
-          return template[0:len (template) - 4]
+          return template[0:len (template) - 5]
           
         # Open the target file for writing. Right now, we are cheating
         # when it comes to constructing the file basename. In the

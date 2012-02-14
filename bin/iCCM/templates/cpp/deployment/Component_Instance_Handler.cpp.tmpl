@@ -40,11 +40,11 @@ void ${arch_name}_Component_Instance_Handler::close (void)
 //
 extern "C"
 ::DAnCE::InstanceDeploymentHandler_ptr
-create_iCCM_${arch_name}_Component_Instance_Handler
+create_iCCM_${arch_name}_Component_Instance_Handler (void)
 {
-  ${arch_name}_Component_Instance_Handler * handler = 0;
+  iCCM::${arch_name}_Component_Instance_Handler * handler = 0;
   ACE_NEW_RETURN (handler,
-                  ${arch_name}_Component_Instance_Handler (),
+                  iCCM::${arch_name}_Component_Instance_Handler (),
                   handler);
 
   return handler;

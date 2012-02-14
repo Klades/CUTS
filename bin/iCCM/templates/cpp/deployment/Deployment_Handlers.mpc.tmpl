@@ -3,6 +3,7 @@
 project (iCCM_${arch_name}_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
   sharedname    = iCCM_${arch_name}_Deployment_Handlers
   dynamicflags += ICCM_${arch_name.upper()}_DEPLOYMENT_HANDLERS_BUILD_DLL
+  after += iCCM_${arch_name}_stub
 
   Source_Files {
     ${arch_name}_Container.cpp
