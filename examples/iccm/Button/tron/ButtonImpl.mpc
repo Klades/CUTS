@@ -1,0 +1,29 @@
+project (Button_impl) : cuts_coworker_exec {
+  sharedname = Button_impl
+  dynamicflags += BUTTON_IMPL_BUILD_DLL
+  prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl BUTTON_IMPL > $(PROJECT_ROOT)/Button_impl_export.h
+
+  after += \
+    Button_exec \
+    Button_stub
+
+  libs += \
+    Button_exec \
+    Button_stub
+
+  Source_Files {
+    ButtonImpl.cpp
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+}

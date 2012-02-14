@@ -1,0 +1,12 @@
+#ifndef _BUTTON_ICCM_IDL_
+#define _BUTTON_ICCM_IDL_
+
+#include "ButtonE.idl"
+
+local interface iCCM_Button_Context : CCM_Button_Context
+{
+  ::Notify new_SingleClick_event ();
+  ::Notify new_DoubleClick_event ();
+};
+
+#endif  // !defined _BUTTON_ICCM_IDL_
