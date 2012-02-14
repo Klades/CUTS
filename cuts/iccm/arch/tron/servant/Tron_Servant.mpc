@@ -1,0 +1,88 @@
+// $Id$
+
+project (iCCM_Tron_stub) : ccm_stub, cutslib {
+  sharedname    = iCCM_Tron_stub
+  dynamicflags += ICCM_TRON_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_TRON_STUB_Export \
+              -Wb,stub_export_include=Tron_stub_export.h \
+              -Wb,skel_export_macro=ICCM_TRON_SKEL_Export \
+              -Wb,skel_export_include=Tron_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_TRON_SVNT_Export \
+              -Wb,svnt_export_include=Tron_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    Tron_Events.idl
+  }
+
+  Source_Files {
+    Tron_EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_Tron_skel) : ccm_svnt, cutslib {
+  sharedname    = iCCM_Tron_skel
+  dynamicflags += ICCM_TRON_SKEL_BUILD_DLL
+
+  after += iCCM_Tron_stub
+  libs  += iCCM_Tron_stub
+
+  Source_Files {
+    Tron_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_Tron_svnt) : iccm_servant, cutslib {
+  sharedname    = iCCM_Tron_svnt
+  dynamicflags += ICCM_TRON_SVNT_BUILD_DLL
+
+  after += iCCM_Tron_skel
+  libs  += iCCM_Tron_skel iCCM_Tron_stub
+
+  Source_Files {
+    Tron_EventConsumer.cpp
+    Tron_Servant.cpp
+    Tron_Publisher.cpp
+    Tron_Publisher_Table.cpp
+  }
+
+  Template_Files {
+    Tron_EventConsumer_T.cpp
+    Tron_Servant_T.cpp
+    Tron_Publisher_T.cpp
+    Tron_Publisher_Table_T.cpp
+  }
+
+  IDL_Files {
+
+  }
+}

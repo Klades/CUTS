@@ -1,3 +1,50 @@
+Tue Feb 14 16:17:30 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron:
+        * cuts/iccm/arch/tron/Tron_iCCM.mwc:
+        * cuts/iccm/arch/tron/Tron_locality.config:
+        * cuts/iccm/arch/tron/deployment:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Container.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Container.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Container.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers_export.h:
+        * cuts/iccm/arch/tron/servant:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.h:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.inl:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer_T.inl:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Events.idl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.cpp:
+
+          Initial commit of the tron iccm arch.
+
 Tue Feb 14 16:14:23 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * bin/iCCM/TemplateFile.py:

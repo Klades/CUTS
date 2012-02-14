@@ -1,0 +1,13 @@
+// $Id$
+
+project (iCCM_Tron_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
+  sharedname    = iCCM_Tron_Deployment_Handlers
+  dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_BUILD_DLL
+  after += iCCM_Tron_stub
+
+  Source_Files {
+    Tron_Container.cpp
+    Tron_Container_Strategy.cpp
+    Tron_Component_Instance_Handler.cpp
+  }
+}
