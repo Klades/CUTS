@@ -1,3 +1,11 @@
+Tue Feb 14 16:14:23 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * bin/iCCM/TemplateFile.py:
+
+          Added logic to handle floating '$' symbols in template files.
+          A floating $ is a non-escaped $ which is not part of an expression
+          '${'.  This fixes problems with the $Id: line in template files.
+
 Tue Feb 14 15:41:05 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * bin/iCCM/TemplateFile.py:

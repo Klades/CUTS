@@ -108,7 +108,7 @@ class TemplateFile:
   def _evaluate_line (self, target, line, locals):
     import re
     
-    pattern = '(?P<pre>[^$]*)(?:(?:\$\{(?P<expr>[^}]+)\}|(?:\$(?P<escape>\$))))?'
+    pattern = '(?P<pre>[^$]*)(?:(?:\$\{(?P<expr>[^}]+)\}|(?:\$(?P<escape>\$)|(?:(?P<float>\$[^{])))))?'
     for match in re.finditer (pattern, line) :
       if match.group ('pre') != None:
         target.write (match.group ('pre'))
@@ -119,4 +119,6 @@ class TemplateFile:
         
       if match.group ('escape') != None:
         target.write ('$')
-    
+
+      if match.group ('float') != None:
+        target.write (match.group ('float'))
