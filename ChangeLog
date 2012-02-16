@@ -1,3 +1,20 @@
+Thu Feb 16 16:30:13 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/requires_tron.mpb:
+
+          Now requires the tron feature and sets includes
+          and libpaths based on the TRON_ROOT environment
+          variable.
+
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+        * examples/iccm/Button/tron/Button.mpc:
+
+          Now uses requires_tron as base class.
+
+        * MPC/config/cuts_tron.mpb:
+
+          Removed this file
+
 Tue Feb 14 20:25:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/cuts_tron.mpb:

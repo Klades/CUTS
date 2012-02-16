@@ -1,6 +1,6 @@
 // $Id$
 
-project (iCCM_Tron_stub) : ccm_stub, cutslib {
+project (iCCM_Tron_stub) : ccm_stub, cutslib, requires_tron {
   sharedname    = iCCM_Tron_stub
   dynamicflags += ICCM_TRON_STUB_BUILD_DLL
 

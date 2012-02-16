@@ -126,7 +126,7 @@ project (Button_exec) : iccm_tron_skel, cuts_codegen_defaults {
   }
 }
 
-project (Button_svnt) : iccm_tron_svnt, cuts_codegen_defaults {
+project (Button_svnt) : requires_tron, iccm_tron_svnt, cuts_codegen_defaults {
   sharedname   = Button_svnt
   dynamicflags = BUTTON_SVNT_BUILD_DLL
 

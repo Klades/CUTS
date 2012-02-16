@@ -1,5 +1,11 @@
 // $Id$
 
+project {
+  requires += tron
+  includes += $(TRON_ROOT)/includes
+  libpaths += $(TRON_ROOT)
+}
+
 feature (tron) {
   macros += CUTS_HAS_TRON
 }

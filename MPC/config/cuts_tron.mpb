@@ -1,5 +1,0 @@
-// $Id$
-
-project : requires_tron, cutslib {
-
-}
