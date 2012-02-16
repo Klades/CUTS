@@ -1,3 +1,31 @@
+Thu Feb 16 19:00:24 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/requires_tron.mpb:
+
+          Fixed typo on include path.
+
+        * bin/iCCM/templates/cpp/deployment/Container.h.tmpl:
+        * bin/iCCM/templates/cpp/deployment/Container_Strategy.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/EventConsumer.inl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Events.idl.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_T.cpp.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_T.h.tmpl:
+        * bin/iCCM/templates/cpp/servant/Publisher_Table.inl.tmpl:
+
+          Found references to _CCM_ in some of the template files,
+          removed them.
+
+        * cuts/iccm/arch/tron/deployment/Tron_Container.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.h:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Events.idl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.inl:
+
+          Regenerated the tron iccm arch to reflect changes
+          made to the generator.
+
 Thu Feb 16 16:30:13 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/requires_tron.mpb:

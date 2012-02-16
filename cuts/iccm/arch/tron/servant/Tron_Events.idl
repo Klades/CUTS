@@ -37,4 +37,4 @@ module Components
   };
 };
 
-#endif  // !defined  _TRON_CCM_EVENTS_IDL_
+#endif  // !defined  _TRON_EVENTS_IDL_

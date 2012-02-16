@@ -14,7 +14,7 @@
 #define _ICCM_TRON_PUBLISHER_T_H_
 
 #include "Tron_EventsC.h"
-#include "Tron_CCM_Publisher.h"
+#include "Tron_Publisher.h"
 
 namespace iCCM
 {

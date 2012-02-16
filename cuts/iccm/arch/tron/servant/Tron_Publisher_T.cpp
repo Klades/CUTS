@@ -11,7 +11,7 @@ namespace iCCM
 // connect
 //
 template <typename EVENT>
-void Tron_CCM_Publisher_T <EVENT>::
+void Tron_Publisher_T <EVENT>::
 connect (::Components::EventConsumerBase_ptr p)
 {
   ::Components::Tron::EventConsumer_var consumer =

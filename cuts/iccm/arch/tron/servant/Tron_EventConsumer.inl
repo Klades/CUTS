@@ -5,7 +5,7 @@ namespace iCCM
 {
 
 //
-// Tron_CCM_EventConsumer
+// Tron_EventConsumer
 //
 CUTS_INLINE
 Tron_EventConsumer::Tron_EventConsumer (void)

@@ -2,7 +2,7 @@
 
 project {
   requires += tron
-  includes += $(TRON_ROOT)/includes
+  includes += $(TRON_ROOT)/include
   libpaths += $(TRON_ROOT)
 }
 

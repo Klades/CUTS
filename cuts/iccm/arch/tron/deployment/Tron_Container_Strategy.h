@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file         Tron_CCM_Container_Strategy.h
+ *  @file         Tron_Container_Strategy.h
  *
  *  $Id$
  *
