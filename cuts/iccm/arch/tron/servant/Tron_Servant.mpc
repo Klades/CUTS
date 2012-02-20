@@ -33,7 +33,7 @@ project (iCCM_Tron_stub) : ccm_stub, cutslib, requires_tron {
   }
 }
 
-project (iCCM_Tron_skel) : ccm_svnt, cutslib {
+project (iCCM_Tron_skel) : ccm_svnt, cutslib, requires_tron {
   sharedname    = iCCM_Tron_skel
   dynamicflags += ICCM_TRON_SKEL_BUILD_DLL
 
@@ -61,7 +61,7 @@ project (iCCM_Tron_skel) : ccm_svnt, cutslib {
   }
 }
 
-project (iCCM_Tron_svnt) : iccm_servant, cutslib {
+project (iCCM_Tron_svnt) : iccm_servant, cutslib, requires_tron {
   sharedname    = iCCM_Tron_svnt
   dynamicflags += ICCM_TRON_SVNT_BUILD_DLL
 

@@ -1,3 +1,11 @@
+Mon Feb 20 20:08:45 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+
+          Added requies_tron to the mpc projects which are missing it.
+
+
 Mon Feb 20 15:37:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * bin/iCCM/templates/cpp/servant/Publisher_T.h.tmpl:
