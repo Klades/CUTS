@@ -30,6 +30,9 @@ class Tron_Publisher_T :
   public Tron_Publisher
 {
 public:
+  /// Typedef for event type
+  typedef EVENT event_type;
+
   /// Default constructor.
   Tron_Publisher_T (void);
 
@@ -48,7 +51,7 @@ public:
    *
    * @param[in]         ev            The event to send
    */
-  void send_event (typename traits_type::corba_event_type * ev);
+  void send_event (EVENT * ev);
 
 protected:
   /// INSERT CODE HERE

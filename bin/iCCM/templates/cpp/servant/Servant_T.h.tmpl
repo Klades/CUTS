@@ -40,7 +40,7 @@ class ${arch_name}_Servant_T :
 {
 public:
   /// Type definition of the base type.
-  typedef CUTS_CCM_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, ${arch_name}_Servant> base_type;
+  typedef Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, ${arch_name}_Servant> base_type;
 
   /// Type definition of the consumer map.
   typedef typename base_type::consumer_map_type consumer_map_type;

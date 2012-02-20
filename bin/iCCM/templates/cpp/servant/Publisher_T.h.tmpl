@@ -30,6 +30,9 @@ class ${arch_name}_Publisher_T :
   public ${arch_name}_Publisher
 {
 public:
+  /// Typedef for event type
+  typedef EVENT event_type;
+
   /// Default constructor.
   ${arch_name}_Publisher_T (void);
 
@@ -48,7 +51,7 @@ public:
    *
    * @param[in]         ev            The event to send
    */
-  void send_event (typename traits_type::corba_event_type * ev);
+  void send_event (EVENT * ev);
 
 protected:
   /// INSERT CODE HERE

@@ -240,7 +240,7 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 deactivate_ports (void)
 {
   ::PortableServer::ObjectId_var oid;
-  consumer_map_type::ITERATOR iter (this->consumers_);
+  typename consumer_map_type::ITERATOR iter (this->consumers_);
 
   for (; !iter.done (); ++ iter)
   {

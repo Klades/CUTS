@@ -1,3 +1,26 @@
+Mon Feb 20 15:37:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * bin/iCCM/templates/cpp/servant/Publisher_T.h.tmpl:
+
+          Added event_type typedef and set the default
+          behavior of send_event to use the EVENT template
+          parameter.
+
+        * bin/iCCM/templates/cpp/servant/Servant_T.h.tmpl:
+
+          Fixed base_type typedef.
+
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.h:
+
+          Regenerated the tron iccm arch using the updated
+          templates.
+
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Fixed gcc compilation error by adding typename
+          to the consumer_map_type iterator.
+
 Thu Feb 16 19:00:24 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/requires_tron.mpb:
