@@ -1,3 +1,12 @@
+Tue Feb 21 20:30:54 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/compiler/Downcall_Event.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Upcall_Event.cpp:
+        * cuts/iccm/compiler/be_global.cpp:
+
+          Bug fix where where modules were not handled correctly.
+
 Tue Feb 21 17:45:28 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/iccm_opensplice_stub.mpb:

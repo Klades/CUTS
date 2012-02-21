@@ -55,16 +55,16 @@ int Upcall_Event::visit_eventtype (AST_EventType * node)
 
   this->hfile_
     << this->upcall_event_ << " :" << std::endl
-    << "  public virtual ::" << local_name << "," << std::endl
+    << "  public virtual " << local_name << "," << std::endl
     << "  public virtual ::CORBA::DefaultValueRefCountBase" << std::endl
     << "{"
     << "public:" << std::endl
-    << this->upcall_event_ << " (::" << dds_event << " & dds_event);"
+    << this->upcall_event_ << " (" << dds_event << " & dds_event);"
     << "virtual ~" << this->upcall_event_ << " (void);"
     << std::endl;
 
   this->sfile_
-    << this->upcall_event_ << "::" << this->upcall_event_ << " (::" << dds_event << " & dds_event)" << std::endl
+    << this->upcall_event_ << "::" << this->upcall_event_ << " (" << dds_event << " & dds_event)" << std::endl
     << ": dds_event_ (dds_event)"
     << "{"
     << "}"
@@ -76,7 +76,7 @@ int Upcall_Event::visit_eventtype (AST_EventType * node)
 
   this->hfile_
     << "private:" << std::endl
-    << "::" << dds_event << " & dds_event_;"
+    << dds_event << " & dds_event_;"
     << std::endl
     << "::CORBA::Boolean _tao_marshal__" << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const;"
     << "::CORBA::Boolean _tao_unmarshal__" << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &);"

@@ -327,5 +327,4 @@ get_wrapper_eventtype (AST_EventType * node, ACE_CString & type) const
 
   type = local_name.substring (0, index);
   return true;
-
 }

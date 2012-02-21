@@ -21,6 +21,8 @@
 #include <iomanip>
 #include <iostream>
 
+#include "ace/Unbounded_Set.h"
+
 /**
  * @struct include_t
  *
@@ -125,7 +127,11 @@ public:
     be_global->get_filename (decl->file_name (), basename);
     be_global->get_basename (basename, basename);
 
-    this->hfile_ << include_t (basename + "Dcps_impl.h");
+    if (0 != this->includes_.find (basename))
+    {
+      this->hfile_ << include_t (basename + "Dcps_impl.h");
+      this->includes_.insert (basename);
+    }
 
     // Destroy the scoped name.
     sn->destroy ();
@@ -138,6 +144,9 @@ private:
 
   /// Parent declaration.
   AST_Decl * parent_;
+
+  /// Let of files that have already been included.
+  ACE_Unbounded_Set <ACE_CString> includes_;
 };
 
 namespace iCCM
@@ -241,14 +250,19 @@ int Stub_File::visit_root (AST_Root * node)
 //
 int Stub_File::visit_module (AST_Module * node)
 {
-  this->hfile_ << "module" << "{";
-  this->sfile_ << "module" << "{";
+  this->hfile_
+    << "namespace " << node->local_name ()->get_string () << std::endl
+    << "{" << std::endl;
+
+  this->sfile_
+    << "namespace " << node->local_name ()->get_string () << std::endl
+    << "{" << std::endl;
 
   if (0 != this->visit_scope (node))
     return -1;
 
-  this->hfile_ << "}";
-  this->sfile_ << "}";
+  this->hfile_ << "}" << std::endl;
+  this->sfile_ << "}" << std::endl;
 
   return 0;
 }
