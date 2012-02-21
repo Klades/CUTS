@@ -1,3 +1,9 @@
+Tue Feb 21 16:45:39 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * contrib/OpenSplice/CCPP.mpc:
+
+          Added TypeCode support to the compiler flags.
+
 Mon Feb 20 20:08:45 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:

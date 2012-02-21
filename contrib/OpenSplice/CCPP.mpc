@@ -8,10 +8,13 @@ project (CCPP) : splicelib_with_idl, portableserver {
   libs     -= dcpsccpp
 
   idlflags += -o $(OSPL_HOME)/custom_lib/ccpp \
-              -Sp -Sd \ 
+              -Sp -Sd \
               -I $(OSPL_HOME)/etc/idl \
               -Wb,export_macro=OS_API_EXPORT \
               -Wb,export_include=include/os_if.h
+
+  // Make sure we include TypeCode support.
+  idlflags -= -St
 
   splice_ts_flags += -d $(OSPL_HOME)/custom_lib/ccpp
 
@@ -49,7 +52,7 @@ project (CCPP) : splicelib_with_idl, portableserver {
 
     $(OSPL_HOME)/etc/idl/dds_builtinTopics.idl
     $(OSPL_HOME)/custom_lib/ccpp/dds_builtinTopicsDcps.idl
-   
+
     $(OSPL_HOME)/etc/idl/dds_dcps_builtintopics.idl
     $(OSPL_HOME)/custom_lib/ccpp/dds_dcps_builtintopicsDcps.idl
 
