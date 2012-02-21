@@ -10,8 +10,8 @@ project (CCPP) : splicelib_with_idl, portableserver {
   idlflags += -o $(OSPL_HOME)/custom_lib/ccpp \
               -Sp -Sd \
               -I $(OSPL_HOME)/etc/idl \
-              -Wb,export_macro=OS_API_EXPORT \
-              -Wb,export_include=include/os_if.h
+              -Wb,export_macro=OS_DCPS_API \
+              -Wb,export_include=ccpp_dcps_if.h
 
   // Make sure we include TypeCode support.
   idlflags -= -St
