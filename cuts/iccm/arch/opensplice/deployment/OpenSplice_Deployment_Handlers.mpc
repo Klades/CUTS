@@ -1,26 +1,5 @@
 // $Id$
 
-project (iCCM_OpenSplice_Deployment_Handlers_Xml) : xsc_cxx {
-  custom_only = 1
-
-  specific {
-    xscflags += --cxx-header-suffix .h --cxx-source-suffix .cpp \
-                --cxx-inline-suffix .inl --cxx-generate-inline \
-                --cxx-char-type char --cxx-generate-extended-rtti
-  }
-
-  Modify_Custom (XSC) {
-    header_outputext = .h
-    inline_outputext = .inl
-  }
-
-  Xsc_Files {
-    gendir = .
-
-    $(CUTS_ROOT)/etc/schemas/iccm/dds.xsd
-  }
-}
-
 project (iCCM_OpenSplice_Deployment_Handlers) : iccm_deployment_handlers, \
                                                 iccm_opensplice_svnt, iccm_ddsxml, \
                                                 dance_deployment_scheduler, \

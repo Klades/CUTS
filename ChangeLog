@@ -1,3 +1,10 @@
+Thu Feb 23 16:02:32 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment_Handlers.mpc:
+
+          Removed Xml related project since it has been moved to its
+          own directory/project.
+
 Thu Feb 23 15:53:33 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/iccm_dds_skel.mpb:
