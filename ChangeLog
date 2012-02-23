@@ -1,3 +1,42 @@
+Thu Feb 23 23:24:48 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/dds/deployment:
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.h:
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/dds/deployment/DDS_Container.h:
+        * cuts/iccm/arch/dds/deployment/DDS_Container.inl:
+        * cuts/iccm/arch/dds/deployment/DDS_Container.cpp:
+        * cuts/iccm/arch/dds/deployment/DDS_Container_Strategy.h:
+        * cuts/iccm/arch/dds/deployment/DDS_Container_Strategy.inl:
+        * cuts/iccm/arch/dds/deployment/DDS_Container_Strategy.cpp:
+        * cuts/iccm/arch/dds/deployment/DDS_Deployment_Handlers.mpc:
+
+          Template version of the deployment handlers for different
+          implementations of DDS.
+
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment_Handlers.mpc:
+
+          Re-implemented the OpenSplice deployment handlers using the DDS
+          deployment handler template framework.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+
+          Updated the function header.
+
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container.inl:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.h:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.inl:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Container_Strategy.cpp:
+
+          Removed these files.
+
 Thu Feb 23 16:02:32 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/deployment/OpenSplice_Deployment_Handlers.mpc:

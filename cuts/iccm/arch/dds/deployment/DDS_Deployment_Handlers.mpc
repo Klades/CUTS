@@ -1,0 +1,15 @@
+// $Id$
+
+project (iCCM_DDS_Deployment_Handlers) : iccm_deployment_handlers, \
+                                         iccm_opensplice_svnt, iccm_ddsxml, \
+                                         dance_deployment_scheduler, \
+                                         cutslib {
+
+  sharedname = iCCM_DDS_Deployment_Handlers
+
+  Template_Files {
+    DDS_Container.cpp
+    DDS_Container_Strategy.cpp
+    DDS_Component_Instance_Handler.cpp
+  }
+}

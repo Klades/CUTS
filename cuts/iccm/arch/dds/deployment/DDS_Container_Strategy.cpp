@@ -1,12 +1,8 @@
 // $Id$
 
-#include "OpenSplice_Container_Strategy.h"
-
 #if !defined (__CUTS_INLINE__)
-#include "OpenSplice_Container_Strategy.inl"
+#include "DDS_Container_Strategy.inl"
 #endif
-
-#include "cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.h"
 
 #include "cuts/iccm/ddsxml/DDS_Participant_File.h"
 #include "XSC/utils/XML_Error_Handler.h"
@@ -15,11 +11,12 @@ namespace iCCM
 {
 
 //
-//OpenSplice_Container_Strategy
+// DDS_Container_Strategy
 //
-OpenSplice_Container_Strategy::
-OpenSplice_Container_Strategy (OpenSplice_Container & container)
-  : base_type (container)
+template <typename T>
+DDS_Container_Strategy <T>::
+DDS_Container_Strategy (typename T::container_type & container)
+: Container_Strategy_T (container)
 {
 
 }
@@ -27,13 +24,15 @@ OpenSplice_Container_Strategy (OpenSplice_Container & container)
 //
 // configure_servant
 //
-void OpenSplice_Container_Strategy::
+template <typename T>
+void DDS_Container_Strategy <T>::
 configure_servant (::PortableServer::Servant servant,
                    const ::Components::ConfigValues & config)
 {
-  OpenSplice_Servant * ospl_servant = dynamic_cast <OpenSplice_Servant *> (servant);
+  typedef typename T::servant_type servant_type;
+  servant_type * dds_servant = dynamic_cast <servant_type *> (servant);
 
-  if (0 == ospl_servant)
+  if (0 == dds_servant)
     throw CORBA::INTERNAL ();
 
   // Locate the DDSParticipantQoS property.
@@ -49,21 +48,11 @@ configure_servant (::PortableServer::Servant servant,
     }
   }
 
-  if (0 == filename)
-  {
-    ACE_ERROR ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - using default configuration ")
-                ACE_TEXT ("for %s\n"),
-                ospl_servant->name ().c_str ()));
-
-    // Use the default configuration.
-    ospl_servant->configure ();
-  }
-  else
+  if (0 != filename)
   {
     ACE_ERROR ((LM_DEBUG,
                 ACE_TEXT ("%T (%t) - %M - configuring %s using %s\n"),
-                ospl_servant->name ().c_str (),
+                dds_servant->name ().c_str (),
                 filename));
 
     // Read the contents of the extracted filename.
@@ -78,7 +67,7 @@ configure_servant (::PortableServer::Servant servant,
       file >>= qos_value;
 
       // Configure the DDS servant.
-      ospl_servant->configure (qos_value);
+      dds_servant->configure (qos_value);
     }
     else
     {
@@ -86,6 +75,16 @@ configure_servant (::PortableServer::Servant servant,
                   ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
                   filename));
     }
+  }
+  else
+  {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - using default configuration ")
+                ACE_TEXT ("for %s\n"),
+                dds_servant->name ().c_str ()));
+
+    // Use the default configuration.
+    dds_servant->configure ();
   }
 }
 

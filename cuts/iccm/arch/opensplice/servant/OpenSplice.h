@@ -1,5 +1,15 @@
 // -*- C++ -*-
 
+//=============================================================================
+/**
+ *  @file         OpenSplice.h
+ *
+ *  $Id$
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
 #ifndef _ICCM_OPENSPLICE_H_
 #define _ICCM_OPENSPLICE_H_
 
@@ -9,7 +19,6 @@
 #include "cuts/iccm/arch/dds/servant/DDS_Servant.h"
 #include "cuts/iccm/arch/dds/servant/DDS_Traits_T.h"
 
-#include "OpenSplice_Traits_T.h"
 #include "OpenSplice_EventsS.h"
 
 #include "OpenSplice_svnt_export.h"

@@ -1,16 +1,14 @@
 // $Id$
 
-project (iCCM_OpenSplice_Deployment_Handlers) : iccm_deployment_handlers, \
-                                                iccm_opensplice_svnt, iccm_ddsxml, \
-                                                dance_deployment_scheduler, \
-                                                cutslib {
-
+project (iCCM_OpenSplice_Deployment_Handlers) : iccm_dds_deployment_handlers, iccm_opensplice_svnt, cutslib {
   sharedname    = iCCM_OpenSplice_Deployment_Handlers
   dynamicflags += ICCM_OPENSPLICE_DEPLOYMENT_HANDLERS_BUILD_DLL
 
   Source_Files {
-    OpenSplice_Container.cpp
-    OpenSplice_Container_Strategy.cpp
     OpenSplice_Component_Instance_Handler.cpp
+  }
+
+  Header_Files {
+    OpenSplice_Deployment.h
   }
 }
