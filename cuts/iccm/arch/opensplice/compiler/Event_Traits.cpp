@@ -66,28 +66,28 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
 
   this->hfile_
     << "/**" << std::endl
-    << " * @class iCCM::OpenSplice_Traits_T < ::" << full_name << " >" << std::endl
+    << " * @class iCCM::DDS_Traits_T < ::" << full_name << " >" << std::endl
     << " *" << std::endl
     << " * Trait information for " << full_name << "Event event type." << std::endl
     << " */" << std::endl
     << "template < >" << std::endl
-    << "class iCCM::OpenSplice_Traits_T < ::" << full_name << " >"
+    << "class iCCM::DDS_Traits_T < ::" << full_name << " >"
     << "{"
     << "public:" << std::endl
     << "// traits for the reader(s)" << std::endl
     << "typedef ::" << dds_event << "DataReader reader_type;"
-    << "typedef ::" << dds_event << "DataReader_ptr reader_type_ptr;"
-    << "typedef ::" << dds_event << "DataReader_var reader_type_var;"
+    << "typedef ::" << dds_event << "DataReader_ptr reader_ptr_type;"
+    << "typedef ::" << dds_event << "DataReader_var reader_var_type;"
     << std::endl
     << "// traits for the writer(s)" << std::endl
     << "typedef ::" << dds_event << "DataWriter writer_type;"
-    << "typedef ::" << dds_event << "DataWriter_ptr writer_type_ptr;"
-    << "typedef ::" << dds_event << "DataWriter_var writer_type_var;"
+    << "typedef ::" << dds_event << "DataWriter_ptr writer_ptr_type;"
+    << "typedef ::" << dds_event << "DataWriter_var writer_var_type;"
     << std::endl
     << "// traits for the type support system" << std::endl
     << "typedef ::" << dds_event << "TypeSupport dds_typesupport_type;"
-    << "typedef ::" << dds_event << "TypeSupport_var dds_typesupport_type_var;"
-    << "typedef ::" << dds_event << "TypeSupport_ptr dds_typesupport_type_ptr;"
+    << "typedef ::" << dds_event << "TypeSupport_var dds_typesupport_var_type;"
+    << "typedef ::" << dds_event << "TypeSupport_ptr dds_typesupport_ptr_type;"
     << std::endl
     << "// event mapping types" << std::endl
     << "typedef ::" << dds_event << " dds_event_type;"

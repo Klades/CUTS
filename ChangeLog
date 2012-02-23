@@ -1,3 +1,103 @@
+Thu Feb 23 15:53:33 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/iccm_dds_skel.mpb:
+        * MPC/config/iccm_dds_stub.mpb:
+        * MPC/config/iccm_dds_svnt.mpb:
+        * cuts/iccm/arch/dds:
+        * cuts/iccm/arch/dds/servant:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.inl:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Events.idl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.mpc:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Traits_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_skel_export.h:
+        * cuts/iccm/arch/dds/servant/DDS_stub_export.h:
+
+          Template framework for intergrating different implementations of
+          DDS into iCCM.
+
+        * MPC/config/iccm_opensplice_skel.mpb:
+        * MPC/config/iccm_opensplice_svnt.mpb:
+        * cuts/iccm/arch/opensplice/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Events.idl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.mpc:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.cpp:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Re-implemented the OpenSplice implementation of DDS using the
+          new DDS template framework in iCCM.
+
+        * cuts/iccm/servant/EventConsumer.inl:
+
+          Removed the exception.
+
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Fixed indentation.
+
+        * examples/iccm/HelloWorld/opensplice/HelloWorld_Components.idl:
+
+          Added an emits port to the sender component.
+
+        * examples/iccm/HelloWorld/opensplice/descriptors/run_test.pl:
+
+          Updated the test to run for 60 seconds.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Event_Listener_T.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Event_Listener_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Traits_T.h:
+
+          Removed these files.
+
 Tue Feb 21 20:30:54 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/compiler/Downcall_Event.cpp:

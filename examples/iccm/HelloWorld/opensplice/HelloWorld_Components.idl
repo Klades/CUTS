@@ -18,6 +18,7 @@ eventtype MessageEvent
 component HelloSender
 {
   publishes ::MessageEvent greeting;
+  emits ::MessageEvent emit_greeting;
 
   attribute string message;
 };

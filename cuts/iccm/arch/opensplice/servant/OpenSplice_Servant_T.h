@@ -10,42 +10,36 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_ICCM_OPENSPLICE_SERVANT_T_H_
-#define _CUTS_ICCM_OPENSPLICE_SERVANT_T_H_
+#ifndef _ICCM_OPENSPLICE_SERVANT_T_H_
+#define _ICCM_OPENSPLICE_SERVANT_T_H_
 
-#include "cuts/iccm/servant/Servant_T.h"
+#include "cuts/iccm/arch/dds/servant/DDS_Servant_T.h"
 
-#include "OpenSplice_Servant.h"
 #include "OpenSplice_EventConsumer_T.h"
-#include "OpenSplice_Publisher_T.h"
 #include "OpenSplice_Publisher_Table_T.h"
-
-namespace iccm
-{
-// Forward decl.
-class DomainParticipantQos;
-}
+#include "OpenSplice_Publisher_T.h"
+#include "OpenSplice_Servant.h"
 
 namespace iCCM
 {
 
 /**
  * @class OpenSplice_Servant_T
+ *
+ * Typed version of the OpenSplice servant base class.
  */
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 class OpenSplice_Servant_T :
-  public Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, OpenSplice_Servant>
+  public DDS_Servant_T <OpenSplice, T, CONTEXT, EXECUTOR, POA_EXEC>
 {
 public:
-  /// Type definition of the base type.
-  typedef Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, OpenSplice_Servant> base_type;
-
   /**
-   * Initializing constuctor.
+   * Initializing constructor.
    *
-   * @param[in]       name              Name of the servant
-   * @param[in]       port_poa          The POA for activating ports
-   * @param[in]       impl              Reference to the implementation
+   * @param[in]       _this           This servant object
+   * @param[in]       name            Name of the servant
+   * @param[in]       port_poa        The POA for ports
+   * @param[in]       impl            The servant implementation
    */
   OpenSplice_Servant_T (T * _this,
                         const char * name,
@@ -54,34 +48,6 @@ public:
 
   /// Destructor.
   virtual ~OpenSplice_Servant_T (void);
-
-  /// Configure the servant.
-  virtual void configure (void);
-  virtual void configure (const ::iccm::DomainParticipantQos & qos);
-
-protected:
-  /// Do the default configuration.
-  void do_default_configure (void);
-
-  virtual ::DDS::DataWriter_ptr
-    create_datawriter (const char * name,
-                       const ::DDS::TopicQos & topic_qos,
-                       ::DDS::Publisher_ptr publisher);
-
-  virtual void
-    configure_eventconsumer (const char * name,
-                             const ::DDS::DataReaderQos & qos,
-                             const ::DDS::TopicQos * topic_qos,
-                             ::DDS::Subscriber_ptr publisher);
-
-  /// Type definition of the consumer map.
-  typedef typename base_type::consumer_map_type consumer_map_type;
-
-  /// Type definition of the emitter map.
-  typedef typename base_type::emits_map_type emits_map_type;
-
-  /// Type definition of the publisher map.
-  typedef typename base_type::publishes_map_type publishes_map_type;
 };
 
 }

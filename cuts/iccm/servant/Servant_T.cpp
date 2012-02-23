@@ -17,9 +17,9 @@ namespace iCCM
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 Servant_T (T * this_,
-                    const char * name,
-                    ::PortableServer::POA_ptr poa,
-                    typename EXECUTOR::_ptr_type exec)
+           const char * name,
+           ::PortableServer::POA_ptr poa,
+           typename EXECUTOR::_ptr_type exec)
 : SERVANT_BASE (name),
   impl_ (EXECUTOR::_duplicate (exec))
 {
@@ -101,7 +101,6 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::remove (void)
 // get_consumer
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
 ::Components::EventConsumerBase_ptr
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_consumer (const char * name)
 {
@@ -135,7 +134,6 @@ Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::get_consumer (const ch
 // connect_consumer
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
 {
@@ -144,6 +142,11 @@ connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
 
   if (0 != this->emits_.find (name, publisher))
     throw ::Components::InvalidName ();
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - connecting consumer to <%s> [type=%s]\n"),
+              name,
+              consumer->_interface_repository_id ()));
 
   // Now, signal the endpoint to connect.
   publisher->connect (consumer);
@@ -174,14 +177,19 @@ disconnect_consumer (const char * name)
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 ::Components::Cookie *
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subscriber)
+subscribe (const char * name, ::Components::EventConsumerBase_ptr consumer)
 {
   publisher_table_type * table = 0;
 
-  if (0 != this->publishes_.find (publisher_name, table))
+  if (0 != this->publishes_.find (name, table))
     throw ::Components::InvalidName ();
 
-  return table->subscribe (subscriber);
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - subscribing consumer to <%s> [type=%s])\n"),
+              name,
+              consumer->_interface_repository_id ()));
+
+  return table->subscribe (consumer);
 }
 
 //
@@ -190,11 +198,11 @@ subscribe (const char * publisher_name, ::Components::EventConsumerBase_ptr subs
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 ::Components::EventConsumerBase_ptr
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-unsubscribe (const char * publisher_name, ::Components::Cookie * cookie)
+unsubscribe (const char * name, ::Components::Cookie * cookie)
 {
   publisher_table_type * table = 0;
 
-  if (0 != this->publishes_.find (publisher_name, table))
+  if (0 != this->publishes_.find (name, table))
     throw ::Components::InvalidName ();
 
   return table->unsubscribe (cookie);

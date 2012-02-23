@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_svnt, iccm_dds_stub {
+  after += iCCM_DDS_skel
+  libs  += iCCM_DDS_skel
+}

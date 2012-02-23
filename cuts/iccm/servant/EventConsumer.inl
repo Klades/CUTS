@@ -28,7 +28,7 @@ EventConsumer::~EventConsumer (void)
 CUTS_INLINE
 void EventConsumer::push_event (Components::EventBase *)
 {
-  throw CORBA::NO_IMPLEMENT ();
+
 }
 
 }

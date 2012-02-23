@@ -302,8 +302,7 @@ public:
     this->hfile_
       << "virtual void connect_" << local_name
       << " (::" << field_type << "Consumer_ptr);"
-      << "virtual ::" << field_type << "Consumer_ptr disconnect_" << local_name
-      << " (::Components::Cookie *);"
+      << "virtual ::" << field_type << "Consumer_ptr disconnect_" << local_name << " (void);"
       << std::endl;
 
     this->sfile_
@@ -369,7 +368,7 @@ public:
     const char * local_name = node->local_name ()->get_string ();
 
     this->sfile_
-      << "this->publishes_.bind (\"" << local_name << "\", &this->ctx_->"
+      << "this->emits_.bind (\"" << local_name << "\", &this->ctx_->"
       << "get_" << local_name << "_publisher ());";
 
     return 0;
@@ -512,43 +511,6 @@ public:
 
     if (this->is_first_)
       this->is_first_ = false;
-
-    return 0;
-  }
-
-  //
-  // visit_emits
-  //
-  virtual int visit_emits (AST_Emits * node)
-  {
-    const char * local_name = node->local_name ()->get_string ();
-    const char * field_type = node->field_type ()->full_name ();
-
-    // Connect a consumer to the port.
-    this->hfile_
-      << "virtual void connect_" << local_name
-      << " (::" << field_type << "Consumer_ptr);"
-      << std::endl;
-
-    this->sfile_
-      << "void " << this->servant_
-      << "::connect_" << local_name << " (::" << field_type << "Consumer_ptr)"
-      << "{"
-      << "throw ::CORBA::NO_IMPLEMENT ();"
-      << "}";
-
-    // Disconnect the consumer from the port.
-    this->hfile_
-      << "virtual ::" << field_type << "Consumer_ptr disconnect_" << local_name
-      << " (::Components::Cookie *);"
-      << std::endl;
-
-    this->sfile_
-      << "::" << field_type << "Consumer_ptr " << this->servant_
-      << "::disconnect_" << local_name << " (void)"
-      << "{"
-      << "throw ::CORBA::NO_IMPLEMENT ();"
-      << "}";
 
     return 0;
   }

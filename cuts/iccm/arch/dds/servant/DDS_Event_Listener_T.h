@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file         OpenSplice_Event_Listener_T.h
+ *  @file         DDS_Event_Listener_T.h
  *
  *  $Id$
  *
@@ -10,22 +10,18 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_ICCM_OPENSPLICE_EVENT_LISTENER_T_H_
-#define _CUTS_ICCM_OPENSPLICE_EVENT_LISTENER_T_H_
-
-#include "OpenSplice_Traits_T.h"
-
-#include "dds_dcpsC.h"
+#ifndef _ICCM_DDS_EVENT_LISTENER_T_H_
+#define _ICCM_DDS_EVENT_LISTENER_T_H_
 
 namespace iCCM
 {
 
 /**
- * @class OpenSplice_Event_Listener_T
+ * @class DDS_Event_Listener_T
  */
-template <typename SERVANT, typename EVENT>
-class OpenSplice_Event_Listener_T :
-  public ::DDS::DataReaderListener
+template <typename T, typename SERVANT, typename EVENT>
+class DDS_Event_Listener_T :
+  public T::datareaderlistener_type
 {
  public:
   /// Type definition of the servant type.
@@ -34,14 +30,9 @@ class OpenSplice_Event_Listener_T :
   /// Type definition of the event type.
   typedef EVENT event_type;
 
-  /// Type definition of the event traits.
-  typedef OpenSplice_Traits_T <EVENT> traits_type;
-
-  /// Type definition of the reader type.
-  typedef typename traits_type::reader_type reader_type;
-
-  /// Type definition of the reader _var type.
-  typedef typename traits_type::reader_type_var reader_type_var;
+  /// Type definition of the DDS entities.
+  typedef typename T::event_traits_type <EVENT>::result_type event_traits_type;
+  typedef typename T::datareader_ptr_type datareader_ptr_type;
 
   /// Type definition of the servant callback method.
   typedef void (SERVANT::*DESERIALIZE_METHOD) (EVENT *);
@@ -49,10 +40,10 @@ class OpenSplice_Event_Listener_T :
   /**
    * Initializing constructor.
    */
-  OpenSplice_Event_Listener_T (SERVANT * servant,
-                                        DESERIALIZE_METHOD callback);
+  DDS_Event_Listener_T (SERVANT * servant,
+                        DESERIALIZE_METHOD callback);
 
-  virtual ~OpenSplice_Event_Listener_T (void);
+  virtual ~DDS_Event_Listener_T (void);
 
   virtual void
     on_requested_deadline_missed (::DDS::DataReader_ptr reader,
@@ -91,6 +82,6 @@ private:
 
 }
 
-#include "OpenSplice_Event_Listener_T.cpp"
+#include "DDS_Event_Listener_T.cpp"
 
-#endif // _CUTS_ICCM_OPENSPLICE_EVENT_LISTENER_T_H_
+#endif // _ICCM_DDS_EVENT_LISTENER_T_H_

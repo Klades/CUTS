@@ -59,9 +59,9 @@ public:
    * @param[in]       executor        Executor component for servant.
    */
   Servant_T (T * this_,
-                      const char * name,
-                      ::PortableServer::POA_ptr poa,
-                      typename EXECUTOR::_ptr_type exec);
+             const char * name,
+             ::PortableServer::POA_ptr poa,
+             typename EXECUTOR::_ptr_type exec);
 
   /// Destructor.
   virtual ~Servant_T (void);

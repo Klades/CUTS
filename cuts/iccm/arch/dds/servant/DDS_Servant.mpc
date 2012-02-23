@@ -1,0 +1,82 @@
+// $Id$
+
+project (iCCM_DDS_stub) : ccm_stub, cutslib {
+  sharedname    = iCCM_DDS_stub
+  dynamicflags += ICCM_DDS_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_DDS_STUB_Export \
+              -Wb,stub_export_include=DDS_stub_export.h \
+              -Wb,skel_export_macro=ICCM_DDS_SKEL_Export \
+              -Wb,skel_export_include=DDS_skel_export.h
+
+  IDL_Files {
+    DDS_Events.idl
+  }
+
+  Source_Files {
+    DDS_EventsC.cpp
+  }
+
+  Template_Files {
+  }
+
+  Header_Files {
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_DDS_skel) : ccm_svnt, iccm_dds_stub, cutslib {
+  sharedname    = iCCM_DDS_skel
+  dynamicflags += ICCM_DDS_SKEL_BUILD_DLL
+
+  Source_Files {
+    DDS_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_DDS_svnt) : boost_base, iccm_ddsxml, iccm_dds_skel, iccm_servant, cutslib {
+  sharedname    = iCCM_DDS_svnt
+  dynamicflags += ICCM_DDS_SVNT_BUILD_DLL
+
+  Source_Files {
+  }
+
+  Template_Files {
+    DDS_EventConsumer.cpp
+    DDS_Event_Listener_T.cpp
+    DDS_EventConsumer_T.cpp
+    DDS_Publisher.cpp
+    DDS_Publisher_T.cpp
+    DDS_Publisher_Table.cpp
+    DDS_Publisher_Table_T.cpp
+    DDS_Servant.cpp
+    DDS_Servant_T.cpp
+  }
+
+  Header_Files {
+    DDS_Traits_T.h
+  }
+
+  IDL_Files {
+
+  }
+}

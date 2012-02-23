@@ -138,7 +138,7 @@ $E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-x $cdp_file 
 $E->SpawnWaitKill (10000);
 
 # wait for 10 seconds.
-sleep (10);
+sleep (60);
 
 # Invoke executor - stop the application -.
 print "Invoking executor - stop the application -\n";

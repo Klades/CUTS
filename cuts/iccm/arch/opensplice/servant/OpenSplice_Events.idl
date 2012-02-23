@@ -1,7 +1,19 @@
-#ifndef _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
-#define _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
+// -*- IDL -*-
 
-#include "ccm/CCM_Events.idl"
+//=============================================================================
+/**
+ *  @file         OpenSplice_Events.idl
+ *
+ *  $Id$
+ *
+ *  @author       James H. Hill
+ */
+//=============================================================================
+
+#ifndef _ICCM_OPENSPLICE_EVENTS_IDL_
+#define _ICCM_OPENSPLICE_EVENTS_IDL_
+
+#include "cuts/iccm/arch/dds/servant/DDS_Events.idl"
 
 module Components
 {
@@ -12,12 +24,11 @@ module Components
      * component connections. The event consumer exposes methods that
      * control what topics it listens to.
      */
-    interface EventConsumer : ::Components::EventConsumerBase
+    interface EventConsumer : ::Components::DDS::EventConsumer
     {
-      void add_topic (in string topic_name);
-      void remove_topic (in string topic_name);
+
     };
   };
 };
 
-#endif  // !defined _CUTS_OPENSPLICE_CCM_EVENTS_IDL_
+#endif  // !defined _ICCM_OPENSPLICE_EVENTS_IDL_

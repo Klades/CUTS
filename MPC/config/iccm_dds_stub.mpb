@@ -1,0 +1,8 @@
+// $Id$
+
+project : ccm_stub {
+  after += iCCM_DDS_stub
+  libs  += iCCM_DDS_stub
+
+  idlflags += -I $(CUTS_ROOT)
+}

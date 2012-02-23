@@ -618,64 +618,50 @@ namespace iCCM
 {
 
 //
-// OpenSplice_Servant
-//
-OpenSplice_Servant::OpenSplice_Servant (const char * name)
-: Servant (name)
-{
-  // Create the participant for this servant.
-  ::DDS::DomainParticipantFactory_var factory =
-    ::DDS::DomainParticipantFactory::get_instance ();
-
-  this->participant_ =
-    factory->create_participant (0,
-                                 PARTICIPANT_QOS_DEFAULT,
-                                 0,
-                                 ::DDS::ANY_STATUS);
-}
-
-//
 // configure
 //
-void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & src)
+void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & value)
 {
+  // Perform the default configuration.
+  this->do_default_configure ();
+
   // Configure the domain participant QoS.
-  ::DDS::DomainParticipantQos dst;
-  this->participant_->get_qos (dst);
+  ::DDS::DomainParticipantQos qos;
+  this->participant_->get_qos (qos);
 
-  if (src.entity_factory_p ())
-    dst.entity_factory <<= src.entity_factory ();
+  if (value.entity_factory_p ())
+    qos.entity_factory <<= value.entity_factory ();
 
-  if (src.watchdog_scheduling_p ())
-    dst.watchdog_scheduling <<= src.watchdog_scheduling ();
+  if (value.watchdog_scheduling_p ())
+    qos.watchdog_scheduling <<= value.watchdog_scheduling ();
 
-  if (src.listener_scheduling_p ())
-    dst.listener_scheduling <<= src.listener_scheduling ();
+  if (value.listener_scheduling_p ())
+    qos.listener_scheduling <<= value.listener_scheduling ();
 
-  this->participant_->set_qos (dst);
+  this->participant_->set_qos (qos);
 
   // Configure each of the entities in the using information found in
   // the configuration file.
   namespace lambda = boost::lambda;
 
-  std::for_each (src.begin_topic (),
-                 src.end_topic (),
+  std::for_each (value.begin_topic (),
+                 value.end_topic (),
                  lambda::bind (&OpenSplice_Servant::configure_topic, this, *lambda::_1));
 
-  std::for_each (src.begin_publisher (),
-                 src.end_publisher (),
+  std::for_each (value.begin_publisher (),
+                 value.end_publisher (),
                  lambda::bind (&OpenSplice_Servant::configure_publisher, this, *lambda::_1));
 
-  std::for_each (src.begin_subscriber (),
-                 src.end_subscriber (),
+  std::for_each (value.begin_subscriber (),
+                 value.end_subscriber (),
                  lambda::bind (&OpenSplice_Servant::configure_subscriber, this, *lambda::_1));
 
-  std::for_each (src.begin_datareader (),
-                 src.end_datareader (),
+  std::for_each (value.begin_datareader (),
+                 value.end_datareader (),
                  lambda::bind (&OpenSplice_Servant::configure_datareader, this, *lambda::_1));
 
-  std::for_each (src.begin_datawriter (),
-                 src.end_datawriter (),
+  std::for_each (value.begin_datawriter (),
+                 value.end_datawriter (),
                  lambda::bind (&OpenSplice_Servant::configure_datawriter, this, *lambda::_1));
 
   // Finally, configure all the remaining ports/entities.
@@ -834,7 +820,7 @@ configure_datareader (const ::iccm::DataReaderQos & value)
 
   this->configure_eventconsumer (value.name ().c_str (),
                                  current,
-                                 topic_qos,
+                                 *topic_qos,
                                  subscriber.in ());
 }
 
