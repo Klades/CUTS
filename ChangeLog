@@ -1,3 +1,9 @@
+Thu Feb 23 23:39:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/iccm_dds_deployment_handlers.mpb:
+
+          Added missing base project.
+
 Thu Feb 23 23:28:48 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/iccm/HelloWorld/opensplice:
