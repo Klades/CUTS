@@ -1,3 +1,32 @@
+Fri Feb 24 00:51:10 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * examples/iccm/HelloWorld/opensplice:
+        * examples/iccm/HelloWorld/opensplice/SACPP:
+
+          Relocation of the SACPP directory below to the opensplice
+          parent directory.
+
+        * examples/iccm/HelloWorld/SACPP:
+        * examples/iccm/HelloWorld/SACPP/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/SACPP/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/SACPP/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/SACPP/HelloReceiver_impl_export.h:
+        * examples/iccm/HelloWorld/SACPP/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/SACPP/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/SACPP/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/SACPP/HelloSender_impl_export.h:
+        * examples/iccm/HelloWorld/SACPP/HelloWorld.idl:
+        * examples/iccm/HelloWorld/SACPP/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/SACPP/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/SACPP/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/SACPP/HelloWorld_iCCM.idl:
+        * examples/iccm/HelloWorld/SACPP/descriptors:
+        * examples/iccm/HelloWorld/SACPP/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/SACPP/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/SACPP/descriptors/run_test.pl:
+
+          Removed these files.
+
 Fri Feb 24 00:48:52 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/iccm/HelloWorld/SACPP:
