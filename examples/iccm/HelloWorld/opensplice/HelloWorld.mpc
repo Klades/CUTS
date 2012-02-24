@@ -56,7 +56,7 @@ project (HelloWorld_iCCM_IDL_Gen) : iccm_ospl, requires_opensplice {
                      -Wb,svnt_export_macro=HELLOWORLD_SVNT_Export \
                      -Wb,svnt_export_include=HelloWorld_svnt_export.h
 
-  IDL_Files {
+  ICCM_Files {
     gendir = .
 
     HelloWorld.idl

@@ -1,3 +1,11 @@
+Fri Feb 24 00:04:53 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.cpp:
+        * examples/iccm/HelloWorld/opensplice/HelloWorld.mpc:
+        * MPC/config/iccm_ospl.mpb:
+
+          Renamed the custom section to iCCM.
+
 Thu Feb 23 23:39:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MPC/config/iccm_dds_deployment_handlers.mpb:

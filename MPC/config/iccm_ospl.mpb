@@ -1,7 +1,7 @@
 // $Id$
 
 project : requires_opensplice {
-  Define_Custom (IDL) {
+  Define_Custom (ICCM) {
     command               = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
     dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
     inputext              = .idl

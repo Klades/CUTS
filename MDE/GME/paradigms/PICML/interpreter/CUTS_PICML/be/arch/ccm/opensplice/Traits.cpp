@@ -104,7 +104,7 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
       << "                     -Wb,svnt_export_macro=" << macro_basename << "_SVNT_Export \\" << std::endl
       << "                     -Wb,svnt_export_include=" << name << "_svnt_export.h" << std::endl
       << std::endl
-      << "  IDL_Files {" << std::endl
+      << "  ICCM_Files {" << std::endl
       << "    gendir = ." << std::endl
       << std::endl
       << "    " << name << ".idl" << std::endl
