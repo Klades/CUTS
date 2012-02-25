@@ -1,0 +1,32 @@
+#ifndef _HELLOWORLD_EVENTS_IDL_
+#define _HELLOWORLD_EVENTS_IDL_
+
+#include <Components.idl>
+#pragma ciao lem "HelloWorldE.idl"
+
+#include "HelloWorld.idl"
+
+eventtype MessageEvent
+{
+  public string content;
+
+  public long time;
+};
+
+#pragma dds_mapping (::Message, ::MessageEvent)
+
+component HelloSender
+{
+  publishes ::MessageEvent greeting;
+  emits ::MessageEvent emit_greeting;
+
+  attribute string message;
+};
+
+component HelloReceiver
+{
+  consumes ::MessageEvent greeting;
+};
+
+#endif    // !defined _HELLOWORLD_IDL_
+

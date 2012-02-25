@@ -1,0 +1,14 @@
+// $Id$
+
+project (iCCM_RTIDDS_Deployment_Handlers) : iccm_dds_deployment_handlers, iccm_rtidds_svnt, cutslib {
+  sharedname    = iCCM_RTIDDS_Deployment_Handlers
+  dynamicflags += ICCM_RTIDDS_DEPLOYMENT_HANDLERS_BUILD_DLL
+
+  Source_Files {
+    RTIDDS_Component_Instance_Handler.cpp
+  }
+
+  Header_Files {
+    RTIDDS_Deployment.h
+  }
+}

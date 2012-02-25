@@ -1,0 +1,21 @@
+#ifndef _HELLOWORLD_IDL_
+#define _HELLOWORLD_IDL_
+
+#pragma ndds typesupport "HelloWorldSupport.h"
+#pragma opendds typesupport "HelloWorldTypeSupportC.h"
+#pragma splice typesupport "HelloWorldDscpC.h"
+
+#pragma DCPS_DATA_TYPE "Message"
+#pragma DCPS_DATA_KEY "Message time"
+
+struct Message
+{
+  long time;  // @key
+
+  string content;
+};
+
+#pragma keylist Message time
+#pragma dds2ccm eventtype (::Message, ::MessageEvent)
+
+#endif    // !defined _HELLOWORLD_IDL_

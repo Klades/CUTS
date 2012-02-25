@@ -1,0 +1,86 @@
+// $Id$
+
+project (iCCM_RTIDDS_stub) : requires_rtidds, iccm_dds_stub, cutslib {
+  sharedname    = iCCM_RTIDDS_stub
+  dynamicflags += ICCM_RTIDDS_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_RTIDDS_STUB_Export \
+              -Wb,stub_export_include=RTIDDS_stub_export.h \
+              -Wb,skel_export_macro=ICCM_RTIDDS_SKEL_Export \
+              -Wb,skel_export_include=RTIDDS_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_RTIDDS_SVNT_Export \
+              -Wb,svnt_export_include=RTIDDS_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    RTIDDS_Events.idl
+  }
+
+  Source_Files {
+    RTIDDS_EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_RTIDDS_skel) : iccm_dds_skel, iccm_rtidds_stub, cutslib {
+  sharedname    = iCCM_RTIDDS_skel
+  dynamicflags += ICCM_RTIDDS_SKEL_BUILD_DLL
+
+  Source_Files {
+    RTIDDS_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_RTIDDS_svnt) : boost_base, iccm_ddsxml, iccm_rtidds_skel, iccm_servant, cutslib {
+  sharedname    = iCCM_RTIDDS_svnt
+  dynamicflags += ICCM_RTIDDS_SVNT_BUILD_DLL
+
+  Source_Files {
+    RTIDDS.cpp
+    RTIDDS_Servant.cpp
+  }
+
+  Template_Files {
+    RTIDDS_EventConsumer_T.cpp
+    RTIDDS_Publisher_T.cpp
+    RTIDDS_Publisher_Table_T.cpp
+    RTIDDS_Servant_T.cpp
+  }
+
+  Header_Files {
+    RTIDDS_EventConsumer.h
+    RTIDDS_Publisher.h
+    RTIDDS_Publisher_Table.h
+  }
+
+  IDL_Files {
+
+  }
+}
