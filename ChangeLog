@@ -1,3 +1,78 @@
+Sat Feb 25 21:31:25 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/cuts_rtidds.mpb:
+        * MPC/config/cuts_rtidds_ccm.mpb:
+        * MPC/config/cuts_rtidds_ccm_skel.mpb:
+        * MPC/config/cuts_rtidds_ccm_stub.mpb:
+        * MPC/config/cuts_rtidds_corba_compatibility.mpb:
+        * cuts/arch/rtidds:
+        * cuts/arch/rtidds/RTIDDS.mpc:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.h:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.inl:
+        * cuts/arch/rtidds/RTIDDS_Endpoint.cpp:
+        * cuts/arch/rtidds/RTIDDS_ListenerBase.h:
+        * cuts/arch/rtidds/RTIDDS_ListenerBase.cpp:
+        * cuts/arch/rtidds/RTIDDS_Servant.h:
+        * cuts/arch/rtidds/RTIDDS_Servant.inl:
+        * cuts/arch/rtidds/RTIDDS_Servant.cpp:
+        * cuts/arch/rtidds/RTIDDS_Traits_T.h:
+        * cuts/arch/rtidds/RTIDDS_export.h:
+        * cuts/arch/rtidds/ccm:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM.mpc:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_Servant_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_skel_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_CCM_stub_export.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_EventConsumer_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Event_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Event_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Event_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Events.idl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_T.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table.cpp:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T.h:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T.inl:
+        * cuts/arch/rtidds/ccm/RTIDDS_Publisher_Table_T.cpp:
+        * cuts/arch/rtidds/handlers:
+        * cuts/arch/rtidds/handlers/RTIDDS_Configurator.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Configurator.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container.inl:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container_Strategy.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container_Strategy.inl:
+        * cuts/arch/rtidds/handlers/RTIDDS_Container_Strategy.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Deployment_Handlers_export.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Domain_File.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Domain_File.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.inl:
+        * cuts/arch/rtidds/handlers/RTIDDS_Instance_Handler.cpp:
+        * cuts/arch/rtidds/handlers/RTIDDS_Participant_File.h:
+        * cuts/arch/rtidds/handlers/RTIDDS_Participant_File.cpp:
+        * cuts/arch/rtidds/handlers/dds.h:
+        * cuts/arch/rtidds/handlers/dds.inl:
+        * cuts/arch/rtidds/handlers/dds.cpp:
+        * cuts/arch/rtidds/handlers/handlers.mpc:
+
+          Removed these files.
+
 Sat Feb 25 21:27:22 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/rtidds:

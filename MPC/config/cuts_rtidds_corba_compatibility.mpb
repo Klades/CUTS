@@ -1,6 +1,0 @@
-// $Id$
-
-project : ndds_ts_defaults {
-  ndds_ts_flags -= $(PLATFORM_NDDS_FLAGS)
-  ndds_ts_flags += -I $(TAO_ROOT) -I $(CIAO_ROOT) -I $(CIAO_ROOT)/ccm
-}

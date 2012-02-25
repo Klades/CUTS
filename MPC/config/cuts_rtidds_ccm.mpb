@@ -1,6 +1,0 @@
-// $Id$
-
-project : cuts_rtidds_ccm_skel, cuts_ccm {
-  libs  += CUTS_RTIDDS_CCM
-  after += CUTS_RTIDDS_CCM
-}
