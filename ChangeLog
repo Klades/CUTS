@@ -1,3 +1,13 @@
+Sat Feb 25 22:41:09 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc.disable:
+
+          Disabled building CHAOS.
+
+        * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:
+
+          Removed this file.
+
 Sat Feb 25 22:12:36 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.h:
