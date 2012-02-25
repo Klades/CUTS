@@ -1,3 +1,27 @@
+Sat Feb 25 22:12:36 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.h:
+
+          Fixed header declarations.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/BE_RTIDDS.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.cpp:
+
+          Updated to iCCM implementation.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Context_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Event_Traits_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Event_Traits_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Stub_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Stub_Generator.cpp:
+
+          Removed these files.
+
 Sat Feb 25 21:37:04 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/chaos/ccm/CHAOS_CCM.mpc:

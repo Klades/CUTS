@@ -7,11 +7,9 @@ project (CUTS_BE_RTIDDS) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
 
   Source_Files {
-    Event_Traits_Generator.cpp
     Generators.cpp
     Manager.cpp
     Preprocessor_Handlers.cpp
-    Stub_Generator.cpp
     Traits.cpp
   }
 

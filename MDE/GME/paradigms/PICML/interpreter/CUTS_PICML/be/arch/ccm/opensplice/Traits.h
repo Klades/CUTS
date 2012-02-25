@@ -14,9 +14,9 @@
 #define _CUTS_BE_CCM_OPENSPLICE_TRAITS_H_
 
 #include "../Traits.h"
-#include "BE_OpenSplice_export.h"
-
 #include <set>
+
+#include "BE_OpenSplice_export.h"
 
 namespace CUTS_BE_OpenSplice
 {

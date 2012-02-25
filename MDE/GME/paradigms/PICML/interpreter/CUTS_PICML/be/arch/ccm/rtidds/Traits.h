@@ -13,11 +13,10 @@
 #ifndef _CUTS_BE_CCM_RTIDDS_TRAITS_H_
 #define _CUTS_BE_CCM_RTIDDS_TRAITS_H_
 
-#include <string>
 #include "../Traits.h"
+#include <set>
 
 #include "BE_RTIDDS_export.h"
-
 
 namespace CUTS_BE_RTIDDS
 {
@@ -39,7 +38,7 @@ public:
   virtual bool generate_default_servant (void);
 
   virtual const char * stub_base_project (void);
-
+  virtual const char * skel_base_project (void);
   virtual const char * svnt_base_project (void);
 
   virtual void write_top (std::ostream &, const CUTS_BE_IDL_Node & );
@@ -47,24 +46,11 @@ public:
   virtual void write_stub_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
 
   virtual void write_stub_after (std::ostream &, const CUTS_BE_IDL_Node &);
+  virtual void write_exec_idl_files (std::ostream & proj, const CUTS_BE_IDL_Node & node);
+  virtual void write_exec_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
 
-  virtual const char * custom_stub_prefix (void);
-
-  /// Get the name of the CCM context template object.
-  virtual const char * ccm_servant_template_type (void);
-  virtual const char * ccm_servant_template_type_header (void);
-
-  /// Get the name of the CCM event consumer template object.
-  virtual const char * ccm_eventconsumer_template_type (void);
-  virtual const char * ccm_eventconsumer_template_type_header (void);
-
-  /// Get the name of the CCM publisher template object.
-  virtual const char * ccm_publisher_template_type (void);
-  virtual const char * ccm_publisher_template_type_header (void);
-
-  /// Get the name of the CCM publisher table template object.
-  virtual const char * ccm_publisher_table_template_type (void);
-  virtual const char * ccm_publisher_table_template_type_header (void);
+private:
+  std::set <std::string> stub_after_;
 };
 
 }

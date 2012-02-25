@@ -19,21 +19,4 @@
 #include "../Workspace_Generator.h"
 #include "../../../lang/cpp/Behavior_Generator.h"
 
-/**
- * @class CUTS_BE_Finalize_T
- */
-template < >
-class CUTS_BE_Finalize_T <CUTS_BE_RTIDDS::Context> :
-  public CUTS_BE_Visitor_T <CUTS_BE_RTIDDS::Context, PICML::Visitor>
-{
-public:
-  typedef CUTS_BE_Visitor_T <CUTS_BE_RTIDDS::Context, PICML::Visitor> visitor_type;
-
-  CUTS_BE_Finalize_T (CUTS_BE_RTIDDS::Context & context);
-
-  virtual ~CUTS_BE_Finalize_T (void);
-
-  void generate (const PICML::RootFolder & folder);
-};
-
 #endif  // !defined _CUTS_RTIDDS_GENERATORS_H_
