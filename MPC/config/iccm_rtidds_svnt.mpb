@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_rtidds_skel, iccm_dds_svnt, iccm_servant {
+  libs  += iCCM_RTIDDS_svnt
+  after += iCCM_RTIDDS_svnt
+}

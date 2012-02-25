@@ -1,0 +1,6 @@
+// $Id$
+
+project : nddslib, ccm_stub, requires_rtidds {
+  libs  += iCCM_RTIDDS_stub
+  after += iCCM_RTIDDS_stub
+}
