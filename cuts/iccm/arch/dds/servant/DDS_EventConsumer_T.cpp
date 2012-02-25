@@ -20,24 +20,18 @@ configure (subscriber_ptr_type subscriber,
   // us allocating a type support object from the event. Then, we are
   // going to use the type support to get the actual type name. Finally,
   // we are going to register to type with the publisher's participant.
-  typename event_traits_type::dds_typesupport_var_type type_support;
-
-  ACE_NEW_THROW_EX (type_support,
-                    typename event_traits_type::dds_typesupport_type (),
-                    ::CORBA::NO_MEMORY ());
-
   typedef typename T::domainparticipant_var_type domainparticipant_var_type;
   typedef typename T::returncode_type returncode_type;
+  typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
 
-  const char * type_name = type_support->get_type_name ();
+  ACE_CString type_name;
   domainparticipant_var_type participant = subscriber->get_participant ();
-  returncode_type status = type_support->register_type (participant, type_name);
+  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
 
   if (0 != status)
   {
     ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to register type %s [retcode=%d]\n"),
-                type_name,
+                ACE_TEXT ("%T (%t) - %M - failed to register type [retcode=%d]\n"),
                 status));
 
     throw ::CORBA::INTERNAL ();
@@ -60,23 +54,18 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
   // Now, we need to create a topic object for this type name. We have
   // already registered the type with the participant. Now, we need to
   // combine the type name with the topic name to create the topic.
-  typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
-  typename event_traits_type::dds_typesupport_var_type type_support;
-
-  ACE_NEW_THROW_EX (type_support,
-                    dds_typesupport_type (),
-                    ::CORBA::NO_MEMORY ());
-
   typedef typename T::domainparticipant_var_type domainparticipant_var_type;
   typedef typename T::returncode_type returncode_type;
+  typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
   typedef typename T::topic_var_type topic_var_type;
 
+  ACE_CString type_name;
   domainparticipant_var_type participant = this->subscriber_->get_participant ();
-  const char * type_name = type_support->get_type_name ();
+  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
 
   topic_var_type topic =
     participant->create_topic (topic_name,
-                               type_name,
+                               type_name.c_str (),
                                *this->topic_qos_,
                                0, /*::DDS::TopicListener::_nil ()*/
                                T::ANY_STATUS);
@@ -93,7 +82,7 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
     // reference count. This will prevent us from accidently deleting
     // the object when we remove a topic, but there are still connections
     // associated with the topic.
-    listener->_add_ref ();
+    T::_add_ref (listener);
   }
   else
   {

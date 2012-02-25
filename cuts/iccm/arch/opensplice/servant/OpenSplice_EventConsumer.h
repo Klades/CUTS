@@ -15,9 +15,4 @@
 
 #include "OpenSplice.h"
 
-namespace iCCM
-{
-
-}
-
 #endif  // !defined _ICCM_OPENSPLICE_EVENTCONSUMER_H_

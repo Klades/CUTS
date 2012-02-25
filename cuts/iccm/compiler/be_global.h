@@ -91,6 +91,8 @@ public:
   const ACE_CString & get_event_mapping_source_filename (void) const;
 
   // BEGIN: ARCHITECTURE SPECIFIC VALUES.
+  virtual const ACE_CString & get_stub_file_prefix (void) const = 0;
+
   virtual const ACE_CString & get_context_template_header_filename (void) const = 0;
   virtual const ACE_CString & get_servant_template_header_filename (void) const = 0;
 

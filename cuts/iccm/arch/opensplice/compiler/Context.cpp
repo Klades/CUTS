@@ -57,6 +57,15 @@ void Context::post_produce (void)
 }
 
 //
+// get_stub_file_prefix
+//
+const ACE_CString & Context::get_stub_file_prefix (void) const
+{
+  static const ACE_CString value ("OpenSplice_");
+  return value;
+}
+
+//
 // get_context_template_header_filename
 //
 const ACE_CString & Context::

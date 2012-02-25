@@ -13,7 +13,6 @@
 #ifndef _ICCM_OPENSPLICE_PUBLISHER_TABLE_H_
 #define _ICCM_OPENSPLICE_PUBLISHER_TABLE_H_
 
-#include "cuts/iccm/arch/dds/servant/DDS_Publisher_Table.h"
 #include "OpenSplice.h"
 
 #endif  // !defined _CUTS_OPENSPLICE_CCM_PUBLISHER_TABLE_H_

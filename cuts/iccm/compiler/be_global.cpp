@@ -230,7 +230,7 @@ const ACE_CString & BE_GlobalData::get_stub_header_filename (void) const
   if (!this->stub_header_filename_.empty ())
     return this->stub_header_filename_;
 
-  this->stub_header_filename_ = "OpenSplice_" + this->get_source_basename () + "C.h";
+  this->stub_header_filename_ = this->get_stub_file_prefix () + this->get_source_basename () + "C.h";
   return this->stub_header_filename_;
 }
 
@@ -242,7 +242,7 @@ const ACE_CString & BE_GlobalData::get_stub_source_filename (void) const
   if (!this->stub_source_filename_.empty ())
     return this->stub_source_filename_;
 
-  this->stub_source_filename_ = "OpenSplice_" + this->get_source_basename () + "C.cpp";
+  this->stub_source_filename_ = this->get_stub_file_prefix () + this->get_source_basename () + "C.cpp";
   return this->stub_source_filename_;
 }
 
@@ -280,7 +280,7 @@ get_event_mapping_header_filename (void) const
     return this->event_mapping_header_filename_;
 
   this->event_mapping_header_filename_ =
-    "OpenSplice_" + this->get_source_basename () + "C.h";
+    this->get_stub_file_prefix () + this->get_source_basename () + "C.h";
 
   return this->event_mapping_header_filename_;
 }
@@ -295,7 +295,7 @@ get_event_mapping_source_filename (void) const
     return this->event_mapping_source_filename_;
 
   this->event_mapping_source_filename_ =
-    "OpenSplice_" + this->get_source_basename () + "C.cpp";
+    this->get_stub_file_prefix () + this->get_source_basename () + "C.cpp";
 
   return this->event_mapping_source_filename_;
 

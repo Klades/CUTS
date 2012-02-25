@@ -24,12 +24,12 @@ OpenSplice_Servant::~OpenSplice_Servant (void)
 }
 
 //
-// ~OpenSplice_Servant
+// configure
 //
 CUTS_INLINE
 void OpenSplice_Servant::configure (void)
 {
-
+  DDS_Servant::configure ();
 }
 
 }

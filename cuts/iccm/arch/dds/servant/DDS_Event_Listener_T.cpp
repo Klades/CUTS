@@ -30,7 +30,7 @@ DDS_Event_Listener_T <T, SERVANT, EVENT>::~DDS_Event_Listener_T (void)
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_requested_deadline_missed (::DDS::DataReader_ptr, const ::DDS::RequestedDeadlineMissedStatus &)
+on_requested_deadline_missed (datareader_ptr_type, const typename T::requesteddeadlinemissedstatus_type &)
 {
 }
 
@@ -40,7 +40,7 @@ on_requested_deadline_missed (::DDS::DataReader_ptr, const ::DDS::RequestedDeadl
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_requested_incompatible_qos (::DDS::DataReader_ptr, const ::DDS::RequestedIncompatibleQosStatus &)
+on_requested_incompatible_qos (datareader_ptr_type, const typename T::requestedincompatibleqosstatus_type &)
 {
 }
 
@@ -50,7 +50,7 @@ on_requested_incompatible_qos (::DDS::DataReader_ptr, const ::DDS::RequestedInco
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_sample_rejected (::DDS::DataReader_ptr, const ::DDS::SampleRejectedStatus &)
+on_sample_rejected (datareader_ptr_type, const typename T::samplerejectedstatus_type &)
 {
 }
 
@@ -60,7 +60,7 @@ on_sample_rejected (::DDS::DataReader_ptr, const ::DDS::SampleRejectedStatus &)
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_liveliness_changed (::DDS::DataReader_ptr, const ::DDS::LivelinessChangedStatus &)
+on_liveliness_changed (datareader_ptr_type, const typename T::livelinesschangedstatus_type &)
 {
 }
 
@@ -69,7 +69,7 @@ on_liveliness_changed (::DDS::DataReader_ptr, const ::DDS::LivelinessChangedStat
 //
 template <typename T, typename SERVANT, typename EVENT>
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_data_available (::DDS::DataReader_ptr data_reader)
+on_data_available (datareader_ptr_type data_reader)
 {
   typename event_traits_type::dds_event_sequence_type event_seq;
   typedef typename T::sampleinfoseq_type sampleinfoseq_type;
@@ -126,7 +126,7 @@ on_data_available (::DDS::DataReader_ptr data_reader)
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_subscription_matched (::DDS::DataReader_ptr, const ::DDS::SubscriptionMatchedStatus &)
+on_subscription_matched (datareader_ptr_type, const typename T::subscriptionmatchedstatus_type &)
 {
 }
 
@@ -136,7 +136,7 @@ on_subscription_matched (::DDS::DataReader_ptr, const ::DDS::SubscriptionMatched
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
-on_sample_lost (::DDS::DataReader_ptr, const ::DDS::SampleLostStatus &)
+on_sample_lost (datareader_ptr_type, const typename T::sampleloststatus_type &)
 {
 }
 

@@ -52,6 +52,7 @@ public:
   virtual void post_produce (void);
 
   // BEGIN: ARCHITECTURE SPECIFIC VALUES.
+  virtual const ACE_CString & get_stub_file_prefix (void) const;
   virtual const ACE_CString & get_context_template_header_filename (void) const;
   virtual const ACE_CString & get_servant_template_header_filename (void) const;
 

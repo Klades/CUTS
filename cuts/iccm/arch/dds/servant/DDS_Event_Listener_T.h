@@ -46,31 +46,37 @@ class DDS_Event_Listener_T :
   virtual ~DDS_Event_Listener_T (void);
 
   virtual void
-    on_requested_deadline_missed (::DDS::DataReader_ptr reader,
-          const ::DDS::RequestedDeadlineMissedStatus & status);
+    on_requested_deadline_missed (
+      datareader_ptr_type reader,
+      const typename T::requesteddeadlinemissedstatus_type & status);
 
   virtual void
-    on_requested_incompatible_qos (::DDS::DataReader_ptr reader,
-           const ::DDS::RequestedIncompatibleQosStatus & status);
+    on_requested_incompatible_qos (
+      datareader_ptr_type reader,
+      const typename T::requestedincompatibleqosstatus_type & status);
 
   virtual void
-    on_sample_rejected (::DDS::DataReader_ptr reader,
-      const ::DDS::SampleRejectedStatus & status);
+    on_sample_rejected (
+      datareader_ptr_type reader,
+      const typename T::samplerejectedstatus_type & status);
 
   virtual void
-    on_liveliness_changed (::DDS::DataReader_ptr reader,
-         const ::DDS::LivelinessChangedStatus & status);
+    on_liveliness_changed (
+      datareader_ptr_type reader,
+      const typename T::livelinesschangedstatus_type & status);
 
   virtual void
-    on_data_available (::DDS::DataReader_ptr reader);
+    on_data_available (datareader_ptr_type reader);
 
   virtual void
-    on_subscription_matched (::DDS::DataReader_ptr reader,
-           const ::DDS::SubscriptionMatchedStatus & status);
+    on_subscription_matched (
+      datareader_ptr_type reader,
+      const typename T::subscriptionmatchedstatus_type & status);
 
   virtual void
-    on_sample_lost (::DDS::DataReader_ptr reader,
-        const ::DDS::SampleLostStatus & status);
+    on_sample_lost (
+      datareader_ptr_type reader,
+      const typename T::sampleloststatus_type & status);
 
 private:
   /// Servant that receives the event.

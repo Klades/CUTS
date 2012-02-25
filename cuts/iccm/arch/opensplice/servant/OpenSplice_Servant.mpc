@@ -7,7 +7,8 @@ project (iCCM_OpenSplice_stub) : requires_opensplice, iccm_dds_stub, cutslib {
   idlflags += -Wb,stub_export_macro=ICCM_OPENSPLICE_STUB_Export \
               -Wb,stub_export_include=OpenSplice_stub_export.h \
               -Wb,skel_export_macro=ICCM_OPENSPLICE_SKEL_Export \
-              -Wb,skel_export_include=OpenSplice_skel_export.h
+              -Wb,skel_export_include=OpenSplice_skel_export.h \
+              -Gxhst -Gxhsk -Gxhsv
 
   IDL_Files {
     OpenSplice_Events.idl

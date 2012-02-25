@@ -120,14 +120,20 @@ public:
   typedef ::DDS::ReturnCode_t returncode_type;
   typedef ::DDS::InstanceHandle_t instancehandle_type;
 
+  typedef ::DDS::RequestedDeadlineMissedStatus requesteddeadlinemissedstatus_type;
+  typedef ::DDS::RequestedIncompatibleQosStatus requestedincompatibleqosstatus_type;
+  typedef ::DDS::SampleRejectedStatus samplerejectedstatus_type;
+  typedef ::DDS::LivelinessChangedStatus livelinesschangedstatus_type;
+  typedef ::DDS::SubscriptionMatchedStatus subscriptionmatchedstatus_type;
+  typedef ::DDS::SampleLostStatus sampleloststatus_type;
+
   static const unsigned long ANY_STATUS = ::DDS::ANY_STATUS;
   static const unsigned long ANY_SAMPLE_STATE = ::DDS::ANY_SAMPLE_STATE;
   static const unsigned long ANY_VIEW_STATE = ::DDS::ANY_VIEW_STATE;
   static const unsigned long ANY_INSTANCE_STATE = ::DDS::ANY_INSTANCE_STATE;
 
-  static const unsigned long HANDLE_NIL = ::DDS::HANDLE_NIL;
-
-  static const unsigned long RETCODE_OK = ::DDS::RETCODE_OK;
+  static const instancehandle_type HANDLE_NIL = ::DDS::HANDLE_NIL;
+  static const returncode_type RETCODE_OK = ::DDS::RETCODE_OK;
 
   static domainparticipantfactory_ptr_type get_domainparticipantfactory_instance (void);
 
@@ -137,6 +143,20 @@ public:
   static const publisherqos_type & publisher_qos_default (void);
   static const datawriterqos_type & datawriter_qos_default (void);
   static const datareaderqos_type & datareader_qos_default (void);
+
+  template <typename TYPE_SUPPORT>
+  static returncode_type register_type (domainparticipant_ptr_type p, ACE_CString & type_name)
+  {
+    TYPE_SUPPORT * type_support = 0;
+
+    ACE_NEW_THROW_EX (type_support,
+                      TYPE_SUPPORT (),
+                      ::CORBA::NO_MEMORY ());
+
+    ACE_Auto_Ptr <TYPE_SUPPORT> auto_clean (type_support);
+    type_name = type_support->get_type_name ();
+    return type_support->register_type (p, type_name.c_str ());
+  }
 
   template <typename T>
   static bool _is_nil (T val)
@@ -148,6 +168,12 @@ public:
   static bool _is_nil (T * val)
   {
     return ::CORBA::is_nil (val);
+  }
+
+  template <typename T>
+  static void _add_ref (T val)
+  {
+    val->_add_ref ();
   }
 
   template <typename T>

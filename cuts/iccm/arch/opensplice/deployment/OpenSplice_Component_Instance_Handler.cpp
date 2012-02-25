@@ -6,9 +6,6 @@
 #include "OpenSplice_Component_Instance_Handler.inl"
 #endif
 
-#include "cuts/iccm/ddsxml/DDS_Domain_File.h"
-#include "XSC/utils/XML_Error_Handler.h"
-
 #include "ccpp_dds_dcps.h"
 
 //

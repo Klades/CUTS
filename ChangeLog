@@ -1,3 +1,38 @@
+Sat Feb 25 21:18:36 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * bin/handlers/rtidds.locality.config:
+
+          New configuration file for RTI-DDS.
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/opensplice/deployment/OpenSplice_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Publisher_Table.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.mpc:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_skel_export.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_stub_export.h:
+
+          Further replace OpenSplice specific constructs with generic
+          constructs that can be specialized by different implementations
+          of DDS.
+
+        * cuts/iccm/arch/opensplice/compiler/Context.h:
+        * cuts/iccm/arch/opensplice/compiler/Context.cpp:
+        * cuts/iccm/compiler/be_global.h:
+        * cuts/iccm/compiler/be_global.cpp:
+
+          Removed OpenSplice specific strings from compiler and
+          replaced them with a virtual method that each architecture
+          must implement.
+
 Fri Feb 24 00:51:10 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/iccm/HelloWorld/opensplice:

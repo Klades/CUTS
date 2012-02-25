@@ -20,25 +20,19 @@ configure (publisher_ptr_type publisher,
   // us allocating a type support object from the event. Then, we are
   // going to use the type support to get the actual type name. Finally,
   // we are going to register to type with the publisher's participant.
-  typename event_traits_type::dds_typesupport_var_type type_support;
-
-  ACE_NEW_THROW_EX (type_support,
-                    typename event_traits_type::dds_typesupport_type (),
-                    ::CORBA::NO_MEMORY ());
-
   typedef typename T::domainparticipant_var_type domainparticipant_var_type;
   typedef typename T::returncode_type returncode_type;
+  typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
   typedef typename T::topic_var_type topic_var_type;
 
+  ACE_CString type_name;
   domainparticipant_var_type participant = publisher->get_participant ();
-  const char * type_name = type_support->get_type_name ();
-  returncode_type status = type_support->register_type (participant, type_name);
+  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
 
   if (status != 0)
   {
     ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to register type %s [retcode=%d]\n"),
-                type_name,
+                ACE_TEXT ("%T (%t) - %M - failed to register type [status=%d]\n"),
                 status));
 
     throw ::CORBA::INTERNAL ();
@@ -51,7 +45,7 @@ configure (publisher_ptr_type publisher,
   // type we just registered and the provided topic name.
   topic_var_type topic =
     participant->create_topic (normalized.c_str (),
-                               type_name,
+                               type_name.c_str (),
                                topic_qos,
                                0, /* ::DDS::TopicListener::_nil () */
                                T::ANY_STATUS);
