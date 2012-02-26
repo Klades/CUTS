@@ -31,7 +31,7 @@ project (CUTS_Setaf_Common) : boost_base, codegenerationkit, cutslib, acelib, cu
   }
 }
 
-project (CUTS_Setaf_Exe) : codegenerationkit, boost_base, cutsexe {
+project (CUTS_Setaf_Exe) : codegenerationkit, boost_base, cutsexe, cuts_unite {
   exename = cuts-setaf
   after += CUTS_Setaf_Common
   libs += CUTS_Setaf_Common

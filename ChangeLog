@@ -1,3 +1,9 @@
+Sun Feb 26 21:51:01 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/setaf/setaf.mpc:
+
+          Fixed a linker error in Linux due to the previous commit.
+
 Sun Feb 26 21:23:06 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/setaf/Setaf_Format.inl:
