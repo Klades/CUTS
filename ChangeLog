@@ -1,3 +1,99 @@
+Sun Feb 26 20:36:28 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/Dataflow_Graph.h:
+        * cuts/unite/Dataflow_Graph.cpp:
+        * cuts/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/unite/Log_Format.cpp:
+        * cuts/unite/Log_Format_Adapter.h:
+        * cuts/unite/Log_Format_Adapter.cpp:
+        * cuts/unite/Variable.h:
+        * cuts/unite/Variable_T.cpp:
+        * cuts/unite/cuts-unite.h:
+        * cuts/unite/cuts-unite.inl:
+        * cuts/unite/cuts-unite.cpp:
+        * cuts/unite/setaf/Cpp.cpp:
+        * cuts/unite/setaf/Setaf.cpp:
+        * cuts/unite/setaf/Setaf_Add_Command.cpp:
+        * cuts/unite/setaf/Setaf_App.cpp:
+        * cuts/unite/setaf/Setaf_Assignment_Command.cpp:
+        * cuts/unite/setaf/Setaf_Code_Generator.h:
+        * cuts/unite/setaf/Setaf_Code_Generator.inl:
+        * cuts/unite/setaf/Setaf_Command.h:
+        * cuts/unite/setaf/Setaf_Command.cpp:
+        * cuts/unite/setaf/Setaf_Format.h:
+        * cuts/unite/setaf/Setaf_Format.inl:
+        * cuts/unite/setaf/Setaf_Format.cpp:
+        * cuts/unite/setaf/Setaf_Increment_Command.cpp:
+        * cuts/unite/setaf/Setaf_Integer_Variable.cpp:
+        * cuts/unite/setaf/Setaf_Interpreter.h:
+        * cuts/unite/setaf/Setaf_Interpreter.cpp:
+        * cuts/unite/setaf/Setaf_Lang_Compiler.h:
+        * cuts/unite/setaf/Setaf_Lang_Compiler.cpp:
+        * cuts/unite/setaf/Setaf_Parser.h:
+        * cuts/unite/setaf/Setaf_Parser.cpp:
+        * cuts/unite/setaf/Setaf_String_Variable.cpp:
+        * cuts/unite/setaf/Setaf_Unite_Variable.cpp:
+        * cuts/unite/setaf/Setaf_Utils.h:
+        * cuts/unite/setaf/Setaf_Variable.h:
+        * cuts/unite/setaf/Setaf_Variable.cpp:
+        * cuts/unite/setaf/Setaf_export.h:
+        * cuts/unite/setaf/setaf.mpc:
+        * cuts/unite/unite.mpc:
+        * etc/schemas/cuts-unite.xsd:
+
+          Chnages realted to the Interpreter version of SETAF.
+
+        * examples/cuts/unite/adapter/ActiveMQ/compiler:
+        * examples/cuts/unite/adapter/ActiveMQ/compiler/Activemq.datagraph:
+        * examples/cuts/unite/adapter/ActiveMQ/compiler/Activemq.unite:
+        * examples/cuts/unite/adapter/ActiveMQ/compiler/Activemq_Adapter.uas:
+        * examples/cuts/unite/adapter/ActiveMQ/interpreter:
+        * examples/cuts/unite/adapter/ActiveMQ/interpreter/Activemq.datagraph:
+        * examples/cuts/unite/adapter/ActiveMQ/interpreter/Activemq.unite:
+        * examples/cuts/unite/adapter/ActiveMQ/interpreter/Activemq_Adapter.uas:
+        * examples/cuts/unite/adapter/Ant/compiler:
+        * examples/cuts/unite/adapter/Ant/compiler/Ant.datagraph:
+        * examples/cuts/unite/adapter/Ant/compiler/Ant.unite:
+        * examples/cuts/unite/adapter/Ant/compiler/Ant_Adapter.uas:
+        * examples/cuts/unite/adapter/Ant/interpreter:
+        * examples/cuts/unite/adapter/Ant/interpreter/Ant.datagraph:
+        * examples/cuts/unite/adapter/Ant/interpreter/Ant.unite:
+        * examples/cuts/unite/adapter/Ant/interpreter/Ant_Adapter.uas:
+        * examples/cuts/unite/adapter/DAnCE/compiler:
+        * examples/cuts/unite/adapter/DAnCE/compiler/DAnCE.datagraph:
+        * examples/cuts/unite/adapter/DAnCE/compiler/DAnCE.unite:
+        * examples/cuts/unite/adapter/DAnCE/compiler/DAnCE_Adapter.uas:
+        * examples/cuts/unite/adapter/DAnCE/interpreter:
+        * examples/cuts/unite/adapter/DAnCE/interpreter/DAnCE.datagraph:
+        * examples/cuts/unite/adapter/DAnCE/interpreter/DAnCE.unite:
+        * examples/cuts/unite/adapter/DAnCE/interpreter/DAnCE_Adapter.uas:
+        * examples/cuts/unite/adapter/Tomcat/compiler:
+        * examples/cuts/unite/adapter/Tomcat/compiler/Tomcat.datagraph:
+        * examples/cuts/unite/adapter/Tomcat/compiler/Tomcat.unite:
+        * examples/cuts/unite/adapter/Tomcat/compiler/Tomcat_Adapter.uas:
+        * examples/cuts/unite/adapter/Tomcat/interpreter:
+        * examples/cuts/unite/adapter/Tomcat/interpreter/Tomcat.datagraph:
+        * examples/cuts/unite/adapter/Tomcat/interpreter/Tomcat.unite:
+        * examples/cuts/unite/adapter/Tomcat/interpreter/Tomcat_Adapter.uas:
+
+          Chnaged the examples/cuts/unite/adapter folder structure and added
+          interpreter examples.
+
+        * examples/cuts/unite/adapter/ActiveMQ/Activemq.datagraph:
+        * examples/cuts/unite/adapter/ActiveMQ/Activemq.unite:
+        * examples/cuts/unite/adapter/ActiveMQ/Activemq_Adapter.uas:
+        * examples/cuts/unite/adapter/Ant/Ant.datagraph:
+        * examples/cuts/unite/adapter/Ant/Ant.unite:
+        * examples/cuts/unite/adapter/Ant/Ant_Adapter.uas:
+        * examples/cuts/unite/adapter/DAnCE/DAnCE.datagraph:
+        * examples/cuts/unite/adapter/DAnCE/DAnCE.unite:
+        * examples/cuts/unite/adapter/DAnCE/DAnCE_Adapter.uas:
+        * examples/cuts/unite/adapter/Tomcat/Tomcat.datagraph:
+        * examples/cuts/unite/adapter/Tomcat/Tomcat.unite:
+        * examples/cuts/unite/adapter/Tomcat/Tomcat_Adapter.uas:
+
+          Removed these files.
+
 Sat Feb 25 22:41:09 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/chaos/ccm/CHAOS_CCM.mpc.disable:

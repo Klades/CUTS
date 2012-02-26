@@ -1,0 +1,59 @@
+Variables:
+  int lf12_count_;
+  int lf13_count_;
+  string plan_id_;
+
+Init:
+  lf12_count_ = 0;
+  lf13_count_ = 0;
+  
+Reset:
+  lf12_count_ = 0;
+  lf13_count_ = 0;
+  
+DataPoints: 
+  string LF1.planid;
+  string LF2.planid; 
+  string LF5.planid; 
+  string LF6.planid; 
+  string LF9.planid; 
+  string LF11.planid; 
+  int LF12.nodeid;
+  int LF13.nodeid;
+  
+Relations: 
+  LF1.planid->LF2.planid;
+  LF5.planid->LF6.planid;
+  LF6.planid->LF7.planid;
+  LF8.planid->LF9.planid;
+  LF9.planid->LF10.planid;
+  LF10.planid->LF11.planid;
+  LF11.planid->LF12.planid;
+  LF12.nodeid->LF13.nodeid;
+  
+On LF1:
+  [planid] = plan_id_;
+		
+On LF2:
+  [planid] = plan_id_;
+
+On LF5:
+  [planid] = plan_id_;
+
+On LF6:
+  [planid] = plan_id_;
+
+On LF9:
+  [planid] = plan_id_;
+
+On LF11:
+  [planid] = plan_id_;
+  
+On LF12:
+  [nodeid] = lf12_count_;
+  lf12_count_ = lf12_count_ + 1;
+  plan_id_ = [planid];
+
+On LF13:
+  [nodeid] = lf13_count_;
+  lf13_count_ = lf13_count_ + 1;

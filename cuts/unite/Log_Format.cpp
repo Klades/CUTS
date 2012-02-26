@@ -105,6 +105,7 @@ bool CUTS_Log_Format::match (const ACE_CString & message,
                             this->captures_.get (),
                             this->captures_size_);
 
+
   if (retval > 1)
   {
 

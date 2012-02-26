@@ -52,3 +52,10 @@ value ()
   char * val = 0;
   return val;
 }
+
+template <typename T>
+T CUTS_Basic_Log_Format_Variable_T <T>::
+get_real_value (void)
+{
+  return this->value_;
+}

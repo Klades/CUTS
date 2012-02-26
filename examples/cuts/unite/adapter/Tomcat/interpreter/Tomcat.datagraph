@@ -5,7 +5,7 @@
             xsi:schemaLocation="http://www.cs.iupui.edu/CUTS/XML cuts-unite.xsd">
 
   <name>Tomcat</name>
-  <adapter>C:\research\cuts\CUTS\examples\cuts\utils\unite\adapter\Tomcat\Tomcat_Adapterd.dll</adapter>
+  <interpreter>Tomcat_Adapter.uas</interpreter>
 
   <logformats>
     <logformat id="LF1">

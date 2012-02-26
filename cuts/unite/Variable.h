@@ -214,10 +214,13 @@ public:
 
   virtual void value (char * val);
 
-  virtual char * value ();
+  virtual char * value (void);
 
   /// Set the value of the variable straightaway using the type
   void value (T val);
+
+  /// Get the value of the variable
+  T get_real_value (void);
 
 private:
   /// Value of the variable in the variable's type

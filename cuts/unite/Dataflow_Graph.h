@@ -134,6 +134,7 @@ public:
   /// Set a log format adapter object
   void adapter (CUTS_Log_Format_Adapter * adapter);
 
+
 private:
   void normalize_name (void);
 

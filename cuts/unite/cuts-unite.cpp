@@ -326,6 +326,12 @@ namespace CUTS
           adapter (t);
         }
 
+        else if (n == ACE_TEXT("interpreter"))
+        {
+          ::XMLSchema::string< char > t (e);
+          interpreter (t);
+        }
+
         else if (n == ACE_TEXT("logformats"))
         {
           ::CUTS::XML::logformatList t (e);

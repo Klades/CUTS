@@ -1,3 +1,5 @@
+// $Id:
+
 #include "Setaf_Format.h"
 
 #if !defined (__CUTS_INLINE__)
@@ -8,7 +10,8 @@
 //
 // process_format_string
 //
-void CUTS_Setaf_Log_Format::process_format_string (std::string & format_string)
+void CUTS_Setaf_Log_Format::
+process_format_string (std::string & format_string)
 {
   // Process the datapoints in the log format and
   // populate the object
@@ -21,8 +24,9 @@ void CUTS_Setaf_Log_Format::process_format_string (std::string & format_string)
 //
 // process_relation_strings
 //
-void CUTS_Setaf_Log_Format_Relation::process_relation_strings (std::string & cause_string,
-                                                               std::string & effect_string)
+void CUTS_Setaf_Log_Format_Relation::
+process_relation_strings (std::string & cause_string,
+                          std::string & effect_string)
 {
   // Process the relations string in the specifiaction and
   // populate the object

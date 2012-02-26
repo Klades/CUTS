@@ -1,0 +1,23 @@
+Variables:
+  int id_;
+
+Init: 
+  id_ = 0;
+  
+Reset:
+  id_ = 0;
+  
+DataPoints: 
+  int LF1.uid;
+  int LF2.uid; 
+	
+Relations: 
+  LF1.uid->LF2.uid;
+	
+On LF1:
+  id_ = id_ + 1;
+  [uid] = id_;
+  
+On LF2:
+  id_ = id_ + 1;
+  [uid] = id_;

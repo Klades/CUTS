@@ -1,5 +1,5 @@
 Variables:
-	int id_;
+  int id_;
 
 Init: 
   id_ = 0;

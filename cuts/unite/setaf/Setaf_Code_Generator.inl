@@ -1,3 +1,5 @@
+// $Id:
+
 //
 // adapter_name
 //

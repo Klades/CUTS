@@ -5,17 +5,16 @@
             xsi:schemaLocation="http://www.cs.iupui.edu/CUTS/XML cuts-unite.xsd">
 
   <name>executiontime</name>
-  <evaluation>LF2.finishTime - LF1.startTime</evaluation>
+  <evaluation>LF12.t12 - LF1.t1</evaluation>
   <aggregation>AVG</aggregation>
 
-  <datagraph location="C:/research/unite-projects/script-working/script-backup/output/Activemq/Activemq.datagraph" />
+  <datagraph location="Tomcat.datagraph" />
   
-
   <!--grouping can be used to partition the data into sets before
        evaluating the dataset using the specified equation -->
 
   <grouping>
-    <groupitem name="LF1_checkpoint" />
+    <groupitem name="LF1_ServerName" />
   </grouping>
 
   <services>

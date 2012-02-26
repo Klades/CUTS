@@ -5,7 +5,7 @@
             xsi:schemaLocation="http://www.cs.iupui.edu/CUTS/XML cuts-unite.xsd">
 
   <name>Activemq</name>
-  <adapter>C:/research/unite-projects/script-working/script-backup/output/Activemq/Activemq_Adapterd.dll</adapter>
+  <interpreter>Activemq_Adapter.uas</interpreter>
   
   <logformats>
     <logformat id="LF1">

@@ -1,0 +1,61 @@
+Variables:
+	string server_name;
+
+Init:
+	server_name = Tomcat;
+	
+Reset:
+	server_name = Tomcat;
+
+DataPoints: 
+	string LF1.ServerName;
+	string LF2.ServerName;
+	string LF3.ServerName;
+	string LF4.ServerName;
+	string LF5.ServerName;
+	string LF6.ServerName;
+	string LF7.ServerName;
+	string LF8.ServerName;
+	string LF9.ServerName;
+	string LF10.ServerName;
+	string LF11.ServerName;
+	string LF12.ServerName;
+	
+Relations: 
+	LF1.ServerName->LF2.ServerName;
+	LF2.ServerName->LF3.ServerName;
+	LF3.ServerName->LF4.ServerName;
+	LF4.ServerName->LF5.ServerName;
+	LF5.ServerName->LF6.ServerName;
+	LF6.ServerName->LF7.ServerName;
+	LF7.ServerName->LF8.ServerName;
+	LF8.ServerName->LF9.ServerName;
+	LF9.ServerName->LF10.ServerName;
+	LF10.ServerName->LF11.ServerName;
+	LF11.ServerName->LF12.ServerName;
+
+	
+On LF1:
+	[ServerName] = server_name;
+On LF2:
+	[ServerName] = server_name;
+On LF3:
+	[ServerName] = server_name;
+On LF4:
+	[ServerName] = server_name;
+On LF5:
+	[ServerName] = server_name;
+On LF6:
+	[ServerName] = server_name;
+On LF7:
+	[ServerName] = server_name;
+On LF8:
+	[ServerName] = server_name;
+On LF9:
+	[ServerName] = server_name;
+On LF10:
+	[ServerName] = server_name;
+On LF11:
+	[ServerName] = server_name;
+On LF12:
+	[ServerName] = server_name;

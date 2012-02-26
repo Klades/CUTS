@@ -6,7 +6,7 @@
 
 
   <name>Ant</name>
-  <adapter>C:/research/cuts/CUTS/examples/cuts/utils/unite/adapter/Ant/Ant_Adapterd.dll</adapter>
+  <adapter>Ant_Adapterd.dll</adapter>
   <logformats>
     <logformat id="LF1">
       <value>Task "{STRING task}" started. [{STRING startTime}]</value>

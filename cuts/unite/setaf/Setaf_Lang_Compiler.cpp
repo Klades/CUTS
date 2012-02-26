@@ -1,3 +1,4 @@
+// $Id:
 
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
@@ -29,7 +30,7 @@ struct create_setaf_log_format
   {
     // Create a Setaf log format
 
-    CUTS_Setaf_Log_Format *log_format = 0;
+    CUTS_Setaf_Log_Format * log_format = 0;
 
     this->log_format_string_.assign (begin, end);
 
@@ -72,7 +73,7 @@ struct create_setaf_log_format_relation
   template <typename IteratorT>
   void operator () (IteratorT begin, IteratorT end) const
   {
-    CUTS_Setaf_Log_Format_Relation *rel = 0;
+    CUTS_Setaf_Log_Format_Relation * rel = 0;
 
     this->effect_str_.assign (begin, end);
 
@@ -116,7 +117,7 @@ struct create_setaf_log_format_code
   template <typename IteratorT>
   void operator () (IteratorT begin, IteratorT end) const
   {
-    CUTS_Setaf_Log_Format_Code *log_format_code = 0;
+    CUTS_Setaf_Log_Format_Code * log_format_code = 0;
 
     this->code_.assign (begin, end);
 
@@ -184,7 +185,8 @@ struct CUTS_Setaf_Lang_Compiler_Grammar :
       this->type_ =
         spirit::str_p("int") |
         spirit::str_p("long") |
-        spirit::str_p("string");
+        spirit::str_p("string") |
+        spirit::str_p("std::string");
 
       this->ident_ =
         spirit::lexeme_d[spirit::alpha_p >>

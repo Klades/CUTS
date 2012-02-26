@@ -4,18 +4,21 @@
 #define _CUTS_SETAF_CODE_GENERATOR_H_
 
 #include <sstream>
+#include "Setaf_export.h"
 #include "Setaf_Format.h"
 #include "Cpp.h"
 #include "Setaf_Utils.h"
 
 /**
- *
+ * @ingroup SETAF_Common
  *
  * @class CUTS_Setaf_Code_Generator
+ *
+ * Represent Code generation functionality in SETAF.
  */
 
 
-class CUTS_Setaf_Code_Generator
+class CUTS_SETAF_Export CUTS_Setaf_Code_Generator
 {
 public:
 

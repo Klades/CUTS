@@ -52,24 +52,33 @@ public:
   // virtual destructor.
   virtual ~CUTS_Log_Format_Adapter (void);
 
-
   // Initializes the adapter
   virtual void init () = 0;
 
-  // Add new log format variables to the log format
+  /**
+   * Add new log format variables to the log format.
+   * @param[in]     lfmt   The log format variables need to be added.
+   */
   virtual void update_log_format (CUTS_Log_Format * lfmt) = 0;
 
-  // Add new log format relations
+  /**
+   * Add new log format relations.
+   * @param[in]     lfmt   The log format the relations need to be added.
+   */
   virtual void update_relations (CUTS_Log_Format * lfmt) = 0;
 
-  // Populate values for the variables
+ /**
+   * Populate values for the variables.
+   * @param[in]     lhs   The set of log format variables.
+   * @param[in]     rhs   The log format need to be adapted.
+   */
   virtual void update_values (CUTS_Log_Format_Variable_Table & vars,
                               CUTS_Log_Format * lfmt) = 0;
 
-  // reset private variables of the adapter
+  /// reset private variables of the adapter
   virtual void reset () = 0;
 
-  // close the adapter
+  /// close the adapter
   virtual void close () = 0;
 
   /**
@@ -78,7 +87,9 @@ public:
    * @param[in]     Id   name of the log format variable.
    * @param[in]     Type of the variable
    */
-  void add_variable (CUTS_Log_Format * lfmt, char * Id, char * type);
+  void add_variable (CUTS_Log_Format * lfmt,
+                     const char * Id,
+                     const char * type);
 
 
   /**
@@ -89,9 +100,9 @@ public:
    * @paran[in]     effect_var  effect variable.
    */
   void add_relation (CUTS_Log_Format * lfmt,
-                     char * effect,
-                     char * cause_var,
-                     char * effect_var);
+                     const char * effect,
+                     const char * cause_var,
+                     const char * effect_var);
 
 };
 

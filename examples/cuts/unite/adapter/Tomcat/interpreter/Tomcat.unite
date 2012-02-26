@@ -8,7 +8,7 @@
   <evaluation>LF12.t12 - LF1.t1</evaluation>
   <aggregation>AVG</aggregation>
 
-  <datagraph location="C:\research\cuts\CUTS\examples\cuts\utils\unite\adapter\Tomcat\Tomcat.datagraph" />
+  <datagraph location="Tomcat.datagraph" />
   
   <!--grouping can be used to partition the data into sets before
        evaluating the dataset using the specified equation -->

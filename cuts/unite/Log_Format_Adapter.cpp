@@ -14,8 +14,8 @@ CUTS_Log_Format_Adapter::~CUTS_Log_Format_Adapter (void)
 // add_variable
 //
 void CUTS_Log_Format_Adapter::add_variable (CUTS_Log_Format * lfmt,
-                                           char * Id,
-                                           char * type)
+                                            const char * Id,
+                                            const char * type)
 {
     CUTS_Log_Format_Variable *variable = 0;
     std::string var_type (type);
@@ -73,9 +73,9 @@ void CUTS_Log_Format_Adapter::add_variable (CUTS_Log_Format * lfmt,
 //
 
 void CUTS_Log_Format_Adapter::add_relation (CUTS_Log_Format * lfmt,
-                                 char * effect,
-                                 char * cause_var,
-                                 char * effect_var)
+                                 const char * effect,
+                                 const char * cause_var,
+                                 const char * effect_var)
 {
   // Get the relation count first
 

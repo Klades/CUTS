@@ -9,9 +9,13 @@
 #include "Dataflow_Graph.h"
 #include "Log_Format.h"
 #include <algorithm>
+#include <fstream>
 #include "ace/DLL.h"
 #include "Log_Format_Adapter.h"
+#include "setaf/Setaf_Interpreter.h"
 #include "ace/Auto_Ptr.h"
+#include "ace/CORBA_macros.h"
+#include "setaf/Setaf_Parser.h"
 
 
 typedef CUTS_Log_Format_Adapter * (* Adapter_creator) (void);
@@ -193,7 +197,7 @@ build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Dataflow_Graph & graph
       ACE_ERROR_RETURN ((LM_ERROR,
                          "%T - %M - failed to extract entry point %s\n",
                          ACE_TEXT ("create_Cuts_Log_Format_Adapter")),
-                         -1);
+                         false);
     }
 
     // The adapter object is set in the datagraph so it can be passed
@@ -215,7 +219,45 @@ build (const ::CUTS::XML::datagraphType & datagraph, CUTS_Dataflow_Graph & graph
 
     auto_clean.release ();
 
-}
+  }
+
+  else if (datagraph.interpreter_p ())
+  {
+    // Load the script, parse it and construct the
+    // model.
+    const char * filename = datagraph.interpreter ().c_str ();
+    std::ifstream infile;
+    infile.open (filename);
+
+    if (!infile.is_open ())
+      ACE_ERROR_RETURN ((LM_ERROR,
+                        ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
+                        filename),
+                        false);
+
+    CUTS_Setaf_Interpreter * adapter = 0;
+
+    ACE_NEW_THROW_EX (adapter,
+                      CUTS_Setaf_Interpreter (),
+                      ACE_bad_alloc ());
+
+    CUTS_Setaf_Parser parser;
+
+    if (parser.parse_spec (infile, adapter))
+    {
+      adapter->init ();
+      graph.adapter (adapter);
+      infile.close ();
+    }
+    else
+    {
+      infile.close ();
+      ACE_ERROR_RETURN ((LM_ERROR,
+                        ACE_TEXT ("%T (%t) - %M - failed to parse the file %s\n"),
+                        filename),
+                        false);
+    }
+  }
 
   // Process the log formats.
   std::for_each (datagraph.logformats ().begin_logformat (),

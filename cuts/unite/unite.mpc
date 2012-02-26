@@ -59,6 +59,8 @@ project (CUTS_Unite_Xml) : boost_base, xscrt, cuts_unite, cutslib {
   dynamicflags += CUTS_UNITE_XML_BUILD_DLL
 
   after += CUTS_Unite_Xml_Gen
+  after += CUTS_Setaf_Common
+  libs += CUTS_Setaf_Common
 
   Source_Files {
     cuts-unite.cpp

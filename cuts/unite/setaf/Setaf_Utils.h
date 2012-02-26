@@ -23,6 +23,19 @@ namespace CUTS_SETAF_UTILS
 
   typedef std::vector <CUTS_Setaf_Log_Format_Code *>::iterator code_iterator;
 
+  enum type_t
+  {
+    /// The variable is a string
+    ST_STRING,
+
+    /// The variable is an integer
+    ST_INTEGER,
+
+    /// The varialbe is an float/double
+    ST_UNITE,
+
+  };
+
 }
 
 #endif  // !defined _CUTS_SETAF_UTILS_H_

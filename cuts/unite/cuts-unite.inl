@@ -858,11 +858,13 @@ namespace CUTS
     ::XSCRT::Type (),
     name_ (new ::XMLSchema::string< char > (*s.name_)),
     adapter_ (s.adapter_.get () ? new ::XMLSchema::string< char > (*s.adapter_) : 0),
+    interpreter_ (s.interpreter_.get () ? new ::XMLSchema::string< char > (*s.interpreter_) : 0),
     logformats_ (s.logformats_.get () ? new ::CUTS::XML::logformatList (*s.logformats_) : 0),
     regulator__ ()
     {
       name_->container (this);
       if (adapter_.get ()) adapter_->container (this);
+      if (interpreter_.get ()) interpreter_->container (this);
       if (logformats_.get ()) logformats_->container (this);
     }
 
@@ -876,6 +878,11 @@ namespace CUTS
         adapter (*(s.adapter_));
       else
         adapter_.reset (0);
+
+      if (s.interpreter_.get ())
+        interpreter (*(s.interpreter_));
+      else
+        interpreter_.reset (0);
 
       if (s.logformats_.get ())
         logformats (*(s.logformats_));
@@ -931,6 +938,38 @@ namespace CUTS
       {
         adapter_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
         adapter_->container (this);
+      }
+    }
+
+    // datagraphType
+    //
+    inline
+    bool datagraphType::
+    interpreter_p () const
+    {
+      return interpreter_.get () != 0;
+    }
+
+    inline
+    ::XMLSchema::string< char > const& datagraphType::
+    interpreter () const
+    {
+      return *interpreter_;
+    }
+
+    inline
+    void datagraphType::
+    interpreter (::XMLSchema::string< char > const& e)
+    {
+      if (interpreter_.get ())
+      {
+        *interpreter_ = e;
+      }
+
+      else
+      {
+        interpreter_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
+        interpreter_->container (this);
       }
     }
 

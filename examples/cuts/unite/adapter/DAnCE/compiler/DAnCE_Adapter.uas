@@ -1,0 +1,61 @@
+Variables:
+  int lf12_count_;
+  int lf13_count_;
+  std::string plan_id_;
+
+Init:
+  lf12_count_ = 0;
+  lf13_count_ = 0;
+  
+Reset:
+  lf12_count_ = 0;
+  lf13_count_ = 0;
+  
+DataPoints: 
+  string LF1.planid;
+  string LF2.planid; 
+  string LF5.planid; 
+  string LF6.planid; 
+  string LF9.planid; 
+  string LF11.planid; 
+  int LF12.nodeid;
+  int LF13.nodeid;
+  
+Relations: 
+  LF1.planid->LF2.planid;
+  LF5.planid->LF6.planid;
+  LF6.planid->LF7.planid;
+  LF8.planid->LF9.planid;
+  LF9.planid->LF10.planid;
+  LF10.planid->LF11.planid;
+  LF11.planid->LF12.planid;
+  LF12.nodeid->LF13.nodeid;
+	
+On LF1:
+  vars ["planid"]->value ((char *)this->plan_id_.c_str ());
+		
+On LF2:
+  vars ["planid"]->value ((char *)this->plan_id_.c_str ());
+
+On LF5:
+  vars ["planid"]->value ((char *)this->plan_id_.c_str ());
+
+On LF6:
+  vars ["planid"]->value ((char *)this->plan_id_.c_str ());
+
+On LF9:
+  vars ["planid"]->value ((char *)this->plan_id_.c_str ());
+
+On LF11:
+  vars ["planid"]->value ((char *)this->plan_id_.c_str ());
+  
+On LF12:
+  int32_var * ivar = dynamic_cast <int32_var *> (vars ["nodeid"]);
+  ivar->value (this->lf12_count_);
+  this->lf12_count_ = this->lf12_count_ + 1;
+  this->plan_id_ = vars ["planid"]->value ();
+
+On LF13:
+  int32_var * ivar = dynamic_cast <int32_var *> (vars ["nodeid"]);
+  ivar->value (this->lf13_count_);
+  this->lf13_count_ = this->lf13_count_ + 1;

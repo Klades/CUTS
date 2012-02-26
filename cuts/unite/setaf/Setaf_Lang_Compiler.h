@@ -7,13 +7,17 @@
 #include "Setaf_Format.h"
 #include "ace/SString.h"
 #include "Setaf_Utils.h"
+#include "Setaf_export.h"
 
 
 /**
+ * @ingroup SETAF_Common
  *
  * @class CUTS_Setaf_Lang_Compiler
+ *
+ * Represent language compiler.
  */
-class CUTS_Setaf_Lang_Compiler
+class CUTS_SETAF_Export CUTS_Setaf_Lang_Compiler
 {
 public:
   // Default Constructor

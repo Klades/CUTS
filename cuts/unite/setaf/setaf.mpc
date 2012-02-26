@@ -1,14 +1,42 @@
 // $Id$
 
 
-project (CUTS_Setaf) : boost_base, codegenerationkit, cutsexe {
-  exename = cuts-setaf
+project (CUTS_Setaf_Common) : boost_base, codegenerationkit, cutslib, acelib, cuts_unite {
+  sharedname = CUTS_Setaf_Common
+  dynamicflags += CUTS_SETAF_BUILD_DLL
 
   Source_Files {
     Setaf_Lang_Compiler.cpp
     Setaf_Format.cpp
     Cpp.cpp
     Setaf_Code_Generator.cpp
+    Setaf_Variable.cpp
+    Setaf_Integer_Variable.cpp
+    Setaf_String_Variable.cpp
+    Setaf_Unite_Variable.cpp
+    Setaf_Command.cpp
+    Setaf_Increment_Command.cpp
+    Setaf_Assignment_Command.cpp
+    Setaf_Add_Command.cpp
+    Setaf_Interpreter.cpp
+    Setaf_Parser.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+    Setaf_Utils.h
+  }
+}
+
+project (CUTS_Setaf_Exe) : codegenerationkit, boost_base, cutsexe {
+  exename = cuts-setaf
+  after += CUTS_Setaf_Common
+  libs += CUTS_Setaf_Common
+
+  Source_Files {
     Setaf_App.cpp
     Setaf.cpp
   }
@@ -18,6 +46,6 @@ project (CUTS_Setaf) : boost_base, codegenerationkit, cutsexe {
   }
 
   Header_Files {
-    Setaf_Utils.h
+
   }
 }

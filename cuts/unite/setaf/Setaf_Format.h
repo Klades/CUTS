@@ -7,6 +7,7 @@
 
 #include "ace/OS_Memory.h"
 #include "cuts/config.h"
+#include "Setaf_export.h"
 #include <string>
 #include <vector>
 
@@ -17,7 +18,7 @@
  * Represent Datapoints in the SETAF specification
  */
 
-class CUTS_Setaf_Log_Format
+class CUTS_SETAF_Export CUTS_Setaf_Log_Format
 {
 
 public:
@@ -79,7 +80,7 @@ private:
  * Represent Relations in the SETAF specification
  */
 
-class CUTS_Setaf_Log_Format_Relation
+class CUTS_SETAF_Export CUTS_Setaf_Log_Format_Relation
 {
 
 public:
@@ -148,7 +149,7 @@ private:
  * Represent Adaptation code in the SETAF specification
  */
 
-class CUTS_Setaf_Log_Format_Code
+class CUTS_SETAF_Export CUTS_Setaf_Log_Format_Code
 {
 
 public:
