@@ -5,9 +5,9 @@
 //
 CUTS_INLINE
 CUTS_Setaf_Log_Format::CUTS_Setaf_Log_Format (std::string & type)
-: type_ (type),
+: name_ (""),
   id_(""),
-  name_ ("")
+  type_ (type)
 {
 
 }
