@@ -40,42 +40,43 @@ struct CUTS_Setaf_Parser_Grammar :
 
     // Definition of an interpreter variable type
     this->var_type_ =
-      ascii::string ("int")[qi::_val = phoenix::new_ <CUTS_Setaf_Integer_Variable> ()] |
-      ascii::string ("string")[qi::_val = phoenix::new_ <CUTS_Setaf_String_Variable> ()];
+        ascii::string ("int")[qi::_val = phoenix::new_ <CUTS_Setaf_Integer_Variable> ()] |
+        ascii::string ("string")[qi::_val = phoenix::new_ <CUTS_Setaf_String_Variable> ()];
 
     // Definition of a variable identifier
     this->ident_ %=
-      qi::lexeme[qi::alpha >>
-      *(qi::alnum | ascii::char_ ('_'))];
+        qi::lexeme[qi::alpha >>
+        *(qi::alnum | ascii::char_ ('_'))];
 
     // Definition of a variable decleration
     this->variable_decl_ =
-      this->var_type_[qi::_a = qi::_1] >>
-      this->ident_[qi::_b = qi::_1] >>
-      ascii::char_ (';')[phoenix::bind (&CUTS_Setaf_Interpreter::add_state_variable, qi::_r1, qi::_b, qi::_a)];
+        this->var_type_[qi::_a = qi::_1] >>
+        this->ident_[qi::_b = qi::_1] >>
+        ascii::char_ (';')[phoenix::bind (&CUTS_Setaf_Interpreter::add_state_variable, qi::_r1, qi::_b, qi::_a)];
 
     // Definition of variables
     this->variables_ =
-      ascii::string ("Variables:") >>
-      *(this->variable_decl_ (qi::_r1));
+        ascii::string ("Variables:") >>
+        *(this->variable_decl_ (qi::_r1));
 
     // Definition of a variable value
-    this->var_val_ %= +(qi::digit) | this->ident_;
+    this->var_val_ %=
+        +(qi::digit) |
+        (ascii::char_ ('"') >> this->ident_ >> ascii::char_ ('"'));
 
     // Definition of initialization
     this->init_assign_ =
-      this->ident_[qi::_a = qi::_1] >>
-      ascii::char_ ('=') >>
-      this->var_val_[qi::_b = qi::_1] >>
-      ascii::char_ (';')[phoenix::bind (&CUTS_Setaf_Interpreter::set_init_value, qi::_r1, qi::_a, qi::_b)];
+        this->ident_[qi::_a = qi::_1] >>
+        ascii::char_ ('=') >>
+        this->var_val_[qi::_b = qi::_1] >>
+        ascii::char_ (';')[phoenix::bind (&CUTS_Setaf_Interpreter::set_init_value, qi::_r1, qi::_a, qi::_b)];
 
     // Defintion of resetting
     this->reset_assign_ =
         this->ident_[qi::_a = qi::_1] >>
         ascii::char_ ('=') >>
         this->var_val_[qi::_b = qi::_1] >>
-        ascii::char_ (';')[phoenix::bind (&CUTS_Setaf_Interpreter::set_reset_value,
-                                          qi::_r1, qi::_a, qi::_b)];
+        ascii::char_ (';')[phoenix::bind (&CUTS_Setaf_Interpreter::set_reset_value, qi::_r1, qi::_a, qi::_b)];
 
     // Definition of Init
     this->inits_ =
@@ -157,47 +158,54 @@ struct CUTS_Setaf_Parser_Grammar :
 
     /// The main rule, for the entire speciifcation.
     this->spec_ =
-      this->variables_ (qi::_r1) >>
-      this->inits_ (qi::_r1) >>
-      this->resets_ (qi::_r1) >>
-      this->datapoints_ (qi::_r1) >>
-      this->relations_ (qi::_r1) >>
-      +(this->log_format_adapts_ (qi::_r1));
+        this->variables_ (qi::_r1) >>
+        this->inits_ (qi::_r1) >>
+        this->resets_ (qi::_r1) >>
+        this->datapoints_ (qi::_r1) >>
+        this->relations_ (qi::_r1) >>
+        +(this->log_format_adapts_ (qi::_r1));
 
 }
 
 private:
 
-  /// Rule for the Unite Adaptation Specification
+  /// Main Rule for the Unite Adaptation Specification
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             ascii::space_type> spec_;
 
+  /// Rule for Variables
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             ascii::space_type> variables_;
 
+  /// Rule for the Variable declerations
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             qi::locals <CUTS_Setaf_Variable *, std::string>,
             ascii::space_type> variable_decl_;
 
+  /// Rule for the Variable types
   qi::rule <IteratorT,
             CUTS_Setaf_Variable * (),
             ascii::space_type> var_type_;
 
+  /// Rule for the identifiers
   qi::rule <IteratorT,
             std::string (),
             ascii::space_type> ident_;
 
+  /// Rule for the init values
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             ascii::space_type> inits_;
 
+  /// Rule for the reset values
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             ascii::space_type> resets_;
 
+  /// Rule for the init assignments
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             qi::locals <std::string, std::string>,
@@ -208,55 +216,67 @@ private:
             qi::locals <std::string, std::string>,
             ascii::space_type> reset_assign_;
 
+  /// Rule for the variable values
   qi::rule <IteratorT,
             std::string (),
             ascii::space_type> var_val_;
 
+  /// Rule for the datapoint type
   qi::rule <IteratorT,
             CUTS_Setaf_Log_Format * (),
             ascii::space_type> data_point_type_;
 
+  /// Rule for the datapoint identifiers
   qi::rule <IteratorT,
             std::string (),
             ascii::space_type> data_point_ident_;
 
+  /// Rule for the datapoint decleration
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             qi::locals <CUTS_Setaf_Log_Format *, std::string>,
             ascii::space_type> data_point_decl_;
 
+  /// Rule for the datapoints
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             ascii::space_type> datapoints_;
 
+  /// Rule for the relation decleration
   qi::rule <IteratorT,
             CUTS_Setaf_Log_Format_Relation * (CUTS_Setaf_Interpreter *),
             qi::locals <std::string, std::string>,
             ascii::space_type> relation_decl_;
 
+  /// Rule for the relations
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             ascii::space_type> relations_;
 
+  /// Rule for the log format adapats
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
             qi::locals <std::string>,
             ascii::space_type> log_format_adapts_;
 
+  /// Rule for the adpatation code
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *, std::string),
             ascii::space_type> adaptation_code_;
 
+  /// Rule for an add command
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *, std::string),
             qi::locals <std::string, std::string, int>,
             ascii::space_type> add_command_;
 
+  /// Rule for an assignment command
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *, std::string),
             qi::locals <std::string, std::string>,
             ascii::space_type> assignment_command_;
 
+  /// Ruke for a variable in the commands
   qi::rule <IteratorT,
             std::string (),
             ascii::space_type> variable_;

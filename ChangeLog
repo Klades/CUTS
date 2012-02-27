@@ -1,3 +1,9 @@
+Mon Feb 27 16:20:41 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/setaf/Setaf_Parser.cpp:
+
+          Added more comments to the parser.
+
 Sun Feb 26 21:51:01 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/setaf/setaf.mpc:
