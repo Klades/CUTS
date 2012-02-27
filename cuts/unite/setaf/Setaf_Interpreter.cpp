@@ -16,7 +16,23 @@ CUTS_Setaf_Interpreter::CUTS_Setaf_Interpreter (void)
 //
 CUTS_Setaf_Interpreter::~CUTS_Setaf_Interpreter (void)
 {
+  variable_map::iterator var_iter;
+  for (var_iter = this->state_variables_.begin ();
+       var_iter != this->state_variables_.end ();
+       var_iter++)
+    delete var_iter->second;
 
+  CUTS_SETAF_UTILS::Setaf_Entries::iterator dp_iter;
+  for (dp_iter = this->datapoints_.begin ();
+       dp_iter != this->datapoints_.end ();
+       dp_iter++)
+    delete *dp_iter;
+
+  CUTS_SETAF_UTILS::Setaf_Relations::iterator rel_iter;
+  for (rel_iter = this->relations_.begin ();
+       rel_iter != this->relations_.end ();
+       rel_iter++)
+    delete *rel_iter;
 }
 
 //
@@ -128,7 +144,7 @@ void CUTS_Setaf_Interpreter::reset ()
 //
 void CUTS_Setaf_Interpreter::close ()
 {
-
+  delete this;
 }
 
 //

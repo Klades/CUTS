@@ -22,7 +22,11 @@ CUTS_Setaf_Add_Command (CUTS_Setaf_Variable * lhs,
 CUTS_Setaf_Add_Command::
 ~CUTS_Setaf_Add_Command (void)
 {
+  if (this->lhs_->type_ == CUTS_SETAF_UTILS::ST_UNITE)
+    delete this->lhs_;
 
+  if (this->lhs_->type_ == CUTS_SETAF_UTILS::ST_UNITE)
+    delete this->rhs_;
 }
 
 //
