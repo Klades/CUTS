@@ -62,7 +62,7 @@ struct CUTS_Setaf_Parser_Grammar :
     // Definition of a variable value
     this->var_val_ %=
         +(qi::digit) |
-        (ascii::char_ ('"') >> this->ident_ >> ascii::char_ ('"'));
+        (qi::omit[ascii::char_ ('"')] >> this->ident_ >> qi::omit[ascii::char_ ('"')]);
 
     // Definition of initialization
     this->init_assign_ =
