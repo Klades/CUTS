@@ -1,3 +1,38 @@
+Wed Feb 29 17:11:09 UTC 2012  James H. Hill <hillj at cs dot iupui dot edu>
+
+        * cuts/java/cuts-temp:
+
+          Temp relocation of directory below.
+
+        * cuts/java/cuts:
+        * cuts/java/cuts/ConstantPeriodicTaskStrategy.java:
+        * cuts/java/cuts/ExponentialPeriodicTaskStrategy.java:
+        * cuts/java/cuts/PeriodicTask.java:
+        * cuts/java/cuts/PeriodicTaskHandler.java:
+        * cuts/java/cuts/PeriodicTaskHandlerFactory.java:
+        * cuts/java/cuts/PeriodicTaskStrategy.java:
+        * cuts/java/cuts/ProcessHandler.java:
+        * cuts/java/cuts/ProcessStreamReader.java:
+        * cuts/java/cuts/datamodel:
+        * cuts/java/cuts/datamodel/DataGenerator.java:
+        * cuts/java/cuts/datamodel/DataModel.java:
+        * cuts/java/cuts/datamodel/DataModelFile.java:
+        * cuts/java/cuts/datamodel/generators:
+        * cuts/java/cuts/datamodel/generators/RandomBooleanDataGenerator.java:
+        * cuts/java/cuts/datamodel/generators/RandomLongIntegerDataGenerator.java:
+        * cuts/java/cuts/datamodel/generators/RandomShortIntegerDataGenerator.java:
+        * cuts/java/cuts/quotas:
+        * cuts/java/cuts/quotas/pojo:
+        * cuts/java/cuts/quotas/pojo/Component.java:
+        * cuts/java/cuts/quotas/pojo/ComponentBase.java:
+        * cuts/java/cuts/quotas/pojo/InstallException.java:
+        * cuts/java/cuts/quotas/pojo/PojoComponentServer.java:
+        * cuts/java/cuts/quotas/pojo/PojoContainer.java:
+        * cuts/java/cuts/quotas/pojo/schema:
+        * cuts/java/cuts/quotas/pojo/schema/binding.xml:
+
+          Removed these files.
+
 Tue Feb 28 18:01:01 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/setaf/Setaf_Parser.cpp:
