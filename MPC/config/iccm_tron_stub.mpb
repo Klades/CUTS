@@ -3,12 +3,4 @@
 project : ccm_stub, requires_tron {
   libs  += iCCM_Tron_stub
   after += iCCM_Tron_stub
-
-  specific (prop:microsoft) {
-    // I really would like to remove this configuration parameter, but
-    // we need it for the time being since there are multiple symbols
-    // defined and we cannot figure out how to avoid this!
-
-    link_options += /FORCE:MULTIPLE
-  }
 }

@@ -1,0 +1,24 @@
+// -*- IDL -*-
+
+module Tron
+{
+  interface TestAdapter
+  {
+    // Notify the test adapter that initialization is complete and
+    // control can return from the adapter_new call.
+    void initialization_complete ();
+
+    /// Notify the test adapter that configuration is complete. This
+    /// will allow Tron to begin executing the simulation.
+    void configuration_complete ();
+  };
+
+  interface TestAdapterCallback 
+  {
+    /**
+     * Set the test adapter for the callback. This allows the callback
+     * to send deployment related signals into the Tron simulation.
+     */
+    void set_test_adapter (in TestAdapter test_adapter);
+  };
+};

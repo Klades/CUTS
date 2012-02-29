@@ -72,6 +72,10 @@ private:
 
 }
 
+#if defined (__CUTS_INLINE__)
+#include "Tron_Publisher_Table_T.inl"
+#endif
+
 #include "Tron_Publisher_Table_T.cpp"
 
 #endif  // !defined _ICCM_TRON_PUBLISHER_TABLE_T_H_

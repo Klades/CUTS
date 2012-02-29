@@ -1,6 +1,6 @@
 // $Id$
 
-project : ciao_base, ciao_session_container_stub {
+project : ciao_base, ciao_session_container_stub, iccm_servant {
   after += iCCM_Deployment_Handlers
   libs  += iCCM_Deployment_Handlers
 }

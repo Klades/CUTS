@@ -1,3 +1,44 @@
+Wed Feb 29 17:54:12 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_deployment_handlers.mpb:
+
+          Removed windows specific section.
+
+        * MPC/config/iccm_tron_stub.mpb:
+
+          Added iccm_servant as base project.
+
+        * bin/handlers/tron.locality.config:
+
+          Moved from tron iccm directory.
+
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.idl:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:
+
+          Implemented as a TRON TestAdapter.  Currently is hardcoded to work
+          with the button example provided with TRON as an example.
+
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.cpp:
+
+          Fixed inline includes.
+
+        * examples/iccm/Button/tron/Button.mwc:
+        * examples/iccm/Button/tron/ButtonImpl.h:
+        * examples/iccm/Button/tron/ButtonImpl.cpp:
+
+          Removed TRON specific interactions.
+
+        * examples/iccm/Button/tron/descriptors/run_test.pl:
+
+          Added to simplify running the example.
+
+        * cuts/iccm/arch/tron/Tron_locality.config:
+
+          Removed this file.
+
 Wed Feb 29 17:17:37 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/Button/tron/descriptors/ButtonDeployment.cdd:

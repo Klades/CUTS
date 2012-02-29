@@ -1,5 +1,9 @@
 // $Id$
 
+#if !defined (__CUTS_INLINE__)
+#include "Tron_Publisher_Table_T.inl"
+#endif
+
 #include "cuts/iccm/servant/Cookie.h"
 
 namespace iCCM

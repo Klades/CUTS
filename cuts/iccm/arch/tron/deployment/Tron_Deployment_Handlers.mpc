@@ -1,13 +1,75 @@
 // $Id$
 
-project (iCCM_Tron_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, cutslib, requires_tron {
+project (iCCM_Tron_Deployment_Handlers_Idl_gen) : requires_tron, taoidldefaults {
+  custom_only = 1
+
+  idlflags += -Wb,stub_export_macro=ICCM_TRON_DEPLOYMENT_HANDLERS_STUB_Export \
+              -Wb,stub_export_include=Tron_Deployment_Handlers_stub_export.h \
+              -Wb,skel_export_macro=ICCM_TRON_DEPLOYMENT_HANDLERS_SKEL_Export \
+              -Wb,skel_export_include=Tron_Deployment_Handlers_skel_export.h \
+              -Gxhst -Gxhsk
+
+  IDL_Files {
+    Tron_Deployment_Handler.idl
+  }
+}
+
+project (iCCM_Tron_Deployment_Handlers_stub) : taolib, requires_tron, cutslib {
+  sharedname    = iCCM_Tron_Deployment_Handlers_stub
+  dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_STUB_BUILD_DLL
+
+  after += iCCM_Tron_Deployment_Handlers_Idl_gen
+
+  Source_Files {
+    Tron_Deployment_HandlerC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_Tron_Deployment_Handlers_skel) : portableserver, requires_tron, cutslib {
+  sharedname    = iCCM_Tron_Deployment_Handlers_skel
+  dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_SKEL_BUILD_DLL
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    Tron_Deployment_HandlerS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_Tron_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, iccm_tron_svnt, cutslib {
   sharedname    = iCCM_Tron_Deployment_Handlers
   dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_BUILD_DLL
-  after += iCCM_Tron_stub
 
   Source_Files {
     Tron_Container.cpp
     Tron_Container_Strategy.cpp
     Tron_Component_Instance_Handler.cpp
+    Tron_Deployment_Handler.cpp
   }
 }
