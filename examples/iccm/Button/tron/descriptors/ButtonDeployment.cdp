@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <label/>
+
+  <UUID>4A1CA66E-62F3-11E1-8000-0050563D38A4</UUID>
+
+  <implementation xmi:id="_CDF2FA52-62F2-11E1-8002-0050563D38A4">
+    <name>Button.ComponentImplementations.ButtonImpl.ButtonImpl</name>
+    <source/>
+    <artifact xmi:idref="_CDF2FA52-62F2-11E1-8000-0050563D38A4"/>
+    <artifact xmi:idref="_CDF2FA52-62F2-11E1-8001-0050563D38A4"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_Button_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>Button.ImplementationArtifacts.ButtonArtifacts.Button_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_Button_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>Button.ImplementationArtifacts.ButtonArtifacts.Button_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_1C073253-AACD-4130-B0A8-6AED69931E25_">
+    <name>DAnCE_LocalityManager_Impl</name>
+    <source/>
+    <artifact xmi:idref="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1"/>
+    <execParameter>
+      <name>edu.vanderbilt.dre.DAnCE.ImplementationType</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>edu.vanderbilt.dre.DAnCE.LocalityManager</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="_FA417ADE-62F2-11E1-8000-0050563D38A4">
+    <name>Button.ComponentImplementations.Button_asm.Button_asm.Button1</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_CDF2FA52-62F2-11E1-8002-0050563D38A4"/>
+  </instance>
+
+  <instance xmi:id="MainNode.DefaultGroup">
+    <name>MainNode.DefaultGroup</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>TronParams</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>-v 10 button.xml</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <artifact xmi:id="_CDF2FA52-62F2-11E1-8000-0050563D38A4">
+    <name>Button.ImplementationArtifacts.ButtonArtifacts.Button_svnt</name>
+    <source/>
+    <node/>
+    <location>Button_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_CDF2FA52-62F2-11E1-8001-0050563D38A4">
+    <name>Button.ImplementationArtifacts.ButtonArtifacts.Button_impl</name>
+    <source/>
+    <node/>
+    <location>Button_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1">
+    <name>DAnCE_LocalityManager_Artifact</name>
+    <source/>
+    <node/>
+    <location>dance_locality_manager</location>
+  </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="MainNode.DefaultGroup"/>
+    <!--Button.ComponentImplementations.Button_asm.Button_asm.Button1-->
+    <constrainedInstance xmi:idref="_FA417ADE-62F2-11E1-8000-0050563D38A4"/>
+  </localityConstraint>
+
+</Deployment:DeploymentPlan>

@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{29CC28A0-A13E-4F09-8C04-19224D9BE47C}" cdate="Wed Feb 29 11:31:14 2012" mdate="Wed Feb 29 11:31:14 2012" version="" metaguid="{F474D912-08B5-48EB-80CA-50FA888D5FB2}" metaversion="" metaname="PICML">
+	<name>Button</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x6" kind="RootFolder" guid="{d65e51f3-afa8-4553-92e7-5f02a99fe050}">
+		<name>Button</name>
+		<folder id="id-006a-00000002" relid="0x0" childrelidcntr="0x1" kind="InterfaceDefinitions" guid="{58795ffe-0897-4672-a1f0-fc8405c0cde2}">
+			<name>InterfaceDefinitions</name>
+			<model id="id-0065-00000001" kind="File" guid="{f2b5c0e7-1619-4d15-822b-61f29f5ce62f}" relid="0x0" childrelidcntr="0x1">
+				<name>Button</name>
+				<attribute kind="Path">
+					<value></value>
+				</attribute>
+				<attribute kind="PrefixTag" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="Event" role="Event" guid="{17c73aca-5d27-49f0-b018-4d138ad8153d}" relid="0x0" childrelidcntr="0x0">
+					<name>Notify</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,13</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="PrefixTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="abstract" status="meta">
+						<value>false</value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000003" kind="Component" role="Component" guid="{a925f293-4cd9-47d4-9518-8e0fee617f4b}" relid="0x0" childrelidcntr="0x1">
+					<name>Button</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>55,8</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UUID">
+						<value>CDEBD61E-62F2-11E1-8DCF-0050563D38A4</value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<reference id="id-0067-00000001" kind="InEventPort" role="InEventPort" guid="{c82d5418-a323-41a1-acdf-c8f2f207e2f0}" relid="0x0" referred="id-0065-00000002">
+						<name>Click</name>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000002" kind="OutEventPort" role="OutEventPort" guid="{9b59a980-4311-4f38-acb5-7fd914ff1634}" relid="0x0" referred="id-0065-00000002">
+						<name>SingleClick</name>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="out_event_port_type" status="meta">
+							<value>DirectConnect</value>
+						</attribute>
+						<attribute kind="single_destination">
+							<value>false</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000003" kind="OutEventPort" role="OutEventPort" guid="{86052b77-6668-4a6a-87a4-2733f56576be}" relid="0x0" referred="id-0065-00000002">
+						<name>DoubleClick</name>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="out_event_port_type" status="meta">
+							<value>DirectConnect</value>
+						</attribute>
+						<attribute kind="single_destination">
+							<value>false</value>
+						</attribute>
+					</reference>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x1" childrelidcntr="0x1" kind="PredefinedTypes" guid="{470f6706-b8cf-4386-899c-393e6892a97c}">
+			<name>PredefinedTypes</name>
+			<atom id="id-0066-00000001" kind="Boolean" guid="{30b2312d-ee38-4162-b6e1-1b4eb408c633}" relid="0x0">
+				<name>Boolean</name>
+			</atom>
+			<atom id="id-0066-00000002" kind="Byte" guid="{c7e62fb4-4a29-489d-9bdc-f899d07b5ba6}" relid="0x0">
+				<name>Byte</name>
+			</atom>
+			<atom id="id-0066-00000003" kind="Char" guid="{a23fb554-16ea-4378-89f1-05964fbaf08f}" relid="0x0">
+				<name>Char</name>
+			</atom>
+			<atom id="id-0066-00000004" kind="WideChar" guid="{f277a1b4-a7ad-4012-8936-e6ae504667d0}" relid="0x0">
+				<name>WideChar</name>
+			</atom>
+			<atom id="id-0066-00000005" kind="ShortInteger" guid="{f20f2604-f769-48fd-855e-1d8194cec9c1}" relid="0x0">
+				<name>ShortInteger</name>
+			</atom>
+			<atom id="id-0066-00000006" kind="LongInteger" guid="{74916908-e53d-4877-8ab1-13517cc2ef79}" relid="0x0">
+				<name>LongInteger</name>
+			</atom>
+			<atom id="id-0066-00000007" kind="LongLongInteger" guid="{d4df1685-ec48-42a2-a65f-05795c289caf}" relid="0x0">
+				<name>LongLongInteger</name>
+			</atom>
+			<atom id="id-0066-00000008" kind="UnsignedShortInteger" guid="{4f8de467-0bc6-455b-8960-4c4ca13d38fc}" relid="0x0">
+				<name>UnsignedShortInteger</name>
+			</atom>
+			<atom id="id-0066-00000009" kind="UnsignedLongInteger" guid="{229afab2-330c-4e00-8bd0-76ad72290d98}" relid="0x0">
+				<name>UnsignedLongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000a" kind="UnsignedLongLongInteger" guid="{b0d63288-eaae-4333-97e5-79528f6d1aea}" relid="0x0">
+				<name>UnsignedLongLongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000b" kind="FloatNumber" guid="{3736faf9-3cd9-495a-beed-55a7fc4fe163}" relid="0x0">
+				<name>FloatNumber</name>
+			</atom>
+			<atom id="id-0066-0000000c" kind="DoubleNumber" guid="{ef677652-01b1-424b-954c-5aef0fe6426f}" relid="0x0">
+				<name>DoubleNumber</name>
+			</atom>
+			<atom id="id-0066-0000000d" kind="LongDoubleNumber" guid="{917613b5-5679-4af2-a4b6-c835be37b63f}" relid="0x0">
+				<name>LongDoubleNumber</name>
+			</atom>
+			<atom id="id-0066-0000000e" kind="GenericObject" guid="{3eacdb96-be65-4cfd-8de2-5919b7c9e16f}" relid="0x0">
+				<name>GenericObject</name>
+			</atom>
+			<atom id="id-0066-0000000f" kind="GenericValue" guid="{8dc63d2f-df5a-4be6-bf5e-1204f80c1235}" relid="0x0">
+				<name>GenericValue</name>
+			</atom>
+			<atom id="id-0066-00000010" kind="GenericValueObject" guid="{a87444d0-1454-4d79-8f74-d84348e532ee}" relid="0x0">
+				<name>GenericValueObject</name>
+			</atom>
+			<atom id="id-0066-00000011" kind="String" guid="{217f6828-0433-4460-aea1-e9d597e8c7d1}" relid="0x0">
+				<name>String</name>
+			</atom>
+			<atom id="id-0066-00000012" kind="WideString" guid="{706f79ef-71aa-40d6-82f7-5b67839a90ae}" relid="0x0">
+				<name>WideString</name>
+			</atom>
+		</folder>
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x1" kind="ImplementationArtifacts" guid="{f0ac536b-8a9c-45bd-98fb-36c6ff986a0f}">
+			<name>ImplementationArtifacts</name>
+			<model id="id-0065-00000004" kind="ArtifactContainer" guid="{11e2ab8c-af7f-4e24-8e43-84a6c2714a6b}" relid="0x1" childrelidcntr="0x2">
+				<name>ButtonArtifacts</name>
+				<atom id="id-0066-00000013" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{d74169d3-7719-46d0-a5bb-9e54d0347f52}" relid="0x1">
+					<name>Button_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>150,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>CDF2FA52-62F2-11E1-8000-0050563D38A4</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>Button_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000014" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{ecb421f1-aee5-4613-839e-d6e604c0e99b}" relid="0x2">
+					<name>Button_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>450,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>CDF2FA52-62F2-11E1-8001-0050563D38A4</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>Button_impl</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+		</folder>
+		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x2" kind="ComponentImplementations" guid="{9d4f1f56-2e23-43db-b6ea-1ecb1e61de5e}">
+			<name>ComponentImplementations</name>
+			<model id="id-0065-00000005" kind="ComponentImplementationContainer" guid="{157dc13f-3285-43ef-b576-1798a94b08f6}" relid="0x1" childrelidcntr="0x7">
+				<name>ButtonImpl</name>
+				<atom id="id-0066-00000015" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{ec3e7c8e-6d1b-499f-8d2d-aa3da879b3f4}" relid="0x1">
+					<name>ButtonImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ImplementationProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,13</value>
+							</regnode>
+						</regnode>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>250,250</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>CDF2FA52-62F2-11E1-8002-0050563D38A4</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000004" kind="ComponentRef" role="ComponentRef" guid="{e45b25bb-3103-426e-a83e-ef6081a6282c}" relid="0x2" referred="id-0065-00000003">
+					<name>Button</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>187,75</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000005" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{41754c44-2001-4e0b-b229-4c9991df502a}" relid="0x4" referred="id-0066-00000013">
+					<name>Button_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,347</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_Button_Servant</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000006" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{ae6da3d6-09b5-40fa-85c8-2f183333ac67}" relid="0x6" referred="id-0066-00000014">
+					<name>Button_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>520,144</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_Button_Impl</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000001" kind="Implements" role="Implements" guid="{754a354a-d11b-40d3-89ba-bb91cc570209}" relid="0x3">
+					<name>Implements</name>
+					<connpoint role="src" target="id-0066-00000015"/>
+					<connpoint role="dst" target="id-0067-00000004"/>
+				</connection>
+				<connection id="id-0068-00000002" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{63293471-79d7-4975-8edd-84503f71f345}" relid="0x5">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-00000015"/>
+					<connpoint role="dst" target="id-0067-00000005"/>
+				</connection>
+				<connection id="id-0068-00000003" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{4b644777-53c3-479c-88ce-78be113fe2f8}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-00000015"/>
+					<connpoint role="dst" target="id-0067-00000006"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000006" kind="ComponentImplementationContainer" guid="{077ca3c8-da04-4aa2-a04b-6dde79295de8}" relid="0x2" childrelidcntr="0x1">
+				<name>Button_asm</name>
+				<model id="id-0065-00000007" kind="ComponentAssembly" role="ComponentAssembly" guid="{8cbb1c91-55fd-4ea9-b361-8679e68ad71a}" relid="0x1" childrelidcntr="0x1">
+					<name>Button_asm</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ImplementationProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>81,61</value>
+							</regnode>
+						</regnode>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>81,61</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>F03DD834-62F2-11E1-8000-0050563D38A4</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000008" kind="ComponentInstance" role="ComponentInstance" guid="{2850a98d-b807-4f69-8d36-5f4220df94f7}" relid="0x1" childrelidcntr="0x4">
+						<name>Button1</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>251,71</value>
+								</regnode>
+							</regnode>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>251,71</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="UUID">
+							<value>FA417ADE-62F2-11E1-8000-0050563D38A4</value>
+						</attribute>
+						<reference id="id-0067-00000007" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{94f6364c-cc1c-441e-83b8-9ae59a3b61ca}" relid="0x1" referred="id-0066-00000015">
+							<name>ButtonImpl</name>
+						</reference>
+						<reference id="id-0067-00000008" kind="InEventPortInstance" role="InEventPortInstance" guid="{7f7eb588-4512-42d8-98ef-828a269c8d8f}" relid="0x2" referred="id-0067-00000001">
+							<name>Click</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentInterface" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>14,14</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-00000009" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{4155c8b6-04f0-4edc-b15e-726375c928c6}" relid="0x3" referred="id-0067-00000002">
+							<name>SingleClick</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentInterface" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>56,14</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-0000000a" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{671448cf-d4c3-4ca1-aebd-4cd61e45124d}" relid="0x4" referred="id-0067-00000003">
+							<name>DoubleClick</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentInterface" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>56,56</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+					</model>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000006" relid="0x5" childrelidcntr="0x1" kind="Targets" guid="{89d9ad68-ed44-4ab2-8f93-a4d2c309f008}">
+			<name>Targets</name>
+			<model id="id-0065-00000009" kind="Domain" guid="{0e6e4b51-5f13-4c00-8eb7-24c38fb70802}" relid="0x1" childrelidcntr="0x1">
+				<name>Domain</name>
+				<attribute kind="UUID">
+					<value>2AB42F4A-62F3-11E1-8000-0050563D38A4</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-0000000a" kind="Node" role="Node" guid="{21f98804-20e1-4345-8367-0908333b4b34}" relid="0x1" childrelidcntr="0x0">
+					<name>MainNode</name>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000007" relid="0x6" childrelidcntr="0x1" kind="DeploymentPlans" guid="{7bd45501-2ec0-4acc-81f5-c8923f3fc8c7}">
+			<name>DeploymentPlans</name>
+			<model id="id-0065-0000000b" kind="DeploymentPlan" guid="{11fee9f6-672f-46fe-aa09-2be3b65e4ae1}" relid="0x1" childrelidcntr="0x9">
+				<name>ButtonDeployment</name>
+				<attribute kind="UUID">
+					<value>4A1CA66E-62F3-11E1-8000-0050563D38A4</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-0000000b" kind="NodeReference" role="NodeReference" guid="{87c713f5-bbf1-450b-a055-f5ae3a16486d}" relid="0x1" referred="id-0065-0000000a">
+					<name>MainNode</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>151,81</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>152,82</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000000c" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{0b764d74-aa5b-40b7-adb3-5de2187eb0f4}" relid="0x4" referred="id-0065-00000008">
+					<name>ComponentInstanceRef</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>341,334</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000000d" kind="SimpleProperty" role="SimpleProperty" guid="{52c000ea-79ef-4be5-84c0-ea615a336e0b}" relid="0x5" referred="id-0066-00000011">
+					<name>StringIOR</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>195,13</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Value">
+						<value>corbaloc:iiop:localhost:60001</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000000e" kind="SimpleProperty" role="SimpleProperty" guid="{4b163e65-f78d-4024-bf66-742f7f303d49}" relid="0x8" referred="id-0066-00000011">
+					<name>TronParams</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>328,223</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Value">
+						<value>-v 10 button.xml</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000004" kind="InstanceMapping" role="InstanceMapping" guid="{31f195ee-8f95-4972-b83a-610fdd2cae7c}" relid="0x3">
+					<name></name>
+					<connpoint role="dst" target="id-0067-0000000b"/>
+					<connpoint role="src" target="id-0069-00000001"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="PropertyMapping" role="PropertyMapping" guid="{c2811178-a43b-420e-9b2f-27b1e5d1ad73}" relid="0x7">
+					<name>PropertyMapping</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>n</value>
+					</regnode>
+					<connpoint role="src" target="id-0067-0000000b"/>
+					<connpoint role="dst" target="id-0067-0000000d"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="CollocationGroupProperty" role="CollocationGroupProperty" guid="{b32d9b05-fb58-414a-9583-f5248da35196}" relid="0x9">
+					<name>CollocationGroupProperty</name>
+					<connpoint role="src" target="id-0067-0000000e"/>
+					<connpoint role="dst" target="id-0069-00000001"/>
+				</connection>
+				<set id="id-0069-00000001" kind="CollocationGroup" role="CollocationGroup" guid="{24436ed6-bc10-4b1f-9007-6d75b86d425e}" relid="0x2" members="id-0067-0000000c">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>153,209</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>156,210</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+			</model>
+		</folder>
+		<regnode name="DeploymentPlanGenerator" status="undefined">
+			<value></value>
+			<regnode name="DisableOptimize" isopaque="yes">
+				<value>0</value>
+			</regnode>
+			<regnode name="HasLocalityManager" isopaque="yes">
+				<value>1</value>
+			</regnode>
+			<regnode name="OutputPath" isopaque="yes">
+				<value>C:\Users\dfeiock.ADS\Documents\SEM\SEM\CUTS\examples\iccm\Button\tron\descriptors</value>
+			</regnode>
+		</regnode>
+	</folder>
+</project>
