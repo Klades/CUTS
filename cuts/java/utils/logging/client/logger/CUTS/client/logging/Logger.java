@@ -105,7 +105,7 @@ public class Logger
    * @param[in]       location      Location of the logging client
    * @param[in]       uuid          Test assigned to logger
    */
-  public void connect (String location, cuts.UUID uuid)
+  public void connect (String location, CUTS.UUID uuid)
   {
     try
     {
@@ -124,7 +124,7 @@ public class Logger
    *
    * @param[in]         uuid            UUID for the client logger.
    */
-  public void setUUID (cuts.UUID uuid)
+  public void setUUID (CUTS.UUID uuid)
   {
     // Release the existing logger object, if applicable.
     if (this.logger_ != null)
@@ -141,7 +141,7 @@ public class Logger
    *
    * @return            UUID associated with logger.
    */
-  public cuts.UUID getUUID ()
+  public CUTS.UUID getUUID ()
   {
     return this.logger_.uuid ();
   }
@@ -213,7 +213,7 @@ public class Logger
    *
    * @return      Current time as a time value
    */
-  private cuts.TimeValue getTimeOfDay ()
+  private CUTS.TimeValue getTimeOfDay ()
   {
     long msec = System.currentTimeMillis ();
 
@@ -223,7 +223,7 @@ public class Logger
     // Convert remainder to microseconds;
     long usec = (msec - (secs * 1000)) * 1000;
 
-    return new cuts.TimeValue ((int)secs, (int)usec);
+    return new CUTS.TimeValue ((int)secs, (int)usec);
   }
 
   /// ORB used by the logger to communicate with outside world.

@@ -10,7 +10,7 @@
  */
 //=============================================================================
 
-package cuts.log4j;
+package CUTS.log4j;
 import java.util.Hashtable;
 import java.util.Arrays;
 import org.apache.log4j.AppenderSkeleton;
@@ -35,7 +35,7 @@ public class LoggingClientAppender extends AppenderSkeleton
     byte [] data4 = new byte [6];
     Arrays.fill (data4, (byte) 0);
 
-    this.testUUID_ = new cuts.UUID (0, (short) 0, (short) 0, data4);
+    this.testUUID_ = new CUTS.UUID (0, (short) 0, (short) 0, data4);
   }
 
   /**
@@ -170,7 +170,7 @@ public class LoggingClientAppender extends AppenderSkeleton
   private boolean isInit_ = false;
 
   /// The current UUID for the test.
-  private cuts.UUID testUUID_;
+  private CUTS.UUID testUUID_;
 
   /// Table for tranlating Level objects to integer values.
   private static Hashtable<Level, Integer> levelTable_;

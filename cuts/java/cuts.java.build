@@ -7,11 +7,8 @@
 
   <property name="cuts.java.dir" value="${cuts.src.dir}/java" />
 
-  <target name="clean"
-          depends="cuts.java.clean" />
-
-  <target name="realclean"
-          depends="cuts.java.realclean" />
+  <target name="clean" depends="cuts.java.clean" />
+  <target name="realclean" depends="cuts.java.realclean" />
 
   <property name="jarfile" value="cuts.java.jar" />
 
@@ -52,22 +49,22 @@
            debug="true"
            debuglevel="source,lines"
            classpath="${contrib.dir}/log4j-1.2.15.jar"
-           includes="cuts/**"
-           excludes="cuts/quotas/**">
+           includes="CUTS/**"
+           excludes="CUTS/quotas/**">
     </javac>
   </target>
 
   <target name="cuts.java.jar.build" depends="cuts.java.build">
     <jar destfile="${cuts.lib.dir}/cuts.java.jar"
          basedir="${cuts.src.dir}/java"
-         includes="cuts/**/*.class"
-         excludes="cuts/quotas/** cuts/datamodel/**"/>
+         includes="CUTS/**/*.class"
+         excludes="CUTS/quotas/** CUTS/datamodel/**"/>
   </target>
 
   <target name="cuts.java.clean">
     <delete>
       <fileset dir="${cuts.src.dir}/java/"
-               includes="cuts/*.class, cuts/Time_Stamp*" />
+               includes="CUTS/*.class, CUTS/Time_Stamp*" />
     </delete>
   </target>
 
