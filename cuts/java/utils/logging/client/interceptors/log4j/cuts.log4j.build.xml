@@ -16,17 +16,17 @@
            debuglevel="source,lines"
            classpathref="build.classpath"
            >
-      <include name="cuts/log4j/LoggingClientAppender.java" />
+      <include name="CUTS/log4j/LoggingClientAppender.java" />
     </javac>
 
     <jar basedir="."
          destfile="${env.CUTS_ROOT}/lib/cuts.log4j.jar" >
-      <include name="cuts/log4j/LoggingClientAppender.class" />
+      <include name="CUTS/log4j/LoggingClientAppender.class" />
     </jar>
   </target>
 
   <target name="clean">
-    <delete file="cuts/log4j/LoggingClientAppender.class" />
+    <delete file="CUTS/log4j/LoggingClientAppender.class" />
     <delete file="${env.CUTS_ROOT}/lib/cuts.log4j.jar" />
   </target>
 

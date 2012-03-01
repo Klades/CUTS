@@ -89,7 +89,8 @@ public class LoggingClientAppender extends AppenderSkeleton
    */
   public void append (LoggingEvent event)
   {
-	    int level = LoggingClientAppender.translateLevel (event.getLevel ());
+	    //int level = LoggingClientAppender.translateLevel (event.getLevel ());
+		int level = Logger.LM_INFO;
 	  	int thread_id = LoggingClientAppender.translateThreadName (event.getThreadName ());
 	    String msg = null;
 	    if(this.layout != null)
