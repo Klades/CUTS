@@ -10,6 +10,7 @@ namespace iCCM
 CUTS_INLINE
 template <typename T>
 DDS_Publisher <T>::DDS_Publisher (void)
+: abs_writer_ (0)
 {
 
 }
@@ -33,21 +34,6 @@ template <typename T>
 bool DDS_Publisher <T>::is_configured (void) const
 {
   return !T::_is_nil (this->abs_writer_);
-}
-
-//
-// configure
-//
-template <typename T>
-CUTS_INLINE
-void DDS_Publisher <T>::
-configure (publisher_ptr_type publisher, topic_ptr_type topic)
-{
-  this->abs_writer_ =
-    publisher->create_datawriter (topic,
-                                  T::datawriter_qos_default (),
-                                  0,
-                                  T::ANY_STATUS);
 }
 
 //

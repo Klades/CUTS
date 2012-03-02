@@ -22,7 +22,7 @@ DDS_Servant <T>::DDS_Servant (const char * name)
     factory->create_participant (0,
                                  T::domainparticipant_qos_default (),
                                  0,
-                                 T::ANY_STATUS);
+                                 T::STATUS_MASK_NONE);
 }
 
 
@@ -35,12 +35,12 @@ void DDS_Servant <T>::do_default_configure (void)
   this->subscriber_ =
     this->participant_->create_subscriber (T::subscriber_qos_default (),
                                            0,
-                                           T::ANY_STATUS);
+                                           T::STATUS_MASK_NONE);
 
   this->publisher_ =
     this->participant_->create_publisher (T::publisher_qos_default (),
                                           0,
-                                          T::ANY_STATUS);
+                                          T::STATUS_MASK_NONE);
 }
 
 

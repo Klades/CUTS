@@ -74,8 +74,7 @@ protected:
    * @param[in]         publisher         Target DDS publisher
    * @param[in]         topic             Topic for writer
    */
-  void configure (publisher_ptr_type publisher,
-                  topic_ptr_type topic);
+  void configure (publisher_ptr_type publisher, topic_ptr_type topic);
 
   /// The consumer connected to this publisher.
   ::Components::DDS::EventConsumer_var consumer_;

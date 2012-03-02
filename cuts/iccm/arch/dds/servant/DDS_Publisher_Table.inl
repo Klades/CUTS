@@ -9,6 +9,7 @@ namespace iCCM
 template <typename T>
 CUTS_INLINE
 DDS_Publisher_Table <T>::DDS_Publisher_Table (void)
+: abs_writer_ (0)
 {
 
 }
@@ -46,7 +47,7 @@ configure (publisher_ptr_type publisher, topic_ptr_type topic)
     publisher->create_datawriter (topic,
                                   T::datawriter_qos_default (),
                                   0,
-                                  T::ANY_STATUS);
+                                  T::STATUS_MASK_NONE);
 }
 
 }

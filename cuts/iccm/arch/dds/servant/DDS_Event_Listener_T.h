@@ -33,6 +33,8 @@ class DDS_Event_Listener_T :
   /// Type definition of the DDS entities.
   typedef typename T::event_traits_type <EVENT>::result_type event_traits_type;
   typedef typename T::datareader_ptr_type datareader_ptr_type;
+  typedef typename T::topic_ptr_type topic_ptr_type;
+  typedef typename T::datareaderqos_type datareaderqos_type;
 
   /// Type definition of the servant callback method.
   typedef void (SERVANT::*DESERIALIZE_METHOD) (EVENT *);
@@ -44,6 +46,8 @@ class DDS_Event_Listener_T :
                         DESERIALIZE_METHOD callback);
 
   virtual ~DDS_Event_Listener_T (void);
+
+  void configure (typename T::datareader_ptr_type reader);
 
   virtual void
     on_requested_deadline_missed (
@@ -79,6 +83,9 @@ class DDS_Event_Listener_T :
       const typename T::sampleloststatus_type & status);
 
 private:
+  /// Reader assigned to this listener.
+  typename T::datareader_var_type reader_;
+
   /// Servant that receives the event.
   SERVANT * servant_;
 

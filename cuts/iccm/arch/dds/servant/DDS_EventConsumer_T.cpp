@@ -68,7 +68,7 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
                                type_name.c_str (),
                                *this->topic_qos_,
                                0, /*::DDS::TopicListener::_nil ()*/
-                               T::ANY_STATUS);
+                               T::STATUS_MASK_NONE);
 
   // Create a new data reader object. Right now this work if we only
   // have one connection. If there are multiple connections into this
@@ -78,6 +78,11 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
 
   if (0 == this->listeners_.find (topic_name, listener))
   {
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - incrementing refcount for ")
+                ACE_TEXT ("topic listener <%s>\n"),
+                topic_name));
+
     // Since we know about this type, we only need to increment it
     // reference count. This will prevent us from accidently deleting
     // the object when we remove a topic, but there are still connections
@@ -86,6 +91,11 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
   }
   else
   {
+    ACE_DEBUG ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - creating new listener for ")
+                ACE_TEXT ("topic <%s>\n"),
+                topic_name));
+
     // Allocate a new listener since this is the first time we have seen
     // this topic name.
     ACE_NEW_THROW_EX (listener,
@@ -94,16 +104,27 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
 
     this->listeners_.bind (topic_name, listener);
 
-    // Use the listener to create a new data reader.
-    this->subscriber_->create_datareader (topic,
-                                          *this->reader_qos_,
-                                          listener,
-                                          T::ANY_STATUS);
+    // Use the listener to create a new data reader. We should use
+    // the listener to create the data reader. In other words, put a
+    // configuration method on the listener object.
+    typename T::datareader_var_type reader =
+      this->subscriber_->create_datareader (topic,
+                                            *this->reader_qos_,
+                                            listener,
+                                            T::STATUS_MASK_DATA_AVAILABLE);
+
+    if (!T::_is_nil (reader))
+      listener->configure (reader);
+    else
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to configure listener ")
+                  ACE_TEXT ("for topic <%s>\n"),
+                  topic_name));
   }
 }
 
 //
-// add_topic
+// remove_topic
 //
 template <typename T, typename SERVANT, typename EVENT>
 void DDS_EventConsumer_T <T, SERVANT, EVENT>::

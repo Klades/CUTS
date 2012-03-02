@@ -48,7 +48,7 @@ configure (publisher_ptr_type publisher,
                                type_name.c_str (),
                                topic_qos,
                                0, /* ::DDS::TopicListener::_nil () */
-                               T::ANY_STATUS);
+                               T::STATUS_MASK_NONE);
 
   // Finally, pass control to the base class. It will finish configuring
   // this provider object.

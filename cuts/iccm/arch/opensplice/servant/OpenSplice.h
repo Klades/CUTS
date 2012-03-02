@@ -127,7 +127,10 @@ public:
   typedef ::DDS::SubscriptionMatchedStatus subscriptionmatchedstatus_type;
   typedef ::DDS::SampleLostStatus sampleloststatus_type;
 
-  static const unsigned long ANY_STATUS = ::DDS::ANY_STATUS;
+  typedef ::DDS::StatusKind statusmask_type;
+  static const statusmask_type STATUS_MASK_NONE = ::DDS::STATUS_MASK_NONE;
+  static const statusmask_type STATUS_MASK_DATA_AVAILABLE = ::DDS::DATA_AVAILABLE_STATUS;
+
   static const unsigned long ANY_SAMPLE_STATE = ::DDS::ANY_SAMPLE_STATE;
   static const unsigned long ANY_VIEW_STATE = ::DDS::ANY_VIEW_STATE;
   static const unsigned long ANY_INSTANCE_STATE = ::DDS::ANY_INSTANCE_STATE;

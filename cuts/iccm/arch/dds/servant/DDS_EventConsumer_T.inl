@@ -12,7 +12,8 @@ CUTS_INLINE
 DDS_EventConsumer_T <T, SERVANT, EVENT>::
 DDS_EventConsumer_T (SERVANT * servant, DESERIALIZE_METHOD callback)
 : servant_ (servant),
-  callback_ (callback)
+  callback_ (callback),
+  reader_ (0)
 {
 
 }

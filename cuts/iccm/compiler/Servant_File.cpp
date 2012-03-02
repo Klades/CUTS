@@ -89,7 +89,7 @@ public:
 
     /// @todo This needs to use information from the BE_GlobalData to
     /// ensure the source code is portable across differnt backends.
-    this->hfile_ << include_t ("OpenSplice_" + basename + "C.h");
+    this->hfile_ << include_t (be_global->get_stub_file_prefix () + basename + "C.h");
     this->includes_.insert (node->file_name ());
 
     return 0;

@@ -10,7 +10,8 @@ template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 DDS_Event_Listener_T <T, SERVANT, EVENT>::
 DDS_Event_Listener_T (SERVANT * servant, DESERIALIZE_METHOD callback)
-: servant_ (servant),
+: reader_ (0),
+  servant_ (servant),
   callback_ (callback)
 {
 }
@@ -22,6 +23,17 @@ template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 DDS_Event_Listener_T <T, SERVANT, EVENT>::~DDS_Event_Listener_T (void)
 {
+}
+
+//
+// ~DDS_Event_Listener_T
+//
+template <typename T, typename SERVANT, typename EVENT>
+CUTS_INLINE
+void DDS_Event_Listener_T <T, SERVANT, EVENT>::
+configure (typename T::datareader_ptr_type reader)
+{
+  this->reader_ = T::_duplicate (reader);
 }
 
 //

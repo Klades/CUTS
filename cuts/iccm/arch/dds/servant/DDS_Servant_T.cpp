@@ -49,6 +49,12 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
                            TRAIT::topic_qos_default (),
                            TRAIT::datareader_qos_default ());
     }
+    else
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - <%s> is already configured\n"),
+                  consumer_iter->key ().c_str ()));
+    }
   }
 
   typename emits_map_type::ITERATOR emits_iter (this->emits_);
@@ -68,12 +74,19 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
       // default TOPIC_QOS_DEFAULT.
       ACE_ERROR ((LM_DEBUG,
                   ACE_TEXT ("%T (%t) - %M - using default configuration ")
-                  ACE_TEXT ("for <%s>\n"),
-                  emits_iter->key ().c_str ()));
+                  ACE_TEXT ("for emitter <%s> in <%s>\n"),
+                  emits_iter->key ().c_str (),
+                  this->name_.c_str ()));
 
       emits->configure (this->publisher_,
                         TRAIT::topic_qos_default (),
                         topic_name.c_str ());
+    }
+    else
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - <%s> is already configured\n"),
+                  emits_iter->key ().c_str ()));
     }
   }
 
@@ -94,12 +107,19 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
       // default TOPIC_QOS_DEFAULT.
       ACE_ERROR ((LM_DEBUG,
                   ACE_TEXT ("%T (%t) - %M - using default configuration ")
-                  ACE_TEXT ("for <%s>\n"),
-                  publishes_iter->key ().c_str ()));
+                  ACE_TEXT ("for publisher <%s> in <%s>\n"),
+                  publishes_iter->key ().c_str (),
+                  this->name_.c_str ()));
 
       pub_table->configure (this->publisher_,
                             TRAIT::topic_qos_default (),
                             topic_name.c_str ());
+    }
+    else
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - <%s> is already configured\n"),
+                  publishes_iter->key ().c_str ()));
     }
   }
 }

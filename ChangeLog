@@ -1,3 +1,35 @@
+Fri Mar  2 01:14:24 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.inl:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+
+          Update the status flags to be compliant with the latest version
+          of the DDS specification.
+
+        * cuts/iccm/compiler/Servant_File.cpp:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Removed OpenSplice specific content.
+
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/run_test.pl:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/run_test.pl:
+
+          Reduced the testing time to 10 seconds.
+
 Wed Feb 29 17:54:12 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_deployment_handlers.mpb:

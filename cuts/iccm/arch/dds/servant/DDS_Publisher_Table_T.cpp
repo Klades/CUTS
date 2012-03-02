@@ -36,6 +36,10 @@ configure (publisher_ptr_type publisher,
            const topicqos_type & topic_qos,
            const char * topic_name)
 {
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - configuring %s\n"),
+              topic_name));
+
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
   // going to use the type support to get the actual type name. Finally,
@@ -68,7 +72,7 @@ configure (publisher_ptr_type publisher,
                                type_name.c_str (),
                                topic_qos,
                                0, /* ::DDS::TopicListener::_nil () */
-                               T::ANY_STATUS);
+                               T::STATUS_MASK_NONE);
 
   if (T::_is_nil (topic))
   {
@@ -116,7 +120,13 @@ subscribe (::Components::EventConsumerBase_ptr consumer_base)
   // part of this connection.
   typedef typename T::topic_var_type topic_var_type;
   topic_var_type topic = this->writer_->get_topic ();
-  consumer->add_topic (topic->get_name ());
+
+  const char * topic_name = topic->get_name ();
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - adding topic <%s> to consumer\n"),
+              topic_name));
+
+  consumer->add_topic (topic_name);
 
   return cookie._retn ();
 }

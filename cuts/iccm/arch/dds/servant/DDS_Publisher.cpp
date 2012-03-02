@@ -29,4 +29,24 @@ DDS_Publisher <T>::~DDS_Publisher (void)
   }
 }
 
+//
+// configure
+//
+template <typename T>
+void DDS_Publisher <T>::
+configure (publisher_ptr_type publisher, topic_ptr_type topic)
+{
+  this->abs_writer_ =
+    publisher->create_datawriter (topic,
+                                  T::datawriter_qos_default (),
+                                  0,
+                                  T::STATUS_MASK_NONE);
+
+  if (T::_is_nil (this->abs_writer_))
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to create abstract ")
+                ACE_TEXT ("reader for topic <%s>\n"),
+                topic->get_name ()));
+}
+
 }

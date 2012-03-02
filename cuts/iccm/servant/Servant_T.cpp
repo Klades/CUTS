@@ -184,11 +184,6 @@ subscribe (const char * name, ::Components::EventConsumerBase_ptr consumer)
   if (0 != this->publishes_.find (name, table))
     throw ::Components::InvalidName ();
 
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - subscribing consumer to <%s> [type=%s])\n"),
-              name,
-              consumer->_interface_repository_id ()));
-
   return table->subscribe (consumer);
 }
 
