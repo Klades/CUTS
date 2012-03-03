@@ -25,6 +25,9 @@ class CUTS_SETAF_Export CUTS_Setaf_Interpreter :
 {
 public:
 
+  /// Type definition of a string vector
+  typedef std::vector <std::string> string_vector;
+
   /// Type definition of the variable map
   typedef std::map <std::string, CUTS_Setaf_Variable *> variable_map;
 
@@ -90,12 +93,12 @@ public:
   void add_setaf_relation (CUTS_Setaf_Log_Format_Relation * relation);
 
   /**
-   * Add a set of new adaptation commands.
-   * @param[in]     lf_name    The name of the log format.
-   * @param[in]     commands   The set of commands for a particular log format.
+   * Add a new adaptation command.
+   * @param[in]     lf_names   The nams of the log format list.
+   * @param[in]     cmd        Command need to be added..
    */
-  void add_setaf_log_format_adapt (std::string & lf_name,
-                                   command_list & commands);
+  void add_setaf_command (string_vector & lf_names,
+                          CUTS_Setaf_Command * cmd);
 
   /**
    * Set the init value for the variable.
@@ -121,7 +124,7 @@ public:
    */
   void create_assignment_command (std::string & lhs_qual_name,
                                   std::string & rhs_qual_name,
-                                  std::string & lf_name);
+                                  string_vector & lf_names);
 
   /**
    * Create an increment command
@@ -129,7 +132,7 @@ public:
    * @param[in]     lf_name               The name of the log format.
    */
   void create_increment_command (std::string & incr_var_qual_name,
-                                 std::string & lf_name);
+                                 string_vector & lf_names);
 
   /**
    * Create an assignemnt command
@@ -141,7 +144,7 @@ public:
   void create_add_command (std::string & lhs_var_qual_name,
                            std::string & rhs_var_qual_name,
                            int value,
-                           std::string & lf_name);
+                           string_vector & lf_names);
 
 
 private:

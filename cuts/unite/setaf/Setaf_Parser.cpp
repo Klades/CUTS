@@ -14,6 +14,7 @@
 #include <boost/spirit/include/qi_char_class.hpp>
 #include <boost/spirit/include/support_multi_pass.hpp>
 #include <boost/spirit/include/classic_position_iterator.hpp>
+#include "boost/spirit/include/phoenix_container.hpp"
 #include <string>
 
 
@@ -153,7 +154,9 @@ struct CUTS_Setaf_Parser_Grammar :
 
     /// Definition of log format adapts
     this->log_format_adapts_ =
-        ascii::string("On") >> this->ident_[qi::_a = qi::_1] >>
+        ascii::string("On") >>
+        this->ident_[phoenix::push_back (qi::_a, qi::_1)] >>
+        *(ascii::char_(',') >> this->ident_[phoenix::push_back (qi::_a, qi::_1)]) >>
         ascii::char_(':') >> this->adaptation_code_(qi::_r1, qi::_a);
 
     /// The main rule, for the entire speciifcation.
@@ -256,27 +259,27 @@ private:
   /// Rule for the log format adapats
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *),
-            qi::locals <std::string>,
+            qi::locals <string_vector>,
             ascii::space_type> log_format_adapts_;
 
   /// Rule for the adpatation code
   qi::rule <IteratorT,
-            void (CUTS_Setaf_Interpreter *, std::string),
+            void (CUTS_Setaf_Interpreter *, string_vector),
             ascii::space_type> adaptation_code_;
 
   /// Rule for an add command
   qi::rule <IteratorT,
-            void (CUTS_Setaf_Interpreter *, std::string),
+            void (CUTS_Setaf_Interpreter *, string_vector),
             qi::locals <std::string, std::string, int>,
             ascii::space_type> add_command_;
 
   /// Rule for an assignment command
   qi::rule <IteratorT,
-            void (CUTS_Setaf_Interpreter *, std::string),
+            void (CUTS_Setaf_Interpreter *, string_vector),
             qi::locals <std::string, std::string>,
             ascii::space_type> assignment_command_;
 
-  /// Ruke for a variable in the commands
+  /// Rule for a variable in the commands
   qi::rule <IteratorT,
             std::string (),
             ascii::space_type> variable_;

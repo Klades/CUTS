@@ -14,6 +14,9 @@
  * Represent the parser for the SETAFA interpreter.
  */
 
+
+typedef std::vector <std::string> string_vector;
+
 class CUTS_SETAF_Export CUTS_Setaf_Parser
 {
 

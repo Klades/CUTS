@@ -1,3 +1,13 @@
+Sat Mar  3 01:32:34 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/setaf/Setaf_Interpreter.h:
+        * cuts/unite/setaf/Setaf_Interpreter.cpp:
+        * cuts/unite/setaf/Setaf_Parser.h:
+        * cuts/unite/setaf/Setaf_Parser.cpp:
+
+          Extended the setaf language to process comma seperated list
+          of log formats in the log format adapts section.
+
 Fri Mar  2 01:14:24 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_EventConsumer.inl:

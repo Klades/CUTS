@@ -177,15 +177,36 @@ add_setaf_relation (CUTS_Setaf_Log_Format_Relation * relation)
 }
 
 //
-// add_setaf_log_format_adapt
+// add_setaf_command
 //
 void CUTS_Setaf_Interpreter::
-add_setaf_log_format_adapt (std::string & lf_name,
-                            command_list & commands)
+add_setaf_command (string_vector & lf_names,
+                   CUTS_Setaf_Command * cmd)
 {
-  this->log_format_adapts_.insert (
-    std::pair <std::string, command_list> (
-    lf_name, commands));
+  string_vector::iterator sit;
+
+  for (sit = lf_names.begin ();
+       sit != lf_names.end ();
+       sit++)
+  {
+    // First check whether this log format have being
+    // added previously
+
+    command_map::iterator it =
+      this->log_format_adapts_.find (*sit);
+
+    if (it != this->log_format_adapts_.end ())
+      (*it).second.push_back (cmd);
+
+    // If not create a new list and add the command
+    else
+    {
+      command_list list;
+      list.push_back (cmd);
+      this->log_format_adapts_.insert (
+        std::pair <std::string, command_list> (*sit, list));
+    }
+  }
 }
 
 //
@@ -218,7 +239,7 @@ void CUTS_Setaf_Interpreter::set_reset_value (
 void CUTS_Setaf_Interpreter::
 create_assignment_command (std::string & lhs_qual_name,
                            std::string & rhs_qual_name,
-                           std::string & lf_name)
+                           string_vector & lf_names)
 {
   // First get the variables either interpreter variables
   // or unite variables associated with the name.
@@ -237,25 +258,9 @@ create_assignment_command (std::string & lhs_qual_name,
                     CUTS_Setaf_Assignment_Command (lhs_var, rhs_var),
                     ACE_bad_alloc ());
 
-  command_map::iterator it =
-    this->log_format_adapts_.find (lf_name);
+  // Now add the command to the relevant log formats
 
-  // If the set of commands associated with this
-  // log format is already in the map then just store
-  // this command. Otherwise insert a new list and
-  // append the commnad to that list
-
-  if (it != this->log_format_adapts_.end ())
-    (*it).second.push_back (command);
-
-  else
-  {
-    command_list list;
-    list.push_back (command);
-    this->log_format_adapts_.insert (
-      std::pair <std::string, command_list> (lf_name, list));
-  }
-
+  this->add_setaf_command (lf_names, command);
 }
 
 //
@@ -263,7 +268,7 @@ create_assignment_command (std::string & lhs_qual_name,
 //
 void CUTS_Setaf_Interpreter::
 create_increment_command (std::string & incr_var_qual_name,
-                          std::string & lf_name)
+                          string_vector & lf_names)
 {
   // First get the variables either interpreter variables
   // or unite variables associated with the name.
@@ -278,19 +283,9 @@ create_increment_command (std::string & incr_var_qual_name,
                     CUTS_Setaf_Increment_Command (incr_var),
                     ACE_bad_alloc ());
 
-  command_map::iterator it =
-    this->log_format_adapts_.find (lf_name);
+  // Now add the command to the relevant log formats.
 
-  if (it != this->log_format_adapts_.end ())
-    (*it).second.push_back (command);
-
-  else
-  {
-    command_list list;
-    list.push_back (command);
-    this->log_format_adapts_.insert (
-      std::pair <std::string, command_list> (lf_name, list));
-  }
+  this->add_setaf_command (lf_names, command);
 
 }
 
@@ -301,7 +296,7 @@ void CUTS_Setaf_Interpreter::
 create_add_command (std::string & lhs_var_qual_name,
                     std::string & rhs_var_qual_name,
                     int value,
-                    std::string & lf_name)
+                    string_vector & lf_names)
 {
   // First get the variables either interpreter variables
   // or unite variables associated with the name.
@@ -318,21 +313,12 @@ create_add_command (std::string & lhs_var_qual_name,
                     CUTS_Setaf_Add_Command (lhs_var, rhs_var, value),
                     ACE_bad_alloc ());
 
-  command_map::iterator it =
-    this->log_format_adapts_.find (lf_name);
+  // Now add the command to the relevant log formats.
 
-  if (it != this->log_format_adapts_.end ())
-    (*it).second.push_back (command);
-
-  else
-  {
-    command_list list;
-    list.push_back (command);
-    this->log_format_adapts_.insert (
-      std::pair <std::string, command_list> (lf_name, list));
-  }
+  this->add_setaf_command (lf_names, command);
 
 }
+
 
 //
 // get_variable
