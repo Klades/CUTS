@@ -125,19 +125,3 @@ void CUTS_Dataflow_Graph::adapter (CUTS_Log_Format_Adapter * adapter)
 {
   this->adapter_ = adapter;
 }
-
-//
-// Set the interpreter
-//
-//CUTS_Setaf_Interpreter * CUTS_Dataflow_Graph::interpreter (void)
-//{
-//  return this->interpreter_;
-//}
-//
-////
-//// Get the interpreter
-////
-//void CUTS_Dataflow_Graph::interpreter (CUTS_Setaf_Interpreter * interpreter)
-//{
-//  this->interpreter_ = interpreter;
-//}
