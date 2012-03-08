@@ -1,3 +1,24 @@
+Thu Mar  8 23:29:43 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+
+          Added RETCODE_NO_DATA to the trait class.
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+        * cuts/iccm/ddsxml/dds.h:
+        * cuts/iccm/ddsxml/dds.inl:
+        * cuts/iccm/ddsxml/dds.cpp:
+        * etc/schemas/iccm/dds.xsd:
+
+          Added support global vs. local topic.
+
 Tue Mar  6 17:57:38 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/Dataflow_Graph.cpp:

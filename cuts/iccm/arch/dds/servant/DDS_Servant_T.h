@@ -60,13 +60,15 @@ protected:
   virtual typename TRAIT::datawriter_ptr_type
     create_datawriter (const char * name,
                        const typename TRAIT::topicqos_type & topic_qos,
-                       typename TRAIT::publisher_ptr_type publisher);
+                       typename TRAIT::publisher_ptr_type publisher,
+                       bool is_global);
 
   virtual void
     configure_eventconsumer (const char * name,
                              const typename TRAIT::datareaderqos_type & qos,
                              const typename TRAIT::topicqos_type & topic_qos,
-                             typename TRAIT::subscriber_ptr_type subscriber);
+                             typename TRAIT::subscriber_ptr_type subscriber,
+                             bool is_global);
 
   /// Type definition of the consumer map.
   typedef typename base_type::consumer_map_type consumer_map_type;

@@ -1,5 +1,36 @@
 namespace iccm
 {
+  // TopicScopeKind
+  //
+
+  inline
+  TopicScopeKind::Value TopicScopeKind::
+  integral () const
+  {
+    return v_;
+  }
+
+  inline
+  bool
+  operator== (::iccm::TopicScopeKind const& a, ::iccm::TopicScopeKind const& b)
+  {
+    return a.v_ == b.v_;
+  }
+
+  inline
+  bool
+  operator!= (::iccm::TopicScopeKind const& a, ::iccm::TopicScopeKind const& b)
+  {
+    return a.v_ != b.v_;
+  }
+
+  inline
+  TopicScopeKind::
+  TopicScopeKind (TopicScopeKind::Value v)
+  : v_ (v)
+  {
+  }
+
   // HistoryQosPolicyKind
   //
 
@@ -3843,6 +3874,7 @@ namespace iccm
   name_ (new ::XMLSchema::string< char > (*s.name_)),
   subscriber_ (s.subscriber_.get () ? new ::XMLSchema::string< char > (*s.subscriber_) : 0),
   topic_ (s.topic_.get () ? new ::XMLSchema::string< char > (*s.topic_) : 0),
+  scope_ (s.scope_.get () ? new ::iccm::TopicScopeKind (*s.scope_) : 0),
   regulator__ ()
   {
     if (durability_.get ()) durability_->container (this);
@@ -3863,6 +3895,7 @@ namespace iccm
     name_->container (this);
     if (subscriber_.get ()) subscriber_->container (this);
     if (topic_.get ()) topic_->container (this);
+    if (scope_.get ()) scope_->container (this);
   }
 
   inline
@@ -3951,6 +3984,9 @@ namespace iccm
 
     if (s.topic_.get ()) topic (*(s.topic_));
     else topic_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+
+    if (s.scope_.get ()) scope (*(s.scope_));
+    else scope_ = ::std::auto_ptr< ::iccm::TopicScopeKind > (0);
 
     return *this;
   }
@@ -4537,6 +4573,45 @@ namespace iccm
     }
   }
 
+  // DataReaderQos
+  //
+  inline
+  bool DataReaderQos::
+  scope_p () const
+  {
+    return scope_.get () != 0;
+  }
+
+  inline
+  ::iccm::TopicScopeKind const& DataReaderQos::
+  scope () const
+  {
+    return *scope_;
+  }
+
+  inline
+  ::iccm::TopicScopeKind& DataReaderQos::
+  scope ()
+  {
+    return *scope_;
+  }
+
+  inline
+  void DataReaderQos::
+  scope (::iccm::TopicScopeKind const& e)
+  {
+    if (scope_.get ())
+    {
+      *scope_ = e;
+    }
+
+    else
+    {
+      scope_ = ::std::auto_ptr< ::iccm::TopicScopeKind > (new ::iccm::TopicScopeKind (e));
+      scope_->container (this);
+    }
+  }
+
 
   // DataWriterQos
   //
@@ -4574,6 +4649,7 @@ namespace iccm
   publisher_ (s.publisher_.get () ? new ::XMLSchema::string< char > (*s.publisher_) : 0),
   topic_ (s.topic_.get () ? new ::XMLSchema::string< char > (*s.topic_) : 0),
   isinstance_ (s.isinstance_.get () ? new ::XMLSchema::boolean (*s.isinstance_) : 0),
+  scope_ (s.scope_.get () ? new ::iccm::TopicScopeKind (*s.scope_) : 0),
   regulator__ ()
   {
     if (durability_.get ()) durability_->container (this);
@@ -4594,6 +4670,7 @@ namespace iccm
     if (publisher_.get ()) publisher_->container (this);
     if (topic_.get ()) topic_->container (this);
     if (isinstance_.get ()) isinstance_->container (this);
+    if (scope_.get ()) scope_->container (this);
   }
 
   inline
@@ -4680,6 +4757,9 @@ namespace iccm
 
     if (s.isinstance_.get ()) isinstance (*(s.isinstance_));
     else isinstance_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+
+    if (s.scope_.get ()) scope (*(s.scope_));
+    else scope_ = ::std::auto_ptr< ::iccm::TopicScopeKind > (0);
 
     return *this;
   }
@@ -5270,6 +5350,45 @@ namespace iccm
     {
       isinstance_ = ::std::auto_ptr< ::XMLSchema::boolean > (new ::XMLSchema::boolean (e));
       isinstance_->container (this);
+    }
+  }
+
+  // DataWriterQos
+  //
+  inline
+  bool DataWriterQos::
+  scope_p () const
+  {
+    return scope_.get () != 0;
+  }
+
+  inline
+  ::iccm::TopicScopeKind const& DataWriterQos::
+  scope () const
+  {
+    return *scope_;
+  }
+
+  inline
+  ::iccm::TopicScopeKind& DataWriterQos::
+  scope ()
+  {
+    return *scope_;
+  }
+
+  inline
+  void DataWriterQos::
+  scope (::iccm::TopicScopeKind const& e)
+  {
+    if (scope_.get ())
+    {
+      *scope_ = e;
+    }
+
+    else
+    {
+      scope_ = ::std::auto_ptr< ::iccm::TopicScopeKind > (new ::iccm::TopicScopeKind (e));
+      scope_->container (this);
     }
   }
 

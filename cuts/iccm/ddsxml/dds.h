@@ -6,6 +6,7 @@
 //
 namespace iccm
 {
+  class TopicScopeKind;
   class HistoryQosPolicyKind;
   class DurabilityQosPolicyKind;
   class DestinationOrderQosPolicyKind;
@@ -66,6 +67,41 @@ namespace iccm
 
 namespace iccm
 {
+  class ICCM_DDS_XML_Export TopicScopeKind : public ::XSCRT::Type
+  {
+    public:
+    TopicScopeKind (::XSCRT::XML::Element< char > const&);
+    TopicScopeKind (::XSCRT::XML::Attribute< char > const&);
+
+    static TopicScopeKind const local;
+    static TopicScopeKind const global;
+
+    enum Value
+    {
+      local_l, global_l
+    };
+
+
+    Value
+    integral () const;
+
+    friend bool ICCM_DDS_XML_Export
+    operator== (TopicScopeKind const& a, TopicScopeKind const& b);
+
+    friend bool ICCM_DDS_XML_Export
+    operator!= (TopicScopeKind const& a, TopicScopeKind const& b);
+
+    private:
+    TopicScopeKind (Value v);
+
+    Value v_;
+  };
+
+  bool ICCM_DDS_XML_Export operator== (TopicScopeKind const &a, TopicScopeKind const &b);
+
+  bool ICCM_DDS_XML_Export operator!= (TopicScopeKind const &a, TopicScopeKind const &b);
+
+
   class ICCM_DDS_XML_Export HistoryQosPolicyKind : public ::XSCRT::Type
   {
     public:
@@ -1908,6 +1944,17 @@ namespace iccm
     protected:
     ::std::auto_ptr< ::XMLSchema::string< char > > topic_;
 
+    // scope
+    //
+    public:
+    bool scope_p () const;
+    ::iccm::TopicScopeKind const& scope () const;
+    ::iccm::TopicScopeKind& scope ();
+    void scope (::iccm::TopicScopeKind const& );
+
+    protected:
+    ::std::auto_ptr< ::iccm::TopicScopeKind > scope_;
+
     public:
     DataReaderQos (::XMLSchema::string< char > const& name__);
 
@@ -2111,6 +2158,17 @@ namespace iccm
 
     protected:
     ::std::auto_ptr< ::XMLSchema::boolean > isinstance_;
+
+    // scope
+    //
+    public:
+    bool scope_p () const;
+    ::iccm::TopicScopeKind const& scope () const;
+    ::iccm::TopicScopeKind& scope ();
+    void scope (::iccm::TopicScopeKind const& );
+
+    protected:
+    ::std::auto_ptr< ::iccm::TopicScopeKind > scope_;
 
     public:
     DataWriterQos (::XMLSchema::string< char > const& name__);

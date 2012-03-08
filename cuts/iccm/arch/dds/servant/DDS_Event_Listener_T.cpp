@@ -96,36 +96,35 @@ on_data_available (datareader_ptr_type data_reader)
   sampleinfoseq_type sample_info;
   returncode_type status = reader->take (event_seq,
                                          sample_info,
-                                         1,
+                                         T::LENGTH_UNLIMITED,
                                          T::ANY_SAMPLE_STATE,
                                          T::ANY_VIEW_STATE,
                                          T::ANY_INSTANCE_STATE);
 
-  if (0 == status)
+  switch (status)
   {
-    if (0 != this->callback_)
+  case T::RETCODE_OK:
     {
       // Push each event in the sequence to the servant so it can
       // pass it along to the implementation.
-      size_t length = event_seq.length ();
+      const size_t length = event_seq.length ();
 
       for (size_t i = 0; i < length; ++ i)
       {
         typename event_traits_type::upcall_event_type upcall_event (event_seq[i]);
         (this->servant_->*this->callback_) (&upcall_event);
       }
-    }
-    else
-    {
-      ACE_ERROR ((LM_CRITICAL,
-                  ACE_TEXT ("%T (%t) - %M - callback is not set!!\n")));
-    }
 
-    // Return our loan back to the system.
-    reader->return_loan (event_seq, sample_info);
-  }
-  else
-  {
+      // Return our loan back to the system.
+      reader->return_loan (event_seq, sample_info);
+    }
+    break;
+
+  case T::RETCODE_NO_DATA:
+    // Do nothing...
+    break;
+
+  default:
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - failed to take next event [retcode=%d]\n"),
                 status));

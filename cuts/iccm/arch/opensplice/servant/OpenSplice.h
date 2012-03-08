@@ -136,7 +136,11 @@ public:
   static const unsigned long ANY_INSTANCE_STATE = ::DDS::ANY_INSTANCE_STATE;
 
   static const instancehandle_type HANDLE_NIL = ::DDS::HANDLE_NIL;
+
   static const returncode_type RETCODE_OK = ::DDS::RETCODE_OK;
+  static const returncode_type RETCODE_NO_DATA = ::DDS::RETCODE_NO_DATA;
+
+  static const unsigned long LENGTH_UNLIMITED = ::DDS::LENGTH_UNLIMITED;
 
   static domainparticipantfactory_ptr_type get_domainparticipantfactory_instance (void);
 

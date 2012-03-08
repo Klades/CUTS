@@ -57,6 +57,11 @@ public:
                           const topicqos_type & topic_qos,
                           const datareaderqos_type & qos);
 
+  virtual void configure (subscriber_ptr_type subscriber,
+                          const topicqos_type & topic_qos,
+                          const datareaderqos_type & qos,
+                          const char * topic_name);
+
   /**
    * Add a topic to the event consumer. This will results in a new
    * event listener if the topic has not already been added.
@@ -84,6 +89,10 @@ private:
   ACE_Hash_Map_Manager <ACE_CString,
                         listener_type *,
                         ACE_RW_Thread_Mutex> listeners_;
+
+  /// Custom topic name for the event consumer. This will override
+  /// the topic name in the connection, if it exists.
+  ACE_CString type_name_;
 };
 
 }

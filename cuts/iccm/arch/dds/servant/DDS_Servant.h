@@ -75,14 +75,16 @@ protected:
   virtual datawriter_ptr_type
     create_datawriter (const char * name,
                        const topicqos_type & topic_qos,
-                       publisher_ptr_type publisher) = 0;
+                       publisher_ptr_type publisher,
+                       bool is_global) = 0;
 
   /// Configure the event consumer for future data readers.
   virtual void
     configure_eventconsumer (const char * name,
                              const datareaderqos_type & qos,
                              const topicqos_type & topic_qos,
-                             subscriber_ptr_type publisher) = 0;
+                             subscriber_ptr_type publisher,
+                             bool is_global) = 0;
 
   /// The domain participant for the servant.
   domainparticipant_var_type participant_;

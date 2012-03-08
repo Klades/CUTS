@@ -54,6 +54,17 @@ public:
                           const topicqos_type & topic_qos,
                           const datareaderqos_type & qos) = 0;
 
+  /**
+   * Configure the event consumer for a specific topic. This methods
+   * forces the event consumer to ignore the topic name in the connection.
+   * Moreover, it allows the consumer to receive data without an established
+   * CCM connection.
+   */
+  virtual void configure (subscriber_ptr_type subscriber,
+                          const topicqos_type & topic_qos,
+                          const datareaderqos_type & qos,
+                          const char * topic_name) = 0;
+
   /// Test if the consumer has been configured.
   bool is_configured (void) const;
 

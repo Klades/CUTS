@@ -32,6 +32,7 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
   for (; !consumer_iter.done (); ++ consumer_iter)
   {
+    typename publishes_map_type::KEY & topic_name = consumer_iter->key ();
     typename consumer_map_type::VALUE consumer = consumer_iter->item ();
 
     if (!consumer->is_configured ())
@@ -42,18 +43,13 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
       ACE_ERROR ((LM_DEBUG,
                   ACE_TEXT ("%T (%t) - %M - using default configuration ")
                   ACE_TEXT ("for data reader <%s> in <%s>\n"),
-                  consumer_iter->key ().c_str (),
+                  topic_name.c_str (),
                   this->name_.c_str ()));
 
       consumer->configure (this->subscriber_,
                            TRAIT::topic_qos_default (),
-                           TRAIT::datareader_qos_default ());
-    }
-    else
-    {
-      ACE_DEBUG ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - <%s> is already configured\n"),
-                  consumer_iter->key ().c_str ()));
+                           TRAIT::datareader_qos_default (),
+                           topic_name.c_str ());
     }
   }
 
@@ -61,11 +57,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
   for (; !emits_iter.done (); ++ emits_iter)
   {
+    typename publishes_map_type::KEY & topic_name = emits_iter->key ();
     typename emits_map_type::VALUE emits = emits_iter->item ();
-
-    ACE_CString topic_name (this->name_);
-    topic_name += ".";
-    topic_name += emits_iter->key ();
 
     if (!emits->is_configured ())
     {
@@ -75,18 +68,12 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
       ACE_ERROR ((LM_DEBUG,
                   ACE_TEXT ("%T (%t) - %M - using default configuration ")
                   ACE_TEXT ("for emitter <%s> in <%s>\n"),
-                  emits_iter->key ().c_str (),
+                  topic_name.c_str (),
                   this->name_.c_str ()));
 
       emits->configure (this->publisher_,
                         TRAIT::topic_qos_default (),
                         topic_name.c_str ());
-    }
-    else
-    {
-      ACE_DEBUG ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - <%s> is already configured\n"),
-                  emits_iter->key ().c_str ()));
     }
   }
 
@@ -94,11 +81,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
   for (; !publishes_iter.done (); ++ publishes_iter)
   {
+    typename publishes_map_type::KEY & topic_name = publishes_iter->key ();
     typename publishes_map_type::VALUE pub_table = publishes_iter->item ();
-
-    ACE_CString topic_name (this->name_);
-    topic_name += ".";
-    topic_name += publishes_iter->key ();
 
     if (!pub_table->is_configured ())
     {
@@ -108,18 +92,12 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
       ACE_ERROR ((LM_DEBUG,
                   ACE_TEXT ("%T (%t) - %M - using default configuration ")
                   ACE_TEXT ("for publisher <%s> in <%s>\n"),
-                  publishes_iter->key ().c_str (),
+                  topic_name.c_str (),
                   this->name_.c_str ()));
 
       pub_table->configure (this->publisher_,
                             TRAIT::topic_qos_default (),
                             topic_name.c_str ());
-    }
-    else
-    {
-      ACE_DEBUG ((LM_DEBUG,
-                  ACE_TEXT ("%T (%t) - %M - <%s> is already configured\n"),
-                  publishes_iter->key ().c_str ()));
     }
   }
 }
@@ -132,16 +110,15 @@ typename TRAIT::datawriter_ptr_type
 DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 create_datawriter (const char * name,
                    const typename TRAIT::topicqos_type & topic_qos,
-                   typename TRAIT::publisher_ptr_type publisher)
+                   typename TRAIT::publisher_ptr_type publisher,
+                   bool is_global)
 {
   // Locate the target publisher, or publisher table.
   typename TRAIT::publisher_type * emits = 0;
   typename TRAIT::publisher_table_type * publishes = 0;
   typename TRAIT::datawriter_var_type data_writer;
 
-  ACE_CString topic_name (this->name_);
-  topic_name += ".";
-  topic_name += name;
+  const ACE_CString topic_name = is_global ? name : this->name_ + "." + name;
 
   if (0 == this->emits_.find (name, emits))
   {
@@ -174,13 +151,20 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 configure_eventconsumer (const char * name,
                          const typename TRAIT::datareaderqos_type & reader_qos,
                          const typename TRAIT::topicqos_type & topic_qos,
-                         typename TRAIT::subscriber_ptr_type publisher)
+                         typename TRAIT::subscriber_ptr_type publisher,
+                         bool is_global)
 {
   typename TRAIT::eventconsumer_type * consumer = 0;
 
   if (0 == this->consumers_.find (name, consumer))
   {
-    consumer->configure (publisher, topic_qos, reader_qos);
+    if (is_global)
+      // The global event consumer uses its name as the topic name.
+      consumer->configure (publisher, topic_qos, reader_qos, name);
+    else
+      // The non-global event consumer uses the topic name provided
+      // by the connection.
+      consumer->configure (publisher, topic_qos, reader_qos);
   }
   else
   {

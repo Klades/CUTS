@@ -24,9 +24,8 @@ configure (subscriber_ptr_type subscriber,
   typedef typename T::returncode_type returncode_type;
   typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
 
-  ACE_CString type_name;
   domainparticipant_var_type participant = subscriber->get_participant ();
-  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
+  returncode_type status = T::register_type <dds_typesupport_type> (participant, this->type_name_);
 
   if (0 != status)
   {
@@ -46,28 +45,42 @@ configure (subscriber_ptr_type subscriber,
 }
 
 //
+// configure
+//
+template <typename T, typename SERVANT, typename EVENT>
+void DDS_EventConsumer_T <T, SERVANT, EVENT>::
+configure (subscriber_ptr_type subscriber,
+           const topicqos_type & topic_qos,
+           const datareaderqos_type & qos,
+           const char * topic_name)
+{
+  // Configure the event consumer, then manually add the topic.
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - configuring event consumer to listen ")
+              ACE_TEXT ("to global topic <%s>\n"),
+              topic_name));
+
+  this->configure (subscriber, topic_qos, qos);
+  this->add_topic (topic_name);
+}
+
+//
 // add_topic
 //
 template <typename T, typename SERVANT, typename EVENT>
 void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name)
 {
-  // Now, we need to create a topic object for this type name. We have
-  // already registered the type with the participant. Now, we need to
-  // combine the type name with the topic name to create the topic.
   typedef typename T::domainparticipant_var_type domainparticipant_var_type;
-  typedef typename T::returncode_type returncode_type;
-  typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
   typedef typename T::topic_var_type topic_var_type;
 
-  ACE_CString type_name;
+  // First, try to locate the topic. If we cannot find it, then we need
+  // to create a new one for this participant.
   domainparticipant_var_type participant = this->subscriber_->get_participant ();
-  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
-
   topic_var_type topic =
     participant->create_topic (topic_name,
-                               type_name.c_str (),
+                               this->type_name_.c_str (),
                                *this->topic_qos_,
-                               0, /*::DDS::TopicListener::_nil ()*/
+                               0,
                                T::STATUS_MASK_NONE);
 
   // Create a new data reader object. Right now this work if we only

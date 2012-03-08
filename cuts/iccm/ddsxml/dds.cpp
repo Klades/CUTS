@@ -2,6 +2,38 @@
 
 namespace iccm
 {
+  // TopicScopeKind
+  //
+
+  TopicScopeKind::
+  TopicScopeKind (::XSCRT::XML::Element< char > const& e)
+  : ::XSCRT::Type (e)
+  {
+    ::std::basic_string< char > v (e.value ());
+
+    if (v == "local") v_ = local_l;
+    else if (v == "global") v_ = global_l;
+    else
+    {
+    }
+  }
+
+  TopicScopeKind::
+  TopicScopeKind (::XSCRT::XML::Attribute< char > const& a)
+  : ::XSCRT::Type (a)
+  {
+    ::std::basic_string< char > v (a.value ());
+
+    if (v == "local") v_ = local_l;
+    else if (v == "global") v_ = global_l;
+    else
+    {
+    }
+  }
+
+  TopicScopeKind const TopicScopeKind::local (TopicScopeKind::local_l);
+  TopicScopeKind const TopicScopeKind::global (TopicScopeKind::global_l);
+
   // HistoryQosPolicyKind
   //
 
@@ -1459,6 +1491,12 @@ namespace iccm
         topic (t);
       }
 
+      else if (n == "scope")
+      {
+        ::iccm::TopicScopeKind t (a);
+        scope (t);
+      }
+
       else
       {
       }
@@ -1595,6 +1633,12 @@ namespace iccm
       {
         ::XMLSchema::boolean t (a);
         isinstance (t);
+      }
+
+      else if (n == "scope")
+      {
+        ::iccm::TopicScopeKind t (a);
+        scope (t);
       }
 
       else
