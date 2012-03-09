@@ -62,13 +62,19 @@ void BE_produce (void)
   {
     AST_Root * root = idl_global->root ();
 
-    // Generate the executor idl file.
-    iCCM::Executor_IDL_File executor_idl_file;
-    root->ast_accept (&executor_idl_file);
+    if (be_global->generate_lem_)
+    {
+      // Generate the executor idl file.
+      iCCM::Executor_IDL_File executor_idl_file;
+      root->ast_accept (&executor_idl_file);
+    }
 
-    // Generate the servant files.
-    iCCM::Servant_File svnt_file;
-    root->ast_accept (&svnt_file);
+    if (be_global->generate_svnt_)
+    {
+      // Generate the servant files.
+      iCCM::Servant_File svnt_file;
+      root->ast_accept (&svnt_file);
+    }
 
     be_global->post_produce ();
 

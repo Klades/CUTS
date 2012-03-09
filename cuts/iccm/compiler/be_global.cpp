@@ -27,7 +27,9 @@ BE_GlobalData * be_global = 0;
 BE_GlobalData::BE_GlobalData (void)
 : output_path_ ("."),
   executor_idl_suffix_ ("_iCCM.idl"),
-  wrapper_event_suffix_ ("Event")
+  wrapper_event_suffix_ ("Event"),
+  generate_lem_ (false),
+  generate_svnt_ (false)
 {
 
 }
@@ -57,7 +59,17 @@ void BE_GlobalData::parse_args (long &i, char **av)
   case 'o':
     this->output_path_ = av[i + 1];
     ++i;
+    break;
 
+  case 'G':
+    {
+      const char * arg = av[i] + 2;
+
+      if (0 == ACE_OS::strcmp (arg, "lem"))
+        this->generate_lem_ = true;
+      else if (0 == ACE_OS::strcmp (arg, "sv"))
+        this->generate_svnt_ = true;
+    }
     break;
 
   default:

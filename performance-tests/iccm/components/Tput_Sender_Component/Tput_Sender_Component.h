@@ -4,12 +4,12 @@
 #define _TPUT_RECEIVER_COMPONENT_H_
 
 #include "ace/pre.h"
-#include "Performance_Test_Components_iCCMC.h"
+#include "../../Performance_Test_Components_iCCMC.h"
 
 #include "cuts/arch/ccm/CCM_Component_T.h"
 #include "ace/High_Res_Timer.h"
 
-#include "Sender_Component_export.h"
+#include "Tput_Sender_Component_export.h"
 
 namespace SenderComponentImpl
 {
@@ -147,8 +147,6 @@ namespace SenderComponentImpl
     CORBA::UShort datasize_;
   };
 }
-
-#include "Sender_Component_export.h"
 
 //
 // create_HelloReceiver_Impl

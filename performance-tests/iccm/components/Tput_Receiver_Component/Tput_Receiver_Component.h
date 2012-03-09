@@ -9,7 +9,7 @@
 #include "cuts/arch/ccm/CCM_Component_T.h"
 #include "ace/High_Res_Timer.h"
 
-#include "Receiver_Component_export.h"
+#include "Tput_Receiver_Component_export.h"
 
 namespace ReceiverComponentImpl
 {
@@ -50,8 +50,6 @@ namespace ReceiverComponentImpl
     ACE_High_Res_Timer timer_;
   };
 }
-
-#include "Receiver_Component_export.h"
 
 //
 // create_HelloReceiver_Impl

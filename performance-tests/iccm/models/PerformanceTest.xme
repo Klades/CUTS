@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{2EB8D3DE-C01C-4849-81FB-9D40E2399043}" cdate="Wed Feb 29 09:53:25 2012" mdate="Wed Feb 29 09:53:25 2012" version="" metaguid="{29894D80-C5DC-4B65-9050-9D30D64662F7}" metaversion="" metaname="PICML">
+<project guid="{B7182015-AF0D-4A91-80F4-59811F19EA15}" cdate="Wed Feb 29 09:53:25 2012" mdate="Wed Feb 29 09:53:25 2012" version="" metaguid="{29894D80-C5DC-4B65-9050-9D30D64662F7}" metaversion="" metaname="PICML">
 	<name>PerformanceTest</name>
 	<comment></comment>
 	<author></author>
@@ -517,45 +517,12 @@
 				<name>WideString</name>
 			</atom>
 		</folder>
-		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x3" kind="ImplementationArtifacts" guid="{2c84fb0f-3644-4c64-8bc6-03723e6fd953}">
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x4" kind="ImplementationArtifacts" guid="{2c84fb0f-3644-4c64-8bc6-03723e6fd953}">
 			<name>ImplementationArtifacts</name>
 			<model id="id-0065-0000000e" kind="ArtifactContainer" guid="{165ec71b-27a3-404a-9bde-b9171814523d}" relid="0x1" childrelidcntr="0x2">
-				<name>TPUT_Sender_Component</name>
-				<atom id="id-0066-00000017" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{3b958233-ffb6-470d-97e9-641b1c956a12}" relid="0x1">
-					<name>TPUT_Sender_Component_svnt</name>
-					<regnode name="PartRegs" status="undefined">
-						<value></value>
-						<regnode name="Packaging" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>150,150</value>
-							</regnode>
-						</regnode>
-					</regnode>
-					<attribute kind="UUID">
-						<value>2493F662-62E5-11E1-8000-080027BB5D07</value>
-					</attribute>
-					<attribute kind="architecture" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="artifactVersion" status="meta">
-						<value>0.0.0.0</value>
-					</attribute>
-					<attribute kind="configuration" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="label" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="location">
-						<value>Performance_Test_svnt</value>
-					</attribute>
-					<attribute kind="operatingSystem" status="meta">
-						<value></value>
-					</attribute>
-				</atom>
+				<name>Tput_Sender_Component_impl</name>
 				<atom id="id-0066-00000018" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{ce2cc1dc-72bd-4db9-aab8-30f583f27222}" relid="0x2">
-					<name>TPUT_Sender_Component_impl</name>
+					<name>Tput_Sender_Component_impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="Packaging" status="undefined">
@@ -581,7 +548,7 @@
 						<value></value>
 					</attribute>
 					<attribute kind="location">
-						<value>TPUT_Sender_Component_impl</value>
+						<value>Tput_Sender_Component_impl</value>
 					</attribute>
 					<attribute kind="operatingSystem" status="meta">
 						<value></value>
@@ -589,42 +556,9 @@
 				</atom>
 			</model>
 			<model id="id-0065-00000010" kind="ArtifactContainer" guid="{9592179f-cf89-4efb-871a-bee076e7ab4a}" relid="0x2" childrelidcntr="0x2">
-				<name>TPUT_Receiver_Component</name>
-				<atom id="id-0066-0000001a" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{182f32a5-34c4-4bb3-bde2-b2432f1c3ca6}" relid="0x1">
-					<name>TPUT_Receiver_Component_svnt</name>
-					<regnode name="PartRegs" status="undefined">
-						<value></value>
-						<regnode name="Packaging" status="undefined">
-							<value></value>
-							<regnode name="Position" isopaque="yes">
-								<value>150,150</value>
-							</regnode>
-						</regnode>
-					</regnode>
-					<attribute kind="UUID">
-						<value>2493F662-62E5-11E1-8003-080027BB5D07</value>
-					</attribute>
-					<attribute kind="architecture" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="artifactVersion" status="meta">
-						<value>0.0.0.0</value>
-					</attribute>
-					<attribute kind="configuration" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="label" status="meta">
-						<value></value>
-					</attribute>
-					<attribute kind="location">
-						<value>Performance_Test_svnt</value>
-					</attribute>
-					<attribute kind="operatingSystem" status="meta">
-						<value></value>
-					</attribute>
-				</atom>
+				<name>Tput_Receiver_Component_impl</name>
 				<atom id="id-0066-0000001b" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{4a393e7e-fdfa-4dfe-a061-c7efe998d49f}" relid="0x2">
-					<name>TPUT_Receiver_Component_impl</name>
+					<name>Tput_Receiver_Component_impl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="Packaging" status="undefined">
@@ -650,7 +584,49 @@
 						<value></value>
 					</attribute>
 					<attribute kind="location">
-						<value>TPUT_Receiver_Component_impl</value>
+						<value>Tput_Receiver_Component_impl</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000001f" kind="ArtifactContainer" guid="{ddd89197-ccab-4041-86d3-88688f0873cb}" relid="0x4" childrelidcntr="0x2">
+				<name>Performance_Test_Splice_svnt</name>
+				<atom id="id-0066-0000001e" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{7232b39c-d17e-415f-96ce-220f5e9eb72a}" relid="0x2">
+					<name>Performance_Test_Splice_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ImplementationArtifactProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>265,160</value>
+							</regnode>
+						</regnode>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>265,160</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>6FB0A592-6A3C-11E1-8000-080027BB5D07</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>Performance_Test_Splice_svnt</value>
 					</attribute>
 					<attribute kind="operatingSystem" status="meta">
 						<value></value>
@@ -661,9 +637,9 @@
 		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x3" kind="ComponentImplementations" guid="{07b09c4d-d8fb-4381-b357-2089b39fd372}">
 			<name>ComponentImplementations</name>
 			<model id="id-0065-0000000f" kind="ComponentImplementationContainer" guid="{849694df-6a34-4480-a927-335ec2a4a8d6}" relid="0x1" childrelidcntr="0x7">
-				<name>TPUT_Sender_Component</name>
+				<name>Tput_Sender_Component_Splice</name>
 				<atom id="id-0066-00000019" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{57eaa464-17d5-4836-8566-b634ea1391d7}" relid="0x1">
-					<name>TPUT_Sender_Component</name>
+					<name>Tput_Sender_Component_Splice</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="Packaging" status="undefined">
@@ -695,7 +671,7 @@
 						</regnode>
 					</regnode>
 				</reference>
-				<reference id="id-0067-00000013" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{7b12f16b-172a-4102-b9e3-6795d3b64d83}" relid="0x4" referred="id-0066-00000017">
+				<reference id="id-0067-00000013" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{7b12f16b-172a-4102-b9e3-6795d3b64d83}" relid="0x4" referred="id-0066-0000001e">
 					<name>TPUT_Sender_Component_svnt</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -742,15 +718,15 @@
 				</connection>
 			</model>
 			<model id="id-0065-00000011" kind="ComponentImplementationContainer" guid="{c0a51e9b-e670-4c0e-bdc9-3b8669708f93}" relid="0x2" childrelidcntr="0x7">
-				<name>TPUT_Receiver_Component</name>
+				<name>Tput_Receiver_Component_Splice</name>
 				<atom id="id-0066-0000001c" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{7f6c32b8-abab-4b51-b4df-18b32ee70b4a}" relid="0x1">
-					<name>TPUT_Receiver_Component</name>
+					<name>Tput_Receiver_Component_Splice</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
 						<regnode name="Packaging" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>244,272</value>
+								<value>251,272</value>
 							</regnode>
 						</regnode>
 					</regnode>
@@ -771,15 +747,15 @@
 						<regnode name="Packaging" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
-								<value>195,92</value>
+								<value>210,91</value>
 							</regnode>
 						</regnode>
 					</regnode>
 					<regnode name="decorator" isopaque="yes">
-						<value>MGA.Decorator.ComponentRefDecorator</value>
+						<value></value>
 					</regnode>
 				</reference>
-				<reference id="id-0067-00000016" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{fa615023-f2e2-425c-88f1-26a93fea5e82}" relid="0x4" referred="id-0066-0000001a">
+				<reference id="id-0067-00000016" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{fa615023-f2e2-425c-88f1-26a93fea5e82}" relid="0x4" referred="id-0066-0000001e">
 					<name>TPUT_Receiver_Component_svnt</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1048,7 +1024,7 @@
 			<name>ComponentAssemblies</name>
 			<model id="id-0065-00000017" kind="ComponentImplementationContainer" guid="{80a0a01f-f727-4cef-8780-5cc140536a7c}" relid="0x1" childrelidcntr="0x1">
 				<name>Throughput_asm</name>
-				<model id="id-0065-00000018" kind="ComponentAssembly" role="ComponentAssembly" guid="{4adfe3f2-e234-4c58-a50e-86d26b6c9a20}" relid="0x1" childrelidcntr="0xa">
+				<model id="id-0065-00000018" kind="ComponentAssembly" role="ComponentAssembly" guid="{4adfe3f2-e234-4c58-a50e-86d26b6c9a20}" relid="0x1" childrelidcntr="0xc">
 					<name>Throughput_asm</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1078,13 +1054,13 @@
 							<regnode name="AssemblyProperties" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>76,169</value>
+									<value>125,71</value>
 								</regnode>
 							</regnode>
 							<regnode name="Packaging" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>69,71</value>
+									<value>125,71</value>
 								</regnode>
 							</regnode>
 						</regnode>
@@ -1162,13 +1138,13 @@
 							<regnode name="AssemblyProperties" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>69,204</value>
+									<value>125,204</value>
 								</regnode>
 							</regnode>
 							<regnode name="Packaging" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>69,204</value>
+									<value>125,204</value>
 								</regnode>
 							</regnode>
 						</regnode>
@@ -1246,13 +1222,13 @@
 							<regnode name="AssemblyProperties" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>69,344</value>
+									<value>125,344</value>
 								</regnode>
 							</regnode>
 							<regnode name="Packaging" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>69,344</value>
+									<value>125,344</value>
 								</regnode>
 							</regnode>
 						</regnode>
@@ -1330,7 +1306,7 @@
 							<regnode name="AssemblyProperties" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>461,64</value>
+									<value>468,71</value>
 								</regnode>
 							</regnode>
 							<regnode name="Packaging" status="undefined">
@@ -1402,7 +1378,7 @@
 							<regnode name="AssemblyProperties" status="undefined">
 								<value></value>
 								<regnode name="Position" isopaque="yes">
-									<value>475,344</value>
+									<value>468,344</value>
 								</regnode>
 							</regnode>
 							<regnode name="Packaging" status="undefined">
@@ -1431,6 +1407,29 @@
 							<name>size8data</name>
 						</reference>
 					</model>
+					<reference id="id-0067-0000003f" kind="SimpleProperty" role="SimpleProperty" guid="{e26fff1e-ddff-4764-9329-e1f0ab31f739}" relid="0xb" referred="id-0066-0000000c">
+						<name>datasize</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>34,104</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>8</value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-0000000f" kind="AttributeValue" role="AttributeValue" guid="{e820cfe7-f78c-4ff8-8ff3-edef04258d65}" relid="0xc">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-0000001f"/>
+						<connpoint role="dst" target="id-0067-0000003f"/>
+					</connection>
 				</model>
 			</model>
 		</folder>

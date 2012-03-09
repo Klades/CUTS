@@ -1,6 +1,6 @@
 // $Id$
 
-project : ccm_svnt, iccm_dds_skel, iccm_opensplice_stub {
+project : iccm_dds_skel, iccm_opensplice_stub {
   libs  += iCCM_OpenSplice_skel
   after += iCCM_OpenSplice_skel
 }

@@ -1,0 +1,136 @@
+// $Id$
+
+project (Performance_Test_IDL_Gen) : componentidldefaults, cuts_codegen_defaults,  {
+  custom_only = 1
+
+  idlflags += -Wb,stub_export_macro=PERFORMANCE_TEST_STUB_Export \
+              -Wb,stub_export_include=Performance_Test_stub_export.h \
+              -Wb,exec_export_macro=PERFORMANCE_TEST_EXEC_Export \
+              -Wb,exec_export_include=Performance_Test_exec_export.h \
+              -Wb,skel_export_macro=PERFORMANCE_TEST_SKEL_Export \
+              -Wb,skel_export_include=Performance_Test_skel_export.h \
+              -Sa -Sal -St
+
+  idlflags -= -Gsv
+
+  IDL_Files {
+    Performance_Test.idl
+    Performance_Test_Components.idl
+  }
+}
+
+project (Performance_Test_iCCM_Gen) : iccm_ospl, requires_opensplice {
+  custom_only = 1
+
+  after += Performance_Test_IDL_Gen
+
+  iccm_ospl_flags += -Glem
+
+  ICCM_Files {
+    gendir = .
+
+    Performance_Test.idl
+    Performance_Test_Components.idl
+  }
+}
+
+project (Performance_Test_stub) : avoids_ace_for_tao, ccm_stub, cuts_codegen_defaults {
+  sharedname    = Performance_Test_stub
+  dynamicflags += PERFORMANCE_TEST_STUB_BUILD_DLL
+
+  after        += Performance_Test_IDL_Gen
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    Performance_TestC.cpp
+    Performance_Test_ComponentsC.cpp
+  }
+
+  Header_Files {
+    Performance_TestC.h
+  }
+
+  Inline_Files {
+    Performance_TestC.inl
+  }
+}
+
+project (Performance_Test_skel) : iccm_opensplice_skel, avoids_ace_for_tao, cuts_codegen_defaults {
+  sharedname   = Performance_Test_skel
+  dynamicflags = PERFORMANCE_TEST_SKEL_BUILD_DLL
+
+  after       += Performance_Test_stub
+  libs        += Performance_Test_stub
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    Performance_TestS.cpp
+    Performance_Test_ComponentsS.cpp
+  }
+
+  Header_Files {
+    Performance_TestS.h
+    Performance_Test_ComponentsS.h
+  }
+
+  Inline_Files {
+    Performance_TestS.inl
+    Performance_Test_ComponentsS.inl
+  }
+}
+
+project (Performance_Test_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
+  custom_only = 1
+
+  after    += Performance_Test_iCCM_Gen
+
+  idlflags += -Wb,export_macro=PERFORMANCE_TEST_EXEC_Export \
+              -Wb,export_include=Performance_Test_exec_export.h \
+              -Sa -Sal -SS
+
+  IDL_Files {
+    Performance_TestE.idl
+    Performance_Test_ComponentsE.idl
+
+    Performance_Test_iCCM.idl
+    Performance_Test_Components_iCCM.idl
+  }
+}
+
+project (Performance_Test_exec) : iccm_dds_skel, cuts_codegen_defaults {
+  sharedname    = Performance_Test_exec
+  dynamicflags += PERFORMANCE_TEST_EXEC_BUILD_DLL
+
+  after += Performance_Test_stub Performance_Test_EIDL_Gen
+  libs  += Performance_Test_stub
+
+  Source_Files {
+    Performance_TestEC.cpp
+    Performance_Test_ComponentsEC.cpp
+
+    Performance_Test_iCCMC.h
+    Performance_Test_Components_iCCMC.cpp
+  }
+
+  Inline_Files {
+  }
+
+  Header_Files {
+    Performance_TestEC.h
+    Performance_Test_ComponentsEC.h
+
+    Performance_Test_iCCMC.h
+    Performance_Test_Components_iCCMC.h
+  }
+
+  IDL_Files {
+  }
+}
+
+// end of auto-generated project file

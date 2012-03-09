@@ -75,6 +75,12 @@ public:
 
   ACE_CString wrapper_event_suffix_;
 
+  /// Generate local executor mapping.
+  bool generate_lem_;
+
+  /// Generate servant file.
+  bool generate_svnt_;
+
   ACE_CString stub_export_macro_;
   ACE_CString stub_export_macro_filename_;
 

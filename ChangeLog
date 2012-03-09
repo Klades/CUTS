@@ -1,3 +1,67 @@
+Fri Mar  9 23:13:01 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MPC/config/cuts_coworker_base.mpb:
+
+          New base project that common configuration values.
+
+        * MPC/config/iccm_opensplice_skel.mpb:
+
+          Removed ccm_svnt base class since its already included by
+          iccm_dds_svnt.
+
+        * cuts/iccm/compiler/Compiler.cpp:
+        * cuts/iccm/compiler/be_global.h:
+        * cuts/iccm/compiler/be_global.cpp:
+
+          Added support for enabling/disabling controlling generation of the
+          servant and local executor mapping files.
+
+        * performance-tests/iccm:
+        * performance-tests/iccm/Performance_Test.idl:
+        * performance-tests/iccm/Performance_Test.mpc:
+        * performance-tests/iccm/Performance_Test.mwc:
+        * performance-tests/iccm/Performance_Test_Components.idl:
+        * performance-tests/iccm/components:
+        * performance-tests/iccm/components/Tput_Receiver_Component:
+        * performance-tests/iccm/components/Tput_Receiver_Component/Tput_Receiver_Component.h:
+        * performance-tests/iccm/components/Tput_Receiver_Component/Tput_Receiver_Component.cpp:
+        * performance-tests/iccm/components/Tput_Receiver_Component/Tput_Receiver_Component.mpc:
+        * performance-tests/iccm/components/Tput_Receiver_Component/Tput_Receiver_Component_export.h:
+        * performance-tests/iccm/components/Tput_Sender_Component:
+        * performance-tests/iccm/components/Tput_Sender_Component/Tput_Sender_Component.h:
+        * performance-tests/iccm/components/Tput_Sender_Component/Tput_Sender_Component.cpp:
+        * performance-tests/iccm/components/Tput_Sender_Component/Tput_Sender_Component.mpc:
+        * performance-tests/iccm/components/Tput_Sender_Component/Tput_Sender_Component_export.h:
+        * performance-tests/iccm/models/PerformanceTest.xme:
+        * performance-tests/iccm/opensplice:
+        * performance-tests/iccm/opensplice/Splice_Performance_Test.mpc:
+
+          Restructured the project layout to maximize reuse.
+
+        * performance-tests/iccm/opensplice/Performance_Test.idl:
+        * performance-tests/iccm/opensplice/Performance_Test.mpc:
+        * performance-tests/iccm/opensplice/Performance_Test.mwc:
+        * performance-tests/iccm/opensplice/Performance_Test_Components.idl:
+        * performance-tests/iccm/opensplice/Performance_Test_exec_export.h:
+        * performance-tests/iccm/opensplice/Performance_Test_skel_export.h:
+        * performance-tests/iccm/opensplice/Performance_Test_stub_export.h:
+        * performance-tests/iccm/opensplice/Performance_Test_svnt_export.h:
+        * performance-tests/iccm/opensplice/lib:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component.h:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component.cpp:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component.mpc:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component_export.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component.cpp:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component.mpc:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component_Task.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component_Task.cpp:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component_export.h:
+
+          Removed these files.
+
 Fri Mar  9 14:07:27 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * performance-tests/iccm:

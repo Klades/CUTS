@@ -1,7 +1,7 @@
 // $Id$
 
-project (TPUT_Receiver_Component) : cuts_coworker_exec {
-  sharedname    = TPUT_Receiver_Component_impl
+project (Tput_Receiver_Component_impl) : cuts_coworker_exec {
+  sharedname    = Tput_Receiver_Component_impl
   dynamicflags += TPUT_RECEIVER_COMPONENT_BUILD_DLL
 
   after +=  \
@@ -13,6 +13,6 @@ project (TPUT_Receiver_Component) : cuts_coworker_exec {
     Performance_Test_stub
 
   Source_Files {
-    Receiver_Component.cpp
+    Tput_Receiver_Component.cpp
   }
 }
