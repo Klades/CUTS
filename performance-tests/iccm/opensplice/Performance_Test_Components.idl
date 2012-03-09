@@ -1,0 +1,47 @@
+// -*- IDL -*-
+
+#ifndef _PERFORMANCE_TEST_COMPONENTS_IDL_
+#define _PERFORMANCE_TEST_COMPONENTS_IDL_
+
+#include <Components.idl>
+#include "Performance_Test.idl"
+
+eventtype Size8DataEvent
+{
+  public octet data;
+};
+
+eventtype Size16DataEvent
+{
+  public short data;
+};
+
+eventtype Size32DataEvent
+{
+  public long data;
+};
+
+eventtype Size64DataEvent
+{
+  public long long data;
+};
+
+component SenderComponent
+{
+  publishes Size8DataEvent size8data;
+  publishes Size16DataEvent size16data;
+  publishes Size32DataEvent size32data;
+  publishes Size64DataEvent size64data;
+
+  attribute unsigned short datasize;
+};
+
+component ReceiverComponent
+{
+  consumes Size8DataEvent size8data;
+  consumes Size16DataEvent size16data;
+  consumes Size32DataEvent size32data;
+  consumes Size64DataEvent size64data;
+};
+
+#endif  // !defined _PERFORMANCE_TEST_IDL_

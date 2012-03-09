@@ -1,0 +1,12 @@
+// $Id$
+
+workspace (Performance_Test) {
+  // -- initialize the includes for the project.
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features \
+             -relative PROJECT_ROOT=
+
+}
+
+// end of auto-generated workspace
+

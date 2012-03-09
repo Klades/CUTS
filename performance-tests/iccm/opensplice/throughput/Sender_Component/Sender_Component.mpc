@@ -1,0 +1,18 @@
+// $Id$
+
+project (TPUT_Sender_Component) : cuts_coworker_exec {
+  sharedname    = TPUT_Sender_Component_impl
+  dynamicflags += TPUT_SENDER_COMPONENT_BUILD_DLL
+
+  after +=  \
+    Performance_Test_exec \
+    Performance_Test_stub
+
+  libs +=  \
+    Performance_Test_exec \
+    Performance_Test_stub
+
+  Source_Files {
+    Sender_Component.cpp
+  }
+}

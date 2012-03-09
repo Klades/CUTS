@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <label/>
+
+  <UUID>4EEC00E4-640C-11E1-8000-080027BB5D07</UUID>
+
+  <implementation xmi:id="_2493F662-62E5-11E1-8002-080027BB5D07">
+    <name>PerformanceTest.ComponentImplementations.TPUT_Sender_Component.TPUT_Sender_Component</name>
+    <source/>
+    <artifact xmi:idref="_2493F662-62E5-11E1-8000-080027BB5D07"/>
+    <artifact xmi:idref="_2493F662-62E5-11E1-8001-080027BB5D07"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_TPUT_Sender_Component_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_SenderComponent_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_2493F662-62E5-11E1-8005-080027BB5D07">
+    <name>PerformanceTest.ComponentImplementations.TPUT_Receiver_Component.TPUT_Receiver_Component</name>
+    <source/>
+    <artifact xmi:idref="_2493F662-62E5-11E1-8003-080027BB5D07"/>
+    <artifact xmi:idref="_2493F662-62E5-11E1-8004-080027BB5D07"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_TPUT_Receiver_Component_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_ReceiverComponent_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_1C073253-AACD-4130-B0A8-6AED69931E25_">
+    <name>DAnCE_LocalityManager_Impl</name>
+    <source/>
+    <artifact xmi:idref="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1"/>
+    <execParameter>
+      <name>edu.vanderbilt.dre.DAnCE.ImplementationType</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>edu.vanderbilt.dre.DAnCE.LocalityManager</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender2</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender2</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender2</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_77D8AA22-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender2</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8002-080027BB5D07"/>
+    <configProperty>
+      <name>datasize</name>
+      <value>
+        <type>
+          <kind>tk_ushort</kind>
+        </type>
+        <value>
+          <ushort>8</ushort>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="_A542C8B2-6414-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Receiver1</name>
+    <node>ReceiverNode</node>
+    <source/>
+    <implementation xmi:idref="_2493F662-62E5-11E1-8005-080027BB5D07"/>
+  </instance>
+
+  <instance xmi:id="SenderNode.DefaultGroup">
+    <name>SenderNode.DefaultGroup</name>
+    <node>SenderNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="ReceiverNode.DefaultGroup">
+    <name>ReceiverNode.DefaultGroup</name>
+    <node>ReceiverNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <artifact xmi:id="_2493F662-62E5-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_svnt</name>
+    <source/>
+    <node/>
+    <location>Performance_Test_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_2493F662-62E5-11E1-8001-080027BB5D07">
+    <name>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_impl</name>
+    <source/>
+    <node/>
+    <location>TPUT_Sender_Component_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_2493F662-62E5-11E1-8003-080027BB5D07">
+    <name>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_svnt</name>
+    <source/>
+    <node/>
+    <location>Performance_Test_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_2493F662-62E5-11E1-8004-080027BB5D07">
+    <name>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_impl</name>
+    <source/>
+    <node/>
+    <location>TPUT_Receiver_Component_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1">
+    <name>DAnCE_LocalityManager_Artifact</name>
+    <source/>
+    <node/>
+    <location>dance_locality_manager</location>
+  </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="ReceiverNode.DefaultGroup"/>
+    <!--PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Receiver1-->
+    <constrainedInstance xmi:idref="_A542C8B2-6414-11E1-8000-080027BB5D07"/>
+  </localityConstraint>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="SenderNode.DefaultGroup"/>
+    <!--PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1-->
+    <constrainedInstance xmi:idref="_77D8AA22-6414-11E1-8000-080027BB5D07"/>
+  </localityConstraint>
+
+</Deployment:DeploymentPlan>

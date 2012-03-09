@@ -1,0 +1,34 @@
+// -*- IDL -*-
+
+#ifndef _PERFORMANCE_TEST_IDL_
+#define _PERFORMANCE_TEST_IDL_
+
+struct Size8Data
+{
+  octet data;
+};
+
+#pragma keylist Size8Data
+
+struct Size16Data
+{
+  short data;
+};
+
+#pragma keylist Size16Data
+
+struct Size32Data
+{
+  long data;
+};
+
+#pragma keylist Size32Data
+
+struct Size64Data
+{
+  long long data;
+};
+
+#pragma keylist Size64Data
+
+#endif  // !defined _PERFORMANCE_TEST_IDL_

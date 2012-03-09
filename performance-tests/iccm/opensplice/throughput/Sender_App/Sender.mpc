@@ -1,0 +1,14 @@
+// $Id$
+
+project (OpenSplice_Tput_Sender) : cuts_coworker_base, taoexe, spliceexe {
+  exename = OpenSplice_Tput_Sender
+  install = ../../lib
+
+  after += Performance_Test_stub
+  libs  += Performance_Test_stub
+
+  Source_Files {
+    Sender.cpp
+    Sender_App.cpp
+  }
+}

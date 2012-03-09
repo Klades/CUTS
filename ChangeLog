@@ -1,3 +1,55 @@
+Fri Mar  9 14:07:27 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * performance-tests/iccm:
+        * performance-tests/iccm/models:
+        * performance-tests/iccm/models/PerformanceTest.xme:
+        * performance-tests/iccm/opensplice:
+        * performance-tests/iccm/opensplice/Performance_Test.idl:
+        * performance-tests/iccm/opensplice/Performance_Test.mpc:
+        * performance-tests/iccm/opensplice/Performance_Test.mwc:
+        * performance-tests/iccm/opensplice/Performance_Test_Components.idl:
+        * performance-tests/iccm/opensplice/Performance_Test_exec_export.h:
+        * performance-tests/iccm/opensplice/Performance_Test_skel_export.h:
+        * performance-tests/iccm/opensplice/Performance_Test_stub_export.h:
+        * performance-tests/iccm/opensplice/Performance_Test_svnt_export.h:
+        * performance-tests/iccm/opensplice/descriptors:
+        * performance-tests/iccm/opensplice/descriptors/SenderReceiver.cdd:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S1R0.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S1R1_16.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S1R1_32.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S1R1_64.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S1R1_8.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S2R1_8.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S4R1_8.cdp:
+        * performance-tests/iccm/opensplice/descriptors/Tput_S8R1_8.cdp:
+        * performance-tests/iccm/opensplice/descriptors/run_iccm_test.pl:
+        * performance-tests/iccm/opensplice/descriptors/run_sa_test.pl:
+        * performance-tests/iccm/opensplice/lib:
+        * performance-tests/iccm/opensplice/models:
+        * performance-tests/iccm/opensplice/throughput:
+        * performance-tests/iccm/opensplice/throughput/Receiver_App:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component.h:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component.cpp:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component.mpc:
+        * performance-tests/iccm/opensplice/throughput/Receiver_Component/Receiver_Component_export.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_App:
+        * performance-tests/iccm/opensplice/throughput/Sender_App/Sender.mpc:
+        * performance-tests/iccm/opensplice/throughput/Sender_App/Sender.cpp:
+        * performance-tests/iccm/opensplice/throughput/Sender_App/Sender_App.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_App/Sender_App.cpp:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component.mpc:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component.cpp:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component_Task.h:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component_Task.cpp:
+        * performance-tests/iccm/opensplice/throughput/Sender_Component/Sender_Component_export.h:
+
+          First version of the iCCM performance tests for OpenSplice. The
+          current test can be used to evaluate sender throughput for data
+          of 8 bytes.
+
 Thu Mar  8 23:29:43 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
