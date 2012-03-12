@@ -49,6 +49,7 @@ public:
   // Destructor.
   virtual ~Context (void);
 
+  virtual void prep_be_arg (char * s);
   virtual void post_produce (void);
 
   // BEGIN: ARCHITECTURE SPECIFIC VALUES.
@@ -64,6 +65,8 @@ public:
   virtual const ACE_CString & get_publisher_template_typename (void) const;
   virtual const ACE_CString & get_publisher_table_typename (void) const;
   virtual const ACE_CString & get_publisher_table_template_typename (void) const;
+
+  ACE_CString typeseq_suffix_;
 };
 
 }

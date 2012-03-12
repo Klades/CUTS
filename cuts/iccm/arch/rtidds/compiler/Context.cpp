@@ -24,7 +24,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include <iostream>
 
 namespace iCCM
 {
@@ -35,6 +35,7 @@ namespace RTIDDS
 // Context
 //
 Context::Context (void)
+: typeseq_suffix_ ("Seq")
 {
 
 }
@@ -54,6 +55,32 @@ void Context::post_produce (void)
 {
   iCCM::Stub_File stub_file;
   idl_global->root ()->ast_accept (&stub_file);
+}
+
+//
+// prep_be_arg
+//
+void Context::prep_be_arg (char * s)
+{
+  static const char typeseq_suffix[] = "typeseq_suffix=";
+
+  char* last = 0;
+
+  for (char * arg = ACE_OS::strtok_r (s, ",", &last);
+       0 != arg;
+       arg = ACE_OS::strtok_r (0, ",", &last))
+  {
+    if (ACE_OS::strstr (arg, typeseq_suffix) == arg)
+    {
+      char * val = arg + sizeof (typeseq_suffix) - 1;
+      this->typeseq_suffix_ = val;
+    }
+    else
+    {
+      // Pass control to the base class.
+      BE_GlobalData::prep_be_arg (s);
+    }
+  }
 }
 
 //

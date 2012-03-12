@@ -6,7 +6,7 @@ project (Performance_Test_Rtidds_IDL_Gen) : taoidldefaults, ndds_cck_ts_defaults
 
   after += Performance_Test_IDL_Gen
 
-  ndds_ts_flags += -d .
+  ndds_ts_flags += -d . -typeSequenceSuffix RTISeq
   ndds_ts_flags -= $(PLATFORM_NDDS_FLAGS)
 
   NDDSTypeSupport_Files {
@@ -35,12 +35,12 @@ project (Performance_Test_Rtidds_iCCM_Gen) : iccm_rtidds, requires_rtidds {
                        -Wb,stub_export_macro=PERFORMANCE_TEST_RTIDDS_STUB_Export \
                        -Wb,stub_export_include=Performance_Test_Rtidds_stub_export.h \
                        -Wb,svnt_export_macro=PERFORMANCE_TEST_RTIDDS_SVNT_Export \
-                       -Wb,svnt_export_include=Performance_Test_Rtidds_svnt_export.h
+                       -Wb,svnt_export_include=Performance_Test_Rtidds_svnt_export.h \
+                       -Wb,typeseq_suffix=RTISeq
 
   ICCM_Files {
     gendir = .
 
-    ../Performance_Test.idl
     ../Performance_Test_Components.idl
   }
 }
@@ -48,7 +48,7 @@ project (Performance_Test_Rtidds_iCCM_Gen) : iccm_rtidds, requires_rtidds {
 
 project (Performance_Test_Rtidds_stub) : iccm_rtidds_stub, cuts_codegen_defaults {
   sharedname    = Performance_Test_Rtidds_stub
-  dynamicflags += PERFORMANCE_TEST_RTIDDS_STUB_BUILD_DLL
+  dynamicflags += NDDS_USER_DLL_EXPORT PERFORMANCE_TEST_RTIDDS_STUB_BUILD_DLL
 
   after += Performance_Test_stub Performance_Test_Rtidds_iCCM_Gen
   libs  += Performance_Test_stub
@@ -58,7 +58,6 @@ project (Performance_Test_Rtidds_stub) : iccm_rtidds_stub, cuts_codegen_defaults
   }
 
   Source_Files {
-    RTIDDS_Performance_TestC.cpp
     RTIDDS_Performance_Test_ComponentsC.cpp
 
     Performance_Test.cxx
