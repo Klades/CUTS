@@ -1,3 +1,17 @@
+Mon Mar 12 05:10:34 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * performance-tests/iccm/Performance_Test.idl:
+        * performance-tests/iccm/connector/Performance_Test_Connector.idl:
+
+          Moved the sequence type definition to the connector file since it
+          is only need there.
+
+        * performance-tests/iccm/opensplice/throughput/Sender_App/Sender.mpc:
+        * performance-tests/iccm/opensplice/throughput/Sender_App/Sender_App.cpp:
+
+          Fixed compilation errors.
+
+
 Mon Mar 12 04:46:52 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/servant/OpenSplice.h:

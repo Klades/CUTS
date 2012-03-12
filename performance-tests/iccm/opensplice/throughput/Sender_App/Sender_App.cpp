@@ -1,7 +1,7 @@
 // $Id$
 
 #include "Sender_App.h"
-#include "Performance_TestDcps_impl.h"
+#include "opensplice/Performance_TestDcps_impl.h"
 #include "ace/High_Res_Timer.h"
 
 //

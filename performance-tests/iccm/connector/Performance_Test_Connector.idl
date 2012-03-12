@@ -11,7 +11,15 @@
 
 #pragma ciao lem "Performance_Test_ConnectorE.idl"
 
+typedef sequence <Size8Data> Size8DataSeq;
+typedef sequence <Size16Data> Size16DataSeq;
+typedef sequence <Size32Data> Size32DataSeq;
+typedef sequence <Size64Data> Size64DataSeq;
+
 module ::CCM_DDS::Typed < ::Size8Data, ::Size8DataSeq> Size8DataConnector;
+module ::CCM_DDS::Typed < ::Size16Data, ::Size16DataSeq> Size16DataConnector;
+module ::CCM_DDS::Typed < ::Size32Data, ::Size32DataSeq> Size32DataConnector;
+module ::CCM_DDS::Typed < ::Size64Data, ::Size64DataSeq> Size64DataConnector;
 
 #endif /* SHAPES_CONNECTOR_IDL_ */
 

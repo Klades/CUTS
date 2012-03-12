@@ -12,8 +12,6 @@ struct Size8Data
   octet data;  // @key
 };
 
-typedef sequence <Size8Data> Size8DataSeq;
-
 #pragma keylist Size8Data
 
 struct Size16Data
