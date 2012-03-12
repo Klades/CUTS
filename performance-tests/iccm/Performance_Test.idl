@@ -3,10 +3,16 @@
 #ifndef _PERFORMANCE_TEST_IDL_
 #define _PERFORMANCE_TEST_IDL_
 
+#pragma ndds typesupport "Performance_TestSupport.h"
+#pragma opendds typesupport "Performance_TestTypeSupportImpl.h"
+#pragma splice typesupport "Performance_TestDscpC.h"
+
 struct Size8Data
 {
-  octet data;
+  octet data;  // @key
 };
+
+typedef sequence <Size8Data> Size8DataSeq;
 
 #pragma keylist Size8Data
 
