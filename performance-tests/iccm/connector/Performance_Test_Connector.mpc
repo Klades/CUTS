@@ -1,0 +1,164 @@
+// $Id$
+// This file is generated with "generate_component_mpc.pl -p DDS_Performance_Test_Base -l .. -o ../lib -u DDS Performance_Test_Connector"
+
+project (Performance_Test_Connector_IDL_gen) : connectoridldefaults, dds4ccm, cuts_codegen_defaults {
+  custom_only = 1
+
+  after += Performance_Test_IDL_Gen
+
+  idlflags += -Wb,stub_export_macro=PERFORMANCE_TEST_CONNECTOR_STUB_Export \
+              -Wb,stub_export_include=Performance_Test_Connector_stub_export.h \
+              -Wb,skel_export_macro=PERFORMANCE_TEST_CONNECTOR_SVNT_Export \
+              -Wb,skel_export_include=Performance_Test_Connector_svnt_export.h \
+              -Wb,svnt_export_macro=PERFORMANCE_TEST_CONNECTOR_SVNT_Export \
+              -Wb,svnt_export_include=Performance_Test_Connector_svnt_export.h \
+              -Wb,conn_export_macro=PERFORMANCE_TEST_CONNECTOR_CONN_Export \
+              -Wb,conn_export_include=Performance_Test_Connector_conn_export.h
+
+  IDL_Files {
+    Performance_Test_Connector.idl
+  }
+}
+
+project (Performance_Test_Connector_EIDL_gen) : ciaoidldefaults, dds4ccm, cuts_codegen_defaults {
+  custom_only = 1
+
+  after += Performance_Test_Connector_IDL_gen
+
+  idlflags += -Wb,stub_export_macro=PERFORMANCE_TEST_CONNECTOR_EXEC_Export \
+              -Wb,stub_export_include=Performance_Test_Connector_exec_export.h \
+              -SS -Gxhst -I ..
+
+  IDL_Files {
+    Performance_Test_ConnectorE.idl
+  }
+}
+
+project (Performance_Test_Connector_base) : taoidldefaults, dds4ccm_ts_default, cuts_codegen_defaults {
+  sharedname    = Performance_Test_Connector_base
+  dynamicflags += PERFORMANCE_TEST_CONNECTOR_BASE_BUILD_DLL
+
+  idlflags += -SS -Sci \
+              -Wb,stub_export_macro=PERFORMANCE_TEST_CONNECTOR_BASE_Export \
+              -Wb,stub_export_include=Performance_Test_Connector_Base_export.h
+
+  after += Performance_Test_IDL_Gen
+
+  IDL_Files {
+    gendir = .
+    idlflags += -Gxhst
+
+    ../Performance_Test.idl
+  }
+
+  dds_ts_flags += -d .
+  opendds_ts_flags += --export=PERFORMANCE_TEST_CONNECTOR_BASE_Export
+
+  DDSGenerator_Files {
+    gendir = .
+
+    ../Performance_Test.idl
+  }
+
+  Source_Files {
+  }
+}
+
+project (Performance_Test_Connector_stub) : ccm_stub, dds4ccm_base, cuts_codegen_defaults {
+  sharedname = Performance_Test_Connector_stub
+
+  after += Performance_Test_Connector_base Performance_Test_Connector_IDL_gen
+  libs  += Performance_Test_Connector_base
+
+  dynamicflags += PERFORMANCE_TEST_CONNECTOR_STUB_BUILD_DLL
+
+  IDL_Files {
+  }
+
+  Source_Files {
+    Performance_Test_ConnectorC.cpp
+  }
+
+  Header_Files {
+    Performance_Test_ConnectorC.h
+    Performance_Test_Connector_stub_export.h
+  }
+
+  Inline_Files {
+    Performance_Test_ConnectorC.inl
+  }
+}
+
+project (Performance_Test_Connector_exec) : ccm_svnt, dds4ccm_lem_stub, cuts_codegen_defaults {
+  sharedname    = Performance_Test_Connector_exec
+  dynamicflags += PERFORMANCE_TEST_CONNECTOR_EXEC_BUILD_DLL
+
+  after += Performance_Test_Connector_stub Performance_Test_Connector_EIDL_gen
+  libs  += Performance_Test_Connector_stub
+
+  IDL_Files {
+  }
+
+  Source_Files {
+    Performance_Test_ConnectorEC.cpp
+  }
+
+  Header_Files {
+    Performance_Test_ConnectorEC.h
+    Performance_Test_Connector_exec_export.h
+  }
+
+  Inline_Files {
+    Performance_Test_ConnectorEC.inl
+  }
+}
+
+project (Performance_Test_Connector_svnt) : ciao_servant, dds4ccm_impl, cuts_codegen_defaults {
+  sharedname    = DDS_Performance_Test_Connector_svnt
+  dynamicflags += PERFORMANCE_TEST_CONNECTOR_SVNT_BUILD_DLL
+
+  after += Performance_Test_Connector_exec Performance_Test_Connector_stub Performance_Test_Connector_base
+  libs  += Performance_Test_Connector_exec Performance_Test_Connector_stub Performance_Test_Connector_base
+
+  IDL_Files {
+  }
+
+  Source_Files {
+    Performance_Test_ConnectorS.cpp
+    Performance_Test_Connector_svnt.cpp
+  }
+
+  Header_Files {
+    Performance_Test_ConnectorS.h
+    Performance_Test_Connector_svnt.h
+    Performance_Test_Connector_svnt_export.h
+  }
+
+  Inline_Files {
+  }
+}
+
+project (Performance_Test_Connector_conn) : ciao_executor, dds4ccm_impl, cuts_codegen_defaults {
+  sharedname = Performance_Test_Connector_conn
+
+  after += Performance_Test_Connector_stub Performance_Test_Connector_exec Performance_Test_Connector_base
+  libs  += Performance_Test_Connector_stub Performance_Test_Connector_exec Performance_Test_Connector_base
+
+  dynamicflags += PERFORMANCE_TEST_CONNECTOR_CONN_BUILD_DLL
+
+  IDL_Files {
+  }
+
+  Source_Files {
+    Performance_Test_Connector_conn.cpp
+  }
+
+  Header_Files {
+    Performance_Test_Connector_conn.h
+    Performance_Test_Connector_conn_export.h
+  }
+
+  Inline_Files {
+  }
+}
+

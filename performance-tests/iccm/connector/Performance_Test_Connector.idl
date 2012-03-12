@@ -1,0 +1,18 @@
+// $Id$
+
+
+#ifndef _PERFORMANCE_TEST_CONNECTOR_IDL_
+#define _PERFORMANCE_TEST_CONNECTOR_IDL_
+
+#include <Components.idl>
+#include <ccm_dds.idl>
+
+#include "../Performance_Test.idl"
+
+#pragma ciao lem "Performance_Test_ConnectorE.idl"
+
+module ::CCM_DDS::Typed < ::Size8Data, ::Size8DataSeq> Size8DataConnector;
+
+#endif /* SHAPES_CONNECTOR_IDL_ */
+
+
