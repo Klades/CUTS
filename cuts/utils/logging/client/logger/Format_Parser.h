@@ -14,6 +14,7 @@
 #define _CUTS_TEST_LOGGER_FORMAT_PARSER_H_
 
 #include <ostream>
+#include <cstdarg>
 
 /**
  * @class CUTS_Format_Parser

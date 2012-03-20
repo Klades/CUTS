@@ -62,6 +62,23 @@ public:
 
   virtual void fini (void);
 
+#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
+  virtual ::Components::CCMHome_ptr
+    install_home (const char * primary_artifact,
+                  const char * entry_point,
+                  const char * servant_artifact,
+                  const char * servant_entrypoint,
+                  const char * name,
+                  ::CORBA::Long open_mode);
+
+  virtual ::Components::CCMObject_ptr
+    install_component (const char * primary_artifact,
+                       const char * entry_point,
+                       const char * servant_artifact,
+                       const char * servant_entrypoint,
+                       const char * name,
+                       ::CORBA::Long open_mode);
+#else
   virtual ::Components::CCMHome_ptr
     install_home (const char * primary_artifact,
                   const char * entry_point,
@@ -69,14 +86,15 @@ public:
                   const char * servant_entrypoint,
                   const char * name);
 
-  virtual void uninstall_home (::Components::CCMHome_ptr home);
-
   virtual ::Components::CCMObject_ptr
     install_component (const char * primary_artifact,
                        const char * entry_point,
                        const char * servant_artifact,
                        const char * servant_entrypoint,
                        const char * name);
+#endif
+
+  virtual void uninstall_home (::Components::CCMHome_ptr home);
 
   virtual void
     set_attributes (::CORBA::Object_ptr name,
@@ -128,7 +146,7 @@ public:
   virtual ::CORBA::Object_ptr
     resolve_service_reference (const char * service_id);
 
-#if !(CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 0 && CIAO_BETA_VERSION > 5)
+#if !(CIAO_MAJOR_VERSION >= 1 && (CIAO_MINOR_VERSION > 0 || (CIAO_MINOR_VERSION == 0 && CIAO_BETA_VERSION > 5)))
   virtual ::CIAO::Servant_Activator_ptr ports_servant_activator (void);
 #endif
 

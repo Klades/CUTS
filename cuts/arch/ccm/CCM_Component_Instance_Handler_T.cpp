@@ -6,6 +6,7 @@
 #include "dance/DAnCE_Utility.h"
 
 #include "ciao/Base/CIAO_PropertiesC.h"
+#include "ciao/Version.h"
 #include "ccm/CCM_ObjectC.h"
 
 #include "dance/LocalityManager/Scheduler/Plugin_Manager.h"
@@ -173,11 +174,20 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
   {
     // Install the component. We are going to get back a reference
     // to the installed component.
+    #if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
+    comp_ref = this->container_->install_component (exec_art,
+                                                    exec_entry,
+                                                    svnt_art,
+                                                    svnt_entry,
+                                                    idd.name.in (),
+                                                    ACE_DEFAULT_SHLIB_MODE);
+    #else
     comp_ref = this->container_->install_component (exec_art,
                                                     exec_entry,
                                                     svnt_art,
                                                     svnt_entry,
                                                     idd.name.in ());
+    #endif
 
     // Set the attributes for the installed component. This is done
     // by converting the deployment descriptors into a configuration

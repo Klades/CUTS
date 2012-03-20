@@ -49,11 +49,20 @@ CUTS_CCM_Container_T (INST_HANDLER * inst_handler, ::PortableServer::POA_ptr poa
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::Components::CCMHome_ptr CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
+install_home (const char * primary_artifact,
+              const char * entry_point,
+              const char * servant_artifact,
+              const char * servant_entrypoint,
+              const char * name,
+              ::CORBA::Long open_mode)
+#else
 install_home (const char * primary_artifact,
               const char * entry_point,
               const char * servant_artifact,
               const char * servant_entrypoint,
               const char * name)
+#endif
 {
   throw CORBA::NO_IMPLEMENT ();
 }
@@ -102,11 +111,20 @@ void CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::remove (voi
 //
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::Components::CCMObject_ptr CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
+install_component (const char * primary_artifact,
+                   const char * entry_point,
+                   const char * servant_artifact,
+                   const char * servant_entrypoint,
+                   const char * name,
+                   ::CORBA::Long open_mode)
+#else
 install_component (const char * primary_artifact,
                    const char * entry_point,
                    const char * servant_artifact,
                    const char * servant_entrypoint,
                    const char * name)
+#endif
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - installing %s\n"),
@@ -443,7 +461,7 @@ initialize_the_port_POA (::PortableServer::POA_ptr poa)
     policies[i]->destroy ();
 }
 
-#if !(CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 0 && CIAO_BETA_VERSION > 5)
+#if !(CIAO_MAJOR_VERSION >= 1 && (CIAO_MINOR_VERSION > 0 || (CIAO_MINOR_VERSION == 0 && CIAO_BETA_VERSION > 5)))
 //
 // ports_servant_activator
 //
