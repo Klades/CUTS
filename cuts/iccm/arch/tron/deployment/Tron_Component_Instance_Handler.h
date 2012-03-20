@@ -20,6 +20,7 @@
 
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
 #include "Tron_Container.h"
+#include "ace/Process.h"
 
 namespace iCCM
 {
@@ -55,8 +56,16 @@ public:
   /// Close the instance handler.
   virtual void close (void);
 
+  /**
+   * Spawn the tron process using the provided propery as arguments.
+   *
+   * @param[in]           prop            CLI arguments
+   */
+  int spawn_tron_process (const ::Deployment::Property & prop);
+
 private:
   /// INSERT YOUR VARIABLES HERE
+  ACE_Process tron_process_;
 };
 
 }

@@ -34,6 +34,16 @@ configure_servant (::PortableServer::Servant servant,
   // by using 'dynamic_cast <Tron_Servant *> (servant)'.
   // Also, the ConfigValues passed into this method are the same
   // configuration values attached to a component instance.
+  for (size_t i = 0; i < values.length (); ++ i)
+  {
+//  const char * param = 0;
+//  config[i].name >>= param;
+
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - found param: %s\n"), values[i]->name ()));
+  }
+
+
 }
 
 //

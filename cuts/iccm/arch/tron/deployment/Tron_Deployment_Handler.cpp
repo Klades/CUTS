@@ -11,14 +11,14 @@ TestAdapter * adapter_new (Reporter * r, int argc, const char * argv[])
 {
   try
   {
-  // Create the deployment singleton and initialize it.
-  Tron_Deployment_Handler::create_singleton (r);
-  if (0 != Tron_Deployment_Handler::singleton ()->init (argc, argv))
-    ACE_ERROR_RETURN((LM_ERROR,
-                      ACE_TEXT ("%T (%t) - %M - adapter initializtion failed\n")),
-                      0);
+    // Create the deployment singleton and initialize it.
+    Tron_Deployment_Handler::create_singleton (r);
+    if (0 != Tron_Deployment_Handler::singleton ()->init (argc, argv))
+      ACE_ERROR_RETURN((LM_ERROR,
+                        ACE_TEXT ("%T (%t) - %M - adapter initializtion failed\n")),
+                        0);
 
-  return Tron_Deployment_Handler::singleton ();
+    return Tron_Deployment_Handler::singleton ();
   }
   catch (...)
   {
@@ -137,24 +137,24 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
                          ACE_TEXT ("%T (%t) - %M - object is not a TestAdapterCallback\n")),
                          -1);
 
-  // Activate the TestAdapter implementation.
+    // Activate the TestAdapter implementation.
 
-  // Run the ORB in another thread (i.e., task).
+    // Run the ORB in another thread (i.e., task).
 
-  // Setup reporter
-  this->rep->setTimeUnit (this->rep, 10000);
-  this->rep->setTimeout (this->rep, 100000);
+    // Setup reporter
+    this->rep->setTimeUnit (this->rep, 10000);
+    this->rep->setTimeout (this->rep, 100000);
 
-  // Block until tron servants are initialized
+    // Block until tron servants are initialized
 
-  // Setup input channels
-  int r;
-  r = this->rep->getInputEncoding (this->rep, "Click");
+    // Setup input channels
+    int r;
+    r = this->rep->getInputEncoding (this->rep, "Click");
 
-  // Setup output channels
-  r = this->rep->getOutputEncoding (this->rep, "SingleClick");
-  r = this->rep->getOutputEncoding (this->rep, "DoubleClick");
-  return 0;
+    // Setup output channels
+    r = this->rep->getOutputEncoding (this->rep, "SingleClick");
+    r = this->rep->getOutputEncoding (this->rep, "DoubleClick");
+    return 0;
   }
   catch (const ::CORBA::Exception & ex)
   {

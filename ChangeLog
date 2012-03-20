@@ -1,3 +1,22 @@
+Tue Mar 20 16:53:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:
+
+          The tron process is now started and managed by the handler.
+
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.cpp:
+
+          Added logic/debugging messages for getting the TronParams.
+          Currently isn't working but wanted to get the code to James.
+
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.cpp:
+
+          Added debugging messages.
+
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+
+          Fixed formatting
+
 Tue Mar 20 14:47:17 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/arch/ccm/CCM_Component_Instance_Handler_T.cpp:
