@@ -54,7 +54,8 @@ void CUTS_Dmac_Vertical_Generator::tokenize (
 //
 // CUTS_Dmac_DB_Vertical_Generator
 //
-CUTS_Dmac_DB_Vertical_Generator::CUTS_Dmac_DB_Vertical_Generator (std::string & delims)
+CUTS_Dmac_DB_Vertical_Generator::
+CUTS_Dmac_DB_Vertical_Generator (std::string & delims)
 : CUTS_Dmac_Vertical_Generator (delims)
 {
 
@@ -63,7 +64,8 @@ CUTS_Dmac_DB_Vertical_Generator::CUTS_Dmac_DB_Vertical_Generator (std::string & 
 //
 // ~CUTS_Dmac_DB_Vertical_Generator
 //
-CUTS_Dmac_DB_Vertical_Generator::~CUTS_Dmac_DB_Vertical_Generator ()
+CUTS_Dmac_DB_Vertical_Generator::
+~CUTS_Dmac_DB_Vertical_Generator ()
 {
 
 }
@@ -71,8 +73,8 @@ CUTS_Dmac_DB_Vertical_Generator::~CUTS_Dmac_DB_Vertical_Generator ()
 //
 // generate
 //
-int CUTS_Dmac_DB_Vertical_Generator::generate (ACE_CString & db_file,
-                                               int round)
+int CUTS_Dmac_DB_Vertical_Generator::
+generate (ACE_CString & db_file, int round)
 {
   CUTS_Test_Database testdata;
 
@@ -156,7 +158,8 @@ int CUTS_Dmac_DB_Vertical_Generator::generate (ACE_CString & db_file,
 //
 // CUTS_Dmac_File_Vertical_Generator
 //
-CUTS_Dmac_File_Vertical_Generator::CUTS_Dmac_File_Vertical_Generator (std::string & delims)
+CUTS_Dmac_File_Vertical_Generator::
+CUTS_Dmac_File_Vertical_Generator (std::string & delims)
 : CUTS_Dmac_Vertical_Generator (delims)
 {
 
@@ -165,7 +168,8 @@ CUTS_Dmac_File_Vertical_Generator::CUTS_Dmac_File_Vertical_Generator (std::strin
 //
 // ~CUTS_Dmac_File_Vertical_Generator
 //
-CUTS_Dmac_File_Vertical_Generator::~CUTS_Dmac_File_Vertical_Generator ()
+CUTS_Dmac_File_Vertical_Generator::
+~CUTS_Dmac_File_Vertical_Generator ()
 {
 
 }
@@ -173,8 +177,8 @@ CUTS_Dmac_File_Vertical_Generator::~CUTS_Dmac_File_Vertical_Generator ()
 //
 // generate
 //
-int CUTS_Dmac_File_Vertical_Generator::generate (ACE_CString & db_file,
-                                                 int round)
+int CUTS_Dmac_File_Vertical_Generator::
+generate (ACE_CString & db_file, int round)
 {
   ifstream data_file (db_file.c_str ());
   this->row_count_ = 0;

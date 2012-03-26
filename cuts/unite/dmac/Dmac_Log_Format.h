@@ -32,7 +32,8 @@ public:
    * @param[in]     id                       Id of the lof format
    * @param[in]     log_format_items         Set of words representing the log format
    */
-  CUTS_Dmac_Log_Format (int id, CUTS_DMAC_UTILS::string_vector & log_format_items);
+  CUTS_Dmac_Log_Format (int id,
+                        CUTS_DMAC_UTILS::string_vector & log_format_items);
 
   // Destrructor
   ~CUTS_Dmac_Log_Format (void);
@@ -45,13 +46,21 @@ public:
   void add_varaible_values (CUTS_DMAC_UTILS::string_vector & trace);
 
   /**
+   * add_relation
+   *
+   * @param[in]     relation      The log format relation
+   *
+   */
+
+  void add_relation (CUTS_Dmac_Relation & relation);
+
+  /**
    * extract_variable_relations
    *
    * @param[in]     log_format    The effect log format
    * @param[in]     execution     The execution context
    */
-  void extract_variable_relations (CUTS_Dmac_Log_Format * log_format,
-                                   CUTS_Dmac_Execution * execution);
+  void extract_variable_relations (CUTS_Dmac_Log_Format * log_format);
 
   /**
    * match_item_set
@@ -83,29 +92,15 @@ public:
    *
    * @param[in]     execution     Execution related to this log format
    */
-  void print_relations (CUTS_Dmac_Execution * execution);
-
-   /**
-   * Compare the set of relations of this log format and passed log format
-   *
-   * @param[in]     log_format     The log format we are comparing
-   */
-  bool compare_relations (CUTS_Dmac_Log_Format * log_format);
+  void print_relations ();
 
   /**
-   * Add an execution which this log format belongs to
-   *
-   * @param[in]     ex     The execution
-   */
-  void add_execution (CUTS_Dmac_Execution * ex);
-
-   /**
    * Convert the log format into xml
    *
    * @param[in]     xml_content     The output stream
    * @param[in]     ex              The execution
    */
-  void serialize (std::ofstream & xml_content, CUTS_Dmac_Execution * ex);
+  void serialize (std::ofstream & xml_content);
 
    /**
    * Convert the log format variable into xml
@@ -114,14 +109,6 @@ public:
    * @param[in]     count           The id of the variable
    */
   void serialize_variable (std::ofstream & xml_content, int & count);
-
-  /**
-   * Check whether this log format is in a given execution
-   *
-   * @param[in]     ex      The execution for the check
-   * @return whether the log format is in the given execution
-   */
-  bool in_execution_list (CUTS_Dmac_Execution * ex);
 
   /**
    * Get the coverage of this log format
@@ -135,6 +122,9 @@ public:
 
 private:
 
+  // Id of the log format
+  int id_;
+
   // The set of words representing the log format
   CUTS_DMAC_UTILS::string_vector log_format_items_;
 
@@ -144,13 +134,7 @@ private:
   // Set of variables with instance values
   variable_table vars_;
 
-  // Set of executions this log format contains in
-  std::vector <CUTS_Dmac_Execution *> content_list_;
-
-  // Id of the log format
-  int id_;
-
-  // Number of messages covered by this log format
+ // Number of messages covered by this log format
   long coverage_;
 
 };

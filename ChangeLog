@@ -1,3 +1,28 @@
+Mon Mar 26 17:19:12 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/dmac/Dmac_App.h:
+        * cuts/unite/dmac/Dmac_Dataflow_File_Generator.h:
+        * cuts/unite/dmac/Dmac_Dataflow_File_Generator.cpp:
+        * cuts/unite/dmac/Dmac_Execution.h:
+        * cuts/unite/dmac/Dmac_Execution.cpp:
+        * cuts/unite/dmac/Dmac_Log_Database_Miner.cpp:
+        * cuts/unite/dmac/Dmac_Log_File_Miner.h:
+        * cuts/unite/dmac/Dmac_Log_Format.h:
+        * cuts/unite/dmac/Dmac_Log_Format.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph.h:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph_Builder.h:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph_Builder.cpp:
+        * cuts/unite/dmac/Dmac_Relation.h:
+        * cuts/unite/dmac/Dmac_Relation.cpp:
+        * cuts/unite/dmac/Dmac_Relation_Miner.h:
+        * cuts/unite/dmac/Dmac_Relation_Miner.cpp:
+        * cuts/unite/dmac/Dmac_Vertical_Generator.cpp:
+        * cuts/unite/dmac/dmac.mpc:
+
+          Dmac now generates one datagraph. Chnaged the code also to
+          use the Boost graph library.
+
 Tue Mar 20 16:53:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:

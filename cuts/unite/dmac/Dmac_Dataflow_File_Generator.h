@@ -8,8 +8,6 @@
 #include "CCF/CodeGenerationKit/IndentationXML.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
 #include "Dmac_Log_Format.h"
-#include "Dmac_Execution.h"
-
 
 namespace CUTS_DMAC_XML_GEN
 {
@@ -68,7 +66,7 @@ public:
    *
    * @param[in]   ex     Execution context
    */
-  void generate_xml (CUTS_Dmac_Execution * ex);
+  void generate_xml ();
 
   // Intialize the xml file with declarations
   void init_xml (void);
@@ -77,10 +75,10 @@ public:
 private:
 
   // Generate the initial xml declarations
-  void generate_declerations (CUTS_Dmac_Execution * ex);
+  void generate_declerations ();
 
   // Generate the identified log formats
-  void generate_logformats (CUTS_Dmac_Execution * ex);
+  void generate_logformats ();
 
   // Finalize the xml generation
   void generate_close_tag (void);

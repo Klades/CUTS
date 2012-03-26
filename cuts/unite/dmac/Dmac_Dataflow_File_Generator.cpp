@@ -32,14 +32,13 @@ void CUTS_Dmac_Dataflow_File_Generator::init_xml (void)
 //
 // generate_xml
 //
-void CUTS_Dmac_Dataflow_File_Generator::generate_xml (
-    CUTS_Dmac_Execution * ex)
+void CUTS_Dmac_Dataflow_File_Generator::generate_xml ()
 {
   // Initial xml declerations and the namespaces
-  this->generate_declerations (ex);
+  this->generate_declerations ();
 
   // Generating the log formats for a particular execution
-  this->generate_logformats (ex);
+  this->generate_logformats ();
 
   // Finalize the generation for a particular execution
   this->generate_close_tag ();
@@ -75,8 +74,7 @@ void CUTS_Dmac_Dataflow_File_Generator::close_file (void)
 //
 // generate_declerations
 //
-void CUTS_Dmac_Dataflow_File_Generator::generate_declerations (
-    CUTS_Dmac_Execution * ex)
+void CUTS_Dmac_Dataflow_File_Generator::generate_declerations ()
 {
   this->ctx_.xml_
     << "<cuts:datagraph xmlns=\"http://www.cs.iupui.edu/CUTS/XML\" "
@@ -85,14 +83,13 @@ void CUTS_Dmac_Dataflow_File_Generator::generate_declerations (
     << "xsi:schemaLocation=\"http://www.cs.iupui.edu/CUTS/XML cuts-unite.xsd\"> "
     << std::endl
     << std::endl
-    << "<name>" << this->name_ << "_" << ex->thread_id () << "</name>" << std::endl;
+    << "<name>" << this->name_ << "</name>" << std::endl;
 }
 
 //
 // generate_logformats
 //
-void CUTS_Dmac_Dataflow_File_Generator::generate_logformats (
-    CUTS_Dmac_Execution * ex)
+void CUTS_Dmac_Dataflow_File_Generator::generate_logformats ()
 {
   this->ctx_.xml_
     << "<logformats>" << std::endl;
@@ -101,7 +98,7 @@ void CUTS_Dmac_Dataflow_File_Generator::generate_logformats (
 
   for (it = this->log_formats_.begin ();
        it != this->log_formats_.end (); it++)
-    (*it)->serialize (this->ctx_.xml_, ex);
+    (*it)->serialize (this->ctx_.xml_);
 
   this->ctx_.xml_
     << "</logformats>" << std::endl;

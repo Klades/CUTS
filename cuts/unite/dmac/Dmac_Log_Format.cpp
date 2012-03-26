@@ -26,7 +26,8 @@ CUTS_Dmac_Log_Format::~CUTS_Dmac_Log_Format (void)
 //
 // add_varaible_values
 //
-void CUTS_Dmac_Log_Format::add_varaible_values (CUTS_DMAC_UTILS::string_vector & trace)
+void CUTS_Dmac_Log_Format::
+add_varaible_values (CUTS_DMAC_UTILS::string_vector & trace)
 {
   CUTS_DMAC_UTILS::s_iter it;
   std::string empty_str ("{}");
@@ -45,19 +46,25 @@ void CUTS_Dmac_Log_Format::add_varaible_values (CUTS_DMAC_UTILS::string_vector &
 }
 
 //
+// add_relation
+//
+void CUTS_Dmac_Log_Format::
+add_relation (CUTS_Dmac_Relation & relation)
+{
+  this->relations_.push_back (relation);
+}
+
+
+//
 // extract_variable_relations
 //
-void CUTS_Dmac_Log_Format::extract_variable_relations (CUTS_Dmac_Log_Format * log_format,
-                                                       CUTS_Dmac_Execution * execution)
+void CUTS_Dmac_Log_Format::
+extract_variable_relations (CUTS_Dmac_Log_Format * log_format)
 {
   var_iterator it1;
   var_iterator it2;
 
-  // Add an execution containing this relation
-  this->add_execution (execution);
-  log_format->add_execution (execution);
-
-  CUTS_Dmac_Relation relation (log_format, execution);
+  CUTS_Dmac_Relation relation (log_format);
 
   // If the set of values for any two variables on the
   // log format are the same then they have a possible
@@ -80,8 +87,9 @@ void CUTS_Dmac_Log_Format::extract_variable_relations (CUTS_Dmac_Log_Format * lo
 //
 // match_item_set
 //
-bool CUTS_Dmac_Log_Format::match_item_set (CUTS_DMAC_UTILS::string_vector & values1,
-                                           CUTS_DMAC_UTILS::string_vector & values2)
+bool CUTS_Dmac_Log_Format::
+match_item_set (CUTS_DMAC_UTILS::string_vector & values1,
+                CUTS_DMAC_UTILS::string_vector & values2)
 {
   // Checking whether the two sets of variables
   // are the same
@@ -153,48 +161,21 @@ int CUTS_Dmac_Log_Format::id ()
 //
 // print_relations
 //
-void CUTS_Dmac_Log_Format::print_relations (CUTS_Dmac_Execution * execution)
+void CUTS_Dmac_Log_Format::print_relations ()
 {
   std::vector <CUTS_Dmac_Relation>::iterator it;
 
   for (it = this->relations_.begin (); it != this->relations_.end (); it++)
-    (*it).print_relation (this, execution);
+    (*it).print_relation (this);
 }
 
-//
-// compare_relations
-//
-bool CUTS_Dmac_Log_Format::compare_relations (CUTS_Dmac_Log_Format * log_format)
-{
-  if (this->relations_.size () != log_format->relations_.size ())
-      return false;
-
-  std::vector <CUTS_Dmac_Relation>::iterator it1;
-  std::vector <CUTS_Dmac_Relation>::iterator it2;
-
-  for (it1 = this->relations_.begin ();
-        it1 != this->relations_.end (); it1++)
-  {
-    for (it2 = log_format->relations_.begin ();
-          it2 != log_format->relations_.end (); it2++)
-    {
-      if ((*it1) != (*it2))
-        return false;
-    }
-  }
-  return true;
-}
 
 //
 // serialize
 //
-void CUTS_Dmac_Log_Format::serialize (std::ofstream & xml_content,
-                                      CUTS_Dmac_Execution * ex)
+void CUTS_Dmac_Log_Format::
+serialize (std::ofstream & xml_content)
 {
-  // Serialization is done only if the log format is in the
-  // given execution
-  if (!this->in_execution_list (ex))
-    return;
 
   // Name of the log format
   xml_content
@@ -241,8 +222,7 @@ void CUTS_Dmac_Log_Format::serialize (std::ofstream & xml_content,
     for (it2 = this->relations_.begin ();
          it2 != this->relations_.end (); it2++)
     {
-      if (ex == (*it2).execution ())
-        (*it2).serialize (xml_content);
+      (*it2).serialize (xml_content);
     }
     xml_content
       << "</relations>" << std::endl;
@@ -255,39 +235,13 @@ void CUTS_Dmac_Log_Format::serialize (std::ofstream & xml_content,
 //
 // serialize_variable
 //
-void CUTS_Dmac_Log_Format::serialize_variable (std::ofstream & xml_content,
-                                               int & count)
+void CUTS_Dmac_Log_Format::
+serialize_variable (std::ofstream & xml_content,
+                    int & count)
 {
   count++;
   xml_content
     << "{STRING X" << count <<"}";
-}
-
-//
-// add_execution
-//
-void CUTS_Dmac_Log_Format::add_execution (CUTS_Dmac_Execution * ex)
-{
-  if (!this->in_execution_list (ex))
-    this->content_list_.push_back (ex);
-}
-
-//
-// in_execution_list
-//
-bool CUTS_Dmac_Log_Format::in_execution_list (CUTS_Dmac_Execution * ex)
-{
-  // Check whether this log format is contained in the
-  // execution
-  std::vector <CUTS_Dmac_Execution *>::iterator it;
-
-  for (it = this->content_list_.begin ();
-       it != this->content_list_.end (); it++)
-  {
-    if ((*it) == ex)
-      return true;
-  }
-  return false;
 }
 
 //

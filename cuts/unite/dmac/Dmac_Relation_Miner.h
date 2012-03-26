@@ -9,14 +9,14 @@
 #include <sstream>
 #include "Dmac_Utils.h"
 #include "Dmac_Log_Format.h"
-#include "Dmac_Execution.h"
+#include "Dmac_Log_Format_Graph_Builder.h"
 #include "cuts/utils/testing/Test_Database.h"
 
 
 /**
  * @class CUTS_Dmac_Relation_Miner
  *
- * Dmac Application class
+ * Dmac Relation Miner class
  */
 
 class CUTS_Dmac_Relation_Miner
@@ -63,8 +63,7 @@ private:
   // Final log formats
   std::vector <CUTS_Dmac_Log_Format *> & final_log_formats_;
 
-  // Set of execution conexts
-  std::vector <CUTS_Dmac_Execution *> executions_list_;
+  CUTS_Dmac_Log_Format_Graph graph_;
 
   // Delimitters
   std::string delims_;

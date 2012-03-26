@@ -40,7 +40,6 @@ void CUTS_Dmac_Log_Database_Miner::populate_candidates (void)
   ADBC::SQLite::Record * record = &query->execute (
     "SELECT * FROM cuts_logging ORDER BY lid");
 
-  int j = 0;
   std::vector <CUTS_Dmac_Static_Part *>::iterator it;
 
   for (it = this->static_parts_.begin ();

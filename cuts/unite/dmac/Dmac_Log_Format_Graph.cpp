@@ -7,44 +7,13 @@
 #include <boost/tuple/tuple.hpp>
 #include <boost/graph/graphviz.hpp>
 #include "Dmac_Log_Format_Graph.h"
-
-
-//
-// which_causes_which
-//
-template <class EdgeIter, class LF_Graph_Type>
-void which_causes_which (EdgeIter first, EdgeIter last, const LF_Graph_Type & graph)
-{
-  // Creat the graph and print it
-
-  ro_vertex_list NameMap;
-  NameMap = get (CUTS_Dmac_Log_Format_Graph_Traits::log_format_t (), graph);
-
-  typedef typename boost::property_traits <ro_vertex_list>
-    ::value_type NameType;
-
-  NameType src_name, targ_name;
-
-  while (first != last)
-  {
-    std::cout << std::endl;
-    src_name = boost::get (NameMap, source (*first, graph));
-    targ_name = boost::get (NameMap, target (*first, graph));
-      std::cout << src_name << "->"
-        << targ_name << std::endl;
-      ++first;
-  }
-  std::cout << std::endl;
-}
+#include "ace/OS_Memory.h"
+#include "ace/CORBA_macros.h"
 
 //
 // CUTS_Dmac_Log_Format_Graph
 //
-CUTS_Dmac_Log_Format_Graph::CUTS_Dmac_Log_Format_Graph (
-    CUTS_DMAC_UTILS::int_vector & history,
-    std::vector <CUTS_Dmac_Log_Format *> & lf_list)
-: history_ (history),
-  lf_list_ (lf_list)
+CUTS_Dmac_Log_Format_Graph::CUTS_Dmac_Log_Format_Graph ()
 {
 
 }
@@ -58,68 +27,113 @@ CUTS_Dmac_Log_Format_Graph::~CUTS_Dmac_Log_Format_Graph (void)
 }
 
 //
-// build_graph
+// extend_graph
 //
-void CUTS_Dmac_Log_Format_Graph::build_graph (CUTS_Dmac_Execution * execution)
+void CUTS_Dmac_Log_Format_Graph::
+extend_graph (std::vector <CUTS_Dmac_Log_Format *> & log_formats,
+              CUTS_Dmac_Execution * execution)
 {
-  this->VERTICES_ = get(CUTS_Dmac_Log_Format_Graph_Traits::log_format_t (),
-                        this->graph_);
-
   // Take each adjacent pair in the order of log formats in the
   // system execution trace
 
-  for (int i = 0; i < (int)(this->history_.size () - 1); i++)
+  for (int i = 0; i < (int)(execution->lf_order_list_.size () - 1); i++)
   {
-    CUTS_DMAC_UTILS::int_pair lf_pair (this->history_ [i],
-                                       this->history_ [i+1]);
+    CUTS_DMAC_UTILS::int_pair lf_pair (execution->lf_order_list_ [i],
+                                       execution->lf_order_list_ [i+1]);
 
-    if (this->check_for_addition (lf_pair))
+    if (this->check_for_addition (lf_pair, execution->lf_order_list_))
     {
-      // Relation is safe addition and it does not form cycles.
-      boost::add_edge (lf_pair.first, lf_pair.second, this->graph_);
+      CUTS_Dmac_Log_Format * cause_lf = 0;
+      CUTS_Dmac_Log_Format * effect_lf = 0;
+      std::stringstream cause_lf_id;
+      std::stringstream effect_lf_id;
 
-      this->lf_list_ [lf_pair.first - 1]->extract_variable_relations (
-        this->lf_list_ [lf_pair.second - 1], execution);
+      cause_lf_id << "LF" << lf_pair.first;
+      effect_lf_id << "LF" << lf_pair.second;
 
-      std::stringstream lfstring1;
-      std::stringstream lfstring2;
+      ACE_CString src (cause_lf_id.str ().c_str ());
+      ACE_CString des (effect_lf_id.str ().c_str ());
 
-      lfstring1 << "LF" << lf_pair.first;
-      lfstring2 << "LF" << lf_pair.second;
+      // First check whether this log format is already added.
 
-      boost::put (this->VERTICES_, lf_pair.first, lfstring1.str ().c_str ());
-      boost::put (this->VERTICES_, lf_pair.second, lfstring2.str ().c_str ());
+      vertex_descriptor cause_vertex = 0;
+      if (this->vertices_.find (src, cause_vertex) == 0)
+        cause_lf = boost::get (CUTS_Dmac_Log_Format_Graph_Traits::log_format_t (),
+                               this->graph_,
+                               cause_vertex);
+      else
+      {
+        // Create the vertex and add it to the graph
+
+        cause_lf = log_formats [lf_pair.first - 1];
+        cause_vertex = boost::add_vertex (this->graph_);
+        this->vertices_.bind (src, cause_vertex);
+
+        // Initialize the vertex's traits.
+        boost::put (boost::vertex_name_t (), this->graph_, cause_vertex, src);
+        boost::put (CUTS_Dmac_Log_Format_Graph_Traits::log_format_t (),
+                    this->graph_,
+                    cause_vertex,
+                    cause_lf);
+      }
+
+      // Do the same thing for Effect vertex.
+
+      vertex_descriptor effect_vertex = 0;
+      if (this->vertices_.find (des, effect_vertex) == 0)
+        effect_lf = boost::get (CUTS_Dmac_Log_Format_Graph_Traits::log_format_t (),
+                                this->graph_,
+                                effect_vertex);
+      else
+      {
+        effect_lf = log_formats [lf_pair.second -1];
+        effect_vertex = boost::add_vertex (this->graph_);
+        this->vertices_.bind (des, effect_vertex);
+
+        // Initialize the vertex's traits.
+        boost::put (boost::vertex_name_t (), this->graph_, effect_vertex, des);
+        boost::put (CUTS_Dmac_Log_Format_Graph_Traits::log_format_t (),
+                    this->graph_,
+                    effect_vertex,
+                    effect_lf);
+      }
+
+      // First check whether the edge is already in the graph
+
+      edge_descriptor e;
+      bool found;
+
+      boost::tie (e, found) = boost::edge (cause_vertex, effect_vertex, this->graph_);
+
+      if (!found)
+      {
+        // Creates a new edge add to the graph and extract the variable
+        // relations also.
+        boost::add_edge (cause_vertex, effect_vertex, this->graph_);
+        cause_lf->extract_variable_relations (effect_lf);
+      }
     }
   }
-  // Add the edge to the grph
-  which_causes_which (edges (this->graph_).first,
-                      edges (this->graph_).second,
-                      this->graph_);
-
 }
 
 //
 // check_for_addition
 //
-bool CUTS_Dmac_Log_Format_Graph::check_for_addition (CUTS_DMAC_UTILS::int_pair & pair)
+bool CUTS_Dmac_Log_Format_Graph::
+check_for_addition (CUTS_DMAC_UTILS::int_pair & pair,
+                    CUTS_DMAC_UTILS::int_vector & lf_order_list)
 {
   int first_index = -1;
   int second_index = -1;
 
-  // If this relation is already added then no need
-  // to add it.
-
-  if (this->already_contained (pair))
-    return false;
-
-  for (int i = 0; i < (int)this->history_.size (); i++)
+  for (int i = 0; i < (int)lf_order_list.size (); i++)
   {
     // Follwing two conditons make sure we are not forming
     // cycles.
-    if ((first_index < 0) && (this->history_ [i] == pair.first))
+    if ((first_index < 0) && (lf_order_list [i] == pair.first))
       first_index = i;
 
-    if ((second_index < 0) && (this->history_ [i] == pair.second))
+    if ((second_index < 0) && (lf_order_list [i] == pair.second))
       second_index = i;
 
     if ((first_index >= 0) && (second_index >= 0))
@@ -127,50 +141,4 @@ bool CUTS_Dmac_Log_Format_Graph::check_for_addition (CUTS_DMAC_UTILS::int_pair &
   }
 
   return false;
-}
-
-//
-// already_contained
-//
-bool CUTS_Dmac_Log_Format_Graph::already_contained (CUTS_DMAC_UTILS::int_pair & pair)
-{
-  std::vector <CUTS_DMAC_UTILS::int_pair>::iterator it;
-
-  for (it = this->edge_set_.begin (); it != this->edge_set_.end (); it++)
-  {
-    if ((pair.first == it->first) && (pair.second == it->second))
-      return true;
-  }
-
-  this->edge_set_.push_back (pair);
-  return false;
-}
-
-//
-// compare
-//
-bool CUTS_Dmac_Log_Format_Graph::compare (CUTS_Dmac_Log_Format_Graph & graph)
-{
-  // Compare two graphs and determine whether they contain the same
-  // log formats and same set of relations
-
-  if (this->edge_set_.size () !=
-        graph.edge_set_.size ())
-    return false;
-
-  std::vector <CUTS_DMAC_UTILS::int_pair>::iterator it1;
-  std::vector <CUTS_DMAC_UTILS::int_pair>::iterator it2;
-
-  for (it1 = graph.edge_set_.begin ();
-        it1 != graph.edge_set_.end (); it1++)
-  {
-    for (it2 = this->edge_set_.begin ();
-          it2 != this->edge_set_.end (); it2++)
-    {
-      if ((it1->first != it2->first) ||
-            (it1->second != it2->second))
-        return false;
-    }
-  }
-  return true;
 }

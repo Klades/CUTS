@@ -7,7 +7,6 @@
 #include "cuts/utils/testing/Test_Database.h"
 #include "adbc/SQLite/Connection.h"
 #include "Dmac_Log_Format.h"
-#include "Dmac_Log_Format_Graph.h"
 #include "Dmac_Utils.h"
 
 /**
@@ -15,6 +14,8 @@
  *
  * Represents and execution context.
  */
+
+class CUTS_Dmac_Log_Format_Graph;
 
 class CUTS_Dmac_Execution
 {
@@ -51,24 +52,11 @@ public:
    */
   ACE_CString host_name (void);
 
-  /** Create the dataflow model using the log format
-   *
-   */
-  void create_data_flow_graph (void);
-
   /**
-   * Extract the relations from log formats
-   */
-  void Extract_Relations (void);
-
-  /**
-   * Match the log format with the trace
-   *
-   * @param[in]   trace_items       The actual trace
-   * @return      id of the matching log_format
+   * Create the execution order in terms of log formats
    *
    */
-  int match_log_format (CUTS_DMAC_UTILS::string_vector & trace_items);
+  void create_order_list (void);
 
   /**
    * Double equal operator
@@ -86,14 +74,16 @@ public:
    */
   void delims (std::string delims);
 
+  friend class CUTS_Dmac_Log_Format_Graph;
+
 
 private:
 
-  // The id of the thread generating the trace
-  int thread_id_;
-
   // The name of the host generated the trace
   ACE_CString host_name_;
+
+  // The id of the thread generating the trace
+  int thread_id_;
 
   // The central database stroring the data
   CUTS_Test_Database & test_data_;
@@ -104,14 +94,8 @@ private:
   // The set of identified log formats
   std::vector <CUTS_Dmac_Log_Format *> & final_patterns_;
 
-  // The sot of log formats related this execution
-  std::vector <CUTS_Dmac_Log_Format *> related_patterns_;
-
   // Execution history in the order of log formats
   CUTS_DMAC_UTILS::int_vector lf_order_list_;
-
-  // The dataflow grpahs
-  CUTS_Dmac_Log_Format_Graph * lf_graph_;
 
 };
 

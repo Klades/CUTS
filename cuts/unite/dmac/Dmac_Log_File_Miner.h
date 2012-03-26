@@ -17,7 +17,12 @@ class CUTS_Dmac_Log_File_Miner : public CUTS_Dmac_Log_Miner
 {
 public:
 
-  /// Default constructor
+ /**
+  * Initializing constructor
+  * @param [in]   pattern_file    The file containing the frequent sequences
+  * @param [in]   data_file       The trace file
+  * @param [in]   found_items     Set of log formats found
+  */
   CUTS_Dmac_Log_File_Miner (ACE_CString & pattern_file,
                             ACE_CString & data_file,
                             std::vector <CUTS_Dmac_Log_Format *> & found_items);

@@ -89,11 +89,11 @@ private:
   // The log format list
   std::vector <CUTS_Dmac_Log_Format *> log_formats_;
 
-  // current coverage
-  long current_coverage_;
-
   // All coverage
   float coverage_;
+
+  // current coverage
+  long current_coverage_;
 
   // Number or records in the current data file
   long current_records_;

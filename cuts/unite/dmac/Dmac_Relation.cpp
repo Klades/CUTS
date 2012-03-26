@@ -8,10 +8,9 @@
 //
 // CUTS_Dmac_Relation
 //
-CUTS_Dmac_Relation::CUTS_Dmac_Relation (CUTS_Dmac_Log_Format * effect_lf,
-                                        CUTS_Dmac_Execution * execution)
-: effect_lf_ (effect_lf),
-  execution_ (execution)
+CUTS_Dmac_Relation::
+CUTS_Dmac_Relation (CUTS_Dmac_Log_Format * effect_lf)
+: effect_lf_ (effect_lf)
 {
 
 }
@@ -27,7 +26,8 @@ CUTS_Dmac_Relation::~CUTS_Dmac_Relation (void)
 //
 // add_cause_effect
 //
-void CUTS_Dmac_Relation::add_cause_effect (CUTS_DMAC_UTILS::int_pair cause_effect)
+void CUTS_Dmac_Relation::
+add_cause_effect (CUTS_DMAC_UTILS::int_pair cause_effect)
 {
   this->cause_effects_.push_back (cause_effect);
 }
@@ -35,25 +35,21 @@ void CUTS_Dmac_Relation::add_cause_effect (CUTS_DMAC_UTILS::int_pair cause_effec
 //
 // print_relation
 //
-void CUTS_Dmac_Relation::print_relation (CUTS_Dmac_Log_Format * cause_lf,
-                                         CUTS_Dmac_Execution * execution)
+void CUTS_Dmac_Relation::
+print_relation (CUTS_Dmac_Log_Format * cause_lf)
 {
+  std::stringstream cause_lf_string;
+  cause_lf_string << "LF" << cause_lf->id ();
 
-  if (this->execution_ == execution)
+  std::stringstream effect_lf_string;
+  effect_lf_string << "LF" << this->effect_lf_->id ();
+
+  std::vector <CUTS_DMAC_UTILS::int_pair>::iterator it;
+
+  for (it = this->cause_effects_.begin (); it != this->cause_effects_.end (); it++)
   {
-    std::stringstream cause_lf_string;
-    cause_lf_string << "LF" << cause_lf->id ();
-
-    std::stringstream effect_lf_string;
-    effect_lf_string << "LF" << this->effect_lf_->id ();
-
-    std::vector <CUTS_DMAC_UTILS::int_pair>::iterator it;
-
-    for (it = this->cause_effects_.begin (); it != this->cause_effects_.end (); it++)
-    {
-      std::cout << cause_lf_string.str () << "." << (*it).first <<" = ";
-      std::cout << effect_lf_string.str () << "." << (*it).second << std::endl;
-    }
+    std::cout << cause_lf_string.str () << "." << (*it).first <<" = ";
+    std::cout << effect_lf_string.str () << "." << (*it).second << std::endl;
   }
 }
 
@@ -156,12 +152,4 @@ void CUTS_Dmac_Relation::serialize (std::ofstream & xml_content)
     << "</relation>"
     << std::endl;
 
-}
-
-//
-// execution
-//
-CUTS_Dmac_Execution * CUTS_Dmac_Relation::execution ()
-{
-  return this->execution_;
 }

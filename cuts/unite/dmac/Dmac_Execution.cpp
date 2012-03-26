@@ -15,8 +15,7 @@ CUTS_Dmac_Execution::CUTS_Dmac_Execution (
 : host_name_ (host_name),
   thread_id_ (thread_id),
   test_data_ (test_data),
-  final_patterns_ (final_patterns),
-  lf_graph_ (0)
+  final_patterns_ (final_patterns)
 {
 
 
@@ -53,9 +52,9 @@ void CUTS_Dmac_Execution::delims (std::string delims)
 }
 
 //
-// Extract_Relations
+// create_execution_order_list
 //
-void CUTS_Dmac_Execution::Extract_Relations (void)
+void CUTS_Dmac_Execution::create_order_list (void)
 {
   ADBC::SQLite::Query * query = this->test_data_.create_query ();
 
@@ -85,7 +84,9 @@ void CUTS_Dmac_Execution::Extract_Relations (void)
     CUTS_DMAC_UTILS::string_vector trace_items;
     record->get_data (5, message, sizeof (message));
     std::string message_str (message);
-    CUTS_DMAC_UTILS::tokenize (message_str, trace_items, this->delims_);
+    CUTS_DMAC_UTILS::tokenize (message_str,
+                               trace_items,
+                               this->delims_);
 
     //cur_id = this->match_log_format (trace_items);
     cur_id = CUTS_DMAC_UTILS::match_log_format (trace_items,
@@ -94,32 +95,8 @@ void CUTS_Dmac_Execution::Extract_Relations (void)
 
     if (cur_id > -1)
       this->lf_order_list_.push_back (cur_id);
-
   }
   record->reset ();
-
-  // Finally create the dataflow graph
-  this->create_data_flow_graph ();
-
-}
-
-//
-// create_data_flow_graph
-//
-void CUTS_Dmac_Execution::create_data_flow_graph (void)
-{
-  ACE_NEW_THROW_EX (this->lf_graph_,
-                    CUTS_Dmac_Log_Format_Graph (this->lf_order_list_,
-                                                this->final_patterns_),
-                    ACE_bad_alloc ());
-
-  this->lf_graph_->build_graph (this);
-
-  std::vector <CUTS_Dmac_Log_Format *>::iterator it;
-
-  for (it = this->final_patterns_.begin (); it != this->final_patterns_.end ();
-       it++)
-    (*it)->print_relations (this);
 }
 
 //

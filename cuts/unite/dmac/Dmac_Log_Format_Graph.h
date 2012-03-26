@@ -3,9 +3,13 @@
 #ifndef _CUTS_DMAC_LOG_FORMAT_GRAPH_H_
 #define _CUTS_DMAC_LOG_FORMAT_GRAPH_H_
 
-#include "boost/graph/adjacency_list.hpp"
 #include <string>
+#include "ace/Hash_Map_Manager.h"
+#include "ace/Null_Mutex.h"
+#include "ace/SString.h"
+#include "boost/graph/adjacency_list.hpp"
 #include "Dmac_Log_Format.h"
+#include "Dmac_Execution.h"
 
 
 /**
@@ -22,22 +26,19 @@ public:
     typedef boost::vertex_property_tag kind;
   };
 
-  typedef boost::property<log_format_t, std::string> property_type;
-
+  typedef
+    boost::property <boost::vertex_name_t, ACE_CString,
+    boost::property <log_format_t, CUTS_Dmac_Log_Format *> >
+    property_type;
 };
 
-  typedef boost::adjacency_list <boost::vecS,
-                                 boost::vecS,
-                                 boost::directedS,
-                                 CUTS_Dmac_Log_Format_Graph_Traits::property_type>
-                                 LF_Graph_Type;
-
-  typedef boost::property_map <LF_Graph_Type,
-                               CUTS_Dmac_Log_Format_Graph_Traits::log_format_t>::type vertex_list;
-
-  typedef boost::property_map <LF_Graph_Type,
-                               CUTS_Dmac_Log_Format_Graph_Traits::log_format_t>::const_type ro_vertex_list;
-
+/// Type defintion of the graph type
+typedef
+  boost::adjacency_list <boost::vecS,
+                         boost::vecS,
+                         boost::directedS,
+                         CUTS_Dmac_Log_Format_Graph_Traits::property_type>
+                         CUTS_Dmac_Log_Format_Graph_Type;
 
 /**
  * @class CUTS_Dmac_Log_Format_Graph
@@ -45,64 +46,50 @@ public:
  * Represent the Dataflow model
  */
 
-  class CUTS_Dmac_Log_Format_Graph
+class CUTS_Dmac_Log_Format_Graph
 {
 public:
 
   /// Type definition to the vertex descriptor
-  typedef boost::graph_traits <LF_Graph_Type>::vertex_descriptor vertex_descriptor;
+  typedef boost::graph_traits <CUTS_Dmac_Log_Format_Graph_Type>::vertex_descriptor vertex_descriptor;
 
   /// Type definition to the vertex descriptor
-  typedef boost::graph_traits <LF_Graph_Type>::vertex_iterator vertex_iterator;
+  typedef boost::graph_traits <CUTS_Dmac_Log_Format_Graph_Type>::vertex_iterator vertex_iterator;
 
   /// Type definition of the edge descriptor
-  typedef boost::graph_traits <LF_Graph_Type>::edge_descriptor edge_descriptor;
+  typedef boost::graph_traits <CUTS_Dmac_Log_Format_Graph_Type>::edge_descriptor edge_descriptor;
 
-  /**
-   * Initializing constructor
-   *
-   * @param[in]     history       If of the log formats in the order of the trace
-   * @param[in]     lf_list       Set of log formats
-   */
-  CUTS_Dmac_Log_Format_Graph (CUTS_DMAC_UTILS::int_vector & history,
-                              std::vector <CUTS_Dmac_Log_Format *> & lf_list);
+  /// Default Constructor
+  CUTS_Dmac_Log_Format_Graph (void);
 
   /// Desturctor
   ~CUTS_Dmac_Log_Format_Graph (void);
 
   /**
-   * Build the dataflow graph
+   * extend_graph
    *
-   * @param[in]     execution   execution for which we are building the graph
+   * @param[in]     log_formats     The set of abstract log formats
+   * @param[in]     execution       The Execution Context.
    */
-  void build_graph (CUTS_Dmac_Execution * execution);
-
+  void extend_graph (std::vector <CUTS_Dmac_Log_Format *> & log_formats,
+                     CUTS_Dmac_Execution * execution);
 
 private:
 
+  /// This method checks whether we need to add a log format pair
+  bool check_for_addition (CUTS_DMAC_UTILS::int_pair & pair,
+                           CUTS_DMAC_UTILS::int_vector & lf_order_list);
+
   // The dataflow graph
-  LF_Graph_Type graph_;
+  CUTS_Dmac_Log_Format_Graph_Type graph_;
 
-  // The history of the execution in terms of log format
-  CUTS_DMAC_UTILS::int_vector & history_;
+  /// Type definition of the vertex cache
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                vertex_descriptor,
+                                ACE_Null_Mutex> VERTEX_MAP;
 
-  // The identified log format list
-  std::vector <CUTS_Dmac_Log_Format *> & lf_list_;
-
-  // The relation set in the graph
-  std::vector <CUTS_DMAC_UTILS::int_pair> edge_set_;
-
-  // The vertices in the graph
-  vertex_list VERTICES_;
-
-  // Check whether this relation need to be added to the graph
-  bool check_for_addition (CUTS_DMAC_UTILS::int_pair & pair);
-
-  // Check whether this relation is already contained in the graph
-  bool already_contained (CUTS_DMAC_UTILS::int_pair & pair);
-
-  // Compare two graphs
-  bool compare (CUTS_Dmac_Log_Format_Graph & graph);
+  /// Local cache of the vertices
+  VERTEX_MAP vertices_;
 
 };
 

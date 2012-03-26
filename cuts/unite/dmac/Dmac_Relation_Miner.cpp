@@ -34,7 +34,9 @@ CUTS_Dmac_Relation_Miner::~CUTS_Dmac_Relation_Miner (void)
 
 }
 
-
+//
+// mine_relations
+//
 void CUTS_Dmac_Relation_Miner::mine_relations (void)
 {
   this->find_relations ();
@@ -44,6 +46,9 @@ void CUTS_Dmac_Relation_Miner::mine_relations (void)
 
 }
 
+//
+// delims
+//
 void CUTS_Dmac_Relation_Miner::delims (std::string delims)
 {
   this->delims_ = delims;
@@ -54,51 +59,12 @@ void CUTS_Dmac_Relation_Miner::delims (std::string delims)
 //
 void CUTS_Dmac_Relation_Miner::find_relations (void)
 {
-  // Get all the distinct host_name and thread_id
-  // pairs
-  ADBC::SQLite::Query * query = this->testdata_.create_query ();
+  CUTS_Dmac_Log_Format_Graph_Builder builder;
 
-  CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (
-    query, &ADBC::SQLite::Query::destroy);
+  builder.build (this->graph_,
+                 this->testdata_,
+                 this->final_log_formats_);
 
-  ADBC::SQLite::Record * record = &query->execute (
-    "SELECT DISTINCT hostname, thread_id FROM cuts_logging ORDER BY hostname");
-
-  int i = 0;
-  ACE_CString host_name;
-  long thread_id = 0;
-
-  for ( ; !record->done (); record->advance ())
-  {
-    // Create an execution contex for each different
-    // thread_id and host_name pair
-
-    record->get_data (0, host_name);
-    record->get_data (1, thread_id);
-
-    CUTS_Dmac_Execution * execution = 0;
-
-    ACE_NEW_THROW_EX (execution,
-                      CUTS_Dmac_Execution (host_name,
-                                           thread_id,
-                                           this->testdata_,
-                                           this->final_log_formats_),
-                      ACE_bad_alloc ());
-
-    // Extract relations for each different execution
-
-    std::cout << "Relations for Thread-" << thread_id << std::endl;
-
-    execution->delims (this->delims_);
-
-    execution->Extract_Relations ();
-
-    this->executions_list_.push_back (execution);
-
-    std::cout << "----------------------------" << std::endl;
-    std::cout << std::endl;
-  }
-  record->reset ();
 }
 
 //
@@ -108,9 +74,6 @@ void CUTS_Dmac_Relation_Miner::generate_datagraph_file (void)
 {
   // Generate the datagraph file using all identified
   // log formats.
-  // Each execution context is a different datagraph in the
-  // datagraph file.
-
   CUTS_Dmac_Dataflow_File_Generator generator (this->final_log_formats_,
                                                this->name_.c_str ());
 
@@ -118,13 +81,8 @@ void CUTS_Dmac_Relation_Miner::generate_datagraph_file (void)
 
   generator.init_xml ();
 
-  std::vector <CUTS_Dmac_Execution *>::iterator it;
-
-  for (it = this->executions_list_.begin ();
-       it != this->executions_list_.end (); it++)
-    generator.generate_xml (*it);
+  generator.generate_xml ();
 
   generator.close_file ();
 
 }
-
