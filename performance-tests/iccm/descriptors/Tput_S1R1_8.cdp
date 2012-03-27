@@ -6,9 +6,9 @@
   <UUID>4EEC00E4-640C-11E1-8000-080027BB5D07</UUID>
 
   <implementation xmi:id="_2493F662-62E5-11E1-8002-080027BB5D07">
-    <name>PerformanceTest.ComponentImplementations.TPUT_Sender_Component.TPUT_Sender_Component</name>
+    <name>PerformanceTest.ComponentImplementations.Tput_Sender_Component_Splice.Tput_Sender_Component_Splice</name>
     <source/>
-    <artifact xmi:idref="_2493F662-62E5-11E1-8000-080027BB5D07"/>
+    <artifact xmi:idref="_6FB0A592-6A3C-11E1-8000-080027BB5D07"/>
     <artifact xmi:idref="_2493F662-62E5-11E1-8001-080027BB5D07"/>
     <execParameter>
       <name>component factory</name>
@@ -28,7 +28,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_impl</string>
+          <string>PerformanceTest.ImplementationArtifacts.Tput_Sender_Component_impl.Tput_Sender_Component_impl</string>
         </value>
       </value>
     </execParameter>
@@ -50,16 +50,16 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_svnt</string>
+          <string>PerformanceTest.ImplementationArtifacts.Performance_Test_Splice_svnt.Performance_Test_Splice_svnt</string>
         </value>
       </value>
     </execParameter>
   </implementation>
 
   <implementation xmi:id="_2493F662-62E5-11E1-8005-080027BB5D07">
-    <name>PerformanceTest.ComponentImplementations.TPUT_Receiver_Component.TPUT_Receiver_Component</name>
+    <name>PerformanceTest.ComponentImplementations.Tput_Receiver_Component_Splice.Tput_Receiver_Component_Splice</name>
     <source/>
-    <artifact xmi:idref="_2493F662-62E5-11E1-8003-080027BB5D07"/>
+    <artifact xmi:idref="_6FB0A592-6A3C-11E1-8000-080027BB5D07"/>
     <artifact xmi:idref="_2493F662-62E5-11E1-8004-080027BB5D07"/>
     <execParameter>
       <name>component factory</name>
@@ -79,7 +79,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_impl</string>
+          <string>PerformanceTest.ImplementationArtifacts.Tput_Receiver_Component_impl.Tput_Receiver_Component_impl</string>
         </value>
       </value>
     </execParameter>
@@ -101,7 +101,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_svnt</string>
+          <string>PerformanceTest.ImplementationArtifacts.Performance_Test_Splice_svnt.Performance_Test_Splice_svnt</string>
         </value>
       </value>
     </execParameter>
@@ -149,24 +149,6 @@
     <implementation xmi:idref="_2493F662-62E5-11E1-8005-080027BB5D07"/>
   </instance>
 
-  <instance xmi:id="SenderNode.DefaultGroup">
-    <name>SenderNode.DefaultGroup</name>
-    <node>SenderNode</node>
-    <source/>
-    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
-    <configProperty>
-      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>DefaultGroup</string>
-        </value>
-      </value>
-    </configProperty>
-  </instance>
-
   <instance xmi:id="ReceiverNode.DefaultGroup">
     <name>ReceiverNode.DefaultGroup</name>
     <node>ReceiverNode</node>
@@ -185,32 +167,43 @@
     </configProperty>
   </instance>
 
-  <artifact xmi:id="_2493F662-62E5-11E1-8000-080027BB5D07">
-    <name>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_svnt</name>
+  <instance xmi:id="SenderNode.DefaultGroup">
+    <name>SenderNode.DefaultGroup</name>
+    <node>SenderNode</node>
     <source/>
-    <node/>
-    <location>Performance_Test_svnt</location>
-  </artifact>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
 
   <artifact xmi:id="_2493F662-62E5-11E1-8001-080027BB5D07">
-    <name>PerformanceTest.ImplementationArtifacts.TPUT_Sender_Component.TPUT_Sender_Component_impl</name>
+    <name>PerformanceTest.ImplementationArtifacts.Tput_Sender_Component_impl.Tput_Sender_Component_impl</name>
     <source/>
     <node/>
-    <location>TPUT_Sender_Component_impl</location>
-  </artifact>
-
-  <artifact xmi:id="_2493F662-62E5-11E1-8003-080027BB5D07">
-    <name>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_svnt</name>
-    <source/>
-    <node/>
-    <location>Performance_Test_svnt</location>
+    <location>Tput_Sender_Component_impl</location>
   </artifact>
 
   <artifact xmi:id="_2493F662-62E5-11E1-8004-080027BB5D07">
-    <name>PerformanceTest.ImplementationArtifacts.TPUT_Receiver_Component.TPUT_Receiver_Component_impl</name>
+    <name>PerformanceTest.ImplementationArtifacts.Tput_Receiver_Component_impl.Tput_Receiver_Component_impl</name>
     <source/>
     <node/>
-    <location>TPUT_Receiver_Component_impl</location>
+    <location>Tput_Receiver_Component_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_6FB0A592-6A3C-11E1-8000-080027BB5D07">
+    <name>PerformanceTest.ImplementationArtifacts.Performance_Test_Splice_svnt.Performance_Test_Splice_svnt</name>
+    <source/>
+    <node/>
+    <location>Performance_Test_Splice_svnt</location>
   </artifact>
 
   <artifact xmi:id="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1">
@@ -222,16 +215,16 @@
 
   <localityConstraint>
     <constraint>SameProcess</constraint>
-    <constrainedInstance xmi:idref="ReceiverNode.DefaultGroup"/>
-    <!--PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Receiver1-->
-    <constrainedInstance xmi:idref="_A542C8B2-6414-11E1-8000-080027BB5D07"/>
+    <constrainedInstance xmi:idref="SenderNode.DefaultGroup"/>
+    <!--PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1-->
+    <constrainedInstance xmi:idref="_77D8AA22-6414-11E1-8000-080027BB5D07"/>
   </localityConstraint>
 
   <localityConstraint>
     <constraint>SameProcess</constraint>
-    <constrainedInstance xmi:idref="SenderNode.DefaultGroup"/>
-    <!--PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Sender1-->
-    <constrainedInstance xmi:idref="_77D8AA22-6414-11E1-8000-080027BB5D07"/>
+    <constrainedInstance xmi:idref="ReceiverNode.DefaultGroup"/>
+    <!--PerformanceTest.ComponentAssemblies.Throughput_asm.Throughput_asm.Receiver1-->
+    <constrainedInstance xmi:idref="_A542C8B2-6414-11E1-8000-080027BB5D07"/>
   </localityConstraint>
 
 </Deployment:DeploymentPlan>

@@ -114,7 +114,7 @@ project (Performance_Test_Connector_exec) : ccm_svnt, dds4ccm_lem_stub, cuts_cod
 }
 
 project (Performance_Test_Connector_svnt) : ciao_servant, dds4ccm_impl, cuts_codegen_defaults {
-  sharedname    = DDS_Performance_Test_Connector_svnt
+  sharedname    = Performance_Test_Connector_svnt
   dynamicflags += PERFORMANCE_TEST_CONNECTOR_SVNT_BUILD_DLL
 
   after += Performance_Test_Connector_exec Performance_Test_Connector_stub Performance_Test_Connector_base
@@ -138,8 +138,8 @@ project (Performance_Test_Connector_svnt) : ciao_servant, dds4ccm_impl, cuts_cod
   }
 }
 
-project (Performance_Test_Connector_conn) : ciao_executor, dds4ccm_impl, cuts_codegen_defaults {
-  sharedname = Performance_Test_Connector_conn
+project (Performance_Test_Connector_impl) : ciao_executor, dds4ccm_impl, cuts_codegen_defaults {
+  sharedname = Performance_Test_Connector_impl
 
   after += Performance_Test_Connector_stub Performance_Test_Connector_exec Performance_Test_Connector_base
   libs  += Performance_Test_Connector_stub Performance_Test_Connector_exec Performance_Test_Connector_base

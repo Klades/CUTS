@@ -1,3 +1,22 @@
+Tue Mar 27 15:25:48 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component/Tput_Sender_Conn_Component_impl.cpp:
+
+          BUGFIX: The component crashed in ccm_passivate () if there was
+          no task allocated to send events.
+
+        * performance-tests/iccm/connector/Performance_Test_Connector.mpc:
+
+          Change the name of the connector implementation project and binary.
+
+        * performance-tests/iccm/descriptors/Tput_S1R1_8.cdp:
+
+          Re-generated the deployment descriptors.
+
+        * performance-tests/iccm/models/PerformanceTest.xme:
+
+          Added connector and connector components to the model.
+
 Tue Mar 27 13:05:30 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * performance-tests/iccm/components/Tput_Sender_Conn_Component:

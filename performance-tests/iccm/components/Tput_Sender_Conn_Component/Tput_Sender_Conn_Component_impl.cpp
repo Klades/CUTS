@@ -77,8 +77,11 @@ namespace CIAO_Sender_Conn_Component_Impl
     // Store the task, and stop the timer.
     this->timer_.stop ();
 
-    this->task_->deactivate ();
-    this->task_->wait ();
+    if (0 != this->task_.get ())
+    {
+      this->task_->deactivate ();
+      this->task_->wait ();
+    }
 
     // Calculate the events/second.
     ACE_hrtime_t elapsed;
