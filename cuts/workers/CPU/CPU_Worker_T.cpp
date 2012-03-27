@@ -14,12 +14,10 @@
 
 #define TEST_RUNS           10
 #define TEST_MIN_MSEC       10
-/*#define TEST_MAX_MSEC       1000*/
-#define TEST_MAX_MSEC       100
+#define TEST_MAX_MSEC       1000
 #define TEST_INC_MSEC       10
 
-//#define CPU_ERROR_MAX       2.0
-#define CPU_ERROR_MAX       10.0
+#define CPU_ERROR_MAX       2.0
 #define CPU_ERROR_MIN       (-1.0 * CPU_ERROR_MAX)
 
 //
