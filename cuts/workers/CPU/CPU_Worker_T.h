@@ -4,8 +4,6 @@
 /**
  * @file        CPU_Worker_T.h
  *
- * Templatized version of the CPU worker.
- *
  * $Id$
  *
  * @author      James H. Hill
@@ -16,8 +14,8 @@
 #define _CUTS_CPU_WORKER_T_H_
 
 #include "cuts/Worker.h"
+#include "Calibration_Details.h"
 
-//=============================================================================
 /**
  * @class CUTS_CPU_Worker_T
  *
@@ -29,8 +27,6 @@
  * - Must implement perform_work () method, which executes one
  *   repetition of defined the workload.
  */
-//=============================================================================
-
 template <typename T>
 class CUTS_CPU_Worker_T : public CUTS_Worker
 {
@@ -127,6 +123,9 @@ private:
 
   /// The work function for the CPU worker.
   T work_function_;
+
+  /// Calibration details for the CPU worker.
+  CUTS_CPU_Calibration_Details calib_details_;
 };
 
 #include "CPU_Worker_T.cpp"

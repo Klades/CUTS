@@ -1,6 +1,5 @@
 // $Id$
 
-#include "Calibration_Details.h"
 #include "ace/High_Res_Timer.h"
 #include "ace/Log_Msg.h"
 #include "ace/Null_Mutex.h"
@@ -15,14 +14,13 @@
 
 #define TEST_RUNS           10
 #define TEST_MIN_MSEC       10
-#define TEST_MAX_MSEC       1000
+/*#define TEST_MAX_MSEC       1000*/
+#define TEST_MAX_MSEC       100
 #define TEST_INC_MSEC       10
 
-#define CPU_ERROR_MAX       2.0
+//#define CPU_ERROR_MAX       2.0
+#define CPU_ERROR_MAX       10.0
 #define CPU_ERROR_MIN       (-1.0 * CPU_ERROR_MAX)
-
-#define CPU_CALIBRATION_DETAILS() \
-  ACE_Singleton <CUTS_CPU_Calibration_Details, ACE_Null_Mutex>::instance ()
 
 //
 // CUTS_CPU_Worker
@@ -279,7 +277,7 @@ verify_calibration (size_t trycount, const ACE_CString & temp_filename)
     }
 
     CUTS_CPU_Calibration_Details_Log_Entry * entry = 0;
-    CPU_CALIBRATION_DETAILS ()->process (msec, results, entry);
+    this->calib_details_.process (msec, results, entry);
 
     ACE_DEBUG ((LM_DEBUG,
                 "    average execution time = %f msec\n"
@@ -318,10 +316,10 @@ verify_calibration (size_t trycount, const ACE_CString & temp_filename)
   // error for each sample set (i.e., each measured execution time).
   tempfile
     << "=================================================" << std::endl
-    << CPU_CALIBRATION_DETAILS ()->count () << " "
-    << CPU_CALIBRATION_DETAILS ()->min_error () << " "
-    << CPU_CALIBRATION_DETAILS ()->max_error () << " "
-    << CPU_CALIBRATION_DETAILS ()->average_percent_error () << std::endl;
+    << this->calib_details_.count () << " "
+    << this->calib_details_.min_error () << " "
+    << this->calib_details_.max_error () << " "
+    << this->calib_details_.average_percent_error () << std::endl;
 
 
   // Close the temporary file.
@@ -331,20 +329,20 @@ verify_calibration (size_t trycount, const ACE_CString & temp_filename)
   // Write the information to the screen for the user.
   ACE_DEBUG ((LM_DEBUG,
               "*** info (CUTS_CPU_Worker): error set = [%f, %f]\n",
-              CPU_CALIBRATION_DETAILS ()->min_error (),
-              CPU_CALIBRATION_DETAILS ()->max_error ()));
+              this->calib_details_.min_error (),
+              this->calib_details_.max_error ()));
 
-  if (CPU_CALIBRATION_DETAILS ()->min_error () < CPU_ERROR_MIN ||
-      CPU_CALIBRATION_DETAILS ()->max_error () > CPU_ERROR_MAX)
+  if (this->calib_details_.min_error () < CPU_ERROR_MIN ||
+      this->calib_details_.max_error () > CPU_ERROR_MAX)
   {
     // Determine how much the adjust the counts per msec.
     double adjustment =
       this->count_per_msec_ *
-      CPU_CALIBRATION_DETAILS ()->average_percent_error ();
+      this->calib_details_.average_percent_error ();
     this->count_per_msec_ -= adjustment;
 
     // Reset the calibration details and rerun the verification.
-    CPU_CALIBRATION_DETAILS ()->reset ();
+    this->calib_details_.reset ();
 
     if (trycount != 10)
       this->verify_calibration (trycount + 1, temp_filename);
