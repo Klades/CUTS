@@ -1,0 +1,16 @@
+// $Id$
+
+#ifndef _TPUT_SENDER_CONN_COMPONENT_IDL_
+#define _TPUT_SENDER_CONN_COMPONENT_IDL_
+
+#include "Performance_Test_Connector.idl"
+
+component Sender_Conn_Component
+{
+  port Size8DataConnector::DDS_Write write_size8data;
+  port Size16DataConnector::DDS_Write write_size16data;
+  port Size32DataConnector::DDS_Write write_size32data;
+  port Size64DataConnector::DDS_Write write_size64data;
+};
+
+#endif /* SHAPES_SENDER_COMP_IDL_ */

@@ -1,3 +1,14 @@
+Tue Mar 27 13:05:30 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component:
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component/Tput_Sender_Conn_Component.idl:
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component/Tput_Sender_Conn_Component.mpc:
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component/Tput_Sender_Conn_Component_impl.h:
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component/Tput_Sender_Conn_Component_impl.cpp:
+        * performance-tests/iccm/components/Tput_Sender_Conn_Component/Tput_Sender_Conn_Component_impl_export.h:
+
+          First implementation of the connector sender component.
+
 Mon Mar 26 17:19:12 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/dmac/Dmac_App.h:
@@ -20,7 +31,7 @@ Mon Mar 26 17:19:12 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
         * cuts/unite/dmac/Dmac_Vertical_Generator.cpp:
         * cuts/unite/dmac/dmac.mpc:
 
-          Dmac now generates one datagraph. Chnaged the code also to
+          Dmac now generates one datagraph. Changed the code also to
           use the Boost graph library.
 
 Tue Mar 20 16:53:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
