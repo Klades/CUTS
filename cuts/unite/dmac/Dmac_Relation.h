@@ -71,6 +71,8 @@ public:
    */
   void serialize (std::ofstream & xml_content);
 
+  friend class CUTS_Dmac_Log_Format;
+
 private:
 
   // The effect log format of this relation

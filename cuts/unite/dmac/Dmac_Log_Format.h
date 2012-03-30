@@ -120,6 +120,8 @@ public:
   // Increment the coverage by one
   void increment_coverage (void);
 
+  bool is_reachable (CUTS_Dmac_Log_Format * lf);
+
 private:
 
   // Id of the log format

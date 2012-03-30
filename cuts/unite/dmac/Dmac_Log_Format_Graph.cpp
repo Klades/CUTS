@@ -6,14 +6,17 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <boost/graph/graphviz.hpp>
+#include <boost/graph/connected_components.hpp>
 #include "Dmac_Log_Format_Graph.h"
 #include "ace/OS_Memory.h"
 #include "ace/CORBA_macros.h"
+#include "cuts/Auto_Functor_T.h"
 
 //
 // CUTS_Dmac_Log_Format_Graph
 //
-CUTS_Dmac_Log_Format_Graph::CUTS_Dmac_Log_Format_Graph ()
+CUTS_Dmac_Log_Format_Graph::
+CUTS_Dmac_Log_Format_Graph ()
 {
 
 }
@@ -21,7 +24,8 @@ CUTS_Dmac_Log_Format_Graph::CUTS_Dmac_Log_Format_Graph ()
 //
 // ~CUTS_Dmac_Log_Format_Graph
 //
-CUTS_Dmac_Log_Format_Graph::~CUTS_Dmac_Log_Format_Graph (void)
+CUTS_Dmac_Log_Format_Graph::
+~CUTS_Dmac_Log_Format_Graph (void)
 {
 
 }
@@ -141,4 +145,138 @@ check_for_addition (CUTS_DMAC_UTILS::int_pair & pair,
   }
 
   return false;
+}
+
+//
+// find_inter_ec_relations
+//
+void CUTS_Dmac_Log_Format_Graph::
+find_inter_ec_relations (std::vector<CUTS_Dmac_Log_Format*> & log_formats,
+                         CUTS_Test_Database & testdata)
+{
+  // Take log format pairs
+  size_t size = log_formats.size ();
+
+  // Check whether they are reachable with each other
+
+  for (size_t i = 0; i < size; i++)
+  {
+    for (size_t j = i + 1; j < size; j++)
+    {
+      if (!(log_formats.at (i)->is_reachable (log_formats.at (j))) &&
+          !(log_formats.at (j)->is_reachable (log_formats.at (i))))
+      {
+        // They are not reachable, so find whether they have
+        // a dependency.
+        if (is_correlated (log_formats [i], log_formats [j], testdata))
+        {
+          // Implement the logic for deciding the direction
+        }
+      }
+    }
+  }
+}
+
+//
+// is_correlated
+//
+bool CUTS_Dmac_Log_Format_Graph::
+is_correlated (CUTS_Dmac_Log_Format * lf1,
+               CUTS_Dmac_Log_Format * lf2,
+               CUTS_Test_Database & testdata)
+{
+  // First find all the time values of all the
+  // instances of lf1 and lf2.
+
+  ADBC::SQLite::Query * query = testdata.create_query ();
+
+  CUTS_Auto_Functor_T <ADBC::SQLite::Query> auto_clean (
+    query, &ADBC::SQLite::Query::destroy);
+
+  std::ostringstream sqlstr;
+
+  sqlstr << "SELECT lid, strftime('%s',timeofday), message FROM cuts_logging ORDER BY lid";
+
+  ADBC::SQLite::Record * record =
+    &query->execute (sqlstr.str ().c_str ());
+
+  char message[10000];
+  std::string delims (" \t\n");
+
+  std::vector <long> lf1_time_records;
+  std::vector <long> lf2_time_records;
+
+  for ( ; !record->done (); record->advance ())
+  {
+    CUTS_DMAC_UTILS::string_vector trace_items;
+    record->get_data (2, message, sizeof (message));
+    std::string message_str (message);
+    CUTS_DMAC_UTILS::tokenize (message_str,
+                               trace_items,
+                               delims);
+
+    if (CUTS_DMAC_UTILS::match_log_format (trace_items, lf1->log_format_items ()))
+    {
+      long timeval;
+      record->get_data (1, timeval);
+      lf1_time_records.push_back (timeval);
+    }
+    else if (CUTS_DMAC_UTILS::match_log_format (trace_items, lf2->log_format_items ()))
+    {
+      long timeval;
+      record->get_data (1, timeval);
+      lf2_time_records.push_back (timeval);
+    }
+  }
+
+  record->reset ();
+
+  // Now calculate the cooccurence probabilities. This logic is based
+  // on the paper written by Jian-Guang LOU on "Mining Dependency in
+  // Distributed Systems through Unstructured Logs Analysis"
+
+  double co_occurrence_prob =
+      this->calculate_probability (lf1_time_records, lf2_time_records);
+
+  if (co_occurrence_prob >= 0.5)
+    return true;
+
+  co_occurrence_prob =
+    this->calculate_probability (lf2_time_records, lf1_time_records);
+
+  if (co_occurrence_prob >= 0.5)
+    return true;
+  else
+    return false;
+}
+
+//
+// calculate_probability
+//
+double CUTS_Dmac_Log_Format_Graph::
+calculate_probability (std::vector <long> & lf1_time_records,
+                       std::vector <long> & lf2_time_records)
+{
+  std::vector <long>::iterator it1;
+  std::vector <long>::iterator it2;
+  std::vector <long>::iterator begin1 = lf1_time_records.begin ();
+  std::vector <long>::iterator end1 = lf1_time_records.end ();
+  std::vector <long>::iterator begin2 = lf2_time_records.begin ();
+  std::vector <long>::iterator end2 = lf2_time_records.end ();
+  size_t count = 0;
+  size_t total = 0;
+
+  for (it1 = begin1; it1 != end1; it1++)
+  {
+    for (it2 = begin2; it2 != end2; it2++)
+    {
+      if (abs ((*it1) - (*it2)) < 1)
+      {
+        count++;
+        break;
+      }
+    }
+  }
+
+  return (double)((double)count/(double)total);
 }

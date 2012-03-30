@@ -111,6 +111,8 @@ build (CUTS_Dmac_Log_Format_Graph & graph,
                  executions_list.end (),
                  process_execution (graph, log_formats));
 
+  graph.find_inter_ec_relations (log_formats, testdata);
+
   return true;
 
 }

@@ -259,3 +259,25 @@ void CUTS_Dmac_Log_Format::increment_coverage ()
 {
   this->coverage_++;
 }
+
+bool CUTS_Dmac_Log_Format::
+is_reachable (CUTS_Dmac_Log_Format * lf)
+{
+  if (this->relations_.empty ())
+    return false;
+
+  std::vector <CUTS_Dmac_Relation>::iterator it;
+  std::vector <CUTS_Dmac_Relation>::iterator first =
+    this->relations_.begin ();
+  std::vector <CUTS_Dmac_Relation>::iterator last =
+    this->relations_.end ();
+
+  for (it = first; it != last; it++)
+  {
+    if (it->effect_lf_->id () == lf->id ())
+      return true;
+    else if (it->effect_lf_->is_reachable (lf))
+      return true;
+  }
+  return false;
+}

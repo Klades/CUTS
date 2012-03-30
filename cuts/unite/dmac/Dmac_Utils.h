@@ -46,6 +46,11 @@ namespace CUTS_DMAC_UTILS
                         std::vector <CUTS_Dmac_Log_Format *> & item_list,
                         bool is_rel_mine);
 
+  // Check whether a given log format instance is belongs to a particular
+  // log format.
+  bool match_log_format (CUTS_DMAC_UTILS::string_vector & trace_items,
+                         CUTS_DMAC_UTILS::string_vector & log_format);
+
   // Check whether small_set is a subsequence of large_set
   bool is_sub_sequence (CUTS_DMAC_UTILS::string_vector & large_set,
                         CUTS_DMAC_UTILS::string_vector & small_set);

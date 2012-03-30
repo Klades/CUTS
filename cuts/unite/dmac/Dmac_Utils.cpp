@@ -77,6 +77,35 @@ int CUTS_DMAC_UTILS::match_log_format (CUTS_DMAC_UTILS::string_vector & trace_it
 
   return matching_format;
 }
+
+bool CUTS_DMAC_UTILS::
+match_log_format (CUTS_DMAC_UTILS::string_vector & trace_items,
+                  CUTS_DMAC_UTILS::string_vector & log_format)
+{
+  std::string empty_str ("{}");
+
+  // Staic parts should be matched and if it is a mismatch
+  // the log format should have a {} in the corrsponding
+  // item for continue the matching
+
+  if (trace_items.size () == log_format.size ())
+  {
+    for (unsigned int j = 0; j < log_format.size (); j++)
+    {
+      if (log_format [j].compare (empty_str) != 0)
+      {
+        if (log_format [j].compare (trace_items [j]) != 0)
+        {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  else
+    return false;
+}
+
 //
 // is_sub_sequence
 //

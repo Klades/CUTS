@@ -6,7 +6,6 @@
 #include "Dmac_Log_Format_Graph.h"
 #include "cuts/utils/testing/Test_Database.h"
 
-
 class CUTS_Dmac_Log_Format_Graph_Builder
 {
 public:
