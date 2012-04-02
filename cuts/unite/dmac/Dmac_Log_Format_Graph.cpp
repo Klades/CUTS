@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <cmath>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <boost/graph/graphviz.hpp>
@@ -195,7 +196,7 @@ is_correlated (CUTS_Dmac_Log_Format * lf1,
 
   std::ostringstream sqlstr;
 
-  sqlstr << "SELECT lid, strftime('%s',timeofday), message FROM cuts_logging ORDER BY lid";
+  sqlstr << "SELECT lid, timeofday, message FROM cuts_logging ORDER BY lid";
 
   ADBC::SQLite::Record * record =
     &query->execute (sqlstr.str ().c_str ());
@@ -203,8 +204,8 @@ is_correlated (CUTS_Dmac_Log_Format * lf1,
   char message[10000];
   std::string delims (" \t\n");
 
-  std::vector <long> lf1_time_records;
-  std::vector <long> lf2_time_records;
+  std::vector <double> lf1_time_records;
+  std::vector <double> lf2_time_records;
 
   for ( ; !record->done (); record->advance ())
   {
@@ -217,14 +218,16 @@ is_correlated (CUTS_Dmac_Log_Format * lf1,
 
     if (CUTS_DMAC_UTILS::match_log_format (trace_items, lf1->log_format_items ()))
     {
-      long timeval;
-      record->get_data (1, timeval);
+      ACE_Date_Time date_time;
+      record->get_data (1, date_time);
+      double timeval = CUTS_DMAC_UTILS::get_seconds_since_1970 (date_time);
       lf1_time_records.push_back (timeval);
     }
     else if (CUTS_DMAC_UTILS::match_log_format (trace_items, lf2->log_format_items ()))
     {
-      long timeval;
-      record->get_data (1, timeval);
+      ACE_Date_Time date_time;
+      record->get_data (1, date_time);
+      double timeval = CUTS_DMAC_UTILS::get_seconds_since_1970 (date_time);
       lf2_time_records.push_back (timeval);
     }
   }
@@ -232,7 +235,7 @@ is_correlated (CUTS_Dmac_Log_Format * lf1,
   record->reset ();
 
   // Now calculate the cooccurence probabilities. This logic is based
-  // on the paper written by Jian-Guang LOU on "Mining Dependency in
+  // on the paper written by Jian-Guang LOU et al on "Mining Dependency in
   // Distributed Systems through Unstructured Logs Analysis"
 
   double co_occurrence_prob =
@@ -254,23 +257,23 @@ is_correlated (CUTS_Dmac_Log_Format * lf1,
 // calculate_probability
 //
 double CUTS_Dmac_Log_Format_Graph::
-calculate_probability (std::vector <long> & lf1_time_records,
-                       std::vector <long> & lf2_time_records)
+calculate_probability (std::vector <double> & lf1_time_records,
+                       std::vector <double> & lf2_time_records)
 {
-  std::vector <long>::iterator it1;
-  std::vector <long>::iterator it2;
-  std::vector <long>::iterator begin1 = lf1_time_records.begin ();
-  std::vector <long>::iterator end1 = lf1_time_records.end ();
-  std::vector <long>::iterator begin2 = lf2_time_records.begin ();
-  std::vector <long>::iterator end2 = lf2_time_records.end ();
+  std::vector <double>::iterator it1;
+  std::vector <double>::iterator it2;
+  std::vector <double>::iterator begin1 = lf1_time_records.begin ();
+  std::vector <double>::iterator end1 = lf1_time_records.end ();
+  std::vector <double>::iterator begin2 = lf2_time_records.begin ();
+  std::vector <double>::iterator end2 = lf2_time_records.end ();
   size_t count = 0;
-  size_t total = 0;
+  size_t total = lf1_time_records.size ();
 
   for (it1 = begin1; it1 != end1; it1++)
   {
     for (it2 = begin2; it2 != end2; it2++)
     {
-      if (abs ((*it1) - (*it2)) < 1)
+      if (std::abs ((*it1) - (*it2)) < 1)
       {
         count++;
         break;

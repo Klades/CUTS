@@ -95,8 +95,8 @@ private:
                       CUTS_Test_Database & testdata);
 
   /// calculate_probability
-  double calculate_probability (std::vector <long> & lf1_time_records,
-                                std::vector <long> & lf2_time_records);
+  double calculate_probability (std::vector <double> & lf1_time_records,
+                                std::vector <double> & lf2_time_records);
 
   // The dataflow graph
   CUTS_Dmac_Log_Format_Graph_Type graph_;

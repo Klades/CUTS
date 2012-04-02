@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include "ace/Date_Time.h"
 
 class CUTS_Dmac_Log_Format;
 
@@ -61,6 +62,15 @@ namespace CUTS_DMAC_UTILS
 
   // Remove new line characters from a string
   void remove_new_lines (std::string & str);
+
+  // Comapre two date times and return true if first
+  // pramter is greater than second, otherwise false
+  bool compare_date_time (ACE_Date_Time & date_time1,
+                          ACE_Date_Time & date_time2);
+
+  // Get the time in seconds.microsecinds format since 1970
+  double get_seconds_since_1970 (ACE_Date_Time & date_time);
+
 
 }
 

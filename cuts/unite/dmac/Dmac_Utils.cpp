@@ -171,3 +171,88 @@ void CUTS_DMAC_UTILS::remove_new_lines (std::string & str)
     found = str.find('\n');
   }
 }
+
+//
+// compare_date_time
+//
+bool CUTS_DMAC_UTILS::
+compare_date_time (ACE_Date_Time & date_time1,
+                   ACE_Date_Time & date_time2)
+{
+  long year1 = date_time1.year ();
+  long year2 = date_time2.year ();
+  long month1 = date_time1.month ();
+  long month2 = date_time2.month ();
+  long day1 = date_time1.day ();
+  long day2 = date_time2.day ();
+  long hour1 = date_time1.hour ();
+  long hour2 = date_time2.hour ();
+  long min1 = date_time1.minute ();
+  long min2 = date_time2.minute ();
+  long sec1 = date_time1.second ();
+  long sec2 = date_time2.second ();
+  long msec1 = date_time1.microsec ();
+  long msec2 = date_time2.microsec ();
+
+  if (year1 == year2)
+  {
+    if (month1 == month2)
+    {
+      if (day1 == day2)
+      {
+        if (hour1 == hour2)
+        {
+          if (min1 == min2)
+          {
+            if (sec1 == sec2)
+            {
+              if ((msec1 == msec2) || (msec1 < msec2)) return false;
+              else return true;
+            }
+            else if (sec1 > sec2) return true;
+            else return false;
+          }
+          else if (min1 > min2) return true;
+          else return false;
+        }
+        else if (hour1 > hour2) return true;
+        else return false;
+      }
+      else if (day1 > day2) return true;
+      else return false;
+    }
+    else if (month1 > month2) return true;
+    else return false;
+  }
+  else if (year1 > year2) return true;
+  else return false;
+}
+
+//
+// get_seconds_since_1970
+//
+double CUTS_DMAC_UTILS::
+get_seconds_since_1970 (ACE_Date_Time & date_time)
+{
+  long years = date_time.year () - 1970;
+  long months = date_time.month () - 1;
+  long days = date_time.day () - 1;
+  long hours = date_time.hour () - 1;
+  long mins = date_time.minute () - 1;
+  long secs = date_time.second () -1;
+  long msecs = date_time.microsec ();
+
+  // Based on Unix epoch conversions
+
+  long total = years * 31556926 +
+               months * 2629743 +
+               days * 86400 +
+               hours * 3600 +
+               mins * 60 +
+               secs;
+
+  double fraction = (double)msecs /(double) 1000000;
+
+  return ((double)total + fraction);
+
+}
