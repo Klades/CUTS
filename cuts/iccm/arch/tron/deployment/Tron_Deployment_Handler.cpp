@@ -99,11 +99,20 @@ Tron_Deployment_Handler * Tron_Deployment_Handler::singleton (void)
 // Tron_Deployment_Handler
 //
 Tron_Deployment_Handler::Tron_Deployment_Handler (Reporter * r)
-: TestAdapter (r)
+: TestAdapter (r),
+  ta_mgr_ (&ta_, false)
 {
   // Set the start and perform methods
   this->start = &(::adapter_start);
   this->perform = &(::adapter_perform);
+}
+
+//
+// ~Tron_Deployment_Handler
+//
+Tron_Deployment_Handler::~Tron_Deployment_Handler (void)
+{
+
 }
 
 //
@@ -113,11 +122,13 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
 {
   try
   {
-    ACE_DEBUG ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - initializing test adapter orb\n")));
-
     ACE_ARGV_T <char> dup_args (argc, const_cast <char **> (argv));
-    this->orb_ = ::CORBA::ORB_init (argc, dup_args.argv ());
+
+    ACE_DEBUG  ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - initializing test adapter orb with [%s]\n"),
+                dup_args.buf ()));
+
+    this->orb_ = ::CORBA::ORB_init (argc, dup_args.argv (), "TRON");
 
     ACE_DEBUG ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - resolving TestAdapterCallback\n")));
@@ -138,22 +149,30 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
                          -1);
 
     // Activate the TestAdapter implementation.
+    this->activate_test_adapter ();
 
     // Run the ORB in another thread (i.e., task).
+    this->task_.reset (this->orb_.in ());
+    this->task_.activate ();
 
     // Setup reporter
     this->rep->setTimeUnit (this->rep, 10000);
     this->rep->setTimeout (this->rep, 100000);
 
     // Block until tron servants are initialized
+    this->ta_.wait_for_initialization_complete ();
+
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - initialization is complete\n")));
 
     // Setup input channels
-    int r;
+/*    int r;
     r = this->rep->getInputEncoding (this->rep, "Click");
 
     // Setup output channels
     r = this->rep->getOutputEncoding (this->rep, "SingleClick");
     r = this->rep->getOutputEncoding (this->rep, "DoubleClick");
+*/
     return 0;
   }
   catch (const ::CORBA::Exception & ex)
@@ -166,11 +185,35 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
 }
 
 //
-// ~Tron_Deployment_Handler
+// activate_test_adapter
 //
-Tron_Deployment_Handler::~Tron_Deployment_Handler (void)
+void Tron_Deployment_Handler::activate_test_adapter (void)
 {
+  // Get a reference to the <RootPOA>
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - %N:%l resolving RootPOA\n")));
 
+  ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
+  ::PortableServer::POA_var root_poa = ::PortableServer::POA::_narrow (obj.in ());
+
+  // Activate the RootPOA's manager.
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - %N:%l activating POAManager\n")));
+  ::PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
+  mgr->activate ();
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - %N:%l activating TestAdapter\n")));
+  this->ta_mgr_.activate (root_poa.in ());
+
+  // Register TestAdapter with the callback
+  obj = this->ta_mgr_.get_reference ();
+  ::Tron::TestAdapter_var ta = ::Tron::TestAdapter::_narrow (obj.in ());
+
+  this->callback_->set_test_adapter (ta.in ());
+
+  ACE_ERROR ((LM_DEBUG,
+            ACE_TEXT ("%T (%t) - %M - TestAdapter is activated\n")));
 }
 
 //
@@ -179,6 +222,13 @@ Tron_Deployment_Handler::~Tron_Deployment_Handler (void)
 void Tron_Deployment_Handler::adapter_start (void)
 {
   // Block for TA_Impl.is_configuration_complete ()
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - waiting for components to be activated\n")));
+
+  this->ta_.wait_for_activate_complete ();
+
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - all components are now activated\n")));
 }
 
 //

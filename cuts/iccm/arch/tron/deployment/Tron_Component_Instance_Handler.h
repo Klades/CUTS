@@ -20,7 +20,11 @@
 
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
 #include "Tron_Container.h"
+#include "Tron_ORB_Initializer.h"
 #include "ace/Process.h"
+#include "TestAdapterCallback_i.h"
+#include "cuts/Servant_Manager_T.h"
+
 
 namespace iCCM
 {
@@ -53,9 +57,24 @@ public:
    */
   virtual void configure (const Deployment::Properties & config);
 
+  /**
+   * Install a component instace
+   */
+  virtual void install_instance (const ::Deployment::DeploymentPlan & plan,
+                                 ::CORBA::ULong instanceRef,
+                                 ::CORBA::Any_out instance_reference);
+
+  /**
+   * Activate a component instance
+   */
+  virtual void activate_instance (const ::Deployment::DeploymentPlan & ,
+                                  ::CORBA::ULong ,
+                                  const ::CORBA::Any &);
+
   /// Close the instance handler.
   virtual void close (void);
 
+private:
   /**
    * Spawn the tron process using the provided propery as arguments.
    *
@@ -63,9 +82,26 @@ public:
    */
   int spawn_tron_process (const ::Deployment::Property & prop);
 
-private:
-  /// INSERT YOUR VARIABLES HERE
+  /// Spawn the tron process statically.  This is only for testing.
+  int spawn_static_tron_process (void);
+
+  /// Activate the test adapter callback
+  void activate_test_adapter_callback (void);
+
+  /// The tron process
   ACE_Process tron_process_;
+
+  /// The test adapter callback
+  TestAdapterCallback_i tac_;
+
+  /// Manger for the test adapter callback
+  CUTS_Servant_Manager_T < TestAdapterCallback_i > tac_mgr_;
+
+  /// Initialization state
+  bool init_complete_;
+
+  /// Number of instances
+  ACE_Atomic_Op < ACE_Thread_Mutex, size_t > instance_count_;
 };
 
 }

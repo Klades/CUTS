@@ -165,6 +165,10 @@ install_component (const char * primary_artifact,
   // Get a reference for to the servant.
   ::CORBA::Object_var obj = this->poa_->id_to_reference (oid.in ());
   return ::Components::CCMObject::_narrow (obj.in ());
+
+#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
+  ACE_UNUSED_ARG (open_mode);
+#endif
 }
 
 //
@@ -332,6 +336,8 @@ generate_reference (const char * obj_id,
   default:
     throw ::CIAO::InvalidComponent ();
   }
+
+  ACE_UNUSED_ARG (repo_id);
 }
 
 //

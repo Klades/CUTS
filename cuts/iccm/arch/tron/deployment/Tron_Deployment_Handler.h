@@ -5,9 +5,9 @@
 
 #include "tron/adapter.h"
 #include "Tron_Deployment_Handlers_export.h"
-
-#include "Tron_Deployment_HandlerC.h"
-#include "tao/corba.h"
+#include "TestAdapter_i.h"
+#include "cuts/ORB_Server_Task.h"
+#include "cuts/Servant_Manager_T.h"
 
 /**
  * @class Tron_Deployment_Handler
@@ -41,12 +41,21 @@ public:
   void adapter_perform (int32_t channel, uint16_t size, const int32_t data[]);
 
 private:
+  /// Helper method for activating the test adapter
+  void activate_test_adapter (void);
+
   /// Singleton for the deployment handler.
   static Tron_Deployment_Handler * singleton_;
 
   ::CORBA::ORB_var orb_;
 
   ::Tron::TestAdapterCallback_var callback_;
+
+  TestAdapter_i ta_;
+
+  CUTS_Servant_Manager_T < TestAdapter_i > ta_mgr_;
+
+  CUTS_ORB_Server_Task task_;
 };
 
 extern "C"

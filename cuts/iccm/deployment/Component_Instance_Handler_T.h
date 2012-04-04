@@ -92,6 +92,8 @@ protected:
   /// The only and only container for now. :-)
   std::auto_ptr <CONTAINER> container_;
 
+  ::CORBA::ORB_ptr get_orb (void);
+
 private:
   const char * get_implementation (const char *name,
                                    const ::Deployment::DeploymentPlan &plan);

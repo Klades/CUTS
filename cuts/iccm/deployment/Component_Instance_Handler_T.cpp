@@ -64,6 +64,15 @@ char * Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type (void)
 }
 
 //
+// get_orb
+//
+template <typename HANDLER, typename CONTAINER>
+::CORBA::ORB_ptr Component_Instance_Handler_T <HANDLER, CONTAINER>::get_orb (void)
+{
+  return ::CORBA::ORB::_duplicate (this->orb_.in ());
+}
+
+//
 // install_instance
 //
 template <typename HANDLER, typename CONTAINER>
@@ -261,6 +270,8 @@ passivate_instance (const ::Deployment::DeploymentPlan & ,
     throw StopError ("passivate instance", "invalid component reference");
 
   this->container_->passivate_component (comp_ref);
+
+  ACE_UNUSED_ARG (index);
 }
 
 //
@@ -280,6 +291,8 @@ remove_instance (const ::Deployment::DeploymentPlan &,
     throw StopError ("remove instance",  "invalid component reference");
 
   this->container_->uninstall_component (comp_ref);
+
+  ACE_UNUSED_ARG (index);
 }
 
 //
@@ -463,6 +476,7 @@ disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong inde
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - disconnect_instance (%d)\n"),
               index));
+  ACE_UNUSED_ARG (p);
 }
 
 //
@@ -502,6 +516,8 @@ configure (const ::Deployment::Properties & prop)
                     ::CORBA::NO_MEMORY ());
 
   this->container_.reset (temp);
+
+  ACE_UNUSED_ARG (prop);
 }
 
 //

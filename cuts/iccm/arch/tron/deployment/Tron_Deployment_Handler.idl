@@ -1,5 +1,8 @@
 // -*- IDL -*-
 
+#ifndef _TRON_DEPLOYMENT_HANDLER_IDL_
+#define _TRON_DEPLOYMENT_HANDLER_IDL_
+
 module Tron
 {
   interface TestAdapter
@@ -8,9 +11,10 @@ module Tron
     // control can return from the adapter_new call.
     void initialization_complete ();
 
-    /// Notify the test adapter that configuration is complete. This
-    /// will allow Tron to begin executing the simulation.
-    void configuration_complete ();
+    /// Notify the test adapter that activation is complete. This
+    /// will allow Tron to return from adapter_start and begin executing the 
+    /// simulation.
+    void activate_complete ();
   };
 
   interface TestAdapterCallback 
@@ -22,3 +26,5 @@ module Tron
     void set_test_adapter (in TestAdapter test_adapter);
   };
 };
+
+#endif  // !defined _TRON_DEPLOYMENT_HANDLER_IDL_

@@ -9,6 +9,8 @@ namespace iCCM
 //
 CUTS_INLINE
 Tron_Component_Instance_Handler::Tron_Component_Instance_Handler (void)
+: tac_mgr_ (&tac_, false),
+  init_complete_ (false)
 {
 
 }
