@@ -9,6 +9,7 @@
 #include "ccm/CCM_ObjectC.h"
 
 #include "dance/LocalityManager/Scheduler/Plugin_Manager.h"
+#include "ace/ARGV.h"
 
 namespace iCCM
 {
@@ -16,8 +17,8 @@ namespace iCCM
 //
 // Component_Instance_Handler_T
 //
-template <typename HANDLER, typename CONTAINER>
-Component_Instance_Handler_T <HANDLER, CONTAINER>::Component_Instance_Handler_T (void)
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::Component_Instance_Handler_T (void)
 {
 
 }
@@ -25,18 +26,17 @@ Component_Instance_Handler_T <HANDLER, CONTAINER>::Component_Instance_Handler_T 
 //
 // ~Component_Instance_Handler_T
 //
-template <typename HANDLER, typename CONTAINER>
-Component_Instance_Handler_T <HANDLER, CONTAINER>::~Component_Instance_Handler_T (void)
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::~Component_Instance_Handler_T (void)
 {
 }
 
 //
 // dependencies
 //
-template <typename HANDLER, typename CONTAINER>
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 ::CORBA::StringSeq *
-Component_Instance_Handler_T <HANDLER, CONTAINER>::
-dependencies (void)
+Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::dependencies (void)
 {
   ::CORBA::StringSeq * retval = 0;
   ACE_NEW_THROW_EX (retval,
@@ -48,8 +48,8 @@ dependencies (void)
 //
 // close
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::close (void)
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::close (void)
 {
 
 }
@@ -57,8 +57,8 @@ void Component_Instance_Handler_T <HANDLER, CONTAINER>::close (void)
 //
 // instance_type
 //
-template <typename HANDLER, typename CONTAINER>
-char * Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type (void)
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+char * Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::instance_type (void)
 {
   return CORBA::string_dup ("edu.vanderbilt.dre.CCM.Component");
 }
@@ -66,8 +66,8 @@ char * Component_Instance_Handler_T <HANDLER, CONTAINER>::instance_type (void)
 //
 // get_orb
 //
-template <typename HANDLER, typename CONTAINER>
-::CORBA::ORB_ptr Component_Instance_Handler_T <HANDLER, CONTAINER>::get_orb (void)
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+::CORBA::ORB_ptr Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::get_orb (void)
 {
   return ::CORBA::ORB::_duplicate (this->orb_.in ());
 }
@@ -75,8 +75,8 @@ template <typename HANDLER, typename CONTAINER>
 //
 // install_instance
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 install_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong instance_ref,
                   ::CORBA::Any_out instance_reference)
@@ -183,20 +183,20 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
   {
     // Install the component. We are going to get back a reference
     // to the installed component.
-    #if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
+#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1)
     comp_ref = this->container_->install_component (exec_art,
                                                     exec_entry,
                                                     svnt_art,
                                                     svnt_entry,
                                                     idd.name.in (),
                                                     ACE_DEFAULT_SHLIB_MODE);
-    #else
+#else
     comp_ref = this->container_->install_component (exec_art,
                                                     exec_entry,
                                                     svnt_art,
                                                     svnt_entry,
                                                     idd.name.in ());
-    #endif
+#endif
 
     // Set the attributes for the installed component. This is done
     // by converting the deployment descriptors into a configuration
@@ -237,8 +237,8 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
 //
 // activate_instance
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 activate_instance (const ::Deployment::DeploymentPlan & ,
                    ::CORBA::ULong ,
                    const ::CORBA::Any & any)
@@ -256,8 +256,8 @@ activate_instance (const ::Deployment::DeploymentPlan & ,
 //
 // passivate_instance
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 passivate_instance (const ::Deployment::DeploymentPlan & ,
                     ::CORBA::ULong index,
                     const ::CORBA::Any & any)
@@ -277,8 +277,8 @@ passivate_instance (const ::Deployment::DeploymentPlan & ,
 //
 // remove_instance
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 remove_instance (const ::Deployment::DeploymentPlan &,
                  ::CORBA::ULong index,
                  const ::CORBA::Any & any_ref)
@@ -298,8 +298,8 @@ remove_instance (const ::Deployment::DeploymentPlan &,
 //
 // provide_endpoint_reference
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
                             ::CORBA::ULong index,
                             ::CORBA::Any_out any_out)
@@ -373,8 +373,8 @@ provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
 //
 // connect_instance
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 connect_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong index,
                   const ::CORBA::Any & any_ref)
@@ -469,8 +469,8 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
 //
 // disconnect_instance
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong index)
 {
   ACE_DEBUG ((LM_DEBUG,
@@ -482,16 +482,19 @@ disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong inde
 //
 // configure
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 configure (const ::Deployment::Properties & prop)
 {
   using ::Deployment::StartError;
 
-  // Cache the plugin manager's ORB. We are going to use this to
+  // Cache the global ORB. We should eventually use different
+  // subclasses that determine what ORB to use (e.g., DAnCE vs.
+  // the global/default ORB).  We are going to use this to
   // create and activate the handler's POA.
-  this->orb_ = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
-
+  int argc = 0;
+  ACE_ARGV_T <char> tmp_args ("");
+  this->orb_ = ::CORBA::ORB_init (argc, tmp_args.argv ());
   ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
 
   if (::CORBA::is_nil (obj.in ()))
@@ -523,8 +526,8 @@ configure (const ::Deployment::Properties & prop)
 //
 // instance_configured
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 instance_configured (const ::Deployment::DeploymentPlan & plan,
                      ::CORBA::ULong index)
 {
@@ -559,9 +562,9 @@ instance_configured (const ::Deployment::DeploymentPlan & plan,
 //
 // get_implementation
 //
-template <typename HANDLER, typename CONTAINER>
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 const char *
-Component_Instance_Handler_T <HANDLER, CONTAINER>::
+Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 get_implementation (const char *name, const ::Deployment::DeploymentPlan &plan)
 {
   if (name == 0)
@@ -595,8 +598,8 @@ get_implementation (const char *name, const ::Deployment::DeploymentPlan &plan)
 //
 // create_attribute_configuration
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 create_attribute_configuration (const ::Deployment::Properties &props,
                                 ::Components::ConfigValues & values)
 {
@@ -622,8 +625,8 @@ create_attribute_configuration (const ::Deployment::Properties &props,
 //
 // register_valuetypes
 //
-template <typename HANDLER, typename CONTAINER>
-void Component_Instance_Handler_T <HANDLER, CONTAINER>::
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 register_valuetypes (::CORBA::ORB_ptr orb)
 {
   ::CORBA::ValueFactory_var prev;

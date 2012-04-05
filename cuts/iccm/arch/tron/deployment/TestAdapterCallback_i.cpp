@@ -31,9 +31,6 @@ TestAdapterCallback_i::set_test_adapter (Tron::TestAdapter_ptr ta)
 
   ACE_GUARD (ACE_Thread_Mutex, g, this->set_test_adapter_mutex_);
 
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - got guard\n")));
-
   this->ta_ = Tron::TestAdapter::_duplicate (ta);
   this->set_test_adapter_cond_.signal ();
 }

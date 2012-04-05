@@ -32,9 +32,9 @@ namespace iCCM
 /**
  * @class Component_Instance_Handler_T
  */
-template <typename HANDLER, typename CONTAINER>
+  template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 class Component_Instance_Handler_T :
-  public virtual ::DAnCE::InstanceDeploymentHandler,
+  public virtual ABSTRACT_HANDLER,
   public virtual ::CORBA::LocalObject
 {
 public:

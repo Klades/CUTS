@@ -1,3 +1,26 @@
+Thu Apr  5 20:17:12 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/TestAdapterCallback_i.cpp:
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.h:
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Container.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Container.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.idl:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:
+
+          TestAdapter now handles the InstanceDeploymentHandler interface.
+          As a result, the Component_Instance_Handler is now a proxy to
+          a TestAdapter_i.
+
+        * cuts/iccm/deployment/Component_Instance_Handler_T.h:
+        * cuts/iccm/deployment/Component_Instance_Handler_T.cpp:
+
+          Added a template parameter for the abstract handler type.  The
+          handler's POA is created and activated on the global ORB now.
+
 Wed Apr  4 19:25:29 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/TestAdapterCallback_i.h:

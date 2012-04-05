@@ -9,7 +9,7 @@ namespace iCCM
 //
 CUTS_INLINE
 Tron_Container::
-Tron_Container (Tron_Component_Instance_Handler * handler, ::PortableServer::POA_ptr poa)
+Tron_Container (TestAdapter_i * handler, ::PortableServer::POA_ptr poa)
 : base_type (handler, poa)
 {
 

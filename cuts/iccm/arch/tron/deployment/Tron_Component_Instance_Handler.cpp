@@ -17,10 +17,6 @@ namespace iCCM
 void Tron_Component_Instance_Handler::
 configure (const ::Deployment::Properties & config)
 {
-  // Pass control to the base class. If this method is empty, then it
-  // is recommendend that you remove it completely from this class.
-  this->base_type::configure (config);
-
   // Start the TestAdapterCallback
   this->activate_test_adapter_callback ();
 
@@ -51,7 +47,7 @@ configure (const ::Deployment::Properties & config)
 
   // Wait for Tron to set the test adapter on the callback
   // Use the Tron_ORB_Initializer to prevent ORB deadlocks
-  ::CORBA::ORB_var orb = this->get_orb ();
+  ::CORBA::ORB_var orb = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
   Tron_ORB_Initializer orb_init (orb.in ());
   orb_init.activate ();
 
@@ -59,6 +55,15 @@ configure (const ::Deployment::Properties & config)
 
   orb_init.deactivate ();
   orb_init.wait ();
+
+  // Pass control to the Proxy
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT("%T (%t) - %M - configuring test adapter\n")));
+
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->configure (config);
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT("%T (%t) - %M - test adapter configuration complete\n")));
 }
 
 //
@@ -70,14 +75,13 @@ void Tron_Component_Instance_Handler::activate_test_adapter_callback (void)
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - %N:%l resolving RootPOA\n")));
 
-  ::CORBA::ORB_var orb = this->get_orb ();
+  ::CORBA::ORB_var orb = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
 
   ::CORBA::Object_var obj = orb->resolve_initial_references ("RootPOA");
   ::PortableServer::POA_var root_poa = ::PortableServer::POA::_narrow (obj.in ());
 
   this->tac_mgr_.activate (root_poa.in ());
 }
-
 
 //
 // spawn_tron_process
@@ -124,7 +128,7 @@ int Tron_Component_Instance_Handler::
 spawn_static_tron_process (void)
 {
   // Get the IOR for the TestAdapterCallback
-  ::CORBA::ORB_var orb = this->get_orb ();
+  ::CORBA::ORB_var orb = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
 
   ::CORBA::Object_var obj = this->tac_mgr_.get_reference ();
   ::Tron::TestAdapterCallback_var tac = ::Tron::TestAdapterCallback::_narrow (obj.in ());
@@ -156,8 +160,11 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong instanceRef,
                   ::CORBA::Any_out instance_reference)
 {
-  this->instance_count_++;
-  this->base_type::install_instance (plan, instanceRef, instance_reference);
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->install_instance (plan, instanceRef, instance_reference);
+
+  ++ this->instance_count_;
 }
 
 //
@@ -182,16 +189,16 @@ activate_instance (const ::Deployment::DeploymentPlan & plan,
     this->init_complete_ = true;
   }
 
+  // Pass control to the proxy.
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->activate_instance (plan, index, comp);
+
   if (0 == --this->instance_count_)
   {
     // Tell the test adapter that configuration is complete
     Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
-
     ta->activate_complete ();
   }
-
-
-  this->base_type::activate_instance (plan, index, comp);
 }
 
 //
@@ -199,14 +206,114 @@ activate_instance (const ::Deployment::DeploymentPlan & plan,
 //
 void Tron_Component_Instance_Handler::close (void)
 {
-  // Pass control to the base class. If this method is empty, then it
-  // is recommendend that you remove it completely from this class.
-  this->base_type::close ();
+  // Pass control to the proxy.
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->close ();
 
   // Terminate the tron process
   this->tron_process_.kill ();
   this->tron_process_.wait ();
 }
+
+//
+// passivate_instance
+//
+void Tron_Component_Instance_Handler::
+passivate_instance (const ::Deployment::DeploymentPlan & plan,
+                    ::CORBA::ULong index,
+                    const ::CORBA::Any & comp)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->passivate_instance (plan, index, comp);
+
+}
+
+//
+// remove_instance
+//
+void Tron_Component_Instance_Handler::
+remove_instance (const ::Deployment::DeploymentPlan & plan,
+                 ::CORBA::ULong index,
+                 const ::CORBA::Any & comp)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->remove_instance (plan, index, comp);
+}
+
+//
+// provide_endpoint_reference
+//
+void Tron_Component_Instance_Handler::
+provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
+                            ::CORBA::ULong index,
+                            const ::CORBA::Any_out comp)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->provide_endpoint_reference (plan, index, comp);
+}
+
+//
+// connect_instance
+//
+void Tron_Component_Instance_Handler::
+connect_instance (const ::Deployment::DeploymentPlan & plan,
+                  ::CORBA::ULong index,
+                  const ::CORBA::Any & comp)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->connect_instance (plan, index, comp);
+}
+
+//
+// disconnect_instance
+//
+void Tron_Component_Instance_Handler::
+disconnect_instance (const ::Deployment::DeploymentPlan & plan,
+                     ::CORBA::ULong connectionRef)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->disconnect_instance (plan, connectionRef);
+}
+
+//
+// instance_configured
+//
+void Tron_Component_Instance_Handler::
+instance_configured (const ::Deployment::DeploymentPlan & plan,
+                     ::CORBA::ULong index)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  ta->instance_configured (plan, index);
+}
+
+//
+// instance_type
+//
+char * Tron_Component_Instance_Handler::
+instance_type (void)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  return ta->instance_type ();
+}
+
+//
+// dependencies
+//
+::CORBA::StringSeq * Tron_Component_Instance_Handler::
+dependencies (void)
+{
+  // Pass control to the proxy
+  Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
+  return ta->dependencies ();
+}
+
 
 //
 // create_Tron_Component_Instance_Handler

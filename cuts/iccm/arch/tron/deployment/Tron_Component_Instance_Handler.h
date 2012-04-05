@@ -36,17 +36,52 @@ namespace iCCM
  * instances.
  */
 class  ICCM_TRON_DEPLOYMENT_HANDLERS_Export Tron_Component_Instance_Handler :
-  public Component_Instance_Handler_T <Tron_Component_Instance_Handler, Tron_Container>
+    public virtual ::DAnCE::InstanceDeploymentHandler,
+    public virtual ::CORBA::LocalObject
 {
 public:
-  /// Type definition of the base type.
-  typedef Component_Instance_Handler_T <Tron_Component_Instance_Handler, Tron_Container> base_type;
-
   /// Default constructor.
   Tron_Component_Instance_Handler (void);
 
   /// Destructor.
   virtual ~Tron_Component_Instance_Handler (void);
+
+  /// {@ Proxy Methods
+  virtual char * instance_type (void);
+
+  ::CORBA::StringSeq * dependencies (void);
+
+  virtual void install_instance (const ::Deployment::DeploymentPlan & plan,
+                                 ::CORBA::ULong instanceRef,
+                                 ::CORBA::Any_out instance_reference);
+
+  virtual void activate_instance (const ::Deployment::DeploymentPlan & ,
+                                  ::CORBA::ULong ,
+                                  const ::CORBA::Any &);
+
+  virtual void passivate_instance (const ::Deployment::DeploymentPlan & ,
+                                   ::CORBA::ULong ,
+                                   const ::CORBA::Any &);
+
+  virtual void remove_instance (const ::Deployment::DeploymentPlan & plan,
+                                ::CORBA::ULong instanceRef,
+                                const ::CORBA::Any & instance_reference);
+
+  virtual void provide_endpoint_reference (const ::Deployment::DeploymentPlan &,
+                                           ::CORBA::ULong,
+                                           ::CORBA::Any_out);
+
+  virtual void connect_instance (const ::Deployment::DeploymentPlan & plan,
+                                 ::CORBA::ULong connectionRef,
+                                 const ::CORBA::Any & provided_reference);
+
+  virtual void disconnect_instance (const ::Deployment::DeploymentPlan & plan,
+                                    ::CORBA::ULong connectionRef);
+
+  virtual void instance_configured (const ::Deployment::DeploymentPlan &,
+                                    ::CORBA::ULong);
+
+  virtual void close (void);
 
   /**
    * Configure the instance handler. The deployment properties passed
@@ -57,23 +92,7 @@ public:
    */
   virtual void configure (const Deployment::Properties & config);
 
-  /**
-   * Install a component instace
-   */
-  virtual void install_instance (const ::Deployment::DeploymentPlan & plan,
-                                 ::CORBA::ULong instanceRef,
-                                 ::CORBA::Any_out instance_reference);
-
-  /**
-   * Activate a component instance
-   */
-  virtual void activate_instance (const ::Deployment::DeploymentPlan & ,
-                                  ::CORBA::ULong ,
-                                  const ::CORBA::Any &);
-
-  /// Close the instance handler.
-  virtual void close (void);
-
+  /// @}
 private:
   /**
    * Spawn the tron process using the provided propery as arguments.

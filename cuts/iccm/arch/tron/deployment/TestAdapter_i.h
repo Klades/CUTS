@@ -3,7 +3,11 @@
 #ifndef _TRON_TESTADAPTER_I_H_
 #define _TRON_TESTADAPTER_I_H_
 
+#include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
+
+#include "Tron_Container.h"
 #include "Tron_Deployment_HandlerS.h"
+
 #include "ace/Condition_T.h"
 #include "ace/Thread_Mutex.h"
 
@@ -11,7 +15,8 @@
  * TestAdapter which works with Tron.  Resides
  * on the Tron side.
  */
-class TestAdapter_i : public POA_Tron::TestAdapter
+class TestAdapter_i :
+  public iCCM::Component_Instance_Handler_T < TestAdapter_i, POA_Tron::TestAdapter, iCCM::Tron_Container >
 {
 public:
   // Default ctor

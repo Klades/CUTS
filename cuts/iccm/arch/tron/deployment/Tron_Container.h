@@ -23,11 +23,11 @@
 #include "../servant/Tron_Servant.h"
 #include "Tron_Container_Strategy.h"
 
+// Forward decl.
+class TestAdapter_i;
+
 namespace iCCM
 {
-
-// Forward decl.
-class Tron_Component_Instance_Handler;
 
 /**
  * @class Tron_Container
@@ -36,7 +36,7 @@ class Tron_Component_Instance_Handler;
  */
 class ICCM_TRON_DEPLOYMENT_HANDLERS_Export Tron_Container :
   public Container_T <Tron_Container,
-                      Tron_Component_Instance_Handler,
+                      TestAdapter_i,
                       Tron_Container_Strategy,
                       Tron_Servant>
 {
@@ -44,7 +44,7 @@ public:
   /// Type definition of the base type.
   typedef
     Container_T <Tron_Container,
-                 Tron_Component_Instance_Handler,
+                 TestAdapter_i,
                  Tron_Container_Strategy,
                  Tron_Servant> base_type;
 
@@ -54,9 +54,8 @@ public:
    * @param[in]           handler           Pointer to instance handler
    * @param[in]           poa               PortableServer for container
    */
-  Tron_Container (
-    Tron_Component_Instance_Handler * handler,
-     ::PortableServer::POA_ptr the_POA);
+  Tron_Container (::TestAdapter_i * handler,
+                  ::PortableServer::POA_ptr the_POA);
 
   /// Destructor.
   virtual ~Tron_Container (void);

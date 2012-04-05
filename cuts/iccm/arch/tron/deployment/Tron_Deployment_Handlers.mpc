@@ -14,7 +14,7 @@ project (iCCM_Tron_Deployment_Handlers_Idl_gen) : requires_tron, danceidldefault
   }
 }
 
-project (iCCM_Tron_Deployment_Handlers_stub) : taolib, requires_tron, cutslib {
+project (iCCM_Tron_Deployment_Handlers_stub) : taolib, requires_tron, dance, cutslib {
   sharedname    = iCCM_Tron_Deployment_Handlers_stub
   dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_STUB_BUILD_DLL
 
@@ -37,7 +37,7 @@ project (iCCM_Tron_Deployment_Handlers_stub) : taolib, requires_tron, cutslib {
   }
 }
 
-project (iCCM_Tron_Deployment_Handlers_skel) : portableserver, requires_tron, cutslib {
+project (iCCM_Tron_Deployment_Handlers_skel) : portableserver, requires_tron, dance, cutslib {
   sharedname    = iCCM_Tron_Deployment_Handlers_skel
   dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_SKEL_BUILD_DLL
 
@@ -65,7 +65,7 @@ project (iCCM_Tron_Deployment_Handlers_skel) : portableserver, requires_tron, cu
   }
 }
 
-project (iCCM_Tron_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, iccm_tron_svnt, cuts_lib, cutslib {
+project (iCCM_Tron_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, iccm_tron_svnt, dance, cuts_lib, cutslib {
   sharedname    = iCCM_Tron_Deployment_Handlers
   dynamicflags += ICCM_TRON_DEPLOYMENT_HANDLERS_BUILD_DLL
 

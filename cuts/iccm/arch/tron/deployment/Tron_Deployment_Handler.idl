@@ -3,9 +3,75 @@
 #ifndef _TRON_DEPLOYMENT_HANDLER_IDL_
 #define _TRON_DEPLOYMENT_HANDLER_IDL_
 
+#include "dance/Deployment/Deployment_Application.idl"
+#include "dance/Deployment/Deployment_InvalidProperty.idl"
+#include "dance/Deployment/Deployment_InvalidNodeExecParameter.idl"
+#include "dance/Deployment/Deployment_InvalidComponentExecParameter.idl"
+#include "dance/Deployment/Deployment_InvalidConnection.idl"
+#include "dance/Deployment/Deployment_StopError.idl"
+#include "dance/Deployment/Deployment_StopError.idl"
+#include "dance/Deployment/Deployment_PlanError.idl"
+#include "dance/Deployment/Deployment_ResourceNotAvailable.idl"
+
 module Tron
 {
-  interface TestAdapter
+
+  interface InstanceDeploymentHandler
+  {
+    readonly attribute string instance_type;
+
+    readonly attribute ::CORBA::StringSeq dependencies;
+
+    void configure (in ::Deployment::Properties config);
+
+    void install_instance (in ::Deployment::DeploymentPlan plan,
+                           in unsigned long instanceRef,
+                           out any instance_reference)
+      raises (::Deployment::StartError,
+              ::Deployment::InvalidProperty,
+              ::Deployment::InvalidNodeExecParameter,
+              ::Deployment::InvalidComponentExecParameter);
+
+    void provide_endpoint_reference (in ::Deployment::DeploymentPlan plan,
+                                     in unsigned long connectionRef,
+                                     out any endpoint_reference)
+      raises (::Deployment::StartError,
+              ::Deployment::InvalidProperty);
+
+    void connect_instance (in ::Deployment::DeploymentPlan plan,
+                           in unsigned long connectionRef,
+                           in any provided_reference)
+      raises (::Deployment::StartError,
+              ::Deployment::InvalidConnection);
+
+    void disconnect_instance (in ::Deployment::DeploymentPlan plan,
+                              in unsigned long connectionRef)
+      raises (::Deployment::StopError);
+
+    void instance_configured (in ::Deployment::DeploymentPlan plan,
+                              in unsigned long instanceRef)
+      raises (::Deployment::StartError);
+
+    void activate_instance (in ::Deployment::DeploymentPlan plan,
+                            in unsigned long instanceRef,
+                            in any instance_reference)
+      raises (::Deployment::StartError);
+
+    void passivate_instance (in ::Deployment::DeploymentPlan plan,
+                             in unsigned long instanceRef,
+                             in any instance_reference)
+      raises (::Deployment::StopError);
+
+    void remove_instance (in ::Deployment::DeploymentPlan plan,
+                          in unsigned long instanceRef,
+                          in any instance_reference)
+      raises (::Deployment::StopError);
+
+    /// Instruct the handler to release any resources prior to deallocation.
+    void close ();
+  };
+
+  interface TestAdapter : InstanceDeploymentHandler
   {
     // Notify the test adapter that initialization is complete and
     // control can return from the adapter_new call.

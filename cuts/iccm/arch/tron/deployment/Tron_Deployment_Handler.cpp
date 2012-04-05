@@ -128,10 +128,8 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
                 ACE_TEXT ("%T (%t) - %M - initializing test adapter orb with [%s]\n"),
                 dup_args.buf ()));
 
-    this->orb_ = ::CORBA::ORB_init (argc, dup_args.argv (), "TRON");
+    this->orb_ = ::CORBA::ORB_init (argc, dup_args.argv ());
 
-    ACE_DEBUG ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - resolving TestAdapterCallback\n")));
     ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("TestAdapterCallback");
 
     if (::CORBA::is_nil (obj.in ()))
@@ -139,8 +137,6 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
                          ACE_TEXT ("%T (%t) - %M - failed to resolve TestAdapterCallback\n")),
                          -1);
 
-    ACE_DEBUG ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - narrowing TestAdapaterCallback\n")));
     this->callback_ = ::Tron::TestAdapterCallback::_narrow (obj.in ());
 
     if (::CORBA::is_nil (obj.in ()))
@@ -152,6 +148,8 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
     this->activate_test_adapter ();
 
     // Run the ORB in another thread (i.e., task).
+    ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - running ORB in another thread\n")));
     this->task_.reset (this->orb_.in ());
     this->task_.activate ();
 
@@ -190,30 +188,29 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
 void Tron_Deployment_Handler::activate_test_adapter (void)
 {
   // Get a reference to the <RootPOA>
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - %N:%l resolving RootPOA\n")));
-
   ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("RootPOA");
   ::PortableServer::POA_var root_poa = ::PortableServer::POA::_narrow (obj.in ());
 
   // Activate the RootPOA's manager.
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - %N:%l activating POAManager\n")));
   ::PortableServer::POAManager_var mgr = root_poa->the_POAManager ();
   mgr->activate ();
 
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - %N:%l activating TestAdapter\n")));
   this->ta_mgr_.activate (root_poa.in ());
+
+  ACE_ERROR ((LM_DEBUG,
+            ACE_TEXT ("%T (%t) - %M - TestAdapter is activated\n")));
 
   // Register TestAdapter with the callback
   obj = this->ta_mgr_.get_reference ();
   ::Tron::TestAdapter_var ta = ::Tron::TestAdapter::_narrow (obj.in ());
 
+  ACE_ERROR ((LM_DEBUG,
+            ACE_TEXT ("%T (%t) - %M - setting test adapter callback\n")));
+
   this->callback_->set_test_adapter (ta.in ());
 
   ACE_ERROR ((LM_DEBUG,
-            ACE_TEXT ("%T (%t) - %M - TestAdapter is activated\n")));
+            ACE_TEXT ("%T (%t) - %M - test adapter is registered\n")));
 }
 
 //
