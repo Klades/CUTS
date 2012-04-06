@@ -24,8 +24,8 @@ EVENT * Tron_Publisher_Table_T <EVENT>::allocate_event (void)
   // interface, but set values for the corresponding event type in the
   // Tron architecture.
   //===========================================================================
-
-  return 0;
+  typedef typename Tron_Event_Traits <EVENT>::tron_event_type tron_event_type;
+  return new tron_event_type ();
 }
 
 //
@@ -89,6 +89,9 @@ Tron_Publisher_Table_T <EVENT>::unsubscribe (::Components::Cookie * c)
 template <typename EVENT>
 void Tron_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
 {
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - sending event via Tron_Publisher_Table\n")));
+
   // Convert the CORBA event into a Tron event.
   Tron_Event * tron_event = dynamic_cast < Tron_Event *> (ev);
 

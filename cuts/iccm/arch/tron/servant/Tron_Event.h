@@ -8,6 +8,14 @@
 
 namespace iCCM
 {
+/**
+ * @struct Tron_Event_Traits
+ *
+ * Trait class for mapping Tron events to CORBA events, and visa
+ * versa.
+ */
+template <typename EVENT>
+struct Tron_Event_Traits;
 
 /**
  * Base class for all Tron events.  Concrete events must read

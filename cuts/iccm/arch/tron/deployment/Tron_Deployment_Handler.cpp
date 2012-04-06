@@ -234,5 +234,5 @@ void Tron_Deployment_Handler::adapter_start (void)
 void Tron_Deployment_Handler::adapter_perform (int32_t channel,
                                                uint16_t size, const int32_t data[])
 {
-  this->rep->report_now (this->rep, 4, 0, NULL);
+//  this->rep->report_now (this->rep, 4, 0, NULL);
 }
