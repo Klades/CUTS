@@ -5,6 +5,7 @@
 #endif
 
 #include "cuts/iccm/servant/Cookie.h"
+#include "Tron_Event.h"
 
 namespace iCCM
 {
@@ -88,13 +89,18 @@ Tron_Publisher_Table_T <EVENT>::unsubscribe (::Components::Cookie * c)
 template <typename EVENT>
 void Tron_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
 {
-  //===========================================================================
-  // INSERT CODE HERE
-  //
-  // The code that you place should cast the CORBA event to its corresponding
-  // wrapper in the Tron architecture. It should then be sent using
-  // the Tron mechanisms for sending an event.
-  //===========================================================================
+  // Convert the CORBA event into a Tron event.
+  Tron_Event * tron_event = dynamic_cast < Tron_Event *> (ev);
+
+  if (0 != ev)
+  {
+    tron_event->__tron_write_attributes (this->reporter_, this->channel_);
+  }
+  else
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - invalid event type\n")));
+  }
 }
 
 }

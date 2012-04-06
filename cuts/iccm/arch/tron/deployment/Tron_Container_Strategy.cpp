@@ -9,6 +9,7 @@
 
 #include "Tron_Container.h"
 #include "../servant/Tron_Servant.h"
+#include "TestAdapter_i.h"
 
 namespace iCCM
 {
@@ -19,8 +20,15 @@ namespace iCCM
 void Tron_Container_Strategy::
 install_servant (::PortableServer::Servant servant)
 {
-  // NOTE: The servant can be casted to an Tron_Servant
-  // by using 'dynamic_cast <Tron_Servant *> (servant)'.
+  Tron_Servant * tron_servant = dynamic_cast <Tron_Servant *> (servant);
+
+  if (0 == tron_servant)
+    return;
+
+  // Set the servant's reporter. This will allow the servant to
+  // register all its input/output ports with the reporter and
+  // TRON/UPPAAL.
+  tron_servant->set_reporter (this->container_.inst_handler ()->get_reporter ());
 }
 
 //

@@ -18,6 +18,7 @@ project (iCCM_Tron_stub) : ccm_stub, cutslib, requires_tron {
 
   Source_Files {
     Tron_EventsC.cpp
+    Tron_Event.cpp
   }
 
   Template_Files {

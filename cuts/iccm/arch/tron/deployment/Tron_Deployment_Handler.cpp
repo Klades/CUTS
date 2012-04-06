@@ -100,7 +100,8 @@ Tron_Deployment_Handler * Tron_Deployment_Handler::singleton (void)
 //
 Tron_Deployment_Handler::Tron_Deployment_Handler (Reporter * r)
 : TestAdapter (r),
-  ta_mgr_ (&ta_, false)
+  ta_mgr_ (&ta_, false),
+  ta_ (r)
 {
   // Set the start and perform methods
   this->start = &(::adapter_start);
@@ -163,7 +164,6 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - initialization is complete\n")));
 
-    // Setup input channels
 /*    int r;
     r = this->rep->getInputEncoding (this->rep, "Click");
 

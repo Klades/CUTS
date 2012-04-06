@@ -1,3 +1,30 @@
+Fri Apr  6 19:16:29 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.h:
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Event.h:
+        * cuts/iccm/arch/tron/servant/Tron_Event.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Event.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.h:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.inl:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.cpp:
+        * examples/iccm/Button/tron/ButtonImpl.h:
+
+          Extended tron support to handle publishing output events to tron.
+
 Thu Apr  5 20:17:12 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/TestAdapterCallback_i.cpp:

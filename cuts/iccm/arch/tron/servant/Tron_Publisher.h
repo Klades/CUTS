@@ -22,6 +22,7 @@
 
 #include "Tron_EventsC.h"
 #include "Tron_svnt_export.h"
+#include "tron/adapter.h"
 
 namespace iCCM
 {
@@ -54,13 +55,18 @@ public:
   /// Disconnect the consumer.
   virtual ::Components::EventConsumerBase_ptr disconnect (void);
 
-  /// INSERT CODE HERE
+  /// Register the table with a tron channel
+  void register_channel (Reporter * reporter, const ACE_CString & name);
 
 protected:
+  /// The tron channel
+  int channel_;
+
+  /// The tron reporter
+  Reporter * reporter_;
+
   /// The consumer connected to this publisher.
   ::Components::Tron::EventConsumer_var consumer_;
-
-  /// INSERT CODE HERE
 };
 
 }

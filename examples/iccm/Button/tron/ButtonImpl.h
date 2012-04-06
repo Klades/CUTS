@@ -46,6 +46,7 @@ private:
   // periodic: EventCreator
   CUTS_Periodic_Event_T < Button > periodic_EventCreator_;
 };
+
 }
 
 #include "Button_impl_export.h"

@@ -9,6 +9,8 @@ namespace iCCM
 //
 CUTS_INLINE
 Tron_Publisher_Table::Tron_Publisher_Table (void)
+: channel_ (-1),
+  reporter_ (0)
 {
 
 }

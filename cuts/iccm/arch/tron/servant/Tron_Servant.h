@@ -23,6 +23,7 @@
 #include "Tron_EventConsumer.h"
 #include "Tron_Publisher.h"
 #include "Tron_Publisher_Table.h"
+#include "tron/adapter.h"
 
 namespace iCCM
 {
@@ -48,6 +49,9 @@ public:
 
   /// Destructor.
   virtual ~Tron_Servant (void);
+
+  /// Set the reporter
+  virtual void set_reporter (Reporter * reporter) = 0;
 };
 
 }

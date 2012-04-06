@@ -6,11 +6,12 @@
 //
 // TestAdapter_i
 //
-TestAdapter_i::TestAdapter_i (void)
+TestAdapter_i::TestAdapter_i (Reporter * r)
 : init_complete_cond_ (init_complete_mutex_),
   activate_complete_cond_ (activate_complete_mutex_),
   is_init_ (false),
-  is_activated_ (false)
+  is_activated_ (false),
+  reporter_ (r)
 {
 
 }
@@ -76,4 +77,12 @@ void TestAdapter_i::wait_for_activate_complete (void)
 
   if (!this->is_activated_)
     this->activate_complete_cond_.wait ();
+}
+
+//
+// get_reporter
+//
+Reporter * TestAdapter_i::get_reporter (void)
+{
+  return this->reporter_;
 }

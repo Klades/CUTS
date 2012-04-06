@@ -23,6 +23,8 @@
 #include "Tron_EventsS.h"
 #include "Tron_svnt_export.h"
 
+#include "tron/adapter.h"
+
 namespace iCCM
 {
 
@@ -48,10 +50,12 @@ public:
   /// Destructor.
   virtual ~Tron_EventConsumer (void);
 
-  /// INSERT CODE HERE
+  /// Register the table with a tron channel
+  void register_channel (Reporter * reporter, const ACE_CString & name);
 
-private:
-  /// INSERT CODE HERE
+protected:
+  /// The tron channel
+  int channel_;
 };
 
 }

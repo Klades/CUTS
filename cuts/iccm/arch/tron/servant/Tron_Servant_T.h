@@ -60,6 +60,9 @@ public:
 
   /// Destructor.
   virtual ~Tron_Servant_T (void);
+
+  /// Set reporter
+  virtual void set_reporter (Reporter * reporter);
 };
 
 }

@@ -11,6 +11,8 @@
 #include "ace/Condition_T.h"
 #include "ace/Thread_Mutex.h"
 
+#include "tron/adapter.h"
+
 /**
  * TestAdapter which works with Tron.  Resides
  * on the Tron side.
@@ -19,8 +21,8 @@ class TestAdapter_i :
   public iCCM::Component_Instance_Handler_T < TestAdapter_i, POA_Tron::TestAdapter, iCCM::Tron_Container >
 {
 public:
-  // Default ctor
-  TestAdapter_i (void);
+  // Initalizing ctor
+  TestAdapter_i (Reporter * r);
 
   // Destrutor
   virtual ~TestAdapter_i (void);
@@ -37,6 +39,9 @@ public:
   // Wait for the activation to be completed
   void wait_for_activate_complete (void);
 
+  void set_reporter (Reporter * reporter);
+  Reporter * get_reporter (void);
+
 private:
   // Mutex and Condition for initialization_complete
   ACE_Thread_Mutex init_complete_mutex_;
@@ -48,6 +53,9 @@ private:
 
   bool is_init_;
   bool is_activated_;
+
+  // The tron reporter
+  Reporter * reporter_;
 };
 
 #endif  // !defined _TRON_TESTADAPTER_I_H_
