@@ -10,10 +10,11 @@ namespace iCCM
 {
 
 //
-// set_reporter
+// init
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
-void Tron_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::set_reporter (Reporter * reporter)
+void Tron_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
+init (Reporter * reporter, tron_consumer_map_type & consumer_map)
 {
   ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - got reporter\n")));
@@ -24,7 +25,8 @@ void Tron_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::set_reporter (Reporter * r
                  boost::bind (&Tron_EventConsumer::register_channel,
                               boost::bind (&consumer_map_type::ENTRY::int_id_, _1),
                               reporter,
-                              boost::bind (&consumer_map_type::ENTRY::ext_id_, _1)));
+                              boost::bind (&consumer_map_type::ENTRY::ext_id_, _1),
+                              boost::ref (consumer_map)));
 
   // Register output channels with the publisher tables
   std::for_each (this->publishes_.begin (),

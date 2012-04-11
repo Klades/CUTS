@@ -7,6 +7,7 @@
 
 #include "Tron_Container.h"
 #include "Tron_Deployment_HandlerS.h"
+#include "Tron_Consumer_Map_Type.h"
 
 #include "ace/Condition_T.h"
 #include "ace/Thread_Mutex.h"
@@ -22,7 +23,7 @@ class TestAdapter_i :
 {
 public:
   // Initalizing ctor
-  TestAdapter_i (Reporter * r);
+  TestAdapter_i (Reporter * r, tron_consumer_map_type & map);
 
   // Destrutor
   virtual ~TestAdapter_i (void);
@@ -39,8 +40,11 @@ public:
   // Wait for the activation to be completed
   void wait_for_activate_complete (void);
 
-  void set_reporter (Reporter * reporter);
+  // Get the tron reporter
   Reporter * get_reporter (void);
+
+  // Get the deployment handler's consumer map
+  tron_consumer_map_type & get_consumer_map (void);
 
 private:
   // Mutex and Condition for initialization_complete
@@ -56,6 +60,9 @@ private:
 
   // The tron reporter
   Reporter * reporter_;
+
+  // The consumer map
+  tron_consumer_map_type & consumer_map_;
 };
 
 #endif  // !defined _TRON_TESTADAPTER_I_H_

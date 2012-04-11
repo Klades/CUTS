@@ -6,12 +6,13 @@
 //
 // TestAdapter_i
 //
-TestAdapter_i::TestAdapter_i (Reporter * r)
+TestAdapter_i::TestAdapter_i (Reporter * r, tron_consumer_map_type & map)
 : init_complete_cond_ (init_complete_mutex_),
   activate_complete_cond_ (activate_complete_mutex_),
   is_init_ (false),
   is_activated_ (false),
-  reporter_ (r)
+  reporter_ (r),
+  consumer_map_ (map)
 {
 
 }
@@ -85,4 +86,12 @@ void TestAdapter_i::wait_for_activate_complete (void)
 Reporter * TestAdapter_i::get_reporter (void)
 {
   return this->reporter_;
+}
+
+//
+// get_consumer_map
+//
+tron_consumer_map_type & TestAdapter_i::get_consumer_map (void)
+{
+  return this->consumer_map_;
 }

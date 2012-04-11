@@ -22,4 +22,13 @@ Tron_EventConsumer::~Tron_EventConsumer (void)
 
 }
 
+//
+// push_event
+//
+CUTS_INLINE
+void Tron_EventConsumer::push_event (Tron_Event * ev)
+{
+  throw CORBA::NO_IMPLEMENT ();
+}
+
 }

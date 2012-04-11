@@ -23,7 +23,9 @@
 #include "Tron_EventsS.h"
 #include "Tron_svnt_export.h"
 
+#include "Tron_Event.h"
 #include "tron/adapter.h"
+#include "../deployment/Tron_Consumer_Map_Type.h"
 
 namespace iCCM
 {
@@ -51,7 +53,12 @@ public:
   virtual ~Tron_EventConsumer (void);
 
   /// Register the table with a tron channel
-  void register_channel (Reporter * reporter, const ACE_CString & name);
+  virtual void register_channel (Reporter * reporter,
+                                 const ACE_CString & name,
+                                 tron_consumer_map_type & consumer_map);
+
+  /// Push tron event to servant
+  virtual void push_event (Tron_Event * ev);
 
 protected:
   /// The tron channel

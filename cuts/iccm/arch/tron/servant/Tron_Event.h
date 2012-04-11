@@ -27,6 +27,9 @@ public:
   // Default ctor.
   Tron_Event (void);
 
+  // Initalizing ctor.
+  Tron_Event (const uint16_t size, const int32_t data[]);
+
   // dtor.
   virtual ~Tron_Event (void);
 

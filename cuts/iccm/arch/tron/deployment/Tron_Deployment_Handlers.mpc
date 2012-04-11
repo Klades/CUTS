@@ -80,5 +80,11 @@ project (iCCM_Tron_Deployment_Handlers) : iccm_deployment_handlers, dance_deploy
     TestAdapterCallback_i.cpp
     TestAdapter_i.cpp
     Tron_ORB_Initializer.cpp
+    Tron_Consumer_List.cpp
   }
+
+  Template_Files {
+    Tron_Consumer_List_T.cpp
+  }
+
 }

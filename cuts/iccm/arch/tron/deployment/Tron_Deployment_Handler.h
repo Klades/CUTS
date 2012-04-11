@@ -8,6 +8,9 @@
 #include "TestAdapter_i.h"
 #include "cuts/ORB_Server_Task.h"
 #include "cuts/Servant_Manager_T.h"
+#include "ace/Hash_Map_Manager.h"
+#include "ace/RW_Thread_Mutex.h"
+#include "Tron_Consumer_Map_Type.h"
 
 /**
  * @class Tron_Deployment_Handler
@@ -47,15 +50,23 @@ private:
   /// Singleton for the deployment handler.
   static Tron_Deployment_Handler * singleton_;
 
+  /// The ORB
   ::CORBA::ORB_var orb_;
 
+  /// The callback to send the test adapter to
   ::Tron::TestAdapterCallback_var callback_;
 
+  /// The test adapter
   TestAdapter_i ta_;
 
+  /// The test adapter manager
   CUTS_Servant_Manager_T < TestAdapter_i > ta_mgr_;
 
+  /// The ORB task
   CUTS_ORB_Server_Task task_;
+
+  /// The tron event channel to iccm consumer map
+  tron_consumer_map_type consumer_map_;
 };
 
 extern "C"

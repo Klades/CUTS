@@ -12,7 +12,9 @@ namespace iCCM
 // register_channel
 //
 void Tron_EventConsumer::
-register_channel (Reporter * reporter, const ACE_CString & name)
+register_channel (Reporter * reporter,
+                  const ACE_CString & name,
+                  tron_consumer_map_type & consumer_map)
 {
   this->channel_ = reporter->getInputEncoding (reporter, name.c_str ());
   ACE_ERROR ((LM_DEBUG,

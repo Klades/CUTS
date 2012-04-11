@@ -13,7 +13,8 @@ namespace iCCM
 // register_channel
 //
 void Tron_Publisher_Table::
-register_channel (Reporter * reporter, const ACE_CString & name)
+register_channel (Reporter * reporter,
+                  const ACE_CString & name)
 {
   this->channel_ = reporter->getOutputEncoding (reporter, name.c_str ());
   this->reporter_ = reporter;

@@ -24,6 +24,7 @@
 #include "Tron_Publisher.h"
 #include "Tron_Publisher_Table.h"
 #include "tron/adapter.h"
+#include "../deployment/Tron_Consumer_Map_Type.h"
 
 namespace iCCM
 {
@@ -50,8 +51,8 @@ public:
   /// Destructor.
   virtual ~Tron_Servant (void);
 
-  /// Set the reporter
-  virtual void set_reporter (Reporter * reporter) = 0;
+  /// Initalize the servant for tron
+  virtual void init (Reporter * reporter, tron_consumer_map_type & consumer_map) = 0;
 };
 
 }

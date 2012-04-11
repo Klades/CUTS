@@ -1,3 +1,39 @@
+Wed Apr 11 20:16:08 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.h:
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List_T.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List_T.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_Map_Type.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Container_Strategy.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/tron/servant/Tron_Event.h:
+        * cuts/iccm/arch/tron/servant/Tron_Event.inl:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.h:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.inl:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.h:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.cpp:
+
+          Input events from tron now get to the appropriate push
+          method on the implementations.
+
+        * examples/iccm/Button/tron/ButtonImpl.cpp:
+
+          Temporarily set up the ButtonImpl to respond with a singleclick
+          each time it receives a click event.
+
 Fri Apr  6 20:16:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:

@@ -51,6 +51,14 @@ public:
   /// Destructor.
   virtual ~Tron_EventConsumer_T (void);
 
+  /// Register the table with a tron channel
+  virtual void register_channel (Reporter * reporter,
+                                 const ACE_CString & name,
+                                 tron_consumer_map_type & consumer_map);
+
+  /// push tron event to servant
+  virtual void push_event (Tron_Event * ev);
+
 private:
   /// Servant to pass event.
   SERVANT * servant_;

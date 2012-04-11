@@ -40,7 +40,8 @@ public:
   virtual ~Tron_Publisher_Table (void);
 
   /// Register the table with a tron channel
-  void register_channel (Reporter * reporter, const ACE_CString & name);
+  void register_channel (Reporter * reporter,
+                         const ACE_CString & name);
 
 protected:
   /// The tron channel

@@ -61,8 +61,8 @@ public:
   /// Destructor.
   virtual ~Tron_Servant_T (void);
 
-  /// Set reporter
-  virtual void set_reporter (Reporter * reporter);
+  /// Initalize the servant for tron
+  virtual void init (Reporter * reporter, tron_consumer_map_type & consumer_map);
 };
 
 }

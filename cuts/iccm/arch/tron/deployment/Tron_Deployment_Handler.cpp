@@ -100,8 +100,8 @@ Tron_Deployment_Handler * Tron_Deployment_Handler::singleton (void)
 //
 Tron_Deployment_Handler::Tron_Deployment_Handler (Reporter * r)
 : TestAdapter (r),
-  ta_mgr_ (&ta_, false),
-  ta_ (r)
+  ta_ (r, this->consumer_map_),
+  ta_mgr_ (&ta_, false)
 {
   // Set the start and perform methods
   this->start = &(::adapter_start);
@@ -234,5 +234,11 @@ void Tron_Deployment_Handler::adapter_start (void)
 void Tron_Deployment_Handler::adapter_perform (int32_t channel,
                                                uint16_t size, const int32_t data[])
 {
-//  this->rep->report_now (this->rep, 4, 0, NULL);
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - received event on channel [%d]\n"),
+              channel));
+
+  Tron_Consumer_List * consumer = 0;
+  if (0 == this->consumer_map_.find (channel, consumer))
+    consumer->push_event (size, data);
 }

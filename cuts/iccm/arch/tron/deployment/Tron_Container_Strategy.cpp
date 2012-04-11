@@ -28,7 +28,8 @@ install_servant (::PortableServer::Servant servant)
   // Set the servant's reporter. This will allow the servant to
   // register all its input/output ports with the reporter and
   // TRON/UPPAAL.
-  tron_servant->set_reporter (this->container_.inst_handler ()->get_reporter ());
+  tron_servant->init (this->container_.inst_handler ()->get_reporter (),
+                      this->container_.inst_handler ()->get_consumer_map ());
 }
 
 //
