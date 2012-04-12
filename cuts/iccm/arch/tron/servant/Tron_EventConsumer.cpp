@@ -17,8 +17,9 @@ register_channel (Reporter * reporter,
                   tron_consumer_map_type & consumer_map)
 {
   this->channel_ = reporter->getInputEncoding (reporter, name.c_str ());
+
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Got reporter for EventConsumer [%s, %d]\n"),
+              ACE_TEXT ("%T (%t) - %M - registering Tron_EventConsumer for [%s,%d]\n"),
               name.c_str (),
               this->channel_));
 }

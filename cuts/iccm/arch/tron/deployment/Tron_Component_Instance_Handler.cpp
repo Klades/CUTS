@@ -27,9 +27,6 @@ configure (const ::Deployment::Properties & config)
   // Locate the TronParams property.
   size_t length = config.length ();
 
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - configuring tron_component_instance_handler\n")));
-
   for (size_t i = 0; i < length; ++ i)
   {
     if (0 == ACE_OS::strcmp (config[i].name, "TronParams"))
@@ -57,13 +54,8 @@ configure (const ::Deployment::Properties & config)
   orb_init.wait ();
 
   // Pass control to the Proxy
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT("%T (%t) - %M - configuring test adapter\n")));
-
   Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
   ta->configure (config);
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT("%T (%t) - %M - test adapter configuration complete\n")));
 }
 
 //
@@ -72,15 +64,15 @@ configure (const ::Deployment::Properties & config)
 void Tron_Component_Instance_Handler::activate_test_adapter_callback (void)
 {
   // Get a reference to the <RootPOA>
-  ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - %N:%l resolving RootPOA\n")));
-
   ::CORBA::ORB_var orb = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
 
   ::CORBA::Object_var obj = orb->resolve_initial_references ("RootPOA");
   ::PortableServer::POA_var root_poa = ::PortableServer::POA::_narrow (obj.in ());
 
   this->tac_mgr_.activate (root_poa.in ());
+
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT("%T (%t) - %M - activated TestAdapterCallback")));
 }
 
 //
@@ -89,9 +81,6 @@ void Tron_Component_Instance_Handler::activate_test_adapter_callback (void)
 int Tron_Component_Instance_Handler::
 spawn_tron_process (const ::Deployment::Property & prop)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - found TronParams\n")));
-
   // Narrow the property to a char *
   const char * arguments = 0;
 
@@ -176,9 +165,7 @@ activate_instance (const ::Deployment::DeploymentPlan & plan,
                    const ::CORBA::Any & comp)
 {
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - starting activate_instance [%d, %d]\n"),
-              this->init_complete_,
-              this->instance_count_.value ()));
+              ACE_TEXT ("%T (%t) - %M - activating tron servants\n")));
 
   if (!this->init_complete_)
   {
@@ -209,6 +196,9 @@ void Tron_Component_Instance_Handler::close (void)
   // Pass control to the proxy.
   Tron::TestAdapter_var ta = this->tac_.get_test_adapter ();
   ta->close ();
+
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT("%T (%t) - %M - terminating tron process")));
 
   // Terminate the tron process
   this->tron_process_.kill ();

@@ -16,9 +16,6 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 void Tron_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::
 init (Reporter * reporter, tron_consumer_map_type & consumer_map)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - got reporter\n")));
-
   // Register input channels with the consumers
   std::for_each (this->consumers_.begin (),
                  this->consumers_.end (),

@@ -1,3 +1,30 @@
+Thu Apr 12 17:34:35 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/TestAdapterCallback_i.cpp:
+        * cuts/iccm/arch/tron/deployment/TestAdapter_i.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List_T.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+
+          Finished implementation, cleaned up debugging messages.
+
+        * cuts/iccm/arch/tron/servant/Tron_EventConsumer.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/tron/servant/Tron_Servant_T.cpp:
+
+          Finished implementation, cleaned up debugging messages
+
+        * examples/iccm/Button/tron/ButtonImpl.h:
+        * examples/iccm/Button/tron/ButtonImpl.cpp:
+        * examples/iccm/Button/tron/ButtonImpl.mpc:
+        * examples/iccm/Button/tron/ClickTask.h:
+        * examples/iccm/Button/tron/ClickTask.cpp:
+
+          Fully implemented the Button example which comes with tron
+          using iccm.
+
 Wed Apr 11 20:16:08 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/TestAdapter_i.h:

@@ -32,7 +32,7 @@ TestAdapter_i::~TestAdapter_i (void)
 void TestAdapter_i::initialization_complete (void)
 {
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - signaling that initialization is complete\n")));
+              ACE_TEXT ("%T (%t) - %M - TestAdapter signal that initialization is complete\n")));
 
   ACE_GUARD (ACE_Thread_Mutex, g, this->init_complete_mutex_);
   this->is_init_ = true;
@@ -45,7 +45,7 @@ void TestAdapter_i::initialization_complete (void)
 void TestAdapter_i::activate_complete (void)
 {
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - signaling that activation is complete\n")));
+              ACE_TEXT ("%T (%t) - %M - TestAdapter signal that activation is complete\n")));
 
   ACE_GUARD (ACE_Thread_Mutex, g, this->activate_complete_mutex_);
   this->is_activated_ = true;
@@ -58,9 +58,6 @@ void TestAdapter_i::activate_complete (void)
 //
 void TestAdapter_i::wait_for_initialization_complete (void)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - waiting for initialization to complete [%d]\n"), this->is_init_));
-
   ACE_GUARD (ACE_Thread_Mutex, g, this->init_complete_mutex_);
 
   if (!this->is_init_)
@@ -72,8 +69,6 @@ void TestAdapter_i::wait_for_initialization_complete (void)
 //
 void TestAdapter_i::wait_for_activate_complete (void)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - waiting for activation to complete [%d]\n"), this->is_activated_));
   ACE_GUARD (ACE_Thread_Mutex, g, this->activate_complete_mutex_);
 
   if (!this->is_activated_)

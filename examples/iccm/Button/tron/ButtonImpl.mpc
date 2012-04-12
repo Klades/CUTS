@@ -13,6 +13,7 @@ project (Button_impl) : cuts_coworker_exec {
 
   Source_Files {
     ButtonImpl.cpp
+    ClickTask.cpp
   }
 
   Header_Files {

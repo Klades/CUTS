@@ -89,21 +89,14 @@ Tron_Publisher_Table_T <EVENT>::unsubscribe (::Components::Cookie * c)
 template <typename EVENT>
 void Tron_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
 {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T (%t) - %M - sending event via Tron_Publisher_Table\n")));
-
   // Convert the CORBA event into a Tron event.
   Tron_Event * tron_event = dynamic_cast < Tron_Event *> (ev);
 
   if (0 != ev)
-  {
     tron_event->__tron_write_attributes (this->reporter_, this->channel_);
-  }
   else
-  {
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - invalid event type\n")));
-  }
 }
 
 }

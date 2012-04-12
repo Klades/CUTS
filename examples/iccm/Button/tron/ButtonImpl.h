@@ -9,6 +9,7 @@
 
 #include "ace/pre.h"
 #include "Button_iCCMC.h"
+#include "ClickTask.h"
 
 #include "cuts/arch/ccm/CCM_Component_T.h"
 #include "cuts/Periodic_Event_T.h"
@@ -39,12 +40,21 @@ public:
   // push Click events from Button.idl
   virtual void push_Click (::Notify * ev);
 
-  // PeriodicEvent: EventCreator
-  void periodic_EventCreator (void);
+  // Decide event to send based on the current state
+  void decide_action (void);
 
 private:
   // periodic: EventCreator
   CUTS_Periodic_Event_T < Button > periodic_EventCreator_;
+
+  // Click counter
+  size_t click_count_;
+
+  // Task to handle event timing
+  ClickTask task_;
+
+  // Task timeout
+  ACE_Time_Value task_timeout_;
 };
 
 }

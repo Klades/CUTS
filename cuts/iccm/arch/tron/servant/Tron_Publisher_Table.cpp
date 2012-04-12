@@ -18,8 +18,9 @@ register_channel (Reporter * reporter,
 {
   this->channel_ = reporter->getOutputEncoding (reporter, name.c_str ());
   this->reporter_ = reporter;
+
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Got reporter for Publisher_Table [%s, %d]\n"),
+              ACE_TEXT ("%T (%t) - %M - registering Tron_Publisher_Table for [%s,%d]\n"),
               name.c_str (),
               this->channel_));
 }

@@ -26,9 +26,6 @@ TestAdapterCallback_i::~TestAdapterCallback_i (void)
 void
 TestAdapterCallback_i::set_test_adapter (Tron::TestAdapter_ptr ta)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - received test adapter\n")));
-
   ACE_GUARD (ACE_Thread_Mutex, g, this->set_test_adapter_mutex_);
 
   this->ta_ = Tron::TestAdapter::_duplicate (ta);
@@ -44,11 +41,7 @@ TestAdapterCallback_i::wait_for_set_test_adapter (void)
   ACE_GUARD (ACE_Thread_Mutex, g, this->set_test_adapter_mutex_);
 
   if (::CORBA::is_nil (this->ta_.in ()))
-  {
-    ACE_ERROR ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - waiting for test adapter\n")));
     this->set_test_adapter_cond_.wait ();
-  }
 }
 
 //

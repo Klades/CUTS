@@ -149,8 +149,6 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
     this->activate_test_adapter ();
 
     // Run the ORB in another thread (i.e., task).
-    ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - running ORB in another thread\n")));
     this->task_.reset (this->orb_.in ());
     this->task_.activate ();
 
@@ -161,16 +159,6 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
     // Block until tron servants are initialized
     this->ta_.wait_for_initialization_complete ();
 
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - initialization is complete\n")));
-
-/*    int r;
-    r = this->rep->getInputEncoding (this->rep, "Click");
-
-    // Setup output channels
-    r = this->rep->getOutputEncoding (this->rep, "SingleClick");
-    r = this->rep->getOutputEncoding (this->rep, "DoubleClick");
-*/
     return 0;
   }
   catch (const ::CORBA::Exception & ex)
@@ -204,13 +192,7 @@ void Tron_Deployment_Handler::activate_test_adapter (void)
   obj = this->ta_mgr_.get_reference ();
   ::Tron::TestAdapter_var ta = ::Tron::TestAdapter::_narrow (obj.in ());
 
-  ACE_ERROR ((LM_DEBUG,
-            ACE_TEXT ("%T (%t) - %M - setting test adapter callback\n")));
-
   this->callback_->set_test_adapter (ta.in ());
-
-  ACE_ERROR ((LM_DEBUG,
-            ACE_TEXT ("%T (%t) - %M - test adapter is registered\n")));
 }
 
 //
@@ -223,9 +205,6 @@ void Tron_Deployment_Handler::adapter_start (void)
               ACE_TEXT ("%T (%t) - %M - waiting for components to be activated\n")));
 
   this->ta_.wait_for_activate_complete ();
-
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - all components are now activated\n")));
 }
 
 //
@@ -234,11 +213,13 @@ void Tron_Deployment_Handler::adapter_start (void)
 void Tron_Deployment_Handler::adapter_perform (int32_t channel,
                                                uint16_t size, const int32_t data[])
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - received event on channel [%d]\n"),
-              channel));
-
   Tron_Consumer_List * consumer = 0;
   if (0 == this->consumer_map_.find (channel, consumer))
+  {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - performing tron event on channel [%d]\n"),
+                channel));
+
     consumer->push_event (size, data);
+  }
 }

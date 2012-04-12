@@ -10,11 +10,13 @@ namespace ButtonImpl
 // Button
 //
 Button::Button (void)
+: click_count_ (0),
+  task_ (this)
 {
-/*  this->periodic_EventCreator_.init (this, &Button::periodic_EventCreator);
-  this->periodic_EventCreator_.configure (CUTS_Periodic_Event::PE_CONSTANT, 1);
-  this->register_object (&this->periodic_EventCreator_);
-*/
+  // initalize task_timeout_
+  timespec_t timeout;
+  timeout.tv_nsec = 20 * 10000 * 1000; // hard coded for 20 * reporter timeunit (10000us)
+  this->task_timeout_.set (timeout);
 }
 
 //
@@ -22,7 +24,7 @@ Button::Button (void)
 //
 Button::~Button (void)
 {
-
+  this->task_.deactivate ();
 }
 
 //
@@ -30,26 +32,44 @@ Button::~Button (void)
 //
 void Button::push_Click (::Notify * ev)
 {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("Got notify on Click\n")));
+  // Activate the task if this is the first click received
+  if (0 == this->click_count_)
+    this->task_.activate (this->task_timeout_);
 
-  ::Notify_var __event_100000008__ (this->ctx_->new_SingleClick_event ());
-  this->ctx_->push_SingleClick (__event_100000008__.in ());
+  // Increment the click count
+  ++ this->click_count_;
 
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("pushing SingleClick\n")));
+  // Per tron, if click_count is 2, then a double click must be sent
+  // immediately
+  if (2 == this->click_count_)
+    this->decide_action ();
 
   ACE_UNUSED_ARG (ev);
 }
 
 //
-// periodic_EventCreator
+// decide_action
 //
-void Button::periodic_EventCreator (void)
+void Button::decide_action (void)
 {
-  ::Notify_var __event_100000008__ (this->ctx_->new_SingleClick_event ());
+  if (0 == this->click_count_)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - decide_action called with no clicks received\n")));
+  }
+  else if (1 == this->click_count_)
+  {
+    ::Notify_var __event_100000008__ (this->ctx_->new_SingleClick_event ());
+    this->ctx_->push_SingleClick (__event_100000008__.in ());
+  }
+  else if (1 < this->click_count_)
+  {
+    ::Notify_var __event_100000008__ (this->ctx_->new_DoubleClick_event ());
+    this->ctx_->push_DoubleClick (__event_100000008__.in ());
+  }
 
-  this->ctx_->push_SingleClick (__event_100000008__.in ());
+  this->click_count_ = 0;
+  this->task_.deactivate ();
 }
 
 }
