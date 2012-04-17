@@ -11,8 +11,7 @@
 ClickTask::ClickTask (::ButtonImpl::Button * button)
 : button_ (button),
   is_active_ (false),
-  timer_id_ (-1),
-  timeout_count_ (0)
+  timer_id_ (-1)
 {
   ACE_Reactor * reactor = 0;
 
@@ -35,32 +34,54 @@ ClickTask::~ClickTask (void)
 //
 // activate
 //
-int ClickTask::activate (const ACE_Time_Value & interval)
+int ClickTask::activate (void)
 {
   if (this->is_active_)
     return this->timer_id_;
 
   // Activate the task
   if (0 != ACE_Task_Base::activate ())
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to activate ")
-                ACE_TEXT ("ClickTask\n")));
+    ACE_ERROR_RETURN ((LM_ERROR,
+                       ACE_TEXT ("%T (%t) - %M - failed to activate ")
+                       ACE_TEXT ("ClickTask\n")),
+                       -1);
 
-  // Schedule the timer for the heartbeat.
+  this->is_active_ = true;
+
+  return 0;
+}
+
+//
+// reschedule
+//
+int ClickTask::reschedule (const ACE_Time_Value & interval)
+{
+  this->cancel_timer ();
+
   this->timer_id_ =
     this->reactor ()->schedule_timer (this,
                                       0,
-                                      ACE_Time_Value::zero,
-                                      interval);
+                                      interval,
+                                      ACE_Time_Value::zero);
 
   if (this->timer_id_ == -1)
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - failed to schedule timer for ")
                 ACE_TEXT ("ClickTask\n")));
 
-  this->is_active_ = true;
-
   return this->timer_id_;
+}
+
+//
+// cancel_timer
+//
+void ClickTask::cancel_timer (void)
+{
+  if (this->timer_id_ != -1)
+  {
+    this->reactor ()->cancel_timer (this->timer_id_);
+    this->timer_id_ = -1;
+  }
 }
 
 //
@@ -78,15 +99,7 @@ int ClickTask::deactivate (void)
   this->reactor ()->notify (this);
   this->wait ();
 
-  if (this->timer_id_ != -1)
-  {
-    // Finally, cancel the timer.
-    this->reactor ()->cancel_timer (this->timer_id_);
-    this->timer_id_ = -1;
-  }
-
-  // Reset the timeout count
-  this->timeout_count_ = 0;
+  this->cancel_timer ();
 
   return 0;
 }
@@ -119,14 +132,6 @@ int ClickTask::svc (void)
 int ClickTask::
 handle_timeout (const ACE_Time_Value & , const void * )
 {
-  // handle_timeout is called when the task is activated, we want to skip
-  // the first call since we do not want the ButtonImpl to respond immediately
-  if (0 == this->button_ || 0 == this->timeout_count_)
-  {
-    ++ this->timeout_count_;
-    return 0;
-  }
-
   // Signal the Button to decide what click event to send
   this->button_->decide_action ();
 

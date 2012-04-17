@@ -28,6 +28,18 @@ Tron_Consumer_List_T <T>::
 }
 
 //
+// add
+//
+template <typename T>
+CUTS_INLINE
+void Tron_Consumer_List_T <T>::
+add (::iCCM::Tron_EventConsumer * consumer)
+{
+  this->consumers_.push_back (consumer);
+}
+
+
+//
 // push_event
 //
 template <typename T>

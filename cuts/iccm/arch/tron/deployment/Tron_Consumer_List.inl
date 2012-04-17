@@ -20,13 +20,3 @@ Tron_Consumer_List::
 {
 
 }
-
-//
-// add
-//
-CUTS_INLINE
-void Tron_Consumer_List::
-add (::iCCM::Tron_EventConsumer * consumer)
-{
-  this->consumers_.push_back (consumer);
-}

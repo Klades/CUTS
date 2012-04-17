@@ -23,6 +23,13 @@ public:
 
   // Create and push event T to the consumers
   virtual void push_event (uint16_t size, const int32_t data[]);
+
+  // Add a consumer
+  virtual void add (::iCCM::Tron_EventConsumer * consumer);
+
+private:
+  // The consumers
+  std::list < ::iCCM::Tron_EventConsumer * > consumers_;
 };
 
 #include "Tron_Consumer_List_T.cpp"

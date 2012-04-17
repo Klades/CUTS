@@ -29,14 +29,10 @@ public:
   virtual ~Tron_Consumer_List (void);
 
   // Add a consumer
-  void add (::iCCM::Tron_EventConsumer * consumer);
+  virtual void add (::iCCM::Tron_EventConsumer * consumer) = 0;
 
   // Push the event to the consumers
   virtual void push_event (uint16_t size, const int32_t data[]) = 0;
-
-protected:
-  // The consumers
-  std::list < ::iCCM::Tron_EventConsumer * > consumers_;
 };
 
 #if defined (__CUTS_INLINE__)

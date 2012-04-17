@@ -27,10 +27,16 @@ public:
   virtual ~ClickTask (void);
 
   // Activate the task
-  int activate (const ACE_Time_Value & interval);
+  int activate (void);
 
   // Deactivate the task
   int deactivate (void);
+
+  // Reschedule the task
+  int reschedule (const ACE_Time_Value & interval);
+
+  // Cancel the timer for the task
+  void cancel_timer (void);
 
   // Service handler routine
   virtual int svc (void);
@@ -47,10 +53,6 @@ private:
 
   // Timer id for the task
   long timer_id_;
-
-  // Timeout counter
-  size_t timeout_count_;
 };
 
 #endif  // !defined _CLICKTASK_H_
-

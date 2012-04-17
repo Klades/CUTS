@@ -1,3 +1,23 @@
+Tue Apr 17 13:48:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List_T.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List_T.cpp:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+
+          Changed Consumer_List to be an interface, all implementation logic
+          is now in the template class.  Modified mpc includes as needed.
+
+        * examples/iccm/Button/tron/ButtonImpl.cpp:
+        * examples/iccm/Button/tron/ClickTask.h:
+        * examples/iccm/Button/tron/ClickTask.cpp:
+
+          Cleaned up implementation by using the delay argument when
+          scheduling the task.  The task is now activated on impl construction
+          and the timer is rescheduled as needed.
+
 Thu Apr 12 17:34:35 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/TestAdapterCallback_i.cpp:

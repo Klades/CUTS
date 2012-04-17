@@ -74,7 +74,6 @@ project (iCCM_Tron_svnt) : iccm_servant, cutslib, requires_tron {
     Tron_Servant.cpp
     Tron_Publisher.cpp
     Tron_Publisher_Table.cpp
-    ../deployment/Tron_Consumer_List.cpp
   }
 
   Template_Files {
@@ -82,7 +81,6 @@ project (iCCM_Tron_svnt) : iccm_servant, cutslib, requires_tron {
     Tron_Servant_T.cpp
     Tron_Publisher_T.cpp
     Tron_Publisher_Table_T.cpp
-    ../deployment/Tron_Consumer_List_T.cpp
   }
 
   IDL_Files {
