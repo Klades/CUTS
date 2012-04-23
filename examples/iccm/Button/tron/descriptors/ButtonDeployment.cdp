@@ -107,6 +107,17 @@
         </value>
       </value>
     </configProperty>
+    <configProperty>
+      <name>TronAdapterParams</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>--TimeUnit=10000 --Timeout=100000</string>
+        </value>
+      </value>
+    </configProperty>
   </instance>
 
   <artifact xmi:id="_CDF2FA52-62F2-11E1-8000-0050563D38A4">
