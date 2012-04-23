@@ -3,6 +3,7 @@
 #include "Tron_Deployment_Handler.h"
 #include <cstddef>
 #include "ace/ARGV.h"
+#include "ace/Get_Opt.h"
 
 //
 // adapter_new
@@ -101,7 +102,9 @@ Tron_Deployment_Handler * Tron_Deployment_Handler::singleton (void)
 Tron_Deployment_Handler::Tron_Deployment_Handler (Reporter * r)
 : TestAdapter (r),
   ta_ (r, this->consumer_map_),
-  ta_mgr_ (&ta_, false)
+  ta_mgr_ (&ta_, false),
+  timeunit_ (10000),
+  timeout_ (100000)
 {
   // Set the start and perform methods
   this->start = &(::adapter_start);
@@ -126,9 +129,20 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
     ACE_ARGV_T <char> dup_args (argc, const_cast <char **> (argv));
 
     ACE_DEBUG  ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - initializing test adapter orb with [%s]\n"),
+                ACE_TEXT ("%T (%t) - %M - initializing test adapter with [%s]\n"),
                 dup_args.buf ()));
 
+    // Parse adapter arguments
+    if (0 != this->parse_args (dup_args.argv ()))
+      ACE_ERROR_RETURN ((LM_ERROR,
+                         ACE_TEXT ("%T (%t) - %M - failed to parse arguments\n")),
+                         -1);
+
+    // Setup reporter
+    this->rep->setTimeUnit (this->rep, this->timeunit_);
+    this->rep->setTimeout (this->rep, this->timeout_);
+
+    // Initalize the orb
     this->orb_ = ::CORBA::ORB_init (argc, dup_args.argv ());
 
     ::CORBA::Object_var obj = this->orb_->resolve_initial_references ("TestAdapterCallback");
@@ -138,6 +152,7 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
                          ACE_TEXT ("%T (%t) - %M - failed to resolve TestAdapterCallback\n")),
                          -1);
 
+    // Get the callback
     this->callback_ = ::Tron::TestAdapterCallback::_narrow (obj.in ());
 
     if (::CORBA::is_nil (obj.in ()))
@@ -152,10 +167,6 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
     this->task_.reset (this->orb_.in ());
     this->task_.activate ();
 
-    // Setup reporter
-    this->rep->setTimeUnit (this->rep, 10000);
-    this->rep->setTimeout (this->rep, 100000);
-
     // Block until tron servants are initialized
     this->ta_.wait_for_initialization_complete ();
 
@@ -168,6 +179,59 @@ int Tron_Deployment_Handler::init (int argc, const char * argv[])
                 ex._info ().c_str ()));
   }
   return -1;
+}
+
+//
+// parse_args
+//
+int Tron_Deployment_Handler::parse_args (char * args[])
+{
+  // Convert the command string into a vector of commands.
+  ACE_ARGV_T <char> argv (args);
+  const char * optargs = "";
+
+  // Parse the command-line options.
+  ACE_Get_Opt get_opt (argv.argc (), argv.argv (), optargs, 0);
+  get_opt.long_option ("TimeUnit", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("Timeout", ACE_Get_Opt::ARG_REQUIRED);
+
+  int opt = 0;
+
+  while (EOF != (opt = get_opt ()))
+  {
+    switch (opt)
+    {
+    case 0:
+      if (0 == ACE_OS::strcmp ("TimeUnit", get_opt.long_option ()))
+      {
+        size_t timeunit;
+        std::istringstream istr (get_opt.opt_arg ());
+        istr >> timeunit;
+
+        if (istr.fail ())
+          ACE_ERROR_RETURN ((LM_ERROR,
+                             ACE_TEXT ("%T (%t) - %M - failed to parse TimeUnit value\n")),
+                             -1);
+        this->timeunit_ = timeunit;
+      }
+
+      if (0 == ACE_OS::strcmp ("Timeout", get_opt.long_option ()))
+      {
+        size_t timeout;
+        std::istringstream istr (get_opt.opt_arg ());
+        istr >> timeout;
+
+        if (istr.fail ())
+          ACE_ERROR_RETURN ((LM_ERROR,
+                             ACE_TEXT ("%T (%t) - %M - failed to parse Timeout value\n")),
+                             -1);
+        this->timeout_ = timeout;
+      }
+      break;
+    }
+  }
+
+  return 0;
 }
 
 //

@@ -97,9 +97,10 @@ private:
   /**
    * Spawn the tron process using the provided propery as arguments.
    *
-   * @param[in]           prop            CLI arguments
+   * @param[in]           tron_params     Tron Arguments
+   * @param[in]           adapter_params  Adapter arguments
    */
-  int spawn_tron_process (const ::Deployment::Property & prop);
+  int spawn_tron_process (const char * tron_params, const char * adapter_params);
 
   /// Activate the test adapter callback
   void activate_test_adapter_callback (void);

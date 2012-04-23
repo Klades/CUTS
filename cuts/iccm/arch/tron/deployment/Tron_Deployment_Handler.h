@@ -50,6 +50,9 @@ private:
   /// Singleton for the deployment handler.
   static Tron_Deployment_Handler * singleton_;
 
+  // Helper method to parse command line arguments
+  int parse_args (char * args[]);
+
   /// The ORB
   ::CORBA::ORB_var orb_;
 
@@ -67,6 +70,12 @@ private:
 
   /// The tron event channel to iccm consumer map
   tron_consumer_map_type consumer_map_;
+
+  /// The tron reporter's timeout
+  size_t timeout_;
+
+  /// The tron reporter's timeunit
+  size_t timeunit_;
 };
 
 extern "C"

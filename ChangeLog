@@ -1,3 +1,16 @@
+Mon Apr 23 17:21:17 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.cpp:
+
+          Modified to pass TronAdapterParams to the adapter
+
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Deployment_Handler.cpp:
+
+          Modified to set the TimeUnit and Timeout parameters on the reporter
+          based on TronAdapterParams
+
 Mon Apr 23 16:23:26 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/Button/tron/descriptors/ButtonDeployment.cdp:

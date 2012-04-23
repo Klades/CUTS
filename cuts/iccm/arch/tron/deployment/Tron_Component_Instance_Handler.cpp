@@ -24,18 +24,31 @@ configure (const ::Deployment::Properties & config)
   // attached to a locality manager. In PICML, this would be the Property
   // elements attached to a CollocationGroup.
 
-  // Locate the TronParams property.
+  // Locate the TronParams and TronAdapterParams properties.
   size_t length = config.length ();
+  const char * tron_params = 0;
+  const char * tron_adapter_params = 0;
 
   for (size_t i = 0; i < length; ++ i)
   {
     if (0 == ACE_OS::strcmp (config[i].name, "TronParams"))
     {
-      if (0 != this->spawn_tron_process (config[i]))
+      if (!(config[i].value >>= tron_params))
         ACE_ERROR ((LM_ERROR,
-                    ACE_TEXT("%T (%t) - %M - Tron process failed to start")));
+                    ACE_TEXT ("%T (%t) - %M - failed extract arguments\n")));
+    }
+
+    if (0 == ACE_OS::strcmp (config[i].name, "TronAdapterParams"))
+    {
+      if (!(config[i].value >>= tron_adapter_params))
+        ACE_ERROR ((LM_ERROR,
+                    ACE_TEXT ("%T (%t) - %M - failed extract arguments\n")));
     }
   }
+
+  if (0 != this->spawn_tron_process (tron_params, tron_adapter_params))
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to spawn tron process\n")));
 
   // Wait for Tron to set the test adapter on the callback
   // Use the Tron_ORB_Initializer to prevent ORB deadlocks
@@ -67,26 +80,19 @@ void Tron_Component_Instance_Handler::activate_test_adapter_callback (void)
   this->tac_mgr_.activate (root_poa.in ());
 
   ACE_ERROR ((LM_ERROR,
-              ACE_TEXT("%T (%t) - %M - activated TestAdapterCallback")));
+              ACE_TEXT("%T (%t) - %M - activated TestAdapterCallback\n")));
 }
 
 //
 // spawn_tron_process
 //
 int Tron_Component_Instance_Handler::
-spawn_tron_process (const ::Deployment::Property & prop)
+spawn_tron_process (const char * tron_params, const char * adapter_params)
 {
-  // Narrow the property to a char *
-  const char * arguments = 0;
-
-  if (!(prop.value >>= arguments))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed extract arguments\n")),
-                       -1);
-
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - starting tron process with arguments: %s\n"),
-              arguments));
+              ACE_TEXT ("%T (%t) - %M - starting tron process with arguments: [%s, %s]\n"),
+              tron_params,
+              adapter_params));
 
   // Get the IOR for the TestAdapterCallback
   ::CORBA::ORB_var orb = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
@@ -100,8 +106,10 @@ spawn_tron_process (const ::Deployment::Property & prop)
   ACE_Env_Value <ACE_CString> TRON_ROOT ("TRON_ROOT", "");
   ACE_CString command = TRON_ROOT;
   command += "/tron -I libiCCM_Tron_Deployment_Handlers.so ";
-  command += arguments;
-  command += " -- -ORBInitRef TestAdapterCallback=" + ior;
+  command += tron_params;
+  command += " -- ";
+  command += adapter_params;
+  command += " -ORBInitRef TestAdapterCallback=" + ior;
 
   // Build the process options
   ACE_Process_Options options;
