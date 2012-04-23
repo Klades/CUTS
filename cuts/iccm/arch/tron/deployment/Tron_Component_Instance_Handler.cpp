@@ -35,12 +35,7 @@ configure (const ::Deployment::Properties & config)
         ACE_ERROR ((LM_ERROR,
                     ACE_TEXT("%T (%t) - %M - Tron process failed to start")));
     }
-    break;
   }
-
-  // Statically spawn the tron process for now
-  if (0 != this->spawn_static_tron_process ())
-    return;
 
   // Wait for Tron to set the test adapter on the callback
   // Use the Tron_ORB_Initializer to prevent ORB deadlocks
@@ -93,29 +88,6 @@ spawn_tron_process (const ::Deployment::Property & prop)
               ACE_TEXT ("%T (%t) - %M - starting tron process with arguments: %s\n"),
               arguments));
 
-  // Get the TRON_ROOT environment variable
-  ACE_Env_Value <ACE_CString> TRON_ROOT ("TRON_ROOT", "");
-  ACE_CString command = TRON_ROOT;
-  command += "/tron -I libiCCM_Tron_Deployment_Handlers.so ";
-  command += arguments;
-
-  // Build the process options
-  ACE_Process_Options options;
-  options.command_line (command.c_str ());
-
-  // Start the process
-  if (ACE_INVALID_PID == this->tron_process_.spawn (options))
-    return -1;
-
-  return 0;
-}
-
-//
-// spawn_static_tron_process
-//
-int Tron_Component_Instance_Handler::
-spawn_static_tron_process (void)
-{
   // Get the IOR for the TestAdapterCallback
   ::CORBA::ORB_var orb = DAnCE::PLUGIN_MANAGER::instance ()->get_orb ();
 
@@ -127,8 +99,9 @@ spawn_static_tron_process (void)
   // Get the TRON_ROOT environment variable
   ACE_Env_Value <ACE_CString> TRON_ROOT ("TRON_ROOT", "");
   ACE_CString command = TRON_ROOT;
-  command += "/tron -I libiCCM_Tron_Deployment_Handlers.so -v 10 button.xml ";
-  command += "-- -ORBInitRef TestAdapterCallback=" + ior;
+  command += "/tron -I libiCCM_Tron_Deployment_Handlers.so ";
+  command += arguments;
+  command += " -- -ORBInitRef TestAdapterCallback=" + ior;
 
   // Build the process options
   ACE_Process_Options options;
@@ -164,9 +137,6 @@ activate_instance (const ::Deployment::DeploymentPlan & plan,
                    ::CORBA::ULong index,
                    const ::CORBA::Any & comp)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - activating tron servants\n")));
-
   if (!this->init_complete_)
   {
     // Tell the test adapter that initialization is complete

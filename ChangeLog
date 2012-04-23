@@ -1,3 +1,15 @@
+Mon Apr 23 13:11:39 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.cpp:
+
+          Fixed deployment plan propery handling.  The tron process is now
+          started properly rather than being hard codeded.
+
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+
+          Fixed missing symbol error.
+
 Tue Apr 17 13:48:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.h:

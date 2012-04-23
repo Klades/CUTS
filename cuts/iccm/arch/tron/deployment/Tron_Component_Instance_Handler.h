@@ -101,9 +101,6 @@ private:
    */
   int spawn_tron_process (const ::Deployment::Property & prop);
 
-  /// Spawn the tron process statically.  This is only for testing.
-  int spawn_static_tron_process (void);
-
   /// Activate the test adapter callback
   void activate_test_adapter_callback (void);
 
