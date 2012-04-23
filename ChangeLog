@@ -1,3 +1,17 @@
+Mon Apr 23 15:12:54 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.h:
+        * cuts/iccm/arch/tron/servant/Tron_Servant.mpc:
+
+          Moved implementation of default ctor and dtor into the header
+          file to reduce servant/deployment dependency with the previous
+          fix.  Thanks James!
+
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.inl:
+        * cuts/iccm/arch/tron/deployment/Tron_Consumer_List.cpp:
+
+          Removed these files.
+
 Mon Apr 23 13:11:39 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:

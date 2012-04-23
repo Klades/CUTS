@@ -23,10 +23,10 @@ class Tron_Consumer_List
 {
 public:
   // Default ctor
-  Tron_Consumer_List (void);
+  Tron_Consumer_List (void){ };
 
   // Dtor
-  virtual ~Tron_Consumer_List (void);
+  virtual ~Tron_Consumer_List (void){ };
 
   // Add a consumer
   virtual void add (::iCCM::Tron_EventConsumer * consumer) = 0;
@@ -34,10 +34,5 @@ public:
   // Push the event to the consumers
   virtual void push_event (uint16_t size, const int32_t data[]) = 0;
 };
-
-#if defined (__CUTS_INLINE__)
-#include "Tron_Consumer_List.inl"
-#endif
-
 
 #endif  // !defined _TRON_CONSUMER_LIST_H_
