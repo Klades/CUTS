@@ -3,9 +3,10 @@
 
 #include <Components.idl>
 
+#pragma ciao lem "ButtonE.idl"
+
 eventtype Notify
 {
-
 };
 
 component Button
@@ -13,6 +14,10 @@ component Button
   consumes ::Notify Click;
   publishes ::Notify SingleClick;
   publishes ::Notify DoubleClick;
+  attribute unsigned long Reporter_Timeout;
+  attribute unsigned long long Reporter_TimeUnit;
+  
 };
 
-#endif  // !defined _BUTTON_IDL_
+#endif    // !defined _BUTTON_IDL_
+

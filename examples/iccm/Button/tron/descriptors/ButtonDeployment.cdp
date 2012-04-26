@@ -73,11 +73,33 @@
     </execParameter>
   </implementation>
 
-  <instance xmi:id="_FA417ADE-62F2-11E1-8000-0050563D38A4">
-    <name>Button.ComponentImplementations.Button_asm.Button_asm.Button1</name>
+  <instance xmi:id="_A3E997BC-8FCE-11E1-8DCF-0050563D38A4">
+    <name>Button.ComponentImplementations.Button_asm.Button_asm.ComponentInstance</name>
     <node>MainNode</node>
     <source/>
     <implementation xmi:idref="_CDF2FA52-62F2-11E1-8002-0050563D38A4"/>
+    <configProperty>
+      <name>Reporter_Timeout</name>
+      <value>
+        <type>
+          <kind>tk_ulong</kind>
+        </type>
+        <value>
+          <ulong>100000</ulong>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>Reporter_TimeUnit</name>
+      <value>
+        <type>
+          <kind>tk_ulonglong</kind>
+        </type>
+        <value>
+          <ulonglong>10000</ulonglong>
+        </value>
+      </value>
+    </configProperty>
   </instance>
 
   <instance xmi:id="MainNode.DefaultGroup">
@@ -144,8 +166,8 @@
   <localityConstraint>
     <constraint>SameProcess</constraint>
     <constrainedInstance xmi:idref="MainNode.DefaultGroup"/>
-    <!--Button.ComponentImplementations.Button_asm.Button_asm.Button1-->
-    <constrainedInstance xmi:idref="_FA417ADE-62F2-11E1-8000-0050563D38A4"/>
+    <!--Button.ComponentImplementations.Button_asm.Button_asm.ComponentInstance-->
+    <constrainedInstance xmi:idref="_A3E997BC-8FCE-11E1-8DCF-0050563D38A4"/>
   </localityConstraint>
 
 </Deployment:DeploymentPlan>

@@ -1,3 +1,12 @@
+Thu Apr 26 18:47:49 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/Button/tron/Button.idl:
+        * examples/iccm/Button/tron/descriptors/ButtonDeployment.cdp:
+        * examples/iccm/Button/tron/models/Button.mga:
+
+          Added attributes to the Button for managing the reporter timeunit
+          and timeout periods.
+
 Mon Apr 23 17:21:17 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tron/deployment/Tron_Component_Instance_Handler.h:
