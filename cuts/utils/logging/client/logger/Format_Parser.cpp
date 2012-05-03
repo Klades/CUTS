@@ -3,6 +3,7 @@
 #include "Format_Parser.h"
 #include "ace/OS_NS_stdio.h"
 #include "boost/spirit/core.hpp"
+#include <cstdarg>
 
 namespace actors
 {
@@ -46,7 +47,7 @@ namespace actors
   {
   public:
     simple_arg (va_list & args, std::ostream & ostr)
-      : args_ (args),
+      : args_ (&args),
         ostr_ (ostr)
     {
 
@@ -55,12 +56,12 @@ namespace actors
     template <typename CharT>
     void operator () (CharT) const
     {
-      ARG_TYPE arg = va_arg (this->args_, ARG_TYPE);
+      ARG_TYPE arg = va_arg (*this->args_, ARG_TYPE);
       this->ostr_ << arg;
     }
 
   private:
-    va_list & args_;
+    va_list * args_;
 
     std::ostream & ostr_;
   };
@@ -73,7 +74,7 @@ namespace actors
   {
   public:
     simple_arg (va_list & args, std::ostream & ostr)
-      : args_ (args),
+      : args_ (&args),
         ostr_ (ostr)
     {
 
@@ -82,12 +83,12 @@ namespace actors
     template <typename CharT>
     void operator () (CharT) const
     {
-      char arg = static_cast <char> (va_arg (this->args_, int));
+      char arg = static_cast <char> (va_arg (*this->args_, int));
       this->ostr_ << arg;
     }
 
   private:
-    va_list & args_;
+    va_list * args_;
 
     std::ostream & ostr_;
   };
@@ -205,7 +206,7 @@ CUTS_Format_Parser::~CUTS_Format_Parser (void)
 // parse
 //
 bool CUTS_Format_Parser::
-parse (const char * format, va_list args, std::ostream & out)
+parse (const char * format, va_list & args, std::ostream & out)
 {
   CUTS_Format_Parser_i parser (args, out);
 

@@ -33,7 +33,7 @@ public:
    * their corresponding argument.
    *
    */
-  bool parse (const char * format, va_list args, std::ostream & out);
+  bool parse (const char * format, va_list & args, std::ostream & out);
 
 private:
 };
