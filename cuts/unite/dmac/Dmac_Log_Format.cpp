@@ -392,9 +392,9 @@ sort_msg_instances (void)
 {
   if (!this->sorted_)
   {
-    std::sort (this->msg_instances_.begin (),
+    /*std::sort (this->msg_instances_.begin (),
                this->msg_instances_.end (),
-               compare_time);
+               compare_time);*/
     this->sorted_ = true;
   }
 }

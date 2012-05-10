@@ -1,3 +1,9 @@
+Thu May 10 20:11:57 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/dmac/Dmac_Log_Format.cpp:
+
+          Fixed the build in unix due to the previous commit.
+
 Thu May 10 19:09:14 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/dmac/Dmac_App.h:
