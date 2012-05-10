@@ -164,14 +164,29 @@ find_inter_ec_relations (std::vector<CUTS_Dmac_Log_Format*> & log_formats,
   {
     for (size_t j = i + 1; j < size; j++)
     {
-      if (!(log_formats.at (i)->is_reachable (log_formats.at (j))) &&
-          !(log_formats.at (j)->is_reachable (log_formats.at (i))))
+      //std::cout << "Comparing " << i << " and " << j << std::endl;
+      if (log_formats.at (i)->is_reachable (log_formats.at (j)))
+        continue;
+
+      //std::cout << "Comparing " << j << " and " << i << std::endl;
+      if (log_formats.at (j)->is_reachable (log_formats.at (i)))
+        continue;
+
+      corelation_result result;
+      this->check_corelation (log_formats [i], log_formats [j], testdata, result);
+
+      if (result.corelated)
       {
-        // They are not reachable, so find whether they have
-        // a dependency.
-        if (is_correlated (log_formats [i], log_formats [j], testdata))
+        std::cout << i+1 << " and " << j+1 << " are related." << std::endl;
+        if (result.prob1 >= result.prob2)
         {
-          // Implement the logic for deciding the direction
+          log_formats [i]->extract_variable_relations (log_formats [j]);
+          std::cout << i+1 << " Cause " << j+1 << std::endl;
+        }
+        else
+        {
+          log_formats [j]->extract_variable_relations (log_formats [i]);
+          std::cout << j+1 << " Cause " << i+1 << std::endl;
         }
       }
     }
@@ -179,12 +194,13 @@ find_inter_ec_relations (std::vector<CUTS_Dmac_Log_Format*> & log_formats,
 }
 
 //
-// is_correlated
+// check_corelation
 //
-bool CUTS_Dmac_Log_Format_Graph::
-is_correlated (CUTS_Dmac_Log_Format * lf1,
-               CUTS_Dmac_Log_Format * lf2,
-               CUTS_Test_Database & testdata)
+void CUTS_Dmac_Log_Format_Graph::
+check_corelation (CUTS_Dmac_Log_Format * lf1,
+                  CUTS_Dmac_Log_Format * lf2,
+                  CUTS_Test_Database & testdata,
+                  corelation_result & result)
 {
   // First find all the time values of all the
   // instances of lf1 and lf2.
@@ -238,19 +254,13 @@ is_correlated (CUTS_Dmac_Log_Format * lf1,
   // on the paper written by Jian-Guang LOU et al on "Mining Dependency in
   // Distributed Systems through Unstructured Logs Analysis"
 
-  double co_occurrence_prob =
-      this->calculate_probability (lf1_time_records, lf2_time_records);
+  result.prob1 = this->calculate_probability (lf1_time_records, lf2_time_records);
+  result.prob2 = this->calculate_probability (lf2_time_records, lf1_time_records);
 
-  if (co_occurrence_prob >= 0.5)
-    return true;
-
-  co_occurrence_prob =
-    this->calculate_probability (lf2_time_records, lf1_time_records);
-
-  if (co_occurrence_prob >= 0.5)
-    return true;
+  if (result.prob1 >= 0.5 || result.prob2 >= 0.5)
+    result.corelated = true;
   else
-    return false;
+    result.corelated = false;
 }
 
 //
@@ -273,7 +283,7 @@ calculate_probability (std::vector <double> & lf1_time_records,
   {
     for (it2 = begin2; it2 != end2; it2++)
     {
-      if (std::abs ((*it1) - (*it2)) < 1)
+      if (std::abs ((*it1) - (*it2)) < 0.1)
       {
         count++;
         break;

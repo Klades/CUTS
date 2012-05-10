@@ -60,16 +60,18 @@ int CUTS_Dmac_App::run_main (int argc, char * argv [])
     return -1;
 
   // Find the log formats
-  this->find_log_formats ();
+  // this->find_log_formats ();
 
-  this->print_final_patterns ();
+  // this->print_final_patterns ();
 
-  this->print_coverage ();
+  // this->print_coverage ();
 
-  std::cout << std::endl;
+  // std::cout << std::endl;
 
   // Generation of dataflow
   std::cout << "Generating Dataflow...." << std::endl << std::endl;
+
+  this->create_log_formats_from_file ();
 
   // Relation mining step
   CUTS_Dmac_Relation_Miner rel_miner (this->name_,
@@ -77,7 +79,8 @@ int CUTS_Dmac_App::run_main (int argc, char * argv [])
                                       this->log_formats_);
 
   std::string temp (this->delims_.c_str ());
-  std::string delimitters = " \n\t" + temp;
+  //std::string delimitters = " \n\t" + temp;
+  std::string delimitters (" \n\t");
 
   rel_miner.delims (delimitters);
 
@@ -369,15 +372,78 @@ void CUTS_Dmac_App::print_help (void)
 // parse arguments
 //
 
+//int CUTS_Dmac_App::parse_args (int argc, char * argv [])
+//{
+//  const char * optstr = "hf:s:n:d:";
+//
+//  ACE_Get_Opt get_opt (argc, argv, optstr);
+//  get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
+//  get_opt.long_option ("min-sup", 's', ACE_Get_Opt::ARG_REQUIRED);
+//  get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
+//  get_opt.long_option ("delims", 'd', ACE_Get_Opt::ARG_REQUIRED);
+//  get_opt.long_option ("help", 'h');
+//
+//  char ch;
+//
+//  while ((ch = get_opt ()) != EOF)
+//  {
+//    switch (ch)
+//    {
+//    case 0:
+//      if (ACE_OS::strcmp (get_opt.long_option (), "file") == 0)
+//      {
+//        this->data_file_ = get_opt.opt_arg ();
+//      }
+//      else if (ACE_OS::strcmp (get_opt.long_option (), "min-sup") == 0)
+//      {
+//        this->min_sup_ = get_opt.opt_arg ();
+//      }
+//      else if (ACE_OS::strcmp (get_opt.long_option (), "name") == 0)
+//      {
+//        this->name_ = get_opt.opt_arg ();
+//      }
+//      else if (ACE_OS::strcmp (get_opt.long_option (), "delims") == 0)
+//      {
+//        this->delims_ = get_opt.opt_arg ();
+//      }
+//      else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
+//      {
+//        this->print_help ();
+//      }
+//      break;
+//
+//    case 'f':
+//      this->data_file_ = get_opt.opt_arg ();
+//      break;
+//
+//    case 's':
+//      this->min_sup_ = get_opt.opt_arg ();
+//      break;
+//
+//    case 'n':
+//      this->name_ = get_opt.opt_arg ();
+//      break;
+//
+//    case 'd':
+//      this->delims_ = get_opt.opt_arg ();
+//      break;
+//
+//    case 'h':
+//      this->print_help ();
+//    }
+//  }
+//  return 0;
+//}
+
+
 int CUTS_Dmac_App::parse_args (int argc, char * argv [])
 {
-  const char * optstr = "hf:s:n:d:";
+  const char * optstr = "hf:l:n:";
 
   ACE_Get_Opt get_opt (argc, argv, optstr);
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("min-sup", 's', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("lffile", 'l', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
-  get_opt.long_option ("delims", 'd', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
 
   char ch;
@@ -391,17 +457,13 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       {
         this->data_file_ = get_opt.opt_arg ();
       }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "min-sup") == 0)
+      else if (ACE_OS::strcmp (get_opt.long_option (), "lffile") == 0)
       {
-        this->min_sup_ = get_opt.opt_arg ();
+        this->lf_file_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "name") == 0)
       {
         this->name_ = get_opt.opt_arg ();
-      }
-      else if (ACE_OS::strcmp (get_opt.long_option (), "delims") == 0)
-      {
-        this->delims_ = get_opt.opt_arg ();
       }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
@@ -413,24 +475,21 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       this->data_file_ = get_opt.opt_arg ();
       break;
 
-    case 's':
-      this->min_sup_ = get_opt.opt_arg ();
+    case 'l':
+      this->lf_file_ = get_opt.opt_arg ();
       break;
 
     case 'n':
       this->name_ = get_opt.opt_arg ();
       break;
 
-    case 'd':
-      this->delims_ = get_opt.opt_arg ();
-      break;
-
-    case 'h':
+   case 'h':
       this->print_help ();
     }
   }
   return 0;
 }
+
 
 //
 // execute_process
@@ -467,4 +526,28 @@ int CUTS_Dmac_App::execute_process (const char * args,
 
   return 0;
 
+}
+
+void CUTS_Dmac_App::
+create_log_formats_from_file ()
+{
+  std::string delims (" \t\n");
+  ifstream lf_file;
+  lf_file.open (this->lf_file_.c_str ());
+  lf_file.seekg (0, ios::beg);
+  if (lf_file.is_open ())
+  {
+    size_t i = 0;
+    while (lf_file.good ())
+    {
+      CUTS_DMAC_UTILS::string_vector word_list;
+      std::string row;
+      getline (lf_file, row);
+      CUTS_DMAC_UTILS::tokenize (row, word_list, delims);
+      i++;
+      CUTS_Dmac_Log_Format * lf = new CUTS_Dmac_Log_Format (i, word_list);
+      this->log_formats_.push_back (lf);
+    }
+    lf_file.close ();
+  }
 }

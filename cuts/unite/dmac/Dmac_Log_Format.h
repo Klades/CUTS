@@ -8,6 +8,9 @@
 #include <fstream>
 #include "Dmac_Relation.h"
 #include "Dmac_Utils.h"
+#include "Dmac_Log_Msg_Details.h"
+#include "cuts/utils/testing/Test_Database.h"
+#include "adbc/SQLite/Connection.h"
 
 
 /**
@@ -15,6 +18,8 @@
  *
  * Represent a Log Format in DMAC
  */
+
+class CUTS_Dmac_Candidate_Relation;
 
 class CUTS_Dmac_Log_Format
 {
@@ -122,6 +127,15 @@ public:
 
   bool is_reachable (CUTS_Dmac_Log_Format * lf);
 
+  void insert_msg_instance (ADBC::SQLite::Record * record,
+                            CUTS_DMAC_UTILS::string_vector & trace);
+
+  void sort_msg_instances (void);
+
+  std::vector <CUTS_Dmac_Log_Msg_Details> & msg_instances (void);
+
+  friend class CUTS_Dmac_Candidate_Relation;
+
 private:
 
   // Id of the log format
@@ -136,8 +150,15 @@ private:
   // Set of variables with instance values
   variable_table vars_;
 
+  // details of the log message instances
+  std::vector <CUTS_Dmac_Log_Msg_Details> msg_instances_;
+
  // Number of messages covered by this log format
   long coverage_;
+
+  // A flag which tells whether the instances are
+  // sorted or not.
+  bool sorted_;
 
 };
 

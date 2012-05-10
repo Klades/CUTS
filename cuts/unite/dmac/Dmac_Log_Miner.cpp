@@ -1,4 +1,5 @@
 #include "Dmac_Log_Miner.h"
+#include <fstream>
 
 //
 // CUTS_Dmac_Log_Miner

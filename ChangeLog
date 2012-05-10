@@ -1,3 +1,30 @@
+Thu May 10 19:09:14 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/dmac/Dmac_App.h:
+        * cuts/unite/dmac/Dmac_App.cpp:
+        * cuts/unite/dmac/Dmac_Candidate_Relation.h:
+        * cuts/unite/dmac/Dmac_Candidate_Relation.cpp:
+        * cuts/unite/dmac/Dmac_Execution.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format.h:
+        * cuts/unite/dmac/Dmac_Log_Format.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph.h:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph.cpp:
+        * cuts/unite/dmac/Dmac_Log_Miner.cpp:
+        * cuts/unite/dmac/Dmac_Log_Msg_Details.h:
+        * cuts/unite/dmac/Dmac_Log_Msg_Details.cpp:
+        * cuts/unite/dmac/Dmac_Utils.cpp:
+        * cuts/unite/dmac/dmac.mpc:
+
+          Initial chnages of DMAC to use Dempster-Shafer theory.
+
+        * cuts/utils/evidence:
+        * cuts/utils/evidence/Dsf.h:
+        * cuts/utils/evidence/Dsf.cpp:
+        * cuts/utils/evidence/Dsf_export.h:
+        * cuts/utils/evidence/dsf.mpc:
+
+          Initial implementation of Dempster-Shafer framework.
+
 Thu May  3 19:12:21 UTC 2012  Dennis Feiock <dfeiock at iupui dot edu>
 
         * cuts/utils/logging/client/logger/Format_Parser.h:

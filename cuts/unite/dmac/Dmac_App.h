@@ -68,6 +68,8 @@ private:
   // print the help
   void print_help (void);
 
+  void create_log_formats_from_file ();
+
   // Database file
   ACE_CString data_file_;
 
@@ -82,6 +84,8 @@ private:
 
   // Delimiter string
   ACE_CString delims_;
+
+  ACE_CString lf_file_;
 
   // Current mining round
   int round_;

@@ -68,7 +68,7 @@ int CUTS_DMAC_UTILS::match_log_format (CUTS_DMAC_UTILS::string_vector & trace_it
         if (!is_rel_mine)
         {
           item_list [i]->increment_coverage ();
-          item_list [i]->add_varaible_values (trace_items);
+          //item_list [i]->add_varaible_values (trace_items);
         }
         break;
       }

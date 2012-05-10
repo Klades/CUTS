@@ -40,6 +40,14 @@ typedef
                          CUTS_Dmac_Log_Format_Graph_Traits::property_type>
                          CUTS_Dmac_Log_Format_Graph_Type;
 
+
+struct corelation_result
+{
+  double prob1;
+  double prob2;
+  bool corelated;
+};
+
 /**
  * @class CUTS_Dmac_Log_Format_Graph
  *
@@ -90,9 +98,10 @@ private:
                            CUTS_DMAC_UTILS::int_vector & lf_order_list);
 
   /// is_correlated
-  bool is_correlated (CUTS_Dmac_Log_Format * lf1,
-                      CUTS_Dmac_Log_Format * lf2,
-                      CUTS_Test_Database & testdata);
+ void check_corelation  (CUTS_Dmac_Log_Format * lf1,
+                         CUTS_Dmac_Log_Format * lf2,
+                         CUTS_Test_Database & testdata,
+                         corelation_result & result);
 
   /// calculate_probability
   double calculate_probability (std::vector <double> & lf1_time_records,

@@ -19,6 +19,8 @@ project (CUTS_Dmac) : boost_base, codegenerationkit, cuts_test_database, cutsexe
     Dmac_Static_Part.cpp
     Dmac_Log_Format_Graph.cpp
     Dmac_Log_Format_Graph_Builder.cpp
+    Dmac_Candidate_Relation.cpp
+    Dmac_Log_Msg_Details.cpp
     Dmac_App.cpp
     Dmac.cpp
   }
