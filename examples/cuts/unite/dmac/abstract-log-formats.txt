@@ -1,230 +1,230 @@
-{} {} - {} - NodeManager - initializing module instance
-{} {} - {} - Node_Manager_Module::parse_args - ignoring unknown option
-{} {} - {} - Node_Manager_Module::parse_args - Using provided component server {}
-{} {} - {} - Node_Manager_Module::parse_args - Provided Node Manager name: {}
-{} {} - {} - Node_Manager_Module::parse_args - Using provided component server spawn timeout:30
-{} {} - {} - DAnCE_NodeManager_Module::create_poas - DAnCE_NodeManager_Module::create_poas - Creating the "Managers" POA.
-{} {} - {} - DAnCE_NodeManager_Module::init - Resolving plan NS naming context.
-{} {} - {} - InstallationRepositoryManager::register_manager_instance - {}
-{} {} - {} - ArtifactInstallation_Impl::register_handler - http:// handler
-{} {} - {} - DAnCE_NodeManager_Module::init - DAnCE_NodeManager::run_main - creating NodeManager for node {}
-{} {} - {} - DAnCE_NodeManager_Module::init - Allocating new NodeManager servant instance for NodeManager
-{} {} - {} - NodeManager_impl::NodeManager_impl has been created
-{} {} - {} - NodeManager_Impl::NodeManager_Impl - Binding property {} provided by caller.
-{} {} - {} - {} - Loading plugin file {}
-{} {} - {} - Plugin_Configurator::load_from_text_file - Attempting to load plugin of type {} artifact {} entrypoint {}
-{} {} - {} - DAnCE::Utility::get_property_value<const char *> - Finding property value for name {}
-{} {} - {} - DAnCE::Utility::get_instance_type - Found instance type {}
-{} {} - {} - {} - Starting installation of instance {}
-{} {} - {} - Plugin_Manager::load_plugin - Loading plugin from {}
-{} {} - {} - Plugin_Manager::load_plugin - Loading artifact {} successfully loaded.
-{} {} - {} - Plugin_Manager::load_plugin - Successfully created plugin from {}
-{} {} - {} - Plugin_Manager::register_interceptor - Successfully created deployment interceptor
-{} {} - {} - build_property_map: Bound value for config value {}
-{} {} - {} - Locality_Handler_i - Component server path: {}
-{} {} - {} - Locality_Handler_i - Component server arguments: (null)
-{} {} - {} - Locality_Handler_i - Spawn delay: 30
-{} {} - {} - DAnCE::Utility::get_property_value<bool> - Finding property value for name {}
-{} {} - {} - Locality_Handler_i - Threading: Single
-{} {} - {} - Locality_Handler_i - Spawning Locality handler
-{} {} - {} - ExecutionManager - initializing module instance
-{} {} - {} - DAnCE_ExecutionManager_Module::parse_args - Output filename is {}
-{} {} - {} - Node_Manager_Module::parse_args - Found Node map filename {}
-{} {} - {} - DAnCE_ExecutionManager_Module::init - before processing --node-mgr options(0).
-{} {} - {} - DAnCE_ExecutionManager_Module::init - Parsing cdd file {}
-{} {} - {} - XML_File_Intf::read_process_domain - Constructing DOM
-{} {} - {} - XML_File_Intf::read_process_domain - DOMElement pointer: {}
-{} {} - {} - XML_File_Intf::read_process_domain - Parsing XML file with XSC
-{} {} - {} - XML_File_Intf::read_process_domain - Processing using config handlers
-{} {} - {} - Node_Locator::get_resource_value - Finding resource for type {}
-{} {} - {} - Node_Locator::get_resource_value - Found resource for type {}
-{} {} - {} - DAnCE::Utility::get_satisfierproperty_value<const char *> - Finding property value for name {}
-{} {} - {} - Node_Locator::process_cdd - Storing IOR {} for destination {}
-{} {} - {} - ExectionManager::write_IOR - EM's ior was written into file {}
-{} {} - {} - ExecutionManager - running ORB
-{} {} - {} - ExecutionManager_Impl::preparePlan - Domain Application Manager was successfully created.
-{} {} - {} - Split_Plan::split_plan - Creating sub-plans
-{} {} - {} - Split_Plan::split_plan - Matching instance {}
-{} {} - {} - Split_Plan::split_plan - Initializing new sub plan {}
-{} {} - {} - Split_Plan::split_plan - Preparing sub plan {} for instance {}
-{} {} - {} - Split_Plan::split_plan - Selection phase produced {} child plans, proceeding to copying phase
-{} {} - {} - Split_Plan::split_plan - Processing instance: {}
-{} {} - {} - Split_Plan::split_plan - Processing connections.
-{} {} - {} - DomainApplicationManager_Impl::preparePlan - Plan {} successfully split. {} nodes to prepare.
-{} {} - {} - Node_Locator::resolve_ior - Resolving ior {} for destination {}
-{} {} - {} - DomainApplicationManager_Impl::preparePlan - Calling preparePlan on node {}
-{} {} - {} - DomainApplicationManager_Impl::preparePlan - preparePlan on node {} has been called
-{} {} - {} - Plugin_Manager::register_installation_handler - Successfully created installation handler for instance type {}
-{} {} - {} - DAnCE_NodeManager_Module::init - New NodeManager servant instance for NodeManager allocated.
-{} {} - {} - DAnCE_NodeManager_Module::init - Writing node IOR {} to file {}
-{} {} - {} - DAnCE_NodeManager_Module::init - DAnCE_NodeManager is running...
-{} {} - {} - DAnCE_NodeManager_Module::init - NodeManager IOR: {}
-{} {} - {} - NodeManager - running ORB
-{} {} - {} - NodeManager_impl::preparePlan - started for node {} and plan {}
-{} {} - {} - NodeManager_impl::preparePlan - creating NodeApplicationManager...
-{} {} - {} - NodeApplicationManager_Impl::NodeApplicationManager_Impl - Initializing for node {} starting...
-{} {} - {} - NodeManager_impl::preparePlan - invoking preparePlan on NodeApplicationManager...
-{} {} - {} - NodeApplicationManager_impl::preparePlan - Performing locality split on plan {}
-{} {} - {} - DAnCE::Utility::get_instance_type - Found unmanaged component type.
-{} {} - {} - NodeApplicationManager_impl::preparePlan - Plan {} successfully split into {} localities.
-{} {} - {} - NodeApplicationManager_impl::preparePlan - Installing {} artifacts for locality {}
-{} {} - {} - ArtifactInstallation_Impl::install - installation request for plan {} artifact {}
-{} {} - {} - ArtifactInstallation_Impl::install - installation attempt for plan {} artifact {} @ location[0] {}
-{} {} - {} - ArtifactInstallation_Impl::parse_uri - parsing location {} for plan {}
-{} {} - {} - ArtifactInstallation_Impl::install - installed plan {} artifact {} @ location {}
-{} {} - {} - DAnCE::Utility::update_property_value<T> - Finding property value for name {}
-{} {} - {} - NodeApplicationManager_impl::preparePlan - Finished preparing plan {}
-{} {} - {} - NodeManager_impl::preparePlan - activating NodeApplicationManager...
-{} {} - {} - NodeManager_impl::preparePlan - NodeApplicationManager for plan {} completed
-{} {} - {} - LocalityManager_Task::parse_args - parsing arguments...
-{} {} - {} - LocalityManager_Task::parse_args - uuid is {}
-{} {} - {} - LocalityManager_Task::parse_args - callback ior is {}
-{} {} - {} - LocalityManager_Task::parse_args - No plugin config specified, adding default at DANCE_ROOT/bin/ciao.localityconfig
-{} {} - {} - DAnCE_LocalityManager_Task::DAnCE_LocalityManager_Task - DAnCE_LocalityManager_Task_ object created.
-{} {} - {} - LocalityManager_Task::run - Starting ORB
-{} {} - {} - LocalityManager_Task::svc - Activating the root POA
-{} {} - {} - LocalityManager_Task::svc - Creating server implementation object
-{} {} - {} - LocalityManager_Task::run - Resolving callback IOR
-{} {} - {} - LocalityManager_Task::svc - Making callback on my Activator
-{} {} - {} - LocalityManager_Task::svc - Configuration received, got {} values
-{} {} - {} - LocalityManager_i::init - Received {} properties from init
-{} {} - {} - DAnCE::Utility::get_property_value<T> - Finding property value for name {}
-{} {} - {} - Plugin_Manager::get_configuration_handler - No configuration plugin for type {} found
-{} {} - {} - LocalityManager_Task::svc - Configuration complete for component server {}
-{} {} - {} - LocalityManager_i::startLaunch - Starting installation of {} type instances
-{} {} - {} - Action_Base::call - Invoking pre-install interceptors
-{} {} - {} - Install_Instance::invoke - Invoking install_instance on handler for type {}
-{} {} - {} - build_property_map: Bound value for config value component factory
-{} {} - {} - Action_Base::call - Invoking post-action interceptors
-{} {} - {} - LocalityManager_i::startLaunch - Instance {} successfully deployed
-{} {} - {} - DomainApplicationManager_Impl::preparePlan - finished
-{} {} - {} - ExecutionManager_Impl::preparePlan - Domain Application Manager preparePlan has been called.
-{} {} - {} - ExecutionManager_Impl::preparePlan - finished
-{} {} - {} - DAM_NM_ReplyHandlerImpl::preparePlan - Finished preparePlan on node {}
-{} {} - {} - DAM_NM_ReplyHandlerImpl::preparePlan - Sucessfully prepared node {} for deployment
-{} {} - {} - DAM_NM_ReplyHandlerImpl::Counter::on_all_completed - Successfully completed operation for plan: {}
-{} {} - {} - ExecutionManager_Impl::finish_preparePlan - Plan with UUID {} was successfully prepared.
-{} {} - {} - ExecutionManager_Impl::finish_preparePlan - Domain Application Manager was successfully activated.
-{} {} - {} - DomainApplicationManager_Impl::startLaunch - Creating DomainApplication for plan {}
-{} {} - {} - DomainApplicationManager_Impl::startLaunch - Successfully created DomainApplication for plan {}
-{} {} - {} - DomainApplication_Impl::startLaunch - Plan {} {} : {} nodes to launch
-{} {} - {} - DomainApplication_Impl::startLaunch - Plan {} {} : calling startLaunch on node application manager for node {}
-{} {} - {} - DomainApplication_Impl::startLaunch - startLaunch has been called on an application
-{} {} - {} - DomainApplicationManager_Impl::startLaunch - DomainApplication startLaunch has been called
-{} {} - {} - DA_NAM_ReplyHandlerImpl::startLaunch called.
-{} {} - {} - DA_NAM_ReplyHandlerImpl::startLaunch - Plan {} {} node {} startLaunch succeeded, received {} connections
-{} {} - {} - DA_NAM_ReplyHandlerImpl::Counter::on_all_completed - Plan {} {} successfully finished all nodes
-{} {} - {} - DomainApplicationManager_Impl::finish_startLaunch - DomainApplication[0] for plan {} created {} provided references.
-{} {} - {} - DomainApplicationManager_Impl::finish_startLaunch - DomainApplication was successfully activated.
-{} {} - {} - DomainApplication_impl::finishLaunch - Plan {} {} : {} applications to finish launching
-{} {} - {} - DomainApplication_Impl::finishLaunch - Plan {} {} node {} : calling finishLaunch on a node application
-{} {} - {} - DomainApplication_Impl::finishLaunch - finishLaunch has been called on a node application
-{} {} - {} - Endpoint_Reference::invoke - Invoking provide_endpoint_reference on handler
-{} {} - {} - LocalityManager_i::finishLaunch - Starting finishLaunch, received {} references, have {} connections
-{} {} - {} - {} - Connection {} has {} endpoints
-{} {} - {} - LocalityManager_i::finishLaunch - Starting connection {}
-{} {} - {} - {} - Skipping connection {}
-{} {} - {} - Connect_Instance::invoke - Invoking connect_instance on handler
-{} {} - {} - Instance_Configured::invoke - Invoking instance_configured on handler for type {}
-{} {} - {} - LocalityManager_i::start - Scheduling start for instance {}
-{} {} - {} - Start_Instance::invoke - Invoking activate_instance on handler for type {}
-{} {} - {} - LocalityManager_i::start - Instance {} successfully activated
-{} {} - {} - LocalityManager_i::destroyApplication - Scheduling passivation for instance {}
-{} {} - {} - Passivate_Instance::invoke - Invoking passivate_instance on handler for type {}
-{} {} - {} - LocalityManager_i::destroyApplication - Instance {} successfully passivated
-{} {} - {} - LocalityManager_i::disconnect_connections - Starting disconnect connection {}
-{} {} - {} - Disconnect_Instance::invoke - Invoking disconnect_instance on handler
-{} {} - {} - Remove_Instance::invoke - Invoking remove_instance on handler for type {}
-{} {} - {} - LocalityManager_i::destroyApplication - Instance {} successfully removed
-{} {} - {} - DAnCE LocalityManager shutdown request received for UUID {}
-{} {} - {} - LocalityManager_Task::svc - ORB Event loop completed.
-{} {} - {} - LocalityManager_Task::run - ORB has shutdown, terminating ComponentServer
-{} {} - {} - DA_NA_ReplyHandlerImpl::finishLaunch - Plan {} {} node {}
-{} {} - {} - DA_NA_ReplyHandlerImpl::finishLaunch - Plan {} {} : Successfully finished all nodes
-{} {} - {} - DomainApplication_impl::start - Plan {} {} : {} applications to start
-{} {} - {} - DomainApplication_Impl::start - Plan {} {} node {} : calling start on a node application
-{} {} - {} - DomainApplication_Impl::start - start has been called on an application
-{} {} - {} - DA_NA_ReplyHandlerImpl::start - Plan {} {} node {}
-{} {} - {} - DomainApplicationManager_impl::getApplications - Returning plan {}
-{} {} - {} - DomainApplicationManager_impl::getApplications - Returning {} running applications for plan {}
-{} {} - {} - DomainApplicationManager_impl::destroyApplication - destroying DomainApplication[0] for plan {}
-{} {} - {} - DomainApplicationManager_impl::destroyApplication - deactivating application object
-{} {} - {} - DomainApplicationManager_impl::destroyApplication - deleting application object
-{} {} - {} - DomainApplication_Impl::destroyApplication - Plan {} {} : {} node applications to destroy
-{} {} - {} - DomainApplication_Impl::destroyApplication - Plan {} {} : calling destroyApplication on node application manager for node {}
-{} {} - {} - DomainApplication_Impl::destroyApplication - destroyApplication has been called on node application manager
-{} {} - {} - DomainApplication_Impl::destroyApplication - finished
-{} {} - {} - DA_NAM_ReplyHandlerImpl::destroyApplication called.
-{} {} - {} - Node_Manager_Module::parse_args - Using provided instance NC: corbaloc:rir:/NameService
-{} {} - {} - ArtifactInstallation_Impl::register_handler - file:// handler
-{} {} - {} - PL options : "	{}
-{} {} - {} - Plan_Launcher::parse_args - Using XML plan: BasicSP_Unhomed.cdp
-{} {} - {} - Plan_Launcher::parse_args - Using ExecutionManager IOR: {}
-{} {} - {} - Plan_Launcher - Parsing deployment plan
-{} {} - {} - XML_File_Intf::read_process_plan - Constructing DOM
-{} {} - {} - XML_File_Intf::read_process_plan - DOMElement pointer: {}
-{} {} - {} - XML_File_Intf::read_process_plan - Parsing XML file with XSC
-{} {} - {} - XML_File_Intf::read_process_plan - Processing using config handlers
-{} {} - {} - NodeApplicationManager_Impl::NodeApplicationManager_Impl - Successfully resolved the instance naming context.
-{} {} - {} - Plan_Launcher_Base_Impl::launch_plan - after to call preparePlan
-{} {} - {} - Plan_Launcher_Base_Impl::prepare_plan - ApplicationMAnager was received from preparePlan.
-{} {} - {} - Plan_Launcher_Base_Impl::start_launch - before startLaunch...
-{} {} - {} - NodeApplicationManager_impl::startLaunch - Initializing NodeApplication
-{} {} - {} - NodeApplicationManager_impl::startLaunch - Instructing NodeApplication to prepare locality managers.
-{} {} - {} - NodeApplication_Impl::prepare_instances - Considering sub-plan {} with {} instances
-{} {} - {} - NodeApplication_Impl::prepare_instances - Found Locality Manager instance 1:Locality Manager {} deploying
-{} {} - {} - Locality_Splitter::finalize_sub_plan - No locality manager found, created a default locality named <Locality Manager {}
-{} {} - {} - Locality_Handler_i::install_instance - Starting installation of instance <Locality Manager {}
-{} {} - {} - Locality_Handler_i::install_instance - Passing {} properties to activator
-{} {} - {} - DAnCE_LocalityActivator_i::create_locality_manager - Received {} config properties
-{} {} - {} - DAnCE_LocalityActivator_i::construct_command_line - Creating component server with UUID {}
-{} {} - {} - DAnCE_LocalityActivator_i::create_locality_manager - LocalityManager arguments:  -u {}
-{} {} - {} - DAnCE_LocalityActivator_i::create_locality_manager - Attempting to spawn LocalityManager with UUID {}
-{} {} - {} - DAnCE_LocalityActivator_i::spawn_locality_manager - Using default component server executable
-{} {} - {} - DAnCE_LocalityActivator_i::spawn_locality_manager - Spawning process, command line is {}  -u {} -c {}
-{} {} - {} - DAnCE_LocalityActivator_i::spawn_locality_manager - Process successfully spawned with pid {}
-{} {} - {} - DAnCE_LocalityActivator_i::locality_manager_callback - Received callback from LocalityManager {}
-{} {} - {} - DAnCE_LocalityActivator_i::locality_manager_callback - Generated {} Properties for LocalityManager {}
-{} {} - {} - DAnCE_LocalityActivator_i::create_properties - Creating property sequence for LocalityManager {} with length {}
-{} {} - {} - LocalityManager_i::init - Looking up configuration handler for {}
-{} {} - {} - DAnCE_LocalityActivator_i::configuration_complete - Received configuration_complete from LocalityManager {}
-{} {} - {} - DAnCE_LocalityActivator_i::create_locality_manager - LocalityManager {} successfully spawned and configured!
-{} {} - {} - NodeApplication_Impl::prepare_instances - Successfully started Locality Locality Manager {}
-{} {} - {} - NodeApplication_Impl::prepare_instances - Invoking preparePlan on locality Locality Manager {}
-{} {} - {} - NodeApplication_Impl::prepare_instance - Locality <Locality Manager {} successfully prepared.
-{} {} - {} - NodeApplication_Impl::prepare_instances - Successfully executed preparePlan on locality Locality Manager {}
-{} {} - {} - NodeApplicationManager_impl::startLaunch - Instructing NodeApplication to start launch localities.
-{} {} - {} - NodeApplication_Impl::start_launch_instances - StartLaunching locality <Locality Manager {}
-{} {} - {} - NodeApplicationManager_impl::startLaunch - Activating NodeApplication servant
-{} {} - {} - Plan_Launcher_Base_Impl::start_launch - startLaunch completed...
-{} {} - {} - Plan_Launcher_Base_Impl::start_launch - DomainApplication was received from startLaunch
-{} {} - {} - create_external_connections - start
-{} {} - {} - Plan_Launcher_Base_Impl::launch_plan - before finishLaunch
-{} {} - {} - NodeApplication_Impl::finish_launch_instances - FinishLaunching locality <Locality Manager {}
-{} {} - {} - Plan_Launcher_Base_Impl::launch_plan - finishLaunch completed.
-{} {} - {} - Plan_Launcher_Base_Impl::start - before invoking start on application...
-{} {} - {} - NodeApplication_Impl::start - Starting locality <Locality Manager {}
-{} {} - {} - Plan_Launcher_Base_Impl::start - after invoking start on application...
-{} {} - {} - Plan_Launcher_Base_Impl::launch_plan - Application Deployed successfully
-{} {} - {} - Plan_Launcher::launch_plan - Successfully deployed plan with UUID: {}
-{} {} - {} - Plan_Launcher::parse_args - Tearing down nominated plan
-{} {} - {} - Plan_Launcher::teardown_plan - Tearing down plan with UUID {}
-{} {} - {} - NodeApplication_Impl::remove_instances - Removing locality <Locality Manager {}
-{} {} - {} - LocalityManager_i::disconnect_connections - Starting disconnect_connections, have {} connections
-{} {} - {} - DAnCE_LocalityActivator_i::remove_locality_manager - Calling shutdown on LocalityManager {}
-{} {} - {} - DAnCE_LocalityActivator_i::remove_locality_manager - LocalityManager {} successfully shut down.
-{} {} - {} - DA_NAM_ReplyHandlerImpl::destroyApplication - Plan {} {} node {} : Node application destroy succeeded
-{} {} - {} - DomainApplicationManager_Impl::DestroyApplicationCompletionHandler::handle_completion - finished
-{} {} - {} - Plan_Launcher_Base_Impl::destroy_app_manager - Destroying ApplicationManager
-{} {} - {} - ExecutionManager_Impl::destroyManager - started
-{} {} - {} - DomainApplicationManager_Impl::destroyManager - Destroying {} applications for plan {}
-{} {} - {} - DomainApplicationManager_Impl::finishDestroyManager - Destroying {} node managers for plan {}
-{} {} - {} - DomainApplicationManager_Impl::finishDestroyManager - Calling destroyManager on node manager for node {}
-{} {} - {} - DomainApplicationManager_Impl::finishDestroyManager - destroyManager has been called on node manager
-{} {} - {} - DomainApplicationManager_Impl::finishDestroyManager - finished
-{} {} - {} - DomainApplicationManager_Impl::destroyManager - finished
-{} {} - {} - ExecutionManager_Impl::destroyManager - Domain Application Manager destroyManager has been called.
-{} {} - {} - ArtifactInstallation_Impl::remove_all - removing versions for plan {}
-{} {} - {} - DAM_NM_ReplyHandlerImpl::destroyApplication - Plan {} node {} node application manager destroy succeeded
-{} {} - {} - ExecutionManager_Impl::DestroyManagerCompletionHandler::handle_completion - finished
-{} {} - {} - Plan_Launcher_Base_Impl::destroy_app_manager - ApplicationManager destroyed.
+{} [LM_TRACE] - {} - NodeManager - initializing module instance
+{} [LM_TRACE] - {} - Node_Manager_Module::parse_args - ignoring unknown option
+{} [LM_DEBUG] - {} - Node_Manager_Module::parse_args - Using provided component server {}
+{} [LM_DEBUG] - {} - Node_Manager_Module::parse_args - Provided Node Manager name: {}
+{} [LM_DEBUG] - {} - Node_Manager_Module::parse_args - Using provided component server spawn timeout:30
+{} [LM_TRACE] - {} - DAnCE_NodeManager_Module::create_poas - DAnCE_NodeManager_Module::create_poas - Creating the "Managers" POA.
+{} [LM_TRACE] - {} - DAnCE_NodeManager_Module::init - Resolving plan NS naming context.
+{} [LM_TRACE] - {} - InstallationRepositoryManager::register_manager_instance - {}
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::register_handler - http:// handler
+{} [LM_DEBUG] - {} - DAnCE_NodeManager_Module::init - DAnCE_NodeManager::run_main - creating NodeManager for node {}
+{} [LM_TRACE] - {} - DAnCE_NodeManager_Module::init - Allocating new NodeManager servant instance for NodeManager
+{} [LM_INFO] - {} - NodeManager_impl::NodeManager_impl has been created
+{} [LM_TRACE] - {} - NodeManager_Impl::NodeManager_Impl - Binding property {} provided by caller.
+{} [LM_DEBUG] - {} - {} - Loading plugin file {}
+{} [LM_DEBUG] - {} - Plugin_Configurator::load_from_text_file - Attempting to load plugin of type {} artifact {} entrypoint {}
+{} [LM_TRACE] - {} - DAnCE::Utility::get_property_value<const char *> - Finding property value for name {}
+{} [LM_TRACE] - {} - DAnCE::Utility::get_instance_type - Found instance type {}
+{} [LM_TRACE] - {} - {} - Starting installation of instance {}
+{} [LM_DEBUG] - {} - Plugin_Manager::load_plugin - Loading plugin from {}
+{} [LM_TRACE] - {} - Plugin_Manager::load_plugin - Loading artifact {} successfully loaded.
+{} [LM_TRACE] - {} - Plugin_Manager::load_plugin - Successfully created plugin from {}
+{} [LM_INFO] - {} - Plugin_Manager::register_interceptor - Successfully created deployment interceptor
+{} [LM_TRACE] - {} - build_property_map: Bound value for config value {}
+{} [LM_DEBUG] - {} - Locality_Handler_i - Component server path: {}
+{} [LM_DEBUG] - {} - Locality_Handler_i - Component server arguments: (null)
+{} [LM_DEBUG] - {} - Locality_Handler_i - Spawn delay: 30
+{} [LM_TRACE] - {} - DAnCE::Utility::get_property_value<bool> - Finding property value for name {}
+{} [LM_DEBUG] - {} - Locality_Handler_i - Threading: Single
+{} [LM_TRACE] - {} - Locality_Handler_i - Spawning Locality handler
+{} [LM_TRACE] - {} - ExecutionManager - initializing module instance
+{} [LM_TRACE] - {} - DAnCE_ExecutionManager_Module::parse_args - Output filename is {}
+{} [LM_DEBUG] - {} - Node_Manager_Module::parse_args - Found Node map filename {}
+{} [LM_TRACE] - {} - DAnCE_ExecutionManager_Module::init - before processing --node-mgr options(0).
+{} [LM_TRACE] - {} - DAnCE_ExecutionManager_Module::init - Parsing cdd file {}
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_domain - Constructing DOM
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_domain - DOMElement pointer: {}
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_domain - Parsing XML file with XSC
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_domain - Processing using config handlers
+{} [LM_TRACE] - {} - Node_Locator::get_resource_value - Finding resource for type {}
+{} [LM_TRACE] - {} - Node_Locator::get_resource_value - Found resource for type {}
+{} [LM_TRACE] - {} - DAnCE::Utility::get_satisfierproperty_value<const char *> - Finding property value for name {}
+{} [LM_INFO] - {} - Node_Locator::process_cdd - Storing IOR {} for destination {}
+{} [LM_TRACE] - {} - ExectionManager::write_IOR - EM's ior was written into file {}
+{} [LM_TRACE] - {} - ExecutionManager - running ORB
+{} [LM_TRACE] - {} - ExecutionManager_Impl::preparePlan - Domain Application Manager was successfully created.
+{} [LM_TRACE] - {} - Split_Plan::split_plan - Creating sub-plans
+{} [LM_TRACE] - {} - Split_Plan::split_plan - Matching instance {}
+{} [LM_TRACE] - {} - Split_Plan::split_plan - Initializing new sub plan {}
+{} [LM_TRACE] - {} - Split_Plan::split_plan - Preparing sub plan {} for instance {}
+{} [LM_DEBUG] - {} - Split_Plan::split_plan - Selection phase produced {} child plans, proceeding to copying phase
+{} [LM_TRACE] - {} - Split_Plan::split_plan - Processing instance: {}
+{} [LM_TRACE] - {} - Split_Plan::split_plan - Processing connections.
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::preparePlan - Plan {} successfully split. {} nodes to prepare.
+{} [LM_DEBUG] - {} - Node_Locator::resolve_ior - Resolving ior {} for destination {}
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::preparePlan - Calling preparePlan on node {}
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::preparePlan - preparePlan on node {} has been called
+{} [LM_INFO] - {} - Plugin_Manager::register_installation_handler - Successfully created installation handler for instance type {}
+{} [LM_TRACE] - {} - DAnCE_NodeManager_Module::init - New NodeManager servant instance for NodeManager allocated.
+{} [LM_TRACE] - {} - DAnCE_NodeManager_Module::init - Writing node IOR {} to file {}
+{} [LM_NOTICE] - {} - DAnCE_NodeManager_Module::init - DAnCE_NodeManager is running...
+{} [LM_DEBUG] - {} - DAnCE_NodeManager_Module::init - NodeManager IOR: {}
+{} [LM_TRACE] - {} - NodeManager - running ORB
+{} [LM_DEBUG] - {} - NodeManager_impl::preparePlan - started for node {} and plan {}
+{} [LM_TRACE] - {} - NodeManager_impl::preparePlan - creating NodeApplicationManager...
+{} [LM_DEBUG] - {} - NodeApplicationManager_Impl::NodeApplicationManager_Impl - Initializing for node {} starting...
+{} [LM_TRACE] - {} - NodeManager_impl::preparePlan - invoking preparePlan on NodeApplicationManager...
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::preparePlan - Performing locality split on plan {}
+{} [LM_TRACE] - {} - DAnCE::Utility::get_instance_type - Found unmanaged component type.
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::preparePlan - Plan {} successfully split into {} localities.
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::preparePlan - Installing {} artifacts for locality {}
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::install - installation request for plan {} artifact {}
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::install - installation attempt for plan {} artifact {} @ location[0] {}
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::parse_uri - parsing location {} for plan {}
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::install - installed plan {} artifact {} @ location {}
+{} [LM_TRACE] - {} - DAnCE::Utility::update_property_value<T> - Finding property value for name {}
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::preparePlan - Finished preparing plan {}
+{} [LM_TRACE] - {} - NodeManager_impl::preparePlan - activating NodeApplicationManager...
+{} [LM_INFO] - {} - NodeManager_impl::preparePlan - NodeApplicationManager for plan {} completed
+{} [LM_TRACE] - {} - LocalityManager_Task::parse_args - parsing arguments...
+{} [LM_TRACE] - {} - LocalityManager_Task::parse_args - uuid is {}
+{} [LM_DEBUG] - {} - LocalityManager_Task::parse_args - callback ior is {}
+{} [LM_DEBUG] - {} - LocalityManager_Task::parse_args - No plugin config specified, adding default at DANCE_ROOT/bin/ciao.localityconfig
+{} [LM_TRACE] - {} - DAnCE_LocalityManager_Task::DAnCE_LocalityManager_Task - DAnCE_LocalityManager_Task_ object created.
+{} [LM_DEBUG] - {} - LocalityManager_Task::run - Starting ORB
+{} [LM_TRACE] - {} - LocalityManager_Task::svc - Activating the root POA
+{} [LM_TRACE] - {} - LocalityManager_Task::svc - Creating server implementation object
+{} [LM_TRACE] - {} - LocalityManager_Task::run - Resolving callback IOR
+{} [LM_TRACE] - {} - LocalityManager_Task::svc - Making callback on my Activator
+{} [LM_TRACE] - {} - LocalityManager_Task::svc - Configuration received, got {} values
+{} [LM_DEBUG] - {} - LocalityManager_i::init - Received {} properties from init
+{} [LM_TRACE] - {} - DAnCE::Utility::get_property_value<T> - Finding property value for name {}
+{} [LM_TRACE] - {} - Plugin_Manager::get_configuration_handler - No configuration plugin for type {} found
+{} [LM_NOTICE] - {} - LocalityManager_Task::svc - Configuration complete for component server {}
+{} [LM_TRACE] - {} - LocalityManager_i::startLaunch - Starting installation of {} type instances
+{} [LM_TRACE] - {} - Action_Base::call - Invoking pre-install interceptors
+{} [LM_TRACE] - {} - Install_Instance::invoke - Invoking install_instance on handler for type {}
+{} [LM_TRACE] - {} - build_property_map: Bound value for config value component factory
+{} [LM_TRACE] - {} - Action_Base::call - Invoking post-action interceptors
+{} [LM_INFO] - {} - LocalityManager_i::startLaunch - Instance {} successfully deployed
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::preparePlan - finished
+{} [LM_TRACE] - {} - ExecutionManager_Impl::preparePlan - Domain Application Manager preparePlan has been called.
+{} [LM_TRACE] - {} - ExecutionManager_Impl::preparePlan - finished
+{} [LM_TRACE] - {} - DAM_NM_ReplyHandlerImpl::preparePlan - Finished preparePlan on node {}
+{} [LM_INFO] - {} - DAM_NM_ReplyHandlerImpl::preparePlan - Sucessfully prepared node {} for deployment
+{} [LM_DEBUG] - {} - DAM_NM_ReplyHandlerImpl::Counter::on_all_completed - Successfully completed operation for plan: {}
+{} [LM_NOTICE] - {} - ExecutionManager_Impl::finish_preparePlan - Plan with UUID {} was successfully prepared.
+{} [LM_TRACE] - {} - ExecutionManager_Impl::finish_preparePlan - Domain Application Manager was successfully activated.
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::startLaunch - Creating DomainApplication for plan {}
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::startLaunch - Successfully created DomainApplication for plan {}
+{} [LM_TRACE] - {} - DomainApplication_Impl::startLaunch - Plan {} {} : {} nodes to launch
+{} [LM_TRACE] - {} - DomainApplication_Impl::startLaunch - Plan {} {} : calling startLaunch on node application manager for node {}
+{} [LM_TRACE] - {} - DomainApplication_Impl::startLaunch - startLaunch has been called on an application
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::startLaunch - DomainApplication startLaunch has been called
+{} [LM_TRACE] - {} - DA_NAM_ReplyHandlerImpl::startLaunch called.
+{} [LM_TRACE] - {} - DA_NAM_ReplyHandlerImpl::startLaunch - Plan {} {} node {} startLaunch succeeded, received {} connections
+{} [LM_DEBUG] - {} - DA_NAM_ReplyHandlerImpl::Counter::on_all_completed - Plan {} {} successfully finished all nodes
+{} [LM_NOTICE] - {} - DomainApplicationManager_Impl::finish_startLaunch - DomainApplication[0] for plan {} created {} provided references.
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::finish_startLaunch - DomainApplication was successfully activated.
+{} [LM_DEBUG] - {} - DomainApplication_impl::finishLaunch - Plan {} {} : {} applications to finish launching
+{} [LM_TRACE] - {} - DomainApplication_Impl::finishLaunch - Plan {} {} node {} : calling finishLaunch on a node application
+{} [LM_TRACE] - {} - DomainApplication_Impl::finishLaunch - finishLaunch has been called on a node application
+{} [LM_TRACE] - {} - Endpoint_Reference::invoke - Invoking provide_endpoint_reference on handler
+{} [LM_TRACE] - {} - LocalityManager_i::finishLaunch - Starting finishLaunch, received {} references, have {} connections
+{} [LM_TRACE] - {} - {} - Connection {} has {} endpoints
+{} [LM_DEBUG] - {} - LocalityManager_i::finishLaunch - Starting connection {}
+{} [LM_TRACE] - {} - {} - Skipping connection {}
+{} [LM_TRACE] - {} - Connect_Instance::invoke - Invoking connect_instance on handler
+{} [LM_TRACE] - {} - Instance_Configured::invoke - Invoking instance_configured on handler for type {}
+{} [LM_DEBUG] - {} - LocalityManager_i::start - Scheduling start for instance {}
+{} [LM_TRACE] - {} - Start_Instance::invoke - Invoking activate_instance on handler for type {}
+{} [LM_INFO] - {} - LocalityManager_i::start - Instance {} successfully activated
+{} [LM_DEBUG] - {} - LocalityManager_i::destroyApplication - Scheduling passivation for instance {}
+{} [LM_TRACE] - {} - Passivate_Instance::invoke - Invoking passivate_instance on handler for type {}
+{} [LM_INFO] - {} - LocalityManager_i::destroyApplication - Instance {} successfully passivated
+{} [LM_DEBUG] - {} - LocalityManager_i::disconnect_connections - Starting disconnect connection {}
+{} [LM_TRACE] - {} - Disconnect_Instance::invoke - Invoking disconnect_instance on handler
+{} [LM_TRACE] - {} - Remove_Instance::invoke - Invoking remove_instance on handler for type {}
+{} [LM_INFO] - {} - LocalityManager_i::destroyApplication - Instance {} successfully removed
+{} [LM_DEBUG] - {} - DAnCE LocalityManager shutdown request received for UUID {}
+{} [LM_TRACE] - {} - LocalityManager_Task::svc - ORB Event loop completed.
+{} [LM_INFO] - {} - LocalityManager_Task::run - ORB has shutdown, terminating ComponentServer
+{} [LM_TRACE] - {} - DA_NA_ReplyHandlerImpl::finishLaunch - Plan {} {} node {}
+{} [LM_DEBUG] - {} - DA_NA_ReplyHandlerImpl::finishLaunch - Plan {} {} : Successfully finished all nodes
+{} [LM_DEBUG] - {} - DomainApplication_impl::start - Plan {} {} : {} applications to start
+{} [LM_TRACE] - {} - DomainApplication_Impl::start - Plan {} {} node {} : calling start on a node application
+{} [LM_TRACE] - {} - DomainApplication_Impl::start - start has been called on an application
+{} [LM_TRACE] - {} - DA_NA_ReplyHandlerImpl::start - Plan {} {} node {}
+{} [LM_DEBUG] - {} - DomainApplicationManager_impl::getApplications - Returning plan {}
+{} [LM_DEBUG] - {} - DomainApplicationManager_impl::getApplications - Returning {} running applications for plan {}
+{} [LM_TRACE] - {} - DomainApplicationManager_impl::destroyApplication - destroying DomainApplication[0] for plan {}
+{} [LM_TRACE] - {} - DomainApplicationManager_impl::destroyApplication - deactivating application object
+{} [LM_TRACE] - {} - DomainApplicationManager_impl::destroyApplication - deleting application object
+{} [LM_TRACE] - {} - DomainApplication_Impl::destroyApplication - Plan {} {} : {} node applications to destroy
+{} [LM_TRACE] - {} - DomainApplication_Impl::destroyApplication - Plan {} {} : calling destroyApplication on node application manager for node {}
+{} [LM_TRACE] - {} - DomainApplication_Impl::destroyApplication - destroyApplication has been called on node application manager
+{} [LM_TRACE] - {} - DomainApplication_Impl::destroyApplication - finished
+{} [LM_TRACE] - {} - DA_NAM_ReplyHandlerImpl::destroyApplication called.
+{} [LM_DEBUG] - {} - Node_Manager_Module::parse_args - Using provided instance NC: corbaloc:rir:/NameService
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::register_handler - file:// handler
+{} [LM_TRACE] - {} - PL options : "	{}
+{} [LM_DEBUG] - {} - Plan_Launcher::parse_args - Using XML plan: BasicSP_Unhomed.cdp
+{} [LM_DEBUG] - {} - Plan_Launcher::parse_args - Using ExecutionManager IOR: {}
+{} [LM_DEBUG] - {} - Plan_Launcher - Parsing deployment plan
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_plan - Constructing DOM
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_plan - DOMElement pointer: {}
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_plan - Parsing XML file with XSC
+{} [LM_TRACE] - {} - XML_File_Intf::read_process_plan - Processing using config handlers
+{} [LM_DEBUG] - {} - NodeApplicationManager_Impl::NodeApplicationManager_Impl - Successfully resolved the instance naming context.
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::launch_plan - after to call preparePlan
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::prepare_plan - ApplicationMAnager was received from preparePlan.
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::start_launch - before startLaunch...
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::startLaunch - Initializing NodeApplication
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::startLaunch - Instructing NodeApplication to prepare locality managers.
+{} [LM_TRACE] - {} - NodeApplication_Impl::prepare_instances - Considering sub-plan {} with {} instances
+{} [LM_DEBUG] - {} - NodeApplication_Impl::prepare_instances - Found Locality Manager instance 1:Locality Manager {} deploying
+{} [LM_DEBUG] - {} - Locality_Splitter::finalize_sub_plan - No locality manager found, created a default locality named <Locality Manager {}
+{} [LM_TRACE] - {} - Locality_Handler_i::install_instance - Starting installation of instance <Locality Manager {}
+{} [LM_TRACE] - {} - Locality_Handler_i::install_instance - Passing {} properties to activator
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::create_locality_manager - Received {} config properties
+{} [LM_DEBUG] - {} - DAnCE_LocalityActivator_i::construct_command_line - Creating component server with UUID {}
+{} [LM_DEBUG] - {} - DAnCE_LocalityActivator_i::create_locality_manager - LocalityManager arguments:  -u {}
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::create_locality_manager - Attempting to spawn LocalityManager with UUID {}
+{} [LM_DEBUG] - {} - DAnCE_LocalityActivator_i::spawn_locality_manager - Using default component server executable
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::spawn_locality_manager - Spawning process, command line is {}  -u {} -c {}
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::spawn_locality_manager - Process successfully spawned with pid {}
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::locality_manager_callback - Received callback from LocalityManager {}
+{} [LM_DEBUG] - {} - DAnCE_LocalityActivator_i::locality_manager_callback - Generated {} Properties for LocalityManager {}
+{} [LM_DEBUG] - {} - DAnCE_LocalityActivator_i::create_properties - Creating property sequence for LocalityManager {} with length {}
+{} [LM_DEBUG] - {} - LocalityManager_i::init - Looking up configuration handler for {}
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::configuration_complete - Received configuration_complete from LocalityManager {}
+{} [LM_DEBUG] - {} - DAnCE_LocalityActivator_i::create_locality_manager - LocalityManager {} successfully spawned and configured!
+{} [LM_INFO] - {} - NodeApplication_Impl::prepare_instances - Successfully started Locality Locality Manager {}
+{} [LM_DEBUG] - {} - NodeApplication_Impl::prepare_instances - Invoking preparePlan on locality Locality Manager {}
+{} [LM_DEBUG] - {} - NodeApplication_Impl::prepare_instance - Locality <Locality Manager {} successfully prepared.
+{} [LM_DEBUG] - {} - NodeApplication_Impl::prepare_instances - Successfully executed preparePlan on locality Locality Manager {}
+{} [LM_TRACE] - {} - NodeApplicationManager_impl::startLaunch - Instructing NodeApplication to start launch localities.
+{} [LM_INFO] - {} - NodeApplication_Impl::start_launch_instances - StartLaunching locality <Locality Manager {}
+{} [LM_DEBUG] - {} - NodeApplicationManager_impl::startLaunch - Activating NodeApplication servant
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::start_launch - startLaunch completed...
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::start_launch - DomainApplication was received from startLaunch
+{} [LM_DEBUG] - {} - create_external_connections - start
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::launch_plan - before finishLaunch
+{} [LM_INFO] - {} - NodeApplication_Impl::finish_launch_instances - FinishLaunching locality <Locality Manager {}
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::launch_plan - finishLaunch completed.
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::start - before invoking start on application...
+{} [LM_INFO] - {} - NodeApplication_Impl::start - Starting locality <Locality Manager {}
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::start - after invoking start on application...
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::launch_plan - Application Deployed successfully
+{} [LM_NOTICE] - {} - Plan_Launcher::launch_plan - Successfully deployed plan with UUID: {}
+{} [LM_DEBUG] - {} - Plan_Launcher::parse_args - Tearing down nominated plan
+{} [LM_DEBUG] - {} - Plan_Launcher::teardown_plan - Tearing down plan with UUID {}
+{} [LM_INFO] - {} - NodeApplication_Impl::remove_instances - Removing locality <Locality Manager {}
+{} [LM_TRACE] - {} - LocalityManager_i::disconnect_connections - Starting disconnect_connections, have {} connections
+{} [LM_TRACE] - {} - DAnCE_LocalityActivator_i::remove_locality_manager - Calling shutdown on LocalityManager {}
+{} [LM_INFO] - {} - DAnCE_LocalityActivator_i::remove_locality_manager - LocalityManager {} successfully shut down.
+{} [LM_TRACE] - {} - DA_NAM_ReplyHandlerImpl::destroyApplication - Plan {} {} node {} : Node application destroy succeeded
+{} [LM_INFO] - {} - DomainApplicationManager_Impl::DestroyApplicationCompletionHandler::handle_completion - finished
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::destroy_app_manager - Destroying ApplicationManager
+{} [LM_DEBUG] - {} - ExecutionManager_Impl::destroyManager - started
+{} [LM_DEBUG] - {} - DomainApplicationManager_Impl::destroyManager - Destroying {} applications for plan {}
+{} [LM_DEBUG] - {} - DomainApplicationManager_Impl::finishDestroyManager - Destroying {} node managers for plan {}
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::finishDestroyManager - Calling destroyManager on node manager for node {}
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::finishDestroyManager - destroyManager has been called on node manager
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::finishDestroyManager - finished
+{} [LM_TRACE] - {} - DomainApplicationManager_Impl::destroyManager - finished
+{} [LM_TRACE] - {} - ExecutionManager_Impl::destroyManager - Domain Application Manager destroyManager has been called.
+{} [LM_TRACE] - {} - ArtifactInstallation_Impl::remove_all - removing versions for plan {}
+{} [LM_TRACE] - {} - DAM_NM_ReplyHandlerImpl::destroyApplication - Plan {} node {} node application manager destroy succeeded
+{} [LM_INFO] - {} - ExecutionManager_Impl::DestroyManagerCompletionHandler::handle_completion - finished
+{} [LM_DEBUG] - {} - Plan_Launcher_Base_Impl::destroy_app_manager - ApplicationManager destroyed.
