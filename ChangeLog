@@ -1,3 +1,10 @@
+Fri May 18 15:17:51 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * examples/cuts/unite/dmac:
+        * examples/cuts/unite/dmac/abstract-log-formats.txt:
+
+          Added the abstract log format file of DAnCE.
+
 Thu May 10 20:11:57 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/dmac/Dmac_Log_Format.cpp:
