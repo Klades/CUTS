@@ -88,12 +88,11 @@ private:
     this->record_.reset ();
   }
 
-  //const CUTS_Dataflow_Graph & graph_;
   CUTS_Dataflow_Graph & graph_;
 
-  mutable CUTS_Log_Format_Data_Entry & entry_;
+  CUTS_Log_Format_Data_Entry & entry_;
 
-  mutable ADBC::SQLite::Record & record_;
+  ADBC::SQLite::Record & record_;
 };
 
 //

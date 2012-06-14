@@ -1,7 +1,14 @@
+Thu Jun 14 07:14:37 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/Dataset_Repo.cpp:
+
+          Removed the mutable keyword from some reference data members. See
+          issue #203 for more details.
+
 Fri May 18 19:55:41 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * examples/cuts/unite/dmac/abstract-log-formats.txt:
-        
+
           Added seviirity level as a static part.
 
 Fri May 18 15:17:51 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
