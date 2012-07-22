@@ -1,7 +1,7 @@
 // $Id:
 
 #include "Setaf_Variable.h"
-#include "cuts/unite/variable.h"
+#include "cuts/unite/Variable.h"
 #include "cuts/unite/Log_Format_Adapter.h"
 
 //
