@@ -474,3 +474,32 @@ ports_servant_activator (void)
   throw ::CORBA::NO_IMPLEMENT ();
 }
 #endif
+
+#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1 && CIAO_BETA_VERSION >= 2)
+// The macro above needs to be fixed since it will not work once the minor version
+// number resets itself. We should do the following check: >=1.1.2 || >=1.2 || >= 2.0.0
+template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
+::CORBA::Object_ptr
+CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+get_local_facet (::Components::CCMObject_ptr provider_ref, const char * provider_port)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
+void
+CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+install_service_component_reference (const char * service_id, ::CORBA::Object_ptr obj)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
+::CORBA::Object_ptr
+CUTS_CCM_Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
+uninstall_service_component_reference (const char * service_id)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+#endif
