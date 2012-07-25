@@ -59,7 +59,7 @@ workspace (CUTS) {
     }
   }
 
-  exclude (!prop:microsoft, wix) {
+  exclude (wix) {
     cmdline += -static -base ccf_root \
                -include $CUTS_ROOT/contrib/CCF/MPC/config
 

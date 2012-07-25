@@ -1,3 +1,10 @@
+Wed Jul 25 03:07:30 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+
+          Chnaged to build the CodegenerationKit to be built in
+          non-windows platforms.
+
 Sun Jul 22 03:58:41 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/setaf/Setaf_Unite_Variable.cpp:
