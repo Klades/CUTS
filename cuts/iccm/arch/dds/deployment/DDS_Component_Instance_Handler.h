@@ -14,6 +14,7 @@
 #define _ICCM_DDS_COMPONENT_INSTANCE_HANDLER_H_
 
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
+#include "ciao/Deployment/Handlers/Component_Handler.h"
 
 namespace iccm
 {
@@ -29,7 +30,9 @@ namespace iCCM
  */
 template <typename T>
 class DDS_Component_Instance_Handler :
-  public Component_Instance_Handler_T <typename T::component_instance_handler_type, typename T::container_type>
+  public Component_Instance_Handler_T <typename T::component_instance_handler_type,
+                                       ::DAnCE::InstanceDeploymentHandler,
+                                       typename T::container_type>
 {
 public:
   /// Default constructor.

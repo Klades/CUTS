@@ -84,11 +84,9 @@ public:
   EVENT * allocate_event (void);
 
 protected:
-  /// Type specific writer for the publisher.
-  typename event_traits_type::writer_var_type writer_;
+  typedef DDS_Stateful_Writer_T <T, EVENT> writer_type;
 
-  /// The instance handle for the writer.
-  typename T::instancehandle_type inst_;
+  ACE_Auto_Ptr <writer_type> writer_;
 };
 
 }

@@ -17,7 +17,9 @@
 #pragma once
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
+#include "dance/Deployment/Deployment_BaseC.h"
 #include "dance/DAnCE_LocalityManagerC.h"
+
 #include "ciao/Containers/Container_BaseC.h"
 #include "ccm/CCM_CookieC.h"
 #include "tao/PortableServer/PortableServer.h"

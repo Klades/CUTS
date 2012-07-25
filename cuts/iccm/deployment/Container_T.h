@@ -78,6 +78,20 @@ public:
                        const char * servant_entrypoint,
                        const char * name,
                        ::CORBA::Long open_mode);
+
+#if (CIAO_BETA_VERSION >= 2)
+    virtual ::CORBA::Object_ptr
+      get_local_facet (::Components::CCMObject_ptr provider_ref,
+                       const char * provider_port);
+
+    virtual void
+      install_service_component_reference (const char * service_id,
+                                           ::CORBA::Object_ptr obj);
+
+    virtual ::CORBA::Object_ptr
+      uninstall_service_component_reference (const char * service_id);
+#endif
+
 #else
   virtual ::Components::CCMHome_ptr
     install_home (const char * primary_artifact,

@@ -12,22 +12,6 @@ namespace iCCM
 {
 
 //
-// allocate_event
-//
-template <typename T, typename EVENT>
-EVENT * DDS_Publisher_Table_T <T, EVENT>::allocate_event (void)
-{
-  typedef typename event_traits_type::downcall_event_type downcall_event_type;
-
-  downcall_event_type * ev = 0;
-  ACE_NEW_THROW_EX (ev,
-                    downcall_event_type (),
-                    ::CORBA::NO_MEMORY ());
-
-  return ev;
-}
-
-//
 // configure
 //
 template <typename T, typename EVENT>
@@ -84,13 +68,30 @@ configure (publisher_ptr_type publisher,
     throw ::CORBA::INTERNAL ();
   }
 
+
   // Finally, pass control to the base class. It will finish configuring
   // this provider object.
   DDS_Publisher_Table::configure (publisher, topic);
 
-  // Finally, store the concrete writer type.
-  typedef typename event_traits_type::writer_type writer_type;
-  this->writer_ = T::_writer_cast < writer_type > (this->abs_writer_);
+  // Store the concrete writer type and register an instance.
+  writer_type * writer = 0;
+  if (true)
+  {
+    typedef DDS_Registered_Instance_Writer_T <T, EVENT> WRITER_TYPE;
+    ACE_NEW_THROW_EX (writer,
+                      WRITER_TYPE (this->abs_writer_),
+                      ::CORBA::NO_MEMORY ());
+  }
+  else
+  {
+    typedef DDS_Unregistered_Instance_Writer_T <T, EVENT> WRITER_TYPE;
+    ACE_NEW_THROW_EX (writer,
+                      WRITER_TYPE (this->abs_writer_),
+                      ::CORBA::NO_MEMORY ());
+  }
+
+  this->writer_.reset (writer);
+
 }
 
 //
@@ -119,7 +120,7 @@ subscribe (::Components::EventConsumerBase_ptr consumer_base)
   // Notify the event consumer what event they are observing as
   // part of this connection.
   typedef typename T::topic_var_type topic_var_type;
-  topic_var_type topic = this->writer_->get_topic ();
+  topic_var_type topic = this->abs_writer_->get_topic ();
 
   const char * topic_name = topic->get_name ();
   ACE_DEBUG ((LM_DEBUG,
@@ -150,40 +151,11 @@ DDS_Publisher_Table_T <T, EVENT>::unsubscribe (::Components::Cookie * c)
   {
     typedef typename T::topic_var_type topic_var_type;
 
-    topic_var_type topic = this->writer_->get_topic ();
+    topic_var_type topic = this->abs_writer_->get_topic ();
     consumer->remove_topic (topic->get_name ());
   }
 
   return consumer_base;
-}
-
-//
-// send_event
-//
-template <typename T, typename EVENT>
-void DDS_Publisher_Table_T <T, EVENT>::send_event (EVENT * ev)
-{
-  // Convert the CORBA event into a DDS event.
-  typedef typename event_traits_type::downcall_event_type downcall_event_type;
-  downcall_event_type * downcall = dynamic_cast <downcall_event_type *> (ev);
-
-  if (0 != ev)
-  {
-    typedef typename T::returncode_type returncode_type;
-
-    returncode_type retcode =
-      this->writer_->write (downcall->dds_event (), this->inst_);
-
-    if (0 != T::RETCODE_OK)
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to write event [retcode=%d]\n"),
-                  retcode));
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - invalid event type\n")));
-  }
 }
 
 }

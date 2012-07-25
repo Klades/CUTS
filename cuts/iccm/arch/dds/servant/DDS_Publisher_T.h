@@ -14,6 +14,7 @@
 #define _ICCM_DDS_PUBLISHER_T_H_
 
 #include "DDS_Publisher.h"
+#include "DDS_Stateful_Writer_T.h"
 
 namespace iCCM
 {

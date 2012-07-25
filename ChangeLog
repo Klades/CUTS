@@ -1,8 +1,37 @@
+Wed Jul 25 20:07:33 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.h:
+
+          Added missing template parameter.
+
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.mpc:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_skel_export.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_stub_export.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_skel_export.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_stub_export.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_svnt_export.h:
+
+          Implemented a stateful writer, which is responsible for handling
+          registered instances.
+
+        * cuts/iccm/deployment/Component_Instance_Handler_T.h:
+        * cuts/iccm/deployment/Container_T.h:
+        * cuts/iccm/deployment/Container_T.cpp:
+
+          Updated the container to CIAO 1.1.2.
+
 Wed Jul 25 13:08:53 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Container_T.h:
         * cuts/arch/ccm/CCM_Container_T.cpp:
-        
+
           Updated the CIAO container to CIAO 1.1.2.
 
 Wed Jul 25 03:07:30 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
