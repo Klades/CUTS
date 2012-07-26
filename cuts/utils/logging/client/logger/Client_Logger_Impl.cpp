@@ -1,11 +1,15 @@
 // $Id$
 
 #include "Client_Logger_Impl.h"
+
 #include "cuts/UUID.h"
+#include "cuts/utils/testing/svcs/server/testingC.h"
+
 #include "ace/OS_NS_string.h"
 #include "ace/OS_NS_sys_time.h"
 #include "ace/OS_NS_unistd.h"
-#include "cuts/utils/testing/svcs/server/testingC.h"
+#include "ace/Guard_T.h"
+
 #include <iostream>
 
 
@@ -61,7 +65,7 @@ int CUTS_Client_Logger_Impl::connect (const char * client)
   catch (const ::CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                TEXT ("%T (%t) - %M - %s\n"),
                 ex._info ().c_str ()));
   }
 
@@ -75,6 +79,8 @@ int CUTS_Client_Logger_Impl::disconnect (void)
 {
   try
   {
+    ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, -1);
+
     if (!::CORBA::is_nil (this->client_.in ()))
     {
       this->client_->release (this->logger_.in ());
@@ -164,6 +170,8 @@ log (int severity, int thread_id, const char * message, size_t msglen)
 {
   try
   {
+    ACE_READ_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->lock_, -1);
+
     if (::CORBA::is_nil (this->logger_.in ()))
       ACE_ERROR_RETURN ((LM_ERROR,
                          ACE_TEXT ("%T (%t) - %M - logger does not exist\n")),

@@ -75,6 +75,8 @@ private:
   ::CUTS::Logger_var logger_;
 
   ACE_Utils::UUID uuid_;
+
+  ACE_RW_Thread_Mutex lock_;
 };
 
 #endif  // !defined _CUTS_LOGGER_IMPL_H_

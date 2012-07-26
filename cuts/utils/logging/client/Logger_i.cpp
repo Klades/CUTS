@@ -8,6 +8,7 @@
 
 #include "Log_Message_Handler.h"
 #include "cuts/UUID.h"
+#include "ace/Trace.h"
 
 //
 // log
@@ -58,6 +59,11 @@ void CUTS_Logger_i::log (const ::CUTS::LogMessage & logmsg)
 //
 void CUTS_Logger_i::flush (void)
 {
+  if (!ACE_Trace::is_tracing ())
+    ACE_Trace::start_tracing ();
+
+  ACE_Trace t ("CUTS_Logger_i::flush", __LINE__, __FILE__);
+
   // Package the messages.
   ::CORBA::ULong used_size = this->queue_.used_size ();
 

@@ -1,3 +1,12 @@
+Thu Jul 26 05:43:20 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/utils/logging/client/Logger_i.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.h:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+
+          BUGFIX: There were race conditions when disconnecting the logger in a
+          multi-threaded environment.
+
 Thu Jul 26 05:06:45 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/arch/ccm/CCM_Event_Handler_T.cpp:
