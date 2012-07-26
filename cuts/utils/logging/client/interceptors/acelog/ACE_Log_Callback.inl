@@ -13,14 +13,6 @@ CUTS_ACE_Log_Callback (CUTS_Client_Logger & logger)
 }
 
 //
-// ~CUTS_ACE_Log_Callback
-//
-CUTS_INLINE
-CUTS_ACE_Log_Callback::~CUTS_ACE_Log_Callback (void)
-{
-}
-
-//
 // get_old_callback
 //
 CUTS_INLINE

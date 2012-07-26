@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- * @file       Logger.h
+ * @file       Client_Logger.h
  *
  * $Id$
  *
@@ -10,17 +10,15 @@
  */
 //=============================================================================
 
-#ifndef _CUTS_LOGGER_H_
-#define _CUTS_LOGGER_H_
+#ifndef _CUTS_CLIENT_LOGGER_H_
+#define _CUTS_CLIENT_LOGGER_H_
 
 #include "ace/UUID.h"
+
 #include "Client_Logger_export.h"
 
 // Forward decl.
 class CUTS_Client_Logger_Impl;
-
-// Forward decl.
-class CUTS_Format_Parser;
 
 /**
  * @class CUTS_Client_Logger
@@ -46,8 +44,6 @@ public:
 
 private:
   CUTS_Client_Logger_Impl * impl_;
-
-  CUTS_Format_Parser * parser_;
 };
 
 #endif  // !defined _CUTS_LOGGER_H_

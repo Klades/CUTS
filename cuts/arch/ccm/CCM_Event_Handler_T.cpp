@@ -183,7 +183,7 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
-                "%T (%t) - %M - caught known exception\n"));
+                ACE_TEXT ("%T (%t) [%N:%l]- %M - caught unknown exception\n")));
   }
 
   return -1;

@@ -9,6 +9,14 @@
 #include "cuts/utils/logging/client/logger/Client_Logger.h"
 
 //
+// ~CUTS_ACE_Log_Callback
+//
+CUTS_ACE_Log_Callback::~CUTS_ACE_Log_Callback (void)
+{
+
+}
+
+//
 // log
 //
 void CUTS_ACE_Log_Callback::log (ACE_Log_Record &log_record)

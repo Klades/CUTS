@@ -175,7 +175,7 @@ log (int severity, int thread_id, const char * message, size_t msglen)
     CUTS::LogMessage logmsg;
     logmsg.severity = severity;
     logmsg.thread_id = thread_id;
-    logmsg.timestamp.sec = tv.sec ();
+    logmsg.timestamp.sec = static_cast <::CORBA::ULong> (tv.sec ());
     logmsg.timestamp.usec = tv.usec ();
 
     logmsg.message.length (msglen);

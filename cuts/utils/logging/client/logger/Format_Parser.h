@@ -33,9 +33,7 @@ public:
    * their corresponding argument.
    *
    */
-  bool parse (const char * format, va_list & args, std::ostream & out);
-
-private:
+  bool parse (const std::string & format, va_list & args, std::ostream & out);
 };
 
 #endif  // !defined _CUTS_TEST_LOGGER_FORMAT_PARSER_H_

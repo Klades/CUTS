@@ -1,3 +1,20 @@
+Thu Jul 26 05:06:45 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Event_Handler_T.cpp:
+
+          Fixed unknown exception error message.
+
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.inl:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Callback.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger.h:
+        * cuts/utils/logging/client/logger/Client_Logger.cpp:
+        * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
+        * cuts/utils/logging/client/logger/Format_Parser.h:
+        * cuts/utils/logging/client/logger/Format_Parser.cpp:
+
+          BUGFIX: The logger crashed when used in a multi-threaded context. This
+          was due to using an old version of Boost Spirit.
+
 Wed Jul 25 20:07:33 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.h:
