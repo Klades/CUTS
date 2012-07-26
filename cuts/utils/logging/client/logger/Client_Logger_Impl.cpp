@@ -65,7 +65,7 @@ int CUTS_Client_Logger_Impl::connect (const char * client)
   catch (const ::CORBA::Exception & ex)
   {
     ACE_ERROR ((LM_ERROR,
-                TEXT ("%T (%t) - %M - %s\n"),
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
                 ex._info ().c_str ()));
   }
 
@@ -183,7 +183,7 @@ log (int severity, int thread_id, const char * message, size_t msglen)
     CUTS::LogMessage logmsg;
     logmsg.severity = severity;
     logmsg.thread_id = thread_id;
-    logmsg.timestamp.sec = static_cast <::CORBA::ULong> (tv.sec ());
+    logmsg.timestamp.sec = static_cast < ::CORBA::ULong > (tv.sec ());
     logmsg.timestamp.usec = tv.usec ();
 
     logmsg.message.length (msglen);

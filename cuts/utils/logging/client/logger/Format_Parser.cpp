@@ -124,16 +124,16 @@ public:
 
 private:
   /// Content of the string.
-  boost::spirit::qi::rule <IteratorT, void (va_list &, std::ostream &)> content_;
+  boost::spirit::qi::rule <IteratorT, void (va_list &, std::ostream &) > content_;
 
   /// rule: token_;
-  boost::spirit::qi::rule <IteratorT, void (va_list &, std::ostream &)> token_;
+  boost::spirit::qi::rule <IteratorT, void (va_list &, std::ostream &) > token_;
 
   /// rule: token_;
-  boost::spirit::qi::rule <IteratorT, void (va_list &, std::ostream &)> token_value_;
+  boost::spirit::qi::rule <IteratorT, void (va_list &, std::ostream &) > token_value_;
 
   /// rule: text_;
-  boost::spirit::qi::rule <IteratorT, std::string ()> text_;
+  boost::spirit::qi::rule <IteratorT, std::string () > text_;
 };
 
 
@@ -172,9 +172,12 @@ parse (const std::string & format, va_list & args, std::ostream & ostr)
     spirit::ascii::space_type>
     grammar;
 
+  std::string::const_iterator iter_begin = format.begin ();
+  std::string::const_iterator iter_end = format.end ();
+
   bool retval =
-    qi::phrase_parse (format.begin (),
-                      format.end (),
+    qi::phrase_parse (iter_begin,
+                      iter_end,
                       grammar (phoenix::ref (args), phoenix::ref (ostr)),
                       spirit::ascii::space);
 
