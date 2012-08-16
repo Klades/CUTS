@@ -1,3 +1,9 @@
+Thu Aug 16 15:09:01 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tutorials/QuickStart2/models/QuickStart2-Complete.xme:
+
+          Fixed errors in the complete model.
+
 Thu Jul 26 19:58:25 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/utils/logging/client/logger/Client_Logger_Impl.cpp:
