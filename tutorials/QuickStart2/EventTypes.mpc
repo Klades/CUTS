@@ -22,15 +22,8 @@ project (EventTypes_IDL_Gen) : componentidldefaults, cuts_codegen_defaults {
 project (EventTypes_stub) : avoids_ace_for_tao, ccm_stub, cuts_codegen_defaults {
   sharedname    = EventTypes_stub
   dynamicflags += EVENTTYPES_STUB_BUILD_DLL
+
   after        += EventTypes_IDL_Gen
-
-
-  // listing of project dependencies
-  after += \
-    DataTypes_stub
-
-  libs  += \
-    DataTypes_stub
 
   IDL_Files {
 
@@ -49,18 +42,13 @@ project (EventTypes_stub) : avoids_ace_for_tao, ccm_stub, cuts_codegen_defaults 
   }
 }
 
-project (EventTypes_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaults {
+project (EventTypes_skel) : avoids_ace_for_tao, ccm_svnt, cuts_codegen_defaults {
   sharedname   = EventTypes_skel
   dynamicflags = EVENTTYPES_SKEL_BUILD_DLL
 
   after       += EventTypes_stub
   libs        += EventTypes_stub
 
-
-  after +=
-
-  libs  += \
-    DataTypes_stub
 
   IDL_Files {
 
@@ -82,7 +70,8 @@ project (EventTypes_skel) : ccm_svnt, avoids_ace_for_tao, cuts_codegen_defaults 
 project (EventTypes_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
-  after    += EventTypes_IDL_Gen
+  after    += EventTypes_IDL_Gen EventTypes_iCCM_IDL_Gen
+
   idlflags += -Wb,export_macro=EVENTTYPES_EXEC_Export \
               -Wb,export_include=EventTypes_exec_export.h \
               -Sa -Sal -SS

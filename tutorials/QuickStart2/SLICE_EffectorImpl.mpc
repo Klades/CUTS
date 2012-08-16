@@ -10,13 +10,11 @@ project (SLICE_Effector_impl) : cuts_coworker_exec {
   after +=  \
     ComponentTypes_exec \
     ComponentTypes_stub \
-    DataTypes_stub \
     EventTypes_stub
 
   libs +=  \
     ComponentTypes_exec \
     ComponentTypes_stub \
-    DataTypes_stub \
     EventTypes_stub
 
   includes += \

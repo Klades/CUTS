@@ -25,11 +25,6 @@ namespace SLICE_PlannerOneImpl
   //
   void PlannerOne::push_recvEvent (::SLICE::SimpleEvent * ev)
   {
-    this->cpuGen_.run (30);
-    CUTS_CCM_Event_T <OBV_SLICE::SimpleEvent> __event_100000017__;
-    __event_100000017__->content ().eventCount = ev->content ().eventCount;
-    this->ctx_->push_pushEvent (__event_100000017__.in ());
-
     ACE_UNUSED_ARG (ev);
   }
 }

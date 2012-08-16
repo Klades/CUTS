@@ -21,7 +21,6 @@ workspace (QuickStart2) {
   SLICE_PlannerTwoImpl.mpc
   SLICE_SensorImpl.mpc
   ComponentTypes.mpc
-  DataTypes.mpc
   EventTypes.mpc
 }
 

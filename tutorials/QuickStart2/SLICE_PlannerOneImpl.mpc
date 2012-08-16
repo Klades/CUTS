@@ -10,20 +10,12 @@ project (SLICE_PlannerOne_impl) : cuts_coworker_exec {
   after +=  \
     ComponentTypes_exec \
     ComponentTypes_stub \
-    DataTypes_stub \
     EventTypes_stub
 
   libs +=  \
     ComponentTypes_exec \
     ComponentTypes_stub \
-    DataTypes_stub \
     EventTypes_stub
-
-  includes += \
-    $(CUTS_ROOT)/cuts/workers/CPU
-
-  libs += \
-    CUTS_CPU_Worker
 
   Source_Files {
     SLICE_PlannerOneImpl.cpp

@@ -1,3 +1,25 @@
+Thu Aug 16 15:20:58 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * tutorials/QuickStart2/ComponentTypes.idl:
+        * tutorials/QuickStart2/ComponentTypes.mpc:
+        * tutorials/QuickStart2/EventTypes.idl:
+        * tutorials/QuickStart2/EventTypes.mpc:
+        * tutorials/QuickStart2/QuickStart2.mwc:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.h:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.cpp:
+        * tutorials/QuickStart2/SLICE_ConfigOpImpl.mpc:
+        * tutorials/QuickStart2/SLICE_EffectorImpl.mpc:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.h:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.cpp:
+        * tutorials/QuickStart2/SLICE_PlannerOneImpl.mpc:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.h:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.cpp:
+        * tutorials/QuickStart2/SLICE_PlannerTwoImpl.mpc:
+        * tutorials/QuickStart2/SLICE_SensorImpl.cpp:
+        * tutorials/QuickStart2/SLICE_SensorImpl.mpc:
+
+          Updated the QuickStart files to reflect the previous changes.
+
 Thu Aug 16 15:09:01 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * tutorials/QuickStart2/models/QuickStart2-Complete.xme:

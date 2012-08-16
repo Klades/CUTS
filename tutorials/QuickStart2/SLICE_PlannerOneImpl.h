@@ -11,7 +11,6 @@
 #include "ComponentTypesEC.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
 
-#include "CPU_Worker.h"
 
 namespace SLICE_PlannerOneImpl
 {
@@ -40,8 +39,6 @@ namespace SLICE_PlannerOneImpl
     virtual void push_recvEvent (::SLICE::SimpleEvent * ev);
 
     private:
-    // worker variable: cpuGen
-    CUTS_CPU_Worker cpuGen_;
   };
 }
 

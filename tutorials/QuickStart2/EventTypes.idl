@@ -2,7 +2,6 @@
 #define _EVENTTYPES_IDL_
 
 #include <Components.idl>
-#include "./DataTypes.idl"
 
 #pragma ciao lem "EventTypesE.idl"
 
@@ -10,7 +9,7 @@ module SLICE
 {
   eventtype SimpleEvent
   {
-    public ::SLICE::SimpleContent content;
+    public unsigned long eventCount;
     
   };
   

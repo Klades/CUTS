@@ -8,21 +8,17 @@
 
 module SLICE
 {
-  component PlannerTwo
+  
+  component Effector
   {
-    consumes ::SLICE::SimpleEvent recvEvent;
-    
-    publishes ::SLICE::SimpleEvent pushEvent;
-    
+    consumes ::SLICE::SimpleEvent effectorSettings;
     
   };
   
-  component PlannerOne
+  component ConfigOp
   {
     consumes ::SLICE::SimpleEvent recvEvent;
-    
-    publishes ::SLICE::SimpleEvent pushEvent;
-    
+    publishes ::SLICE::SimpleEvent sendEvent;
     
   };
   
@@ -30,25 +26,21 @@ module SLICE
   {
     publishes ::SLICE::SimpleEvent sensorData;
     
-    
   };
   
-  component ConfigOp
+  component PlannerOne
   {
     consumes ::SLICE::SimpleEvent recvEvent;
-    
-    publishes ::SLICE::SimpleEvent sendEvent;
-    
+    publishes ::SLICE::SimpleEvent pushEvent;
     
   };
   
-  component Effector
+  component PlannerTwo
   {
-    consumes ::SLICE::SimpleEvent effectorSettings;
-    
+    consumes ::SLICE::SimpleEvent recvEvent;
+    publishes ::SLICE::SimpleEvent pushEvent;
     
   };
-  
   
 };
 
