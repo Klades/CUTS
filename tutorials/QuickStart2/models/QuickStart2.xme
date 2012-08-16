@@ -260,7 +260,7 @@
 									</regnode>
 								</regnode>
 								<attribute kind="Value">
-									<value>ev-&gt;content ().eventCount, ACE_OS::gettimeofday ().get_msec ()</value>
+									<value>ev-&gt;eventCount (), ACE_OS::gettimeofday ().get_msec ()</value>
 								</attribute>
 							</reference>
 						</model>
