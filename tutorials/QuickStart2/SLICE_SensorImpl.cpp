@@ -31,7 +31,7 @@ namespace SLICE_SensorImpl
   {
     this->logger_.log (LM_INFO, "sent event %d at %u", this->eventCount_, ACE_OS::gettimeofday ().get_msec ());
     CUTS_CCM_Event_T <OBV_SLICE::SimpleEvent> __event_100000016__;
-    __event_100000016__->content ().eventCount = this->eventCount_;
+    __event_100000016__->eventCount (this->eventCount_);
     this->ctx_->push_sensorData (__event_100000016__.in ());
 
     ++ this->eventCount_;

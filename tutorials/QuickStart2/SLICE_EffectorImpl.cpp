@@ -25,7 +25,7 @@ namespace SLICE_EffectorImpl
   //
   void Effector::push_effectorSettings (::SLICE::SimpleEvent * ev)
   {
-    this->logger_.log (LM_INFO, "received event %d at %u", ev->content ().eventCount, ACE_OS::gettimeofday ().get_msec ());
+    this->logger_.log (LM_INFO, "received event %d at %u", ev->eventCount (), ACE_OS::gettimeofday ().get_msec ());
     ACE_UNUSED_ARG (ev);
   }
 
