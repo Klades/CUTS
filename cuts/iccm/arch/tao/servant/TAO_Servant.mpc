@@ -1,0 +1,89 @@
+// $Id$
+
+project (iCCM_TAO_stub) : ccm_stub, cutslib {
+  sharedname    = iCCM_TAO_stub
+  dynamicflags += ICCM_TAO_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_TAO_STUB_Export \
+              -Wb,stub_export_include=TAO_stub_export.h \
+              -Wb,skel_export_macro=ICCM_TAO_SKEL_Export \
+              -Wb,skel_export_include=TAO_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_TAO_SVNT_Export \
+              -Wb,svnt_export_include=TAO_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    TAO_Events.idl
+  }
+
+  Source_Files {
+    TAO_EventsC.cpp
+    TAO_Event.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_TAO_skel) : ccm_svnt, cutslib {
+  sharedname    = iCCM_TAO_skel
+  dynamicflags += ICCM_TAO_SKEL_BUILD_DLL
+
+  after += iCCM_TAO_stub
+  libs  += iCCM_TAO_stub
+
+  Source_Files {
+    TAO_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_TAO_svnt) : iccm_servant, cutslib {
+  sharedname    = iCCM_TAO_svnt
+  dynamicflags += ICCM_TAO_SVNT_BUILD_DLL
+
+  after += iCCM_TAO_skel
+  libs  += iCCM_TAO_skel iCCM_TAO_stub
+
+  Source_Files {
+    TAO_EventConsumer.cpp
+    TAO_Servant.cpp
+    TAO_Publisher.cpp
+    TAO_Publisher_Table.cpp
+  }
+
+  Template_Files {
+    TAO_EventConsumer_T.cpp
+    TAO_Servant_T.cpp
+    TAO_Publisher_T.cpp
+    TAO_Publisher_Table_T.cpp
+  }
+
+  IDL_Files {
+
+  }
+}

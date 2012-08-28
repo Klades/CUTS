@@ -1,0 +1,8 @@
+workspace (Button) {
+  cmdline += -include $CUTS_ROOT/MPC/config \
+             -feature_file $CUTS_ROOT/default.features \
+             -relative PROJECT_ROOT=
+
+  ButtonImpl.mpc
+  Button.mpc
+}

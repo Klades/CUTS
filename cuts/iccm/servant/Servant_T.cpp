@@ -253,7 +253,7 @@ deactivate_ports (void)
       oid = this->port_POA_->servant_to_id (iter->item ());
       this->port_POA_->deactivate_object (oid.in ());
     }
-    catch (const ::PortableServer::POA::ObjectNotActive &)
+    catch (const ::PortableServer::POA::ServantNotActive &)
     {
       // Ingore this exception.
     }

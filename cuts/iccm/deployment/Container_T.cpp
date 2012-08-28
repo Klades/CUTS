@@ -368,7 +368,7 @@ template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT
 ::PortableServer::POA_ptr
 Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::the_port_POA (void)
 {
-  throw ::CORBA::NO_IMPLEMENT ();
+  return ::PortableServer::POA::_duplicate (this->port_poa_.in ());
 }
 
 //

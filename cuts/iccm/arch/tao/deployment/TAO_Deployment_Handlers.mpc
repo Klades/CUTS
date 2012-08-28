@@ -1,0 +1,13 @@
+// $Id$
+
+project (iCCM_TAO_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, iccm_tao_svnt, cutslib {
+  sharedname    = iCCM_TAO_Deployment_Handlers
+  dynamicflags += ICCM_TAO_DEPLOYMENT_HANDLERS_BUILD_DLL
+  after += iCCM_TAO_stub
+
+  Source_Files {
+    TAO_Container.cpp
+    TAO_Container_Strategy.cpp
+    TAO_Component_Instance_Handler.cpp
+  }
+}

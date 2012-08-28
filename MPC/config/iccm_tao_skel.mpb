@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_svnt, iccm_tao_stub {
+  libs  += iCCM_TAO_skel
+  after += iCCM_TAO_skel
+}

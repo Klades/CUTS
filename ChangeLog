@@ -1,3 +1,100 @@
+Tue Aug 28 17:17:48 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_tao.mpb:
+        * MPC/config/iccm_tao_skel.mpb:
+        * MPC/config/iccm_tao_stub.mpb:
+        * MPC/config/iccm_tao_svnt.mpb:
+
+          Added in base projects for the TAO implementation for iCCM.
+
+        * cuts/iccm/arch/tao:
+        * cuts/iccm/arch/tao/TAO_iCCM.mwc:
+        * cuts/iccm/arch/tao/TAO_locality.config:
+
+          Started the TAO implemetation for iCCM.
+
+        * cuts/iccm/arch/tao/compiler:
+        * cuts/iccm/arch/tao/compiler/Compiler.cpp:
+        * cuts/iccm/arch/tao/compiler/Context.h:
+        * cuts/iccm/arch/tao/compiler/Context.cpp:
+        * cuts/iccm/arch/tao/compiler/Event_Traits.h:
+        * cuts/iccm/arch/tao/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/tao/compiler/Stub_File.h:
+        * cuts/iccm/arch/tao/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/tao/compiler/TAO_Compiler.mpc:
+
+          Added iccm_tao servant compiler
+
+        * cuts/iccm/arch/tao/deployment:
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tao/deployment/TAO_Container.h:
+        * cuts/iccm/arch/tao/deployment/TAO_Container.inl:
+        * cuts/iccm/arch/tao/deployment/TAO_Container.cpp:
+        * cuts/iccm/arch/tao/deployment/TAO_Container_Strategy.h:
+        * cuts/iccm/arch/tao/deployment/TAO_Container_Strategy.inl:
+        * cuts/iccm/arch/tao/deployment/TAO_Container_Strategy.cpp:
+        * cuts/iccm/arch/tao/deployment/TAO_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/tao/deployment/TAO_Deployment_Handlers_export.h:
+        * cuts/iccm/arch/tao/servant:
+        * cuts/iccm/arch/tao/servant/TAO_Event.h:
+        * cuts/iccm/arch/tao/servant/TAO_Event.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Event.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer.h:
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer.inl:
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer_T.h:
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer_T.inl:
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer_T.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Events.idl:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher.h:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_T.h:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_T.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_T.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table.h:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.h:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Servant.h:
+        * cuts/iccm/arch/tao/servant/TAO_Servant.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Servant.mpc:
+        * cuts/iccm/arch/tao/servant/TAO_Servant.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Servant_T.h:
+        * cuts/iccm/arch/tao/servant/TAO_Servant_T.inl:
+        * cuts/iccm/arch/tao/servant/TAO_Servant_T.cpp:
+
+          Basic implementation of TAO for iCCM.
+
+        * cuts/iccm/deployment/Container_T.cpp:
+
+          Implemented the_port_POA getter.
+
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Fixed exception handling when deactivating ports.
+
+        * examples/iccm/Button/tao:
+        * examples/iccm/Button/tao/Button.idl:
+        * examples/iccm/Button/tao/Button.mpc:
+        * examples/iccm/Button/tao/Button.mwc:
+        * examples/iccm/Button/tao/ButtonImpl.h:
+        * examples/iccm/Button/tao/ButtonImpl.cpp:
+        * examples/iccm/Button/tao/ButtonImpl.mpc:
+        * examples/iccm/Button/tao/Button_impl_export.h:
+        * examples/iccm/Button/tao/ClickTask.h:
+        * examples/iccm/Button/tao/ClickTask.cpp:
+        * examples/iccm/Button/tao/descriptors:
+        * examples/iccm/Button/tao/descriptors/ButtonDeployment.cdd:
+        * examples/iccm/Button/tao/descriptors/ButtonDeployment.cdp:
+        * examples/iccm/Button/tao/descriptors/run_test.pl:
+
+          Simple test of TAO for iCCM.
+
 Tue Aug 28 15:21:08 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
