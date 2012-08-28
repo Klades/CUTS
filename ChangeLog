@@ -1,3 +1,10 @@
+Tue Aug 28 15:04:24 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/rtidds/Traits.cpp:
+
+          Trait class failed to add flags for generating local executor
+          mapping and servant.
+
 Tue Aug 28 15:03:10 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.mpc:
