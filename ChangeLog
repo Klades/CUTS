@@ -1,3 +1,10 @@
+Tue Aug 28 15:02:02 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.cpp:
+
+          Trait class failed to add flags for generating local executor
+          mapping and servant.
+
 Thu Aug 16 17:30:19 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * tutorials/QuickStart2/models/QuickStart2.xme:
