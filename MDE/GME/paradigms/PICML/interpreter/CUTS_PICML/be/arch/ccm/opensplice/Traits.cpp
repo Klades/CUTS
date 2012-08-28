@@ -102,7 +102,7 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
       << "  iccm_ospl_flags += -Wb,stub_export_macro=" << macro_basename << "_STUB_Export \\" << std::endl
       << "                     -Wb,stub_export_include=" << name << "_stub_export.h \\" << std::endl
       << "                     -Wb,svnt_export_macro=" << macro_basename << "_SVNT_Export \\" << std::endl
-      << "                     -Wb,svnt_export_include=" << name << "_svnt_export.h" << std::endl
+      << "                     -Wb,svnt_export_include=" << name << "_svnt_export.h \\" << std::endl
       << "                     -Glem -Gsv" << std::endl
       << std::endl
       << "  ICCM_Files {" << std::endl
