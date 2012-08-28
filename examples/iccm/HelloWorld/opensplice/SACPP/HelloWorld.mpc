@@ -54,7 +54,8 @@ project (HelloWorld_iCCM_IDL_Gen) : iccm_ospl, requires_opensplice {
   iccm_ospl_flags += -Wb,stub_export_macro=HELLOWORLD_STUB_Export \
                      -Wb,stub_export_include=HelloWorld_stub_export.h \
                      -Wb,svnt_export_macro=HELLOWORLD_SVNT_Export \
-                     -Wb,svnt_export_include=HelloWorld_svnt_export.h
+                     -Wb,svnt_export_include=HelloWorld_svnt_export.h \
+                     -Glem -Gsv
 
   ICCM_Files {
     gendir = .
