@@ -60,6 +60,8 @@ public:
 #endif
 
   virtual ::CORBA::Object_ptr resolve_service_reference (const char *);
+  virtual void install_service_component_reference (const char * service_id, ::CORBA::Object_ptr objref);
+  virtual ::CORBA::Object_ptr uninstall_service_component_reference (const char * service_id);
 
   virtual ::CORBA::Object_ptr get_CCM_object (void);
 

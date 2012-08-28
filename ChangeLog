@@ -1,3 +1,20 @@
+Tue Aug 28 15:21:08 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+
+          BUGFIX: The _writer_cast () method had an unnecessary .in ()
+          method call.
+
+        * cuts/iccm/servant/Context_T.h:
+        * cuts/iccm/servant/Context_T.inl:
+
+          BUGFIX: The context did not implement the following methods:
+            . install_service_component_reference
+            . uninstall_service_component_reference
+
+          We do not know what version of CIAO this appeared so we will have
+          to see when it breaks and fix them.
+
 Tue Aug 28 15:06:54 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/opensplice/Traits.cpp:

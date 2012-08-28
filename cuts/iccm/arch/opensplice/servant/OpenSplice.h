@@ -198,7 +198,7 @@ public:
   template <typename T1, typename T2>
   static typename T1::_ptr_type _writer_cast (T2 val)
   {
-    return T1::_narrow (val.in ());
+    return T1::_narrow (val);
   }
 
   template <typename T1, typename T2>

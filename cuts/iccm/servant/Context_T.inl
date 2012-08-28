@@ -47,6 +47,28 @@ Context_T <T, SVNT>::resolve_service_reference (const char *)
 }
 
 //
+// install_service_component_reference
+//
+template <typename T, typename SVNT>
+CUTS_INLINE
+void Context_T <T, SVNT>::
+install_service_component_reference (const char * service_id, ::CORBA::Object_ptr objref)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
+// uninstall_service_component_reference
+//
+template <typename T, typename SVNT>
+CUTS_INLINE
+::CORBA::Object_ptr Context_T <T, SVNT>::
+uninstall_service_component_reference (const char * service_id)
+{
+  throw ::CORBA::NO_IMPLEMENT ();
+}
+
+//
 // get_CCM_object
 //
 template <typename T, typename SVNT>
@@ -109,5 +131,6 @@ void Context_T <T, SVNT>::set_rollback_only (void)
 }
 
 #endif
+
 
 }
