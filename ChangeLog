@@ -1,3 +1,17 @@
+Wed Aug 29 13:36:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * bin/iCCM/templates/cpp/servant/Publisher_Table_T.cpp.tmpl:
+
+          Fixed template arguments
+
+        * examples/iccm/Button/tao/Button.idl:
+        * examples/iccm/Button/tao/Button.mpc:
+        * examples/iccm/Button/tao/Button.mwc:
+        * examples/iccm/Button/tao/ButtonImpl.mpc:
+        * examples/iccm/Button/tao/models:
+
+          Updated to use GME-generated files.
+
 Wed Aug 29 13:30:09 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/BE_CIAO.mpc:
