@@ -12,8 +12,9 @@ eventtype Notify
 component Button
 {
   consumes ::Notify Click;
-  publishes ::Notify SingleClick;
   publishes ::Notify DoubleClick;
+  publishes ::Notify SingleClick;
+  
 };
 
 #endif    // !defined _BUTTON_IDL_
