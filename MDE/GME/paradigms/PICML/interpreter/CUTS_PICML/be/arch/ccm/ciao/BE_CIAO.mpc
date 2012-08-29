@@ -7,6 +7,7 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
   includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
 
   Source_Files {
+	CIAO_Generators.cpp
     CIAO_Manager.cpp
     CIAO_Preprocessor_Handlers.cpp
     CIAO_Traits.cpp
@@ -14,8 +15,6 @@ project (CUTS_BE_CIAO) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
 
   Header_Files {
     CIAO_Ctx.h
-    CIAO_Generators.h
-    CIAO_Preprocessor.h
   }
 
   Inline_Files {

@@ -4,6 +4,7 @@
 #define _TAO_EVENT_H_
 
 #include "cuts/config.h"
+#include "TAO_stub_export.h"
 
 namespace iCCM
 {
@@ -20,7 +21,7 @@ struct TAO_Event_Traits;
  * Base class for all TAO events.  Concrete events must read
  * and write attributes as desired.
  */
-class TAO_Event
+class ICCM_TAO_STUB_Export TAO_Event
 {
 public:
   // Default ctor.

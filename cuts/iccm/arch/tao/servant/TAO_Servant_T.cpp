@@ -4,8 +4,6 @@
 #include "TAO_Servant_T.inl"
 #endif
 
-#include "boost/bind.hpp"
-
 namespace iCCM
 {
 

@@ -14,6 +14,8 @@
 #define _CUTS_BE_CCM_CIAO_TRAITS_H_
 
 #include "../Traits.h"
+#include <set>
+
 #include "BE_CIAO_export.h"
 
 namespace CUTS_BE_CIAO
@@ -36,6 +38,17 @@ public:
   virtual const char * stub_base_project (void);
   virtual const char * skel_base_project (void);
   virtual const char * svnt_base_project (void);
+
+  virtual void write_top (std::ostream &, const CUTS_BE_IDL_Node & );
+
+  virtual void write_stub_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
+
+  virtual void write_stub_after (std::ostream &, const CUTS_BE_IDL_Node &);
+  virtual void write_exec_idl_files (std::ostream & proj, const CUTS_BE_IDL_Node & node);
+  virtual void write_exec_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
+
+private:
+  std::set <std::string> stub_after_;
 };
 
 }

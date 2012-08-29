@@ -1,3 +1,28 @@
+Wed Aug 29 13:30:09 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/BE_CIAO.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Generators.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.cpp:
+
+          Fixed the mpc generation for the interpreter to use the new TAO iCCM implementation
+
+        * cuts/iccm/arch/tao/servant/TAO_Event.h:
+        * cuts/iccm/arch/tao/servant/TAO_Servant.mpc:
+        * cuts/iccm/arch/tao/servant/TAO_Servant_T.cpp:
+
+          Fixed compilation erorrs on windows.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Preprocessor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Proxy_Header_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Proxy_Header_Traits.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Proxy_Source_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Proxy_Source_Traits.cpp:
+
+          Removed these files.
+
 Tue Aug 28 17:17:48 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_tao.mpb:

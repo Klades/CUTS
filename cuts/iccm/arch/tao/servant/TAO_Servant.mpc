@@ -26,11 +26,11 @@ project (iCCM_TAO_stub) : ccm_stub, cutslib {
   }
 
   Header_Files {
-
+    TAO_Event.h
   }
 
   Inline_Files {
-
+    TAO_Event.inl
   }
 }
 

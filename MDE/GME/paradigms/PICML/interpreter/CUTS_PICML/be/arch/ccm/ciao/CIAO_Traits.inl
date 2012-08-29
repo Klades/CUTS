@@ -19,7 +19,7 @@ Traits::~Traits (void)
 CUTS_INLINE
 bool Traits::generate_default_servant (void)
 {
-  return true;
+  return false;
 }
 
 //
@@ -28,7 +28,7 @@ bool Traits::generate_default_servant (void)
 CUTS_INLINE
 const char * Traits::stub_base_project (void)
 {
-  return "ccm_stub";
+  return "iccm_tao_stub";
 }
 
 //
@@ -37,7 +37,7 @@ const char * Traits::stub_base_project (void)
 CUTS_INLINE
 const char * Traits::svnt_base_project (void)
 {
-  return "ciao_servant";
+  return "iccm_tao_svnt";
 }
 
 //
@@ -46,7 +46,7 @@ const char * Traits::svnt_base_project (void)
 CUTS_INLINE
 const char * Traits::skel_base_project (void)
 {
-  return "ccm_svnt";
+  return "iccm_tao_skel";
 }
 
 }
