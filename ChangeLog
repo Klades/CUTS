@@ -1,3 +1,10 @@
+Thu Aug 30 16:50:11 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+
+          BUGFIX: The CUTS failed to include the CodeGenerationKit project
+          on both Windows and non-Windows platforms.
+
 Wed Aug 29 13:36:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * bin/iCCM/templates/cpp/servant/Publisher_Table_T.cpp.tmpl:
