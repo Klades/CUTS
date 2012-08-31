@@ -18,8 +18,8 @@ connect (::Components::EventConsumerBase_ptr p)
   // Narrow the base consumer to a consumer of our type. This way, we
   // can validate the consumer and make sure we are not working with
   // a consumer type we do not know about.
-  ::Components::TAO::EventConsumer_var consumer =
-    ::Components::TAO::EventConsumer::_narrow (p);
+  ::Components::TAO_iCCM::EventConsumer_var consumer =
+    ::Components::TAO_iCCM::EventConsumer::_narrow (p);
 
   if (::CORBA::is_nil (consumer.in ()))
     throw ::CORBA::INTERNAL ();
@@ -35,7 +35,7 @@ connect (::Components::EventConsumerBase_ptr p)
   // Store the event consumer since all operations above executed
   // correctly and we need to remember the event consumer for the
   // disconnect operation.
-  this->consumer_ = ::Components::TAO::EventConsumer::_narrow (p);
+  this->consumer_ = ::Components::TAO_iCCM::EventConsumer::_narrow (p);
 }
 
 //

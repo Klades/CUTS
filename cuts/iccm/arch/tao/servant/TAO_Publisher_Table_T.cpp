@@ -36,8 +36,8 @@ TAO_Publisher_Table_T <EVENT>::
 subscribe (::Components::EventConsumerBase_ptr consumer_base)
 {
   // Make sure this is a valid consumer.
-  ::Components::TAO::EventConsumer_var consumer =
-    ::Components::TAO::EventConsumer::_narrow (consumer_base);
+  ::Components::TAO_iCCM::EventConsumer_var consumer =
+    ::Components::TAO_iCCM::EventConsumer::_narrow (consumer_base);
 
   if (::CORBA::is_nil (consumer.in ()))
     throw ::CORBA::INTERNAL ();
@@ -76,8 +76,8 @@ TAO_Publisher_Table_T <EVENT>::unsubscribe (::Components::Cookie * c)
 
   // Notify the event consumer they no longer need to observe
   // events from this publisher.
-  ::Components::TAO::EventConsumer_var consumer =
-    ::Components::TAO::EventConsumer::_narrow (consumer_base);
+  ::Components::TAO_iCCM::EventConsumer_var consumer =
+    ::Components::TAO_iCCM::EventConsumer::_narrow (consumer_base);
 
   return consumer_base;
 }

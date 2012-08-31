@@ -14,8 +14,8 @@ template <typename EVENT>
 void TAO_Publisher_T <EVENT>::
 connect (::Components::EventConsumerBase_ptr p)
 {
-  ::Components::TAO::EventConsumer_var consumer =
-      ::Components::TAO::EventConsumer::_narrow (p);
+  ::Components::TAO_iCCM::EventConsumer_var consumer =
+      ::Components::TAO_iCCM::EventConsumer::_narrow (p);
 
   if (::CORBA::is_nil (consumer.in ()))
     throw ::CORBA::INTERNAL ();

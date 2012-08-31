@@ -58,7 +58,7 @@ public:
 
 protected:
   /// The consumer connected to this publisher.
-  ::Components::TAO::EventConsumer_var consumer_;
+  ::Components::TAO_iCCM::EventConsumer_var consumer_;
 
   /// INSERT CODE HERE
 };

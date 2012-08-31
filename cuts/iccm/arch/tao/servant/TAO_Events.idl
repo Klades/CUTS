@@ -22,7 +22,7 @@
 
 module Components
 {
-  module TAO
+  module TAO_iCCM
   {
     /**
      * Extension interface connecting a publisher to an event consumer
