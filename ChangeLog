@@ -1,3 +1,126 @@
+Wed Sep 12 18:54:54 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_tcpip.mpb:
+        * MPC/config/iccm_tcpip_skel.mpb:
+        * MPC/config/iccm_tcpip_stub.mpb:
+        * MPC/config/iccm_tcpip_svnt.mpb:
+
+          Added base projects for the tcpip iCCM architecture
+
+        * bin/handlers/tao.locality.config:
+
+          Forgot to add the tao locality config on previous commit
+
+        * bin/handlers/tcpip.locality.config:
+
+          Changed to use the iCCM TCPIP framework
+
+        * bin/iCCM/templates/cpp/deployment/Component_Instance_Handler.h.tmpl:
+
+          Fixed template paramaters
+
+        * cuts/iccm/arch/tcpip:
+        * cuts/iccm/arch/tcpip/TCPIP_iCCM.mwc:
+        * cuts/iccm/arch/tcpip/TCPIP_locality.config:
+        * cuts/iccm/arch/tcpip/deployment:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container.h:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container.inl:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container.cpp:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container_Strategy.h:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container_Strategy.inl:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container_Strategy.cpp:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Deployment_Handlers_export.h:
+        * cuts/iccm/arch/tcpip/servant:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_EventConsumer.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_EventConsumer.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_EventConsumer.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_EventConsumer_T.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_EventConsumer_T.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_EventConsumer_T.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Events.idl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_T.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_T.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_T.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table_T.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table_T.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant.cpp:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant.mpc:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant_T.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant_T.inl:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant_T.cpp:
+        * cuts/iccm/arch/tcpip/stub:
+        * cuts/iccm/arch/tcpip/stub/TCPIP.mpc:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Acceptor.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Acceptor.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Acceptor.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Connector.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Connector.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Connector.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Connector_Svc_Handler.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Connector_Svc_Handler.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Connector_Svc_Handler.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Event_Handler.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Event_Handler.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Event_Handler.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB_Task.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB_Task.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB_Task.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_OutputCDR.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_OutputCDR.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_OutputCDR.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint_T.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint_T.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint_T.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Servant_Manager.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Servant_Manager.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Servant_Manager.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Servant_VTable_T.h:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Servant_VTable_T.inl:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Servant_VTable_T.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_export.h:
+        * cuts/iccm/arch/tcpip/stub/config-default.h:
+
+          Modified the existing TCPIP architecture to use iCCM.
+
+        * examples/iccm/Button/tcpip:
+        * examples/iccm/Button/tcpip/Button.idl:
+        * examples/iccm/Button/tcpip/Button.mpc:
+        * examples/iccm/Button/tcpip/Button.mwc:
+        * examples/iccm/Button/tcpip/ButtonImpl.h:
+        * examples/iccm/Button/tcpip/ButtonImpl.cpp:
+        * examples/iccm/Button/tcpip/ButtonImpl.mpc:
+        * examples/iccm/Button/tcpip/Button_iCCM.idl:
+        * examples/iccm/Button/tcpip/Button_impl_export.h:
+        * examples/iccm/Button/tcpip/ClickTask.h:
+        * examples/iccm/Button/tcpip/ClickTask.cpp:
+        * examples/iccm/Button/tcpip/descriptors:
+        * examples/iccm/Button/tcpip/descriptors/ButtonDeployment.cdd:
+        * examples/iccm/Button/tcpip/descriptors/ButtonDeployment.cdp:
+        * examples/iccm/Button/tcpip/descriptors/run_test.pl:
+        * examples/iccm/Button/tcpip/models:
+        * examples/iccm/Button/tcpip/models/Button.mga:
+
+          Extended simple Button example to use the TCPIP iCCM architecture.
+
 Fri Aug 31 18:18:48 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tao/servant/TAO_Events.idl:

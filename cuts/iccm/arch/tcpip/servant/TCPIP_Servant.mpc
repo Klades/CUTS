@@ -1,0 +1,88 @@
+// $Id$
+
+project (iCCM_TCPIP_stub) : ccm_stub, cutslib {
+  sharedname    = iCCM_TCPIP_stub
+  dynamicflags += ICCM_TCPIP_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_TCPIP_STUB_Export \
+              -Wb,stub_export_include=TCPIP_stub_export.h \
+              -Wb,skel_export_macro=ICCM_TCPIP_SKEL_Export \
+              -Wb,skel_export_include=TCPIP_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_TCPIP_SVNT_Export \
+              -Wb,svnt_export_include=TCPIP_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    TCPIP_Events.idl
+  }
+
+  Source_Files {
+    TCPIP_EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_TCPIP_skel) : ccm_svnt, cutslib {
+  sharedname    = iCCM_TCPIP_skel
+  dynamicflags += ICCM_TCPIP_SKEL_BUILD_DLL
+
+  after += iCCM_TCPIP_stub
+  libs  += iCCM_TCPIP_stub
+
+  Source_Files {
+    TCPIP_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_TCPIP_svnt) : iccm_servant, cutslib {
+  sharedname    = iCCM_TCPIP_svnt
+  dynamicflags += ICCM_TCPIP_SVNT_BUILD_DLL
+
+  after += iCCM_TCPIP_skel CUTS_TCPIP
+  libs  += iCCM_TCPIP_skel iCCM_TCPIP_stub CUTS_TCPIP
+
+  Source_Files {
+    TCPIP_EventConsumer.cpp
+    TCPIP_Servant.cpp
+    TCPIP_Publisher.cpp
+    TCPIP_Publisher_Table.cpp
+  }
+
+  Template_Files {
+    TCPIP_EventConsumer_T.cpp
+    TCPIP_Servant_T.cpp
+    TCPIP_Publisher_T.cpp
+    TCPIP_Publisher_Table_T.cpp
+  }
+
+  IDL_Files {
+
+  }
+}

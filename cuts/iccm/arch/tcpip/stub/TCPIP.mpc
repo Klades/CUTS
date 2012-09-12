@@ -1,0 +1,30 @@
+// $Id$
+
+project (CUTS_TCPIP_stub) : acelib, cutslib, ccm_stub, ciao_container_base_stub, ccm_lem_stub {
+  sharedname   = CUTS_TCPIP
+  dynamicflags = CUTS_TCPIP_BUILD_DLL
+
+  Source_Files {
+    TCPIP_Acceptor.cpp
+    TCPIP_Connector.cpp
+    TCPIP_Connector_Svc_Handler.cpp
+    TCPIP_Event_Handler.cpp
+    TCPIP_ORB.cpp
+    TCPIP_OutputCDR.cpp
+    TCPIP_Remote_Endpoint.cpp
+    TCPIP_Servant_Manager.cpp
+    TCPIP_SPEC.cpp
+    TCPIP_ORB_Task.cpp
+  }
+
+  Template_Files {
+    TCPIP_Remote_Endpoint_T.cpp
+    TCPIP_Servant_VTable_T.cpp
+  }
+
+  Header_Files {
+    config-default.h
+    config.h
+    TCPIP_Exceptions.h
+  }
+}

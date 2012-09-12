@@ -1,0 +1,15 @@
+// $Id$
+
+project (iCCM_TCPIP_Deployment_Handlers) : iccm_tcpip_svnt, iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
+  sharedname    = iCCM_TCPIP_Deployment_Handlers
+  dynamicflags += ICCM_TCPIP_DEPLOYMENT_HANDLERS_BUILD_DLL
+
+  after += iCCM_TCPIP_stub CUTS_TCPIP
+  libs  += CUTS_TCPIP
+
+  Source_Files {
+    TCPIP_Container.cpp
+    TCPIP_Container_Strategy.cpp
+    TCPIP_Component_Instance_Handler.cpp
+  }
+}

@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_svnt, iccm_tcpip_stub {
+  libs  += iCCM_TCPIP_skel
+  after += iCCM_TCPIP_skel
+}

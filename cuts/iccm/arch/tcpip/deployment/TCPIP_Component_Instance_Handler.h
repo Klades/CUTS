@@ -2,7 +2,7 @@
 
 //=============================================================================
 /**
- *  @file ${arch_name}_Component_Instance_Handler.h
+ *  @file TCPIP_Component_Instance_Handler.h
  *
  *  $Id$
  *
@@ -15,37 +15,39 @@
  */
 //=============================================================================
 
-#ifndef _ICCM_${arch_name.upper()}_COMPONENT_INSTANCE_HANDLER_H_
-#define _ICCM_${arch_name.upper()}_COMPONENT_INSTANCE_HANDLER_H_
+#ifndef _ICCM_TCPIP_COMPONENT_INSTANCE_HANDLER_H_
+#define _ICCM_TCPIP_COMPONENT_INSTANCE_HANDLER_H_
 
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
-#include "${arch_name}_Container.h"
+#include "TCPIP_Container.h"
+#include "../stub/TCPIP_ORB.h"
+#include "../stub/TCPIP_ORB_Task.h"
 
 namespace iCCM
 {
 
 /**
- * @class ${arch_name}_Component_Instance_Handler
+ * @class TCPIP_Component_Instance_Handler
  *
- * ${arch_name} implementation of the deployment handlers for component
+ * TCPIP implementation of the deployment handlers for component
  * instances.
  */
-class  ICCM_${arch_name.upper()}_DEPLOYMENT_HANDLERS_Export ${arch_name}_Component_Instance_Handler :
-  public Component_Instance_Handler_T <${arch_name}_Component_Instance_Handler,
+class  ICCM_TCPIP_DEPLOYMENT_HANDLERS_Export TCPIP_Component_Instance_Handler :
+  public Component_Instance_Handler_T <TCPIP_Component_Instance_Handler,
                                       ::DAnCE::InstanceDeploymentHandler,
-                                      ${arch_name}_Container>
+                                      TCPIP_Container>
 {
 public:
   /// Type definition of the base type.
-  typedef Component_Instance_Handler_T <${arch_name}_Component_Instance_Handler,
+  typedef Component_Instance_Handler_T <TCPIP_Component_Instance_Handler,
                                        ::DAnCE::InstanceDeploymentHandler,
-                                       ${arch_name}_Container> base_type;
+                                       TCPIP_Container> base_type;
 
   /// Default constructor.
-  ${arch_name}_Component_Instance_Handler (void);
+  TCPIP_Component_Instance_Handler (void);
 
   /// Destructor.
-  virtual ~${arch_name}_Component_Instance_Handler (void);
+  virtual ~TCPIP_Component_Instance_Handler (void);
 
   /**
    * Configure the instance handler. The deployment properties passed
@@ -59,19 +61,26 @@ public:
   /// Close the instance handler.
   virtual void close (void);
 
+  /// TCPIP ORB getter
+  TCPIP_ORB & the_ORB (void);
+
 private:
-  /// INSERT YOUR VARIABLES HERE
+  /// The ORB for the component server.
+  TCPIP_ORB tcpip_orb_;
+
+  /// The active object for this handler.
+  CUTS_TCPIP_ORB_Task orb_task_;
 };
 
 }
 
 extern "C"
-ICCM_${arch_name.upper()}_DEPLOYMENT_HANDLERS_Export
+ICCM_TCPIP_DEPLOYMENT_HANDLERS_Export
 ::DAnCE::InstanceDeploymentHandler_ptr
-create_iCCM_${arch_name}_Component_Instance_Handler (void);
+create_iCCM_TCPIP_Component_Instance_Handler (void);
 
 #if defined (__CUTS_INLINE__)
-#include "${arch_name}_Component_Instance_Handler.inl"
+#include "TCPIP_Component_Instance_Handler.inl"
 #endif
 
-#endif  // !defined _ICCM_${arch_name}_COMPONENT_INSTANCE_HANDLER_H_
+#endif  // !defined _ICCM_TCPIP_COMPONENT_INSTANCE_HANDLER_H_

@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_stub {
+  libs  += iCCM_TCPIP_stub
+  after += iCCM_TCPIP_stub
+}
