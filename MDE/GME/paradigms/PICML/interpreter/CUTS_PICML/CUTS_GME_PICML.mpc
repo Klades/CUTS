@@ -1,7 +1,7 @@
 // $Id$
 
 project (CUTS_GME_PICML) : codegenerationkit, cuts_picmllib, boost_base, cuts_gme, \
-                           picml_udm, cuts_gme_udm_component, cuts_game_mga, cuts_cosmic {
+                           picml_udm, game_mga_interpreter, game_mga_utils, cuts_game_mga, cuts_cosmic {
 
   sharedname = CUTS_GME_PICML
 
@@ -10,8 +10,14 @@ project (CUTS_GME_PICML) : codegenerationkit, cuts_picmllib, boost_base, cuts_gm
   libs  += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_TCPIP
 
   Source_Files {
+    Code_Generation.idl
+    Code_Generation_Module.cpp
+    Code_Generation_Impl.cpp
     Main_Dialog.cpp
   }
+
+  pch_source = StdAfx.cpp
+  pch_header = StdAfx.h
 
   Resource_Files {
     Component.rc
@@ -23,7 +29,7 @@ project (CUTS_GME_PICML) : codegenerationkit, cuts_picmllib, boost_base, cuts_gm
     gme_uuid        = DD5752C3-12EF-43D0-978C-F5C395D5BF13
     gme_paradigms   = PICML
     gme_has_icon    = 1
-    gme_description = CUTS interpreter
-    gme_tooltip     = CUTS interpreter
+    gme_description = CUTS Code Generator
+    gme_tooltip     = CUTS Code Generator
   }
 }

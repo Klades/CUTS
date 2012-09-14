@@ -1,0 +1,35 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file      Code_Generation.idl
+ *
+ * $Id$
+ *
+ * @author    James H. Hill
+ */
+//=============================================================================
+
+#ifndef _CODE_GENERATION_IDL_
+#define _CODE_GENERATION_IDL_
+
+#include <Gme.idl>
+
+[
+  uuid (04DBB307-9F4F-42B6-90A9-D59D5743F80B),
+  version (1.0),
+]
+library CodeGeneration
+{
+  importlib ("stdole32.tlb");
+
+  [uuid (DD5752C3-12EF-43D0-978C-F5C395D5BF13)]
+  coclass CodeGeneration
+  {
+    [default] interface IMgaComponentEx;
+    interface IMgaComponent;
+    interface IMgaVersionInfo;
+  };
+};
+
+#endif  // !defined _CODE_GENERATION_IDL_

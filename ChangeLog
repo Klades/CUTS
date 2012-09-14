@@ -1,3 +1,31 @@
+Fri Sep 14 16:49:34 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation.idl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Module.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Main_Dialog.cpp:
+
+          Update interface between GME and the interpreter to use
+          the GAME architecture. This makes it a LOT easier to extend
+          the intepreter to support new parameter and registry values.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/ComponentLib_h.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/RawComponent.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmApp.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/UdmConfig.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/component.def:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/modelgen.cpp:
+
+          Removed these files.
+
 Wed Sep 12 18:54:54 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_tcpip.mpb:

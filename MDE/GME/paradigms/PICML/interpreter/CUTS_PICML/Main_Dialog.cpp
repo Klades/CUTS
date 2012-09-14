@@ -106,23 +106,24 @@ void Main_Dialog::DoDataExchange (CDataExchange * pDX)
   // to generate source, we need to save the manager factory.
   DDX_Control (pDX, IDC_CODEGEN, this->generators_);
 
-  int index;
-  DDX_CBIndex (pDX, IDC_CODEGEN, index);
-
-  if (pDX->m_bSaveAndValidate && index < 0)
+  if (pDX->m_bSaveAndValidate)
   {
-    ::AfxMessageBox ("Please select backend generator", MB_ICONEXCLAMATION);
+    DDX_CBIndex (pDX, IDC_CODEGEN, this->opts_.selected_backend_);
 
-    // Set the focus of the control and change to fail state.
-    this->GetDlgItem (IDC_CODEGEN)->SetFocus ();
-    pDX->Fail ();
+    if (this->opts_.selected_backend_ < 0)
+    {
+      ::AfxMessageBox ("Please select backend generator", MB_ICONEXCLAMATION);
+
+      // Set the focus of the control and change to fail state.
+      this->GetDlgItem (IDC_CODEGEN)->SetFocus ();
+      pDX->Fail ();
+    }
   }
-
-  this->opts_.selected_backend_ = this->generators_.GetItemData (index);
+  else
+    this->generators_.SetCurSel (this->opts_.selected_backend_);
 
   // Get the remaining control values.
   DDX_Check (pDX, IDC_ICCM_COMPLIANT, this->opts_.iccm_compliant_);
-
 }
 
 //
