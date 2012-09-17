@@ -5,7 +5,7 @@
 #endif
 
 #include "ccm/CCM_ContextC.h"
-#include "../stub/TCPIP_ORB.h"
+#include "cuts/iccm/arch/tcpip/stub/TCPIP_ORB.h"
 #include <sstream>
 
 

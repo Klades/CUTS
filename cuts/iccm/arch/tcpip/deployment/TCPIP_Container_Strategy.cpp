@@ -8,7 +8,7 @@
 #endif
 
 #include "TCPIP_Container.h"
-#include "../servant/TCPIP_Servant.h"
+#include "cuts/iccm/arch/tcpip/servant/TCPIP_Servant.h"
 
 namespace iCCM
 {

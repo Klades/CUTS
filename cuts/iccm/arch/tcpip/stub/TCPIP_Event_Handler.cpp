@@ -7,7 +7,7 @@
 #endif
 
 #include "ace/CDR_Stream.h"
-#include "../servant/TCPIP_Servant.h"
+#include "cuts/iccm/arch/tcpip/servant/TCPIP_Servant.h"
 #include "TCPIP_Servant_Manager.h"
 #include "TCPIP_SPEC.h"
 

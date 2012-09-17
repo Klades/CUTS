@@ -20,7 +20,7 @@
 
 #include "cuts/iccm/deployment/Container_T.h"
 
-#include "../servant/TCPIP_Servant.h"
+#include "cuts/iccm/arch/tcpip/servant/TCPIP_Servant.h"
 #include "TCPIP_Container_Strategy.h"
 
 namespace iCCM

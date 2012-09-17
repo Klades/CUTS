@@ -65,7 +65,7 @@ project (iCCM_TCPIP_svnt) : iccm_servant, cutslib {
   sharedname    = iCCM_TCPIP_svnt
   dynamicflags += ICCM_TCPIP_SVNT_BUILD_DLL
 
-  after += iCCM_TCPIP_skel CUTS_TCPIP
+  after += iCCM_TCPIP_skel CUTS_TCPIP_stub
   libs  += iCCM_TCPIP_skel iCCM_TCPIP_stub CUTS_TCPIP
 
   Source_Files {

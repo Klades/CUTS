@@ -15,7 +15,7 @@
 
 #include "TCPIP_EventsC.h"
 #include "TCPIP_Publisher.h"
-#include "../stub/TCPIP_Remote_Endpoint_T.h"
+#include "cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint_T.h"
 
 namespace iCCM
 {

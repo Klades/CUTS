@@ -6,7 +6,7 @@
 #include "TCPIP_Servant_Manager.inl"
 #endif
 
-#include "../servant/TCPIP_Servant.h"
+#include "cuts/iccm/arch/tcpip/servant/TCPIP_Servant.h"
 
 //
 // activate_object

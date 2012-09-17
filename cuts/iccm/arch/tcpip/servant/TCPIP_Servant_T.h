@@ -24,7 +24,7 @@
 #include "TCPIP_EventConsumer_T.h"
 #include "TCPIP_Publisher_T.h"
 #include "TCPIP_Publisher_Table_T.h"
-#include "../stub/TCPIP_Servant_VTable_T.h"
+#include "cuts/iccm/arch/tcpip/stub/TCPIP_Servant_VTable_T.h"
 
 namespace iCCM
 {

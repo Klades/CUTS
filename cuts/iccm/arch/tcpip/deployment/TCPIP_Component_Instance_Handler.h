@@ -20,8 +20,8 @@
 
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
 #include "TCPIP_Container.h"
-#include "../stub/TCPIP_ORB.h"
-#include "../stub/TCPIP_ORB_Task.h"
+#include "cuts/iccm/arch/tcpip/stub/TCPIP_ORB.h"
+#include "cuts/iccm/arch/tcpip/stub/TCPIP_ORB_Task.h"
 
 namespace iCCM
 {
