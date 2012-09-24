@@ -1,0 +1,5 @@
+// $Id$
+
+feature (cosmic) : picml_game_mga {
+
+}

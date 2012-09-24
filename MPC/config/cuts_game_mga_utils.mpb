@@ -1,0 +1,5 @@
+// $Id$
+
+feature (cosmic) : game_mga_utils {
+
+}
