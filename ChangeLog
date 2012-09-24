@@ -1,3 +1,10 @@
+Mon Sep 24 19:59:48 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.cpp:
+
+          BUGFIX: The code generator would have a runtime exception when
+          automated from the command-line.
+
 Mon Sep 17 13:21:47 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.h:

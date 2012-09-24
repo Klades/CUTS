@@ -41,6 +41,7 @@ Code_Generation_Impl::Code_Generation_Impl (void)
 //
 Code_Generation_Impl::~Code_Generation_Impl (void)
 {
+  ACE_Singleton <CUTS_BE_Options, ACE_Null_Mutex>::close ();
 }
 
 //
