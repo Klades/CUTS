@@ -23,6 +23,11 @@
 // Forward decl.
 class AST_Generator;
 
+namespace iCCM
+{
+  class Servant_Impl;
+}
+
 /**
  * @class BE_GlobalData
  *
@@ -114,6 +119,18 @@ public:
   bool is_wrapper_eventtype (AST_EventType * node) const;
   bool get_wrapper_eventtype (AST_EventType * node, ACE_CString & type) const;
 
+  // BEGIN: OPTIONAL ARCHITECTURE OVERLOADS
+  virtual bool uses_default_bmi (AST_Component * node) const;
+  virtual void generate_custom_bmi (AST_Component * node, std::ofstream & sfile) const;
+
+  virtual bool uses_default_push_method (AST_Component * node) const;
+  virtual void generate_custom_push_method (AST_Component * node,
+                                            std::ofstream & hfile,
+                                            std::ofstream & sfile,
+                                            const ACE_CString & servant) const;
+
+  virtual void generate_constructor_preamble (AST_Component * node, std::ofstream & sfile) const;
+  virtual void generate_constructor_postamble (AST_Component * node, std::ofstream & sfile) const;
 private:
   /// Basename for the source file.
   mutable ACE_CString source_basename_;

@@ -574,6 +574,8 @@ int Servant_Impl::visit_component (AST_Component * node)
     << servant << std::endl
     << "  : public " << servant << "_Base"
     << "{"
+    << "/// typedef for generated implementation code" << std::endl
+    << "typedef " << servant << " self_type;" << std::endl
     << "/// Default constructor" << std::endl
     << "public:" << std::endl
     << servant << " (const char * name," << std::endl
@@ -591,14 +593,26 @@ int Servant_Impl::visit_component (AST_Component * node)
     << "CIAO_" << local_name << "_Impl::" << local_name << "_Exec_ptr executor)" << std::endl
     << ": " <<  servant << "_Base (this, name, poa, executor)";
 
-  Base_Member_Init bmi (this->sfile_, servant);
-  bmi.visit_scope (node);
+  if (be_global->uses_default_bmi (node))
+  {
+    Base_Member_Init bmi (this->sfile_, servant);
+    bmi.visit_scope (node);
+  }
+  else
+  {
+    be_global->generate_custom_bmi (node, this->sfile_);
+  }
 
   this->sfile_
     << "{";
 
+  be_global->generate_constructor_preamble (node, this->sfile_);
+
   Bind_Port bind_port (this->sfile_);
   bind_port.visit_scope (node);
+
+  // Allow backend to generate any additionl initialization code
+  be_global->generate_constructor_postamble (node, this->sfile_);
 
   this->sfile_
     << "}"
@@ -616,8 +630,15 @@ int Servant_Impl::visit_component (AST_Component * node)
   Subscribe_Method sm (this->hfile_, this->sfile_, servant);
   sm.visit_scope (node);
 
-  Servant_Push_Method spm (this->hfile_, this->sfile_, servant);
-  spm.visit_scope (node);
+  if (be_global->uses_default_push_method (node))
+  {
+    Servant_Push_Method spm (this->hfile_, this->sfile_, servant);
+    spm.visit_scope (node);
+  }
+  else
+  {
+    be_global->generate_custom_push_method (node, this->hfile_, this->sfile_, servant);
+  }
 
   Get_Consumer_Method gcm (this->hfile_, this->sfile_, servant);
   gcm.visit_scope (node);

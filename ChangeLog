@@ -1,3 +1,38 @@
+Wed Sep 26 14:37:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_tcpip.mpb:
+
+          Fixed copy & paste error
+
+        * cuts/iccm/arch/tcpip/compiler:
+        * cuts/iccm/arch/tcpip/compiler/BMI_Visitor.h:
+        * cuts/iccm/arch/tcpip/compiler/BMI_Visitor.inl:
+        * cuts/iccm/arch/tcpip/compiler/BMI_Visitor.cpp:
+        * cuts/iccm/arch/tcpip/compiler/Compiler.cpp:
+        * cuts/iccm/arch/tcpip/compiler/Context.h:
+        * cuts/iccm/arch/tcpip/compiler/Context.cpp:
+        * cuts/iccm/arch/tcpip/compiler/Push_Event_Visitor.h:
+        * cuts/iccm/arch/tcpip/compiler/Push_Event_Visitor.inl:
+        * cuts/iccm/arch/tcpip/compiler/Push_Event_Visitor.cpp:
+        * cuts/iccm/arch/tcpip/compiler/Servant_VTable_Visitor.h:
+        * cuts/iccm/arch/tcpip/compiler/Servant_VTable_Visitor.inl:
+        * cuts/iccm/arch/tcpip/compiler/Servant_VTable_Visitor.cpp:
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.h:
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/tcpip/compiler/TCPIP_Compiler.mpc:
+
+          Added iccm_tcpip compiler
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+        * cuts/iccm/compiler/be_global.h:
+        * cuts/iccm/compiler/be_global.cpp:
+
+          Added Context hooks to change the code generation of iccm servants
+
+        * examples/iccm/Button/tcpip/Button.mpc:
+
+          Modified to use the iccm_tcpip compiler
+
 Mon Sep 24 20:13:34 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:

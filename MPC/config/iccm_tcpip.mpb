@@ -11,6 +11,6 @@ project {
     source_pre_filename   = TCPIP_
     generic_outputext     = _iCCM.idl
 
-    keyword iccm_tao_flags = commandflags
+    keyword iccm_tcpip_flags = commandflags
   }
 }

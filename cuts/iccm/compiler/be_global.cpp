@@ -340,3 +340,60 @@ get_wrapper_eventtype (AST_EventType * node, ACE_CString & type) const
   type = local_name.substring (0, index);
   return true;
 }
+
+//
+// uses_default_bmi
+//
+bool BE_GlobalData::
+uses_default_bmi (AST_Component * node) const
+{
+  return true;
+}
+
+//
+// generate_custom_bmi
+//
+void BE_GlobalData::
+generate_custom_bmi (AST_Component * node, std::ofstream & sfile) const
+{
+
+}
+
+//
+// uses_default_push_method
+//
+bool BE_GlobalData::
+uses_default_push_method (AST_Component * node) const
+{
+  return true;
+}
+
+//
+// generate_custom_push_method
+//
+void BE_GlobalData::
+generate_custom_push_method (AST_Component * node,
+                             std::ofstream & hfile,
+                             std::ofstream & sfile,
+                             const ACE_CString & servant) const
+{
+
+}
+
+//
+// generate_constructor_preamble
+//
+void BE_GlobalData::
+generate_constructor_preamble (AST_Component * node, std::ofstream & sfile) const
+{
+
+}
+
+//
+// generate_constructor_postamble
+//
+void BE_GlobalData::
+generate_constructor_postamble (AST_Component * node, std::ofstream & sfile) const
+{
+
+}
