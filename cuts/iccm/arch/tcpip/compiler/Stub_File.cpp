@@ -7,9 +7,17 @@
 #include "be_extern.h"
 #include "be_global.h"
 #include "ast_root.h"
+#include "ast_field.h"
 #include "ast_component.h"
 #include "ast_eventtype.h"
+#include "ast_structure.h"
 #include "utl_identifier.h"
+#include "ast_enum.h"
+#include "ast_enum_val.h"
+
+#include "boost/bind.hpp"
+#include "ace/Hash_Map_Manager.h"
+#include "ace/Thread_Mutex.h"
 
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
@@ -44,6 +52,360 @@ static ostream & operator << (ostream & out, const include_t & i)
   return out;
 }
 
+class Operator_Targets : public iCCM::Scope_Visitor
+{
+public:
+  // Typedefs of output variables
+  typedef ACE_Unbounded_Set <AST_Decl *> Target_Manager;
+
+  Operator_Targets (Target_Manager & target_mgr)
+    : target_mgr_ (target_mgr)
+  {
+
+  }
+
+  virtual int visit_root (AST_Root * node)
+  {
+    AST_Decl * parent = this->parent_;
+    this->parent_ = node;
+
+    if (this->visit_scope (node))
+      return -1;
+
+    this->parent_ = parent;
+    return 0;
+  }
+
+  virtual int visit_module (AST_Module * node)
+  {
+    AST_Decl * parent = this->parent_;
+    this->parent_ = node;
+
+    if (this->visit_scope (node))
+      return -1;
+
+    this->parent_ = parent;
+    return 0;
+  }
+
+  virtual int visit_eventtype (AST_EventType * node)
+  {
+    if (0 != this->target_mgr_.find (node))
+      this->target_mgr_.insert (node);
+    return this->visit_scope (node);
+  }
+
+  int handle_struct (AST_Structure * node)
+  {
+    // We don't want to visit all structs in the IDL, only
+    // those contained by an event.  Therefore, visit_structure
+    // is not overloaded.
+    this->target_mgr_.insert (node);
+    return this->visit_scope (node);
+  }
+
+  AST_Decl * lookup (AST_Field * node)
+  {
+      // Search the parent module/root for the struct
+      UTL_ScopedName * sn = dynamic_cast <UTL_ScopedName *> (this->parent_->name ()->copy ());
+      UTL_ScopedName * name = 0;
+      ACE_NEW_RETURN (name, UTL_ScopedName (node->field_type ()->local_name (), 0), 0);
+      sn->nconc (name);
+
+      return node->defined_in ()->lookup_by_name (sn, true, false);
+  }
+
+  virtual int visit_field (AST_Field * node)
+  {
+    AST_Type * field_type = node->field_type ();
+    const char * full_name = field_type->full_name ();
+
+    switch (field_type->node_type ())
+    {
+    case AST_Decl::NT_struct:
+    {
+      AST_Decl * decl = this->lookup (node);
+      if (decl == 0)
+        return -1;
+
+      // Skip node type if it has been identified already
+      if (0 == this->target_mgr_.find (decl))
+        return 0;
+
+      // Recursively look at structs since they can contain complex members
+      AST_Structure * unique = dynamic_cast <AST_Structure *> (decl);
+      if (!unique)
+        return -1;
+
+      if (!this->handle_struct (unique))
+        return -1;
+      break;
+    }
+
+    case AST_Decl::NT_enum:
+    {
+      AST_Decl * decl = this->lookup (node);
+      if (decl == 0)
+        return -1;
+
+      // Skip node type if it has been identified already
+      if (0 == this->target_mgr_.find (decl))
+        return 0;
+
+      this->target_mgr_.insert (decl);
+      break;
+    }
+
+    default:
+      return 0;
+    }
+
+    return 0;
+  }
+
+private:
+  AST_Decl * parent_;
+  Target_Manager & target_mgr_;
+};
+
+class Output_Operator : public iCCM::Scope_Visitor
+{
+public:
+  Output_Operator (std::ofstream & hfile, std::ofstream & sfile)
+    : hfile_ (hfile),
+      sfile_ (sfile)
+  {
+
+  }
+
+  void write_decl_preamble (AST_Decl * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+    if (!be_global->stub_export_macro_.empty ())
+      this->hfile_ << be_global->stub_export_macro_ << " ";
+
+    this->hfile_
+      << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR &, const ::" << local_name  << " &);"
+      << std::endl;
+
+    this->sfile_
+      << "//" << std::endl
+      << "// " << "Output stream operator for ::" << local_name << std::endl
+      << "//" << std::endl
+      << "ACE_CDR::Boolean operator << "
+      << "(CUTS_TCPIP_OutputCDR & stream, const ::" << local_name << " & ev)" << std::endl
+      << "{" << std::endl;
+  }
+
+  void write_decl_postamble (AST_Decl * node)
+  {
+    this->sfile_
+      << "  return stream.good_bit ();" << std::endl
+      << "}" << std::endl << std::endl;
+  }
+
+  virtual int visit_eventtype (AST_EventType * node)
+  {
+    this->parent_ = node;
+    this->write_decl_preamble (node);
+    this->visit_scope (node);
+    this->write_decl_postamble (node);
+    return 0;
+  }
+
+  virtual int visit_structure (AST_Structure * node)
+  {
+    this->parent_ = node;
+    this->write_decl_preamble (node);
+    this->visit_scope (node);
+    this->write_decl_postamble (node);
+    return 0;
+  }
+
+  virtual int visit_enum (AST_Enum * node)
+  {
+    this->parent_ = node;
+    this->write_decl_preamble (node);
+
+    const char * local_name = node->local_name ()->get_string ();
+    this->sfile_
+      << "  stream << static_cast < ::ACE_CDR::ULong > (ev);" << std::endl;
+
+    this->write_decl_postamble (node);
+    return 0;
+  }
+
+  virtual int visit_field (AST_Field * node)
+  {
+    AST_Type * field_type = node->field_type ();
+    const char * local_name = node->local_name ()->get_string ();
+    const char * param_type = field_type->full_name ();
+    ACE_CString accessor_suffix;
+
+    // Identify accessor suffix
+    switch (this->parent_->node_type ())
+    {
+      case AST_Decl::NT_eventtype:
+        accessor_suffix = " ()";
+        break;
+      default:
+        accessor_suffix = "";
+        break;
+    }
+
+    // Put the value on the stream
+    this->sfile_
+      << "  stream << ev." << local_name << accessor_suffix.c_str () << ";" << std::endl;
+
+    return 0;
+  }
+
+private:
+  std::ofstream & hfile_;
+  std::ofstream & sfile_;
+  ACE_CString accessor_suffix_;
+  AST_Decl * parent_;
+};
+
+class Input_Operator : public iCCM::Scope_Visitor
+{
+public:
+  Input_Operator (std::ofstream & hfile, std::ofstream & sfile)
+    : hfile_ (hfile),
+      sfile_ (sfile),
+      var_counter_ (300000000)
+  {
+
+  }
+
+  void write_decl_preamble (AST_Decl * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+    if (!be_global->stub_export_macro_.empty ())
+      this->hfile_ << be_global->stub_export_macro_ << " ";
+
+    this->hfile_
+      << "ACE_CDR::Boolean operator >> (ACE_InputCDR &, ::" << local_name  << " &);"
+      << std::endl;
+
+    this->sfile_
+      << "//" << std::endl
+      << "// " << "Input stream operator for ::" << local_name << std::endl
+      << "//" << std::endl
+      << "ACE_CDR::Boolean operator >> "
+      << "(ACE_InputCDR & stream, ::" << local_name << " & ev)" << std::endl
+      << "{" << std::endl;
+  }
+
+  void write_decl_postamble (AST_Decl * node)
+  {
+    this->sfile_
+      << "  return stream.good_bit ();" << std::endl
+      << "}" << std::endl << std::endl;
+  }
+
+  virtual int visit_eventtype (AST_EventType * node)
+  {
+    this->parent_ = node;
+    this->write_decl_preamble (node);
+    this->visit_scope (node);
+    this->write_decl_postamble (node);
+    return 0;
+  }
+
+  virtual int visit_structure (AST_Structure * node)
+  {
+    this->parent_ = node;
+    this->write_decl_preamble (node);
+    this->visit_scope (node);
+    this->write_decl_postamble (node);
+    return 0;
+  }
+
+  virtual int visit_enum (AST_Enum * node)
+  {
+    this->parent_ = node;
+    this->write_decl_preamble (node);
+
+    const char * local_name = node->local_name ()->get_string ();
+    this->sfile_
+      << "  ACE_CDR::ULong temp = 0;" << std::endl
+      << "  stream >> temp;" << std::endl
+      << "  ev = static_cast < ::" << local_name << " > (temp);" << std::endl;
+
+    this->write_decl_postamble (node);
+    return 0;
+  }
+
+  virtual int visit_field (AST_Field * node)
+  {
+    AST_Type * field_type = node->field_type ();
+    const char * local_name = node->local_name ()->get_string ();
+    const char * param_type = field_type->full_name ();
+    std::stringstream target;
+    ACE_CString assign_suffix = "";
+
+    // Determine target variable.  Allocate if necessary.
+    switch (field_type->node_type ())
+    {
+      case AST_Decl::NT_string:
+        target << "_var_" << this->var_counter_;
+        this->var_counter_++;
+        this->sfile_
+          << "  ACE_CString " << target.str () << ";" << std::endl;
+        break;
+
+      case AST_Decl::NT_enum:
+        if (this->parent_->node_type () != AST_Decl::NT_eventtype)
+        {
+          target << "ev." << local_name;
+          break;
+        }
+        target << "_var_" << this->var_counter_;
+        this->var_counter_++;
+        this->sfile_
+          << "  " << param_type << " " << target.str () << ";" << std::endl;
+        break;
+      default:
+        if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+          target << "ev." << local_name << " ()";
+        else
+          target << "ev." << local_name;
+        break;
+    }
+
+    // Read from the stream to the target
+    this->sfile_
+      << "  stream >> " << target.str () << ";" << std::endl;
+
+    // Strings cannot be assigned directly
+    if (field_type->node_type () == AST_Decl::NT_string)
+      assign_suffix = ".c_str ()";
+
+    // If temporary allocation was required, assign the value
+    if (field_type->node_type () == AST_Decl::NT_string
+        || (field_type->node_type () == AST_Decl::NT_enum
+            && this->parent_->node_type () == AST_Decl::NT_eventtype))
+    {
+      if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+        this->sfile_
+          << "  ev." << local_name << "(" << target.str () << assign_suffix.c_str () << ");" << std::endl;
+      else
+        this->sfile_
+          << "  ev." << local_name << " = " << target.str () << assign_suffix.c_str () << ";" << std::endl;
+    }
+
+    return 0;
+  }
+
+private:
+  std::ofstream & hfile_;
+  std::ofstream & sfile_;
+  ACE_CString accessor_suffix_;
+  AST_Decl * parent_;
+  size_t var_counter_;
+};
+
 namespace iCCM
 {
 
@@ -68,6 +430,11 @@ Stub_File::~Stub_File (void)
 //
 int Stub_File::visit_root (AST_Root * node)
 {
+  // Gather all unique events and their complex member types
+  Operator_Targets::Target_Manager targets;
+  Operator_Targets ot (targets);
+  node->ast_accept (&ot);
+
   // Open the header and source file for writing.
   this->hfile_.open (be_global->get_stub_header_filename ().c_str ());
   this->sfile_.open (be_global->get_stub_source_filename ().c_str ());
@@ -83,6 +450,8 @@ int Stub_File::visit_root (AST_Root * node)
                        ACE_TEXT ("failed to open %s\n"),
                        be_global->get_stub_source_filename ().c_str ()),
                        -1);
+
+  Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
 
   // Write the preamble for the idl file.
   ACE_CString file_guard;
@@ -120,7 +489,29 @@ int Stub_File::visit_root (AST_Root * node)
     << include_t (be_global->get_stub_header_filename ().c_str ())
     << std::endl;
 
-  this->visit_scope (node);
+  // Generate Output Operators
+  this->hfile_
+    << "//" << std::endl
+    << "// Output Operators" << std::endl
+    << "//" << std::endl;
+  Output_Operator output (this->hfile_, this->sfile_);
+  std::for_each (targets.begin (),
+                 targets.end (),
+                 boost::bind (&AST_Decl::ast_accept,
+                              _1,
+                              &output));
+
+  // Generate Input Operators
+  this->hfile_
+    << "//" << std::endl
+    << "// Input Operators" << std::endl
+    << "//" << std::endl;
+  Input_Operator input (this->hfile_, this->sfile_);
+  std::for_each (targets.begin (),
+                 targets.end (),
+                 boost::bind (&AST_Decl::ast_accept,
+                              _1,
+                              &input));
 
   // Close the file from writing.
   this->hfile_ << "#endif  // !defined " << file_guard << std::endl;
@@ -129,82 +520,6 @@ int Stub_File::visit_root (AST_Root * node)
   this->sfile_.close ();
 
   return 0;
-}
-
-//
-// visit_module
-//
-int Stub_File::visit_module (AST_Module * node)
-{
-  return this->visit_scope (node);
-}
-
-//
-// visit_eventtype
-//
-int Stub_File::visit_eventtype (AST_EventType * node)
-{
-  Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
-  Indentation::Implanter <Indentation::Cxx, char> s_implanter (this->sfile_);
-
-  // Define stream operators
-  this->hfile_
-    << "//============================================================================" << std::endl
-    << "// stream operators for ::" << node->local_name ()->get_string () << std::endl
-    << "//============================================================================" << std::endl;
-
-  if (!be_global->stub_export_macro_.empty ())
-    this->hfile_ << be_global->stub_export_macro_ << " ";
-
-  // Generate methods
-  this->gen_input_oper (node);
-  this->gen_output_oper (node);
-
-  return 0;
-}
-
-//
-// gen_output_oper
-//
-void Stub_File::gen_output_oper (AST_EventType * node)
-{
-  if (!be_global->stub_export_macro_.empty ())
-    this->hfile_ << be_global->stub_export_macro_ << " ";
-
-  this->hfile_
-    << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR &, const ::" << node->local_name ()->get_string ()  << " &);";
-
-  this->sfile_
-    << "//" << std::endl
-    << "// " << "Output operator for ::" << node->local_name ()->get_string () << std::endl
-    << "//" << std::endl
-    << "ACE_CDR::Boolean operator << "
-    << "(CUTS_TCPIP_OutputCDR & stream, const ::" << node->local_name ()->get_string () << " & ev)"
-    << "{"
-    << "return stream.good_bit ();"
-    << "}";
-}
-
-//
-// gen_input_oper
-//
-void Stub_File::gen_input_oper (AST_EventType * node)
-{
-  if (!be_global->stub_export_macro_.empty ())
-    this->hfile_ << be_global->stub_export_macro_ << " ";
-
-  this->hfile_
-    << "ACE_CDR::Boolean operator >> (ACE_InputCDR &, ::" << node->local_name ()->get_string ()  << " &);";
-
-  this->sfile_
-    << "//" << std::endl
-    << "// " << "Input operator for ::" << node->local_name ()->get_string () << std::endl
-    << "//" << std::endl
-    << "ACE_CDR::Boolean operator >> "
-    << "(ACE_InputCDR & stream, ::" << node->local_name ()->get_string () << " & ev)"
-    << "{"
-    << "return stream.good_bit ();"
-    << "}";
 }
 
 }

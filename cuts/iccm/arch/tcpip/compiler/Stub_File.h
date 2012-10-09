@@ -35,18 +35,10 @@ public:
 
   // used methods
   virtual int visit_root (AST_Root *node);
-  virtual int visit_module (AST_Module * node);
-  virtual int visit_eventtype (AST_EventType * node);
 
 private:
   std::ofstream hfile_;
   std::ofstream sfile_;
-
-  // Helper for generating input operator
-  void gen_input_oper (AST_EventType * node);
-
-  // Helper for generating output operator
-  void gen_output_oper (AST_EventType * node);
 };
 
 }

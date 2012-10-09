@@ -1,3 +1,10 @@
+Tue Oct  9 15:15:34 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.h:
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
+
+          Fixed iccm_tcpip compiler to generate the appropriate shift operators
+
 Wed Sep 26 14:37:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_tcpip.mpb:
