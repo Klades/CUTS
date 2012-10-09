@@ -1,0 +1,35 @@
+// -*- IDL -*-
+
+//=============================================================================
+/**
+ * @file      dds2ccm_Component.idl
+ *
+ * $Id$
+ *
+ * @author    Tanumoy Pati
+ */
+//=============================================================================
+
+#ifndef _DDS2CCM_COMPONENT_IDL_
+#define _DDS2CCM_COMPONENT_IDL_
+
+#include <Gme.idl>
+
+[
+	uuid (ce635c39-2124-4175-8b23-f5576937f43e),
+	version (1.0),
+]
+library dds2ccm_Component
+{
+	importlib ("stdole32.tlb");
+
+	[uuid (01936962-6fc1-4f4e-b21c-a40dae61a40b)]
+	coclass dds2ccm_Component
+	{
+		[default] interface IMgaComponentEx;
+		interface IMgaComponent;
+		interface IMgaVersionInfo;
+	};
+};
+
+#endif  // !defined _DDS2CCM_COMPONENT_IDL_

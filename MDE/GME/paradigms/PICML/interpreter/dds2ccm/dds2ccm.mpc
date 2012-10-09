@@ -1,0 +1,28 @@
+// $Id$
+
+project (dds2ccm_Component) : boost_base, cuts_game_mga_interpreter, cuts_picml_game_mga, cuts_cosmic {
+  sharedname = dds2ccm_Component
+
+  pch_header = StdAfx.h
+  pch_source = StdAfx.cpp
+
+  Source_Files {
+    dds2ccm_Component.idl
+    dds2ccm_Component_Impl.cpp
+    dds2ccm_Component_Module.cpp
+    Event_Creator.cpp
+  }
+
+  Resource_Files {
+    Component.rc
+  }
+
+  specific (wix) {
+    gme_install     = 1
+    gme_progid      = PICML.Interpreter.dds2ccm
+    gme_uuid        = 01936962-6fc1-4f4e-b21c-a40dae61a40b
+    gme_paradigms   = PICML
+    gme_description = dds2ccm Interpreter
+    gme_tooltip     = dds2ccm Interpreter
+  }
+}

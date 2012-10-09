@@ -56,6 +56,7 @@ workspace (CUTS) {
       // area since we only need GAME to build them.
       MDE/GME/paradigms/CHAOS
       MDE/GME/paradigms/PICML/interpreter/CUTS_PICML
+      MDE/GME/paradigms/PICML/interpreter/dds2ccm
     }
   }
 

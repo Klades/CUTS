@@ -1,3 +1,25 @@
+Tue Oct  9 23:04:02 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * CUTS.mwc:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Component.rc:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.h:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Resource.h:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/StdAfx.h:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/StdAfx.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.reg:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component_Impl.h:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component_Module.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Componentd.reg:
+
+          First version of interpreter for convert DDS events into
+          CCM events.
+
 Tue Oct  9 15:15:34 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tcpip/compiler/Stub_File.h:
