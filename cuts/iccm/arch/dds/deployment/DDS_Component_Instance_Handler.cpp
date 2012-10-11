@@ -18,7 +18,9 @@ void DDS_Component_Instance_Handler <T>::
 configure (const Deployment::Properties & props)
 {
   // First, let the base class do its configuration.
-  Component_Instance_Handler_T::configure (props);
+  Component_Instance_Handler_T <typename T::component_instance_handler_type,
+                                ::DAnCE::InstanceDeploymentHandler,
+                                typename T::container_type>::configure (props);
 
   // Locate the DDSDomainQoS property.
   size_t length = props.length ();

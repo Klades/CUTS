@@ -14,7 +14,6 @@
 #define _ICCM_DDS_COMPONENT_INSTANCE_HANDLER_H_
 
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
-#include "ciao/Deployment/Handlers/Component_Handler.h"
 
 namespace iccm
 {

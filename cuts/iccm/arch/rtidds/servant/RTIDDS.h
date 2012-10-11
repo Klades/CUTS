@@ -182,19 +182,19 @@ public:
   }
 
   template <typename T1, typename T2>
-  static typename T1 * _writer_cast (T2 val)
+  static T1 * _writer_cast (T2 val)
   {
     return dynamic_cast <T1 *> (val);
   }
 
   template <typename T1, typename T2>
-  static typename T1 * _reader_cast (T2 val)
+  static T1 * _reader_cast (T2 val)
   {
     return dynamic_cast <T1 *> (val);
   }
 
   template <typename T>
-  static typename T _retn (T val)
+  static T _retn (T val)
   {
     return val;
   }

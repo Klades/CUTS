@@ -678,7 +678,7 @@ void OpenSplice_Servant::configure_topic (const ::iccm::TopicQos & value)
                     ::DDS::TopicQos (TOPIC_QOS_DEFAULT),
                     ::CORBA::NO_MEMORY ());
 
-  ACE_Auto_Ptr <::DDS::TopicQos> auto_clean (qos);
+  ACE_Auto_Ptr < ::DDS::TopicQos > auto_clean (qos);
 
   *qos <<= value;
 

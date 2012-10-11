@@ -16,7 +16,7 @@ namespace iCCM
 template <typename T>
 DDS_Container_Strategy <T>::
 DDS_Container_Strategy (typename T::container_type & container)
-: Container_Strategy_T (container)
+: Container_Strategy_T <typename T::container_type> (container)
 {
 
 }

@@ -1,3 +1,24 @@
+Thu Oct 11 13:13:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.h:
+
+          Removed include for CIAO deployment handler
+
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/dds/deployment/DDS_Container.inl:
+        * cuts/iccm/arch/dds/deployment/DDS_Container_Strategy.cpp:
+
+          Added template parameters to method calls on base classes
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+
+          Fixed template parameter arguement
+
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.h:
+
+          Removed typename from return value types
+
+
 Tue Oct  9 23:04:02 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * CUTS.mwc:
