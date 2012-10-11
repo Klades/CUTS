@@ -1,0 +1,60 @@
+#ifndef _SMOKE_TEST_IDL_
+#define _SMOKE_TEST_IDL_
+
+#include <Components.idl>
+
+#pragma ciao lem "Smoke_TestE.idl"
+
+enum SmokeEnumType
+{
+  SmokeEnum1,
+  SmokeEnum2
+};
+
+struct SmokeStructType
+{
+  boolean             SmokeBoolean;
+  char                SmokeChar;
+  wchar               SmokeWChar;
+  octet               SmokeOctet;
+  string              SmokeString;
+  wstring             SmokeWString;
+  short               SmokeShort;
+  unsigned short      SmokeUShort;
+  long                SmokeLong;
+  unsigned long       SmokeULong;
+  long long           SmokeLongLong;
+  unsigned long long  SmokeULongLong;
+  float               SmokeFloat;
+  double              SmokeDouble;
+  ::SmokeEnumType     SmokeEnum;
+};
+
+eventtype SmokeEvent
+{
+  public boolean              SmokeBoolean;
+  public char                 SmokeChar;
+  public wchar                SmokeWChar;
+  public octet                SmokeOctet;
+  public string               SmokeString;
+  public wstring              SmokeWString;
+  public short                SmokeShort;
+  public unsigned short       SmokeUShort;
+  public long                 SmokeLong;
+  public unsigned long        SmokeULong;
+  public long long            SmokeLongLong;
+  public unsigned long long   SmokeULongLong;
+  public float                SmokeFloat;
+  public double               SmokeDouble;
+  public ::SmokeEnumType      SmokeEnum;
+  public ::SmokeStructType    SmokeStruct;
+};
+
+component SmokeComponent
+{
+  consumes ::SmokeEvent SmokeConsume;
+  publishes ::SmokeEvent SmokeEmit;
+  publishes ::SmokeEvent SmokePublish;
+};
+
+#endif    // !defined _BUTTON_IDL_

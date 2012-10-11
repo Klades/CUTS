@@ -337,6 +337,71 @@ public:
     return 0;
   }
 
+  virtual int visit_predefined_type (AST_PredefinedType * node)
+  {
+    const char * local_name = this->predefined_field_->local_name ()->get_string ();
+    const char * param_type = node->full_name ();
+    std::stringstream target;
+    std::stringstream var_name;
+
+    // If node is not an object then we need to allocate the type to read into
+    if (node->pt () != AST_PredefinedType::PT_object)
+    {
+      std::stringstream target;
+      var_name << "_var_" << this->var_counter_;
+      this->var_counter_++;
+
+      this->sfile_
+        << "  " << param_type << " " << var_name.str () << ";" << std::endl;
+    }
+
+    switch (node->pt ())
+    {
+      case AST_PredefinedType::PT_boolean:
+        target << "::ACE_InputCDR::to_boolean (" << var_name.str () << ")";
+        break;
+
+      case AST_PredefinedType::PT_char:
+        target << "::ACE_InputCDR::to_char (" << var_name.str () << ")";
+        break;
+
+      case AST_PredefinedType::PT_wchar:
+        target << "::ACE_InputCDR::to_wchar (" << var_name.str () << ")";
+        break;
+
+      case AST_PredefinedType::PT_octet:
+        target << "::ACE_InputCDR::to_octet (" << var_name.str () << ")";
+        break;
+
+      case AST_PredefinedType::PT_object:
+        target << "ev." << local_name;
+        if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+          target << " ()";
+        break;
+
+      default:
+        target << var_name.str ();
+    }
+
+    // Read from the stream to the target
+    this->sfile_
+      << "  stream >> " << target.str () << ";" << std::endl;
+
+    // If target was allocated previously, assign it.
+    if (node->pt () != AST_PredefinedType::PT_object)
+    {
+      this->sfile_ << "  ev." << local_name;
+
+      if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+        this->sfile_ << " (" << var_name.str () << ");" << std::endl << std::endl;
+      else
+        this->sfile_ << " = " << var_name.str () << ";" << std::endl << std::endl;
+    }
+
+    return 0;
+  }
+
+
   virtual int visit_field (AST_Field * node)
   {
     AST_Type * field_type = node->field_type ();
@@ -345,56 +410,44 @@ public:
     std::stringstream target;
     ACE_CString assign_suffix = "";
 
-    // Determine target variable.  Allocate if necessary.
+    // If the field is returned by reference from TAO
+    // then read the stream directly into it
     switch (field_type->node_type ())
     {
-      case AST_Decl::NT_string:
-        target << "_var_" << this->var_counter_;
-        this->var_counter_++;
+      case AST_Decl::NT_struct:
         this->sfile_
-          << "  ACE_CString " << target.str () << ";" << std::endl;
-        break;
-
-      case AST_Decl::NT_enum:
-        if (this->parent_->node_type () != AST_Decl::NT_eventtype)
-        {
-          target << "ev." << local_name;
-          break;
-        }
-        target << "_var_" << this->var_counter_;
-        this->var_counter_++;
-        this->sfile_
-          << "  " << param_type << " " << target.str () << ";" << std::endl;
-        break;
-      default:
+          << "  stream >> ev." << local_name;
         if (this->parent_->node_type () == AST_Decl::NT_eventtype)
-          target << "ev." << local_name << " ()";
-        else
-          target << "ev." << local_name;
+          this->sfile_ << " ()";
+        this->sfile_ << ";" << std::endl;
+        return 0;
+        break;
+
+      case AST_Decl::NT_sequence:
+        this->sfile_
+          << "  ev." << local_name;
+        if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+          this->sfile_ << " ()";
+        this->sfile_ << ";" << std::endl;
+        return 0;
+        break;
+
+      case AST_Decl::NT_union:
+        this->sfile_
+          << "  ev." << local_name;
+        if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+          this->sfile_ << " ()";
+        this->sfile_ << ";" << std::endl;
+        return 0;
+        break;
+
+      case AST_Decl::NT_pre_defined:
+        // Visit the pre_defined type for extra processing
+        this->predefined_field_ = node;
+        field_type->ast_accept (this);
+        return 0;
         break;
     }
-
-    // Read from the stream to the target
-    this->sfile_
-      << "  stream >> " << target.str () << ";" << std::endl;
-
-    // Strings cannot be assigned directly
-    if (field_type->node_type () == AST_Decl::NT_string)
-      assign_suffix = ".c_str ()";
-
-    // If temporary allocation was required, assign the value
-    if (field_type->node_type () == AST_Decl::NT_string
-        || (field_type->node_type () == AST_Decl::NT_enum
-            && this->parent_->node_type () == AST_Decl::NT_eventtype))
-    {
-      if (this->parent_->node_type () == AST_Decl::NT_eventtype)
-        this->sfile_
-          << "  ev." << local_name << "(" << target.str () << assign_suffix.c_str () << ");" << std::endl;
-      else
-        this->sfile_
-          << "  ev." << local_name << " = " << target.str () << assign_suffix.c_str () << ";" << std::endl;
-    }
-
     return 0;
   }
 
@@ -403,6 +456,7 @@ private:
   std::ofstream & sfile_;
   ACE_CString accessor_suffix_;
   AST_Decl * parent_;
+  AST_Decl * predefined_field_;
   size_t var_counter_;
 };
 

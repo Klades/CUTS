@@ -1,3 +1,22 @@
+Thu Oct 11 22:49:29 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
+
+          Fixed code generation errors.
+
+        * tests/iccm/compiler:
+        * tests/iccm/compiler/tao:
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+        * tests/iccm/compiler/tao/Smoke_Test.mpc:
+        * tests/iccm/compiler/tao/driver.cpp:
+        * tests/iccm/compiler/tcpip:
+        * tests/iccm/compiler/tcpip/Smoke_Test.idl:
+        * tests/iccm/compiler/tcpip/Smoke_Test.mpc:
+        * tests/iccm/compiler/tcpip/driver.cpp:
+
+          Created smoke test for iccm compilers including a basic
+          driver to catch compilation errors.
+
 Thu Oct 11 17:38:47 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tao/compiler/Stub_File.cpp:
