@@ -1,3 +1,9 @@
+Thu Oct 11 17:38:47 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tao/compiler/Stub_File.cpp:
+
+          Changed iccm_tao events to subclass from the TAO OBV events.
+
 Thu Oct 11 13:13:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.h:
