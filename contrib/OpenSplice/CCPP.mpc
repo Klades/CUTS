@@ -7,6 +7,11 @@ project (CCPP) : splicelib_with_idl, portableserver {
   includes += $(OSPL_HOME)/custom_lib/ccpp
   libs     -= dcpsccpp
 
+  // This is needed for OpenSplice 5.5 (and greater) We should probably
+  // move this statement into an include file that can link against the
+  // correct libraries depending on the OpenSplice version number.
+  lit_libs += ddsuser ddskernel
+
   idlflags += -o $(OSPL_HOME)/custom_lib/ccpp \
               -Sp -Sd \
               -I $(OSPL_HOME)/etc/idl \

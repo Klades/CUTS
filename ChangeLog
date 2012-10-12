@@ -1,3 +1,10 @@
+Fri Oct 12 20:16:20 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * contrib/OpenSplice/CCPP.mpc:
+
+          Fixed link errors with building OpenSplice custom lib on
+          Windows platforms.
+
 Fri Oct 12 19:07:39 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/opensplice/compiler/Event_Traits.cpp:
@@ -77,7 +84,6 @@ Thu Oct 11 13:13:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
         * cuts/iccm/arch/rtidds/servant/RTIDDS.h:
 
           Removed typename from return value types
-
 
 Tue Oct  9 23:04:02 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
