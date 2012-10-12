@@ -68,6 +68,9 @@ public:
   EVENT * allocate_event (void);
 
 private:
+  typedef typename Publisher_Table_T < TCPIP_Publisher_Table,
+                                       TCPIP_Publisher_T <EVENT>,
+                                       true >::consumer_table_t consumer_table_t;
 };
 
 }

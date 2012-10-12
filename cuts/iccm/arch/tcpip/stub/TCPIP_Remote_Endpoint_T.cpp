@@ -5,6 +5,7 @@
 #endif
 
 #include "TCPIP_OutputCDR.h"
+#include "TCPIP_Connector_Svc_Handler.h"
 
 //
 // send_event

@@ -23,7 +23,6 @@ EVENT * TCPIP_Publisher_Table_T <EVENT>::allocate_event (void)
   // interface, but set values for the corresponding event type in the
   // TCPIP architecture.
   //===========================================================================
-
   return 0;
 }
 
@@ -95,6 +94,10 @@ void TCPIP_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
   // wrapper in the TCPIP architecture. It should then be sent using
   // the TCPIP mechanisms for sending an event.
   //===========================================================================
+  typename consumer_table_t::ITERATOR iter (this->table_);
+
+  for ( ; !iter.done (); ++ iter)
+    iter->item ()->send_event (ev);
 }
 
 }

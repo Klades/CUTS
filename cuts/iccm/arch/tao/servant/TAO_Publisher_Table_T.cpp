@@ -24,7 +24,14 @@ EVENT * TAO_Publisher_Table_T <EVENT>::allocate_event (void)
   // interface, but set values for the corresponding event type in the
   // TAO architecture.
   //===========================================================================
-  return 0;
+  typedef typename TAO_Event_Traits < EVENT >::tao_event_type event_type;
+
+  event_type * ev = 0;
+  ACE_NEW_THROW_EX (ev,
+                    event_type (),
+                    ::CORBA::NO_MEMORY ());
+
+  return ev;
 }
 
 //
@@ -95,6 +102,10 @@ void TAO_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
   // wrapper in the TAO architecture. It should then be sent using
   // the TAO mechanisms for sending an event.
   //===========================================================================
+  typename consumer_table_t::ITERATOR iter (this->table_);
+
+  for ( ; !iter.done (); ++ iter)
+    iter->item ()->send_event (ev);
 }
 
 }

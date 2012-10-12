@@ -1,3 +1,19 @@
+Fri Oct 12 00:46:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.h:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.cpp:
+
+          Implemented the allocate_event and send_event methods
+
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table_T.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table_T.cpp:
+
+          Impleted the send_event method.
+
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint_T.cpp:
+
+          Fixed missing include
+
 Thu Oct 11 22:49:29 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
