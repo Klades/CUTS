@@ -30,6 +30,7 @@ project (iCCM_TCPIP_Compiler) : iccm_compiler {
     BMI_Visitor.cpp
     Servant_VTable_Visitor.cpp
     Context.cpp
+    Event_Traits.cpp
     Stub_File.cpp
   }
 

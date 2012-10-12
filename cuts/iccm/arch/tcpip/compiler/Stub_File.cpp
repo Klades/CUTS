@@ -3,6 +3,7 @@
 #include "Stub_File.h"
 #include "Servant_Context.h"
 #include "Servant_Impl.h"
+#include "Event_Traits.h"
 
 #include "be_extern.h"
 #include "be_global.h"
@@ -527,6 +528,7 @@ int Stub_File::visit_root (AST_Root * node)
     << std::endl
     << include_t (be_global->get_source_basename () + "C.h")
     << include_t ("cuts/iccm/arch/tcpip/stub/TCPIP_OutputCDR.h")
+    << include_t ("cuts/iccm/arch/tcpip/servant/TCPIP_Event.h")
     << std::endl;
 
   if (!be_global->stub_export_macro_filename_.empty ())
@@ -566,6 +568,10 @@ int Stub_File::visit_root (AST_Root * node)
                  boost::bind (&AST_Decl::ast_accept,
                               _1,
                               &input));
+
+  // Write the event traits to the header/source files.
+  Event_Traits event_traits (this->hfile_, this->sfile_);
+  node->ast_accept (&event_traits);
 
   // Close the file from writing.
   this->hfile_ << "#endif  // !defined " << file_guard << std::endl;

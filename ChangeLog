@@ -1,3 +1,15 @@
+Fri Oct 12 01:03:15 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tcpip/compiler/Event_Traits.h:
+        * cuts/iccm/arch/tcpip/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/tcpip/compiler/TCPIP_Compiler.mpc:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Event.h:
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_Table_T.cpp:
+
+          Added event traits to the TCPIP architecture to support
+          the allocate_event method.
+
 Fri Oct 12 00:46:03 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.h:

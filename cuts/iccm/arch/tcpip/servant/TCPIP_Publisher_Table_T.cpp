@@ -23,7 +23,14 @@ EVENT * TCPIP_Publisher_Table_T <EVENT>::allocate_event (void)
   // interface, but set values for the corresponding event type in the
   // TCPIP architecture.
   //===========================================================================
-  return 0;
+  typedef typename TCPIP_Event_Traits < EVENT >::tcpip_event_type event_type;
+
+  event_type * ev = 0;
+  ACE_NEW_THROW_EX (ev,
+                    event_type (),
+                    ::CORBA::NO_MEMORY ());
+
+  return ev;
 }
 
 //
