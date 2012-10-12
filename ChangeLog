@@ -1,3 +1,31 @@
+Fri Oct 12 21:19:51 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/tao:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mwc:
+
+          Added HelloWorld example for the TAO architecture
+
+        * examples/iccm/HelloWorld/tcpip:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.mwc:
+
+          Added HelloWorld example for the TCPIP architecture
+
 Fri Oct 12 20:16:20 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * contrib/OpenSplice/CCPP.mpc:
