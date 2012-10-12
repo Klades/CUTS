@@ -70,8 +70,9 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
     << " *" << std::endl
     << " * Trait information for " << full_name << "Event event type." << std::endl
     << " */" << std::endl
+    << "namespace iCCM {"
     << "template < >" << std::endl
-    << "class iCCM::DDS_Traits_T < ::" << full_name << " >"
+    << "class DDS_Traits_T < ::" << full_name << " >"
     << "{"
     << "public:" << std::endl
     << "// traits for the reader(s)" << std::endl
@@ -95,7 +96,8 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
     << "typedef ::" << full_name << "Upcall upcall_event_type;"
     << "typedef ::" << full_name << "Downcall downcall_event_type;"
     << "typedef ::" << full_name << " corba_event_type;"
-    << "};";
+    << "};"
+    << "}";
 
   return 0;
 }

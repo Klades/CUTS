@@ -1,3 +1,10 @@
+Fri Oct 12 19:07:39 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/compiler/Event_Traits.cpp:
+
+          Moved traits into an iCCM namespace block to fix compilation errros
+          with gcc.
+
 Fri Oct 12 01:03:15 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tcpip/compiler/Event_Traits.h:
