@@ -1,3 +1,11 @@
+Sat Oct 13 21:20:48 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+
+          Fixed runtime errors, which were identified by validating the
+          HelloWorld example for OpenSplice.
+
 Sat Oct 13 18:49:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:

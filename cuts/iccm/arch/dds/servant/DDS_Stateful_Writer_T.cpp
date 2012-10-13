@@ -49,7 +49,7 @@ void DDS_Unregistered_Instance_Writer_T <T, EVENT>::send_event (EVENT * ev)
   if (0 != ev)
   {
     typedef typename T::returncode_type returncode_type;
-    returncode_type retcode = this->writer_->write (downcall->dds_event (), T::HANDLE_NIL);
+    returncode_type retcode = this->writer_->write (downcall->dds_event (), 0);
 
     if (retcode != T::RETCODE_OK)
       ACE_ERROR ((LM_ERROR,
@@ -88,9 +88,10 @@ EVENT * DDS_Unregistered_Instance_Writer_T <T, EVENT>::allocate_event (void)
 template <typename T, typename EVENT>
 DDS_Registered_Instance_Writer_T <T, EVENT>::
 DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
-: DDS_Stateful_Writer_T <T, EVENT> (writer)
+: DDS_Stateful_Writer_T <T, EVENT> (writer),
+  inst_ (T::HANDLE_NIL)
 {
-
+  this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
 }
 
 //
