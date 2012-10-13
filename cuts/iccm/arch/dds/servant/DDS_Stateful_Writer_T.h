@@ -32,7 +32,7 @@ public:
   typedef EVENT event_type;
 
   /// Type definition of the event traits.
-  typedef typename T::event_traits_type <EVENT>::result_type event_traits_type;
+  typedef typename T::template event_traits_type <EVENT>::result_type event_traits_type;
 
   /**
    * Initializing constructor.
@@ -69,6 +69,9 @@ template <typename T, typename EVENT>
 class DDS_Unregistered_Instance_Writer_T : public DDS_Stateful_Writer_T <T, EVENT>
 {
 public:
+  /// Inclusion of type definition from base class.
+  typedef typename DDS_Stateful_Writer_T <T, EVENT>::event_traits_type event_traits_type;
+
   /**
    * Initializing constructor.
    *
@@ -95,6 +98,9 @@ template <typename T, typename EVENT>
 class DDS_Registered_Instance_Writer_T : public DDS_Stateful_Writer_T <T, EVENT>
 {
 public:
+  /// Inclusion of type definition from base class.
+  typedef typename DDS_Stateful_Writer_T <T, EVENT>::event_traits_type event_traits_type;
+
   /**
    * Initializing constructor.
    *

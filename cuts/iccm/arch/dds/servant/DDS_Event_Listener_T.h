@@ -31,7 +31,7 @@ class DDS_Event_Listener_T :
   typedef EVENT event_type;
 
   /// Type definition of the DDS entities.
-  typedef typename T::event_traits_type <EVENT>::result_type event_traits_type;
+  typedef typename T::template event_traits_type <EVENT>::result_type event_traits_type;
   typedef typename T::datareader_ptr_type datareader_ptr_type;
   typedef typename T::topic_ptr_type topic_ptr_type;
   typedef typename T::datareaderqos_type datareaderqos_type;

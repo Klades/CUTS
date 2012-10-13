@@ -35,7 +35,7 @@ configure (publisher_ptr_type publisher,
 
   ACE_CString type_name;
   domainparticipant_var_type participant = publisher->get_participant ();
-  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
+  returncode_type status = T::template register_type <dds_typesupport_type> (participant, type_name);
 
   if (status != 0)
   {
@@ -63,7 +63,7 @@ configure (publisher_ptr_type publisher,
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - failed to create topic %s [type=%s]\n"),
                 topic_name,
-                type_name));
+                type_name.c_str ()));
 
     throw ::CORBA::INTERNAL ();
   }
@@ -71,7 +71,7 @@ configure (publisher_ptr_type publisher,
 
   // Finally, pass control to the base class. It will finish configuring
   // this provider object.
-  DDS_Publisher_Table::configure (publisher, topic);
+  DDS_Publisher_Table <T>::configure (publisher, topic);
 
   // Store the concrete writer type and register an instance.
   writer_type * writer = 0;

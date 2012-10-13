@@ -25,7 +25,7 @@ configure (subscriber_ptr_type subscriber,
   typedef typename event_traits_type::dds_typesupport_type dds_typesupport_type;
 
   domainparticipant_var_type participant = subscriber->get_participant ();
-  returncode_type status = T::register_type <dds_typesupport_type> (participant, this->type_name_);
+  returncode_type status = T::template register_type <dds_typesupport_type> (participant, this->type_name_);
 
   if (0 != status)
   {
@@ -143,7 +143,7 @@ template <typename T, typename SERVANT, typename EVENT>
 void DDS_EventConsumer_T <T, SERVANT, EVENT>::
 remove_topic (const char * topic_name)
 {
-
+  ACE_UNUSED_ARG (topic_name);
 }
 
 }

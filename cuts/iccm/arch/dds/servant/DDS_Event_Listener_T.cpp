@@ -91,7 +91,7 @@ on_data_available (datareader_ptr_type data_reader)
   typedef typename event_traits_type::reader_var_type typed_reader_var_type;
   typedef typename event_traits_type::reader_type typed_reader_type;
 
-  typed_reader_var_type reader = T::_reader_cast <typed_reader_type> (data_reader);
+  typed_reader_var_type reader = T::template _reader_cast < typed_reader_type > (data_reader);
 
   sampleinfoseq_type sample_info;
   returncode_type status = reader->take (event_seq,

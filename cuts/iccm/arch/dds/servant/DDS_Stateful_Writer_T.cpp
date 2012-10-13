@@ -17,7 +17,7 @@ template <typename T, typename EVENT>
 CUTS_INLINE
 DDS_Stateful_Writer_T <T, EVENT>::
 DDS_Stateful_Writer_T (typename T::datawriter_ptr_type writer)
-: writer_ (T::_writer_cast < typename event_traits_type::writer_type> (writer))
+: writer_ (T::template _writer_cast < typename event_traits_type::writer_type > (writer))
 {
 
 }
@@ -31,7 +31,7 @@ DDS_Stateful_Writer_T (typename T::datawriter_ptr_type writer)
 template <typename T, typename EVENT>
 DDS_Unregistered_Instance_Writer_T <T, EVENT>::
 DDS_Unregistered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
-: DDS_Stateful_Writer_T (writer)
+: DDS_Stateful_Writer_T <T, EVENT> (writer)
 {
 
 }
@@ -88,7 +88,7 @@ EVENT * DDS_Unregistered_Instance_Writer_T <T, EVENT>::allocate_event (void)
 template <typename T, typename EVENT>
 DDS_Registered_Instance_Writer_T <T, EVENT>::
 DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
-: DDS_Stateful_Writer_T (writer)
+: DDS_Stateful_Writer_T <T, EVENT> (writer)
 {
 
 }

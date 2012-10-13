@@ -33,7 +33,9 @@ public:
   typedef EVENT event_type;
 
   /// Type definition of the DDS entities.
-  typedef typename T::event_traits_type <EVENT>::result_type event_traits_type;
+  typedef typename T::template event_traits_type <EVENT>::result_type event_traits_type;
+  typedef typename DDS_Publisher <T>::publisher_ptr_type publisher_ptr_type;
+  typedef typename DDS_Publisher <T>::topicqos_type topicqos_type;
 
   /// Default constructor.
   DDS_Publisher_T (void);

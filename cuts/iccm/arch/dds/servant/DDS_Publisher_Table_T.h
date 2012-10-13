@@ -27,17 +27,17 @@ namespace iCCM
 template <typename T, typename EVENT>
 class DDS_Publisher_Table_T :
   public Publisher_Table_T < typename T::publisher_table_type,
-                             typename T::typed_publisher_type <EVENT>::result_type,
+                             typename T::template typed_publisher_type <EVENT>::result_type,
                              false >
 {
 public:
   /// Type definition of the base type.
   typedef Publisher_Table_T < typename T::publisher_table_type,
-                              typename T::typed_publisher_type <EVENT>::result_type,
+                              typename T::template typed_publisher_type <EVENT>::result_type,
                               false> base_type;
 
   /// Type definition of the DDS entities.
-  typedef typename T::event_traits_type <EVENT>::result_type event_traits_type;
+  typedef typename T::template event_traits_type <EVENT>::result_type event_traits_type;
   typedef typename T::publisher_ptr_type publisher_ptr_type;
   typedef typename T::topicqos_type topicqos_type;
   typedef typename T::topic_ptr_type topic_ptr_type;

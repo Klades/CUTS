@@ -52,7 +52,7 @@ Context_T <T, SVNT>::resolve_service_reference (const char *)
 template <typename T, typename SVNT>
 CUTS_INLINE
 void Context_T <T, SVNT>::
-install_service_component_reference (const char * service_id, ::CORBA::Object_ptr objref)
+install_service_component_reference (const char *, ::CORBA::Object_ptr)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }
@@ -63,7 +63,7 @@ install_service_component_reference (const char * service_id, ::CORBA::Object_pt
 template <typename T, typename SVNT>
 CUTS_INLINE
 ::CORBA::Object_ptr Context_T <T, SVNT>::
-uninstall_service_component_reference (const char * service_id)
+uninstall_service_component_reference (const char *)
 {
   throw ::CORBA::NO_IMPLEMENT ();
 }

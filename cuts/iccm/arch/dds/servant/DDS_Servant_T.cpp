@@ -15,6 +15,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 configure (const ::iccm::DomainParticipantQos & qos)
 {
   this->do_default_configure ();
+
+  ACE_UNUSED_ARG (qos);
 }
 
 //

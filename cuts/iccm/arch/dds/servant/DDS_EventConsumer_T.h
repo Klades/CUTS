@@ -40,6 +40,10 @@ public:
 
   typedef typename listener_type::event_traits_type event_traits_type;
 
+  typedef typename DDS_EventConsumer <T>::subscriber_ptr_type subscriber_ptr_type;
+  typedef typename DDS_EventConsumer <T>::topicqos_type topicqos_type;
+  typedef typename DDS_EventConsumer <T>::datareaderqos_type datareaderqos_type;
+
   /**
    * Initializing constructor.
    *

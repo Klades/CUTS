@@ -27,7 +27,7 @@ configure (publisher_ptr_type publisher,
 
   ACE_CString type_name;
   domainparticipant_var_type participant = publisher->get_participant ();
-  returncode_type status = T::register_type <dds_typesupport_type> (participant, type_name);
+  returncode_type status = T::template register_type <dds_typesupport_type> (participant, type_name);
 
   if (status != 0)
   {
@@ -52,11 +52,11 @@ configure (publisher_ptr_type publisher,
 
   // Finally, pass control to the base class. It will finish configuring
   // this provider object.
-  DDS_Publisher::configure (publisher, topic);
+  DDS_Publisher <T>::configure (publisher, topic);
 
   // Finally, store the concrete writer type.
   typedef typename event_traits_type::writer_type writer_type;
-  this->writer_ = T::_writer_cast < writer_type > (this->abs_writer_);
+  this->writer_ = T::template _writer_cast < writer_type > (this->abs_writer_);
 }
 
 //
