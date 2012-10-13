@@ -8,8 +8,11 @@ project (HelloWorld_OSPL_IDL_Gen) : splice_ts_defaults, requires_opensplice {
               -Wb,stub_export_include=HelloWorld_stub_export.h
 
   splice_ts_flags += -d . \
-                     -P HELLOWORLD_STUB_Export,HelloWorld_stub_export.h \
                      -I $(TAO_ROOT) -I $(CIAO_ROOT) -I $(CIAO_ROOT)/ccm
+  
+  specific (prop:windows) {
+    splice_ts_flags += -P HELLOWORLD_STUB_Export,HelloWorld_stub_export.h
+  } 
 
   IDL_Files {
     HelloWorldDcps.idl

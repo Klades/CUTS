@@ -9,7 +9,7 @@ namespace iCCM
 //
 CUTS_INLINE
 OpenSplice_Servant::OpenSplice_Servant (const char * name)
-: DDS_Servant (name)
+: DDS_Servant <OpenSplice> (name)
 {
 
 }
@@ -29,7 +29,7 @@ OpenSplice_Servant::~OpenSplice_Servant (void)
 CUTS_INLINE
 void OpenSplice_Servant::configure (void)
 {
-  DDS_Servant::configure ();
+  DDS_Servant <OpenSplice>::configure ();
 }
 
 }

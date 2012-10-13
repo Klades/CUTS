@@ -1,3 +1,17 @@
+Sat Oct 13 13:48:13 UTC 2012  James H Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_skel_export.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_stub_export.h:
+
+	  BUGFIX: Fix compilation errors on Linux.
+
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.mpc:
+
+	  BUGFIX: The project contained idlpp command-line arguments that
+	  are available on Windows, but not on Linux because export macros
+	  are needed to export symbols from shared libraries on Windows.
+
 Fri Oct 12 21:19:51 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/HelloWorld/tao:
