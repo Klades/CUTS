@@ -1,3 +1,15 @@
+Sat Oct 13 18:49:42 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+
+          Fixed compilation errors on Windows.
+
+        * cuts/iccm/arch/opensplice/servant:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_skel_export.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_stub_export.h:
+
+          Removed these files.
+
 Sat Oct 13 18:04:42 UTC 2012  James H Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.h:
@@ -15,11 +27,11 @@ Sat Oct 13 18:04:42 UTC 2012  James H Hill  <hillj at cs dot iupui dot edu>
         * cuts/iccm/arch/opensplice/servant/OpenSplice_EventConsumer_T.cpp:
         * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant_T.inl:
 
-	  Fixed compiler errors on Linux platforms.
+          Fixed compiler errors on Linux platforms.
 
         * cuts/iccm/servant/Context_T.inl:
 
-	  Fixed compiler warnings on Linux platforms.
+          Fixed compiler warnings on Linux platforms.
 
 Sat Oct 13 13:48:13 UTC 2012  James H Hill  <hillj at cs dot iupui dot edu>
 
