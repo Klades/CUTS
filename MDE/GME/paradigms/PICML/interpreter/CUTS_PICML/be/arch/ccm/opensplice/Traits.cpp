@@ -70,7 +70,11 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
       << "              -Wb,export_include=" << name << "_stub_export.h" << std::endl
       << std::endl
       << "  splice_ts_flags += -d . \\" << std::endl
-      << "                     -P " << macro_basename << "_STUB_Export," << name << "_stub_export.h" << std::endl
+      << "                     -I $(TAO_ROOT) -I $(CIAO_ROOT) -I $(CIAO_ROOT)/ccm" << std::endl
+      << std::endl
+      << "  specific (prop:windows) {" << std::endl
+      << "    splice_ts_flags += -P " << macro_basename << "_STUB_Export," << name << "_stub_export.h" << std::endl
+      << "  }" << std::endl
       << std::endl
       << "  SpliceTypeSupport_Files {" << std::endl
       << "    gendir = ." << std::endl
