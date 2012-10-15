@@ -9,9 +9,9 @@
 #include "ccm/CCM_ObjectC.h"
 
 #include "dance/LocalityManager/Scheduler/Plugin_Manager.h"
-#include "ace/ARGV.h"
+#include "dance/DAnCE_PropertiesC.h"
 
-#include "Deployment_Handlers_export.h"
+#include "ace/ARGV.h"
 
 namespace iCCM
 {
@@ -22,7 +22,7 @@ namespace iCCM
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::Component_Instance_Handler_T (void)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::Component_Instance_Handler_T");
+
 }
 
 //
@@ -31,7 +31,7 @@ Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::Component_I
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::~Component_Instance_Handler_T (void)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::~Component_Instance_Handler_T");
+
 }
 
 //
@@ -41,8 +41,6 @@ template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 ::CORBA::StringSeq *
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::dependencies (void)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::dependencies");
-
   ::CORBA::StringSeq * retval = 0;
   ACE_NEW_THROW_EX (retval,
                     ::CORBA::StringSeq (0),
@@ -56,7 +54,7 @@ Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::dependencie
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::close (void)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::close");
+
 }
 
 //
@@ -65,13 +63,7 @@ void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::close 
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 char * Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::instance_type (void)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::instance_type");
-
-#if DANCE_MAJOR_VERSION > 1 || DANCE_MINOR_VERSION > 0 || DANCE_BETA_VERSION > 5
-  return ::CORBA::string_dup ("edu.vanderbilt.dre.CCM.Component");
-#else
-  return ::CORBA::string_dup ("edu.dre.vanderbilt.dre.CCM.Component");
-#endif
+  return ::CORBA::string_dup (DAnCE::CCM_COMPONENT);
 }
 
 //
@@ -93,8 +85,6 @@ install_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong instance_ref,
                   ::CORBA::Any_out instance_reference)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::install_instance");
-
   using ::Deployment::InstanceDeploymentDescription;
   using ::Deployment::MonolithicDeploymentDescription;
   using ::Deployment::PlanError;
@@ -257,8 +247,6 @@ activate_instance (const ::Deployment::DeploymentPlan & ,
                    ::CORBA::ULong ,
                    const ::CORBA::Any & any)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::activate_instance");
-
   using ::Deployment::StartError;
 
   ::Components::CCMObject_ptr comp_ref;
@@ -278,8 +266,6 @@ passivate_instance (const ::Deployment::DeploymentPlan & ,
                     ::CORBA::ULong index,
                     const ::CORBA::Any & any)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::passivate_instance");
-
   using ::Deployment::StopError;
 
   ::Components::CCMObject_ptr comp_ref;
@@ -301,8 +287,6 @@ remove_instance (const ::Deployment::DeploymentPlan &,
                  ::CORBA::ULong index,
                  const ::CORBA::Any & any_ref)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::remove_instance");
-
   using ::Deployment::StopError;
 
   ::Components::CCMObject_ptr comp_ref;
@@ -324,8 +308,6 @@ provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
                             ::CORBA::ULong index,
                             ::CORBA::Any_out any_out)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::provide_endpoint_reference");
-
   using ::Deployment::PlanConnectionDescription;
   using ::Deployment::PlanError;
   using ::Deployment::StartError;
@@ -401,8 +383,6 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
                   ::CORBA::ULong index,
                   const ::CORBA::Any & any_ref)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::connect_instance");
-
   using ::Deployment::PlanConnectionDescription;
   using ::Deployment::PlanError;
   using ::Deployment::StartError;
@@ -497,8 +477,6 @@ template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 disconnect_instance (const ::Deployment::DeploymentPlan & p, ::CORBA::ULong index)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::disconnect_instance");
-
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - disconnect_instance (%d)\n"),
               index));
@@ -512,8 +490,6 @@ template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 configure (const ::Deployment::Properties & prop)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::configure");
-
   using ::Deployment::StartError;
 
   // Cache the global ORB. We should eventually use different
@@ -559,8 +535,6 @@ void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 instance_configured (const ::Deployment::DeploymentPlan & plan,
                      ::CORBA::ULong index)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::instance_configured");
-
   using ::Deployment::InstanceDeploymentDescription;
   using ::Deployment::MonolithicDeploymentDescription;
   using ::Deployment::PlanError;
@@ -597,8 +571,6 @@ const char *
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 get_implementation (const char *name, const ::Deployment::DeploymentPlan &plan)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::get_implementation");
-
   if (name == 0)
     throw ::Deployment::PlanError (name, "no such artifact");
 
@@ -635,8 +607,6 @@ void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 create_attribute_configuration (const ::Deployment::Properties &props,
                                 ::Components::ConfigValues & values)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::create_attribute_configuration");
-
   ::CORBA::ULong length = props.length ();
   values.length (length);
 
@@ -663,8 +633,6 @@ template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 register_valuetypes (::CORBA::ORB_ptr orb)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::register_valuetypes");
-
   ::CORBA::ValueFactory_var prev;
 
   prev = orb->register_value_factory (

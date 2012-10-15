@@ -1,10 +1,20 @@
+Mon Oct 15 23:11:27 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/deployment/Component_Instance_Handler_T.cpp:
+
+          BUGFIX: The fix below actually broke runtime execution on Windows.
+          Instead of using a raw string, we now use the DAnCE::CCM_COMPONENTS
+          property to determine the handler's instance type. By using the
+          DAnCE property, it shields of from changes to the properties name
+          in the future.
+
 Mon Oct 15 22:49:18 UTC 2012  James H Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/deployment/Component_Instance_Handler_T.cpp:
 
-	  BUGFIX: DAnCE v1.0.5 corrected the property name for component
-	  instance handlers. Added preprocessor statements to reflect this
-	  update/change.
+          BUGFIX: DAnCE v1.0.5 corrected the property name for component
+          instance handlers. Added preprocessor statements to reflect this
+          update/change.
 
 Mon Oct 15 19:48:47 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
