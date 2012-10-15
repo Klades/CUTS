@@ -72,7 +72,6 @@ char * Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::inst
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 ::CORBA::ORB_ptr Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::get_orb (void)
 {
-  ICCM_DEPLOYENT_HANDLERS_TRACE ("Component_Instance_Handler_T::get_orb");
   return ::CORBA::ORB::_duplicate (this->orb_.in ());
 }
 
