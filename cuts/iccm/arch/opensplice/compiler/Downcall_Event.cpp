@@ -124,6 +124,23 @@ int Downcall_Event::visit_field (AST_Field * node)
       << "}";
     break;
 
+  case AST_Decl::NT_enum:
+    this->hfile_
+      << "virtual void " << local_name << " (const ::" << param_type << ");"
+      << "virtual " << param_type << " " << local_name << " (void) const;"
+      << std::endl;
+
+    this->sfile_
+      << "void " << this->downcall_event_ << "::"
+      << local_name << " (const ::" << param_type << " val){"
+      << "this->dds_event_." << local_name << " = val;"
+      << "}"
+      << param_type << " " << this->downcall_event_ << "::"
+      << local_name << " (void) const{"
+      << "return this->dds_event_." << local_name << ";"
+      << "}";
+    break;
+
   case AST_Decl::NT_string:
     this->hfile_
       << "virtual void " << local_name << " (" << param_type << ");"
@@ -164,8 +181,8 @@ int Downcall_Event::visit_field (AST_Field * node)
       << "::" << local_name << " (const ::" << param_type << " & val){"
       << "this->dds_event_." << local_name << " = val;"
       << "}"
-      << "const " << this->downcall_event_
-      << "::" << param_type << " & " << local_name << " (void) const{"
+      << "const " << param_type << " & "
+      << this->downcall_event_ << "::" << local_name << " (void) const{"
       << "return this->dds_event_." << local_name << ";"
       << "}"
       << param_type << " & " << this->downcall_event_

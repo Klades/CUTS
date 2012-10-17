@@ -155,11 +155,11 @@ project (TCPIP_Smoke_Test_svnt) : iccm_tcpip_svnt, cuts_codegen_defaults, cuts_t
   }
 }
 
-project (TCPIP_Smoke_Test_driver) : iccm_tcpip_svnt, cuts_test {
+project (TCPIP_Smoke_Test_driver) : cuts_coworker_exec, cuts_test {
   exename = driver
 
-  after += TCPIP_Smoke_Test_svnt
-  libs  += TCPIP_Smoke_Test_svnt
+  after += TCPIP_Smoke_Test_stub
+  libs  += TCPIP_Smoke_Test_stub
 
   Source_Files {
     driver.cpp

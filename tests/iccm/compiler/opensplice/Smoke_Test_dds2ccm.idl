@@ -1,0 +1,47 @@
+#ifndef _SMOKE_TEST_DDSCCM_IDL_
+#define _SMOKE_TEST_DDSCCM_IDL_
+
+enum SmokeEnumType
+{
+  SmokeEnum1,
+  SmokeEnum2
+};
+
+struct SmokeStructType
+{
+  boolean             SmokeBoolean;
+  char                SmokeChar;
+  octet               SmokeOctet;
+  string              SmokeString;
+  short               SmokeShort;
+  unsigned short      SmokeUShort;
+  long                SmokeLong;
+  unsigned long       SmokeULong;
+  long long           SmokeLongLong;
+  unsigned long long  SmokeULongLong;
+  float               SmokeFloat;
+  double              SmokeDouble;
+  ::SmokeEnumType     SmokeEnum;
+};
+
+struct SmokeEvent
+{
+  boolean             SmokeBoolean;
+  char                SmokeChar;
+  wchar               SmokeWChar;
+  octet               SmokeOctet;
+  string              SmokeString;
+  wstring             SmokeWString;
+  short               SmokeShort;
+  unsigned short      SmokeUShort;
+  long                SmokeLong;
+  unsigned long       SmokeULong;
+  long long           SmokeLongLong;
+  unsigned long long  SmokeULongLong;
+  float               SmokeFloat;
+  double              SmokeDouble;
+  ::SmokeEnumType     SmokeEnum;
+  ::SmokeStructType   SmokeStruct;
+};
+
+#endif    // !defined _SMOKE_TEST_DDSCCM_IDL

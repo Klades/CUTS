@@ -1,0 +1,54 @@
+#ifndef _SMOKE_TEST_IDL_
+#define _SMOKE_TEST_IDL_
+
+#pragma ndds typesupport "Smoke_TestSupport.h"
+#pragma opendds typesupport "Smoke_TestTypeSupportC.h"
+#pragma splice typesupport "Smoke_TestDscpC.h"
+
+#pragma DCPS_DATA_TYPE "Smoke"
+#pragma DCPS_DATA_KEY "Smoke SmokeLong"
+
+enum SmokeEnumType
+{
+  SmokeEnum1,
+  SmokeEnum2
+};
+
+struct SmokeStructType
+{
+  boolean             SmokeBoolean;
+  char                SmokeChar;
+  octet               SmokeOctet;
+  string              SmokeString;
+  short               SmokeShort;
+  unsigned short      SmokeUShort;
+  long                SmokeLong;
+  unsigned long       SmokeULong;
+  long long           SmokeLongLong;
+  unsigned long long  SmokeULongLong;
+  float               SmokeFloat;
+  double              SmokeDouble;
+  ::SmokeEnumType     SmokeEnum;
+};
+
+struct Smoke
+{
+  boolean             SmokeBoolean;
+  char                SmokeChar;
+  octet               SmokeOctet;
+  string              SmokeString;
+  short               SmokeShort;
+  unsigned short      SmokeUShort;
+  long                SmokeLong;
+  unsigned long       SmokeULong;
+  long long           SmokeLongLong;
+  unsigned long long  SmokeULongLong;
+  float               SmokeFloat;
+  double              SmokeDouble;
+  ::SmokeEnumType     SmokeEnum;
+  ::SmokeStructType   SmokeStruct;
+};
+
+#pragma keylist Smoke SmokeLong
+
+#endif    // !defined _BUTTON_IDL_

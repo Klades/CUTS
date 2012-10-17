@@ -1,8 +1,29 @@
+Wed Oct 17 14:52:37 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/compiler/Downcall_Event.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Upcall_Event.cpp:
+
+          Added support for IDL enums and structs
+
+        * tests/iccm/compiler/opensplice:
+        * tests/iccm/compiler/opensplice/Smoke_Test.idl:
+        * tests/iccm/compiler/opensplice/Smoke_Test.mpc:
+        * tests/iccm/compiler/opensplice/Smoke_Test_Components.idl:
+        * tests/iccm/compiler/opensplice/Smoke_Test_dds2ccm.idl:
+        * tests/iccm/compiler/opensplice/driver.cpp:
+
+          Created smoke test for opensplice iccm compiler
+
+        * tests/iccm/compiler/tao/Smoke_Test.mpc:
+        * tests/iccm/compiler/tcpip/Smoke_Test.mpc:
+
+          Fixed base projects to reduce recompilation
+
 Mon Oct 15 23:25:53 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/deployment/Component_Instance_Handler_T.cpp:
 
-	  Fixed compilation errors on Linux.
+          Fixed compilation errors on Linux.
 
 Mon Oct 15 23:11:27 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
