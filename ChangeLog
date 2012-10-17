@@ -1,3 +1,12 @@
+Wed Oct 17 16:04:42 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/rtidds/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_EventConsumer_T.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_EventConsumer_T.inl:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant_T.inl:
+
+          Fixed compilation errors on linux
+
 Wed Oct 17 14:52:37 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/opensplice/compiler/Downcall_Event.cpp:

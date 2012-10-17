@@ -10,7 +10,7 @@ template <typename SERVANT, typename EVENT>
 CUTS_INLINE
 RTIDDS_EventConsumer_T <SERVANT, EVENT>::
 RTIDDS_EventConsumer_T (SERVANT * servant, DESERIALIZE_METHOD callback)
-: DDS_EventConsumer_T (servant, callback)
+: DDS_EventConsumer_T <RTIDDS, SERVANT, EVENT> (servant, callback)
 {
 
 }

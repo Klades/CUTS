@@ -32,6 +32,9 @@ class RTIDDS_EventConsumer_T :
   public DDS_EventConsumer_T <RTIDDS, SERVANT, EVENT>
 {
 public:
+  // Type definition of the DESERIALIZE_METHOD from the base class.
+  typedef typename DDS_EventConsumer_T <RTIDDS, SERVANT, EVENT>::DESERIALIZE_METHOD DESERIALIZE_METHOD;
+
   /**
    * Initializing constructor.
    *
