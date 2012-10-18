@@ -2,7 +2,7 @@
 #include <string>
 #include "TCPIP_Smoke_TestC.h"
 
-int main ()
+int main (int argc, char ** argv)
 {
   try
   {

@@ -1,3 +1,24 @@
+Thu Oct 18 18:23:20 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_tcpip_svnt.mpb:
+
+          Be sure to link the TCPIP stub implementation library
+          for all TCPIP servants.
+
+        * tests/iccm/compiler/opensplice/Smoke_Test.mpc:
+        * tests/iccm/compiler/rtidds/Smoke_Test.mpc:
+        * tests/iccm/compiler/tao/Smoke_Test.mpc:
+        * tests/iccm/compiler/tcpip/Smoke_Test.mpc:
+
+          Changed exe names to prevent overwritting them on win32
+
+        * tests/iccm/compiler/opensplice/driver.cpp:
+        * tests/iccm/compiler/rtidds/driver.cpp:
+        * tests/iccm/compiler/tao/driver.cpp:
+        * tests/iccm/compiler/tcpip/driver.cpp:
+
+          Fixed main signature to resolve linker errors on win32
+
 Thu Oct 18 15:26:05 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/rtidds/compiler/Downcall_Event.cpp:

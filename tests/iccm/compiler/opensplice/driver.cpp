@@ -2,7 +2,7 @@
 #include <string>
 #include "OpenSplice_Smoke_Test_ComponentsC.h"
 
-int main ()
+int main (int argc, char ** argv)
 {
   try
   {

@@ -1,6 +1,6 @@
 // $Id$
 
 project : iccm_tcpip_skel, iccm_servant {
-  libs  += iCCM_TCPIP_svnt
+  libs  += iCCM_TCPIP_svnt CUTS_TCPIP
   after += iCCM_TCPIP_svnt
 }

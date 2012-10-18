@@ -195,7 +195,7 @@ project (OSPL_Smoke_Test_svnt) : iccm_opensplice_svnt, cuts_codegen_defaults, cu
 }
 
 project (OSPL_Smoke_Test_driver) : splicelib_with_idl, portableserver, cuts_coworker_exec, cuts_test {
-  exename = driver
+  exename = OSPL_Smoke_Test_driver
 
   includes += $(OSPL_HOME)/custom_lib/ccpp
 

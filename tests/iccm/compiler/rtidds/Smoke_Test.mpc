@@ -189,7 +189,7 @@ project (RTIDDS_Smoke_Test_svnt) : iccm_rtidds_svnt, cuts_codegen_defaults, cuts
 }
 
 project (RTIDDS_Smoke_Test_driver) : nddslib, cuts_coworker_exec, cuts_test {
-  exename = driver
+  exename = RTIDDS_Smoke_Test_driver
 
   after += RTIDDS_Smoke_Test_stub RTIDDS_Smoke_Test_svnt
   libs  += RTIDDS_Smoke_Test_stub

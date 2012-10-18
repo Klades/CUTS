@@ -125,6 +125,7 @@ project (TAO_Smoke_Test_exec) : iccm_tao_skel, cuts_codegen_defaults, cuts_test 
 
   Header_Files {
     Smoke_TestEC.h
+    Smoke_Test_iCCMC.h
   }
 
   IDL_Files {
@@ -156,7 +157,7 @@ project (TAO_Smoke_Test_svnt) : iccm_tao_svnt, cuts_codegen_defaults, cuts_test 
 }
 
 project (TAO_Smoke_Test_driver) : cuts_coworker_exec, cuts_test {
-  exename = driver
+  exename = TAO_Smoke_Test_driver
 
   after += TAO_Smoke_Test_stub
   libs  += TAO_Smoke_Test_stub

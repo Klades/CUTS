@@ -125,6 +125,7 @@ project (TCPIP_Smoke_Test_exec) : iccm_tcpip_skel, cuts_codegen_defaults, cuts_t
 
   Header_Files {
     Smoke_TestEC.h
+    Smoke_Test_iCCMC.h
   }
 
   IDL_Files {
@@ -156,7 +157,7 @@ project (TCPIP_Smoke_Test_svnt) : iccm_tcpip_svnt, cuts_codegen_defaults, cuts_t
 }
 
 project (TCPIP_Smoke_Test_driver) : cuts_coworker_exec, cuts_test {
-  exename = driver
+  exename = TCPIP_Smoke_Test_driver
 
   after += TCPIP_Smoke_Test_stub
   libs  += TCPIP_Smoke_Test_stub
