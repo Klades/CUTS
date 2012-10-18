@@ -1,3 +1,18 @@
+Thu Oct 18 15:26:05 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/rtidds/compiler/Downcall_Event.cpp:
+        * cuts/iccm/arch/rtidds/compiler/Upcall_Event.cpp:
+
+          Added support for IDL enums and structs
+
+        * tests/iccm/compiler/rtidds:
+        * tests/iccm/compiler/rtidds/Smoke_Test.idl:
+        * tests/iccm/compiler/rtidds/Smoke_Test.mpc:
+        * tests/iccm/compiler/rtidds/Smoke_Test_Components.idl:
+        * tests/iccm/compiler/rtidds/driver.cpp:
+
+          Created smoke test for rtidds iccm compiler
+
 Thu Oct 18 14:38:24 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
