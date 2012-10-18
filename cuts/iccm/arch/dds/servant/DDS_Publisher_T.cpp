@@ -115,7 +115,7 @@ void DDS_Publisher_T <T, EVENT>::send_event (EVENT * ev)
   if (0 != ev)
   {
     typedef typename T::returncode_type returncode_type;
-    returncode_type retcode = this->writer_->write (downcall->dds_event (), 0);
+    returncode_type retcode = this->writer_->write (downcall->dds_event (), T::HANDLE_NIL);
 
     if (0 != retcode)
       ACE_ERROR ((LM_ERROR,

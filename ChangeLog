@@ -1,3 +1,11 @@
+Thu Oct 18 14:38:24 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+
+          Fixed compilation errors on linux.  Templated HANDLE_NIL methods
+          are now used when using the DDS writers.
+
 Wed Oct 17 16:04:42 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/rtidds/compiler/Event_Traits.cpp:
