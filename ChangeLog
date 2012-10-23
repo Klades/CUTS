@@ -1,3 +1,10 @@
+Tue Oct 23 07:14:35 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
+
+          BUGFIX: The generated File objects did not reference the
+          originating File object that contained the DDS data types.
+
 Tue Oct 23 06:29:38 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.h:

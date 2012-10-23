@@ -91,7 +91,7 @@ visit_InterfaceDefinitions (PICML::InterfaceDefinitions_in item)
 void Event_Creator::visit_File (PICML::File_in item)
 {
   // Make sure the target file of the same name exists.
-  static const std::string name = item->name ();
+  const std::string name = item->name () + "Events";
 
   PICML::File file;
   if (GAME::create_if_not <GAME::Mga_t> (this->target_folder_, file,
@@ -101,6 +101,18 @@ void Event_Creator::visit_File (PICML::File_in item)
                                                  boost::bind (&PICML::File::get, _1))))))
   {
     file->name (name);
+  }
+
+  // Make sure the newly created file references the source file.
+  PICML::FileRef file_ref;
+  if (GAME::create_if_not <GAME::Mga_t> (file, file_ref,
+      GAME::contains <GAME::Mga_t> (boost::bind (std::equal_to <PICML::File> (),
+                                    PICML::File (item),
+                                    boost::bind (&PICML::FileRef::impl_type::refers_to,
+                                                 boost::bind (&PICML::FileRef::get, _1))))))
+  {
+    file_ref->name (item->name ());
+    file_ref->refers_to (item);
   }
 
   scoped_swap <GAME::Mga::Model> swapper (this->target_model_, file);
