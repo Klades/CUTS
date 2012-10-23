@@ -156,18 +156,9 @@ generate (const PICML::OutputAction & action)
 
   if (this->ctx_.outevent_mgr_.get_scoped_typename (name, scoped_name))
   {
-    if (CUTS_BE_OPTIONS ()->iccm_compliant_)
-    {
-      this->ctx_.source_
-        << "::" << scoped_name << "_var __event_"
-        << action.uniqueId () << "__ = this->ctx_->new_" << name << "_event ();";
-    }
-    else
-    {
-      this->ctx_.source_
-        << "CUTS_CCM_Event_T <OBV_" << scoped_name
-        << "> __event_" << action.uniqueId () << "__;";
-    }
+    this->ctx_.source_
+      << "::" << scoped_name << "_var __event_"
+      << action.uniqueId () << "__ = this->ctx_->new_" << name << "_event ();";
 
     this->ctx_.skip_action_ = false;
   }

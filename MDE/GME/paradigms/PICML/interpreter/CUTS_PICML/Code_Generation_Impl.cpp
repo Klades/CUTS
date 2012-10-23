@@ -57,7 +57,6 @@ int Code_Generation_Impl::initialize (GAME::Mga::Project project)
   // Load the previous project settings.
   GAME::Mga::Project_Settings settings (project, "CUTS/CodeGeneration");
   settings.get_value ("OutputPath", this->output_);
-  settings.get_value ("iCCM", this->iccm_compliant_);
   settings.get_value ("Backend", this->selected_backend_);
 
   return 0;
@@ -116,7 +115,6 @@ invoke_ex (GAME::Mga::Project project,
 
       // Initialize the dialog before showing it.
       dialog.opts_.output_dir_ = this->output_.c_str ();
-      dialog.opts_.iccm_compliant_ = this->iccm_compliant_;
       dialog.opts_.selected_backend_ = this->selected_backend_;
 
       for (size_t i = 0; i < this->backends_.size (); ++ i)
@@ -129,7 +127,6 @@ invoke_ex (GAME::Mga::Project project,
       // Store the selected values.
       this->selected_backend_ = dialog.opts_.selected_backend_;
       this->output_ = dialog.opts_.output_dir_.GetBuffer ();
-      this->iccm_compliant_ = dialog.opts_.iccm_compliant_;
     }
 
     std::string message;
@@ -142,7 +139,6 @@ invoke_ex (GAME::Mga::Project project,
     {
       CUTS_BE_OPTIONS ()->output_directory_ = this->output_;
       CUTS_BE_OPTIONS ()->exec_suffix_  = "_exec";
-      CUTS_BE_OPTIONS ()->iccm_compliant_ = this->iccm_compliant_;
 
       // Create the manager from the factory.
       CUTS_Auto_Functor_T <CUTS_BE_Manager> manager (factory (), &CUTS_BE_Manager::close);
@@ -166,7 +162,6 @@ invoke_ex (GAME::Mga::Project project,
     // Save the current selections for next time.
     GAME::Mga::Project_Settings settings (project, "CUTS/CodeGeneration");
     settings.set_value ("OutputPath", this->output_);
-    settings.set_value ("iCCM", this->iccm_compliant_);
     settings.set_value ("Backend", this->selected_backend_);
 
     // Closing backend
@@ -203,10 +198,6 @@ set_parameter (const std::string & name, const std::string & value)
         break;
       }
     }
-  }
-  else if (name == "iCCM")
-  {
-    this->iccm_compliant_ = true;
   }
 
   return 0;

@@ -63,8 +63,6 @@ private:
 
   int selected_backend_;
 
-  bool iccm_compliant_;
-
   std::vector <backend_t> backends_;
 };
 

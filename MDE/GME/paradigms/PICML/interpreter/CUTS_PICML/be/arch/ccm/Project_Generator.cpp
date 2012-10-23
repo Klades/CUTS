@@ -534,6 +534,9 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
       << std::endl;
   }
 
+  // Allow the backend to write custom declarations to the project.
+  this->ctx_.traits_->write_stub_custom (this->ctx_.project_, node);
+
   this->ctx_.project_
     << std::endl
     // Generate the IDL files for this project.

@@ -82,6 +82,15 @@ write_stub_after (std::ostream &, const CUTS_BE_IDL_Node &)
 }
 
 //
+// write_stub_custom
+//
+CUTS_INLINE
+void Traits::write_stub_custom (std::ostream &, const CUTS_BE_IDL_Node &)
+{
+
+}
+
+//
 // write_idl_gen_files
 //
 CUTS_INLINE

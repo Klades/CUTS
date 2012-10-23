@@ -73,7 +73,7 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
     this->stub_after_.insert (project_name);
   }
 
-  if (node.has_events_)
+  if (node.has_events_ || node.has_components_)
   {
     // Generate the iCCM source files.
     const std::string project_name = name + "_iCCM_IDL_Gen";
@@ -101,6 +101,18 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
     // Make sure the stub project builds after this project.
     this->stub_after_.insert (project_name);
   }
+}
+
+//
+// write_stub_custom
+//
+void Traits::write_stub_custom (std::ostream & proj, const CUTS_BE_IDL_Node &)
+{
+  proj
+    << std::endl
+    << "  specific (prop:windows) {" << std::endl
+    << "    dynamicflags += NDDS_USER_DLL_EXPORT" << std::endl
+    << "  }" << std::endl;
 }
 
 //

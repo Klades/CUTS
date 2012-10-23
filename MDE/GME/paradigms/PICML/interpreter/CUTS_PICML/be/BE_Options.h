@@ -28,7 +28,6 @@
 struct CUTS_BE_Export CUTS_BE_Options
 {
   CUTS_BE_Options (void)
-    : iccm_compliant_ (false)
   {
 
   }
@@ -53,8 +52,6 @@ struct CUTS_BE_Export CUTS_BE_Options
     /// Generate source files from the model.
     OPT_GENERATE_SOURCE = 2
   };
-
-  bool iccm_compliant_;
 
   /// Menu options for the backend.
   Menu_Option option_;
