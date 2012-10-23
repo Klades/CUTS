@@ -6,6 +6,9 @@
 #include "be_global.h"
 #include "ast_root.h"
 #include "ast_component.h"
+#include "ast_publishes.h"
+#include "ast_emits.h"
+#include "ast_consumes.h"
 
 #include "Servant_Context.h"
 #include "Servant_Impl.h"
@@ -74,6 +77,33 @@ public:
   }
 
   //
+  // visit_publishes
+  //
+  virtual int visit_publishes (AST_Publishes *node)
+  {
+    return 0 != node->publishes_type () ?
+      node->publishes_type ()->ast_accept (this) : -1;
+  }
+
+  //
+  // visit_emits
+  //
+  virtual int visit_emits (AST_Emits *node)
+  {
+    return 0 != node->emits_type () ?
+      node->emits_type ()->ast_accept (this) : -1;
+  }
+
+  //
+  // visit_consumes
+  //
+  virtual int visit_consumes (AST_Consumes *node)
+  {
+    return 0 != node->consumes_type () ?
+      node->consumes_type ()->ast_accept (this) : -1;
+  }
+
+  //
   // visit_eventtype
   //
   virtual int visit_eventtype (AST_EventType * node)
@@ -91,6 +121,9 @@ public:
     /// ensure the source code is portable across differnt backends.
     this->hfile_ << include_t (be_global->get_stub_file_prefix () + basename + "C.h");
     this->includes_.insert (node->file_name ());
+
+    // We also need to include any referenced header files since
+    // those files may contains the DDS events.
 
     return 0;
   }

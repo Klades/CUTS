@@ -1,3 +1,11 @@
+Tue Oct 23 03:35:12 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/compiler/Servant_File.cpp:
+
+          BUGFIX: The iCCM compiler did not generate the correct all the
+          include files if an event was defined in a different IDL file
+          from the component using the event.
+
 Thu Oct 18 18:23:20 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_tcpip_svnt.mpb:
