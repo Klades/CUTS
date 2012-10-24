@@ -15,7 +15,7 @@ namespace iCCM
 void TCPIP_Component_Instance_Handler::
 configure (const ::Deployment::Properties & config)
 {
-  ACE_ERROR ((LM_ERROR,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - configuring instance handler\n")));
   // Pass control to the base class. If this method is empty, then it
   // is recommendend that you remove it completely from this class.
@@ -40,14 +40,14 @@ configure (const ::Deployment::Properties & config)
     }
   }
 
-  ACE_ERROR ((LM_ERROR,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - initializing the tcpip orb\n")));
   // Initialize and activate the ORB.
   this->tcpip_orb_.init (argv_vec.argc (), argv_vec.argv ());
-  ACE_ERROR ((LM_ERROR,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - activating the tcpip orb\n")));
   this->orb_task_.activate ();
-  ACE_ERROR ((LM_ERROR,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - finished configure on the instance handler\n")));
 }
 
@@ -57,12 +57,12 @@ configure (const ::Deployment::Properties & config)
 //
 void TCPIP_Component_Instance_Handler::close (void)
 {
-  ACE_ERROR ((LM_ERROR,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - closing the instance handler\n")));
   // Shutdown the TCP/IP ORB.
   this->tcpip_orb_.shutdown ();
 
-  ACE_ERROR ((LM_ERROR,
+  ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - tcpip orb is shutdown\n")));
   // Pass control to the base class. If this method is empty, then it
   // is recommendend that you remove it completely from this class.

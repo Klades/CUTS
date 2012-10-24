@@ -442,6 +442,45 @@ public:
         return 0;
         break;
 
+      case AST_Decl::NT_string:
+      {
+        std::stringstream var_name;
+        var_name << "_var_" << this->var_counter_;
+        this->var_counter_++;
+
+        this->sfile_
+          << "  ACE_CString " << var_name.str () << ";" << std::endl
+          << "  stream >> " << var_name.str () << ";" << std::endl
+          << "  ev." << local_name;
+
+          if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+            this->sfile_ << " (" << var_name.str () << ".c_str ());" << std::endl << std::endl;
+          else
+            this->sfile_ << " = " << var_name.str () << ".c_str ();" << std::endl << std::endl;
+        break;
+      }
+
+      case AST_Decl::NT_wstring:
+      {
+        std::stringstream var_name;
+        var_name << "_var_" << this->var_counter_;
+        this->var_counter_++;
+
+        this->sfile_
+          << "  ACE_CDR::WChar * " << var_name.str () << " = 0;" << std::endl
+          << "  stream.read_wstring (" << var_name.str () << ");" << std::endl
+          << "  ev." << local_name;
+
+          if (this->parent_->node_type () == AST_Decl::NT_eventtype)
+            this->sfile_ << " (" << var_name.str () << ");" << std::endl;
+          else
+            this->sfile_ << " = " << var_name.str () << ";" << std::endl;
+
+        this->sfile_
+          << "  delete [] " << var_name.str () << ";" << std::endl << std::endl;
+        break;
+      }
+
       case AST_Decl::NT_pre_defined:
         // Visit the pre_defined type for extra processing
         this->predefined_field_ = node;

@@ -1,3 +1,29 @@
+Wed Oct 24 13:38:35 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
+
+          Fixed code generation for strings and wstrings.
+
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.cpp:
+
+          Changed debugging messages from ACE_ERROR to ACE_DEBUG.
+
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Container_Strategy.cpp:
+
+          Implemented install and remove servant methods.
+
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Servant_T.inl:
+
+          Removed debugging message.
+
+        * examples/iccm/HelloWorld/tcpip/descriptors:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tcpip/descriptors/run_test.pl:
+
+          Created the necessary deployment plan to test the iCCM TCPIP
+          architecture.
+
 Tue Oct 23 07:14:35 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
