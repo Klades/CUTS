@@ -9,6 +9,7 @@
 
 #include "TAO_Container.h"
 #include "../servant/TAO_Servant.h"
+#include "TAO_Component_Instance_Handler.h"
 
 namespace iCCM
 {
@@ -33,6 +34,14 @@ configure_servant (::PortableServer::Servant servant,
   // by using 'dynamic_cast <TAO_Servant *> (servant)'.
   // Also, the ConfigValues passed into this method are the same
   // configuration values attached to a component instance.
+  TAO_Servant * tao_servant = dynamic_cast <TAO_Servant *> (servant);
+
+  if (0 == tao_servant)
+    return;
+
+  // Register the servant's value types with the orb
+  ::CORBA::ORB_ptr orb = this->container_.inst_handler ()->orb ();
+  tao_servant->register_value_factories (orb);
 }
 
 //

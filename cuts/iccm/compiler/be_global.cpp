@@ -397,3 +397,28 @@ generate_constructor_postamble (AST_Component * node, std::ofstream & sfile) con
 {
 
 }
+
+//
+// generate_class_preamble
+//
+void BE_GlobalData::
+generate_class_preamble (AST_Component * node,
+                         std::ofstream & hfile,
+                         std::ofstream & sfile,
+                         const ACE_CString & servant) const
+{
+
+}
+
+//
+// generate_class_postamble
+//
+void BE_GlobalData::
+generate_class_postamble (AST_Component * node,
+                          std::ofstream & hfile,
+                          std::ofstream & sfile,
+                          const ACE_CString & servant) const
+{
+
+}
+

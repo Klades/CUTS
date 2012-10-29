@@ -46,8 +46,14 @@ EVENT * TAO_Publisher_T <EVENT>::allocate_event (void)
   // interface, but set values for the corresponding event type in the
   // TAO architecture.
   //===========================================================================
+  typedef typename TAO_Event_Traits < EVENT >::tao_event_type event_type;
 
-  return 0;
+  event_type * ev = 0;
+  ACE_NEW_THROW_EX (ev,
+                    event_type (),
+                    ::CORBA::NO_MEMORY ());
+
+  return ev;
 }
 
 //

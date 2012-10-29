@@ -24,6 +24,16 @@
 #include "TAO_Publisher.h"
 #include "TAO_Publisher_Table.h"
 
+#define ICCM_TAO_REGISTER_VALUE_FACTORY(ORB,FACTORY,VALUETYPE)\
+{\
+  CORBA::ValueFactory factory = new FACTORY; \
+  CORBA::ValueFactory prev_factory = ORB->register_value_factory \
+    (VALUETYPE::_tao_obv_static_repository_id (), \
+    factory); \
+ if (prev_factory) prev_factory->_remove_ref (); \
+ factory->_remove_ref ();\
+}
+
 namespace iCCM
 {
 
@@ -48,6 +58,9 @@ public:
 
   /// Destructor.
   virtual ~TAO_Servant (void);
+
+  /// Register event value factories
+  virtual void register_value_factories (::CORBA::ORB_ptr orb);
 };
 
 }

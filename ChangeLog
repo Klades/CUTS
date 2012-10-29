@@ -1,3 +1,63 @@
+Mon Oct 29 16:22:15 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tao/compiler/Context.h:
+        * cuts/iccm/arch/tao/compiler/Context.cpp:
+        * cuts/iccm/arch/tao/compiler/Register_Value_Factories_Visitor.h:
+        * cuts/iccm/arch/tao/compiler/Register_Value_Factories_Visitor.inl:
+        * cuts/iccm/arch/tao/compiler/Register_Value_Factories_Visitor.cpp:
+        * cuts/iccm/arch/tao/compiler/TAO_Compiler.mpc:
+
+          Implemented generate_class_postamble to register eventtype factories
+          with the orb
+
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.inl:
+
+          Made the underlying orb publicly available
+
+        * cuts/iccm/arch/tao/deployment/TAO_Container_Strategy.cpp:
+
+          Added the register_value_factories hook to servants.  Gets called
+          from configure_servant.
+
+        * cuts/iccm/arch/tao/servant/TAO_EventConsumer.h:
+
+          Corrected base class to fix runtime errors
+
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_T.h:
+
+          Removed double declaration of protected variable which caused
+          runtime errors
+
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_T.cpp:
+
+          Implemented the allocate_event method
+
+        * cuts/iccm/arch/tao/servant/TAO_Servant.h:
+        * cuts/iccm/arch/tao/servant/TAO_Servant.inl:
+
+          Added the register_value_factories hook
+
+        * cuts/iccm/arch/tcpip/servant/TCPIP_Publisher_T.cpp:
+
+          Implemented the allocate_event method
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+        * cuts/iccm/compiler/be_global.h:
+        * cuts/iccm/compiler/be_global.cpp:
+
+          Added and implemented the generate_class_preamble and
+          generate_class_postamble hooks.  These can be used to generate
+          additional methods for servants.
+
+        * examples/iccm/HelloWorld/tao/descriptors:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tao/descriptors/run_test.pl:
+
+          Implemented and succesfully tested the runtime behavior of the
+          iCCM TAO architecture
+
 Wed Oct 24 13:38:35 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:

@@ -25,6 +25,7 @@
 #include <sstream>
 #include <string>
 
+#include "Register_Value_Factories_Visitor.h"
 
 namespace iCCM
 {
@@ -149,6 +150,18 @@ get_consumer_template_typename (void) const
 {
   static const ACE_CString value ("iCCM::TAO_EventConsumer_T");
   return value;
+}
+
+//
+// generate_class_postamble
+//
+void Context::generate_class_postamble (AST_Component * node,
+                                        std::ofstream & hfile,
+                                        std::ofstream & sfile,
+                                        const ACE_CString & servant) const
+{
+  Register_Value_Factories_Visitor vf (hfile, sfile, servant);
+  node->ast_accept (&vf);
 }
 
 }

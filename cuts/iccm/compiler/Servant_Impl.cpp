@@ -573,7 +573,11 @@ int Servant_Impl::visit_component (AST_Component * node)
   this->hfile_
     << servant << std::endl
     << "  : public " << servant << "_Base"
-    << "{"
+    << "{";
+
+  be_global->generate_class_preamble (node, this->hfile_, this->sfile_, servant);
+
+  this->hfile_
     << "/// typedef for generated implementation code" << std::endl
     << "typedef " << servant << " self_type;" << std::endl
     << "/// Default constructor" << std::endl
@@ -648,6 +652,8 @@ int Servant_Impl::visit_component (AST_Component * node)
 
   Consumer_Variable consumer_variables (this->hfile_, servant);
   consumer_variables.visit_scope (node);
+
+  be_global->generate_class_postamble (node, this->hfile_, this->sfile_, servant);
 
   // Factory method for the servant. This is a C-style function
   // that is exported from the binary.

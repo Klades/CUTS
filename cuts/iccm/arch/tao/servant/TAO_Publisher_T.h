@@ -47,10 +47,6 @@ public:
 
   /// Send an event via the consumer.
   void send_event (EVENT * ev);
-
-protected:
-  /// The consumer connected to this publisher.
-  ::Components::TAO_iCCM::EventConsumer_var consumer_;
 };
 
 }

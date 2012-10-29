@@ -29,6 +29,7 @@ project (iCCM_TAO_Compiler) : iccm_compiler {
     Context.cpp
     Event_Traits.cpp
     Stub_File.cpp
+    Register_Value_Factories_Visitor.cpp
   }
 
   Header_Files {

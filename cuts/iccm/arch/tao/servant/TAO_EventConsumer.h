@@ -22,7 +22,6 @@
 
 #include "TAO_EventsS.h"
 #include "TAO_svnt_export.h"
-#include "TAO_Event.h"
 
 namespace iCCM
 {
@@ -40,7 +39,7 @@ class TAO_Servant;
  */
 class ICCM_TAO_SVNT_Export TAO_EventConsumer :
   public virtual EventConsumer,
-  public virtual ::POA_Components::EventConsumerBase
+  public virtual ::POA_Components::TAO_iCCM::EventConsumer
 {
 public:
   /// Default constructor.

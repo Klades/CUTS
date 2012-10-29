@@ -23,4 +23,13 @@ TAO_Servant::~TAO_Servant (void)
 
 }
 
+//
+// register_value_factories
+//
+CUTS_INLINE
+void TAO_Servant::register_value_factories (::CORBA::ORB_ptr orb)
+{
+
+}
+
 }

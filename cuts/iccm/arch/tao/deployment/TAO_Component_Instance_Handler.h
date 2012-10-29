@@ -59,6 +59,9 @@ public:
   /// Close the instance handler.
   virtual void close (void);
 
+  /// Get the underlying ORB
+  ::CORBA::ORB_ptr orb (void);
+
 private:
   /// INSERT YOUR VARIABLES HERE
 };

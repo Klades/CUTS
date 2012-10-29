@@ -64,6 +64,12 @@ public:
   virtual const ACE_CString & get_publisher_template_typename (void) const;
   virtual const ACE_CString & get_publisher_table_typename (void) const;
   virtual const ACE_CString & get_publisher_table_template_typename (void) const;
+
+  // BEGIN: ARCHITECTURE OPTIONAL OVERLOADS
+  virtual void generate_class_postamble (AST_Component * node,
+                                         std::ofstream & hfile,
+                                         std::ofstream & sfile,
+                                         const ACE_CString & servant) const;
 };
 
 }

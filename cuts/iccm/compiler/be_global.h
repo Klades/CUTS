@@ -129,8 +129,19 @@ public:
                                             std::ofstream & sfile,
                                             const ACE_CString & servant) const;
 
-  virtual void generate_constructor_preamble (AST_Component * node, std::ofstream & sfile) const;
-  virtual void generate_constructor_postamble (AST_Component * node, std::ofstream & sfile) const;
+  virtual void generate_constructor_preamble (AST_Component * node,
+                                              std::ofstream & sfile) const;
+  virtual void generate_constructor_postamble (AST_Component * node,
+                                               std::ofstream & sfile) const;
+
+  virtual void generate_class_preamble (AST_Component * node,
+                                        std::ofstream & hfile,
+                                        std::ofstream & sfile,
+                                        const ACE_CString & servant) const;
+  virtual void generate_class_postamble (AST_Component * node,
+                                         std::ofstream & hfile,
+                                         std::ofstream & sfile,
+                                         const ACE_CString & servant) const;
 private:
   /// Basename for the source file.
   mutable ACE_CString source_basename_;
