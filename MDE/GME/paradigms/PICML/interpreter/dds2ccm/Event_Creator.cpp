@@ -9,6 +9,7 @@
 
 #include "game/mga/Iterator_T.h"
 #include "game/mga/modelgen.h"
+#include "game/mga/utils/Point.h"
 
 #include "boost/bind.hpp"
 #include <algorithm>
@@ -184,7 +185,6 @@ void Event_Creator::visit_Aggregate (PICML::Aggregate_in item)
   }
 
   this->target_event_ = PICML::Event::_narrow (model);
-
   GAME::Mga::Iterator <PICML::Member> iter = item->get_Members ();
   std::for_each (GAME::Mga::make_impl_iter (iter),
                  GAME::Mga::make_impl_iter (iter.make_end ()),
@@ -209,6 +209,12 @@ void Event_Creator::visit_Member (PICML::Member_in item)
   }
 
   target_member->name (item->name ());
+
+  // Update the position of the newly created item to match the position
+  // of its origin.
+  GAME::Mga::Point pt;
+  GAME::Mga::get_position ("InterfaceDefinition", item, pt);
+  GAME::Mga::set_position ("InterfaceDefinition", pt, target_member);
 }
 
 } // namespace dds2ccm
