@@ -208,7 +208,7 @@ void Event_Creator::visit_Member (PICML::Member_in item)
     target_member->set_MemberType (member_type);
   }
 
-  target_member->name (member_type->name ());
+  target_member->name (item->name ());
 }
 
 } // namespace dds2ccm
