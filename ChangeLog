@@ -1,3 +1,13 @@
+Fri Nov  2 23:29:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tao/compiler/Register_Value_Factories_Visitor.cpp:
+
+          Fixed return value
+
+        * cuts/iccm/arch/tcpip/stub/TCPIP_Remote_Endpoint.cpp:
+
+          Fixed include path
+
 Fri Nov  2 22:54:34 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/arch/tcpip:

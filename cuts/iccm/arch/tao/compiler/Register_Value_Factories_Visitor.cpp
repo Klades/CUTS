@@ -98,6 +98,8 @@ int Register_Value_Factories_Visitor::visit_eventtype (AST_EventType * node)
 
   this->sfile_
     << "ICCM_TAO_REGISTER_VALUE_FACTORY (orb, ::" << name << "_init, ::" << name << ");";
+
+  return 0;
 }
 
 } // namespace iCCM

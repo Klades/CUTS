@@ -6,7 +6,7 @@
 #include "TCPIP_Remote_Endpoint.inl"
 #endif
 
-#include "cuts/arch/tcpip/TCPIP_Connector.h"
+#include "TCPIP_Connector.h"
 
 //
 // connect
