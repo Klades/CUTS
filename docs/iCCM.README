@@ -1,11 +1,12 @@
-.: Document: iCCM :.
-.: Last Modified: November 29, 2011 :.
+.: Document: iCCM.README :.
+.: Last Modified: November 2, 2012 :.
 
 Table of Contents
 ===========================================================
 I. Overview of iCCM
 II. Starting an iCCM Project
-III. Using DDS with iCCM
+III. iCCM and DAnCE
+IV. Using DDS with iCCM
 
 I. Overview of iCCM
 ---------------------------------------
@@ -35,7 +36,33 @@ Just execute the following command:
 where NAME is the name of your project and GENDIR is the directory
 for the generated files. The NAME parameter cannot contain any spaces.
 
-III. Using DDS with iCCM
+III. iCCM and DAnCE
+---------------------------------------
+We use DAnCE to deploy iCCM component irrespective of the target
+architecture used to send an event. It, however, is necessary to
+inform DAnCE of what target architecture we are using for our event
+communication between components. This is done by supplying the
+correct deployment handler configuration file to DAnCE, which is
+not the same as your deployment descriptors.
+
+The different DAnCE deployment handler configuration files for
+iCCM can be found at the following location:
+
+  $CUTS_ROOT/bin/handlers
+
+To use the deployment handlers at the location above, just supply
+the correct one to DAnCE when starting the node manager. For example,
+if I want to deploy components that communicate via TAO, then I use
+the following command to start the node manager:
+
+  %> $DANCE_ROOT/bin/dance_node_manager -ORBEndpoint iiop://localhost:10000 -s $DANCE_ROOT/bin/dance_locality_manager -n MainNode -t 30 --locality-config $CUTS_ROOT/bin/handlers/tao.locality.config
+
+Please notice the --locality-config configuration option. This
+determines what configuration DAnCE should when deploying components.
+If you do not specify the configuration that corresponds to the
+architecture type, then the components will not deploy.
+
+IV. Using DDS with iCCM
 ---------------------------------------
 We have integrated DDS into the iCCM architecture. There, however, are
 additional steps required to use DDS with iCCM unlike the other integrated
