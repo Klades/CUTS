@@ -1,3 +1,10 @@
+Fri Nov  2 20:10:26 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * docs/iCCM:
+
+          Updated documentation with instructions on how to generate
+          CCM events from DDS events.
+
 Fri Nov  2 19:55:08 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:

@@ -3,11 +3,11 @@
 
 Table of Contents
 ===========================================================
-1. Overview of iCCM
-2. Starting an iCCM Project
+I. Overview of iCCM
+II. Starting an iCCM Project
+III. Using DDS with iCCM
 
-
-1. Overview of iCCM
+I. Overview of iCCM
 ---------------------------------------
 iCCM, which is short for integrated CCM (iCCM), is a framework for
 integrating third-party distributed middleware into CCM. Unlike existing
@@ -20,7 +20,7 @@ and allows such interaction with the outside world be with any distributed
 middleware technology---not just CORBA or CCM. The only challenge is
 mapping third-party distributed middleware events to CCM events.
 
-2. Starting an iCCM Project
+II. Starting an iCCM Project
 ---------------------------------------
 Starting an iCCM project is very simple. We have provided a Python3
 script that will generate all the skeleton code needed to build an
@@ -34,3 +34,26 @@ Just execute the following command:
 
 where NAME is the name of your project and GENDIR is the directory
 for the generated files. The NAME parameter cannot contain any spaces.
+
+III. Using DDS with iCCM
+---------------------------------------
+We have integrated DDS into the iCCM architecture. There, however, are
+additional steps required to use DDS with iCCM unlike the other integrated
+architectures. This is because DDS uses 'structs' to represent data and
+CCM use 'events' to represent data. This means we have need (1) equivalent
+CCM events for each DDS struct and (2) wrappers that will convert DDS
+data types to CCM events and visa versa at runtime. Fortunately, we are
+able to use both the modeling tools and iCCM compiler to address this
+problem.
+
+To enable DDS support with iCCM, just execute the following steps:
+
+1. Model the DDS events using PICML.
+2. Execute the dds2ccm interpreter in PICML (Tools | Run Interpreter... | dds2ccm Interpreter)
+3. Use auto-generated events in the model as normally.
+
+Right now, all DDS events are append with *Event* to signify its
+mapping between DDS and CCM. Making changes to the auto-generated
+event can result in incorrect code generation. In the future, we
+will allow you to customize what is appended to a DDS event when
+auto-generating CCM events.
