@@ -1,3 +1,14 @@
+Mon Nov  5 15:14:31 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * install/CUTS_CoSMIC.mwc:
+
+          Added GAME_Mga_Component and GAME_Mga_Utils projects
+
+        * install/includes/udm.wxi:
+
+          Fixed file id for the UdmDll to resolve compilation error with
+          WiX 3.6
+
 Fri Nov  2 23:29:18 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tao/compiler/Register_Value_Factories_Visitor.cpp:
