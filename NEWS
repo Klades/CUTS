@@ -1,3 +1,9 @@
+USER VISIBLE CHANGES BETWEEN CUTS-1.0.0 AND CUTS-0.0.0.4
+==========================================================
+
+. Updated CUTS to use new iCCM architecture for each
+  individual technology.
+
 USER VISIBLE CHANGES BETWEEN CUTS-0.0.0.3 AND CUTS-0.0.0.4
 ==========================================================
 
