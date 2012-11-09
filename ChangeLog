@@ -1,3 +1,11 @@
+Fri Nov  9 15:43:45 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/regression/Bug_238/tao/Receiver.mpc:
+        * tests/regression/Bug_238/tao/Sender.mpc:
+
+          Regenerated test using the CUTS intrepreter after the fixes done
+          by James.
+
 Fri Nov  9 15:25:36 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * tests/regression:
