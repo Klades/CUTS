@@ -9,6 +9,8 @@
 #include "ast_publishes.h"
 #include "ast_emits.h"
 #include "ast_consumes.h"
+#include "ast_module.h"
+#include "utl_identifier.h"
 
 #include "Servant_Context.h"
 #include "Servant_Impl.h"
@@ -239,8 +241,10 @@ int Servant_File::visit_root (AST_Root * node)
 //
 int Servant_File::visit_module (AST_Module * node)
 {
-  this->hfile_ << "module" << "{";
-  this->sfile_ << "module" << "{";
+  const char * local_name = node->local_name ()->get_string ();
+
+  this->hfile_ << "namespace " << local_name << " {" << std::endl;
+  this->sfile_ << "namespace " << local_name << " {" << std::endl;
 
   if (0 != this->visit_scope (node))
     return -1;
