@@ -1,0 +1,62 @@
+.: Document: RELEASE-HOWTO :.
+.: Last Modified: November 9, 2012 :.
+
+Table of Contents
+===========================================================
+I. CUTS Modeling Tools for CoSMIC
+II. Releasing the source code
+
+I. CUTS Modeling Tools for CoSMIC
+---------------------------------------
+To make a release build of the CUTS Modeling Tools for CoSMIC, you
+must have Wix installed on your machine and your favorite version
+of Visual Studio. You can download Wix from the following location:
+
+  http://wixtoolset.org
+
+Once you have installed with, just execute the following commands
+to build the installer:
+
+%> cd %CUTS_ROOT%\install
+%> %ACE_ROOT%\bin\mwc.pl -type wix CUTS_CoSMIC.mwc
+%> %ACE_ROOT%\bin\mwc.pl -type vc? CUTS_CoSMIC.mwc
+
+where ? is the correct version of Visual Studio. Once the workspace
+generation is complete, just open the solution file and build it. At
+the end of the build process, CUTS_CoSMIC.msi will be available in
+the install directory.
+
+II. Releasing the source code
+---------------------------------------
+Releasing the source code requires updating several files with
+new version information, tagging the repo, and then starting
+a new ChangeLog. Here are the exact steps:
+
+1. Update the version number in the following files:
+
+  . $CUTS_ROOT/VERSION
+  . $CUTS_ROOT/PROBLEM-REPORT-FORM
+
+2. Gather list of changes since last release, and update
+
+  . $CUTS_ROOT/NEWS
+
+3. Add the following entry to ChangeLog using the standard ChangeLogEntry
+   format:
+
+   Updated release document for version release x.y.z.
+
+4. Create tag of CUTS trunk as
+
+   tags/CUTS-x.y.z
+
+5. Move $CUTS_ROOT/ChangeLog to $CUTS_ROOT/ChangeLogs/ChangeLog-x.y.z
+   and start a new ChangeLog in $CUTS_ROOT/ChangeLog
+
+6. Create the first entry in the new ChangeLog, which should have only
+   one change (i.e., the change from Step 5) with the following text:
+
+   Tagging ChangeLog from previous version.
+
+After completing the steps above, you can start committing changes to
+CUTS that will go towards the next version! :-)
