@@ -181,20 +181,21 @@ public:
 
   void write_decl_preamble (AST_Decl * node)
   {
-    const char * local_name = node->local_name ()->get_string ();
+    const char * full_name = node->full_name ();
+
     if (!be_global->stub_export_macro_.empty ())
       this->hfile_ << be_global->stub_export_macro_ << " ";
 
     this->hfile_
-      << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR &, const ::" << local_name  << " &);"
+      << "ACE_CDR::Boolean operator << (CUTS_TCPIP_OutputCDR &, const ::" << full_name  << " &);"
       << std::endl;
 
     this->sfile_
       << "//" << std::endl
-      << "// " << "Output stream operator for ::" << local_name << std::endl
+      << "// " << "Output stream operator for ::" << full_name << std::endl
       << "//" << std::endl
       << "ACE_CDR::Boolean operator << "
-      << "(CUTS_TCPIP_OutputCDR & stream, const ::" << local_name << " & ev)" << std::endl
+      << "(CUTS_TCPIP_OutputCDR & stream, const ::" << full_name << " & ev)" << std::endl
       << "{" << std::endl;
   }
 
@@ -281,20 +282,21 @@ public:
 
   void write_decl_preamble (AST_Decl * node)
   {
-    const char * local_name = node->local_name ()->get_string ();
+    const char * full_name = node->full_name ();
+
     if (!be_global->stub_export_macro_.empty ())
       this->hfile_ << be_global->stub_export_macro_ << " ";
 
     this->hfile_
-      << "ACE_CDR::Boolean operator >> (ACE_InputCDR &, ::" << local_name  << " &);"
+      << "ACE_CDR::Boolean operator >> (ACE_InputCDR &, ::" << full_name  << " &);"
       << std::endl;
 
     this->sfile_
       << "//" << std::endl
-      << "// " << "Input stream operator for ::" << local_name << std::endl
+      << "// " << "Input stream operator for ::" << full_name << std::endl
       << "//" << std::endl
       << "ACE_CDR::Boolean operator >> "
-      << "(ACE_InputCDR & stream, ::" << local_name << " & ev)" << std::endl
+      << "(ACE_InputCDR & stream, ::" << full_name << " & ev)" << std::endl
       << "{" << std::endl;
   }
 

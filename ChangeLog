@@ -1,3 +1,10 @@
+Fri Nov  9 16:49:23 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tcpip/compiler/Stub_File.cpp:
+
+          Fixed event names for the binary shift operators, Bug_238
+          now compiles successfully using the TCPIP middleware.
+
 Fri Nov  9 15:43:45 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * tests/regression/Bug_238/tao/Receiver.mpc:
