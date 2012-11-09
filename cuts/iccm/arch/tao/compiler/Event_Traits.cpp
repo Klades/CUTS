@@ -39,7 +39,17 @@ Event_Traits::~Event_Traits (void)
 //
 int Event_Traits::visit_root (AST_Root * node)
 {
-  return this->visit_scope (node);
+  Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
+  this->hfile_
+    << std::endl
+    << "namespace iCCM {";
+
+  int retval = this->visit_scope (node);
+
+  this->hfile_
+    << "}";
+
+  return retval;
 }
 
 //
@@ -55,27 +65,27 @@ int Event_Traits::visit_module (AST_Module * node)
 //
 int Event_Traits::visit_eventtype (AST_EventType * node)
 {
-  Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
   const char * full_name = node->full_name ();
 
-  ACE_CString tao_event;
-  TAO::Context * ctx = dynamic_cast <TAO::Context *> (be_global);
+  // We should probably store the name of the TAO event when we are actually
+  // creating the event. This way, we can just lookup the event name and not
+  // try to reconstruct it here!
+  std::string tao_full_name (node->full_name ());
+  size_t pos = tao_full_name.find_last_of (":");
 
-  be_global->get_wrapper_eventtype (node, tao_event);
+  tao_full_name.insert (pos + 1, "TAO_");
 
   this->hfile_
     << "/**" << std::endl
     << " * @struct iCCM::TAO_Event_Traits < ::" << full_name << " >" << std::endl
     << " *" << std::endl
-    << " * Trait information for " << full_name << "Event event type." << std::endl
+    << " * Trait information for " << full_name << " event type." << std::endl
     << " */" << std::endl
-    << "namespace iCCM {"
     << "template < >" << std::endl
     << "struct TAO_Event_Traits < ::" << full_name << " >"
     << "{"
-    << "typedef ::TAO_" << node->local_name ()->get_string () << " tao_event_type;"
-    << "};"
-    << "}";
+    << "typedef ::" << tao_full_name << " tao_event_type;"
+    << "};";
 
   return 0;
 }

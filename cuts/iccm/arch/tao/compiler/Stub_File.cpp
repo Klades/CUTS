@@ -167,6 +167,9 @@ int Stub_File::visit_eventtype (AST_EventType * node)
   Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
   Indentation::Implanter <Indentation::Cxx, char> s_implanter (this->sfile_);
 
+  const char * local_name = node->local_name ()->get_string ();
+  const char * full_name = node->full_name ();
+
   // Define class
   this->hfile_
     << "class ";
@@ -175,9 +178,9 @@ int Stub_File::visit_eventtype (AST_EventType * node)
     this->hfile_ << be_global->stub_export_macro_ << " ";
 
   this->hfile_
-    << "TAO_" << node->local_name ()->get_string () << " :" << std::endl
+    << "TAO_" << local_name << " :" << std::endl
     << "  public virtual ::iCCM::TAO_Event," << std::endl
-    << "  public virtual ::OBV_" << node->local_name ()->get_string () << "," << std::endl
+    << "  public virtual ::OBV_" << full_name << "," << std::endl
     << "  public virtual ::CORBA::DefaultValueRefCountBase" << std::endl
     << "{"
     << "public:" << std::endl;

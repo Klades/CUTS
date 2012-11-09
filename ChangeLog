@@ -1,3 +1,14 @@
+Fri Nov  9 14:08:49 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/arch/tao/compiler/Event_Traits.cpp:
+
+          BUGFIX: The event traits did not have the correct scope of the
+          TAO event types.
+
+        * cuts/iccm/arch/tao/compiler/Stub_File.cpp:
+
+          BUGFIX: The OBV events base types where not scoped correctly.
+
 Fri Nov  9 13:24:31 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.cpp:
