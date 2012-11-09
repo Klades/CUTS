@@ -249,8 +249,8 @@ int Servant_File::visit_module (AST_Module * node)
   if (0 != this->visit_scope (node))
     return -1;
 
-  this->hfile_ << "}";
-  this->sfile_ << "}";
+  this->hfile_ << "}" << std::endl;
+  this->sfile_ << "}" << std::endl;
 
   return 0;
 }

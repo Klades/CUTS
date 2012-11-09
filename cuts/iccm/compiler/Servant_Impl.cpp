@@ -555,6 +555,7 @@ int Servant_Impl::visit_component (AST_Component * node)
 
   const char * local_name = node->local_name ()->get_string ();
   const char * flat_name = node->flat_name ();
+  const char * full_name = node->full_name ();
 
   this->hfile_
     << "// Type definition of the servant base type." << std::endl
@@ -564,7 +565,7 @@ int Servant_Impl::visit_component (AST_Component * node)
     << "  " << servant << "," << std::endl
     << "  " << context << "," << std::endl
     << "  ::CIAO_" <<  flat_name << "_Impl::" << local_name << "_Exec," << std::endl
-    << "  ::POA_" << local_name << " > " << servant << "_Base;"
+    << "  ::POA_" << full_name << " > " << servant << "_Base;"
     << std::endl
     << "class ";
 
@@ -585,7 +586,7 @@ int Servant_Impl::visit_component (AST_Component * node)
     << "public:" << std::endl
     << servant << " (const char * name," << std::endl
     << "::PortableServer::POA_ptr poa," << std::endl
-    << "CIAO_" << local_name << "_Impl::" << local_name << "_Exec_ptr executor);"
+    << "::CIAO_" << flat_name << "_Impl::" << local_name << "_Exec_ptr executor);"
     << std::endl
     << "/// Destructor" << std::endl
     << "virtual ~" << servant << " (void);"
@@ -595,7 +596,7 @@ int Servant_Impl::visit_component (AST_Component * node)
     << servant << "::" << std::endl
     << servant << " (const char * name," << std::endl
     << "::PortableServer::POA_ptr poa," << std::endl
-    << "CIAO_" << local_name << "_Impl::" << local_name << "_Exec_ptr executor)" << std::endl
+    << "::CIAO_" << flat_name << "_Impl::" << local_name << "_Exec_ptr executor)" << std::endl
     << ": " <<  servant << "_Base (this, name, poa, executor)";
 
   if (be_global->uses_default_bmi (node))
@@ -666,20 +667,19 @@ int Servant_Impl::visit_component (AST_Component * node)
     this->hfile_
       << "extern \"C\" " << be_global->svnt_export_macro_
       << " ::PortableServer::Servant" << std::endl
-      << "create_" << node->flat_name () << "_Servant (const char * name," << std::endl
+      << "create_" << flat_name << "_Servant (const char * name," << std::endl
       << "::PortableServer::POA_ptr poa," << std::endl
       << "::Components::EnterpriseComponent_ptr p);"
       << std::endl;
 
     this->sfile_
       << "::PortableServer::Servant" << std::endl
-      << "create_" << node->flat_name () << "_Servant (const char * name," << std::endl
+      << "create_" << flat_name << "_Servant (const char * name," << std::endl
       << "::PortableServer::POA_ptr poa," << std::endl
       << "::Components::EnterpriseComponent_ptr p)"
       << "{"
       << "return ::iCCM::create_servant <"
-      << " CIAO_" << node->local_name ()->get_string ()
-      << "_Impl::" << node->local_name ()->get_string () << "_Exec, "
+      << " CIAO_" << flat_name << "_Impl::" << local_name << "_Exec, "
       << servant << " > (name, poa, p);"
       << "}";
   }
