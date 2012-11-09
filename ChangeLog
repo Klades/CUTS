@@ -1,3 +1,10 @@
+Fri Nov  9 14:31:51 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          BUGFIX: The CIAO executor was incorrect. I wonder if this has
+          anything to do with a new version of CIAO?
+
 Fri Nov  9 14:26:09 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * cuts/iccm/compiler/Servant_File.cpp:

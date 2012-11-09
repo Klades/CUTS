@@ -554,6 +554,7 @@ int Servant_Impl::visit_component (AST_Component * node)
     ACE_CString (node->local_name ()->get_string ()) + "_Servant";
 
   const char * local_name = node->local_name ()->get_string ();
+  const char * flat_name = node->flat_name ();
 
   this->hfile_
     << "// Type definition of the servant base type." << std::endl
@@ -562,7 +563,7 @@ int Servant_Impl::visit_component (AST_Component * node)
     << " < " << std::endl
     << "  " << servant << "," << std::endl
     << "  " << context << "," << std::endl
-    << "  CIAO_" << local_name << "_Impl::" << local_name << "_Exec," << std::endl
+    << "  ::CIAO_" <<  flat_name << "_Impl::" << local_name << "_Exec," << std::endl
     << "  ::POA_" << local_name << " > " << servant << "_Base;"
     << std::endl
     << "class ";
