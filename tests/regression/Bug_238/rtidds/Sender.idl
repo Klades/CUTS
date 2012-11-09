@@ -1,0 +1,24 @@
+#ifndef _SENDER_IDL_
+#define _SENDER_IDL_
+
+#include <Components.idl>
+#include "./Hello_Base.idl"
+
+#pragma ciao lem "SenderE.idl"
+
+module Hello
+{
+  
+  component Sender
+  {
+    consumes ::Hello::ReadMessage read_message;
+    publishes ::Hello::TimeOut click_out;
+    publishes ::Hello::PushMessage push_message;
+    attribute string local_message;
+    
+  };
+  
+};
+
+#endif    // !defined _SENDER_IDL_
+

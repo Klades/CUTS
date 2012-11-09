@@ -1,0 +1,24 @@
+#ifndef _RECEIVER_IDL_
+#define _RECEIVER_IDL_
+
+#include <Components.idl>
+#include "./Hello_Base.idl"
+
+#pragma ciao lem "ReceiverE.idl"
+
+module Hello
+{
+  
+  component Receiver
+  {
+    consumes ::Hello::TimeOut click_in;
+    consumes ::Hello::PushMessage push_message;
+    publishes ::Hello::ReadMessage read_message;
+    attribute short iterations;
+    
+  };
+  
+};
+
+#endif    // !defined _RECEIVER_IDL_
+

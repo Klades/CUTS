@@ -1,3 +1,71 @@
+Fri Nov  9 15:25:36 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/regression:
+
+          Created regression testing directory
+
+        * tests/regression/Bug_238:
+        * tests/regression/Bug_238/models:
+        * tests/regression/Bug_238/models/Hello.xme:
+        * tests/regression/Bug_238/opensplice:
+        * tests/regression/Bug_238/opensplice/Hello.mwc:
+        * tests/regression/Bug_238/opensplice/Hello_Base.idl:
+        * tests/regression/Bug_238/opensplice/Hello_Base.mpc:
+        * tests/regression/Bug_238/opensplice/Hello_ReceiverImpl.h:
+        * tests/regression/Bug_238/opensplice/Hello_ReceiverImpl.mpc:
+        * tests/regression/Bug_238/opensplice/Hello_ReceiverImpl.cpp:
+        * tests/regression/Bug_238/opensplice/Hello_SenderImpl.h:
+        * tests/regression/Bug_238/opensplice/Hello_SenderImpl.cpp:
+        * tests/regression/Bug_238/opensplice/Hello_SenderImpl.mpc:
+        * tests/regression/Bug_238/opensplice/Receiver.idl:
+        * tests/regression/Bug_238/opensplice/Receiver.mpc:
+        * tests/regression/Bug_238/opensplice/Sender.idl:
+        * tests/regression/Bug_238/opensplice/Sender.mpc:
+        * tests/regression/Bug_238/rtidds:
+        * tests/regression/Bug_238/rtidds/Hello.mwc:
+        * tests/regression/Bug_238/rtidds/Hello_Base.idl:
+        * tests/regression/Bug_238/rtidds/Hello_Base.mpc:
+        * tests/regression/Bug_238/rtidds/Hello_ReceiverImpl.h:
+        * tests/regression/Bug_238/rtidds/Hello_ReceiverImpl.mpc:
+        * tests/regression/Bug_238/rtidds/Hello_ReceiverImpl.cpp:
+        * tests/regression/Bug_238/rtidds/Hello_SenderImpl.h:
+        * tests/regression/Bug_238/rtidds/Hello_SenderImpl.cpp:
+        * tests/regression/Bug_238/rtidds/Hello_SenderImpl.mpc:
+        * tests/regression/Bug_238/rtidds/Receiver.idl:
+        * tests/regression/Bug_238/rtidds/Receiver.mpc:
+        * tests/regression/Bug_238/rtidds/Sender.idl:
+        * tests/regression/Bug_238/rtidds/Sender.mpc:
+        * tests/regression/Bug_238/tao:
+        * tests/regression/Bug_238/tao/Hello.mwc:
+        * tests/regression/Bug_238/tao/Hello_Base.idl:
+        * tests/regression/Bug_238/tao/Hello_Base.mpc:
+        * tests/regression/Bug_238/tao/Hello_ReceiverImpl.h:
+        * tests/regression/Bug_238/tao/Hello_ReceiverImpl.cpp:
+        * tests/regression/Bug_238/tao/Hello_ReceiverImpl.mpc:
+        * tests/regression/Bug_238/tao/Hello_SenderImpl.h:
+        * tests/regression/Bug_238/tao/Hello_SenderImpl.cpp:
+        * tests/regression/Bug_238/tao/Hello_SenderImpl.mpc:
+        * tests/regression/Bug_238/tao/Receiver.idl:
+        * tests/regression/Bug_238/tao/Receiver.mpc:
+        * tests/regression/Bug_238/tao/Sender.idl:
+        * tests/regression/Bug_238/tao/Sender.mpc:
+        * tests/regression/Bug_238/tcpip:
+        * tests/regression/Bug_238/tcpip/Hello.mwc:
+        * tests/regression/Bug_238/tcpip/Hello_Base.idl:
+        * tests/regression/Bug_238/tcpip/Hello_Base.mpc:
+        * tests/regression/Bug_238/tcpip/Hello_ReceiverImpl.h:
+        * tests/regression/Bug_238/tcpip/Hello_ReceiverImpl.cpp:
+        * tests/regression/Bug_238/tcpip/Hello_ReceiverImpl.mpc:
+        * tests/regression/Bug_238/tcpip/Hello_SenderImpl.h:
+        * tests/regression/Bug_238/tcpip/Hello_SenderImpl.cpp:
+        * tests/regression/Bug_238/tcpip/Hello_SenderImpl.mpc:
+        * tests/regression/Bug_238/tcpip/Receiver.idl:
+        * tests/regression/Bug_238/tcpip/Receiver.mpc:
+        * tests/regression/Bug_238/tcpip/Sender.idl:
+        * tests/regression/Bug_238/tcpip/Sender.mpc:
+
+          Added regression test for bug 238.  Still need to verify the bug is fixed
+
 Fri Nov  9 15:21:07 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * docs/RELEASE-HOWTO:
