@@ -1,3 +1,10 @@
+Fri Nov  9 13:24:31 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.cpp:
+
+          BUGFIX: iCCM base projects were not generated for IDL files
+          that contained components.
+
 Tue Nov  6 23:02:57 UTC 2012  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * ChangeLogs/ChangeLog-1_0_0:

@@ -44,7 +44,7 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
                   macro_basename.begin (),
                   &::toupper);
 
-  if (node.has_events_)
+  if (node.has_events_ || node.has_components_)
   {
     const std::string project_name = name + "_iCCM_IDL_Gen";
 
