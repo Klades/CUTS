@@ -77,6 +77,8 @@ TCPIP_ORB & TCPIP_Component_Instance_Handler::the_ORB (void)
   return this->tcpip_orb_;
 }
 
+}
+
 //
 // create_TCPIP_Component_Instance_Handler
 //
@@ -90,6 +92,4 @@ create_iCCM_TCPIP_Component_Instance_Handler (void)
                   handler);
 
   return handler;
-}
-
 }

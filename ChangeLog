@@ -1,3 +1,12 @@
+Wed Nov 14 16:52:00 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.cpp:
+
+          Fixed factory methods
+
 Fri Nov  9 17:44:38 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * ChangeLogs/ChangeLog-1_0_1:

@@ -23,6 +23,8 @@
 #include "cuts/iccm/arch/tcpip/stub/TCPIP_ORB.h"
 #include "cuts/iccm/arch/tcpip/stub/TCPIP_ORB_Task.h"
 
+#include "TCPIP_Deployment_Handlers_export.h"
+
 namespace iCCM
 {
 

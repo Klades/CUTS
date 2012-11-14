@@ -21,6 +21,8 @@
 #include "cuts/iccm/deployment/Component_Instance_Handler_T.h"
 #include "TAO_Container.h"
 
+#include "TAO_Deployment_Handlers_export.h"
+
 namespace iCCM
 {
 
@@ -30,7 +32,7 @@ namespace iCCM
  * TAO implementation of the deployment handlers for component
  * instances.
  */
-class  ICCM_TAO_DEPLOYMENT_HANDLERS_Export TAO_Component_Instance_Handler :
+class ICCM_TAO_DEPLOYMENT_HANDLERS_Export TAO_Component_Instance_Handler :
   public Component_Instance_Handler_T <TAO_Component_Instance_Handler,
                                        ::DAnCE::InstanceDeploymentHandler,
                                        TAO_Container>

@@ -35,6 +35,8 @@ void TAO_Component_Instance_Handler::close (void)
   this->base_type::close ();
 }
 
+}
+
 //
 // create_TAO_Component_Instance_Handler
 //
@@ -48,6 +50,4 @@ create_iCCM_TAO_Component_Instance_Handler (void)
                   handler);
 
   return handler;
-}
-
 }
