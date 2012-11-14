@@ -17,6 +17,7 @@ workspace (HelloWorld) {
 
   HelloReceiverImpl.mpc
   HelloSenderImpl.mpc
+  HelloWorld_Components.mpc
   HelloWorld.mpc
 }
 

@@ -205,7 +205,7 @@
     <name>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloSender_svnt</name>
     <source/>
     <node/>
-    <location>HelloWorld_svnt</location>
+    <location>HelloWorld_Components_svnt</location>
   </artifact>
 
   <artifact xmi:id="_C56D505C-E6A3-11DF-8DD1-000C2958D27B">
@@ -219,7 +219,7 @@
     <name>HelloWorld.ImplementationArtifacts.HelloReceiverArtifacts.HelloReceiver_svnt</name>
     <source/>
     <node/>
-    <location>HelloWorld_svnt</location>
+    <location>HelloWorld_Components_svnt</location>
   </artifact>
 
   <artifact xmi:id="_B88A4272-267C-11E1-8000-000C29A84559">

@@ -8,8 +8,8 @@
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
 #include "ace/pre.h"
-#include "HelloWorld_iCCMC.h"
 
+#include "HelloWorld_Components_iCCMC.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
 
 

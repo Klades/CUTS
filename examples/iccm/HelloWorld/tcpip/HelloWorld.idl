@@ -1,27 +1,24 @@
 #ifndef _HELLOWORLD_IDL_
 #define _HELLOWORLD_IDL_
 
-#include <Components.idl>
-#pragma ciao lem "HelloWorldE.idl"
 
-eventtype MessageEvent
+#pragma ndds typesupport "HelloWorldSupport.h"
+#pragma opendds typesupport "HelloWorldTypeSupportC.h"
+#pragma splice typesupport "HelloWorldDscpC.h"
+
+#pragma DCPS_DATA_TYPE "Message"
+#pragma DCPS_DATA_KEY "Message time"
+
+struct Message
 {
-  public string content;
-
-  public long time;
+  long time;  // @key
+  
+  string content;
+  
 };
 
-component HelloSender
-{
-  publishes ::MessageEvent greeting;
-  emits ::MessageEvent emit_greeting;
+#pragma keylist Message time
 
-  attribute string message;
-};
-
-component HelloReceiver
-{
-  consumes ::MessageEvent greeting;
-};
 
 #endif    // !defined _HELLOWORLD_IDL_
+
