@@ -1,3 +1,8 @@
+USER VISIBLE CHANGES BETWEEN CUTS-1.0.2 AND CUTS-1.0.1
+==========================================================
+. Bug fixes for the TAO and TCPIP iCCM architectures
+. Updated HelloWorld examples
+
 USER VISIBLE CHANGES BETWEEN CUTS-1.0.1 AND CUTS-1.0.0
 ==========================================================
 . Bug fixes for the new iCCM architectures
