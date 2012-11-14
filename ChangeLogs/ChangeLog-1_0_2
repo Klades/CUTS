@@ -1,0 +1,84 @@
+Wed Nov 14 23:03:32 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * NEWS:
+        * PROBLEM-REPORT-FORM:
+        * VERSION:
+
+          Updated release documents for version 1.0.2
+
+Wed Nov 14 17:52:02 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+
+          Accidentally removed the TCPIPEndpoint properties with previous
+          commit
+
+Wed Nov 14 17:22:41 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/models/HelloWorld.xme:
+
+          Updated model to load the servants from the correct location
+
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.idl:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+
+          Regenerated and tested the HelloWorld example for the iCCM architectures
+
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiver_impl_export.h:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSender_impl_export.h:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_iCCM.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiver_impl_export.h:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSender_impl_export.h:
+
+          Removed these files.
+
+Wed Nov 14 16:52:00 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tao/deployment/TAO_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.h:
+        * cuts/iccm/arch/tcpip/deployment/TCPIP_Component_Instance_Handler.cpp:
+
+          Fixed factory methods
+
+Fri Nov  9 17:44:38 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * ChangeLogs/ChangeLog-1_0_1:
+
+          Tagging ChangeLog
