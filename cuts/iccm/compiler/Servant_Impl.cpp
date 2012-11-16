@@ -478,7 +478,7 @@ public:
   }
 
   //
-  // visit_publishes
+  // visit_attribute
   //
   virtual int visit_attribute (AST_Attribute * node)
   {
@@ -503,7 +503,15 @@ public:
     this->sfile_
       << field_name << " tmp_value;"
       << std::endl
-      << "if (!(value->value () >>= tmp_value))" << std::endl
+      << "if (!(value->value () >>= ";
+
+    if (field_type->node_type () == AST_Type::NT_pre_defined)
+      field_type->ast_accept (this);
+    else
+      this->sfile_ << "tmp_value";
+
+    this->sfile_
+      << "))" << std::endl
       << "  throw ::Components::InvalidConfiguration ();"
       << std::endl
       << "this->" << local_name << " (tmp_value);"
@@ -511,6 +519,37 @@ public:
 
     if (this->is_first_)
       this->is_first_ = false;
+
+    return 0;
+  }
+
+  //
+  // visit_predefined_type
+  //
+  virtual int visit_predefined_type (AST_PredefinedType * node)
+  {
+    switch (node->pt ())
+    {
+    case AST_PredefinedType::PT_boolean:
+      this->sfile_ << "CORBA::Any::to_boolean (tmp_value)";
+      break;
+
+    case AST_PredefinedType::PT_char:
+      this->sfile_ << "CORBA::Any::to_char (tmp_value)";
+      break;
+
+    case AST_PredefinedType::PT_wchar:
+      this->sfile_ << "CORBA::Any::to_wchar (tmp_value)";
+      break;
+
+    case AST_PredefinedType::PT_octet:
+      this->sfile_ << "CORBA::Any::to_octet (tmp_value)";
+      break;
+
+    default:
+      this->sfile_ << "tmp_value";
+      break;
+    }
 
     return 0;
   }
