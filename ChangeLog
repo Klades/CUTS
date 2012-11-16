@@ -1,19 +1,5 @@
-Fri Nov 16 18:51:48 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+Fri Nov 16 18:55:19 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
-        * NEWS:
-        * PROBLEM-REPORT-FORM:
-        * VERSION:
-
-          Updated release document for version 1.0.3.
-
-Fri Nov 16 18:03:31 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/iccm/compiler/Servant_Impl.cpp:
-
-          Fixed code generation for boolean, octet, char, and wchar attributes
-
-Wed Nov 14 23:08:21 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * ChangeLogs/ChangeLog-1_0_2:
+        * ChangeLogs/ChangeLog-1_0_3:
 
           Tagging ChangeLog
