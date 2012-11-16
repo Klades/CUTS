@@ -1,3 +1,7 @@
+USER VISIBLE CHANGES BETWEEN CUTS-1.0.3 AND CUTS-1.0.2
+==========================================================
+. Bug fixes for boolean, octect, char, and wchar attributes
+
 USER VISIBLE CHANGES BETWEEN CUTS-1.0.2 AND CUTS-1.0.1
 ==========================================================
 . Bug fixes for the TAO and TCPIP iCCM architectures
