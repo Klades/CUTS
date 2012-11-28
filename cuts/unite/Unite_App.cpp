@@ -64,7 +64,7 @@ public:
   }
 
 private:
-  mutable CUTS_Unite_Presentation_Service_Manager & mgr_;
+  CUTS_Unite_Presentation_Service_Manager & mgr_;
 };
 
 

@@ -152,7 +152,7 @@ public:
   };
 
 private:
-  mutable CUTS_Dataflow_Graph & graph_;
+  CUTS_Dataflow_Graph & graph_;
 };
 
 //
