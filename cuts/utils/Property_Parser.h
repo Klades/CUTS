@@ -72,7 +72,12 @@ public:
     }
 
   private:
+#if __GNUC__ > 4 || \
+      (__GNUC__ == 4 && (__GNUC_MINOR__ > 5))
+    CUTS_Property_Map & prop_map_;
+#else
     mutable CUTS_Property_Map & prop_map_;
+#endif
 
     const std::string & name_;
 

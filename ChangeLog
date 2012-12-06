@@ -1,3 +1,13 @@
+Thu Dec  6 17:43:36 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
+
+        * cuts/unite/Dataflow_Graph_Builder.cpp:
+        * cuts/unite/Unite_App.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph_Builder.cpp:
+        * cuts/utils/Property_Parser.h:
+
+          Added the mutable keyword agian with the GNU compiler
+          version precprocessor directives.
+
 Wed Nov 28 15:28:16 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
 
         * cuts/unite/Dataflow_Graph_Builder.cpp:

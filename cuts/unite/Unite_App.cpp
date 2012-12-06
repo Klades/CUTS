@@ -64,7 +64,12 @@ public:
   }
 
 private:
+#if __GNUC__ > 4 || \
+    (__GNUC__ == 4 && (__GNUC_MINOR__ > 5))
   CUTS_Unite_Presentation_Service_Manager & mgr_;
+#else
+  mutable CUTS_Unite_Presentation_Service_Manager & mgr_;
+#endif
 };
 
 

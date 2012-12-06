@@ -31,7 +31,13 @@ public:
   }
 
 private:
+#if __GNUC__ > 4 || \
+  (__GNUC__ == 4 && (__GNUC_MINOR__ > 5))
+  CUTS_Dmac_Log_Format_Graph & graph_;
+#else
   mutable CUTS_Dmac_Log_Format_Graph & graph_;
+#endif
+
   std::vector <CUTS_Dmac_Log_Format *> & log_formats_;
 };
 
