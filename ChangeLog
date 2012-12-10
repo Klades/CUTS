@@ -1,38 +1,5 @@
-Mon Dec 10 23:10:53 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
+Mon Dec 10 23:16:11 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
-        * NEWS:
-        * PROBLEM-REPORT-FORM:
-        * VERSION:
+        * ChangeLogs/ChangeLog-1_0_4:
 
-          Updated release document for version release 1.0.4
-
-Mon Dec 10 23:01:24 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.h:
-        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.inl:
-
-          Fixed compilation errors with gcc 4.4
-
-Thu Dec  6 17:43:36 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
-
-        * cuts/unite/Dataflow_Graph_Builder.cpp:
-        * cuts/unite/Unite_App.cpp:
-        * cuts/unite/dmac/Dmac_Log_Format_Graph_Builder.cpp:
-        * cuts/utils/Property_Parser.h:
-
-          Added the mutable keyword agian with the GNU compiler
-          version precprocessor directives.
-
-Wed Nov 28 15:28:16 UTC 2012  Manjula Peiris  <tmpeiris at cs dot iupui dot edu>
-
-        * cuts/unite/Dataflow_Graph_Builder.cpp:
-        * cuts/unite/Unite_App.cpp:
-
-          Removed the mutable keyword. It is causing compilation issues
-          in newer versions of g++.
-
-Fri Nov 16 18:55:19 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * ChangeLogs/ChangeLog-1_0_3:
-
-          Tagging ChangeLog
+          Tagging Changelog
