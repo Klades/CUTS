@@ -53,6 +53,9 @@ class ICCM_RTIDDS_SVNT_Export RTIDDS_Servant :
   public DDS_Servant <RTIDDS>
 {
 public:
+  /// Base class typedef
+  typedef DDS_Servant <RTIDDS> base_class;
+
   /// Default constructor.
   RTIDDS_Servant (const char * name);
 

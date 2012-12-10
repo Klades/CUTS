@@ -9,7 +9,7 @@ namespace iCCM
 //
 CUTS_INLINE
 RTIDDS_Servant::RTIDDS_Servant (const char * name)
-: DDS_Servant (name)
+: base_class (name)
 {
 
 }
@@ -29,7 +29,7 @@ RTIDDS_Servant::~RTIDDS_Servant (void)
 CUTS_INLINE
 void RTIDDS_Servant::configure (void)
 {
-  DDS_Servant::configure ();
+  base_class::configure ();
 }
 
 }
