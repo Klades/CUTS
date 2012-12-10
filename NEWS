@@ -1,3 +1,7 @@
+USER VISIBLE CHANGES BETWEEN CUTS-1.0.4 AND CUTS-1.0.3
+==========================================================
+. Bug fixes for compiling with gcc-4.4
+
 USER VISIBLE CHANGES BETWEEN CUTS-1.0.3 AND CUTS-1.0.2
 ==========================================================
 . Bug fixes for boolean, octect, char, and wchar attributes
