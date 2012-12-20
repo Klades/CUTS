@@ -13,14 +13,15 @@
 #ifndef _CUTS_NODE_DAEMON_APP_H_
 #define _CUTS_NODE_DAEMON_APP_H_
 
+#include "ace/Service_Gestalt.h"
+#include "ace/Process_Mutex.h"
+
 #if (ACE_MAJOR_VERSION >= 6 && ACE_MINOR_VERSION >= 1 && ACE_BETA_VERSION >= 4)
 #include "ace/Condition_Thread_Mutex.h"
 #else
 #include "ace/Condition_T.h"
 #endif
 
-#include "ace/Service_Gestalt.h"
-#include "ace/Process_Mutex.h"
 
 #include "Node_Daemon_Options.h"
 #include "Virtual_Env_Manager.h"
