@@ -12,6 +12,11 @@
 #include "ace/Singleton.h"
 #include "ace/Get_Opt.h"
 
+#if !defined (_WIN32)
+#include <sched.h>
+#endif
+
+
 #define TEST_RUNS           10
 #define TEST_MIN_MSEC       10
 #define TEST_MAX_MSEC       1000
@@ -28,7 +33,8 @@ CUTS_CPU_Worker_T <T>::CUTS_CPU_Worker_T (T work_function)
 : target_ (20000),
   margin_ (100),
   count_per_msec_ (0.0),
-  work_function_ (work_function)
+  work_function_ (work_function),
+  core_ (0)
 {
   if (!this->init ())
     ACE_ERROR ((LM_WARNING,
@@ -60,6 +66,24 @@ void CUTS_CPU_Worker_T <T>::run (double msec)
 template <typename T>
 bool CUTS_CPU_Worker_T <T>::init_calibrate (void)
 {
+  #if !defined (_WIN32)
+  // Schedule process to run on the appropriate core
+  ACE_DEBUG ((LM_INFO,
+              "*** info (CUTS_CPU_Worker): setting core to %d\n",
+              this->core_));
+  cpu_set_t mask;
+  CPU_ZERO(&mask);
+  CPU_SET(this->core_, &mask);
+  int result = sched_setaffinity(0, sizeof(mask), &mask);
+  if (result != 0)
+  {
+    ACE_ERROR_RETURN ((LM_ERROR,
+                      "*** error (CUTS_CPU_Worker): sched_setaffinty failed: %d\n",
+                      result),
+                      false);
+  }
+  #endif
+
   int scope = ACE_SCOPE_PROCESS;
   int maxprio = ACE_Sched_Params::priority_max (ACE_SCHED_FIFO, scope);
 
@@ -442,9 +466,10 @@ make_basename (ACE_CString & basename)
 template <typename T>
 int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
 {
-  const char * opts = ACE_TEXT ("s:");
+  const char * opts = ACE_TEXT ("s:c:");
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
+  get_opt.long_option ("core", ACE_Get_Opt::ARG_REQUIRED);
   int option;
 
   while ((option = get_opt ()) != EOF)
@@ -455,6 +480,13 @@ int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
       {
       ACE_CString target = get_opt.opt_arg ();
       this->target_ = ACE_OS::atoi (target.c_str ());
+      }
+      break;
+
+    case 'c':
+      {
+      ACE_CString core = get_opt.opt_arg ();
+      this->core_ = ACE_OS::atoi (core.c_str ());
       }
       break;
 
@@ -469,6 +501,16 @@ int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
                          "%T (%t) - %M - -%c is missing an argument\n",
                          get_opt.opt_opt ()),
                          -1);
+      break;
+
+    case 0:
+      {
+        if (0 == ACE_OS::strcmp ("core", get_opt.long_option ()))
+        {
+        ACE_CString core = get_opt.opt_arg ();
+        this->core_ = ACE_OS::atoi (core.c_str ());
+        }
+      }
       break;
     }
   }

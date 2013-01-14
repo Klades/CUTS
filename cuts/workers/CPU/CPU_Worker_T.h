@@ -126,6 +126,9 @@ private:
 
   /// Calibration details for the CPU worker.
   CUTS_CPU_Calibration_Details calib_details_;
+
+  /// The target core to calibrate against
+  size_t core_;
 };
 
 #include "CPU_Worker_T.cpp"

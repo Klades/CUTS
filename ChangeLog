@@ -1,3 +1,11 @@
+Mon Jan 14 16:01:48 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/workers/CPU/CPU_Worker_T.h:
+        * cuts/workers/CPU/CPU_Worker_T.cpp:
+
+          Added "--core" argument to the calibration routine to change
+          which core is used.
+
 Thu Dec 20 20:07:11 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/utils/node/Node_Daemon.h:
