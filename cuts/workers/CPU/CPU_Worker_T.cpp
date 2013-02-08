@@ -16,15 +16,6 @@
 #include <sched.h>
 #endif
 
-
-#define TEST_RUNS           10
-#define TEST_MIN_MSEC       10
-#define TEST_MAX_MSEC       1000
-#define TEST_INC_MSEC       10
-
-#define CPU_ERROR_MAX       2.0
-#define CPU_ERROR_MIN       (-1.0 * CPU_ERROR_MAX)
-
 //
 // CUTS_CPU_Worker
 //
@@ -34,7 +25,13 @@ CUTS_CPU_Worker_T <T>::CUTS_CPU_Worker_T (T work_function)
   margin_ (100),
   count_per_msec_ (0.0),
   work_function_ (work_function),
-  core_ (0)
+  core_ (0),
+  test_runs_ (5),
+  test_min_msec_ (10),
+  test_max_msec_ (1000),
+  test_inc_msec_ (10),
+  cpu_error_max_ (2.0),
+  cpu_error_min_ (-2.0)
 {
   if (!this->init ())
     ACE_ERROR ((LM_WARNING,
@@ -274,20 +271,20 @@ verify_calibration (size_t trycount, const ACE_CString & temp_filename)
     << this->count_per_msec_ << " " << trycount << std::endl
     << "=================================================" << std::endl;
 
-  // Verify the calibration factor for 0 to TEST_MAX_MSEC. We are
+  // Verify the calibration factor for 0 to test_max_msec_. We are
   // also going to write the details for the verification to the
   // temporary file.
-  CUTS_CPU_Calibration_Results results (TEST_RUNS);
+  CUTS_CPU_Calibration_Results results (this->test_runs_);
 
-  for (size_t msec = TEST_MIN_MSEC;
-       msec <= TEST_MAX_MSEC;
-       msec += TEST_INC_MSEC)
+  for (size_t msec = this->test_min_msec_;
+       msec <= this->test_max_msec_;
+       msec += this->test_inc_msec_)
   {
     ACE_DEBUG ((LM_INFO,
                 "--- running calibration test for %u msec...\n",
                 msec));
 
-    for (size_t run = 0; run < TEST_RUNS; run ++)
+    for (size_t run = 0; run < this->test_runs_; run ++)
     {
       timer.start ();
       this->run (msec);
@@ -354,8 +351,8 @@ verify_calibration (size_t trycount, const ACE_CString & temp_filename)
               this->calib_details_.min_error (),
               this->calib_details_.max_error ()));
 
-  if (this->calib_details_.min_error () < CPU_ERROR_MIN ||
-      this->calib_details_.max_error () > CPU_ERROR_MAX)
+  if (this->calib_details_.min_error () < this->cpu_error_min_ ||
+      this->calib_details_.max_error () > this->cpu_error_max_)
   {
     // Determine how much the adjust the counts per msec.
     double adjustment =
@@ -470,6 +467,12 @@ int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
   ACE_Get_Opt get_opt (argc, argv, opts, 0);
 
   get_opt.long_option ("core", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("test_runs", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("test_min_msec", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("test_max_msec", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("test_inc_msec", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("cpu_error_max", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("cpu_error_min", ACE_Get_Opt::ARG_REQUIRED);
   int option;
 
   while ((option = get_opt ()) != EOF)
@@ -507,8 +510,38 @@ int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
       {
         if (0 == ACE_OS::strcmp ("core", get_opt.long_option ()))
         {
-        ACE_CString core = get_opt.opt_arg ();
-        this->core_ = ACE_OS::atoi (core.c_str ());
+        ACE_CString arg = get_opt.opt_arg ();
+        this->core_ = ACE_OS::atoi (arg.c_str ());
+        }
+        else if (0 == ACE_OS::strcmp ("test_runs", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->test_runs_ = ACE_OS::atoi (arg.c_str ());
+        }
+        else if (0 == ACE_OS::strcmp ("test_min_msec", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->test_min_msec_ = ACE_OS::atoi (arg.c_str ());
+        }
+        else if (0 == ACE_OS::strcmp ("test_max_msec", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->test_max_msec_ = ACE_OS::atoi (arg.c_str ());
+        }
+        else if (0 == ACE_OS::strcmp ("test_inc_msec", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->test_inc_msec_ = ACE_OS::atoi (arg.c_str ());
+        }
+        else if (0 == ACE_OS::strcmp ("cpu_error_max", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->cpu_error_max_ = ACE_OS::atof (arg.c_str ());
+        }
+        else if (0 == ACE_OS::strcmp ("cpu_error_min", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->cpu_error_min_ = ACE_OS::atof (arg.c_str ());
         }
       }
       break;

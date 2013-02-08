@@ -129,6 +129,14 @@ private:
 
   /// The target core to calibrate against
   size_t core_;
+
+  /// The test parameters
+  size_t test_runs_;
+  size_t test_min_msec_;
+  size_t test_max_msec_;
+  size_t test_inc_msec_;
+  float cpu_error_max_;
+  float cpu_error_min_;
 };
 
 #include "CPU_Worker_T.cpp"
