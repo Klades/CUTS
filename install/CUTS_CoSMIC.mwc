@@ -26,7 +26,6 @@ workspace (CUTS_CoSMIC) {
     $(GAME_ROOT)/game/mga/Mga.mpc
     $(GAME_ROOT)/game/mga/component/Component.mpc
     $(GAME_ROOT)/game/mga/utils/Mga_Utils.mpc
-    $(GAME_ROOT)/game/mga/upgrade
 
     $(COSMIC_ROOT)/PIM/PICML/interpreters/PICML/PICML.mpc
     $(COSMIC_ROOT)/Utils/Utils.mpc

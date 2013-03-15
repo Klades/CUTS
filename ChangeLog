@@ -1,3 +1,10 @@
+Fri Mar 15 16:31:33 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * install/CUTS_CoSMIC.mwc:
+
+          No longer compiles gme_upgrade in GAME.  CoSMIC/GAME should be
+          built prior to building CUTS_CoSMIC.msi.
+
 Fri Feb  8 17:46:41 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/workers/CPU/CPU_Worker_T.h:
