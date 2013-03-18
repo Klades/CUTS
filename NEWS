@@ -1,3 +1,9 @@
+USER VISIBLE CHANGES BETWEEN CUTS-1.0.5 AND CUTS-1.0.4
+==========================================================
+. Added command line parameters for calibrating the CPU
+  worker
+. CPU worker can now be calibrated against a specific core
+
 USER VISIBLE CHANGES BETWEEN CUTS-1.0.4 AND CUTS-1.0.3
 ==========================================================
 . Bug fixes for compiling with gcc-4.4
