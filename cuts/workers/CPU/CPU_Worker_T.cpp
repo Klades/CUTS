@@ -31,7 +31,8 @@ CUTS_CPU_Worker_T <T>::CUTS_CPU_Worker_T (T work_function)
   test_max_msec_ (1000),
   test_inc_msec_ (10),
   cpu_error_max_ (2.0),
-  cpu_error_min_ (-2.0)
+  cpu_error_min_ (-2.0),
+  try_count_ (10)
 {
   if (!this->init ())
     ACE_ERROR ((LM_WARNING,
@@ -363,7 +364,7 @@ verify_calibration (size_t trycount, const ACE_CString & temp_filename)
     // Reset the calibration details and rerun the verification.
     this->calib_details_.reset ();
 
-    if (trycount != 10)
+    if (trycount != this->try_count_)
       this->verify_calibration (trycount + 1, temp_filename);
   }
 }
@@ -473,6 +474,7 @@ int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
   get_opt.long_option ("test_inc_msec", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("cpu_error_max", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("cpu_error_min", ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("try_count", ACE_Get_Opt::ARG_REQUIRED);
   int option;
 
   while ((option = get_opt ()) != EOF)
@@ -543,6 +545,12 @@ int CUTS_CPU_Worker_T <T>::parse_args (int argc, char * argv [])
         ACE_CString arg = get_opt.opt_arg ();
         this->cpu_error_min_ = ACE_OS::atof (arg.c_str ());
         }
+        if (0 == ACE_OS::strcmp ("try_count", get_opt.long_option ()))
+        {
+        ACE_CString arg = get_opt.opt_arg ();
+        this->try_count_ = ACE_OS::atoi (arg.c_str ());
+        }
+
       }
       break;
     }

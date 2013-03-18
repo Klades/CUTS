@@ -137,6 +137,7 @@ private:
   size_t test_inc_msec_;
   float cpu_error_max_;
   float cpu_error_min_;
+  size_t try_count_;
 };
 
 #include "CPU_Worker_T.cpp"

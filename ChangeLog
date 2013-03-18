@@ -1,3 +1,11 @@
+Mon Mar 18 16:40:35 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/workers/CPU/CPU_Worker_T.h:
+        * cuts/workers/CPU/CPU_Worker_T.cpp:
+
+          Added try_count command line parameter to control how many
+          times the CPU worker will attempt to calibrate itself.
+
 Fri Mar 15 16:31:33 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * install/CUTS_CoSMIC.mwc:
