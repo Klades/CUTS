@@ -1,56 +1,5 @@
-Mon Mar 18 16:46:28 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+Mon Mar 18 16:50:28 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
-        * NEWS:
-        * PROBLEM-REPORT-FORM:
-        * VERSION:
-
-         Updated release document for version release 1.0.5 
-
-Mon Mar 18 16:40:35 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/workers/CPU/CPU_Worker_T.h:
-        * cuts/workers/CPU/CPU_Worker_T.cpp:
-
-          Added try_count command line parameter to control how many
-          times the CPU worker will attempt to calibrate itself.
-
-Fri Mar 15 16:31:33 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * install/CUTS_CoSMIC.mwc:
-
-          No longer compiles gme_upgrade in GAME.  CoSMIC/GAME should be
-          built prior to building CUTS_CoSMIC.msi.
-
-Fri Feb  8 17:46:41 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/workers/CPU/CPU_Worker_T.h:
-        * cuts/workers/CPU/CPU_Worker_T.cpp:
-
-          Changed consts to command line arguments.  Default values
-          are what the consts previously were.
-
-Mon Jan 14 16:01:48 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/workers/CPU/CPU_Worker_T.h:
-        * cuts/workers/CPU/CPU_Worker_T.cpp:
-
-          Added "--core" argument to the calibration routine to change
-          which core is used.
-
-Thu Dec 20 20:07:11 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/utils/node/Node_Daemon.h:
-
-          Put define guards in the wrong location.
-
-Thu Dec 20 18:17:42 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * cuts/utils/node/Node_Daemon.h:
-
-          Fixed compilation error with ACE 6.1.4 or higher.
-
-Mon Dec 10 23:16:11 UTC 2012  Dennis Feiock  <dfeiock at iupui dot edu>
-
-        * ChangeLogs/ChangeLog-1_0_4:
+        * ChangeLogs/ChangeLog-1_0_5:
 
           Tagging Changelog
