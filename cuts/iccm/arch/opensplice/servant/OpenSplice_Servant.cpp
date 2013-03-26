@@ -632,11 +632,13 @@ void OpenSplice_Servant::configure (const ::iccm::DomainParticipantQos & value)
   if (value.entity_factory_p ())
     qos.entity_factory <<= value.entity_factory ();
 
-  if (value.watchdog_scheduling_p ())
-    qos.watchdog_scheduling <<= value.watchdog_scheduling ();
-
-  if (value.listener_scheduling_p ())
-    qos.listener_scheduling <<= value.listener_scheduling ();
+//  Temporarily commenting these QoS parameters.  They are immutable after
+//  the participant is created, causing warnings in the ospl logs.
+//  if (value.watchdog_scheduling_p ())
+//    qos.watchdog_scheduling <<= value.watchdog_scheduling ();
+//
+//  if (value.listener_scheduling_p ())
+//    qos.listener_scheduling <<= value.listener_scheduling ();
 
   this->participant_->set_qos (qos);
 

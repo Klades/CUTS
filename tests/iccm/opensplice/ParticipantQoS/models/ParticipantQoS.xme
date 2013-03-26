@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{76344179-7094-47CD-A97F-1D5A49D8714C}" cdate="Thu Feb 09 10:42:25 2012" mdate="Thu Feb 09 10:42:25 2012" version="" metaguid="{29894D80-C5DC-4B65-9050-9D30D64662F7}" metaversion="" metaname="PICML">
+<project guid="{B89FD593-7F79-4061-9057-AEEEF06AC0E1}" cdate="Wed Mar 20 09:37:23 2013" mdate="Wed Mar 20 09:37:23 2013" version="" metaguid="{B51D29BA-3A87-4F42-8F4E-1B755DD53707}" metaversion="" metaname="PICML">
 	<name>HelloWorld</name>
 	<comment></comment>
 	<author></author>
@@ -46,7 +46,7 @@
 							</regnode>
 						</regnode>
 					</atom>
-					<reference id="id-0067-00000017" kind="Member" role="Member" guid="{b297c538-2a39-4e88-ba45-5d3bfb7e16b3}" relid="0x2" referred="id-0066-0000000c">
+					<reference id="id-0067-00000015" kind="Member" role="Member" guid="{b297c538-2a39-4e88-ba45-5d3bfb7e16b3}" relid="0x2" referred="id-0066-0000000c">
 						<name>time</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -58,7 +58,7 @@
 							</regnode>
 						</regnode>
 					</reference>
-					<reference id="id-0067-00000018" kind="Member" role="Member" guid="{e5c0e661-c029-463f-8743-98242cefc91d}" relid="0x3" referred="id-0066-00000017">
+					<reference id="id-0067-00000016" kind="Member" role="Member" guid="{e5c0e661-c029-463f-8743-98242cefc91d}" relid="0x3" referred="id-0066-00000017">
 						<name>content</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -76,7 +76,7 @@
 							<value>We</value>
 						</regnode>
 						<connpoint role="src" target="id-0066-00000001"/>
-						<connpoint role="dst" target="id-0067-00000017"/>
+						<connpoint role="dst" target="id-0067-00000015"/>
 					</connection>
 				</model>
 			</model>
@@ -111,7 +111,7 @@
 					<attribute kind="abstract" status="meta">
 						<value>false</value>
 					</attribute>
-					<reference id="id-0067-00000019" kind="Member" role="Member" guid="{b46d0c27-6f71-4431-a349-21f3edf98127}" relid="0x0" referred="id-0066-00000017">
+					<reference id="id-0067-00000017" kind="Member" role="Member" guid="{b46d0c27-6f71-4431-a349-21f3edf98127}" relid="0x0" referred="id-0066-00000017">
 						<name>content</name>
 						<regnode name="PartRegs" isopaque="yes">
 							<value></value>
@@ -123,7 +123,7 @@
 							</regnode>
 						</regnode>
 					</reference>
-					<reference id="id-0067-0000001a" kind="Member" role="Member" guid="{885d8bd2-ff4b-49eb-bf2b-cf009b238097}" relid="0x0" referred="id-0066-0000000c">
+					<reference id="id-0067-00000018" kind="Member" role="Member" guid="{885d8bd2-ff4b-49eb-bf2b-cf009b238097}" relid="0x0" referred="id-0066-0000000c">
 						<name>time</name>
 						<regnode name="PartRegs" isopaque="yes">
 							<value></value>
@@ -182,7 +182,7 @@
 						<attribute kind="VersionTag" status="meta">
 							<value></value>
 						</attribute>
-						<reference id="id-0067-0000001b" kind="AttributeMember" role="AttributeMember" guid="{2f38edb7-e352-41af-b8e0-bbaa9e198085}" relid="0x0" referred="id-0066-00000017">
+						<reference id="id-0067-00000019" kind="AttributeMember" role="AttributeMember" guid="{2f38edb7-e352-41af-b8e0-bbaa9e198085}" relid="0x0" referred="id-0066-00000017">
 							<name></name>
 							<regnode name="PartRegs" isopaque="yes">
 								<value></value>
@@ -221,7 +221,7 @@
 						<attribute kind="Duration" status="meta">
 							<value>0</value>
 						</attribute>
-						<reference id="id-0067-0000001c" kind="SimpleProperty" role="SimpleProperty" guid="{505a4095-4626-48c7-80d4-e632a7b0912a}" relid="0x1" referred="id-0066-00000017">
+						<reference id="id-0067-0000001a" kind="SimpleProperty" role="SimpleProperty" guid="{505a4095-4626-48c7-80d4-e632a7b0912a}" relid="0x1" referred="id-0066-00000017">
 							<name>content</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -263,7 +263,7 @@
 						<attribute kind="Duration" status="meta">
 							<value>0</value>
 						</attribute>
-						<reference id="id-0067-0000001d" kind="SimpleProperty" role="SimpleProperty" guid="{d0fbd548-463f-4fc3-83e6-8cd0c56306f7}" relid="0x1" referred="id-0066-00000017">
+						<reference id="id-0067-0000001b" kind="SimpleProperty" role="SimpleProperty" guid="{d0fbd548-463f-4fc3-83e6-8cd0c56306f7}" relid="0x1" referred="id-0066-00000017">
 							<name>content</name>
 							<regnode name="PartRegs" status="undefined">
 								<value></value>
@@ -823,7 +823,7 @@
 			</model>
 			<model id="id-0065-0000000f" kind="ComponentImplementationContainer" guid="{69f8b757-4765-4b2a-b7b1-0405cdcc1590}" relid="0x3" childrelidcntr="0x1">
 				<name>HelloWorld_asm</name>
-				<model id="id-0065-00000010" kind="ComponentAssembly" role="ComponentAssembly" guid="{2d27c383-2d52-40e6-bec0-61f0302ec2c6}" relid="0x1" childrelidcntr="0xa">
+				<model id="id-0065-00000010" kind="ComponentAssembly" role="ComponentAssembly" guid="{2d27c383-2d52-40e6-bec0-61f0302ec2c6}" relid="0x1" childrelidcntr="0xe">
 					<name>HelloWorld_asm</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -868,6 +868,15 @@
 						</attribute>
 						<reference id="id-0067-00000007" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{df81031c-3b49-40d0-9582-054396457fb4}" relid="0x1" referred="id-0066-0000001d">
 							<name>HelloWorldImpl</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentImplementationAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>11,11</value>
+									</regnode>
+								</regnode>
+							</regnode>
 						</reference>
 						<reference id="id-0067-00000008" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{647df853-5b5b-4c69-bc5c-2b8ae5a37f23}" relid="0x2" referred="id-0067-00000001">
 							<name>greeting</name>
@@ -917,7 +926,7 @@
 						<reference id="id-0067-0000000a" kind="InEventPortInstance" role="InEventPortInstance" guid="{3891c6ac-cfb8-4345-a952-261222826ea1}" relid="0x2" referred="id-0067-00000002">
 							<name>greeting</name>
 						</reference>
-						<reference id="id-0067-0000001e" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{d4149792-0525-4ddc-8128-6373c47beb98}" relid="0x1" referred="id-0066-0000001e">
+						<reference id="id-0067-0000001c" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{d4149792-0525-4ddc-8128-6373c47beb98}" relid="0x1" referred="id-0066-0000001e">
 							<name>HelloReceiverImpl</name>
 						</reference>
 					</model>
@@ -936,6 +945,36 @@
 							<value>Hello, World!</value>
 						</attribute>
 					</reference>
+					<reference id="id-0067-0000001d" kind="SimpleProperty" role="SimpleProperty" guid="{98e47593-7d68-4dab-88f4-ae688cb49973}" relid="0xb" referred="id-0066-00000017">
+						<name>ParticipantQoS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>188,279</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>SenderQoS.dpd</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000001e" kind="SimpleProperty" role="SimpleProperty" guid="{526bfb00-ee0a-489d-882c-0de7b3cf10d6}" relid="0xc" referred="id-0066-00000017">
+						<name>ParticipantQoS</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>419,293</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>ReceiverQoS.dpd</value>
+						</attribute>
+					</reference>
 					<connection id="id-0068-0000000e" kind="SendsTo" role="SendsTo" guid="{dc577ffa-958a-4f01-ad11-32709794f793}" relid="0x9">
 						<name>SendsTo</name>
 						<connpoint role="src" target="id-0067-00000008"/>
@@ -949,6 +988,16 @@
 						<connpoint role="src" target="id-0067-00000009"/>
 						<connpoint role="dst" target="id-0067-0000000b"/>
 					</connection>
+					<connection id="id-0068-00000017" kind="AssemblyConfigProperty" role="AssemblyConfigProperty" guid="{31c59876-1793-4e45-9ff4-330b2f355867}" relid="0xd">
+						<name>AssemblyConfigProperty</name>
+						<connpoint role="src" target="id-0065-00000011"/>
+						<connpoint role="dst" target="id-0067-0000001d"/>
+					</connection>
+					<connection id="id-0068-00000018" kind="AssemblyConfigProperty" role="AssemblyConfigProperty" guid="{53bed135-0d71-4778-abb9-62e125fe889d}" relid="0xe">
+						<name>AssemblyConfigProperty</name>
+						<connpoint role="src" target="id-0065-00000012"/>
+						<connpoint role="dst" target="id-0067-0000001e"/>
+					</connection>
 				</model>
 			</model>
 			<model id="id-0065-00000013" kind="ComponentImplementationContainer" guid="{7b1e3be8-4746-4a65-95b2-7f53cb6b4467}" relid="0x4" childrelidcntr="0x7">
@@ -957,6 +1006,12 @@
 					<name>HelloReceiverImpl</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
+						<regnode name="ImplementationProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,13</value>
+							</regnode>
+						</regnode>
 						<regnode name="Packaging" status="undefined">
 							<value></value>
 							<regnode name="Position" isopaque="yes">
@@ -1066,6 +1121,15 @@
 				</model>
 				<model id="id-0065-00000016" kind="Node" role="Node" guid="{a38c46da-606d-4c71-b2b3-3c35e77925cd}" relid="0x2" childrelidcntr="0x0">
 					<name>SecondNode</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Target" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>13,13</value>
+							</regnode>
+						</regnode>
+					</regnode>
 					<attribute kind="architecture" status="meta">
 						<value></value>
 					</attribute>
@@ -1145,7 +1209,7 @@
 						<value>corbaloc:iiop:localhost:60001</value>
 					</attribute>
 				</reference>
-				<reference id="id-0067-00000015" kind="NodeReference" role="NodeReference" guid="{b472e9af-9401-43e3-9a72-21c009701fe2}" relid="0xd" referred="id-0065-00000016">
+				<reference id="id-0067-00000013" kind="NodeReference" role="NodeReference" guid="{b472e9af-9401-43e3-9a72-21c009701fe2}" relid="0xd" referred="id-0065-00000016">
 					<name>SecondNode</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1163,7 +1227,7 @@
 						</regnode>
 					</regnode>
 				</reference>
-				<reference id="id-0067-00000016" kind="SimpleProperty" role="SimpleProperty" guid="{511d227a-0e57-4109-877c-68cf11445c57}" relid="0x10" referred="id-0066-00000017">
+				<reference id="id-0067-00000014" kind="SimpleProperty" role="SimpleProperty" guid="{511d227a-0e57-4109-877c-68cf11445c57}" relid="0x10" referred="id-0066-00000017">
 					<name>StringIOR</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -1183,7 +1247,7 @@
 					<connpoint role="dst" target="id-0067-0000000f"/>
 					<connpoint role="src" target="id-0069-00000001"/>
 				</connection>
-				<connection id="id-0068-00000016" kind="PropertyMapping" role="PropertyMapping" guid="{1a103899-f52a-4044-bbcd-157a1c3ff739}" relid="0xc">
+				<connection id="id-0068-00000014" kind="PropertyMapping" role="PropertyMapping" guid="{1a103899-f52a-4044-bbcd-157a1c3ff739}" relid="0xc">
 					<name>PropertyMapping</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>En</value>
@@ -1191,18 +1255,18 @@
 					<connpoint role="src" target="id-0067-0000000f"/>
 					<connpoint role="dst" target="id-0067-00000012"/>
 				</connection>
-				<connection id="id-0068-00000017" kind="InstanceMapping" role="InstanceMapping" guid="{c021a9b5-b43b-4382-86dd-ab308bc2833a}" relid="0xf">
+				<connection id="id-0068-00000015" kind="InstanceMapping" role="InstanceMapping" guid="{c021a9b5-b43b-4382-86dd-ab308bc2833a}" relid="0xf">
 					<name></name>
-					<connpoint role="dst" target="id-0067-00000015"/>
+					<connpoint role="dst" target="id-0067-00000013"/>
 					<connpoint role="src" target="id-0069-00000002"/>
 				</connection>
-				<connection id="id-0068-00000018" kind="PropertyMapping" role="PropertyMapping" guid="{818efe57-fdcd-4b77-bc7a-f8dd65a41238}" relid="0x11">
+				<connection id="id-0068-00000016" kind="PropertyMapping" role="PropertyMapping" guid="{818efe57-fdcd-4b77-bc7a-f8dd65a41238}" relid="0x11">
 					<name>PropertyMapping</name>
 					<regnode name="autorouterPref" isopaque="yes">
 						<value>Wn</value>
 					</regnode>
-					<connpoint role="src" target="id-0067-00000015"/>
-					<connpoint role="dst" target="id-0067-00000016"/>
+					<connpoint role="src" target="id-0067-00000013"/>
+					<connpoint role="dst" target="id-0067-00000014"/>
 				</connection>
 				<set id="id-0069-00000001" kind="CollocationGroup" role="CollocationGroup" guid="{f037bf7b-b636-4af2-86cb-3d27df40f266}" relid="0x2" members="id-0067-00000011">
 					<name>DefaultGroup</name>

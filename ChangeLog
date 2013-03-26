@@ -1,3 +1,34 @@
+Tue Mar 26 14:05:03 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+
+          Fixed configure with QoS to call the SERVANT_BASE::configure method
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+
+          Temporarily commented immutable QoS properties for the participant
+
+        * tests/iccm/opensplice/ParticipantQoS/HelloReceiverImpl.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloSenderImpl.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld.idl:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld.mwc:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld_Components.idl:
+        * tests/iccm/opensplice/ParticipantQoS/HelloWorld_Components.mpc:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/HelloWorld.cdp:
+
+          Regenerated the HelloWorld project files
+
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/ReceiverQoS.dpd:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/SenderQoS.dpd:
+
+          Removed invalid QoS properties
+
+        * tests/iccm/opensplice/ParticipantQoS/models/ParticipantQoS.xme:
+
+          Updated model to include the Sender and Receiver QoS properties
+          files
+
 Mon Mar 18 16:50:28 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * ChangeLogs/ChangeLog-1_0_5:

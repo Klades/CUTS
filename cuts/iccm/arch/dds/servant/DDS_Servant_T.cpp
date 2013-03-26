@@ -12,9 +12,10 @@ namespace iCCM
 //
 template <typename TRAIT, typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
-configure (const ::iccm::DomainParticipantQos &)
+configure (const ::iccm::DomainParticipantQos & qos)
 {
-  this->do_default_configure ();
+  // Call the TRAIT servant's configure
+  TRAIT::servant_type::configure (qos);
 }
 
 //

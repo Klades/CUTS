@@ -43,7 +43,7 @@
   <!-- BEGIN DDS::PublisherQoS parameters -->
 
   <publisher name="@default">
-    <presentation access_scope="INSTANCE_PRESENTATION_QOS" coherent_access="true" ordered_access="true" />
+    <presentation access_scope="INSTANCE_PRESENTATION_QOS" coherent_access="true" />
     <partition>
       <name>
         <item>A</item>
