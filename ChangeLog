@@ -1,3 +1,28 @@
+Wed Mar 27 14:59:10 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+
+          Changed is_global to isprivate
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+
+          Changed is_global to isprivate
+
+        * etc/schemas/iccm/dds.xsd:
+
+          Changed schema from scope="global|local" to isprivate="true|false"
+
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/ReceiverQoS.dpd:
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/SenderQoS.dpd:
+
+          Updated the QoS to use isprivate.
+
+        * cuts/iccm/ddsxml/dds.inl:
+        * cuts/iccm/ddsxml/dds.cpp:
+        * cuts/iccm/ddsxml/dds.h:
+
+          Deleted these files
+
 Wed Mar 27 13:43:34 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_EventConsumer.h:

@@ -112,14 +112,14 @@ DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 create_datawriter (const char * name,
                    const typename TRAIT::topicqos_type & topic_qos,
                    typename TRAIT::publisher_ptr_type publisher,
-                   bool is_global)
+                   bool is_private)
 {
   // Locate the target publisher, or publisher table.
   typename TRAIT::publisher_type * emits = 0;
   typename TRAIT::publisher_table_type * publishes = 0;
   typename TRAIT::datawriter_var_type data_writer;
 
-  const ACE_CString topic_name = is_global ? name : this->name_ + "." + name;
+  const ACE_CString topic_name = is_private ? this->name_ + "." + name : name;
 
   if (0 == this->emits_.find (name, emits))
   {
@@ -153,19 +153,19 @@ configure_eventconsumer (const char * name,
                          const typename TRAIT::datareaderqos_type & reader_qos,
                          const typename TRAIT::topicqos_type & topic_qos,
                          typename TRAIT::subscriber_ptr_type publisher,
-                         bool is_global)
+                         bool is_private)
 {
   typename TRAIT::eventconsumer_type * consumer = 0;
 
   if (0 == this->consumers_.find (name, consumer))
   {
-    if (is_global)
-      // The global event consumer uses its name as the topic name.
-      consumer->configure (publisher, topic_qos, reader_qos, name);
-    else
+    if (is_private)
       // The non-global event consumer uses the topic name provided
-      // by the connection.
+      // by the connection
       consumer->configure (publisher, topic_qos, reader_qos);
+    else
+      // The global event consumer uses the topic name passed in
+      consumer->configure (publisher, topic_qos, reader_qos, name);
   }
   else
   {

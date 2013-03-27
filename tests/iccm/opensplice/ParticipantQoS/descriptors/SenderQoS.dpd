@@ -54,7 +54,7 @@
 
   <!-- BEGIN DDS::DataWriterQoS parameters -->
 
-  <datawriter name="greeting" isinstance="false" topic="MessageTopic" scope="local">
+  <datawriter name="greeting" isinstance="false" topic="MessageTopic" isprivate="true">
     <durability kind="VOLATILE_DURABILITY_QOS" />
     <deadline period="1" />
     <latency_budget duration="1" />

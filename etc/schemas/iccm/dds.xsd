@@ -10,14 +10,6 @@
   <!--
     BEGIN KIND (SIMPLE TYPE) DEFINITIONS
     -->
-
-  <xsd:simpleType name="TopicScopeKind">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="local" />
-      <xsd:enumeration value="global" />
-    </xsd:restriction>
-  </xsd:simpleType>
-
   <xsd:simpleType name="Duration_t">
     <xsd:restriction base="xsd:double" />
   </xsd:simpleType>
@@ -302,7 +294,7 @@
     <xsd:attribute name="name" type="xsd:string" use="required" />
     <xsd:attribute name="subscriber" type="xsd:string" default="@default" />
     <xsd:attribute name="topic" type="xsd:string" default="@default" />
-    <xsd:attribute name="scope" type="TopicScopeKind" default="global" />
+    <xsd:attribute name="isprivate" type="xsd:boolean" default="false" />
   </xsd:complexType>
 
   <xsd:complexType name="DataWriterQos">
@@ -328,7 +320,7 @@
     <xsd:attribute name="publisher" type="xsd:string" default="@default" />
     <xsd:attribute name="topic" type="xsd:string" default="@default" />
     <xsd:attribute name="isinstance" type="xsd:boolean" default="false" />
-    <xsd:attribute name="scope" type="TopicScopeKind" default="global" />
+    <xsd:attribute name="isprivate" type="xsd:boolean" default="false" />
   </xsd:complexType>
 
   <xsd:complexType name="PublisherQos">

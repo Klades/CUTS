@@ -820,12 +820,11 @@ configure_datareader (const ::iccm::DataReaderQos & value)
   ::DDS::DataReaderQos current (DATAREADER_QOS_DEFAULT);
   current <<= value;
 
-  bool is_global = value.scope () == iccm::TopicScopeKind::global ? true : false;
   this->configure_eventconsumer (value.name ().c_str (),
                                  current,
                                  *topic_qos,
                                  subscriber.in (),
-                                 is_global);
+                                 value.isprivate ());
 }
 
 //
@@ -870,13 +869,11 @@ configure_datawriter (const ::iccm::DataWriterQos & value)
     throw ::CORBA::INTERNAL ();
 
   // Create the DDS writer entity.
-  bool is_global = value.scope () == iccm::TopicScopeKind::global ? true : false;
-
   ::DDS::DataWriter_var writer =
     this->create_datawriter (value.name ().c_str (),
                              *topic_qos,
                              publisher.in (),
-                             is_global);
+                             value.isprivate ());
 
   if (!CORBA::is_nil (writer.in ()))
   {
