@@ -79,10 +79,10 @@ protected:
   datareader_var_type abs_reader_;
 
   /// QoS parameters for the data reader.
-  const datareaderqos_type * reader_qos_;
+  datareaderqos_type reader_qos_;
 
   /// Topic QoS for the data reader.
-  const topicqos_type * topic_qos_;
+  topicqos_type topic_qos_;
 };
 
 }

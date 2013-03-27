@@ -40,8 +40,8 @@ configure (subscriber_ptr_type subscriber,
   // when set_topic () is called.
   this->subscriber_ = T::_duplicate (subscriber);
 
-  this->reader_qos_ = &qos;
-  this->topic_qos_ = &topic_qos;
+  this->reader_qos_ = qos;
+  this->topic_qos_ = topic_qos;
 }
 
 //
@@ -79,7 +79,7 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
   topic_var_type topic =
     participant->create_topic (topic_name,
                                this->type_name_.c_str (),
-                               *this->topic_qos_,
+                               this->topic_qos_,
                                0,
                                T::STATUS_MASK_NONE);
 
@@ -122,7 +122,7 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
     // configuration method on the listener object.
     typename T::datareader_var_type reader =
       this->subscriber_->create_datareader (topic,
-                                            *this->reader_qos_,
+                                            this->reader_qos_,
                                             listener,
                                             T::STATUS_MASK_DATA_AVAILABLE);
 

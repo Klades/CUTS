@@ -54,7 +54,7 @@
 
   <!-- BEGIN DDS::DataReaderQoS parameters -->
 
-  <datareader name="greeting" topic="MessageTopic" subscriber="NoDefaultSubscriber">
+  <datareader name="greeting" topic="MessageTopic" subscriber="NoDefaultSubscriber" scope="local">
     <durability kind="VOLATILE_DURABILITY_QOS" />
     <latency_budget duration="1" />
     <liveliness lease_duration="1" kind="AUTOMATIC_LIVELINESS_QOS" />
