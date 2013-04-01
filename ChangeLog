@@ -1,3 +1,17 @@
+Mon Apr  1 19:45:41 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Checks the emulates_async trait when generating InEventPort
+          implementations.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.inl:
+
+          Added emulates_async trait.  Default is false, set to tru for ciao.
+
 Wed Mar 27 14:59:10 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:

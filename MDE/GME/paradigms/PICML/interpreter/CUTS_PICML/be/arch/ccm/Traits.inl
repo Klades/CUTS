@@ -219,5 +219,15 @@ const char * Traits::ccm_publisher_table_template_type_header (void)
   return "cuts/arch/ccm/CCM_Publisher_Table_T.h";
 }
 
+//
+// emulates_async
+//
+CUTS_INLINE
+bool Traits::emulates_async (void)
+{
+  return false;
+}
+
+
 }
 }

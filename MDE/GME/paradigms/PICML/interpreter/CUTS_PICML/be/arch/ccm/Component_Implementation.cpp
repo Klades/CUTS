@@ -906,7 +906,7 @@ generate (const PICML::InEventPort & sink,
     << "virtual void push_" << name << " (" << fq_name << " * ev);"
     << std::endl;
 
-  if (is_async)
+  if (is_async && this->ctx_.traits_->emulates_async ())
   {
     this->ctx_.header_
       << "private:" << std::endl
@@ -925,7 +925,7 @@ generate (const PICML::InEventPort & sink,
     << "void " << parent_name << "::push_" << name << " (" << fq_name << " * ev)"
     << "{";
 
-  if (is_async)
+  if (is_async && this->ctx_.traits_->emulates_async ())
   {
     this->ctx_.source_
       << "this->" << name << "_event_handler_.handle_event (ev);"

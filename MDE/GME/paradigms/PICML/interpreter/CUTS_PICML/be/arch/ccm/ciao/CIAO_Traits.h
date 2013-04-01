@@ -47,6 +47,7 @@ public:
   virtual void write_exec_idl_files (std::ostream & proj, const CUTS_BE_IDL_Node & node);
   virtual void write_exec_source_files (std::ostream &, const CUTS_BE_IDL_Node &);
 
+  virtual bool emulates_async (void);
 private:
   std::set <std::string> stub_after_;
 };

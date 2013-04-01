@@ -73,6 +73,9 @@ public:
   /// Get the name of the CCM publisher table template object.
   virtual const char * ccm_publisher_table_template_type (void);
   virtual const char * ccm_publisher_table_template_type_header (void);
+
+  // Feature: emulates asynchronous communication
+  virtual bool emulates_async (void);
 };
 
 }

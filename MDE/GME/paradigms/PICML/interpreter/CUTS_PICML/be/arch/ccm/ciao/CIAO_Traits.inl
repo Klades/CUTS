@@ -49,4 +49,12 @@ const char * Traits::skel_base_project (void)
   return "iccm_tao_skel";
 }
 
+//
+// emulates_async
+//
+bool Traits::emulates_async (void)
+{
+  return true;
+}
+
 }
