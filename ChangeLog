@@ -1,3 +1,9 @@
+Tue Apr  2 17:37:24 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Missed a section which relies on emulates_async
+
 Mon Apr  1 19:45:41 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:

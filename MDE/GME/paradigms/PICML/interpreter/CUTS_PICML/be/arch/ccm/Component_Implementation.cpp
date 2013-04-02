@@ -366,11 +366,14 @@ generate (const PICML::MonolithicImplementation & impl,
                               _1,
                               boost::ref (entity)));
 
-  std::for_each (input_events.begin (),
-                 input_events.end (),
-                 boost::bind (&PICML::InEventPort::Accept,
-                              _1,
-                              boost::ref (entity)));
+  if (this->ctx_.traits_->emulates_async ())
+  {
+    std::for_each (input_events.begin (),
+                   input_events.end (),
+                   boost::bind (&PICML::InEventPort::Accept,
+                                _1,
+                                boost::ref (entity)));
+  }
 
   // Finish the constructor.
   this->ctx_.source_
