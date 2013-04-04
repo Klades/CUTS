@@ -47,7 +47,15 @@ int Event_Traits::visit_root (AST_Root * node)
 //
 int Event_Traits::visit_module (AST_Module * node)
 {
-  return this->visit_scope (node);
+  ACE_CString local_name (node->local_name ()->get_string ());
+  size_t length = this->scope_.length ();
+  this->scope_ += local_name + "::";
+
+  if (0 != this->visit_scope (node))
+    return -1;
+
+  this->scope_ = this->scope_.substring (0, length);
+  return 0;
 }
 
 //
@@ -76,23 +84,23 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
     << "{"
     << "public:" << std::endl
     << "// traits for the reader(s)" << std::endl
-    << "typedef ::" << dds_event << "DataReader reader_type;"
-    << "typedef ::" << dds_event << "DataReader_ptr reader_ptr_type;"
-    << "typedef ::" << dds_event << "DataReader_var reader_var_type;"
+    << "typedef ::" << this->scope_ << dds_event << "DataReader reader_type;"
+    << "typedef ::" << this->scope_ << dds_event << "DataReader_ptr reader_ptr_type;"
+    << "typedef ::" << this->scope_ << dds_event << "DataReader_var reader_var_type;"
     << std::endl
     << "// traits for the writer(s)" << std::endl
-    << "typedef ::" << dds_event << "DataWriter writer_type;"
-    << "typedef ::" << dds_event << "DataWriter_ptr writer_ptr_type;"
-    << "typedef ::" << dds_event << "DataWriter_var writer_var_type;"
+    << "typedef ::" << this->scope_ << dds_event << "DataWriter writer_type;"
+    << "typedef ::" << this->scope_ << dds_event << "DataWriter_ptr writer_ptr_type;"
+    << "typedef ::" << this->scope_ << dds_event << "DataWriter_var writer_var_type;"
     << std::endl
     << "// traits for the type support system" << std::endl
-    << "typedef ::" << dds_event << "TypeSupport dds_typesupport_type;"
-    << "typedef ::" << dds_event << "TypeSupport_var dds_typesupport_var_type;"
-    << "typedef ::" << dds_event << "TypeSupport_ptr dds_typesupport_ptr_type;"
+    << "typedef ::" << this->scope_ << dds_event << "TypeSupport dds_typesupport_type;"
+    << "typedef ::" << this->scope_ << dds_event << "TypeSupport_var dds_typesupport_var_type;"
+    << "typedef ::" << this->scope_ << dds_event << "TypeSupport_ptr dds_typesupport_ptr_type;"
     << std::endl
     << "// event mapping types" << std::endl
-    << "typedef ::" << dds_event << " dds_event_type;"
-    << "typedef ::" << dds_event << "Seq dds_event_sequence_type;"
+    << "typedef ::" << this->scope_ << dds_event << " dds_event_type;"
+    << "typedef ::" << this->scope_ << dds_event << "Seq dds_event_sequence_type;"
     << "typedef ::" << full_name << "Upcall upcall_event_type;"
     << "typedef ::" << full_name << "Downcall downcall_event_type;"
     << "typedef ::" << full_name << " corba_event_type;"

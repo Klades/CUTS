@@ -38,11 +38,13 @@ public:
   // used methods
   virtual int visit_eventtype (AST_EventType * node);
   virtual int visit_field (AST_Field * node);
+  virtual int visit_module (AST_Module * node);
 
 private:
   std::ofstream & hfile_;
   std::ofstream & sfile_;
   ACE_CString upcall_event_;
+  ACE_CString marshal_scope_;
 };
 
 }

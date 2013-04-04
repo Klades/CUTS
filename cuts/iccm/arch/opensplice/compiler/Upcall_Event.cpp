@@ -7,6 +7,7 @@
 
 #include "ast_eventtype.h"
 #include "ast_field.h"
+#include "ast_module.h"
 
 #include "utl_identifier.h"
 #include <iostream>
@@ -30,6 +31,22 @@ Upcall_Event::Upcall_Event (std::ofstream & hfile, std::ofstream & sfile)
 Upcall_Event::~Upcall_Event (void)
 {
 
+}
+
+//
+// visit_module
+//
+int Upcall_Event::visit_module (AST_Module * node)
+{
+  ACE_CString local_name (node->local_name ()->get_string ());
+  size_t length = this->marshal_scope_.length ();
+  this->marshal_scope_ += local_name + "_";
+
+  if (0 != this->visit_scope (node))
+    return -1;
+
+  this->marshal_scope_ = this->marshal_scope_.substring (0, length);
+  return 0;
 }
 
 //
@@ -78,15 +95,15 @@ int Upcall_Event::visit_eventtype (AST_EventType * node)
     << "private:" << std::endl
     << dds_event << " & dds_event_;"
     << std::endl
-    << "::CORBA::Boolean _tao_marshal__" << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const;"
-    << "::CORBA::Boolean _tao_unmarshal__" << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &);"
+    << "::CORBA::Boolean _tao_marshal__" << this->marshal_scope_ << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const;"
+    << "::CORBA::Boolean _tao_unmarshal__" << this->marshal_scope_ << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &);"
     << "};";
 
   this->sfile_
     << "::CORBA::Boolean " << this->upcall_event_
-    << "::_tao_marshal__" << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const{return false;}"
+    << "::_tao_marshal__" << this->marshal_scope_ << local_name << " (TAO_OutputCDR &, TAO_ChunkInfo &) const{return false;}"
     << "::CORBA::Boolean " << this->upcall_event_
-    << "::_tao_unmarshal__" << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &){return false;}";
+    << "::_tao_unmarshal__" << this->marshal_scope_ << local_name << " (TAO_InputCDR &, TAO_ChunkInfo &){return false;}";
 
   return 0;
 }
