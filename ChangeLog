@@ -1,3 +1,24 @@
+Thu Apr  4 16:56:17 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/compiler/Downcall_Event.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Upcall_Event.cpp:
+
+          Fixed logic to allocate and copy string rather than using
+          substring.
+
+Thu Apr  4 16:15:51 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/opensplice/compiler/Downcall_Event.h:
+        * cuts/iccm/arch/opensplice/compiler/Downcall_Event.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Event_Traits.h:
+        * cuts/iccm/arch/opensplice/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/opensplice/compiler/Upcall_Event.h:
+        * cuts/iccm/arch/opensplice/compiler/Upcall_Event.cpp:
+
+          Updated event generation to support packages/modules.
+
 Tue Apr  2 17:37:24 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:

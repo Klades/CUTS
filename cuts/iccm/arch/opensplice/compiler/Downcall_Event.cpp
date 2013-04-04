@@ -39,13 +39,13 @@ Downcall_Event::~Downcall_Event (void)
 int Downcall_Event::visit_module (AST_Module * node)
 {
   ACE_CString local_name (node->local_name ()->get_string ());
-  size_t length = this->marshal_scope_.length ();
+  ACE_CString backup (this->marshal_scope_);
   this->marshal_scope_ += local_name + "_";
 
   if (0 != this->visit_scope (node))
     return -1;
 
-  this->marshal_scope_ = this->marshal_scope_.substring (0, length);
+  this->marshal_scope_ = backup;
   return 0;
 }
 

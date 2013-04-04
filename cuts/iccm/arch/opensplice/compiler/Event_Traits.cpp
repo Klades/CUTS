@@ -48,13 +48,13 @@ int Event_Traits::visit_root (AST_Root * node)
 int Event_Traits::visit_module (AST_Module * node)
 {
   ACE_CString local_name (node->local_name ()->get_string ());
-  size_t length = this->scope_.length ();
+  ACE_CString backup (this->scope_);
   this->scope_ += local_name + "::";
 
   if (0 != this->visit_scope (node))
     return -1;
 
-  this->scope_ = this->scope_.substring (0, length);
+  this->scope_ = backup;
   return 0;
 }
 
