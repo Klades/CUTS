@@ -15,6 +15,7 @@
 
 #include "Scope_Visitor.h"
 #include <fstream>
+#include "ace/SString.h"
 
 namespace iCCM
 {
@@ -41,6 +42,7 @@ public:
 private:
   std::ofstream & hfile_;
   std::ofstream & sfile_;
+  ACE_CString scope_;
 };
 
 }

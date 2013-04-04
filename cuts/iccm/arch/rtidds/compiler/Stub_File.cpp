@@ -258,8 +258,15 @@ int Stub_File::visit_module (AST_Module * node)
     << "namespace " << node->local_name ()->get_string () << std::endl
     << "{" << std::endl;
 
-  if (0 != this->visit_scope (node))
-    return -1;
+  // Generate code for events inside of modules
+  Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
+  Indentation::Implanter <Indentation::Cxx, char> s_implanter (this->sfile_);
+
+  Upcall_Event upcall_event (this->hfile_, this->sfile_);
+  node->ast_accept (&upcall_event);
+
+  Downcall_Event downcall_event (this->hfile_, this->sfile_);
+  node->ast_accept (&downcall_event);
 
   this->hfile_ << "}" << std::endl;
   this->sfile_ << "}" << std::endl;
@@ -268,13 +275,14 @@ int Stub_File::visit_module (AST_Module * node)
 }
 
 //
-// visit_structure
+// visit_eventtype
 //
 int Stub_File::visit_eventtype (AST_EventType * node)
 {
   if (!be_global->is_wrapper_eventtype (node))
     return 0;
 
+  // Generate code for events outside of modules
   Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
   Indentation::Implanter <Indentation::Cxx, char> s_implanter (this->sfile_);
 
