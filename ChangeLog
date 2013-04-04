@@ -1,3 +1,10 @@
+Thu Apr  4 17:37:53 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/tcpip/compiler/Event_Traits.h:
+        * cuts/iccm/arch/tcpip/compiler/Event_Traits.cpp:
+
+          Updated event generation to support packages/modules.
+
 Thu Apr  4 17:28:50 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/tao/compiler/Event_Traits.cpp:

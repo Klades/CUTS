@@ -47,7 +47,15 @@ int Event_Traits::visit_root (AST_Root * node)
 //
 int Event_Traits::visit_module (AST_Module * node)
 {
-  return this->visit_scope (node);
+  ACE_CString local_name (node->local_name ()->get_string ());
+  ACE_CString backup (this->scope_);
+  this->scope_ += local_name + "::";
+
+  if (0 != this->visit_scope (node))
+    return -1;
+
+  this->scope_ = backup;
+  return 0;
 }
 
 //
@@ -56,11 +64,7 @@ int Event_Traits::visit_module (AST_Module * node)
 int Event_Traits::visit_eventtype (AST_EventType * node)
 {
   const char * full_name = node->full_name ();
-
-  ACE_CString tcpip_event;
-  TCPIP::Context * ctx = dynamic_cast <TCPIP::Context *> (be_global);
-
-  be_global->get_wrapper_eventtype (node, tcpip_event);
+  const char * local_name = node->local_name ()->get_string ();
 
   this->hfile_
     << "/**" << std::endl
@@ -72,7 +76,7 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
     << "template < >" << std::endl
     << "struct TCPIP_Event_Traits < ::" << full_name << " >"
     << "{"
-    << "typedef ::OBV_" << full_name << " tcpip_event_type;"
+    << "typedef ::OBV_" << this->scope_ << local_name << " tcpip_event_type;"
     << "};"
     << "}";
 
