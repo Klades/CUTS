@@ -1,3 +1,15 @@
+Thu Apr  4 17:26:22 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/arch/ccm/CCM_Event_Handler_T.cpp:
+
+          Removed a debugging statement
+
+        * cuts/iccm/arch/tao/compiler/Event_Traits.h:
+        * cuts/iccm/arch/tao/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/tao/compiler/Stub_File.cpp:
+
+          Updated event generation to support packages/modules.
+
 Thu Apr  4 17:11:57 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/rtidds/compiler/Downcall_Event.h:

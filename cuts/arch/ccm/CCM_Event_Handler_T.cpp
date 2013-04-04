@@ -13,6 +13,8 @@ template <typename T, typename EVENT>
 int CUTS_CCM_Event_Handler_T <T, EVENT>::activate (void)
 {
   CUTS_TRACE ("CUTS_CCM_Event_Handler_T <T, EVENT>::activate (int thr_count)");
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - EventHandlerT::activate\n")));
 
   // Activate the message queue.
   if (this->msg_queue_->state () == ACE_Message_Queue_Base::DEACTIVATED)
@@ -38,6 +40,8 @@ template <typename T, typename EVENT>
 int CUTS_CCM_Event_Handler_T <T, EVENT>::deactivate (void)
 {
   CUTS_TRACE ("CUTS_CCM_Event_Handler_T <T, EVENT>::deactivate (void)");
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - EventHandlerT::deactivate\n")));
 
   // Deactivate the message queue.
   if (this->msg_queue_->state () == ACE_Message_Queue_Base::ACTIVATED)
@@ -86,6 +90,8 @@ template <typename T, typename EVENT>
 int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
 {
   CUTS_TRACE ("CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)");
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc\n")));
 
   if (this->affinity_mask_ != 0)
   {
@@ -156,15 +162,20 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
 
     while (this->msg_queue_->state () == ACE_Message_Queue_Base::ACTIVATED)
     {
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc - dequeue message\n")));
       // Get the next message from the queue.
       retval = this->msg_queue_->dequeue_head (ev);
-
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc - dequeued message type [%s]\n"),typeid(ev).name()));
       if (retval != -1)
       {
         if (ev != 0)
         {
+  ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc - make upcall\n")));
           // Make an upcall to the component.
-          (this->component_->*this->method_) (ev);
+          (*this->component_.*this->method_) (ev);
 
           // Decrement the event's reference count.
           ev->_remove_ref ();
