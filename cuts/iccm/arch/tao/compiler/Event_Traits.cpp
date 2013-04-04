@@ -76,14 +76,6 @@ int Event_Traits::visit_eventtype (AST_EventType * node)
   const char * local_name = node->local_name ()->get_string ();
   const char * full_name = node->full_name ();
 
-  // We should probably store the name of the TAO event when we are actually
-  // creating the event. This way, we can just lookup the event name and not
-  // try to reconstruct it here!
-//  std::string tao_full_name (node->full_name ());
-//  size_t pos = tao_full_name.find_last_of (":");
-
-//  tao_full_name.insert (pos + 1, "TAO_");
-
   this->hfile_
     << "/**" << std::endl
     << " * @struct iCCM::TAO_Event_Traits < ::" << full_name << " >" << std::endl
