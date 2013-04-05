@@ -1109,6 +1109,91 @@ public:
 };
 
 /**
+ * @class CUTS_BE_For_Condition_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_For_Condition_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Condition_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_For_Condition_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Condition_Delimiter_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_For_Condition_Delimiter_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Condition_Delimiter_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_For_Condition_Delimiter_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Condition_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_For_Condition_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Condition_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_For_Condition_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_For_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_For_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_For_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_For_End_T (void);
+
+  void generate (void);
+};
+
+/**
  * @class CUTS_BE_Action_Properties_Begin_T
  */
 template <typename CONTEXT>

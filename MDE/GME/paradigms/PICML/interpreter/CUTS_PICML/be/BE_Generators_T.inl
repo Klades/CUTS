@@ -1224,6 +1224,131 @@ void CUTS_BE_While_End_T <CONTEXT>::generate (void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Condition_Begin_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Condition_Begin_T <CONTEXT>::
+CUTS_BE_For_Condition_Begin_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Condition_Begin_T <CONTEXT>::~CUTS_BE_For_Condition_Begin_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_For_Condition_Begin_T <CONTEXT>::generate (void)
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Condition_Delimiter_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Condition_Delimiter_T <CONTEXT>::
+CUTS_BE_For_Condition_Delimiter_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Condition_Delimiter_T <CONTEXT>::~CUTS_BE_For_Condition_Delimiter_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_For_Condition_Delimiter_T <CONTEXT>::generate (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Condition_End_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Condition_End_T <CONTEXT>::
+CUTS_BE_For_Condition_End_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Condition_End_T <CONTEXT>::~CUTS_BE_For_Condition_End_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_For_Condition_End_T <CONTEXT>::generate (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Begin_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Begin_T <CONTEXT>::
+CUTS_BE_For_Begin_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_Begin_T <CONTEXT>::~CUTS_BE_For_Begin_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_For_Begin_T <CONTEXT>::generate (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_End_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_End_T <CONTEXT>::
+CUTS_BE_For_End_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_For_End_T <CONTEXT>::~CUTS_BE_For_End_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_For_End_T <CONTEXT>::generate (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Action_Properties_Begin_T
 
 template <typename CONTEXT>

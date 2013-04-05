@@ -345,3 +345,243 @@ CUTS_BE_Action_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_Action_End_T (void)
 {
 
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Action_Properties_Begin_T
+
+CUTS_INLINE
+CUTS_BE_Action_Properties_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_Action_Properties_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Action_Properties_Begin_T <CUTS_BE_CPP::Context>::
+~CUTS_BE_Action_Properties_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Do_While_Begin_T
+
+CUTS_INLINE
+CUTS_BE_Do_While_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_Do_While_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Do_While_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_Do_While_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Do_While_End_T
+
+CUTS_INLINE
+CUTS_BE_Do_While_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_Do_While_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Do_While_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_Do_While_End_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Do_While_Condition_Begin_T
+
+CUTS_INLINE
+CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_Do_While_Condition_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_Do_While_Condition_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Do_While_Condition_End_T
+
+CUTS_INLINE
+CUTS_BE_Do_While_Condition_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_Do_While_Condition_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Do_While_Condition_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_Do_While_Condition_End_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_While_Begin_T
+
+CUTS_INLINE
+CUTS_BE_While_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_While_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_While_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_While_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_While_End_T
+
+CUTS_INLINE
+CUTS_BE_While_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_While_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_While_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_While_End_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_While_Condition_Begin_T
+
+CUTS_INLINE
+CUTS_BE_While_Condition_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_While_Condition_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_While_Condition_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_While_Condition_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_While_Condition_End_T
+
+CUTS_INLINE
+CUTS_BE_While_Condition_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_While_Condition_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_While_Condition_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_While_Condition_End_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Begin_T
+
+CUTS_INLINE
+CUTS_BE_For_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_For_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_For_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_For_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_End_T
+
+CUTS_INLINE
+CUTS_BE_For_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_For_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_For_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_For_End_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Condition_Begin_T
+
+CUTS_INLINE
+CUTS_BE_For_Condition_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_For_Condition_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_For_Condition_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_For_Condition_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Condition_Delimiter_T
+
+CUTS_INLINE
+CUTS_BE_For_Condition_Delimiter_T <CUTS_BE_CPP::Context>::
+CUTS_BE_For_Condition_Delimiter_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_For_Condition_Delimiter_T <CUTS_BE_CPP::Context>::~CUTS_BE_For_Condition_Delimiter_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_For_Condition_End_T
+
+CUTS_INLINE
+CUTS_BE_For_Condition_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_For_Condition_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_For_Condition_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_For_Condition_End_T (void)
+{
+
+}
+

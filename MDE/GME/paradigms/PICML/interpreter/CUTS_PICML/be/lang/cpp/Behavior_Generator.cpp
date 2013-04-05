@@ -311,3 +311,132 @@ void CUTS_BE_Action_End_T <CUTS_BE_CPP::Context>::generate (void)
   if (!this->ctx_.skip_action_)
     this->ctx_.source_ << ");";
 }
+
+//
+// CUTS_BE_Action_Properties_Begin_T
+//
+void CUTS_BE_Action_Properties_Begin_T <CUTS_BE_CPP::Context>::generate (size_t count)
+{
+  this->ctx_.arg_count_ = count;
+}
+
+//
+// CUTS_BE_Do_While_Begin_T
+//
+void CUTS_BE_Do_While_Begin_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "do"
+    << "{";
+}
+
+//
+// CUTS_BE_Do_While_End_T
+//
+void CUTS_BE_Do_While_End_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "}"
+    << "while ";
+}
+
+
+//
+// CUTS_BE_Do_While_Condition_Begin_T
+//
+void CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "(";
+}
+
+//
+// CUTS_BE_Do_While_Condition_End_T
+//
+void CUTS_BE_Do_While_Condition_End_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << ");";
+}
+
+//
+// CUTS_BE_While_Condition_Begin_T
+//
+void CUTS_BE_While_Condition_Begin_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "while (";
+}
+
+//
+// CUTS_BE_While_Condition_End_T
+//
+void CUTS_BE_While_Condition_End_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << ")";
+}
+
+//
+// CUTS_BE_While_Begin_T
+//
+void CUTS_BE_While_Begin_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "{";
+}
+
+//
+// CUTS_BE_While_End_T
+//
+void CUTS_BE_While_End_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "}";
+}
+
+//
+// CUTS_BE_For_Condition_Begin_T
+//
+void CUTS_BE_For_Condition_Begin_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "for (";
+}
+
+//
+// CUTS_BE_For_Condition_Delimiter_T
+//
+void CUTS_BE_For_Condition_Delimiter_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << ";";
+}
+
+//
+// CUTS_BE_For_Condition_End_T
+//
+void CUTS_BE_For_Condition_End_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << ")";
+}
+
+//
+// CUTS_BE_For_Begin_T
+//
+void CUTS_BE_For_Begin_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "{";
+}
+
+//
+// CUTS_BE_For_End_T
+//
+void CUTS_BE_For_End_T <CUTS_BE_CPP::Context>::generate (void)
+{
+  this->ctx_.source_
+    << "}";
+}
+

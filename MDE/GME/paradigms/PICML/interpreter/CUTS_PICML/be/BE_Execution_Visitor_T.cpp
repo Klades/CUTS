@@ -284,6 +284,13 @@ Visit_StateBase (const PICML::StateBase & base)
     CUTS_BE::visit <CONTEXT> (while_state,
       boost::bind (&PICML::WhileState::Accept, _1, boost::ref (*this)));
   }
+  else if (type_name == PICML::ForState::meta)
+  {
+    PICML::ForState for_state (PICML::ForState::Cast (base));
+
+    CUTS_BE::visit <CONTEXT> (for_state,
+      boost::bind (&PICML::ForState::Accept, _1, boost::ref (*this)));
+  }
 }
 
 //
@@ -344,6 +351,48 @@ Visit_WhileState (const PICML::WhileState & while_state)
 
   CUTS_BE_While_End_T <CONTEXT> while_end_gen (this->context_);
   while_end_gen.generate ();
+
+  // Goto the terminal for this control block.
+  this->goto_to_terminal ();
+}
+
+//
+// Visit_ForState
+//
+template <typename CONTEXT>
+void CUTS_BE_Execution_Visitor_T <CONTEXT>::
+Visit_ForState (const PICML::ForState & for_state)
+{
+  // We are starting to generate the for (init; condition; final).
+  CUTS_BE_For_Condition_Begin_T <CONTEXT> for_condition_begin (this->context_);
+  for_condition_begin.generate ();
+
+  CUTS_BE_Precondition_T <CONTEXT> initialcondition_gen (this->context_);
+  initialcondition_gen.generate (for_state.InitialCondition ());
+
+  CUTS_BE_For_Condition_Delimiter_T <CONTEXT> for_condition_delimiter (this->context_);
+  for_condition_delimiter.generate ();
+
+  CUTS_BE_Precondition_T <CONTEXT> precondition_gen (this->context_);
+  precondition_gen.generate (for_state.LoopingCondition ());
+
+  for_condition_delimiter.generate ();
+
+  CUTS_BE_Precondition_T <CONTEXT> incrementalexpr_gen (this->context_);
+  incrementalexpr_gen.generate (for_state.IncrementExpr ());
+
+  // We are done generating the for (init; condition; final condition).
+  CUTS_BE_For_Condition_End_T <CONTEXT> for_condition_end (this->context_);
+  for_condition_end.generate ();
+
+  // Generate the implemenation for the for control block.
+  CUTS_BE_For_Begin_T <CONTEXT> for_begin_gen (this->context_);
+  for_begin_gen.generate ();
+
+  this->Visit_LoopState (for_state);
+
+  CUTS_BE_For_End_T <CONTEXT> for_end_gen (this->context_);
+  for_end_gen.generate ();
 
   // Goto the terminal for this control block.
   this->goto_to_terminal ();

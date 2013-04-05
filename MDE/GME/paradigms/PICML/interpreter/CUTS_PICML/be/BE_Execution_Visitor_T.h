@@ -82,6 +82,8 @@ protected:
 
   void Visit_WhileState (const PICML::WhileState &);
 
+  void Visit_ForState (const PICML::ForState &);
+
   /// Visit a Property element.
   void Visit_SimpleProperty (const PICML::SimpleProperty &);
 

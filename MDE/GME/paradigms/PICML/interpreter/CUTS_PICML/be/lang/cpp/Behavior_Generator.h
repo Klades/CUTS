@@ -357,6 +357,245 @@ public:
   void generate (void);
 };
 
+/**
+ * @class CUTS_BE_Action_Properties_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_Action_Properties_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Action_Properties_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_Action_Properties_Begin_T (void);
+
+  void generate (size_t count);
+};
+
+/**
+ * @class CUTS_BE_Do_While_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_Do_While_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_Do_While_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_Do_While_Condition_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_Do_While_Condition_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_Condition_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_Do_While_Condition_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_Do_While_Condition_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_Do_While_Condition_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_Condition_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_Do_While_Condition_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_Do_While_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_Do_While_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Do_While_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_Do_While_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_While_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_While_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_While_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_While_Condition_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_While_Condition_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_Condition_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_While_Condition_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_While_Condition_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_While_Condition_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_Condition_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_While_Condition_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_While_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_While_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_While_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_While_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_For_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_For_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Condition_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_For_Condition_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Condition_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_For_Condition_Begin_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Condition_Delimiter_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_For_Condition_Delimiter_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Condition_Delimiter_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_For_Condition_Delimiter_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_Condition_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_For_Condition_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_Condition_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_For_Condition_End_T (void);
+
+  void generate (void);
+};
+
+/**
+ * @class CUTS_BE_For_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_For_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_For_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_For_End_T (void);
+
+  void generate (void);
+};
+
+
 #if defined (__CUTS_INLINE__)
 #include "Behavior_Generator.inl"
 #endif
