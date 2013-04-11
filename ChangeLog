@@ -1,3 +1,10 @@
+Thu Apr 11 18:50:26 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/workers/CPU/Calibration_Details.cpp:
+
+          Added logic to drop extreme outlying samples based on standard
+          distribution when calculating average runtime and error percentages.
+
 Fri Apr  5 15:25:18 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:
