@@ -307,7 +307,7 @@
       <xsd:element name="destination_order" type="DestinationOrderQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="history" type="HistoryQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="resource_limits" type="ResourceLimitsQosPolicy" minOccurs="0" maxOccurs="1" />
-      <xsd:element name="transport_priorty" type="TransportPriorityQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="transport_priority" type="TransportPriorityQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="lifespan" type="LifespanQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="user_data" type="UserDataQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="ownership" type="OwnershipQosPolicy" minOccurs="0" maxOccurs="1" />

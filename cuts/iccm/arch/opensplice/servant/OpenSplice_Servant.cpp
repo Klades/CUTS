@@ -595,8 +595,8 @@ void operator <<= (DDS::DataWriterQos & dst, const ::iccm::DataWriterQos & src)
   if (src.resource_limits_p ())
     dst.resource_limits <<= src.resource_limits ();
 
-  if (src.transport_priorty_p ())
-    dst.transport_priority <<= src.transport_priorty ();
+  if (src.transport_priority_p ())
+    dst.transport_priority <<= src.transport_priority ();
 
   if (src.lifespan_p ())
     dst.lifespan <<= src.lifespan ();
