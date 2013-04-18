@@ -1,4 +1,22 @@
-Thu Apr 18 15:07:06 UTC 2013  root  <dfeiock at iupui dot edu>
+Thu Apr 18 16:44:20 UTC 2013  Dennis Feiock <dfeiock at iupui dot edu>
+
+        * cuts/workers/CPU/Calibration_Details.cpp:
+
+          Fixed ambiguous call on win32.
+
+Thu Apr 18 16:32:04 UTC 2013  Dennis Feiock <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.cpp:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.cpp:
+
+          Implemented QoS processing.
+
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/SenderQoS.dpd:
+
+          Fixed typo.
+
+Thu Apr 18 15:07:06 UTC 2013  Dennis Feiock <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
         * etc/schemas/iccm/dds.xsd:

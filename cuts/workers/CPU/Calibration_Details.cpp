@@ -140,7 +140,8 @@ process (size_t msec,
     // Calculate basic statistics about the results.
     entry->variance_ = boost::accumulators::variance (result_acc);
     entry->stddev_ = sqrt (entry->variance_);
-    entry->stderr_ = entry->stddev_ / sqrt (boost::accumulators::count (result_acc));
+    double sqrt_count = (double) boost::accumulators::count (result_acc);
+    entry->stderr_ = entry->stddev_ / sqrt_count;
 
     // Update the min, max, and sum percentages.
     if (entry->average_error_ < this->min_error_)
