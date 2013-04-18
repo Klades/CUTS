@@ -67,6 +67,13 @@ public:
 
   /// Initialize Qos configuration.
   virtual void configure (const ::iccm::DomainParticipantQos & qos);
+
+private:
+  void configure_topic (const ::iccm::TopicQos & value);
+  void configure_publisher (const ::iccm::PublisherQos & value);
+  void configure_subscriber (const ::iccm::SubscriberQos & value);
+  void configure_datareader (const ::iccm::DataReaderQos & value);
+  void configure_datawriter (const ::iccm::DataWriterQos & value);
 };
 
 }

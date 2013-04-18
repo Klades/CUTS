@@ -63,7 +63,7 @@
     <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
     <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
     <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
-    <transport_priorty value="1" />
+    <transport_priority value="1" />
     <lifespan duration="1" />
     <user_data />
     <ownership kind="SHARED_OWNERSHIP_QOS" />
