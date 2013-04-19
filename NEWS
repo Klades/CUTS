@@ -1,3 +1,11 @@
+USER VISIBLE CHANGES BETWEEN CUTS-1.0.6 AND CUTS-1.0.5
+==========================================================
+. Fixed QoS handling for RTIDDS and OpenSplice
+. Changed QoS scope property from scope="global|local" to
+  isprivate="true|false"
+. Fixed loop behavior for CPP code generation from PICML models
+. Updated event generation to support packages/modules
+
 USER VISIBLE CHANGES BETWEEN CUTS-1.0.5 AND CUTS-1.0.4
 ==========================================================
 . Added command line parameters for calibrating the CPU
