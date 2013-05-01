@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_portico_stub {
+  libs  += iCCM_Portico_skel
+  after += iCCM_Portico_skel
+}

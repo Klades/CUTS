@@ -1,0 +1,6 @@
+// $Id$
+
+project : boost_base, iccm_portico_skel, iccm_servant {
+  libs  += iCCM_Portico_svnt
+  after += iCCM_Portico_svnt
+}

@@ -1,0 +1,16 @@
+// $Id$
+
+project {
+  Define_Custom (ICCM) {
+    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_portico<%quote%>
+    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_portico<%quote%>
+    inputext              = .idl
+
+    source_outputext      = C.cpp
+    header_outputext      = C.h
+    source_pre_filename   = Portico_
+    generic_outputext     = _iCCM.idl
+
+    keyword iccm_portico_flags = commandflags
+  }
+}

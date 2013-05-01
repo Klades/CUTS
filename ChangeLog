@@ -1,3 +1,35 @@
+Wed May  1 18:21:55 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_portico.mpb:
+        * MPC/config/iccm_portico_skel.mpb:
+        * MPC/config/iccm_portico_stub.mpb:
+        * MPC/config/iccm_portico_svnt.mpb:
+
+          Forgot to add base projects.
+
+        * examples/iccm/HelloWorld/portico:
+        * examples/iccm/HelloWorld/portico/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/portico/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/portico/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/portico/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/portico/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/portico/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/portico/HelloWorld.idl:
+        * examples/iccm/HelloWorld/portico/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/portico/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/portico/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/portico/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/portico/HelloWorld_iCCM.idl:
+        * examples/iccm/HelloWorld/portico/descriptors:
+        * examples/iccm/HelloWorld/portico/descriptors/.dance_artifacts:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.fed:
+        * examples/iccm/HelloWorld/portico/descriptors/run_test.pl:
+        * examples/iccm/HelloWorld/portico/lib:
+
+          Forgot to add HelloWorld example
+
 Wed May  1 18:08:56 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/portico/servant/Portico_Servant.h:

@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_stub, requires_portico {
+  libs  += iCCM_Portico_stub
+  after += iCCM_Portico_stub
+}
