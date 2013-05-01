@@ -1,0 +1,91 @@
+// $Id$
+
+project (iCCM_Portico_stub) : requires_portico, ccm_stub, cutslib {
+  sharedname    = iCCM_Portico_stub
+  dynamicflags += ICCM_PORTICO_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_PORTICO_STUB_Export \
+              -Wb,stub_export_include=Portico_stub_export.h \
+              -Wb,skel_export_macro=ICCM_PORTICO_SKEL_Export \
+              -Wb,skel_export_include=Portico_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_PORTICO_SVNT_Export \
+              -Wb,svnt_export_include=Portico_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    Portico_Events.idl
+  }
+
+  Source_Files {
+    Portico_AttributeHandle.cpp
+    Portico_EventsC.cpp
+    Portico_ObjectClass_Factory.cpp
+    Portico_ObjectClass_Factory.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+    Portico_ObjectClass_Trait_T.h
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_Portico_skel) : ccm_svnt, cutslib {
+  sharedname    = iCCM_Portico_skel
+  dynamicflags += ICCM_PORTICO_SKEL_BUILD_DLL
+
+  after += iCCM_Portico_stub
+  libs  += iCCM_Portico_stub
+
+  Source_Files {
+    Portico_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_Portico_svnt) : boost_base, requires_portico, iccm_servant, cutslib {
+  sharedname    = iCCM_Portico_svnt
+  dynamicflags += ICCM_PORTICO_SVNT_BUILD_DLL
+
+  after += iCCM_Portico_skel
+  libs  += iCCM_Portico_skel iCCM_Portico_stub
+
+  Source_Files {
+    Portico_EventConsumer.cpp
+    Portico_Servant.cpp
+    Portico_Publisher.cpp
+    Portico_Publisher_Table.cpp
+  }
+
+  Template_Files {
+    Portico_EventConsumer_T.cpp
+    Portico_Servant_T.cpp
+    Portico_Publisher_T.cpp
+    Portico_Publisher_Table_T.cpp
+  }
+
+  IDL_Files {
+
+  }
+}

@@ -1,3 +1,71 @@
+Wed May  1 17:51:34 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/portico:
+        * cuts/iccm/arch/portico/Portico_iCCM.mwc:
+        * cuts/iccm/arch/portico/Portico_locality.config:
+        * cuts/iccm/arch/portico/compiler:
+        * cuts/iccm/arch/portico/compiler/Compiler.cpp:
+        * cuts/iccm/arch/portico/compiler/Context.h:
+        * cuts/iccm/arch/portico/compiler/Context.cpp:
+        * cuts/iccm/arch/portico/compiler/Event_ObjectClass.h:
+        * cuts/iccm/arch/portico/compiler/Event_ObjectClass.cpp:
+        * cuts/iccm/arch/portico/compiler/Event_ObjectClass_Factory.h:
+        * cuts/iccm/arch/portico/compiler/Event_ObjectClass_Factory.cpp:
+        * cuts/iccm/arch/portico/compiler/Event_Traits.h:
+        * cuts/iccm/arch/portico/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/portico/compiler/Portico_Compiler.mpc:
+        * cuts/iccm/arch/portico/compiler/Stub_File.h:
+        * cuts/iccm/arch/portico/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/portico/deployment:
+        * cuts/iccm/arch/portico/deployment/Portico_Component_Instance_Handler.h:
+        * cuts/iccm/arch/portico/deployment/Portico_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/portico/deployment/Portico_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/portico/deployment/Portico_Container.h:
+        * cuts/iccm/arch/portico/deployment/Portico_Container.inl:
+        * cuts/iccm/arch/portico/deployment/Portico_Container.cpp:
+        * cuts/iccm/arch/portico/deployment/Portico_Container_Strategy.h:
+        * cuts/iccm/arch/portico/deployment/Portico_Container_Strategy.inl:
+        * cuts/iccm/arch/portico/deployment/Portico_Container_Strategy.cpp:
+        * cuts/iccm/arch/portico/deployment/Portico_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/portico/deployment/Portico_Deployment_Handlers_export.h:
+        * cuts/iccm/arch/portico/servant:
+        * cuts/iccm/arch/portico/servant/Portico_AttributeHandle.h:
+        * cuts/iccm/arch/portico/servant/Portico_AttributeHandle.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_EventConsumer.h:
+        * cuts/iccm/arch/portico/servant/Portico_EventConsumer.inl:
+        * cuts/iccm/arch/portico/servant/Portico_EventConsumer.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_EventConsumer_T.h:
+        * cuts/iccm/arch/portico/servant/Portico_EventConsumer_T.inl:
+        * cuts/iccm/arch/portico/servant/Portico_EventConsumer_T.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Events.idl:
+        * cuts/iccm/arch/portico/servant/Portico_ObjectClass.h:
+        * cuts/iccm/arch/portico/servant/Portico_ObjectClass.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_ObjectClass_Factory.h:
+        * cuts/iccm/arch/portico/servant/Portico_ObjectClass_Factory.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_ObjectClass_Trait_T.h:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher.h:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_T.h:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_T.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_T.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_Table.h:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_Table.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_Table.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_Table_T.h:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_Table_T.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Servant.h:
+        * cuts/iccm/arch/portico/servant/Portico_Servant.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Servant.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Servant.mpc:
+        * cuts/iccm/arch/portico/servant/Portico_Servant_T.h:
+        * cuts/iccm/arch/portico/servant/Portico_Servant_T.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Servant_T.cpp:
+
+          First pass at the Portico iCCM architecture.  There are currently
+          compilation errors related to destructor exception signatures.
+
 Fri Apr 19 15:22:43 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * ChangeLogs/ChangeLog-1_0_6:
