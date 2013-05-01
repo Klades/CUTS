@@ -60,7 +60,7 @@ install (const std::string & fed, const std::string & exec)
 
     this->rtiamb_.joinFederationExecution (this->name_.c_str (),
                                            exec.c_str (),
-                                           this);
+                                           &this->nfamb_);
 
     // Save the execution name.
     this->execname_ = exec;

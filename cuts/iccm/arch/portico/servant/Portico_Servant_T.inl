@@ -20,7 +20,7 @@ Portico_Servant_T (T * _this, const char * name, ::PortableServer::POA_ptr port_
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 CUTS_INLINE
-Portico_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::~Portico_Servant_T (void) throw (RTI::FederateInternalError)
+Portico_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::~Portico_Servant_T (void)
 {
 
 }

@@ -23,7 +23,7 @@ Portico_Servant::Portico_Servant (const char * name)
 // ~Portico_Servant
 //
 CUTS_INLINE
-Portico_Servant::~Portico_Servant (void) throw (RTI::FederateInternalError)
+Portico_Servant::~Portico_Servant (void)
 {
 
 }
@@ -53,6 +53,15 @@ CUTS_INLINE
 const RTIfedTime & Portico_Servant::federate_time (void) const
 {
   return this->federate_time_;
+}
+
+//
+// null_ambassador
+//
+CUTS_INLINE
+NullFederateAmbassador & Portico_Servant::null_ambassador (void)
+{
+  return this->nfamb_;
 }
 
 }

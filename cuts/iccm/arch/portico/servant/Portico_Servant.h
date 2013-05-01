@@ -41,7 +41,6 @@ namespace iCCM
  * domain-specific configuration information.
  */
 class ICCM_PORTICO_SVNT_Export Portico_Servant :
-  public NullFederateAmbassador,
   public Servant
 {
 public:
@@ -65,6 +64,7 @@ public:
 
   /// Remove the servant.
   virtual void remove (void);
+
 
   /**
    * The federate ambassador has discovered a new object in
@@ -95,6 +95,9 @@ public:
   /// Get a reference to the RTI ambassador
   const RTI::RTIambassador & rti_ambassador (void) const;
 
+  // Get a reference to the null federate ambassador
+  NullFederateAmbassador & null_ambassador (void);
+
   /**
    * Advance the simulation by the specified amount of time. Control
    * does not return from this method until the request time amount is
@@ -114,6 +117,9 @@ public:
   void wait_for_object_discovery (const ACE_Time_Value * tv = 0);
 
 protected:
+  /// The NullFederate ambassador
+  NullFederateAmbassador nfamb_;
+
   /// RTI ambassador for the servant.
   RTI::RTIambassador rtiamb_;
 

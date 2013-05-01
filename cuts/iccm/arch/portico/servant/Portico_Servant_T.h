@@ -59,7 +59,7 @@ public:
     typename EXECUTOR::_ptr_type impl);
 
   /// Destructor.
-  virtual ~Portico_Servant_T (void) throw (RTI::FederateInternalError);
+  virtual ~Portico_Servant_T (void);
 
   /// Configure the servant with RTI. This is when the servant
   /// initializes its ports.

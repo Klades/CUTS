@@ -1,3 +1,14 @@
+Wed May  1 18:08:56 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/portico/servant/Portico_Servant.h:
+        * cuts/iccm/arch/portico/servant/Portico_Servant.inl:
+        * cuts/iccm/arch/portico/servant/Portico_Servant.cpp:
+        * cuts/iccm/arch/portico/servant/Portico_Servant_T.h:
+        * cuts/iccm/arch/portico/servant/Portico_Servant_T.inl:
+
+          Made the servant a delegate of the NullFederateAmbassador.
+          Compilation errors are now fixed.
+
 Wed May  1 17:51:34 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/portico:
