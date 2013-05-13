@@ -1,9 +1,8 @@
 // $Id$
 
-project (iCCM_Portico_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
+project (iCCM_Portico_Deployment_Handlers) : iccm_portico_stub, iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
   sharedname    = iCCM_Portico_Deployment_Handlers
   dynamicflags += ICCM_PORTICO_DEPLOYMENT_HANDLERS_BUILD_DLL
-  after += iCCM_Portico_stub
 
   Source_Files {
     Portico_Container.cpp
