@@ -100,6 +100,11 @@ DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
 template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::send_event (EVENT * ev)
 {
+  // Hack to fix OpenSplice (issue 316)
+  #ifdef _ICCM_OPENSPLICE_H_
+  this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
+  #endif
+
   typedef typename T::returncode_type returncode_type;
   returncode_type retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
 
