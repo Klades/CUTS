@@ -1,3 +1,11 @@
+Mon Jun  3 13:40:04 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+
+          Added helper method for registering the event instance.  If the
+          event fails to send, it is re-registered and sent again.
+
 Thu May 30 15:14:43 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:

@@ -118,6 +118,9 @@ public:
   virtual EVENT * allocate_event (void);
 
 private:
+  /// Helper method for registering the event instance
+  void register_instance (void);
+
   /// The instance handle for the writer.
   typename T::instancehandle_type inst_;
 

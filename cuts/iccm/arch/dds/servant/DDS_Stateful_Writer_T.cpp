@@ -91,6 +91,15 @@ DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
 : DDS_Stateful_Writer_T <T, EVENT> (writer),
   inst_ (T::HANDLE_NIL)
 {
+  this->register_instance ();
+}
+
+//
+// register_instance
+//
+template <typename T, typename EVENT>
+void DDS_Registered_Instance_Writer_T <T, EVENT>::register_instance (void)
+{
   this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
 }
 
@@ -100,18 +109,21 @@ DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
 template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::send_event (EVENT * ev)
 {
-  // Hack to fix OpenSplice (issue 316)
-  #ifdef _ICCM_OPENSPLICE_H_
-  this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
-  #endif
-
   typedef typename T::returncode_type returncode_type;
   returncode_type retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
 
   if (retcode != T::RETCODE_OK)
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - failed to write event [retcode=%d]\n"),
-                retcode));
+  {
+    // Sending failed, register instance and try again
+    this->register_instance ();
+    retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
+    if (retcode != T::RETCODE_OK)
+    {
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to write event [retcode=%d]\n"),
+                  retcode));
+    }
+  }
 
   ACE_UNUSED_ARG (ev);
 }
