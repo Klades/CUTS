@@ -74,7 +74,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
       emits->configure (this->publisher_,
                         TRAIT::topic_qos_default (),
-                        topic_name.c_str ());
+                        topic_name.c_str (),
+                        false);
     }
   }
 
@@ -98,7 +99,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
 
       pub_table->configure (this->publisher_,
                             TRAIT::topic_qos_default (),
-                            topic_name.c_str ());
+                            topic_name.c_str (),
+                            false);
     }
   }
 }
@@ -112,23 +114,24 @@ DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 create_datawriter (const char * name,
                    const typename TRAIT::topicqos_type & topic_qos,
                    typename TRAIT::publisher_ptr_type publisher,
-                   bool is_private)
+                   bool isprivate,
+                   bool isinstance)
 {
   // Locate the target publisher, or publisher table.
   typename TRAIT::publisher_type * emits = 0;
   typename TRAIT::publisher_table_type * publishes = 0;
   typename TRAIT::datawriter_var_type data_writer;
 
-  const ACE_CString topic_name = is_private ? this->name_ + "." + name : name;
+  const ACE_CString topic_name = isprivate ? this->name_ + "." + name : name;
 
   if (0 == this->emits_.find (name, emits))
   {
-    emits->configure (publisher, topic_qos, topic_name.c_str ());
+    emits->configure (publisher, topic_qos, topic_name.c_str (), isinstance);
     data_writer = emits->get_datawriter ();
   }
   else if (0 == this->publishes_.find (name, publishes))
   {
-    publishes->configure (publisher, topic_qos, topic_name.c_str ());
+    publishes->configure (publisher, topic_qos, topic_name.c_str (), isinstance);
     data_writer = publishes->get_datawriter ();
   }
   else

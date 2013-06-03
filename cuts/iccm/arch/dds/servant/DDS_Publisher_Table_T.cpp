@@ -18,7 +18,8 @@ template <typename T, typename EVENT>
 void DDS_Publisher_Table_T <T, EVENT>::
 configure (publisher_ptr_type publisher,
            const topicqos_type & topic_qos,
-           const char * topic_name)
+           const char * topic_name,
+           bool isinstance)
 {
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - configuring %s\n"),
@@ -75,7 +76,7 @@ configure (publisher_ptr_type publisher,
 
   // Store the concrete writer type and register an instance.
   writer_type * writer = 0;
-  if (true)
+  if (isinstance)
   {
     typedef DDS_Registered_Instance_Writer_T <T, EVENT> WRITER_TYPE;
     ACE_NEW_THROW_EX (writer,

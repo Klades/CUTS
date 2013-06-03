@@ -14,7 +14,8 @@ template <typename T, typename EVENT>
 void DDS_Publisher_T <T, EVENT>::
 configure (publisher_ptr_type publisher,
            const topicqos_type & topic_qos,
-           const char * topic_name)
+           const char * topic_name,
+           bool isinstance)
 {
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
@@ -54,25 +55,25 @@ configure (publisher_ptr_type publisher,
   // this provider object.
   DDS_Publisher <T>::configure (publisher, topic);
 
-  // Finally, store the concrete writer type.
-  typedef typename event_traits_type::writer_type writer_type;
-  this->writer_ = T::template _writer_cast < writer_type > (this->abs_writer_);
-}
+  // Store the concrete writer type and register an instance.
+  writer_type * writer = 0;
+  if (isinstance)
+  {
+    typedef DDS_Registered_Instance_Writer_T <T, EVENT> WRITER_TYPE;
+    ACE_NEW_THROW_EX (writer,
+                      WRITER_TYPE (this->abs_writer_),
+                      ::CORBA::NO_MEMORY ());
+  }
+  else
+  {
+    typedef DDS_Unregistered_Instance_Writer_T <T, EVENT> WRITER_TYPE;
+    ACE_NEW_THROW_EX (writer,
+                      WRITER_TYPE (this->abs_writer_),
+                      ::CORBA::NO_MEMORY ());
+  }
 
-//
-// allocate_event
-//
-template <typename T, typename EVENT>
-EVENT * DDS_Publisher_T <T, EVENT>::allocate_event (void)
-{
-  typedef typename event_traits_type::downcall_event_type downcall_event_type;
+  this->writer_.reset (writer);
 
-  downcall_event_type * ev = 0;
-  ACE_NEW_THROW_EX (ev,
-                    downcall_event_type (),
-                    ::CORBA::NO_MEMORY ());
-
-  return ev;
 }
 
 //
@@ -98,35 +99,8 @@ void DDS_Publisher_T <T, EVENT>::connect (::Components::EventConsumerBase_ptr p)
   // Add a topic to the consumer.
   typedef typename T::topic_var_type topic_var_type;
 
-  topic_var_type topic = this->writer_->get_topic ();
+  topic_var_type topic = this->abs_writer_->get_topic ();
   consumer->add_topic (topic->get_name ());
-}
-
-//
-// send_event
-//
-template <typename T, typename EVENT>
-void DDS_Publisher_T <T, EVENT>::send_event (EVENT * ev)
-{
-  // Convert the CORBA event into a DDS event.
-  typedef typename event_traits_type::downcall_event_type downcall_event_type;
-  downcall_event_type * downcall = dynamic_cast <downcall_event_type *> (ev);
-
-  if (0 != ev)
-  {
-    typedef typename T::returncode_type returncode_type;
-    returncode_type retcode = this->writer_->write (downcall->dds_event (), T::HANDLE_NIL);
-
-    if (0 != retcode)
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to write event [retcode=%d]\n"),
-                  retcode));
-  }
-  else
-  {
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - invalid event type\n")));
-  }
 }
 
 }

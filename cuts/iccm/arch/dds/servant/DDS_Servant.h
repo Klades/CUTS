@@ -76,7 +76,8 @@ protected:
     create_datawriter (const char * name,
                        const topicqos_type & topic_qos,
                        publisher_ptr_type publisher,
-                       bool is_global) = 0;
+                       bool isprivate,
+                       bool isinstance) = 0;
 
   /// Configure the event consumer for future data readers.
   virtual void

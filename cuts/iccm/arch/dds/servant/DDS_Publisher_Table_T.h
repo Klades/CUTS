@@ -59,7 +59,8 @@ public:
    */
   virtual void configure (publisher_ptr_type publisher,
                           const topicqos_type & qos,
-                          const char * topic_name);
+                          const char * topic_name,
+                          bool isinstance);
 
   /**
    * Subscribe an event consumer.

@@ -1,3 +1,26 @@
+Mon Jun  3 15:55:22 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+
+          Added boolean to control what kind of Stateful_Writer to create
+          based on the QoS XML isinstance property.  DDS_Publisher_T now uses
+          the Stateful_Writer abstraction rather than duplicating the logic.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.cpp:
+
+          Modified to pass the isinstance property through.
+
 Mon Jun  3 13:40:04 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.h:

@@ -10,8 +10,6 @@ namespace iCCM
 template <typename T, typename EVENT>
 CUTS_INLINE
 DDS_Publisher_T <T, EVENT>::DDS_Publisher_T (void)
-: writer_ (0),
-  inst_ (T::HANDLE_NIL)
 {
 
 }
@@ -24,6 +22,26 @@ CUTS_INLINE
 DDS_Publisher_T <T, EVENT>::~DDS_Publisher_T (void)
 {
 
+}
+
+//
+// allocate_event
+//
+template <typename T, typename EVENT>
+CUTS_INLINE
+EVENT * DDS_Publisher_T <T, EVENT>::allocate_event (void)
+{
+  return this->writer_->allocate_event ();
+}
+
+//
+// send_event
+//
+template <typename T, typename EVENT>
+CUTS_INLINE
+void DDS_Publisher_T <T, EVENT>::send_event (EVENT * ev)
+{
+  return this->writer_->send_event (ev);
 }
 
 }

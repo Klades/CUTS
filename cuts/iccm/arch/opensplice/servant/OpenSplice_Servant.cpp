@@ -873,7 +873,8 @@ configure_datawriter (const ::iccm::DataWriterQos & value)
     this->create_datawriter (value.name ().c_str (),
                              *topic_qos,
                              publisher.in (),
-                             value.isprivate ());
+                             value.isprivate (),
+                             value.isinstance ());
 
   if (!CORBA::is_nil (writer.in ()))
   {

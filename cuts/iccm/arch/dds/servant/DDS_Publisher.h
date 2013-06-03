@@ -52,7 +52,8 @@ public:
    */
   virtual void configure (publisher_ptr_type publisher,
                           const topicqos_type & topic_qos,
-                          const char * topic_name) = 0;
+                          const char * topic_name,
+                          bool isinstance) = 0;
 
   /// Get the container data writer for this publisher.
   datawriter_ptr_type get_datawriter (void);

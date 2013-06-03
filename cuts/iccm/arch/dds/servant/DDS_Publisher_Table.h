@@ -50,7 +50,8 @@ public:
    */
   virtual void configure (publisher_ptr_type publisher,
                           const topicqos_type & qos,
-                          const char * topic_name) = 0;
+                          const char * topic_name,
+                          bool isinstance) = 0;
 
   /// Get the publisher table data writer.
   datawriter_ptr_type get_datawriter (void);

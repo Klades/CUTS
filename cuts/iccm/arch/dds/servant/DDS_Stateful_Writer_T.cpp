@@ -100,6 +100,8 @@ DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
 template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::register_instance (void)
 {
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Registering event with DDS\n")));
   this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
 }
 

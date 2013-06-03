@@ -61,7 +61,8 @@ protected:
     create_datawriter (const char * name,
                        const typename TRAIT::topicqos_type & topic_qos,
                        typename TRAIT::publisher_ptr_type publisher,
-                       bool is_global);
+                       bool isprivate,
+                       bool isinstance);
 
   virtual void
     configure_eventconsumer (const char * name,

@@ -52,7 +52,8 @@ public:
    */
   virtual void configure (publisher_ptr_type publisher,
                           const topicqos_type & topic_qos,
-                          const char * topic_name);
+                          const char * topic_name,
+                          bool isinstance);
 
   // Connect the consumer.
   virtual void connect (::Components::EventConsumerBase_ptr consumer);
@@ -69,11 +70,15 @@ public:
   EVENT * allocate_event (void);
 
 protected:
+  typedef DDS_Stateful_Writer_T <T, EVENT> writer_type;
+
+  ACE_Auto_Ptr <writer_type> writer_;
+
   /// Type specific writer for the publisher.
-  typename event_traits_type::writer_var_type writer_;
+//  typename event_traits_type::writer_var_type writer_;
 
   /// The instance handle for the writer.
-  typename T::instancehandle_type inst_;
+//  typename T::instancehandle_type inst_;
 };
 
 }
