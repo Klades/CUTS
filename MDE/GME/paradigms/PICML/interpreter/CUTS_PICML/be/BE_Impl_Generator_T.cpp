@@ -259,15 +259,15 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet)
 {
   //// Begin the generation of the provided request port.
-  //CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
-  //port_begin_gen.generate (facet);
+  CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
+  port_begin_gen.generate (facet);
 
   //CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
   //exec_visitor.generate (facet);
 
   //// End the generation of the provided request port.
-  //CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
-  //port_end_gen.generate (facet);
+  CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
+  port_end_gen.generate (facet);
 }
 
 //
@@ -278,20 +278,20 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_ProvidedRequestPort_impl (PICML::ProvidedRequestPort_in facet)
 {
   // Get the parent component and the facet's interface/object.
-  //PICML::Component component = PICML::Component::Cast (facet.parent ());
-  //PICML::Object object = PICML::Object::Cast (facet.ref ());
+  PICML::Component component = PICML::Component::Cast (facet.parent ());
+  PICML::Object object = PICML::Object::Cast (facet.ref ());
 
-  //if (object != Udm::null)
-  //{
-  //  // Write the beginning of the facet's implementation.
-  //  CUTS_BE_Object_Impl_Begin_T <CONTEXT>::generate (component, facet);
+  if (object != Udm::null)
+  {
+    // Write the beginning of the facet's implementation.
+    CUTS_BE_Object_Impl_Begin_T <CONTEXT>::generate (component, facet);
 
-  //  CUTS_BE::visit <CONTEXT> (object,
-  //    boost::bind (&PICML::Object::Accept, _1, boost::ref (*this)));
+    CUTS_BE::visit <CONTEXT> (object,
+      boost::bind (&PICML::Object::Accept, _1, boost::ref (*this)));
 
-  //  // Write the end of the facet's implementation.
-  //  CUTS_BE_Object_Impl_End_T <CONTEXT>::generate (component, facet);
-  //}
+    // Write the end of the facet's implementation.
+    CUTS_BE_Object_Impl_End_T <CONTEXT>::generate (component, facet);
+  }
 }
 
 //
@@ -446,9 +446,9 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_TwowayOperation (PICML::TwowayOperation_in twoway)
 {
-  //CUTS_BE_TwowayOperation_Begin_T <CONTEXT>::generate (twoway);
+  CUTS_BE_TwowayOperation_Begin_T <CONTEXT>::generate (twoway);
 
-  //CUTS_BE_TwowayOperation_End_T <CONTEXT>::generate (twoway);
+  CUTS_BE_TwowayOperation_End_T <CONTEXT>::generate (twoway);
 }
 
 //
@@ -458,9 +458,9 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_OnewayOperation (PICML::OnewayOperation_in oneway)
 {
-  //CUTS_BE_OnewayOperation_Begin_T <CONTEXT>::generate (oneway);
+  CUTS_BE_OnewayOperation_Begin_T <CONTEXT>::generate (oneway);
 
-  //CUTS_BE_OnewayOperation_End_T <CONTEXT>::generate (oneway);
+  CUTS_BE_OnewayOperation_End_T <CONTEXT>::generate (oneway);
 }
 
 //

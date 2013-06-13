@@ -8,6 +8,7 @@
 
 #include "In_Type_Generator.h"
 #include "Retn_Type_Generator.h"
+#include "Object_Impl_Generator.h"
 
 #include "boost/bind.hpp"
 
@@ -205,6 +206,7 @@ generate (const PICML::ComponentImplementationContainer_in container,
     << std::endl
     << CUTS_BE_CPP::include (pathname + "_iCCMC")
     << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Component_T")
+    << CUTS_BE_CPP::include ("tao/LocalObject")
     << std::endl;
 
   // Write the includes for the worker files.
@@ -267,16 +269,32 @@ generate (const PICML::MonolithicImplementation_in impl,
   if (periodics.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Periodic_Event_T");
 
+  auto facets = component->get_ProvidedRequestPorts ();
+
+  if (facets.count ())
+    this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T");
+
   this->ctx_.header_
     << std::endl
+    << "namespace " << namespace_name
+    << "{"
+    << "// Forward decl of the component executor" << std::endl
+    << "class " << implname << ";" << std::endl;
+
+  // This part of the code generates the source file.
+  this->ctx_.source_
     << "namespace " << namespace_name
     << "{";
 
   for (auto outevent : component->get_OutEventPorts ())
     outevent->accept (this);
 
-  for (auto facet : component->get_ProvidedRequestPorts ())
+  for (auto facet : facets)
     facet->accept (this);
+
+  // Generate the object implementations
+  CUTS_BE_CCM::Cpp::Object_Impl_Generator obj_impl_gen (this->ctx_);
+  obj_impl_gen.generate (component);
 
   std::string destructor = "~" + implname;
 
@@ -318,11 +336,6 @@ generate (const PICML::MonolithicImplementation_in impl,
     << CUTS_BE_CPP::single_line_comment ("Destructor")
     << "virtual " << destructor << " (void);"
     << std::endl;
-
-  // This part of the code generates the source file.
-  this->ctx_.source_
-    << "namespace " << namespace_name
-    << "{";
 
   // This part of the code generates the source file.
   this->ctx_.source_
@@ -939,7 +952,9 @@ generate (const PICML::ProvidedRequestPort_in facet)
     << CUTS_BE_CPP::single_line_comment ("facet: " + name)
     << "virtual " << scope << "CCM_" << obj_name << "_ptr" << std::endl
     << "  " << func << " (void);"
-    << std::endl;
+    << "private:" << std::endl
+    << scope << "CCM_" << obj_name << "_var " << name << "_i_;"
+    << "public:" << std::endl;
 
   this->ctx_.source_
     << CUTS_BE_CPP::function_header ("facet: " + name)
@@ -961,9 +976,22 @@ generate (const PICML::ProvidedRequestPort_in port)
 
   std::string obj_scope (CUTS_BE_CPP::scope (obj));
   std::string name (obj->name ());
+  std::string port_class (port->name ());
+  port_class[0] = toupper (port_class[0]);
+  port_class += "_i";
 
   this->ctx_.source_
-    << "return " << obj_scope << "CCM_" << name << "::_nil ();"
+    << "if ( ::CORBA::is_nil (this->" << port->name () << "_i_.in ()))"
+    << "{"
+    << port_class << " * tmp = 0;"
+    << "ACE_NEW_RETURN (" << std::endl
+    << "tmp," << std::endl
+    << port_class << " (this)," << std::endl
+    << "CCM_" << name << "::_nil ());"
+    << "this->" << port->name () << "_i_ = tmp;"
+    << "}"
+    << "return CCM_" << name << "::_duplicate (" << std::endl
+    << "this->" << port->name () << "_i_.in ());"
     << "}";
 }
 

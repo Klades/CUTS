@@ -19,5 +19,6 @@ project (CUTS_BE_CCM) : boost_base, cuts_picml_game_mga, cuts_be_cpp, cuts_cosmi
     Traits.cpp
     Type_System.cpp
     Workspace_Generator.cpp
+    Object_Impl_Generator.cpp
   }
 }
