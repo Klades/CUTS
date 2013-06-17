@@ -614,6 +614,83 @@ generate (const PICML::MultiInputAction_in action)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Variables_Begin_T
+
+void CUTS_BE_Variables_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::Component & component)
+{
+  typedef std::vector <PICML::Variable> Variable_Set;
+  Variable_Set vars = component.Variable_kind_children ();
+  Variable_Set::iterator iter = vars.begin ();
+
+  for (; iter != vars.end (); ++iter)
+  {
+    PICML::Variable & variable = *iter;
+    PICML::PredefinedType type = variable.ref ();
+
+    if (type != Udm::null)
+    {
+      // Generate the setter methods
+      std::string name (variable.name ());
+
+      PICML::Component parent = PICML::Component::Cast (variable.parent ());
+      std::string parent_name (parent.name ());
+
+      // This part generates the header information.
+      this->ctx_.header_
+        << "public:" << std::endl
+        << CUTS_BE_CPP::single_line_comment ("variable setter: " + name)
+        << "virtual void " << name << " (";
+
+      CUTS_BE_CCM::Cpp::In_Type_Generator in_type_header_gen (this->ctx_.header_);
+      in_type_header_gen.generate (type);
+
+      this->ctx_.header_
+        << " " << name << ");"
+        << std::endl;
+
+      CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_header_gen (this->ctx_.header_);
+
+      this->ctx_.header_
+        << CUTS_BE_CPP::single_line_comment ("variable getter: " + name)
+        << "virtual ";
+      retn_type_header_gen.generate (type);
+      this->ctx_.header_
+        << " " << name << " (void);" << std::endl;
+
+      // This part generates the source information.
+      this->ctx_.source_
+        << CUTS_BE_CPP::function_header ("variable setter: " + name)
+        << "void " << parent_name << "::" << name << " (";
+
+      CUTS_BE_CCM::Cpp::In_Type_Generator in_type_source_gen (this->ctx_.source_);
+      in_type_source_gen.generate (type);
+
+      this->ctx_.source_
+        << " " << name << ")"
+        << "{"
+        << "this->" << name << "_ = " << name << ";"
+        << "}";
+
+      CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_source_gen (this->ctx_.source_);
+
+      this->ctx_.source_
+        << CUTS_BE_CPP::function_header ("variable getter: " + name);
+
+      retn_type_source_gen.generate (type);
+      this->ctx_.source_
+        << " " << parent_name << "::" << name << " (void)"
+        << "{"
+        << "return this->" << name << "_;"
+        << "}";
+    }
+  }
+
+  this->ctx_.header_
+    << "private:" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Attribute_Begin_T
 
 void CUTS_BE_Attribute_Begin_T <CUTS_BE_CCM::Cpp::Context>::

@@ -552,7 +552,7 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 write_variables_i (const PICML::Component_in component)
 {
-  CUTS_BE_Variables_Begin_T <behavior_type> var_begin_gen (this->context_);
+  CUTS_BE_Variables_Begin_T <architecture_type> var_begin_gen (this->context_);
   var_begin_gen.generate (component);
 
   // Write all the basic variables.

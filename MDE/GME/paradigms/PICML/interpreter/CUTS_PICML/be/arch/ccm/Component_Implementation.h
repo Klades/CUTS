@@ -223,6 +223,23 @@ public:
 };
 
 /**
+ * @class CUTS_BE_Variables_Begin_T
+ */
+template < >
+class CUTS_BE_CCM_Export CUTS_BE_Variables_Begin_T <CUTS_BE_CCM::Cpp::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CCM::Cpp::Context, PICML::Visitor>
+{
+public:
+  typedef public CUTS_BE_Visitor_T <CUTS_BE_CCM::Cpp::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_Variables_Begin_T (CUTS_BE_CCM::Cpp::Context & context);
+
+  virtual ~CUTS_BE_Variables_Begin_T (void);
+
+  void generate (const PICML::Component & component);
+};
+
+/**
  * @class CUTS_BE_Attribute_Begin_T
  */
 template < >
