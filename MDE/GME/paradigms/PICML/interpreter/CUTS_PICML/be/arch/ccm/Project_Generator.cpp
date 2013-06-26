@@ -384,15 +384,17 @@ generate (const CUTS_BE_IDL_Node & node)
   if (node.has_components_ || node.has_events_ || node.has_interfaces_)
   {
     this->generate_skel_project (node);
-    this->generate_eidl_project (node);
 
-    if (node.has_components_ || node.has_interfaces_)
-    {
+    bool object_has_reference = this->file_has_object_with_reference (node.file_);
+
+    if (object_has_reference || node.has_components_ || node.has_events_)
+      this->generate_eidl_project (node);
+
+    if (object_has_reference || node.has_components_)
       this->generate_exec_project (node);
 
-      if (node.has_components_)
-        this->generate_svnt_project (node);
-    }
+    if (node.has_components_)
+      this->generate_svnt_project (node);
   }
 }
 
@@ -448,6 +450,24 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
     this->ctx_.project_
       << std::endl
       << "  idlflags -= -Gsv" << std::endl;
+  }
+
+  if (!node.references_.empty ())
+  {
+    this->ctx_.project_
+      << std::endl
+      << "  after +=";
+
+    CUTS_BE_IDL_Node_Set::const_iterator iter = node.references_.begin (),
+                                         end = node.references_.end ();
+    for (; iter != end; ++iter)
+    {
+      this->ctx_.project_
+        << " " << (*iter)->name_ << "_IDL_Gen";
+    }
+
+    this->ctx_.project_
+      << std::endl;
   }
 
   this->ctx_.project_
@@ -659,6 +679,29 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
     << "  }" << std::endl
     << "}" << std::endl
     << std::endl;
+}
+
+//
+// file_has_object_with_refrence
+//
+bool CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
+file_has_object_with_reference (const PICML::File & file)
+{
+  std::set <PICML::ProvidedRequestPort> pvdports;
+  std::set <PICML::RequiredRequestPort> reqports;
+  std::vector <PICML::Object> objects = file.Object_kind_children ();
+  std::vector <PICML::Object>::iterator iter = objects.begin (),
+                                        end = objects.end ();
+
+  for (; iter != end; ++iter)
+  {
+    pvdports = (*iter).referedbyProvidedRequestPort ();
+    reqports = (*iter).referedbyRequiredRequestPort ();
+    if (pvdports.size () != 0 || reqports.size () != 0)
+      return true;
+  }
+
+  return false;
 }
 
 //
