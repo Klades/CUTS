@@ -1,3 +1,15 @@
+Mon Jul  1 17:15:06 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/rtidds/deployment/RTIDDS_Component_Instance_Handler.cpp:
+
+          Fixed implementation of Domain QoS handling
+
+        * etc/schemas/iccm/dds.xsd:
+
+          Added SystemResourceLimitsQosPolicy to the domain element to address
+          Bug 317 (RTIDDS with 6+ participants)
+
 Mon Jun  3 15:55:22 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_Publisher.h:

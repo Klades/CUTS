@@ -241,6 +241,10 @@
     <xsd:attribute name="use_lifespan" type="xsd:boolean"/>
   </xsd:complexType>
 
+  <xsd:complexType name="SystemResourceLimitsQosPolicy">
+    <xsd:attribute name="max_objects_per_thread" type="xsd:long"/>
+  </xsd:complexType>
+
   <!--
     BEGIN TOP-LEVEL QOS DEFINITIONS
     -->
@@ -268,6 +272,7 @@
   <xsd:complexType name="DomainParticipantFactoryQos">
     <xsd:sequence>
       <xsd:element name="entity_factory" type="EntityFactoryQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="resource_limits" type="SystemResourceLimitsQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
   </xsd:complexType>
 

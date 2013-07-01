@@ -33,8 +33,9 @@ configure (const Deployment::Properties & props)
 
       if (this->load_DDSDomainQoS (props[i], dpf_qos))
         this->configure_DDSDomainQoS (dpf_qos);
+
+      break;
     }
-    break;
   }
 }
 
@@ -68,8 +69,7 @@ load_DDSDomainQoS (const ::Deployment::Property & prop, iccm::DomainParticipantF
                        false);
 
   // Extract the contents of the XML document.
-  iccm::DomainParticipantFactoryQos dpf_qos;
-  file >>= dpf_qos;
+  file >>= qos;
 
   return true;
 }
