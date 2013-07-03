@@ -36,7 +36,7 @@ project (iCCM_Portico_stub) : requires_portico, ccm_stub, cutslib {
   }
 }
 
-project (iCCM_Portico_skel) : ccm_svnt, cutslib {
+project (iCCM_Portico_skel) : requires_portico, ccm_svnt, cutslib {
   sharedname    = iCCM_Portico_skel
   dynamicflags += ICCM_PORTICO_SKEL_BUILD_DLL
 
