@@ -1527,6 +1527,84 @@ generate (const PICML::OutputAction_in)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Begin_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Begin_T <CONTEXT>::
+CUTS_BE_CallAction_Begin_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Begin_T <CONTEXT>::~CUTS_BE_CallAction_Begin_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_CallAction_Begin_T <CONTEXT>::
+generate (const PICML::CallAction &)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Property_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Property_T <CONTEXT>::
+CUTS_BE_CallAction_Property_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Property_T <CONTEXT>::~CUTS_BE_CallAction_Property_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_CallAction_Property_T <CONTEXT>::
+generate (const PICML::CallAction &, const PICML::Property & property)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_End_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_End_T <CONTEXT>::
+CUTS_BE_CallAction_End_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_End_T <CONTEXT>::~CUTS_BE_CallAction_End_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_CallAction_End_T <CONTEXT>::
+generate (const PICML::CallAction &)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_RequestAction_Begin_T
 
 template <typename CONTEXT>

@@ -109,14 +109,6 @@ get_named_publishers (const Components::NameList &)
 
 #endif
 
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
-::CORBA::Object_ptr
-Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::provide_facet (const char *)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}
-
 #if !defined (CCM_LW)
 
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
@@ -137,24 +129,6 @@ get_named_facets (const Components::NameList &)
 }
 
 #endif
-
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
-::Components::Cookie *
-Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-connect (const char *, ::CORBA::Object_ptr)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}
-
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
-::CORBA::Object_ptr
-Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-disconnect (const char *, ::Components::Cookie *)
-{
-  throw CORBA::NO_IMPLEMENT ();
-}
 
 #if !defined (CCM_LW)
 //

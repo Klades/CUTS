@@ -1315,6 +1315,58 @@ public:
 };
 
 /**
+ * @class CUTS_BE_CallAction_Begin_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_CallAction_Begin_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_Begin_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_CallAction_Begin_T (void);
+
+  void generate (const PICML::CallAction & action);
+};
+
+/**
+ * @class CUTS_BE_CallAction_Property_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_CallAction_Property_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_Property_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_CallAction_Property_T (void);
+
+  void generate (const PICML::CallAction & action,
+                 const PICML::Property & prop);
+};
+
+/**
+ * @class CUTS_BE_CallAction_End_T
+ */
+template <typename CONTEXT>
+class CUTS_BE_CallAction_End_T :
+  public CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_End_T (CONTEXT & context);
+
+  virtual ~CUTS_BE_CallAction_End_T (void);
+
+  void generate (const PICML::CallAction & action);
+};
+
+/**
  * @class CUTS_BE_Action_End_T
  */
 template <typename CONTEXT>

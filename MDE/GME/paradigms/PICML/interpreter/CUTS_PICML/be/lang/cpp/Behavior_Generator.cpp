@@ -229,6 +229,37 @@ generate (const PICML::OutputAction_in action)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Begin_T
+
+void CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context>::
+generate (const PICML::CallAction & action)
+{
+  this->ctx_.source_
+    << "// CallAction Begin" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Property_T
+
+void CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context>::
+generate (const PICML::CallAction & action,
+          const PICML::Property & prop)
+{
+  this->ctx_.source_
+    << "// CallAction Property" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_End_T
+
+void CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context>::
+generate (const PICML::CallAction & action)
+{
+  this->ctx_.source_
+    << "// CallAction End" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Precondition_T
 
 void CUTS_BE_Precondition_T <CUTS_BE_CPP::Context>::

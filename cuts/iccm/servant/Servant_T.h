@@ -18,6 +18,9 @@
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
+#include "ace/UUID.h"
+#include <set>
+#include "Cookie.h"
 
 #include "cuts/config.h"
 
@@ -119,9 +122,9 @@ public:
   ::Components::FacetDescriptions * get_named_facets (const Components::NameList &);
 #endif
 
-  ::Components::Cookie * connect (const char *, ::CORBA::Object_ptr);
+  virtual ::Components::Cookie * connect (const char *, ::CORBA::Object_ptr);
 
-  ::CORBA::Object_ptr disconnect (const char *, ::Components::Cookie *);
+  virtual ::CORBA::Object_ptr disconnect (const char *, ::Components::Cookie *);
 
 #if !defined (CCM_LW)
   ::Components::ConnectionDescriptions * get_connections (const char *);
@@ -158,37 +161,50 @@ public:
                            typename SERVANT_BASE::publisher_table_type * & result) const;
 
 protected:
-  /// Type definition of the consumer map.
+  /// Collection of consumers for the servant.
   typedef ACE_Hash_Map_Manager <ACE_CString,
                                 typename SERVANT_BASE::eventconsumer_type *,
                                 ACE_RW_Thread_Mutex>
                                 consumer_map_type;
 
-  /// Collection of consumers for the servant.
   consumer_map_type consumers_;
 
+  /// Collection of publish endpoints.
   typedef ACE_Hash_Map_Manager <ACE_CString,
                                 typename SERVANT_BASE::publisher_table_type *,
                                 ACE_RW_Thread_Mutex>
                                 publishes_map_type;
 
-  /// Collection of publish endpoints.
   publishes_map_type publishes_;
 
+  /// Collection of emits endpoints.
   typedef ACE_Hash_Map_Manager <ACE_CString,
                                 typename SERVANT_BASE::publisher_type *,
                                 ACE_RW_Thread_Mutex>
                                 emits_map_type;
 
-  /// Collection of emits endpoints.
   emits_map_type emits_;
 
+
+  /// Collection of facet endpoints.
+  // FIX: map of <name, pair<obj, set<uuid>>>
+  //typedef std::pair <ACE_Utils::UUID, ::CORBA::Object_var> facets_values_type;
+  typedef std::pair < ::CORBA::Object_var, ACE_Utils::UUID > facets_values_type;
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                facets_values_type,
+                                ACE_RW_Thread_Mutex>
+                                facets_map_type;
+
+  facets_map_type facets_;
 
   /// The actual context for the servant.
   ACE_Auto_Ptr <CONTEXT> ctx_;
 
   /// The implemenation for this servant.
   typename EXECUTOR::_var_type impl_;
+
+  // Helper method for adding facets
+  void add_facet (const char *, ::CORBA::Object_ptr);
 
 private:
   // Helper method to create the port POA.

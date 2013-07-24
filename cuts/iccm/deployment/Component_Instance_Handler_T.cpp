@@ -353,7 +353,8 @@ provide_endpoint_reference (const ::Deployment::DeploymentPlan & plan,
       break;
 
     case ::Deployment::Facet:
-      throw PlanError ("provide_endpoint_reference", "facet connections not supported");
+      obj = comp->provide_facet (ep.portName.in ());
+      break;
 
     default:
       throw PlanError ("provide_endpoint_reference", "invalid connection type");
@@ -425,18 +426,18 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
     if (::CORBA::is_nil (obj.in ()))
       throw StartError ("connect_instance", "any is not an object");
 
-    ::Components::EventConsumerBase_var consumer =
-      ::Components::EventConsumerBase::_narrow (obj.in ());
-
-    if (::CORBA::is_nil (consumer.in ()))
-      throw StartError ("connect_instance", "object is not an EventConsumerBase");
-
     // Finally, locate the correct connection type so that we can
     // return it to the client (or caller).
     switch (ep.kind)
     {
     case ::Deployment::EventPublisher:
       {
+        ::Components::EventConsumerBase_var consumer =
+          ::Components::EventConsumerBase::_narrow (obj.in ());
+
+        if (::CORBA::is_nil (consumer.in ()))
+          throw StartError ("connect_instance", "object is not an EventConsumerBase");
+
         // Subscribe the consumer the correct port.
         ::Components::Cookie_var cookie =
           comp->subscribe (ep.portName.in (), consumer);
@@ -448,6 +449,12 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
 
     case ::Deployment::EventEmitter:
       {
+        ::Components::EventConsumerBase_var consumer =
+          ::Components::EventConsumerBase::_narrow (obj.in ());
+
+        if (::CORBA::is_nil (consumer.in ()))
+          throw StartError ("connect_instance", "object is not an EventConsumerBase");
+
         // Just connect the emitter to the correct port. This is probably
         // the most simple connection to make. ;-)[
         comp->connect_consumer (ep.portName.in (), consumer);
@@ -455,6 +462,14 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
       break;
 
     case ::Deployment::SimplexReceptacle:
+      {
+        ::CORBA::Object_ptr consumer = ::CORBA::Object::_narrow (obj.in ());
+        if (::CORBA::is_nil (consumer))
+          throw StartError ("connect_instance", "object is not a CORBA::Object");
+
+        comp->connect (ep.portName.in (), consumer);
+      }
+      break;
     case ::Deployment::MultiplexReceptacle:
       throw PlanError ("provide_endpoint_reference", "receptacle connections not supports");
       break;

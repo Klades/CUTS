@@ -341,6 +341,58 @@ public:
 };
 
 /**
+ * @class CUTS_BE_CallAction_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_CallAction_Begin_T (void);
+
+  void generate (const PICML::CallAction & action);
+};
+
+/**
+ * @class CUTS_BE_CallAction_Property_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_Property_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_CallAction_Property_T (void);
+
+  void generate (const PICML::CallAction & action,
+                 const PICML::Property & property);
+};
+
+/**
+ * @class CUTS_BE_CallAction_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_CallAction_End_T (void);
+
+  void generate (const PICML::CallAction & action);
+};
+
+/**
  * @class CUTS_BE_Action_End_T
  */
 template < >
