@@ -13,8 +13,10 @@
 #include "ast_interface.h"
 #include "ast_operation.h"
 #include "ast_uses.h"
+#include "ast_argument.h"
 
 #include "utl_identifier.h"
+#include "utl_scope.h"
 #include <iostream>
 namespace iCCM
 {
@@ -693,7 +695,12 @@ public:
 
   virtual int visit_interface (AST_Interface * node)
   {
-    // Can't use visit_scope here since the interface could be defined in a different IDL file
+    return this->visit_scope (node);
+  }
+
+  // Overload visit_scope since interface could be in a different file
+  virtual int visit_scope (UTL_Scope * node)
+  {
     for (UTL_ScopeActiveIterator si (node, UTL_Scope::IK_decls);
          !si.is_done (); si.next ())
     {
@@ -708,6 +715,8 @@ public:
   virtual int visit_operation (AST_Operation * node)
   {
     const char * local_name = node->local_name ()->get_string ();
+    this->first_arg_ = true;
+    this->param_only_ = false;
 
     node->return_type ()->ast_accept (this);
 
@@ -717,9 +726,66 @@ public:
     this->sfile_
       << " " << this->servant_name_ << "::" << local_name << " (";
 
-    // TODO: Support arguments
-    this->hfile_ << "void);";
-    this->sfile_ << "void){this->impl_->" << local_name << "();}";
+    // Build the signature
+    int arg_count = node->argument_count ();
+    if (arg_count == 0)
+    {
+      this->hfile_ << "void";
+      this->sfile_ << "void";
+    }
+    else
+      this->visit_scope (node);
+
+    this->hfile_ << ");";
+    this->sfile_ << "){this->impl_->" << local_name << " (";
+
+    // Build the passthrough args
+    if (arg_count != 0)
+    {
+      this->first_arg_ = true;
+      this->param_only_ = true;
+      this->visit_scope (node);
+    }
+
+    this->sfile_ << ");}";
+
+    return 0;
+  }
+
+  virtual int visit_argument (AST_Argument * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+    ACE_CString param_suffix = "";
+
+    if (this->first_arg_)
+      this->first_arg_ = false;
+    else
+    {
+      this->hfile_ << ", ";
+      this->sfile_ << ", ";
+    }
+
+    if (!this->param_only_)
+    {
+      node->field_type ()->ast_accept (this);
+      switch (node->direction ())
+      {
+        case (AST_Argument::dir_IN):
+          param_suffix = " ";
+          break;
+        case (AST_Argument::dir_OUT):
+          param_suffix = " & ";
+          break;
+        case (AST_Argument::dir_INOUT):
+          param_suffix = " & ";
+          break;
+      }
+    }
+
+    this->hfile_
+      << param_suffix << local_name;
+    this->sfile_
+      << param_suffix << local_name;
 
     return 0;
   }
@@ -783,6 +849,8 @@ private:
   std::ofstream & sfile_;
   ACE_CString context_;
   ACE_CString servant_name_;
+  bool first_arg_;
+  bool param_only_;
 };
 
 //

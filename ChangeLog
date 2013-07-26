@@ -88,11 +88,17 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Fri Jul 26 17:42:20 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Implemented argument handling for object operations
+
 Fri Jul 26 16:25:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.cpp:
-        
+
           Changed Object implementations to not receive the parent component in the constructor
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
@@ -111,7 +117,7 @@ Fri Jul 26 16:25:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
         * cuts/iccm/servant/Receptacle_T.h:
         * cuts/iccm/servant/Receptacle_T.inl:
         * cuts/iccm/servant/Receptacle_T.cpp:
-        
+
           Created abstraction for RequiredRequestPorts.
 
         * cuts/iccm/servant/Servant.mpc:
