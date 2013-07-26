@@ -234,8 +234,15 @@ generate (const PICML::OutputAction_in action)
 void CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context>::
 generate (const PICML::CallAction & action)
 {
+  PICML::TargetRequiredRequestPort target = action.TargetRequiredRequestPort_child ();
+  PICML::RequiredRequestPort port = target.ref ();
+
   this->ctx_.source_
-    << "// CallAction Begin" << std::endl;
+    << "this->ctx_->get_connection_" << port.name () << " ()->" << action.name () << " (";
+
+  // Get the children properties
+  std::vector <PICML::Property> properties = action.Property_children ();
+  this->ctx_.arg_count_ = properties.size ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -245,8 +252,21 @@ void CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context>::
 generate (const PICML::CallAction & action,
           const PICML::Property & prop)
 {
-  this->ctx_.source_
-    << "// CallAction Property" << std::endl;
+  // TODO Add support for complex properties.
+
+  // Write the value of the prop.
+  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+  this->ctx_.source_ << simple.Value ();
+
+  if (this->ctx_.arg_count_ > 1)
+  {
+    // If there are anymore argurments remaining, we need to place a
+    // comma separator for the next argument.
+    this->ctx_.source_ << ", ";
+
+    // Decrement the argument count.
+    -- this->ctx_.arg_count_;
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -256,7 +276,7 @@ void CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context>::
 generate (const PICML::CallAction & action)
 {
   this->ctx_.source_
-    << "// CallAction End" << std::endl;
+    << ");" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

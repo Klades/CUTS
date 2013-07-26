@@ -212,6 +212,9 @@ int Servant_File::visit_root (AST_Root * node)
 
   //======================================================================
 
+  this->hfile_
+    << include_t ("cuts/iccm/servant/Receptacle_T.h");
+
   this->sfile_
     << "// $" << "Id" << "$" << std::endl
     << std::endl

@@ -7,6 +7,7 @@
 #include "ast_component.h"
 #include "ast_publishes.h"
 #include "ast_emits.h"
+#include "ast_uses.h"
 
 #include "utl_identifier.h"
 
@@ -210,6 +211,20 @@ public:
     return 0;
   }
 
+  //
+  // visit_uses
+  //
+  virtual int visit_uses (AST_Uses * node)
+  {
+    this->hfile_
+      << "::iCCM::Receptacle_T < "
+      << node->field_type ()->local_name ()->get_string ()
+      << " > " << node->local_name ()->get_string () << "_;"
+      << std::endl;
+
+    return 0;
+  }
+
 private:
   std::ofstream & hfile_;
   std::ofstream & sfile_;
@@ -276,6 +291,30 @@ public:
       << "return this->" << local_name << "_;"
       << "}";
 
+    return 0;
+  }
+
+  virtual int visit_uses (AST_Uses * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+    const char * type = node->uses_type ()->local_name ()->get_string ();
+
+    this->hfile_
+      << "virtual ::" << type << "_ptr "
+      << "get_connection_" << local_name << " (void);" << std::endl
+      << "iCCM::Receptacle & get_" << local_name << "_receptacle (void);" << std::endl;
+
+    this->sfile_
+      << "::" << type << "_ptr " << this->context_
+      << "::get_connection_" << local_name << "(void)"
+      << "{"
+      << "return this->" << local_name << "_.get_connection ();"
+      << "}"
+      << "iCCM::Receptacle & " << this->context_
+      << "::get_" << local_name << "_receptacle (void)"
+      << "{"
+      << "return this->" << local_name << "_;"
+      << "}";
     return 0;
   }
 

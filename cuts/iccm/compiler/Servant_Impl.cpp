@@ -9,9 +9,13 @@
 #include "ast_emits.h"
 #include "ast_consumes.h"
 #include "ast_attribute.h"
+#include "ast_provides.h"
+#include "ast_interface.h"
+#include "ast_operation.h"
+#include "ast_uses.h"
 
 #include "utl_identifier.h"
-
+#include <iostream>
 namespace iCCM
 {
 /**
@@ -335,8 +339,10 @@ private:
 class Bind_Port : public Scope_Visitor
 {
 public:
-  Bind_Port (std::ofstream & sfile)
-    : sfile_ (sfile)
+  Bind_Port (std::ofstream & sfile,
+             const ACE_CString & servant_name)
+    : sfile_ (sfile),
+      servant_name_ (servant_name)
   {
 
   }
@@ -388,8 +394,54 @@ public:
     return 0;
   }
 
+  //
+  // visit_uses
+  //
+  virtual int visit_uses (AST_Uses * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+
+    this->sfile_
+      << "this->receptacles_.bind (\"" << local_name << "\", &this->ctx_->"
+      << "get_" << local_name << "_receptacle ());";
+
+    return 0;
+  }
+
+  //
+  // visit_provides
+  //
+  virtual int visit_provides (AST_Provides * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+    const char * type = node->provides_type ()->local_name ()->get_string ();
+    ACE_CString facet_servant (local_name);
+    facet_servant += "_svnt";
+
+    this->sfile_
+      << "// Create and activate servant for facet: " << local_name << std::endl
+      << "::CORBA::Object_var " << local_name << "_obj = this->impl_->get_" << local_name << "();"
+      << "::CCM_" << type << "_var " << local_name << "_var = "
+      << "::CCM_" << type << "::_narrow (" << local_name << "_obj.in ());"
+      << facet_servant << " * " << local_name << " = 0;"
+      << "ACE_NEW_THROW_EX (" << std::endl
+      << local_name << "," << std::endl
+      << facet_servant << " (" << std::endl
+      << "&(*this->ctx_)," << std::endl
+      << local_name << "_var.in())," << std::endl
+      << "CORBA::NO_MEMORY ());"
+      << "::PortableServer::ServantBase_var " << local_name << "_i_svnt (" << local_name << ");"
+      << "::PortableServer::ObjectId_var " << local_name << "_oid =" << std::endl
+      << "  PortableServer::string_to_ObjectId (\"" << this->servant_name_ << "_" << local_name << "\");"
+      << "poa->activate_object_with_id (" << local_name << "_oid.in(), " << local_name << "_i_svnt.in ());"
+      << "::CORBA::Object_var " << local_name << "_svnt_obj = poa->id_to_reference (" << local_name << "_oid.in());"
+      << "this->add_facet (\"" << local_name << "\", " << local_name << "_svnt_obj.in ());" << std::endl;
+    return 0;
+  }
+
 private:
   std::ofstream & sfile_;
+  const ACE_CString & servant_name_;
 };
 
 /**
@@ -561,6 +613,177 @@ private:
   bool is_first_;
 };
 
+/**
+ * @class Provides_Facet_Servant
+ */
+class Provides_Facet_Servant : public Scope_Visitor
+{
+public:
+  Provides_Facet_Servant (std::ofstream & hfile,
+                          std::ofstream & sfile,
+                          ACE_CString context)
+    : hfile_ (hfile),
+      sfile_ (sfile),
+      context_ (context)
+  {
+
+  }
+
+  virtual ~Provides_Facet_Servant (void)
+  {
+
+  }
+  virtual int visit_provides (AST_Provides * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+    const char * flat_name = node->flat_name ();
+    const char * full_name = node->full_name ();
+    const char * field_type = node->field_type ()->full_name ();
+
+    this->servant_name_ = local_name;
+    this->servant_name_ += "_svnt";
+
+    // Class declaration
+    this->hfile_
+      << "class " << this->servant_name_ <<std::endl
+      << "  : public virtual ::POA_" << field_type << "," << std::endl
+      << "    public virtual ::PortableServer::ServantBase" << std::endl
+      << "{"
+      << "public:" << std::endl;
+
+    // Constructor
+    this->hfile_
+      << "// Constructor" << std::endl
+      << this->servant_name_ << " (" << this->context_ << " * ctx," << std::endl
+      << "::CCM_" << field_type << "_ptr impl);"
+      << std::endl;
+
+    this->sfile_
+      << this->servant_name_ << "::" << this->servant_name_ << " (" << this->context_ << " * ctx," << std::endl
+      << "::CCM_" << field_type << "_ptr impl)" << std::endl
+      << ": ctx_ (ctx)," << std::endl
+      << "  impl_ (impl)" << std::endl
+      << "{"
+      << std::endl
+      << "}";
+
+    // Destructor
+    this->hfile_
+      << "// Destructor" << std::endl
+      << "~" << this->servant_name_ << "(void);"
+      << std::endl;
+
+    this->sfile_
+      << this->servant_name_ << "::~" << this->servant_name_ << " (void)" << std::endl
+      << "{"
+      << std::endl
+      << "}";
+
+    // Visit the type to generate the interface
+    node->provides_type ()->ast_accept (this);
+
+    this->hfile_
+      << "private:" << std::endl
+      << this->context_ << " * ctx_;"
+      << "::CCM_" << field_type << "_ptr impl_;"
+      << "};";
+
+    return 0;
+  }
+
+  virtual int visit_interface (AST_Interface * node)
+  {
+    // Can't use visit_scope here since the interface could be defined in a different IDL file
+    for (UTL_ScopeActiveIterator si (node, UTL_Scope::IK_decls);
+         !si.is_done (); si.next ())
+    {
+      AST_Decl * d = si.item ();
+
+      if (0 != d->ast_accept (this))
+        return -1;
+    }
+    return 0;
+  }
+
+  virtual int visit_operation (AST_Operation * node)
+  {
+    const char * local_name = node->local_name ()->get_string ();
+
+    node->return_type ()->ast_accept (this);
+
+    this->hfile_
+      << " " << local_name << " (";
+
+    this->sfile_
+      << " " << this->servant_name_ << "::" << local_name << " (";
+
+    // TODO: Support arguments
+    this->hfile_ << "void);";
+    this->sfile_ << "void){this->impl_->" << local_name << "();}";
+
+    return 0;
+  }
+
+  virtual int visit_predefined_type (AST_PredefinedType * node)
+  {
+    ACE_CString type;
+    switch (node->pt ())
+    {
+    case (AST_PredefinedType::PT_long):
+      type = "long";
+      break;
+    case (AST_PredefinedType::PT_ulong):
+      type = "ulong";
+      break;
+    case (AST_PredefinedType::PT_longlong):
+      type = "longlong";
+      break;
+    case (AST_PredefinedType::PT_ulonglong):
+      type = "ulonglong";
+      break;
+    case (AST_PredefinedType::PT_short):
+      type = "short";
+      break;
+    case (AST_PredefinedType::PT_ushort):
+      type = "ushort";
+      break;
+    case (AST_PredefinedType::PT_float):
+      type = "float";
+      break;
+    case (AST_PredefinedType::PT_double):
+      type = "double";
+      break;
+    case (AST_PredefinedType::PT_longdouble):
+      type = "longdouble";
+      break;
+    case (AST_PredefinedType::PT_char):
+      type = "char";
+      break;
+    case (AST_PredefinedType::PT_wchar):
+      type = "wchar";
+      break;
+    case (AST_PredefinedType::PT_boolean):
+      type = "bool";
+      break;
+    case (AST_PredefinedType::PT_octet):
+      type = "octet";
+      break;
+    case (AST_PredefinedType::PT_void):
+      type = "void";
+      break;
+    }
+
+    this->hfile_ << type;
+    this->sfile_ << type;
+    return 0;
+  }
+
+private:
+  std::ofstream & hfile_;
+  std::ofstream & sfile_;
+  ACE_CString context_;
+  ACE_CString servant_name_;
+};
 
 //
 // Servant_Impl
@@ -595,6 +818,9 @@ int Servant_Impl::visit_component (AST_Component * node)
   const char * local_name = node->local_name ()->get_string ();
   const char * flat_name = node->flat_name ();
   const char * full_name = node->full_name ();
+
+  Provides_Facet_Servant facet_servant (this->hfile_, this->sfile_, context);
+  facet_servant.visit_scope (node);
 
   this->hfile_
     << "// Type definition of the servant base type." << std::endl
@@ -653,7 +879,7 @@ int Servant_Impl::visit_component (AST_Component * node)
 
   be_global->generate_constructor_preamble (node, this->sfile_);
 
-  Bind_Port bind_port (this->sfile_);
+  Bind_Port bind_port (this->sfile_, servant);
   bind_port.visit_scope (node);
 
   // Allow backend to generate any additionl initialization code

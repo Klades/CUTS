@@ -77,12 +77,11 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
   // Generate the constructor
   this->ctx_.header_
     << "// Constructor" << std::endl
-    << this->impl_name_ << " (" << this->component_name_ << " * parent);" << std::endl;
+    << this->impl_name_ << " (void);" << std::endl;
 
   this->ctx_.source_
     << CUTS_BE_CPP::function_header (this->impl_name_)
-    << this->impl_name_ << "::" << this->impl_name_ << " (" << this->component_name_ << " * parent)" << std::endl
-    << ": parent_ (parent)"
+    << this->impl_name_ << "::" << this->impl_name_ << " ()" << std::endl
     << "{}";
 
   // Generate the destructor
@@ -100,9 +99,6 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 
   // Close the class
   this->ctx_.header_
-    << "private:" << std::endl
-    << CUTS_BE_CPP::single_line_comment ("The parent component")
-    << this->component_name_ << " * parent_;"
     << "};";
 }
 
@@ -168,7 +164,7 @@ Visit_OnewayOperation (const PICML::OnewayOperation & oneway)
 
   // Write the implementation
   this->ctx_.source_
-    << "{/*";
+    << "{";
 
   CUTS_BE_Execution_Visitor_T <CUTS_BE_CPP::Context> exec_visitor (this->ctx_);
   typedef std::map <std::string, PICML::MultiInputAction>::iterator Map_Iter;
@@ -179,7 +175,7 @@ Visit_OnewayOperation (const PICML::OnewayOperation & oneway)
     this->ctx_.source_ << "// Unable to find MultiInputAction for operation " << oneway.name () << std::endl;
 
   this->ctx_.source_
-    << "*/}";
+    << "}";
 }
 
 //
@@ -210,7 +206,7 @@ Visit_TwowayOperation (const PICML::TwowayOperation & twoway)
 
   // Write the implementation
   this->ctx_.source_
-    << "{/*";
+    << "{";
 
   CUTS_BE_Execution_Visitor_T <CUTS_BE_CPP::Context> exec_visitor (this->ctx_);
   typedef std::map <std::string, PICML::MultiInputAction>::iterator Map_Iter;
@@ -221,7 +217,7 @@ Visit_TwowayOperation (const PICML::TwowayOperation & twoway)
     this->ctx_.source_ << "// Unable to find MultiInputAction for operation " << twoway.name () << std::endl;
 
   this->ctx_.source_
-    << "*/}";
+    << "}";
 }
 
 //

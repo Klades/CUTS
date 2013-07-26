@@ -217,8 +217,10 @@ CUTS_INLINE
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 connect (const char * name, ::CORBA::Object_ptr object_ptr)
 {
-  // Behavior should be overloaded by concrete servants
-  throw ::CORBA::NO_IMPLEMENT ();
+  ::iCCM::Receptacle * rec;
+  if (0 != this->receptacles_.find (name, rec))
+    throw ::CORBA::INTERNAL ();
+  return rec->connect (object_ptr);
 }
 
 //
@@ -230,8 +232,10 @@ CUTS_INLINE
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 disconnect (const char * name, ::Components::Cookie * c)
 {
-  // Behavior should be overloaded by concrete servants
-  throw ::CORBA::NO_IMPLEMENT ();
+  ::iCCM::Receptacle * rec;
+  if (0 != this->receptacles_.find (name, rec))
+    throw ::CORBA::INTERNAL ();
+  return rec->disconnect (c);
 }
 
 //

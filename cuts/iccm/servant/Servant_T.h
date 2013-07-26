@@ -20,9 +20,9 @@
 #include "ace/SString.h"
 #include "ace/UUID.h"
 #include <set>
-#include "Cookie.h"
 
 #include "cuts/config.h"
+#include "cuts/iccm/servant/Receptacle.h"
 
 namespace iCCM
 {
@@ -185,10 +185,16 @@ protected:
 
   emits_map_type emits_;
 
+  /// Collection of receptacle endpoints.
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                               Receptacle *,
+                               ACE_RW_Thread_Mutex>
+                               receptacle_map_type;
+
+  receptacle_map_type receptacles_;
+
 
   /// Collection of facet endpoints.
-  // FIX: map of <name, pair<obj, set<uuid>>>
-  //typedef std::pair <ACE_Utils::UUID, ::CORBA::Object_var> facets_values_type;
   typedef std::pair < ::CORBA::Object_var, ACE_Utils::UUID > facets_values_type;
   typedef ACE_Hash_Map_Manager <ACE_CString,
                                 facets_values_type,

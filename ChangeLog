@@ -88,6 +88,39 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Fri Jul 26 16:25:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.cpp:
+        
+          Changed Object implementations to not receive the parent component in the constructor
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Added generation for CallAction behavior
+
+        * cuts/iccm/compiler/Servant_Context.cpp:
+        * cuts/iccm/compiler/Servant_File.cpp:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Added generation for facets (uses and provides IDL keywords).
+
+        * cuts/iccm/servant/Receptacle.h:
+        * cuts/iccm/servant/Receptacle.inl:
+        * cuts/iccm/servant/Receptacle.cpp:
+        * cuts/iccm/servant/Receptacle_T.h:
+        * cuts/iccm/servant/Receptacle_T.inl:
+        * cuts/iccm/servant/Receptacle_T.cpp:
+        
+          Created abstraction for RequiredRequestPorts.
+
+        * cuts/iccm/servant/Servant.mpc:
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Servant_T's now aggregate a map of receptacles and implement the connect and disconnect
+          methods
+
 Wed Jul 24 16:26:31 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:
