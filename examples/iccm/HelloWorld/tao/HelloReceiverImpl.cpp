@@ -10,7 +10,7 @@ namespace HelloReceiverImpl
   // Echo_i
   //
   Echo_i::Echo_i (HelloReceiver * parent)
-  : parent_ (parent)
+  : base_type (parent)
   {
   }
 
@@ -27,11 +27,11 @@ namespace HelloReceiverImpl
   void Echo_i::
   increment_count (void)
   {
-    ::CORBA::ULong i = this->parent_->count ();
+    ::CORBA::ULong i = this->getParent ().count ();
 
     i++;
 
-    this->parent_->count (i);
+    this->getParent ().count (i);
   }
 
   //

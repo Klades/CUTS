@@ -21,5 +21,6 @@ project (iCCM_Servant) : ccm_svnt, cutslib {
     Publisher_Table_T.cpp
     Servant_T.cpp
 	Receptacle_T.cpp
+	FacetImpl_T.cpp
   }
 }

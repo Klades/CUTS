@@ -68,11 +68,13 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
   // Generate the class definition
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("Object class implementation")
+    << "typedef ::iCCM::FacetImpl_T < " << this->component_name_
+    << ", CCM_" << basetype << "> " << this->impl_name_ << "_Base;"
     << "class " << this->impl_name_ << std::endl
-    << ": public virtual " << scope << "CCM_" << basetype << "," << std::endl
-    << "public virtual ::CORBA::LocalObject" << std::endl
+    << ": public virtual " << this->impl_name_ << "_Base" << std::endl
     << "{"
-    << "public:" << std::endl;
+    << "public:" << std::endl
+    << "typedef " << this->impl_name_ << "_Base base_type;";
 
   // Generate the constructor
   this->ctx_.header_
@@ -82,7 +84,7 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
   this->ctx_.source_
     << CUTS_BE_CPP::function_header (this->impl_name_)
     << this->impl_name_ << "::" << this->impl_name_ << " (" << this->component_name_ << " * parent)" << std::endl
-    << ": parent_ (parent)"
+    << ": base_type (parent)"
     << "{}";
 
   // Generate the destructor

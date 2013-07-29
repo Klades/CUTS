@@ -206,7 +206,7 @@ generate (const PICML::ComponentImplementationContainer_in container,
     << std::endl
     << CUTS_BE_CPP::include (pathname + "_iCCMC")
     << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Component_T")
-    << CUTS_BE_CPP::include ("tao/LocalObject")
+    << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T")
     << std::endl;
 
   // Write the includes for the worker files.

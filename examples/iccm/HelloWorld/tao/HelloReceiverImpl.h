@@ -11,7 +11,7 @@
 
 #include "HelloWorld_Components_iCCMC.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
-#include "tao/LocalObject.h"
+#include "cuts/iccm/servant/FacetImpl_T.h"
 
 
 namespace HelloReceiverImpl
@@ -20,11 +20,12 @@ namespace HelloReceiverImpl
   class HelloReceiver;
 
   // Object class implementation
+  typedef ::iCCM::FacetImpl_T < HelloReceiver, CCM_Messenger> Echo_i_Base;
   class Echo_i
-  : public virtual ::CCM_Messenger,
-  public virtual ::CORBA::LocalObject
+  : public virtual Echo_i_Base
   {
     public:
+    typedef Echo_i_Base base_type;
     // Constructor
     Echo_i (HelloReceiver * parent);
 

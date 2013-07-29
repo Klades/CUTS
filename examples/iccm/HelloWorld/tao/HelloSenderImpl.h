@@ -11,7 +11,7 @@
 
 #include "HelloWorld_Components_iCCMC.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
-#include "tao/LocalObject.h"
+#include "cuts/iccm/servant/FacetImpl_T.h"
 
 #include "cuts/Periodic_Event_T.h"
 
