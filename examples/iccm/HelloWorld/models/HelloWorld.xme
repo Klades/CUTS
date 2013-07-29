@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project SYSTEM "mga.dtd">
 
-<project guid="{C5BE785C-8985-43B7-9E22-8F1FE834167B}" cdate="Tue Jun 11 13:29:35 2013" mdate="Tue Jun 11 13:29:35 2013" version="" metaguid="{2790A7A6-B0F0-41D8-8BB3-C4C3C2522C80}" metaversion="" metaname="PICML">
+<project guid="{AF30E7EA-EA0F-41D2-A62D-EE850153039A}" cdate="Tue Jun 11 13:29:35 2013" mdate="Tue Jun 11 13:29:35 2013" version="" metaguid="{2790A7A6-B0F0-41D8-8BB3-C4C3C2522C80}" metaversion="" metaname="PICML">
 	<name>HelloWorld</name>
 	<comment></comment>
 	<author></author>
@@ -611,7 +611,7 @@
 						<connpoint role="src" target="id-0066-00000022"/>
 					</connection>
 				</model>
-				<model id="id-0065-0000000b" kind="Component" role="Component" guid="{762a69bc-1cf6-43d7-a235-ad608e4e6790}" relid="0x1" childrelidcntr="0x17">
+				<model id="id-0065-0000000b" kind="Component" role="Component" guid="{762a69bc-1cf6-43d7-a235-ad608e4e6790}" relid="0x1" childrelidcntr="0x1c">
 					<name>HelloReceiver</name>
 					<regnode name="PartRegs" status="undefined">
 						<value></value>
@@ -748,9 +748,9 @@
 					<connection id="id-0068-00000017" kind="InputEffect" role="InputEffect" guid="{383c795e-d04e-4740-9054-903709901566}" relid="0x5">
 						<name></name>
 						<attribute kind="Postcondition">
-							<value>::CORBA::ULong i = this-&gt;parent_-&gt;count ();
+							<value>::CORBA::ULong i = this-&gt;getParent ().count ();
 i++;
-this-&gt;parent_-&gt;count (i);</value>
+this-&gt;getParent ().count (i);</value>
 						</attribute>
 						<connpoint role="src" target="id-0065-00000022"/>
 						<connpoint role="dst" target="id-0066-0000001f"/>
@@ -1158,7 +1158,7 @@ this-&gt;parent_-&gt;count (i);</value>
 							</regnode>
 						</reference>
 					</model>
-					<model id="id-0065-00000012" kind="ComponentInstance" role="ComponentInstance" guid="{79f25b48-fc89-4ae3-a090-e9b6305c14dd}" relid="0x8" childrelidcntr="0x3">
+					<model id="id-0065-00000012" kind="ComponentInstance" role="ComponentInstance" guid="{79f25b48-fc89-4ae3-a090-e9b6305c14dd}" relid="0x8" childrelidcntr="0x5">
 						<name>Receiver</name>
 						<regnode name="PartRegs" status="undefined">
 							<value></value>
@@ -1210,6 +1210,18 @@ this-&gt;parent_-&gt;count (i);</value>
 									<value></value>
 									<regnode name="Position" isopaque="yes">
 										<value>14,14</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-00000029" kind="AttributeInstance" role="AttributeInstance" guid="{9e50cf0b-6023-424e-825c-26cd87a2716f}" relid="0x5">
+							<name>Attribute</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentInterface" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>55,55</value>
 									</regnode>
 								</regnode>
 							</regnode>
