@@ -77,11 +77,12 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
   // Generate the constructor
   this->ctx_.header_
     << "// Constructor" << std::endl
-    << this->impl_name_ << " (void);" << std::endl;
+    << this->impl_name_ << " (" << this->component_name_ << " * parent);" << std::endl;
 
   this->ctx_.source_
     << CUTS_BE_CPP::function_header (this->impl_name_)
-    << this->impl_name_ << "::" << this->impl_name_ << " ()" << std::endl
+    << this->impl_name_ << "::" << this->impl_name_ << " (" << this->component_name_ << " * parent)" << std::endl
+    << ": parent_ (parent)"
     << "{}";
 
   // Generate the destructor
@@ -99,6 +100,9 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 
   // Close the class
   this->ctx_.header_
+    << "private:" << std::endl
+    << CUTS_BE_CPP::single_line_comment ("The parent component")
+    << this->component_name_ << " * parent_;"
     << "};";
 }
 

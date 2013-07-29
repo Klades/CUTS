@@ -1063,7 +1063,7 @@ generate (const PICML::ProvidedRequestPort_in port)
     << port_class << " * tmp = 0;"
     << "ACE_NEW_RETURN (" << std::endl
     << "tmp," << std::endl
-    << port_class << " ()," << std::endl
+    << port_class << " (this)," << std::endl
     << "CCM_" << name << "::_nil ());"
     << "this->" << port->name () << "_i_ = tmp;"
     << "}"

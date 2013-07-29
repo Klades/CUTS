@@ -419,6 +419,7 @@ public:
     const char * type = node->provides_type ()->local_name ()->get_string ();
     ACE_CString facet_servant (local_name);
     facet_servant += "_svnt";
+    facet_servant[0] = toupper (facet_servant[0]);
 
     this->sfile_
       << "// Create and activate servant for facet: " << local_name << std::endl
@@ -644,6 +645,7 @@ public:
 
     this->servant_name_ = local_name;
     this->servant_name_ += "_svnt";
+    this->servant_name_[0] = toupper (this->servant_name_[0]);
 
     // Class declaration
     this->hfile_
