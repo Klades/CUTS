@@ -88,6 +88,23 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Jul 29 14:25:24 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/models/HelloWorld.xme:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+
+          Updated HelloWorld example to use Multi-Input facets (echo) and objects (Messenger).
+
 Mon Jul 29 13:40:32 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:

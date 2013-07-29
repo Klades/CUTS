@@ -31,6 +31,8 @@ namespace HelloSenderImpl
     ::MessageEvent_var __event_100000010__ = this->ctx_->new_greeting_event ();
     __event_100000010__->content (this->message_.c_str ());
     this->ctx_->push_greeting (__event_100000010__.in ());
+
+    this->ctx_->get_connection_messenger_object ()->increment_count ();
   }
 
   //

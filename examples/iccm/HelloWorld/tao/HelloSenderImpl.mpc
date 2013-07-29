@@ -9,11 +9,13 @@ project (HelloSender_impl) : cuts_coworker_exec {
   prebuild = perl -- $(ACE_ROOT)/bin/generate_export_file.pl HELLOSENDER_IMPL > $(PROJECT_ROOT)/HelloSender_impl_export.h
   after +=  \
     HelloWorld_Components_exec \
+    HelloWorld_exec \
     HelloWorld_Components_stub \
     HelloWorld_stub
 
   libs +=  \
     HelloWorld_Components_exec \
+    HelloWorld_exec \
     HelloWorld_Components_stub \
     HelloWorld_stub
 

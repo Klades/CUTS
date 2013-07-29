@@ -3,6 +3,7 @@
 
 #include "HelloWorld.idl"
 #include <Components.idl>
+#include "./HelloWorld.idl"
 
 #pragma ciao lem "HelloWorld_ComponentsE.idl"
 
@@ -14,16 +15,18 @@ eventtype MessageEvent
   
 };
 
-component HelloReceiver
+component HelloSender
 {
-  consumes ::MessageEvent greeting;
+  uses ::Messenger messenger_object;
+  publishes ::MessageEvent greeting;
+  attribute string message;
   
 };
 
-component HelloSender
+component HelloReceiver
 {
-  publishes ::MessageEvent greeting;
-  attribute string message;
+  provides ::Messenger echo;
+  consumes ::MessageEvent greeting;
   
 };
 
