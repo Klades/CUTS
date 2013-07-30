@@ -79,7 +79,7 @@ public:
                        const char * name,
                        ::CORBA::Long open_mode);
 
-#if (CIAO_BETA_VERSION >= 2)
+#if ((CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1 && CIAO_BETA_VERSION >= 2) || (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 2) || (CIAO_MAJOR_VERSION >= 2))
     virtual ::CORBA::Object_ptr
       get_local_facet (::Components::CCMObject_ptr provider_ref,
                        const char * provider_port);

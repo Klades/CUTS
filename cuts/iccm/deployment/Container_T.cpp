@@ -484,9 +484,7 @@ ports_servant_activator (void)
 }
 #endif
 
-#if (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1 && CIAO_BETA_VERSION >= 2)
-// The macro above needs to be fixed since it will not work once the minor version
-// number resets itself. We should do the following check: >=1.1.2 || >=1.2 || >= 2.0.0
+#if ((CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 1 && CIAO_BETA_VERSION >= 2) || (CIAO_MAJOR_VERSION >= 1 && CIAO_MINOR_VERSION >= 2) || (CIAO_MAJOR_VERSION >= 2))
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 ::CORBA::Object_ptr
 Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::
