@@ -16,7 +16,8 @@
 #include "ace/Service_Gestalt.h"
 #include "ace/Process_Mutex.h"
 
-#if (ACE_MAJOR_VERSION >= 6 && ACE_MINOR_VERSION >= 1 && ACE_BETA_VERSION >= 4)
+// If ACE 6.1.4 or higher
+#if (ACE_MAJOR_VERSION > 6 || (ACE_MAJOR_VERSION == 6 && (ACE_MINOR_VERSION > 1 || (ACE_MINOR_VERSION >= 1 && ACE_BETA_VERSION >= 4))))
 #include "ace/Condition_Thread_Mutex.h"
 #else
 #include "ace/Condition_T.h"
