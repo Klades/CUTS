@@ -258,14 +258,14 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet)
 {
-  //// Begin the generation of the provided request port.
+  // Begin the generation of the provided request port.
   CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
   port_begin_gen.generate (facet);
 
-  //CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
-  //exec_visitor.generate (facet);
+  CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
+  exec_visitor.generate (facet);
 
-  //// End the generation of the provided request port.
+  // End the generation of the provided request port.
   CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
   port_end_gen.generate (facet);
 }

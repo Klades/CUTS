@@ -3,6 +3,8 @@
 project (CUTS_CHAOS_Codegen) : boost_base, cuts_gme_udm_component, cuts_cosmic_utils, codegenerationkit, \
                                cuts_game_mga, cuts_chaos_dsml, cuts_cosmic, cuts_gme {
 
+  requires += dummy_label
+
   sharedname    += CUTS_CHAOS_Codegen
   dynamicflags  += CUTS_CHAOS_CODEGEN_BUILD_DLL
 
