@@ -21,6 +21,7 @@
 #include "ace/Process_Manager.h"
 #include "ace/SString.h"
 #include "ace/streams.h"
+#include "ace/Lib_Find.h"
 #include "boost/spirit/core.hpp"
 #include "boost/spirit/utility/confix.hpp"
 #include <ostream>

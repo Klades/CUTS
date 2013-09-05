@@ -1,3 +1,9 @@
+Thu Sep  5 12:32:42 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/utils/Command_Substitution.h:
+
+          Added include due to compilation errors with ACE trunk
+
 Mon Aug 12 14:06:54 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/utils/node/Node_Daemon.h:
