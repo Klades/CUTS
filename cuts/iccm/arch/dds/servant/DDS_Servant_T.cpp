@@ -112,6 +112,7 @@ template <typename TRAIT, typename T, typename CONTEXT, typename EXECUTOR, typen
 typename TRAIT::datawriter_ptr_type
 DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 create_datawriter (const char * name,
+                   const char * topic_name,
                    const typename TRAIT::topicqos_type & topic_qos,
                    typename TRAIT::publisher_ptr_type publisher,
                    bool isprivate,
@@ -122,16 +123,16 @@ create_datawriter (const char * name,
   typename TRAIT::publisher_table_type * publishes = 0;
   typename TRAIT::datawriter_var_type data_writer;
 
-  const ACE_CString topic_name = isprivate ? this->name_ + "." + name : name;
+  const ACE_CString runtime_topic_name = isprivate ? this->name_ + "." + topic_name : topic_name;
 
   if (0 == this->emits_.find (name, emits))
   {
-    emits->configure (publisher, topic_qos, topic_name.c_str (), isinstance);
+    emits->configure (publisher, topic_qos, runtime_topic_name.c_str (), isinstance);
     data_writer = emits->get_datawriter ();
   }
   else if (0 == this->publishes_.find (name, publishes))
   {
-    publishes->configure (publisher, topic_qos, topic_name.c_str (), isinstance);
+    publishes->configure (publisher, topic_qos, runtime_topic_name.c_str (), isinstance);
     data_writer = publishes->get_datawriter ();
   }
   else

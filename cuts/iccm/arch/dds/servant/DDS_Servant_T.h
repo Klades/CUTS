@@ -59,6 +59,7 @@ public:
 protected:
   virtual typename TRAIT::datawriter_ptr_type
     create_datawriter (const char * name,
+                       const char * topic_name,
                        const typename TRAIT::topicqos_type & topic_qos,
                        typename TRAIT::publisher_ptr_type publisher,
                        bool isprivate,

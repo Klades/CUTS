@@ -1,3 +1,26 @@
+Mon Sep 16 16:54:06 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_Servant.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+
+          Modified hooks to require the topic name to be specified when
+          configuring datawriters.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.cpp:
+
+          Modified to get the topic name from the QoS settings.  If none
+          is provided, the port name is used.
+
+        * etc/schemas/iccm/dds.xsd:
+
+          Added topic_name attribute to the DataWriter object.
+
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/SenderQoS.dpd:
+
+          Updated to show an example of overriding the topic name.
+
 Thu Sep  5 12:32:42 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/utils/Command_Substitution.h:

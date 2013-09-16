@@ -74,6 +74,7 @@ protected:
   /// Create a data writer object.
   virtual datawriter_ptr_type
     create_datawriter (const char * name,
+                       const char * topic_name,
                        const topicqos_type & topic_qos,
                        publisher_ptr_type publisher,
                        bool isprivate,

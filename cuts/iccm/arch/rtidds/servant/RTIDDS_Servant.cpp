@@ -808,9 +808,16 @@ configure_datawriter (const ::iccm::DataWriterQos & value)
   else
     throw ::CORBA::INTERNAL ();
 
+  /// If topic_name is specified, use it.  Otherwise use the writer's name.
+  std::string topic_name = value.name ();
+  if (value.topic_name_p ())
+    topic_name = value.topic_name ();
+
+
   // Create the DDS writer entity.
   ::DDSDataWriter * writer =
     this->create_datawriter (value.name ().c_str (),
+                             topic_name.c_str (),
                              topic_qos,
                              publisher,
                              value.isprivate (),

@@ -324,6 +324,7 @@
     <xsd:attribute name="name" type="xsd:string" use="required" />
     <xsd:attribute name="publisher" type="xsd:string" default="@default" />
     <xsd:attribute name="topic" type="xsd:string" default="@default" />
+    <xsd:attribute name="topic_name" type="xsd:string" />
     <xsd:attribute name="isinstance" type="xsd:boolean" default="false" />
     <xsd:attribute name="isprivate" type="xsd:boolean" default="false" />
   </xsd:complexType>
