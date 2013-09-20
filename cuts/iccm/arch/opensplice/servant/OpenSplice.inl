@@ -55,7 +55,7 @@ const OpenSplice::topicqos_type & OpenSplice::topic_qos_default (void)
 CUTS_INLINE
 const OpenSplice::datawriterqos_type & OpenSplice::datawriter_qos_default (void)
 {
-  return DATAWRITER_QOS_DEFAULT;
+  return DATAWRITER_QOS_USE_TOPIC_QOS;
 }
 
 //
@@ -64,7 +64,7 @@ const OpenSplice::datawriterqos_type & OpenSplice::datawriter_qos_default (void)
 CUTS_INLINE
 const OpenSplice::datareaderqos_type & OpenSplice::datareader_qos_default (void)
 {
-  return DATAREADER_QOS_DEFAULT;
+  return DATAREADER_QOS_USE_TOPIC_QOS;
 }
 
 }

@@ -43,7 +43,6 @@
   <!-- BEGIN DDS::SubscriberQoS parameters -->
 
   <subscriber name="NoDefaultSubscriber">
-    <presentation access_scope="INSTANCE_PRESENTATION_QOS" coherent_access="true" />
     <partition>
       <name>
         <item>A</item>
