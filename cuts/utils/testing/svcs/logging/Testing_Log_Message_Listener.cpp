@@ -78,8 +78,8 @@ int CUTS_Testing_Log_Message_Listener::init (int argc, char * argv [])
     obj = this->servant_.get_reference ();
     ::CUTS::LoggingServerListener_var listener = ::CUTS::LoggingServerListener::_narrow (obj.in ());
     this->cookie_ = this->logging_server_->register_listener (test_uuid, listener);
-	
-	return 0;
+
+  return 0;
   }
   catch (const ::CORBA::Exception & ex)
   {
@@ -108,9 +108,12 @@ int CUTS_Testing_Log_Message_Listener::fini (void)
     // Unregister the listener with the logging server.
     this->logging_server_->unregister_listener (test_uuid, this->cookie_.in ());
 
+    // Finish any work the orb has pending
+    this->finish_work ();
+
     // Deactivate the servant, then shutdown the ORB.
     this->servant_.deactivate ();
-    this->orb_->shutdown ();
+    this->orb_->shutdown (true);
 
     // Pass control to the base class.
     CUTS_TAO_Testing_Service::fini ();

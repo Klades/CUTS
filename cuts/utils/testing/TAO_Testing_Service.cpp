@@ -32,3 +32,17 @@ int CUTS_TAO_Testing_Service::init (int argc, char * argv [])
 
   return 0;
 }
+
+//
+// finish_work
+//
+void CUTS_TAO_Testing_Service::finish_work (void)
+{
+  bool wait;
+  ACE_Time_Value tv (0, 1000); // 1ms
+  do
+  {
+    ACE_OS::sleep (tv);
+    wait = this->orb_->work_pending ();
+  } while (wait);
+}

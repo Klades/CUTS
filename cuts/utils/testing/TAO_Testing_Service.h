@@ -37,6 +37,10 @@ public:
   virtual int fini (void);
 
 protected:
+  /// Helper method which blocks until the orb has processed
+  /// all pending work
+  void finish_work (void);
+
   /// The ORB for the testing service.
   CORBA::ORB_var orb_;
 };
