@@ -105,7 +105,17 @@ void TAO_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
   typename consumer_table_t::ITERATOR iter (this->table_);
 
   for ( ; !iter.done (); ++ iter)
-    iter->item ()->send_event (ev);
+  {
+    try
+    {
+      iter->item ()->send_event (ev);
+    }
+    catch (...)
+    {
+      ACE_ERROR ((LM_ERROR,
+              ACE_TEXT ("%T (%t) - %M - Error sending event\n")));
+    }
+  }
 }
 
 }

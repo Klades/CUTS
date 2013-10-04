@@ -67,6 +67,8 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::activate_componen
 {
   if (0 != this->impl_)
     this->impl_->ccm_activate ();
+
+  this->activate_ports ();
 }
 
 //
@@ -77,6 +79,8 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
 {
   if (0 != this->impl_)
     this->impl_->ccm_passivate ();
+
+  this->deactivate_ports ();
 }
 
 //
@@ -257,7 +261,62 @@ deactivate_ports (void)
     {
       // Ingore this exception.
     }
+
+    // Passivate the EventConsumer
+    iter->item ()->passivate ();
   }
+
+  // Passivate the Publisher_Tables
+  typename publishes_map_type::ITERATOR pub_iter (this->publishes_);
+  for (; !pub_iter.done (); ++ pub_iter)
+    pub_iter->item ()->passivate ();
+
+  // Passivate the Publishers
+  typename emits_map_type::ITERATOR emit_iter (this->emits_);
+  for (; !emit_iter.done (); ++ emit_iter)
+    emit_iter->item ()->passivate ();
+}
+
+//
+// activate_ports
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+activate_ports (void)
+{
+  ::PortableServer::ObjectId_var oid;
+  typename consumer_map_type::ITERATOR iter (this->consumers_);
+
+  for (; !iter.done (); ++ iter)
+  {
+    try
+    {
+      // Locate the object id for this servant.
+      oid = ::PortableServer::string_to_ObjectId (iter->key ().c_str ());
+      this->port_POA_->activate_object_with_id (oid.in (), iter->item ());
+    }
+    catch (const ::PortableServer::POA::ServantAlreadyActive &)
+    {
+      // Ingore this exception.
+    }
+    catch (const ::PortableServer::POA::ObjectAlreadyActive &)
+    {
+      // Ignore this exception.
+    }
+
+    // Activate the EventConsumer
+    iter->item ()->activate ();
+  }
+
+  // Activate the Publisher_Tables
+  typename publishes_map_type::ITERATOR pub_iter (this->publishes_);
+  for (; !pub_iter.done (); ++ pub_iter)
+    pub_iter->item ()->activate ();
+
+  // Activate the Publishers
+  typename emits_map_type::ITERATOR emit_iter (this->emits_);
+  for (; !emit_iter.done (); ++ emit_iter)
+    emit_iter->item ()->activate ();
 }
 
 //

@@ -26,6 +26,9 @@ template <typename T, typename SERVANT, typename EVENT>
 class DDS_EventConsumer_T : public DDS_EventConsumer <T>
 {
 public:
+  /// Type definition of the base type.
+  typedef DDS_EventConsumer <T> base_type;
+
   /// Type definition of the servant type.
   typedef SERVANT servant_type;
 
@@ -79,6 +82,11 @@ public:
    */
   virtual void remove_topic (const char * topic);
 
+  // Activate the consumer
+  virtual void activate (void);
+
+  // Passivate the consumer
+  virtual void passivate (void);
 private:
   /// Servant to pass event.
   SERVANT * servant_;
@@ -89,10 +97,12 @@ private:
   /// The concrete reader for this consumer.
   typename event_traits_type::reader_var_type reader_;
 
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                listener_type *,
+                                ACE_RW_Thread_Mutex> listeners_map_type;
+
   /// Collection of registered listeners.
-  ACE_Hash_Map_Manager <ACE_CString,
-                        listener_type *,
-                        ACE_RW_Thread_Mutex> listeners_;
+  listeners_map_type listeners_;
 
   /// Custom topic name for the event consumer. This will override
   /// the topic name in the connection, if it exists.

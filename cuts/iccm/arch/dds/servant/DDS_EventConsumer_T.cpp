@@ -146,4 +146,74 @@ remove_topic (const char * topic_name)
   ACE_UNUSED_ARG (topic_name);
 }
 
+//
+// activate
+//
+template <typename T, typename SERVANT, typename EVENT>
+void DDS_EventConsumer_T <T, SERVANT, EVENT>::activate (void)
+{
+  typedef typename T::domainparticipant_var_type domainparticipant_var_type;
+  typedef typename T::topic_var_type topic_var_type;
+
+  typename listeners_map_type::ITERATOR iter (this->listeners_);
+
+  domainparticipant_var_type participant = this->subscriber_->get_participant ();
+
+  // Create a listener/datawriter for each topic
+  for (; !iter.done (); ++ iter)
+  {
+    const char * topic_name = iter->key ().c_str ();
+    listener_type * listener = iter->item ();
+
+    // If the reader exists, dont recreate it
+    typename T::datareader_var_type reader =
+      this->subscriber_->lookup_datareader (topic_name);
+
+    if (!T::_is_nil (reader))
+      continue;
+
+    topic_var_type topic =
+      participant->create_topic (topic_name,
+                                 this->type_name_.c_str (),
+                                 this->topic_qos_,
+                                 0,
+                                 T::STATUS_MASK_NONE);
+
+    // Create the datareader
+    reader = this->subscriber_->create_datareader (topic,
+                                                   this->reader_qos_,
+                                                   listener,
+                                                   T::STATUS_MASK_DATA_AVAILABLE);
+
+    if (!T::_is_nil (reader))
+      listener->configure (reader);
+    else
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to configure listener ")
+                  ACE_TEXT ("for topic <%s>\n"),
+                  topic_name));
+  }
+}
+
+//
+// passivate
+//
+template <typename T, typename SERVANT, typename EVENT>
+void DDS_EventConsumer_T <T, SERVANT, EVENT>::passivate (void)
+{
+  base_type::passivate ();
+
+  typename listeners_map_type::ITERATOR iter (this->listeners_);
+
+  // We must delete all the data readers
+  for (; !iter.done (); ++ iter)
+  {
+    typename T::datareader_var_type reader =
+      this->subscriber_->lookup_datareader (iter->key ().c_str ());
+
+    if (!T::_is_nil (reader))
+      this->subscriber_->delete_datareader (reader);
+  }
+}
+
 }

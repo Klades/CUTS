@@ -73,7 +73,6 @@ configure (publisher_ptr_type publisher,
   }
 
   this->writer_.reset (writer);
-
 }
 
 //
@@ -101,6 +100,26 @@ void DDS_Publisher_T <T, EVENT>::connect (::Components::EventConsumerBase_ptr p)
 
   topic_var_type topic = this->abs_writer_->get_topic ();
   consumer->add_topic (topic->get_name ());
+}
+
+//
+// activate
+//
+template <typename T, typename EVENT>
+void DDS_Publisher_T <T, EVENT>::activate (void)
+{
+  if (this->writer_.get () != 0)
+    this->writer_->activate ();
+}
+
+//
+// passivate
+//
+template <typename T, typename EVENT>
+void DDS_Publisher_T <T, EVENT>::passivate (void)
+{
+  if (this->writer_.get () != 0)
+    this->writer_->passivate ();
 }
 
 }

@@ -31,4 +31,24 @@ void EventConsumer::push_event (Components::EventBase *)
 
 }
 
+//
+// activate
+//
+CUTS_INLINE
+void
+EventConsumer::activate (void)
+{
+
+}
+
+//
+// passivate
+//
+CUTS_INLINE
+void
+EventConsumer::passivate (void)
+{
+
+}
+
 }

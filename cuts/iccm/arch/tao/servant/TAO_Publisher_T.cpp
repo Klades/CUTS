@@ -69,8 +69,16 @@ void TAO_Publisher_T <EVENT>::send_event (EVENT * ev)
   // wrapper in the TAO architecture. It should then be sent using
   // the TAO mechanisms for sending an event.
   //===========================================================================
-  if (!::CORBA::is_nil (this->consumer_.in ()))
-    this->consumer_->push_event (ev);
+  try
+  {
+    if (!::CORBA::is_nil (this->consumer_.in ()))
+      this->consumer_->push_event (ev);
+  }
+  catch (...)
+  {
+    ACE_ERROR ((LM_ERROR,
+            ACE_TEXT ("%T (%t) - %M - Error sending event\n")));
+  }
 }
 
 }

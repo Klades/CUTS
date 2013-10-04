@@ -50,6 +50,12 @@ public:
   /// Allocate a new event.
   virtual EVENT * allocate_event (void) = 0;
 
+  /// Activate the writer
+  virtual void activate (void);
+
+  /// Passivate the writer
+  virtual void passivate (void);
+
 protected:
   /// Type specific writer for the publisher.
   typename event_traits_type::writer_var_type writer_;
@@ -117,9 +123,18 @@ public:
   /// Allocate a new event.
   virtual EVENT * allocate_event (void);
 
+  /// Activate the writer
+  virtual void activate (void);
+
+  /// Passivate the writer
+  virtual void passivate (void);
+
 private:
   /// Helper method for registering the event instance
   void register_instance (void);
+
+  /// Helper method for unregistering the event instance
+  void unregister_instance (void);
 
   /// The instance handle for the writer.
   typename T::instancehandle_type inst_;

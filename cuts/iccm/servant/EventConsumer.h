@@ -40,6 +40,12 @@ public:
   /// Method for sending a CORBA event.
   virtual void push_event (::Components::EventBase *);
 
+  /// Method for activating the consumer
+  virtual void activate (void);
+
+  /// Method for passivating the consumer
+  virtual void passivate (void);
+
 private:
   // prevent the following operations
   EventConsumer (const EventConsumer &);

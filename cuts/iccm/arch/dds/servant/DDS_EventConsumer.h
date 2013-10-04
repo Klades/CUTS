@@ -71,6 +71,9 @@ public:
   /// Get the data reader.
   datareader_ptr_type get_datareader (void);
 
+  /// Method for passivating the consumer
+  virtual void passivate (void);
+
 protected:
   /// The parent subscriber.
   subscriber_ptr_type subscriber_;

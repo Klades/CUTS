@@ -69,6 +69,12 @@ public:
   /// Allocate a new event.
   EVENT * allocate_event (void);
 
+  // Activate the publisher
+  virtual void activate (void);
+
+  // Passivate the publisher
+  virtual void passivate (void);
+
 protected:
   typedef DDS_Stateful_Writer_T <T, EVENT> writer_type;
 

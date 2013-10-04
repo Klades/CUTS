@@ -40,6 +40,12 @@ public:
 
   /// Disconnect the currently connected consumer.
   virtual ::Components::EventConsumerBase_ptr disconnect (void) = 0;
+
+  /// Method for activating the publisher
+  virtual void activate (void);
+
+  /// Method for passivating the publisher
+  virtual void passivate (void);
 };
 
 }

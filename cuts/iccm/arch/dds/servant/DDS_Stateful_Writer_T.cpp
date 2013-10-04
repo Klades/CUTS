@@ -91,7 +91,25 @@ DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
 : DDS_Stateful_Writer_T <T, EVENT> (writer),
   inst_ (T::HANDLE_NIL)
 {
+
+}
+
+//
+// activate
+//
+template <typename T, typename EVENT>
+void DDS_Registered_Instance_Writer_T <T, EVENT>::activate (void)
+{
   this->register_instance ();
+}
+
+//
+// passivate
+//
+template <typename T, typename EVENT>
+void DDS_Registered_Instance_Writer_T <T, EVENT>::passivate (void)
+{
+  this->unregister_instance ();
 }
 
 //
@@ -100,9 +118,16 @@ DDS_Registered_Instance_Writer_T (typename T::datawriter_ptr_type writer)
 template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::register_instance (void)
 {
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Registering event with DDS\n")));
   this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
+}
+
+//
+// unregister_instance
+//
+template <typename T, typename EVENT>
+void DDS_Registered_Instance_Writer_T <T, EVENT>::unregister_instance (void)
+{
+  this->writer_->unregister_instance (this->event_.dds_event (), this->inst_);
 }
 
 //

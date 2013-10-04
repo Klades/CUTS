@@ -57,6 +57,12 @@ public:
    */
   virtual void send_event (event_type * ev) = 0;
 
+  /// Method for activating the publisher
+  virtual void activate (void);
+
+  /// Method for passivating the publisher
+  virtual void passivate (void);
+
 protected:
   /// Type definition of the consumer map.
   typedef ACE_Hash_Map_Manager <ACE_Utils::UUID,

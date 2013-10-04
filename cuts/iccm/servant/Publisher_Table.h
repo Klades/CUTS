@@ -50,6 +50,13 @@ public:
    * @return            The once connected consumer
    */
   virtual ::Components::EventConsumerBase_ptr unsubscribe (::Components::Cookie * c) = 0;
+
+  /// Method for activating the publisher
+  virtual void activate (void);
+
+  /// Method for passivating the publisher
+  virtual void passivate (void);
+
 };
 
 }

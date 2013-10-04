@@ -1,3 +1,56 @@
+Fri Oct  4 15:08:25 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+
+          Implemented activate/passivate to create/delete the
+          datareaders used by the EventConsumer.
+
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+
+          Implemented activate/passivate to pass control through
+          to the Stateful_Writers used by the Publisher/Publisher_Table.
+
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+
+          Implemented activate/passivate to register/unregister the
+          datawriter instance.  The datawriter is now disposed upon
+          destruction.
+
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_T.cpp:
+        * cuts/iccm/arch/tao/servant/TAO_Publisher_Table_T.cpp:
+
+          Added error message when sending an event fails
+
+        * cuts/iccm/servant/EventConsumer.h:
+        * cuts/iccm/servant/EventConsumer.inl:
+        * cuts/iccm/servant/Publisher.h:
+        * cuts/iccm/servant/Publisher.inl:
+
+          Added activate and passivate hooks with no implementation
+
+        * cuts/iccm/servant/Publisher_Table.h:
+        * cuts/iccm/servant/Publisher_Table.inl:
+        * cuts/iccm/servant/Publisher_Table_T.h:
+        * cuts/iccm/servant/Publisher_Table_T.cpp:
+
+          Added activate and passivate hooks which call activate/passivate
+          on the Publishers stored in the table.
+
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Update ccm_activate and ccm_passivate to call activate/passivate
+          on all EventConumers, Publishers, and Publisher_Tables used by
+          the servant.
+
 Mon Sep 30 14:53:01 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/utils/testing/TAO_Testing_Service.h:

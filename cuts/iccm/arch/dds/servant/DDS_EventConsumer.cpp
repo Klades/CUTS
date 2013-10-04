@@ -28,4 +28,26 @@ DDS_EventConsumer <T>::~DDS_EventConsumer (void)
   }
 }
 
+//
+// passivate
+//
+template <typename T>
+void DDS_EventConsumer <T>::passivate (void)
+{
+  // DDS does not have a passivation feature for consumers, we must delete
+  // the reader entirely.
+  if (!T::_is_nil (this->abs_reader_))
+  {
+    typedef typename T::subscriber_var_type subscriber_var_type;
+    typedef typename T::returncode_type returncode_type;
+
+    subscriber_var_type subscriber = this->abs_reader_->get_subscriber ();
+    returncode_type retcode = subscriber->delete_datareader (this->abs_reader_);
+
+    if (0 != retcode)
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to delete data reader\n")));
+  }
+}
+
 }

@@ -159,4 +159,28 @@ DDS_Publisher_Table_T <T, EVENT>::unsubscribe (::Components::Cookie * c)
   return consumer_base;
 }
 
+//
+// activate
+//
+template <typename T, typename EVENT>
+void DDS_Publisher_Table_T <T, EVENT>::activate (void)
+{
+  if (this->writer_.get () != 0)
+    this->writer_->activate ();
+
+  base_type::activate ();
+}
+
+//
+// passivate
+//
+template <typename T, typename EVENT>
+void DDS_Publisher_Table_T <T, EVENT>::passivate (void)
+{
+  if (this->writer_.get () != 0)
+    this->writer_->passivate ();
+
+  base_type::passivate ();
+}
+
 }

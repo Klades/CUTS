@@ -194,9 +194,14 @@ private:
   // Helper method to create the port POA.
   void initialize_the_port_POA (const char *, ::PortableServer::POA_ptr);
 
+protected:
   // Helper method to deactivate all ports.
   void deactivate_ports (void);
 
+  // Helper method to activate all ports.
+  void activate_ports (void);
+
+private:
   /// The POA for activating the ports.
   ::PortableServer::POA_var port_POA_;
 };

@@ -87,4 +87,31 @@ Publisher_Table_T <BASE, PUBLISHER, AUTO_CONNECT>::unsubscribe (::Components::Co
   return consumer._retn ();
 }
 
+//
+// activate
+//
+template <typename BASE, typename PUBLISHER, bool AUTO_CONNECT>
+void
+Publisher_Table_T <BASE, PUBLISHER, AUTO_CONNECT>::activate (void)
+{
+  // Activate the publishers
+  typename consumer_table_t::ITERATOR iter (this->table_);
+  for (; !iter.done (); ++ iter)
+    iter->item ()->activate ();
+}
+
+//
+// passivate
+//
+template <typename BASE, typename PUBLISHER, bool AUTO_CONNECT>
+void
+Publisher_Table_T <BASE, PUBLISHER, AUTO_CONNECT>::passivate (void)
+{
+  // Passivate the publishers
+  typename consumer_table_t::ITERATOR iter (this->table_);
+  for (; !iter.done (); ++ iter)
+    iter->item ()->passivate ();
+}
+
+
 }
