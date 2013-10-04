@@ -106,10 +106,17 @@ int CUTS_Testing_Log_Message_Listener::fini (void)
     test_uuid <<= profile.uuid_;
 
     // Unregister the listener with the logging server.
-    this->logging_server_->unregister_listener (test_uuid, this->cookie_.in ());
+    int sent_msgs = this->logging_server_->unregister_listener (test_uuid, this->cookie_.in ());
 
-    // Finish any work the orb has pending
-    this->finish_work ();
+    // Wait until we have received all the logs
+    int received_msgs = this->listener_.messages_received ();
+    ACE_Time_Value tv (0, 1000); // 1ms
+    while (received_msgs < sent_msgs)
+    {
+      ACE_OS::sleep (tv);
+      received_msgs = this->listener_.messages_received ();
+    }
+
 
     // Deactivate the servant, then shutdown the ORB.
     this->servant_.deactivate ();

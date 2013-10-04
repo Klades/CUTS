@@ -58,8 +58,8 @@ module CUTS
      * @param[in]       test        UUID of test to unregister
      * @param[in]       cookie      Listener to receive messages
      */
-    void unregister_listener (in ::CUTS::UUID test,
-                              in ::CUTS::UUID cookie);
+    unsigned long unregister_listener (in ::CUTS::UUID test,
+                                       in ::CUTS::UUID cookie);
 
     /**
      * Handle a collection of messages from a specific host for the

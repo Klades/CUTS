@@ -70,10 +70,10 @@ register_listener (const ::CUTS::UUID & test,
 //
 // unregister_listener
 //
-void CUTS_LoggingServer_i::
+::CORBA::ULong CUTS_LoggingServer_i::
 unregister_listener (const ::CUTS::UUID & test, const ::CUTS::UUID & cookie)
 {
-  ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->busy_mutex_);
+  ACE_WRITE_GUARD_RETURN (ACE_RW_Thread_Mutex, guard, this->busy_mutex_, 0);
 
   // Extract the binary version of the UUID's
   ACE_Utils::UUID test_uuid;
@@ -82,13 +82,25 @@ unregister_listener (const ::CUTS::UUID & test, const ::CUTS::UUID & cookie)
   reg_t reg;
   cookie >>= reg.cookie_;
 
+  int count = 0;
+
   ACE_DEBUG ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - unregistering listener for test %s\n"),
               test_uuid.to_string ()->c_str ()));
 
   if (test_uuid == ACE_Utils::UUID::NIL_UUID)
   {
-    this->global_listeners_.remove (reg);
+    for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (this->global_listeners_);
+         !iter.done ();
+         ++ iter)
+    {
+      if ((*iter).cookie_ == reg.cookie_)
+      {
+        count = (*iter).counter_;
+        this->global_listeners_.remove (*iter);
+        break;
+      }
+    }
   }
   else
   {
@@ -97,16 +109,28 @@ unregister_listener (const ::CUTS::UUID & test, const ::CUTS::UUID & cookie)
 
     if (0 == this->listeners_.find (test_uuid, listeners))
     {
-      if (0 == listeners->remove (reg))
+      // Now, get the count and remove the reg
+      for (ACE_Unbounded_Set <reg_t>::CONST_ITERATOR iter (*listeners);
+           !iter.done ();
+           ++ iter)
       {
-        if (0 == listeners->size ())
+        if ((*iter).cookie_ == reg.cookie_)
         {
-          this->listeners_.unbind (test_uuid);
-          delete listeners;
+          count = (*iter).counter_;
+          if (0 == listeners->remove (*iter))
+          {
+            if (0 == listeners->size ())
+            {
+              this->listeners_.unbind (test_uuid);
+              delete listeners;
+            }
+          }
         }
       }
     }
   }
+
+  return count;
 }
 
 //
@@ -138,6 +162,7 @@ send_messages (const char * hostname,
          !iter.done ();
          ++ iter)
     {
+      (*iter).counter_++;
       (*iter).listener_->handle_messages (hostname, test, messages);
     }
 
@@ -154,6 +179,7 @@ send_messages (const char * hostname,
       {
         if (!::CORBA::is_nil ((*iter).listener_.in ()))
         {
+         (*iter).counter_++;
          (*iter).listener_->handle_messages (hostname, test, messages);
         }
         else

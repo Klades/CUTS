@@ -39,14 +39,13 @@ public:
     register_listener (const ::CUTS::UUID & test,
                        ::CUTS::LoggingServerListener_ptr listener);
 
-  virtual void unregister_listener (const ::CUTS::UUID & test,
-                                    const ::CUTS::UUID & cookie);
+  virtual CORBA::ULong unregister_listener (const ::CUTS::UUID & test,
+                                            const ::CUTS::UUID & cookie);
 
   virtual void send_messages (const char * hostname,
                               const ::CUTS::UUID & test,
                               const ::CUTS::LogMessages & messages);
 
-  
 private:
   /**
    * @class reg_t
@@ -57,13 +56,15 @@ private:
   {
   public:
     reg_t (void)
+      : counter_ (0)
     {
 
     }
 
     reg_t (const reg_t & copy)
       : cookie_ (copy.cookie_),
-        listener_ (::CUTS::LoggingServerListener::_duplicate (copy.listener_.in ()))
+        listener_ (::CUTS::LoggingServerListener::_duplicate (copy.listener_.in ())),
+        counter_ (copy.counter_)
     {
 
     }
@@ -87,6 +88,8 @@ private:
     ACE_Utils::UUID cookie_;
 
     ::CUTS::LoggingServerListener_var listener_;
+
+    int counter_;
   };
 
   /// Type definition of the listerner map.

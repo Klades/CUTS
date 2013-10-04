@@ -1,3 +1,20 @@
+Fri Oct  4 20:07:05 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/utils/logging/server/LoggingServer.idl:
+        * cuts/utils/logging/server/LoggingServer_i.h:
+        * cuts/utils/logging/server/LoggingServer_i.cpp:
+
+          Changed unregister_listener to return the number of logging
+          messages sent to the listener.
+
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.h:
+        * cuts/utils/testing/svcs/logging/Testing_LoggingServerListener_i.cpp:
+
+          Logging service now tracks the number of logging messages received
+          and will wait to process the number sent from the LoggingServer
+          when shutting down.
+
 Fri Oct  4 15:08:25 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/servant/DDS_EventConsumer.h:

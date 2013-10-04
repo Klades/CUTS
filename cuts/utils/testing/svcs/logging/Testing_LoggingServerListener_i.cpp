@@ -59,6 +59,7 @@ private:
 // CUTS_Testing_LoggingServerListener_i
 //
 CUTS_Testing_LoggingServerListener_i::CUTS_Testing_LoggingServerListener_i (void)
+: messages_received_ (0)
 {
 
 }
@@ -71,6 +72,13 @@ CUTS_Testing_LoggingServerListener_i::~CUTS_Testing_LoggingServerListener_i (voi
 
 }
 
+//
+// messages_received
+//
+int CUTS_Testing_LoggingServerListener_i::messages_received (void)
+{
+  return this->messages_received_;
+}
 
 //
 // handle_messages
@@ -83,8 +91,6 @@ handle_messages (const char * hostname,
   try
   {
     ACE_WRITE_GUARD (ACE_RW_Thread_Mutex, guard, this->mutex_);
-
-
 
     if (0 == this->database_)
       return;
@@ -125,6 +131,8 @@ handle_messages (const char * hostname,
     ACE_ERROR ((LM_ERROR,
                 ACE_TEXT ("%T (%t) - %M - caught unknown exception (%N:%l)\n")));
   }
+
+  ++this->messages_received_;
 }
 
 //

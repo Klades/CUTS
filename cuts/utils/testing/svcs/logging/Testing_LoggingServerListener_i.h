@@ -38,10 +38,14 @@ public:
                                 const ::CUTS::UUID & test,
                                 const ::CUTS::LogMessages & msgs);
 
+  int messages_received (void);
+
 private:
   CUTS_Test_Database * database_;
 
   ACE_RW_Thread_Mutex mutex_;
+
+  int messages_received_;
 };
 
 #endif  // !defined _CUTS_TESTING_LOGGINGSERVERLISTENER_I_H_
