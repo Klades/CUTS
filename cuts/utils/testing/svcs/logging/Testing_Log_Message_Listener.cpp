@@ -6,6 +6,7 @@
 #include "Testing_Log_Message_Listener.inl"
 #endif
 
+#include "ace/OS.h"
 #include "adbc/Query.h"
 #include "cuts/utils/testing/Testing_App.h"
 #include "cuts/UUID.h"

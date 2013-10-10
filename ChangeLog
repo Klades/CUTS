@@ -1,3 +1,9 @@
+Thu Oct 10 15:46:06 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
+
+          Fixed compilation error on Windows.
+
 Fri Oct  4 20:07:05 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/utils/logging/server/LoggingServer.idl:
