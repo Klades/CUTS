@@ -45,6 +45,7 @@ project (iCCM_Compiler) : boost_base, cuts_codegenerationkit, tao_idl_fe, cutsli
     Servant_File.cpp
     Servant_Context.cpp
     Servant_Impl.cpp
+    Provides_Svnt_Impl.cpp
   }
 
   Header_Files {

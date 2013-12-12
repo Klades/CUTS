@@ -88,6 +88,20 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Thu Dec 12 04:35:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Compiler.mpc:
+        * cuts/iccm/compiler/Provides_Svnt_Impl.h:
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Updated compiler to support more facet methods.  Currently all basic
+          types, enums, and structs are supported as in variables.
+
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+        
+          Expanded smoke test to include interface, uses, and provides.
+
 Mon Aug 26 05:47:08 UTC 2013  James H. Hill  <hillj at cs dot iupui dot edu>
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:

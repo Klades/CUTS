@@ -50,11 +50,50 @@ eventtype SmokeEvent
   public ::SmokeStructType    SmokeStruct;
 };
 
+interface SmokeInterface
+{
+  void                SmokeVoid ();
+  boolean             SmokeBoolean (in boolean SmokeBoolean);
+  char                SmokeChar (in char SmokeChar);
+  wchar               SmokeWChar (in wchar SmokeWChar);
+  octet               SmokeOctet (in octet SmokeOctet);
+  string              SmokeString (in string SmokeString);
+  wstring             SmokeWString (in wstring SmokeWString);
+  short               SmokeShort (in short SmokeShort);
+  unsigned short      SmokeUShort (in unsigned short SmokeUShort);
+  long                SmokeLong (in long SmokeLong);
+  unsigned long       SmokeULong (in unsigned long SmokeULong);
+  long long           SmokeLongLong (in long long SmokeLongLong);
+  unsigned long long  SmokeULongLong (in unsigned long long SmokeULongLong);
+  float               SmokeFloat (in float SmokeFloat);
+  double              SmokeDouble (in double SmokeDouble);
+  ::SmokeEnumType     SmokeEnum (in ::SmokeEnumType SmokeEnum);
+  ::SmokeStructType   SmokeStruct (in ::SmokeStructType SmokeStruct);
+};
+
 component SmokeComponent
 {
-  consumes ::SmokeEvent SmokeConsume;
+  consumes  ::SmokeEvent SmokeConsume;
   publishes ::SmokeEvent SmokeEmit;
   publishes ::SmokeEvent SmokePublish;
+  provides  ::SmokeInterface SmokeProvide;
+  uses      ::SmokeInterface SmokeUse;
+
+  // Attributes
+  attribute boolean              AttributeBoolean;
+  attribute char                 AttributeChar;
+  attribute wchar                AttributeWChar;
+  attribute octet                AttributeOctet;
+  attribute string               AttributeString;
+  attribute wstring              AttributeWString;
+  attribute short                AttributeShort;
+  attribute unsigned short       AttributeUShort;
+  attribute long                 AttributeLong;
+  attribute unsigned long        AttributeULong;
+  attribute long long            AttributeLongLong;
+  attribute unsigned long long   AttributeULongLong;
+  attribute float                AttributeFloat;
+  attribute double               AttributeDouble;
 };
 
 #endif    // !defined _BUTTON_IDL_

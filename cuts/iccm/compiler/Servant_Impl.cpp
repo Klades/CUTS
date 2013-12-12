@@ -4,6 +4,8 @@
 #include "be_extern.h"
 #include "be_global.h"
 
+#include "Provides_Svnt_Impl.h"
+
 #include "ast_component.h"
 #include "ast_publishes.h"
 #include "ast_emits.h"
@@ -14,6 +16,9 @@
 #include "ast_operation.h"
 #include "ast_uses.h"
 #include "ast_argument.h"
+#include "ast_enum.h"
+#include "ast_string.h"
+#include "ast_structure.h"
 
 #include "utl_identifier.h"
 #include "utl_scope.h"
@@ -42,7 +47,7 @@ public:
   }
 
   //
-  // visit_consumes
+  // visit_attribute
   //
   virtual int visit_attribute (AST_Attribute * node)
   {
@@ -616,245 +621,6 @@ private:
   bool is_first_;
 };
 
-/**
- * @class Provides_Facet_Servant
- */
-class Provides_Facet_Servant : public Scope_Visitor
-{
-public:
-  Provides_Facet_Servant (std::ofstream & hfile,
-                          std::ofstream & sfile,
-                          ACE_CString context)
-    : hfile_ (hfile),
-      sfile_ (sfile),
-      context_ (context)
-  {
-
-  }
-
-  virtual ~Provides_Facet_Servant (void)
-  {
-
-  }
-  virtual int visit_provides (AST_Provides * node)
-  {
-    const char * local_name = node->local_name ()->get_string ();
-    const char * flat_name = node->flat_name ();
-    const char * full_name = node->full_name ();
-    const char * field_type = node->field_type ()->full_name ();
-
-    this->servant_name_ = local_name;
-    this->servant_name_ += "_svnt";
-    this->servant_name_[0] = toupper (this->servant_name_[0]);
-
-    // Class declaration
-    this->hfile_
-      << "class " << this->servant_name_ <<std::endl
-      << "  : public virtual ::POA_" << field_type << "," << std::endl
-      << "    public virtual ::PortableServer::ServantBase" << std::endl
-      << "{"
-      << "public:" << std::endl;
-
-    // Constructor
-    this->hfile_
-      << "// Constructor" << std::endl
-      << this->servant_name_ << " (" << this->context_ << " * ctx," << std::endl
-      << "::CCM_" << field_type << "_ptr impl);"
-      << std::endl;
-
-    this->sfile_
-      << this->servant_name_ << "::" << this->servant_name_ << " (" << this->context_ << " * ctx," << std::endl
-      << "::CCM_" << field_type << "_ptr impl)" << std::endl
-      << ": ctx_ (ctx)," << std::endl
-      << "  impl_ (impl)" << std::endl
-      << "{"
-      << std::endl
-      << "}";
-
-    // Destructor
-    this->hfile_
-      << "// Destructor" << std::endl
-      << "~" << this->servant_name_ << "(void);"
-      << std::endl;
-
-    this->sfile_
-      << this->servant_name_ << "::~" << this->servant_name_ << " (void)" << std::endl
-      << "{"
-      << std::endl
-      << "}";
-
-    // Visit the type to generate the interface
-    node->provides_type ()->ast_accept (this);
-
-    this->hfile_
-      << "private:" << std::endl
-      << this->context_ << " * ctx_;"
-      << "::CCM_" << field_type << "_ptr impl_;"
-      << "};";
-
-    return 0;
-  }
-
-  virtual int visit_interface (AST_Interface * node)
-  {
-    return this->visit_scope (node);
-  }
-
-  // Overload visit_scope since interface could be in a different file
-  virtual int visit_scope (UTL_Scope * node)
-  {
-    for (UTL_ScopeActiveIterator si (node, UTL_Scope::IK_decls);
-         !si.is_done (); si.next ())
-    {
-      AST_Decl * d = si.item ();
-
-      if (0 != d->ast_accept (this))
-        return -1;
-    }
-    return 0;
-  }
-
-  virtual int visit_operation (AST_Operation * node)
-  {
-    const char * local_name = node->local_name ()->get_string ();
-    this->first_arg_ = true;
-    this->param_only_ = false;
-
-    node->return_type ()->ast_accept (this);
-
-    this->hfile_
-      << " " << local_name << " (";
-
-    this->sfile_
-      << " " << this->servant_name_ << "::" << local_name << " (";
-
-    // Build the signature
-    int arg_count = node->argument_count ();
-    if (arg_count == 0)
-    {
-      this->hfile_ << "void";
-      this->sfile_ << "void";
-    }
-    else
-      this->visit_scope (node);
-
-    this->hfile_ << ");";
-    this->sfile_ << "){this->impl_->" << local_name << " (";
-
-    // Build the passthrough args
-    if (arg_count != 0)
-    {
-      this->first_arg_ = true;
-      this->param_only_ = true;
-      this->visit_scope (node);
-    }
-
-    this->sfile_ << ");}";
-
-    return 0;
-  }
-
-  virtual int visit_argument (AST_Argument * node)
-  {
-    const char * local_name = node->local_name ()->get_string ();
-    ACE_CString param_suffix = "";
-
-    if (this->first_arg_)
-      this->first_arg_ = false;
-    else
-    {
-      this->hfile_ << ", ";
-      this->sfile_ << ", ";
-    }
-
-    if (!this->param_only_)
-    {
-      node->field_type ()->ast_accept (this);
-      switch (node->direction ())
-      {
-        case (AST_Argument::dir_IN):
-          param_suffix = " ";
-          break;
-        case (AST_Argument::dir_OUT):
-          param_suffix = " & ";
-          break;
-        case (AST_Argument::dir_INOUT):
-          param_suffix = " & ";
-          break;
-      }
-    }
-
-    this->hfile_
-      << param_suffix << local_name;
-    this->sfile_
-      << param_suffix << local_name;
-
-    return 0;
-  }
-
-  virtual int visit_predefined_type (AST_PredefinedType * node)
-  {
-    ACE_CString type;
-    switch (node->pt ())
-    {
-    case (AST_PredefinedType::PT_long):
-      type = "long";
-      break;
-    case (AST_PredefinedType::PT_ulong):
-      type = "ulong";
-      break;
-    case (AST_PredefinedType::PT_longlong):
-      type = "longlong";
-      break;
-    case (AST_PredefinedType::PT_ulonglong):
-      type = "ulonglong";
-      break;
-    case (AST_PredefinedType::PT_short):
-      type = "short";
-      break;
-    case (AST_PredefinedType::PT_ushort):
-      type = "ushort";
-      break;
-    case (AST_PredefinedType::PT_float):
-      type = "float";
-      break;
-    case (AST_PredefinedType::PT_double):
-      type = "double";
-      break;
-    case (AST_PredefinedType::PT_longdouble):
-      type = "longdouble";
-      break;
-    case (AST_PredefinedType::PT_char):
-      type = "char";
-      break;
-    case (AST_PredefinedType::PT_wchar):
-      type = "wchar";
-      break;
-    case (AST_PredefinedType::PT_boolean):
-      type = "bool";
-      break;
-    case (AST_PredefinedType::PT_octet):
-      type = "octet";
-      break;
-    case (AST_PredefinedType::PT_void):
-      type = "void";
-      break;
-    }
-
-    this->hfile_ << type;
-    this->sfile_ << type;
-    return 0;
-  }
-
-private:
-  std::ofstream & hfile_;
-  std::ofstream & sfile_;
-  ACE_CString context_;
-  ACE_CString servant_name_;
-  bool first_arg_;
-  bool param_only_;
-};
-
 //
 // Servant_Impl
 //
@@ -889,7 +655,7 @@ int Servant_Impl::visit_component (AST_Component * node)
   const char * flat_name = node->flat_name ();
   const char * full_name = node->full_name ();
 
-  Provides_Facet_Servant facet_servant (this->hfile_, this->sfile_, context);
+  Provides_Svnt_Impl facet_servant (this->hfile_, this->sfile_, context);
   facet_servant.visit_scope (node);
 
   this->hfile_
