@@ -109,6 +109,16 @@ public:
   {
     this->hfile_ << node->full_name ();
     this->sfile_ << node->full_name ();
+
+    switch (this->direction_)
+    {
+      case AST_Argument::dir_OUT:
+      {
+        this->hfile_ << "_out";
+        this->sfile_ << "_out";
+      }
+    }
+
     return 0;
   }
 
@@ -116,13 +126,58 @@ public:
   {
     this->hfile_ << node->full_name ();
     this->sfile_ << node->full_name ();
+
+    switch (this->direction_)
+    {
+      case AST_Argument::dir_OUT:
+      {
+        this->hfile_ << "_out";
+        this->sfile_ << "_out";
+      }
+    }
+
     return 0;
   }
 
   virtual int visit_string (AST_String * node)
   {
-    this->hfile_ << node->full_name ();
-    this->sfile_ << node->full_name ();
+    // Logic found in $TAO_ROOT/TAO_IDL/be/be_visitor_argument/arglist.cpp
+    ACE_CString type;
+
+    if (node->width () == (long) sizeof (char))
+    {
+      switch (this->direction_)
+      {
+        case AST_Argument::dir_IN:
+          type = "const char *";
+          break;
+        case AST_Argument::dir_INOUT:
+          type = "char *&";
+          break;
+        case AST_Argument::dir_OUT:
+          type = "::CORBA::String_out";
+          break;
+      }
+    }
+    else
+    {
+      switch (this->direction_)
+      {
+        case AST_Argument::dir_IN:
+          type = "const ::CORBA::WChar *";
+          break;
+        case AST_Argument::dir_INOUT:
+          type = "::CORBA::WChar *&";
+          break;
+        case AST_Argument::dir_OUT:
+          type = "::CORBA::WString_out";
+          break;
+      }
+    }
+
+    this->hfile_ << type.c_str ();
+    this->sfile_ << type.c_str ();
+
     return 0;
   }
 
@@ -136,6 +191,10 @@ public:
         prefix = "const ";
         suffix = " &";
         break;
+      }
+      case AST_Argument::dir_OUT:
+      {
+        suffix = "_out";
       }
     }
 

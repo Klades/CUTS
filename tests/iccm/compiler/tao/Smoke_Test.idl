@@ -53,22 +53,22 @@ eventtype SmokeEvent
 interface SmokeInterface
 {
   void                SmokeVoid ();
-  boolean             SmokeBoolean (in boolean SmokeBoolean);
-  char                SmokeChar (in char SmokeChar);
-  wchar               SmokeWChar (in wchar SmokeWChar);
-  octet               SmokeOctet (in octet SmokeOctet);
-  string              SmokeString (in string SmokeString);
-  wstring             SmokeWString (in wstring SmokeWString);
-  short               SmokeShort (in short SmokeShort);
-  unsigned short      SmokeUShort (in unsigned short SmokeUShort);
-  long                SmokeLong (in long SmokeLong);
-  unsigned long       SmokeULong (in unsigned long SmokeULong);
-  long long           SmokeLongLong (in long long SmokeLongLong);
-  unsigned long long  SmokeULongLong (in unsigned long long SmokeULongLong);
-  float               SmokeFloat (in float SmokeFloat);
-  double              SmokeDouble (in double SmokeDouble);
-  ::SmokeEnumType     SmokeEnum (in ::SmokeEnumType SmokeEnum);
-  ::SmokeStructType   SmokeStruct (in ::SmokeStructType SmokeStruct);
+  boolean             SmokeBoolean (in boolean arg_in, out boolean arg_out);
+  char                SmokeChar (in char arg_in, out char arg_out);
+  wchar               SmokeWChar (in wchar arg_in, out wchar arg_out);
+  octet               SmokeOctet (in octet arg_in, out octet arg_out);
+  string              SmokeString (in string arg_in, out string arg_out);
+  wstring             SmokeWString (in wstring arg_in, out wstring arg_out);
+  short               SmokeShort (in short arg_in, out short arg_out);
+  unsigned short      SmokeUShort (in unsigned short arg_in, out unsigned short arg_out);
+  long                SmokeLong (in long arg_in, out long arg_out);
+  unsigned long       SmokeULong (in unsigned long arg_in, out unsigned long arg_out);
+  long long           SmokeLongLong (in long long arg_in, out long long arg_out);
+  unsigned long long  SmokeULongLong (in unsigned long long arg_in, out unsigned long long arg_out);
+  float               SmokeFloat (in float arg_in, out float arg_out);
+  double              SmokeDouble (in double arg_in, out double arg_out);
+  ::SmokeEnumType     SmokeEnum (in ::SmokeEnumType arg_in, out ::SmokeEnumType arg_out);
+  ::SmokeStructType   SmokeStruct (in ::SmokeStructType arg_in, out ::SmokeStructType arg_out);
 };
 
 component SmokeComponent

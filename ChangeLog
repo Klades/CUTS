@@ -88,6 +88,16 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Thu Dec 12 05:29:09 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+
+          Added support for out variables
+
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+
+          Extended tests to include out variables on interfaces.
+
 Thu Dec 12 04:35:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/compiler/Compiler.mpc:
@@ -99,7 +109,7 @@ Thu Dec 12 04:35:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
           types, enums, and structs are supported as in variables.
 
         * tests/iccm/compiler/tao/Smoke_Test.idl:
-        
+
           Expanded smoke test to include interface, uses, and provides.
 
 Mon Aug 26 05:47:08 UTC 2013  James H. Hill  <hillj at cs dot iupui dot edu>
