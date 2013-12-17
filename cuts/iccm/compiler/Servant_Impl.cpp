@@ -567,6 +567,8 @@ public:
 
     if (field_type->node_type () == AST_Type::NT_pre_defined)
       field_type->ast_accept (this);
+    else if (field_type->node_type () == AST_Type::NT_wstring)
+      field_type->ast_accept (this);
     else
       this->sfile_ << "tmp_value";
 
@@ -610,6 +612,17 @@ public:
       this->sfile_ << "tmp_value";
       break;
     }
+
+    return 0;
+  }
+
+  //
+  // visit_string
+  //
+  virtual int visit_string (AST_String * node)
+  {
+    // Only called on WString nodes
+    this->sfile_ << "CORBA::Any::to_wstring (tmp_value, CORBA::_tc_wstring->length ())";
 
     return 0;
   }

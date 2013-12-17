@@ -116,6 +116,13 @@ public:
       {
         this->hfile_ << "_out";
         this->sfile_ << "_out";
+        break;
+      }
+      case AST_Argument::dir_INOUT:
+      {
+        this->hfile_ << " &";
+        this->sfile_ << " &";
+        break;
       }
     }
 
@@ -133,6 +140,13 @@ public:
       {
         this->hfile_ << "_out";
         this->sfile_ << "_out";
+        break;
+      }
+      case AST_Argument::dir_INOUT:
+      {
+        this->hfile_ << " &";
+        this->sfile_ << " &";
+        break;
       }
     }
 
@@ -148,30 +162,34 @@ public:
     {
       switch (this->direction_)
       {
-        case AST_Argument::dir_IN:
-          type = "const char *";
-          break;
-        case AST_Argument::dir_INOUT:
-          type = "char *&";
-          break;
-        case AST_Argument::dir_OUT:
-          type = "::CORBA::String_out";
-          break;
+      case AST_Argument::dir_IN:
+        type = "const char *";
+        break;
+
+      case AST_Argument::dir_INOUT:
+        type = "char *&";
+        break;
+
+      case AST_Argument::dir_OUT:
+        type = "::CORBA::String_out";
+        break;
       }
     }
     else
     {
       switch (this->direction_)
       {
-        case AST_Argument::dir_IN:
-          type = "const ::CORBA::WChar *";
-          break;
-        case AST_Argument::dir_INOUT:
-          type = "::CORBA::WChar *&";
-          break;
-        case AST_Argument::dir_OUT:
-          type = "::CORBA::WString_out";
-          break;
+      case AST_Argument::dir_IN:
+        type = "const ::CORBA::WChar *";
+        break;
+
+      case AST_Argument::dir_INOUT:
+        type = "::CORBA::WChar *&";
+        break;
+
+      case AST_Argument::dir_OUT:
+        type = "::CORBA::WString_out";
+        break;
       }
     }
 
@@ -186,16 +204,24 @@ public:
     ACE_CString prefix, suffix;
     switch (this->direction_)
     {
-      case AST_Argument::dir_IN:
-      {
-        prefix = "const ";
-        suffix = " &";
-        break;
-      }
-      case AST_Argument::dir_OUT:
-      {
-        suffix = "_out";
-      }
+    case AST_Argument::dir_IN:
+    {
+      prefix = "const ";
+      suffix = " &";
+      break;
+    }
+
+    case AST_Argument::dir_OUT:
+    {
+      suffix = "_out";
+      break;
+    }
+
+    case AST_Argument::dir_INOUT:
+    {
+      suffix = " &";
+      break;
+    }
     }
 
     this->hfile_ << prefix.c_str () << node->full_name () << suffix.c_str ();
@@ -327,6 +353,7 @@ int Provides_Svnt_Impl::visit_provides (AST_Provides * node)
   node->provides_type ()->ast_accept (this);
 
   this->hfile_
+    << std::endl
     << "private:" << std::endl
     << this->context_ << " * ctx_;"
     << "::CCM_" << field_type << "_ptr impl_;"
