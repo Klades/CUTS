@@ -69,6 +69,7 @@ interface SmokeInterface
   double              SmokeDouble (in double arg_in, out double arg_out, inout double arg_inout);
   ::SmokeEnumType     SmokeEnum (in ::SmokeEnumType arg_in, out ::SmokeEnumType arg_out, inout ::SmokeEnumType arg_inout);
   ::SmokeStructType   SmokeStruct (in ::SmokeStructType arg_in, out ::SmokeStructType arg_out, inout ::SmokeStructType arg_inout);
+  ::SmokeEvent        SmokeEvent (in ::SmokeEvent arg_in, out ::SmokeEvent arg_out, inout ::SmokeEvent arg_inout);
 };
 
 component SmokeComponent

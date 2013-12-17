@@ -88,6 +88,13 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Tue Dec 17 16:11:13 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+
+          Added support for eventtype handling by facets
+
 Tue Dec 17 15:52:31 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:

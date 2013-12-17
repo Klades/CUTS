@@ -9,6 +9,7 @@
 #include "ast_enum.h"
 #include "ast_string.h"
 #include "ast_structure.h"
+#include "ast_eventtype.h"
 
 #include "utl_identifier.h"
 #include "utl_scope.h"
@@ -61,6 +62,13 @@ public:
       this->hfile_ << " *";
       this->sfile_ << " *";
     }
+    return 0;
+  }
+
+  virtual int visit_eventtype (AST_EventType * node)
+  {
+    this->hfile_ << "::" << node->full_name () << " *";
+    this->sfile_ << "::" << node->full_name () << " *";
     return 0;
   }
 
@@ -226,6 +234,36 @@ public:
 
     this->hfile_ << prefix.c_str () << node->full_name () << suffix.c_str ();
     this->sfile_ << prefix.c_str () << node->full_name () << suffix.c_str ();
+
+    return 0;
+  }
+
+  virtual int visit_eventtype (AST_EventType * node)
+  {
+    this->hfile_ << "::" << node->full_name ();
+    this->sfile_ << "::" << node->full_name ();
+
+    switch (this->direction_)
+    {
+      case AST_Argument::dir_IN:
+      {
+        this->hfile_ << " *";
+        this->sfile_ << " *";
+        break;
+      }
+      case AST_Argument::dir_OUT:
+      {
+        this->hfile_ << "_out";
+        this->sfile_ << "_out";
+        break;
+      }
+      case AST_Argument::dir_INOUT:
+      {
+        this->hfile_ << " *&";
+        this->sfile_ << " *&";
+        break;
+      }
+    }
 
     return 0;
   }
