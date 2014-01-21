@@ -71,9 +71,12 @@ configure_servant (::PortableServer::Servant servant,
     }
     else
     {
+      // Unable to read file, use default configuration
       ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to read %s\n"),
+                  ACE_TEXT ("%T (%t) - %M - failed to read %s, ")
+                  ACE_TEXT ("using default configuration"),
                   filename));
+      dds_servant->configure ();
     }
   }
   else

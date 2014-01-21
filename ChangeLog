@@ -1,3 +1,10 @@
+Tue Jan 21 14:30:04 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/dds/deployment/DDS_Container_Strategy.cpp:
+
+          If the ParticipantQoS file is not found, use the default
+          configuration.  Thanks Marianne!
+
 Thu Oct 10 15:46:06 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/utils/testing/svcs/logging/Testing_Log_Message_Listener.cpp:
