@@ -206,7 +206,6 @@ generate (const PICML::ComponentImplementationContainer_in container,
     << std::endl
     << CUTS_BE_CPP::include (pathname + "_iCCMC")
     << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_Component_T")
-    << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T")
     << std::endl;
 
   // Write the includes for the worker files.
@@ -278,6 +277,12 @@ generate (const PICML::MonolithicImplementation_in impl,
 
   if (apptasks.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Application_Task_T");
+
+  std::vector <PICML::ProvidedRequestPort> facets =
+    component.ProvidedRequestPort_kind_children ();
+
+  if (!facets.empty ())
+    this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T");
 
   this->ctx_.header_
     << std::endl

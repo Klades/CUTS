@@ -88,6 +88,13 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Fri Jan 24 16:40:13 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Fixed code generation to only include facet implementation header if
+          the component provides a facet.
+
 Fri Jan 24 16:08:04 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
