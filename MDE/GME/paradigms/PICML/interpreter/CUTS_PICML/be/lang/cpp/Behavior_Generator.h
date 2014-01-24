@@ -102,6 +102,23 @@ public:
 };
 
 /**
+ * @class CUTS_BE_ApplicationTask_Variable_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ApplicationTask_Variable_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_ApplicationTask_Variable_T (void);
+
+  void generate (const PICML::ApplicationTask & apptask);
+};
+
+/**
  * @class CUTS_BE_Precondition_T
  */
 template < >

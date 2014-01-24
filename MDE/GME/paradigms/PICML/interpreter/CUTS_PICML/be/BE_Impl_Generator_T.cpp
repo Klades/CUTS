@@ -168,6 +168,13 @@ visit_Component (PICML::Component_in component)
   CUTS_BE::visit <CONTEXT> (component->get_PeriodicEvents (),
     [this] (const PICML::PeriodicEvent & i) {return i->accept (this);});
 
+  // Visit all the ApplicationTask elements of the <component>.
+  typedef std::vector <PICML::ApplicationTask> ApplicationTask_Set;
+  ApplicationTask_Set apptasks = component.ApplicationTask_kind_children ();
+
+  CUTS_BE::visit <CONTEXT> (apptasks,
+    boost::bind (&ApplicationTask_Set::value_type::Accept, _1, boost::ref (*this)));
+
   // Visit all the Attribute elements of the <component>.
   CUTS_BE::visit <CONTEXT> (component->get_Attributes (),
     [this] (const PICML::Attribute & i) {return i->accept (this);});
@@ -317,7 +324,18 @@ visit_PeriodicEvent_Variable (PICML::PeriodicEvent_in periodic)
 }
 
 //
-// visit_Include
+// Visit_ApplicationTask_Variable
+//
+template <typename CONTEXT>
+void CUTS_BE_Impl_Generator_T <CONTEXT>::
+visit_ApplicationTask_Variable (PICML::ApplicationTask_in apptask)
+{
+  CUTS_BE_ApplicationTask_Variable_T <behavior_type> var_gen (this->context_);
+  var_gen.generate (apptask);
+}
+
+//
+// Visit_ReadonlyAttribute_Variable
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
@@ -358,7 +376,26 @@ visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 }
 
 //
-// visit_InEventPort
+// Visit_ApplicationTask
+//
+template <typename CONTEXT>
+void CUTS_BE_Impl_Generator_T <CONTEXT>::
+visit_ApplicationTask (PICML::ApplicationTask_in apptask)
+{
+  // Begin the generation of the application task.
+  CUTS_BE_ApplicationTask_Begin_T <architecture_type> apptask_begin_gen (this->context_);
+  apptask_begin_gen.generate (apptask);
+
+  CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
+  exec_visitor.generate (apptask);
+
+  // End the generation of the application task.
+  CUTS_BE_ApplicationTask_End_T <architecture_type> apptask_end_gen (this->context_);
+  apptask_end_gen.generate (apptask);
+}
+
+//
+// Visit_Attribute
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
@@ -571,6 +608,16 @@ write_variables_i (const PICML::Component_in component)
   // Write the periodic event variables.
   for (auto periodic : component->get_PeriodicEvents ())
     this->visit_PeriodicEvent_Variable (periodic);
+
+  // Write the application task variables.
+  typedef std::vector <PICML::ApplicationTask> ApplicationTask_Set;
+  ApplicationTask_Set apptasks = component.ApplicationTask_kind_children ();
+
+  std::for_each (apptasks.begin (),
+                 apptasks.end (),
+                 boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ApplicationTask_Variable,
+                              this,
+                              _1));
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);

@@ -87,6 +87,21 @@ generate (const PICML::PeriodicEvent_in periodic)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Application_Task_Variable_T
+
+void CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::
+generate (const PICML::ApplicationTask & apptask)
+{
+  std::string name (apptask.name ());
+  PICML::Component parent = PICML::Component::Cast (apptask.parent ());
+
+  this->ctx_.header_
+    << CUTS_BE_CPP::single_line_comment ("apptask: " + name)
+    << "CUTS_Application_Task_T < " << parent.name ()
+    << " > apptask_" << name << "_;" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_PeriodicEvent_Variable_T
 
 void CUTS_BE_Worker_Variable_T <CUTS_BE_CPP::Context>::

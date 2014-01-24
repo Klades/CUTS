@@ -100,6 +100,12 @@ public:
   virtual void write_PeriodicEvent_end (
     const PICML::PeriodicEvent & periodic);
 
+  virtual void write_ApplicationTask_begin (
+    const PICML::ApplicationTask & apptask);
+
+  virtual void write_ApplicationTask_end (
+    const PICML::ApplicationTask & apptask);
+
   virtual void write_environment_begin (
     const PICML::Component & component);
 
@@ -171,6 +177,9 @@ public:
 
   virtual void write_PeriodicEvent_variable (
     const PICML::PeriodicEvent & periodic);
+
+  virtual void write_ApplicationTask_variable (
+    const PICML::ApplicationTask & apptask);
 
   virtual void write_variables_end (void);
 

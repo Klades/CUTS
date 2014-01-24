@@ -146,6 +146,8 @@ public:
 
   virtual void visit_Property (PICML::Property_in property);
 
+  virtual void visit_ApplicationTask (PICML::ApplicationTask_in apptask);
+
 private:
   std::string sink_name_;
 };
@@ -332,6 +334,40 @@ public:
   virtual ~CUTS_BE_PeriodicEvent_End_T (void);
 
   void generate (const PICML::PeriodicEvent_in periodic);
+};
+
+/**
+ * @class CUTS_BE_ApplicationTask_Begin_T
+ */
+template < >
+class CUTS_BE_CCM_Export CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CCM::Cpp::Context, PICML::Visitor>
+{
+public:
+  typedef public CUTS_BE_Visitor_T <CUTS_BE_CCM::Cpp::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ApplicationTask_Begin_T (CUTS_BE_CCM::Cpp::Context & context);
+
+  virtual ~CUTS_BE_ApplicationTask_Begin_T (void);
+
+  void generate (const PICML::ApplicationTask & apptask);
+};
+
+/**
+ * @class CUTS_BE_ApplicationTask_End_T
+ */
+template < >
+class CUTS_BE_CCM_Export CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CCM::Cpp::Context, PICML::Visitor>
+{
+public:
+  typedef public CUTS_BE_Visitor_T <CUTS_BE_CCM::Cpp::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ApplicationTask_End_T (CUTS_BE_CCM::Cpp::Context & context);
+
+  virtual ~CUTS_BE_ApplicationTask_End_T (void);
+
+  void generate (const PICML::ApplicationTask & apptask);
 };
 
 /**

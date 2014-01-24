@@ -254,6 +254,32 @@ write_PeriodicEvent_end (const PICML::PeriodicEvent & periodic)
 }
 
 //
+// write_ApplicationTask_begin
+//
+void CUTS_BE_Set::
+write_ApplicationTask_begin (const PICML::ApplicationTask & apptask)
+{
+  std::for_each (this->strats_.begin (),
+                 this->strats_.end (),
+                 boost::bind (&CUTS_BE_Traits::write_ApplicationTask_begin,
+                              _1,
+                              apptask));
+}
+
+//
+// write_ApplicationTask_end
+//
+void CUTS_BE_Set::
+write_ApplicationTask_end (const PICML::ApplicationTask & apptask)
+{
+  std::for_each (this->strats_.begin (),
+                 this->strats_.end (),
+                 boost::bind (&CUTS_BE_Traits::write_ApplicationTask_end,
+                              _1,
+                              apptask));
+}
+
+//
 // write_Attribute_begin
 //
 void CUTS_BE_Set::
@@ -438,6 +464,19 @@ write_PeriodicEvent_variable (const PICML::PeriodicEvent & variable)
   std::for_each (this->strats_.begin (),
                  this->strats_.end (),
                  boost::bind (&CUTS_BE_Traits::write_PeriodicEvent_variable,
+                              _1,
+                              variable));
+}
+
+//
+// write_Periodic_variable
+//
+void CUTS_BE_Set::
+write_ApplicationTask_variable (const PICML::ApplicationTask & variable)
+{
+  std::for_each (this->strats_.begin (),
+                 this->strats_.end (),
+                 boost::bind (&CUTS_BE_Traits::write_ApplicationTask_variable,
                               _1,
                               variable));
 }

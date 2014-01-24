@@ -53,6 +53,9 @@ protected:
   /// Generate the method for an PeriodicEvent element.
   void Visit_PeriodicEvent (const PICML::PeriodicEvent &);
 
+  /// Generate the method for an ApplicationTask element.
+  void Visit_ApplicationTask (const PICML::ApplicationTask &);
+
   /// Generate the method for a ReadonlyAttribute element.
   void Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute &);
 

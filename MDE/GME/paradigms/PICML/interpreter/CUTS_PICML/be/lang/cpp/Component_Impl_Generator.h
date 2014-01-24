@@ -65,6 +65,8 @@ public:
 
   virtual void visit_InEventPort (PICML::InEventPort_in in);
 
+  virtual void visit_ApplicationTask (PICML::ApplicationTask_in apptask);
+
 private:
   /// Target output stream.
   std::ostream & out_;

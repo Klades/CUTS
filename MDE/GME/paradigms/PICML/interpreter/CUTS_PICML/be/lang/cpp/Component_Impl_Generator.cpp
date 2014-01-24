@@ -92,7 +92,7 @@ Initialize_Entity::~Initialize_Entity (void)
 }
 
 //
-// ~Initialize_Entity
+// Visit_PeriodicEvent
 //
 void Initialize_Entity::
 visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
@@ -123,6 +123,7 @@ visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 //
 // visit_InEventPort
 //
+
 void Initialize_Entity::visit_InEventPort (PICML::InEventPort_in in)
 {
   if (!in->has_src_of_Input ())
@@ -153,6 +154,22 @@ void Initialize_Entity::visit_InEventPort (PICML::InEventPort_in in)
     << "this->" << varname << ".init (this, "
     << "&" << parent_name << "::push_" << name << "_i);"
     << "this->register_object (&this->" << varname << ");";
+}
+
+//
+// Visit_ApplicationTask
+//
+void Initialize_Entity::
+visit_ApplicationTask (PICML::ApplicationTask_in apptask)
+{
+  const std::string name (apptask->name ());
+  PICML::Component parent = apptask->parent ();
+  const std::string parent_name (parent->name ());
+
+  this->out_
+    << "this->apptask_" << name << "_.init (this, &"
+    << parent_name << "::apptask_" << name << ");"
+    << "this->register_object (&this->apptask_" << name << "_);";
 }
 
 }

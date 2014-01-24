@@ -70,6 +70,23 @@ CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_CPP::Context>::~CUTS_BE_PeriodicEvent_
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Variable_T
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::
+CUTS_BE_ApplicationTask_Variable_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::~CUTS_BE_ApplicationTask_Variable_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Precondition_T
 
 CUTS_INLINE

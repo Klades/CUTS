@@ -93,6 +93,16 @@ Visit_Component (const PICML::Component & component)
                  boost::bind (&Periodic_Set::value_type::Accept,
                               _1,
                               boost::ref (*this)));
+
+  // @@ application task actions
+  typedef std::vector <PICML::ApplicationTask> Apptask_Set;
+  Apptask_Set apptasks = component.ApplicationTask_kind_children ();
+
+  std::for_each (apptasks.begin (),
+                 apptasks.end (),
+                 boost::bind (&Periodic_Set::value_type::Accept,
+                              _1,
+                              boost::ref (*this)));
 }
 
 //
@@ -186,6 +196,40 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
   }
 
   // Signal the end of writing a <PeriodicEvent>.
+  std::for_each (this->generators_.begin (),
+                 this->generators_.end (),
+                 boost::bind (&CUTS_BE_File_Generator::write_method_end,
+                              _1));
+}
+
+//
+// Visit_ApplicationTask
+//
+void CUTS_BE_Method_Visitor::
+Visit_ApplicationTask (const PICML::ApplicationTask & apptask)
+{
+  typedef
+  void (CUTS_BE_File_Generator::*BE_WRITE_METHOD)
+       (const PICML::ApplicationTask &);
+
+  // Signal the start of writing a <ApplicationTask>.
+  std::for_each (this->generators_.begin (),
+                 this->generators_.end (),
+                 boost::bind (static_cast <BE_WRITE_METHOD> (
+                              &CUTS_BE_File_Generator::write_method_begin),
+                              _1,
+                              apptask));
+
+  PICML::Input input = apptask.dstInput ();
+
+  if (input != Udm::null)
+  {
+    // Let's generate the execution sequence for this event.
+    CUTS_BE_Execution_Visitor execution_visitor (this->generators_);
+    input.Accept (execution_visitor);
+  }
+
+  // Signal the end of writing a <ApplicationTask>.
   std::for_each (this->generators_.begin (),
                  this->generators_.end (),
                  boost::bind (&CUTS_BE_File_Generator::write_method_end,

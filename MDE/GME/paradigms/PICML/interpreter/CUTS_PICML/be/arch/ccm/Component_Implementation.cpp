@@ -274,6 +274,11 @@ generate (const PICML::MonolithicImplementation_in impl,
   if (facets.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T");
 
+  auto apptasks = component->get_ApplicationTasks ();
+
+  if (apptasks.count ())
+    this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Application_Task_T");
+
   this->ctx_.header_
     << std::endl
     << "namespace " << namespace_name
@@ -353,6 +358,10 @@ generate (const PICML::MonolithicImplementation_in impl,
   for (auto periodic : periodics)
     periodic->accept (&entity);
 
+  // Generate ApplicationTask initalization
+  for (auto task : apptasks)
+    task->accept (&entity);
+
   if (this->ctx_.traits_->emulates_async ())
   {
     for (auto event : component->get_InEventPorts ())
@@ -431,6 +440,18 @@ void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
 visit_Input (PICML::Input_in input)
 {
   input->dst_InputAction ()->accept (this);
+}
+
+void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
+visit_ApplicationTask (PICML::ApplicationTask_in apptask)
+{
+  std::string name ("apptask_");
+  name += apptask->name ();
+
+  // Configure the apptask event.
+  this->ctx_.header_
+    << "this->" << name << "_.init (this, &type::" << name << ");"
+    << "this->register_object   (&this->" << name << "_);";
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
@@ -921,6 +942,39 @@ generate (const PICML::PeriodicEvent_in periodic)
 
 void CUTS_BE_PeriodicEvent_End_T <CUTS_BE_CCM::Cpp::Context>::
 generate (const PICML::PeriodicEvent_in periodic)
+{
+  this->ctx_.source_
+    << "}";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Begin_T
+
+void CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::ApplicationTask & apptask)
+{
+  std::string name = apptask.name ();
+  std::string func_name = "apptask_" + name;
+
+  PICML::Component parent (PICML::Component::Cast (apptask.parent ()));
+  std::string parent_name (parent.name ());
+
+  this->ctx_.header_
+    << CUTS_BE_CPP::single_line_comment ("ApplicationTask: " + name)
+    << "void " << func_name << " (void);"
+    << std::endl;
+
+  this->ctx_.source_
+    << CUTS_BE_CPP::function_header ("ApplicationTask: " + name)
+    << "void " << parent_name << "::" << func_name << " (void)"
+    << "{";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_End_T
+
+void CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::ApplicationTask & apptask)
 {
   this->ctx_.source_
     << "}";

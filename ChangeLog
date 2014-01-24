@@ -88,6 +88,42 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Fri Jan 24 16:08:04 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Method_Visitor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Method_Visitor.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Set.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Set.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.cpp:
+
+          Added code generation for Application Tasks
+
+        * cuts/Application_Task.h:
+        * cuts/Application_Task.inl:
+        * cuts/Application_Task.cpp:
+        * cuts/Application_Task_T.h:
+        * cuts/Application_Task_T.inl:
+        * cuts/Application_Task_T.cpp:
+        * cuts/CUTS.mpc:
+
+          Added base classes for Application Tasks.  These tasks run in a separate
+          thread and make a single call into method the initalized method on the
+          component when activated.  At this time, application task activation only
+          occurs when the component is activated.
+
 Tue Dec 17 16:11:13 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
