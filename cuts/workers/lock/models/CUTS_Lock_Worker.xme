@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{3C1BBB4A-7D90-4BCA-A4F9-3B669967C541}" cdate="Thu Jan 30 11:10:34 2014" mdate="Thu Jan 30 11:10:34 2014" version="" metaguid="{B7B11E6F-48E7-4E3A-8BBE-ED2BF628152B}" metaversion="" metaname="PICML">
+	<name>CUTS_Lock_Worker</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{81d06039-96f8-4bf2-84b5-f6cad1e74f30}">
+		<name>CUTS_Lock_Worker</name>
+		<folder id="id-006a-00000002" relid="0x1" childrelidcntr="0x13" kind="PredefinedTypes" guid="{a8ded0ee-561f-4a9d-8b3b-13f10abd79ee}">
+			<name>PredefinedTypes</name>
+			<atom id="id-0066-00000001" kind="UnsignedLongInteger" guid="{9026bb09-7ccf-4c85-9c7c-e2438279590b}" relid="0x2">
+				<name>UnsignedLongInteger</name>
+			</atom>
+			<atom id="id-0066-00000002" kind="Boolean" guid="{48b6d071-b38c-4a86-a40e-7333c6b0024f}" relid="0x3">
+				<name>Boolean</name>
+			</atom>
+			<atom id="id-0066-00000003" kind="Byte" guid="{12a66020-511b-4ce9-8f7d-86807420ee09}" relid="0x4">
+				<name>Byte</name>
+			</atom>
+			<atom id="id-0066-00000004" kind="Char" guid="{21abd683-22dc-47c5-a949-85a6b604bee7}" relid="0x5">
+				<name>Char</name>
+			</atom>
+			<atom id="id-0066-00000005" kind="WideChar" guid="{751ae6ad-7e51-429d-bfc6-23f886ec3927}" relid="0x6">
+				<name>WideChar</name>
+			</atom>
+			<atom id="id-0066-00000006" kind="ShortInteger" guid="{e92573cb-bfeb-4e26-b868-ce8d088e2c51}" relid="0x7">
+				<name>ShortInteger</name>
+			</atom>
+			<atom id="id-0066-00000007" kind="LongInteger" guid="{8481f5c0-c18f-47a3-b814-7754f0accbde}" relid="0x8">
+				<name>LongInteger</name>
+			</atom>
+			<atom id="id-0066-00000008" kind="LongLongInteger" guid="{4ec57ce7-86a0-4a7b-bf42-9ab0ba2fc75a}" relid="0x9">
+				<name>LongLongInteger</name>
+			</atom>
+			<atom id="id-0066-00000009" kind="UnsignedShortInteger" guid="{ec02ff3e-1cc9-4edd-bc85-f43019b88c3c}" relid="0xa">
+				<name>UnsignedShortInteger</name>
+			</atom>
+			<atom id="id-0066-0000000a" kind="UnsignedLongLongInteger" guid="{be44c63f-154b-47d4-a4b8-fc5123b9cc11}" relid="0xb">
+				<name>UnsignedLongLongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000b" kind="FloatNumber" guid="{77d3d9ae-c3eb-40b9-a340-7aa2842c15e7}" relid="0xc">
+				<name>FloatNumber</name>
+			</atom>
+			<atom id="id-0066-0000000c" kind="DoubleNumber" guid="{17b3e753-7ad7-4bf5-851b-8c6c813c65fe}" relid="0xd">
+				<name>DoubleNumber</name>
+			</atom>
+			<atom id="id-0066-0000000d" kind="LongDoubleNumber" guid="{3c35a4a8-bd30-4f12-95cb-20b018859638}" relid="0xe">
+				<name>LongDoubleNumber</name>
+			</atom>
+			<atom id="id-0066-0000000e" kind="GenericObject" guid="{2733c752-527e-47a8-83c3-b119d0af9bd4}" relid="0xf">
+				<name>GenericObject</name>
+			</atom>
+			<atom id="id-0066-0000000f" kind="GenericValue" guid="{e39f9995-1833-49d8-b833-48fa92af6e8f}" relid="0x10">
+				<name>GenericValue</name>
+			</atom>
+			<atom id="id-0066-00000010" kind="GenericValueObject" guid="{e8a5962f-b330-479c-ac65-e0edc6d521b4}" relid="0x11">
+				<name>GenericValueObject</name>
+			</atom>
+			<atom id="id-0066-00000011" kind="String" guid="{b30f91d7-6014-4dc2-bb85-dad20c36579b}" relid="0x12">
+				<name>String</name>
+			</atom>
+			<atom id="id-0066-00000012" kind="WideString" guid="{d2b14f7c-7f5f-4359-8425-d9cb20c74f8d}" relid="0x13">
+				<name>WideString</name>
+			</atom>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x2" childrelidcntr="0x1" kind="WorkerLibraries" guid="{31d16d97-62f8-442e-a0d9-cdc9a5083056}">
+			<name>WorkerLibraryFolder</name>
+			<model id="id-0065-00000001" kind="WorkerLibrary" guid="{d7f1e5b4-33da-4276-833e-91b1ad4df303}" relid="0x1" childrelidcntr="0x1">
+				<name>CUTS_Lock_Worker</name>
+				<attribute kind="Location" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000002" kind="WorkerFile" role="WorkerFile" guid="{4e32bcc8-0e51-43d3-96b3-9d9f56422611}" relid="0x1" childrelidcntr="0x1">
+					<name>Lock_Worker</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="WorkerBehavior" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>118,132</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Location">
+						<value>$(CUTS_ROOT)/cuts/workers/lock</value>
+					</attribute>
+					<model id="id-0065-00000003" kind="Worker" role="Worker" guid="{d4ffcbfb-fba1-4416-a09f-5b7ec1ad4944}" relid="0x1" childrelidcntr="0x6">
+						<name>CUTS_Lock_Worker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkerBehavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>203,170</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Abstract" status="meta">
+							<value>false</value>
+						</attribute>
+						<model id="id-0065-00000005" kind="Operation" role="Operation" guid="{aef1cd66-49e4-403b-a226-b4ef4b435576}" relid="0x2" childrelidcntr="0x0">
+							<name>acquire</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>147,63</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-00000006" kind="Operation" role="Operation" guid="{cad4c5ec-d6e2-4e40-a2b6-037e810e6751}" relid="0x3" childrelidcntr="0x0">
+							<name>release</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>140,140</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-00000007" kind="Operation" role="Operation" guid="{10e1cfff-09c5-4e2b-b380-99a28966ad56}" relid="0x4" childrelidcntr="0x0">
+							<name>wait</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>322,70</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-00000008" kind="Operation" role="Operation" guid="{b21bfd81-da54-4440-ad63-225d875bc8ac}" relid="0x5" childrelidcntr="0x0">
+							<name>signal</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>322,147</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-00000009" kind="Operation" role="Operation" guid="{1142f245-2e12-4135-9578-a727345e1dbd}" relid="0x6" childrelidcntr="0x0">
+							<name>noop</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>210,224</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+					</model>
+				</model>
+			</model>
+		</folder>
+	</folder>
+</project>
