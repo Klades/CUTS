@@ -1,18 +1,13 @@
 // -*- C++ -*-
 // $Id$
 
-//
-// ~CUTS_Application_Task
-//
+
 CUTS_INLINE
 CUTS_Application_Task::~CUTS_Application_Task (void)
 {
   this->deactivate ();
 }
 
-//
-// is_active
-//
 CUTS_INLINE
 bool CUTS_Application_Task::is_active (void) const
 {

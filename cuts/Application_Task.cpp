@@ -30,9 +30,6 @@ int CUTS_Application_Task::activate (void)
   return retval;
 }
 
-//
-// deactivate
-//
 int CUTS_Application_Task::deactivate (void)
 {
   if (!this->active_)
@@ -41,5 +38,6 @@ int CUTS_Application_Task::deactivate (void)
   // Toggle the active flag.
   this->active_ = false;
   this->wait ();
+
   return 0;
 }
