@@ -88,6 +88,14 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Feb 10 15:07:49 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/compiler/models:
+        * tests/iccm/compiler/models/SmokeTest.xme:
+
+          Started on a model for the compiler smoke test.  Still not complete,
+          but it's a start.
+
 Mon Feb 10 14:59:38 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/Latency:
