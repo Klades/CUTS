@@ -88,6 +88,16 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Feb 10 14:59:38 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/Latency:
+        * examples/iccm/Latency/models:
+        * examples/iccm/Latency/models/latency.xme:
+
+          Modelled latency performance test based on RTIDDS's implementation.
+          Need to generate artifacts from the model, but am having problems
+          with GME right now.
+
 Thu Feb  6 20:36:54 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/workers/lock:

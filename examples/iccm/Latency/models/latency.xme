@@ -1,0 +1,2420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{20820D8B-F843-454E-9F35-DA198696F2E7}" cdate="Fri May 31 11:03:52 2013" mdate="Fri May 31 11:03:52 2013" version="" metaguid="{B7B11E6F-48E7-4E3A-8BBE-ED2BF628152B}" metaversion="" metaname="PICML">
+	<name>HelloWorld</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0xb" kind="RootFolder" guid="{cdc3144f-3aa4-409c-8f17-be81b98b96d0}">
+		<name>HelloWorld</name>
+		<folder id="id-006a-00000002" relid="0x0" childrelidcntr="0x2" kind="InterfaceDefinitions" guid="{2456f9cb-c32e-4314-add6-8a742ba35a83}">
+			<name>InterfaceDefinitions</name>
+			<model id="id-0065-00000001" kind="File" guid="{6eef5f06-29ce-4908-bbff-bc5e55df6e6b}" relid="0x0" childrelidcntr="0x8">
+				<name>HelloWorld</name>
+				<attribute kind="Path">
+					<value></value>
+				</attribute>
+				<attribute kind="PrefixTag" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-0000002a" kind="Aggregate" role="Aggregate" guid="{87458fb9-92ef-4d16-9c96-e72f495f9e38}" relid="0x7" childrelidcntr="0x4">
+					<name>Latency</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>70,56</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<atom id="id-0066-00000059" kind="Key" role="Key" guid="{e091e59f-5100-4023-8923-6e33802573da}" relid="0x3">
+						<name>Key</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>350,42</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<reference id="id-0067-00000028" kind="Member" role="Member" guid="{1526bdc1-c064-4970-a261-f97e4a459fac}" relid="0x1" referred="id-0066-0000000c">
+						<name>sequence_number</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>119,28</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000029" kind="ArrayMember" role="ArrayMember" guid="{f2fd7ddb-1bbf-4ed7-87ec-a6eb01088f14}" relid="0x2" referred="id-0066-00000008">
+						<name>data</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>126,147</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Size">
+							<value>1024</value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000047" kind="KeyMember" role="KeyMember" guid="{93f31dca-2b0c-43e8-a2f9-f853584453be}" relid="0x4">
+						<name>KeyMember</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>We</value>
+						</regnode>
+						<connpoint role="src" target="id-0066-00000059"/>
+						<connpoint role="dst" target="id-0067-00000028"/>
+					</connection>
+				</model>
+			</model>
+			<model id="id-0065-00000003" kind="File" guid="{46dc49b8-3bd4-439e-878e-6cc4c665889d}" relid="0x2" childrelidcntr="0x7">
+				<name>HelloWorld_Components</name>
+				<attribute kind="Path" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="PrefixTag" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000005" kind="Component" role="Component" guid="{51af2c64-f8de-44f0-b82b-292b1601cade}" relid="0x2" childrelidcntr="0x151">
+					<name>HelloSender</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>104,232</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UUID">
+						<value>C56D505C-E6A3-11DF-8DCF-000C2958D27B</value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000026" kind="MultiInputAction" role="MultiInputAction" guid="{ccf0da9c-e425-456a-aa29-585a1b1f31d3}" relid="0xe4" childrelidcntr="0x0">
+						<name>passivate</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>609,217</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</model>
+					<model id="id-0065-00000027" kind="Attribute" role="Attribute" guid="{29e6ff90-2fe1-433c-b9a1-c6854dfd37fe}" relid="0xec" childrelidcntr="0x1">
+						<name>count</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,308</value>
+								</regnode>
+							</regnode>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>84,280</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<reference id="id-0067-00000027" kind="AttributeMember" role="AttributeMember" guid="{cae5dd6b-b9d3-4cf1-866c-38dd0e3d287a}" relid="0x1" referred="id-0066-00000010">
+							<name></name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="InterfaceDefinition" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>105,91</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+					</model>
+					<model id="id-0065-00000028" kind="OutputAction" role="OutputAction" guid="{c780bff0-3dd1-46bf-b398-44675ac56674}" relid="0xee" childrelidcntr="0x1">
+						<name>echo</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>357,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-0000002f" kind="SimpleProperty" role="SimpleProperty" guid="{f00b654e-88a0-4e11-9848-75e9b9db26d4}" relid="0x1" referred="id-0066-0000000c">
+							<name>sequence_number</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>182,49</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>this-&gt;sequence_number ()</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-00000029" kind="InputAction" role="InputAction" guid="{2648f07b-4def-4b09-a8e8-f924a0aceacc}" relid="0xf9" childrelidcntr="0x0">
+						<name>InputAction</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</model>
+					<model id="id-0065-00000036" kind="InputAction" role="InputAction" guid="{29f240c2-3d06-4817-bc6c-354e8283e5e0}" relid="0x10a" childrelidcntr="0x0">
+						<name>InputAction</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</model>
+					<model id="id-0065-00000043" kind="Action" role="Action" guid="{54822d37-86d4-4fee-a248-b08e5514a6e8}" relid="0x123" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>266,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-00000042" kind="ActionType" role="ActionType" guid="{b72a4c9e-e060-4f60-b364-6755b106eccf}" relid="0x1" referred="id-0065-00000051">
+							<name>acquire</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ActionTypeAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>77,35</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+					</model>
+					<model id="id-0065-00000044" kind="Action" role="Action" guid="{9e7342ea-16fe-4b7c-8eca-581e22ebd1a8}" relid="0x126" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>378,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-00000043" kind="ActionType" role="ActionType" guid="{613ef111-d0bf-4921-9577-36d8f5c423e1}" relid="0x1" referred="id-0065-00000050">
+							<name>release</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ActionTypeAspect" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>77,35</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+					</model>
+					<model id="id-0065-00000048" kind="Action" role="Action" guid="{7645f46a-4733-4fa1-a019-6c36e9d39929}" relid="0x12f" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>252,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-00000047" kind="ActionType" role="ActionType" guid="{402e4b28-e4a8-49dc-8d18-484c66f46914}" relid="0x1" referred="id-0065-00000051">
+							<name>acquire</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000049" kind="Action" role="Action" guid="{16f88607-a6fe-4e93-af68-2e35ce56f7e0}" relid="0x132" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>469,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-00000048" kind="ActionType" role="ActionType" guid="{73d4d9c6-ec85-4eeb-b98e-b6537bbdd980}" relid="0x1" referred="id-0065-00000050">
+							<name>release</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000052" kind="Action" role="Action" guid="{ec12bb50-9702-4f0b-abaf-39f796e7d0c6}" relid="0x141" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>525,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-00000049" kind="ActionType" role="ActionType" guid="{c66eb67c-5336-43d8-a46f-07dcd8207d86}" relid="0x1" referred="id-0065-0000004d">
+							<name>noop</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000053" kind="Action" role="Action" guid="{a782acd6-94a7-4c16-a675-773b9b906c3f}" relid="0x148" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>644,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-0000004a" kind="ActionType" role="ActionType" guid="{5ce7ac00-843c-4a58-80aa-4a7047ae676f}" relid="0x1" referred="id-0065-0000004d">
+							<name>noop</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000054" kind="Action" role="Action" guid="{07d7033d-2a3c-48ee-8d95-c17ec99996e8}" relid="0x14d" childrelidcntr="0x1">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>840,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-0000004b" kind="ActionType" role="ActionType" guid="{fb803f11-84c4-4768-a42e-f08e655a14d7}" relid="0x1" referred="id-0065-0000004d">
+							<name>noop</name>
+						</reference>
+					</model>
+					<atom id="id-0066-0000001f" kind="Environment" role="Environment" guid="{ee9e7d7a-2578-4d4b-a07b-ef20e99e141b}" relid="0xc9">
+						<name>Environment</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>525,203</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000027" kind="State" role="State" guid="{abb31d38-d8e1-4b17-8324-184100929f76}" relid="0xe5">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>658,217</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000028" kind="ForState" role="ForState" guid="{a16ac084-3ab8-4d82-9fce-0609f092a228}" relid="0xed">
+						<name>ForState</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="IncrementExpr">
+							<value>++i</value>
+						</attribute>
+						<attribute kind="InitialCondition">
+							<value>int i=0, j=this-&gt;count ()</value>
+						</attribute>
+						<attribute kind="LoopingCondition">
+							<value>i&lt;j</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000029" kind="State" role="State" guid="{af83496c-0007-40c2-9c4f-0948f84a35d5}" relid="0xef">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>406,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000002a" kind="Terminal" role="Terminal" guid="{d96a5dee-d2ea-4b95-b819-c0464bc97328}" relid="0xf1">
+						<name>Terminal</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>742,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000002b" kind="State" role="State" guid="{dae9a45b-0b07-43d9-8ad2-6a2afbf8c010}" relid="0xf2">
+						<name>State</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>784,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000002c" kind="ApplicationTask" role="ApplicationTask" guid="{587fc66e-562c-4d33-ac18-ffc7f5e405bf}" relid="0xf8">
+						<name>EventCreator</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000042" kind="State" role="State" guid="{38095505-e41d-437a-841b-e47abec599a4}" relid="0x10b">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>196,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000006f" kind="State" role="State" guid="{33656d40-3ae9-45a0-bb2f-7261486de4f5}" relid="0x124">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>322,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000070" kind="State" role="State" guid="{8b13ab0d-66bb-4fa9-82b9-5c86594eb8ae}" relid="0x127">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>434,196</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000076" kind="State" role="State" guid="{4e753745-24f8-4990-91a2-b41e73369760}" relid="0x130">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>301,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000078" kind="WhileState" role="WhileState" guid="{7091554b-5763-49cb-837a-b8e304615e64}" relid="0x13a">
+						<name>WhileState</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>469,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="LoopingCondition">
+							<value>this-&gt;busy_wait ()</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000079" kind="Terminal" role="Terminal" guid="{1a524c1f-4ef1-4f79-aa31-09dbfef2dbc7}" relid="0x13b">
+						<name>Terminal</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>532,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000007b" kind="State" role="State" guid="{5d8309c8-564d-4cec-b292-e360a620522b}" relid="0x13d">
+						<name>State</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>588,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000008e" kind="State" role="State" guid="{d6733aae-ed74-40b3-905a-6d4085f5a4ae}" relid="0x142">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>574,133</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000008f" kind="State" role="State" guid="{19f4aa7c-78cf-4bfd-b7f8-7e5b3f63272e}" relid="0x149">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>693,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-00000090" kind="State" role="State" guid="{cff1c63e-21ab-475e-bbf0-f0fe1e24dc90}" relid="0x14e">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>889,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<reference id="id-0067-00000001" kind="OutEventPort" role="OutEventPort" guid="{a6105fb2-16de-45ae-bdd4-075117d9964c}" relid="0x0" referred="id-0065-0000002d">
+						<name>echo</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>133,315</value>
+								</regnode>
+							</regnode>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>154,287</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="out_event_port_type" status="meta">
+							<value>DirectConnect</value>
+						</attribute>
+						<attribute kind="single_destination">
+							<value>false</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000024" kind="Variable" role="Variable" guid="{d9aac7fb-a0ef-4ade-8563-597d4e3d56d7}" relid="0xe2" referred="id-0066-00000010">
+						<name>start_msec</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>315,301</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InitialValue" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000025" kind="Variable" role="Variable" guid="{44fbea1a-e7d6-46d4-b6a8-74ca835b6689}" relid="0xe3" referred="id-0066-00000010">
+						<name>end_msec</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>413,301</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InitialValue" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000002e" kind="Variable" role="Variable" guid="{6a6dfdac-4b07-4d9c-9ec4-85b627626108}" relid="0x102" referred="id-0066-0000000c">
+						<name>sequence_number</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>595,301</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InitialValue">
+							<value>0</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000030" kind="InEventPort" role="InEventPort" guid="{eaa4b04b-f4cb-4457-817c-f2f0f33a6f00}" relid="0x103" referred="id-0065-0000002d">
+						<name>response</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>56,189</value>
+								</regnode>
+							</regnode>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>231,287</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-0000003b" kind="WorkerType" role="WorkerType" guid="{f38650b9-88d9-4c34-9e86-4423745b61a2}" relid="0x104" referred="id-0065-0000004c">
+						<name>LockWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>217,308</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-00000040" kind="Variable" role="Variable" guid="{235b6be2-c157-4008-8cb4-60dad01d43a7}" relid="0x11e" referred="id-0066-00000007">
+						<name>busy_wait</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>504,301</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InitialValue" status="meta">
+							<value></value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000024" kind="InputEffect" role="InputEffect" guid="{cd8fb955-deab-4fe7-b374-42485cbc2d40}" relid="0xe6">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>// Print output
+ACE_UINT64 time = this-&gt;end_msec () - this-&gt;start_msec ();
+
+ACE_ERROR ((LM_DEBUG,
+ACE_TEXT (&quot;%T (%t) - %M - sent %q events in %q msecs (%f events per ms average)\n&quot;),
+this-&gt;count (),
+time,
+(float)this-&gt;count () / (float)time));</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000026"/>
+						<connpoint role="dst" target="id-0066-00000027"/>
+					</connection>
+					<connection id="id-0068-00000025" kind="Finish" role="Finish" guid="{fee462b0-9f3a-4a6b-9b28-a66ffca6c42c}" relid="0xe7">
+						<name>Finish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Nn</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000026"/>
+						<connpoint role="src" target="id-0066-00000027"/>
+					</connection>
+					<connection id="id-0068-00000027" kind="MultiInput" role="MultiInput" guid="{cac369b2-329f-45a8-9920-8cd2592ddcda}" relid="0xe9">
+						<name>MultiInput</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000026"/>
+						<connpoint role="src" target="id-0066-0000001f"/>
+					</connection>
+					<connection id="id-0068-0000002c" kind="TerminalEffect" role="TerminalEffect" guid="{b3b9c8b1-9b75-4b83-8d89-4ae764b0ce45}" relid="0xf4">
+						<name>TerminalEffect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<attribute kind="Postcondition">
+							<value>this-&gt;end_msec (ACE_OS::gettimeofday ().get_msec ());</value>
+						</attribute>
+						<connpoint role="src" target="id-0066-0000002a"/>
+						<connpoint role="dst" target="id-0066-0000002b"/>
+					</connection>
+					<connection id="id-0068-00000031" kind="Input" role="Input" guid="{e0171e71-463a-459f-80ff-15645bdf0dd7}" relid="0xfc">
+						<name>Input</name>
+						<connpoint role="dst" target="id-0065-00000029"/>
+						<connpoint role="src" target="id-0066-0000002c"/>
+					</connection>
+					<connection id="id-0068-00000032" kind="InputEffect" role="InputEffect" guid="{2e89e626-f297-4c2d-ae37-2ab822fd2eee}" relid="0xfd">
+						<name>InputEffect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>w</value>
+						</regnode>
+						<attribute kind="Postcondition">
+							<value>this-&gt;start_msec (ACE_OS::gettimeofday ().get_msec ());</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000029"/>
+						<connpoint role="dst" target="id-0066-00000028"/>
+					</connection>
+					<connection id="id-0068-0000003d" kind="InputEffect" role="InputEffect" guid="{f51be2fd-aeee-46c6-9593-fcc620a11258}" relid="0x10c">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>if (ev-&gt;sequence_number () != this-&gt;sequence_number ()){
+ACE_ERROR ((LM_DEBUG,
+ACE_TEXT (&quot;%T (%t) - %M - received different sequence number, got [%d], expected [%d]\n&quot;),
+ev-&gt;sequence_number (),
+this-&gt;sequence_number ()));
+}</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000036"/>
+						<connpoint role="dst" target="id-0066-00000042"/>
+					</connection>
+					<connection id="id-0068-0000003e" kind="Input" role="Input" guid="{c350e0fa-1e1a-44e8-a025-669069e717c0}" relid="0x10d">
+						<name>Input</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000036"/>
+						<connpoint role="src" target="id-0067-00000030"/>
+					</connection>
+					<connection id="id-0068-0000004c" kind="Effect" role="Effect" guid="{c17fc660-b3e8-4511-aac0-3b20261503dc}" relid="0x125">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>this-&gt;busy_wait (false);</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000043"/>
+						<connpoint role="dst" target="id-0066-0000006f"/>
+					</connection>
+					<connection id="id-0068-0000004d" kind="Effect" role="Effect" guid="{c0caac4f-c498-404f-ae88-4aca052a3ac4}" relid="0x128">
+						<name></name>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000044"/>
+						<connpoint role="dst" target="id-0066-00000070"/>
+					</connection>
+					<connection id="id-0068-0000004e" kind="Transition" role="Transition" guid="{7512e391-6dd2-458e-ab25-5fe591d017b3}" relid="0x129">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000044"/>
+						<connpoint role="src" target="id-0066-0000006f"/>
+					</connection>
+					<connection id="id-0068-0000004f" kind="Transition" role="Transition" guid="{be7ba65f-3ef8-4455-961a-2169ae5596db}" relid="0x12a">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000043"/>
+						<connpoint role="src" target="id-0066-00000042"/>
+					</connection>
+					<connection id="id-0068-00000050" kind="Finish" role="Finish" guid="{284df9d0-cff2-48fc-8da9-80ec4e34a28d}" relid="0x12b">
+						<name>Finish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Nn</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000036"/>
+						<connpoint role="src" target="id-0066-00000070"/>
+					</connection>
+					<connection id="id-0068-00000057" kind="Effect" role="Effect" guid="{55336fa3-1528-4836-96a2-c33512a45e8a}" relid="0x131">
+						<name></name>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000048"/>
+						<connpoint role="dst" target="id-0066-00000076"/>
+					</connection>
+					<connection id="id-0068-00000059" kind="LoopTransition" role="LoopTransition" guid="{a6f4d280-770f-4ae1-993b-2b5242be310e}" relid="0x135">
+						<name>LoopTransition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000048"/>
+						<connpoint role="src" target="id-0066-00000028"/>
+					</connection>
+					<connection id="id-0068-0000005a" kind="Transition" role="Transition" guid="{e3d148fa-998c-4019-a8b0-bbae06a06c9b}" relid="0x136">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000028"/>
+						<connpoint role="src" target="id-0066-00000076"/>
+					</connection>
+					<connection id="id-0068-0000005b" kind="Effect" role="Effect" guid="{040f248a-b789-4dff-a0a9-93419bbf0252}" relid="0x137">
+						<name>Effect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<attribute kind="Postcondition">
+							<value>this-&gt;busy_wait (true);</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000028"/>
+						<connpoint role="dst" target="id-0066-00000029"/>
+					</connection>
+					<connection id="id-0068-0000005c" kind="Transition" role="Transition" guid="{65c3bf4c-2ed9-4422-873e-3fdee0a1b37a}" relid="0x138">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000049"/>
+						<connpoint role="src" target="id-0066-00000029"/>
+					</connection>
+					<connection id="id-0068-00000062" kind="Effect" role="Effect" guid="{a372648b-e375-42de-9983-b66982535a10}" relid="0x140">
+						<name>Effect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000049"/>
+						<connpoint role="dst" target="id-0066-00000078"/>
+					</connection>
+					<connection id="id-0068-00000063" kind="Effect" role="Effect" guid="{f8b9f1a8-1ced-4047-890a-fada0c160911}" relid="0x143">
+						<name></name>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000052"/>
+						<connpoint role="dst" target="id-0066-0000008e"/>
+					</connection>
+					<connection id="id-0068-00000064" kind="LoopTransition" role="LoopTransition" guid="{7c6e041d-30dd-4edf-b882-904b106488a8}" relid="0x144">
+						<name>LoopTransition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000052"/>
+						<connpoint role="src" target="id-0066-00000078"/>
+					</connection>
+					<connection id="id-0068-00000065" kind="TerminalTransition" role="TerminalTransition" guid="{d8ccf2e5-4840-4e36-9fab-fce2d0369350}" relid="0x145">
+						<name>TerminalTransition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Es</value>
+						</regnode>
+						<connpoint role="dst" target="id-0066-00000079"/>
+						<connpoint role="src" target="id-0066-0000008e"/>
+					</connection>
+					<connection id="id-0068-00000066" kind="TerminalEffect" role="TerminalEffect" guid="{90145b40-a66a-4585-b9cf-fb1b5a82b692}" relid="0x146">
+						<name>TerminalEffect</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<attribute kind="Postcondition">
+							<value>this-&gt;sequence_number (++this-&gt;sequence_number ());</value>
+						</attribute>
+						<connpoint role="src" target="id-0066-00000079"/>
+						<connpoint role="dst" target="id-0066-0000007b"/>
+					</connection>
+					<connection id="id-0068-00000068" kind="Effect" role="Effect" guid="{80b53c82-d469-4a01-9021-df8f77ddc011}" relid="0x14a">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>this-&gt;sequence_number (++this-&gt;sequence_number ());</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000053"/>
+						<connpoint role="dst" target="id-0066-0000008f"/>
+					</connection>
+					<connection id="id-0068-00000069" kind="Transition" role="Transition" guid="{7d5320ef-7571-4295-bfff-59219be30499}" relid="0x14b">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000053"/>
+						<connpoint role="src" target="id-0066-0000007b"/>
+					</connection>
+					<connection id="id-0068-0000006a" kind="TerminalTransition" role="TerminalTransition" guid="{a42ec82f-2085-497d-9ccc-0b0ed554ff72}" relid="0x14c">
+						<name>TerminalTransition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0066-0000002a"/>
+						<connpoint role="src" target="id-0066-0000008f"/>
+					</connection>
+					<connection id="id-0068-0000006b" kind="Effect" role="Effect" guid="{1aff745c-04fa-42d8-bee3-775d699bb209}" relid="0x14f">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>this-&gt;end_msec (ACE_OS::gettimeofday ().get_msec ());</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-00000054"/>
+						<connpoint role="dst" target="id-0066-00000090"/>
+					</connection>
+					<connection id="id-0068-0000006c" kind="Transition" role="Transition" guid="{cd7188d7-e142-498d-99ff-35f7231a4c00}" relid="0x150">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000054"/>
+						<connpoint role="src" target="id-0066-0000002b"/>
+					</connection>
+					<connection id="id-0068-0000006d" kind="Finish" role="Finish" guid="{052a5676-2c6e-4fc4-856e-5b2d93db473c}" relid="0x151">
+						<name>Finish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Nn</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-00000029"/>
+						<connpoint role="src" target="id-0066-00000090"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000000b" kind="Component" role="Component" guid="{762a69bc-1cf6-43d7-a235-ad608e4e6790}" relid="0x1" childrelidcntr="0x14">
+					<name>HelloReceiver</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>419,232</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="UUID">
+						<value>AE722EF8-267C-11E1-8DCF-000C29A84559</value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000002e" kind="OutputAction" role="OutputAction" guid="{a09cd5bd-df7b-4910-8a55-2bb96a60f87c}" relid="0x3" childrelidcntr="0x4">
+						<name>response</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>245,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+						<attribute kind="Duration" status="meta">
+							<value>0</value>
+						</attribute>
+						<reference id="id-0067-00000039" kind="SimpleProperty" role="SimpleProperty" guid="{ee903878-f3e0-4877-a36d-c2f6efbb1950}" relid="0x1" referred="id-0066-0000000c">
+							<name>sequence_number</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>70,42</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>ev-&gt;sequence_number ()</value>
+							</attribute>
+						</reference>
+						<reference id="id-0067-0000003f" kind="SimpleProperty" role="SimpleProperty" guid="{942cafc2-355c-481b-9e61-dbc1659e22c3}" relid="0x4" referred="id-0066-00000008">
+							<name>data</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="Behavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>189,42</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Value">
+								<value>ev-&gt;data ()</value>
+							</attribute>
+						</reference>
+					</model>
+					<model id="id-0065-0000002f" kind="InputAction" role="InputAction" guid="{4a7469d3-9f92-4b06-86fd-bacfef9ca49c}" relid="0x6" childrelidcntr="0x0">
+						<name>inport</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>126,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</model>
+					<model id="id-0065-0000003a" kind="MultiInputAction" role="MultiInputAction" guid="{ff23ea1b-b3a7-46fd-b7b6-924b75e29322}" relid="0x10" childrelidcntr="0x0">
+						<name>passivate</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>140,280</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</model>
+					<atom id="id-0066-0000002d" kind="State" role="State" guid="{796638d3-d4ed-40c5-a1a3-bc79df61e7cd}" relid="0x4">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>294,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000002e" kind="State" role="State" guid="{eb442e6d-8656-41fa-af37-8a01e45b3985}" relid="0x7">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>182,84</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000005a" kind="Environment" role="Environment" guid="{8e6bf470-3174-48db-90ec-fa8f40e38470}" relid="0xf">
+						<name>Environment</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>63,266</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</atom>
+					<atom id="id-0066-0000005b" kind="State" role="State" guid="{b0524ece-5a67-4206-afd5-af83b5c64401}" relid="0x11">
+						<name></name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>190,280</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>NEWSnews</value>
+						</regnode>
+					</atom>
+					<reference id="id-0067-00000002" kind="InEventPort" role="InEventPort" guid="{1d5d291a-3dbb-437b-a226-c110714e6667}" relid="0x1" referred="id-0065-0000002d">
+						<name>echo</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>70,77</value>
+								</regnode>
+							</regnode>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>126,210</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000032" kind="OutEventPort" role="OutEventPort" guid="{f7abde0b-592e-4bb8-9f88-544b1d15ed29}" relid="0x2" referred="id-0065-0000002d">
+						<name>response</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>70,154</value>
+								</regnode>
+							</regnode>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>217,210</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="SpecifyIdTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="VersionTag" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="exclusiveProvider" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="exclusiveUser" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="optional" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="out_event_port_type" status="meta">
+							<value>DirectConnect</value>
+						</attribute>
+						<attribute kind="single_destination" status="meta">
+							<value>false</value>
+						</attribute>
+					</reference>
+					<reference id="id-0067-00000037" kind="Variable" role="Variable" guid="{d9372171-1b3e-4a4b-a87e-d8fd87d17de1}" relid="0xc" referred="id-0066-0000000c">
+						<name>sequence_number</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="Behavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>406,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="InitialValue">
+							<value>0</value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-00000035" kind="Effect" role="Effect" guid="{913d9357-7188-4218-867c-f43b336dd6fd}" relid="0x5">
+						<name></name>
+						<attribute kind="Postcondition" status="meta">
+							<value></value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000002e"/>
+						<connpoint role="dst" target="id-0066-0000002d"/>
+					</connection>
+					<connection id="id-0068-00000036" kind="InputEffect" role="InputEffect" guid="{07a73cc8-40aa-416d-b3d7-788f112e6708}" relid="0x8">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>this-&gt;sequence_number (ev-&gt;sequence_number ());</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000002f"/>
+						<connpoint role="dst" target="id-0066-0000002e"/>
+					</connection>
+					<connection id="id-0068-00000037" kind="Transition" role="Transition" guid="{ba82fb2a-d6f9-43d4-b615-6f9a2f8170ba}" relid="0x9">
+						<name>Transition</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000002e"/>
+						<connpoint role="src" target="id-0066-0000002e"/>
+					</connection>
+					<connection id="id-0068-00000038" kind="Finish" role="Finish" guid="{b7ec73ed-828d-43af-ab40-b63011ec9965}" relid="0xa">
+						<name>Finish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Nn</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000002f"/>
+						<connpoint role="src" target="id-0066-0000002d"/>
+					</connection>
+					<connection id="id-0068-00000039" kind="Input" role="Input" guid="{edb78e76-b7ae-4a8d-b724-d79c6c2c1f2e}" relid="0xe">
+						<name>Input</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000002f"/>
+						<connpoint role="src" target="id-0067-00000002"/>
+					</connection>
+					<connection id="id-0068-00000048" kind="InputEffect" role="InputEffect" guid="{1d5195bb-2192-4c6f-8847-ab76e3798389}" relid="0x12">
+						<name></name>
+						<attribute kind="Postcondition">
+							<value>ACE_ERROR ((LM_DEBUG,
+ACE_TEXT (&quot;%T (%t) - %M - subscriber received [%d] events\n&quot;),
+this-&gt;sequence_number () + 1));</value>
+						</attribute>
+						<connpoint role="src" target="id-0065-0000003a"/>
+						<connpoint role="dst" target="id-0066-0000005b"/>
+					</connection>
+					<connection id="id-0068-00000049" kind="MultiInput" role="MultiInput" guid="{d0e286e2-7bc8-48a8-8c58-1bd4ce2903a2}" relid="0x13">
+						<name>MultiInput</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Ew</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000003a"/>
+						<connpoint role="src" target="id-0066-0000005a"/>
+					</connection>
+					<connection id="id-0068-0000004a" kind="Finish" role="Finish" guid="{7e3b504a-9d09-49f5-97ea-d7eb0bd6a63b}" relid="0x14">
+						<name>Finish</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>Nn</value>
+						</regnode>
+						<connpoint role="dst" target="id-0065-0000003a"/>
+						<connpoint role="src" target="id-0066-0000005b"/>
+					</connection>
+				</model>
+				<model id="id-0065-0000002d" kind="Event" role="Event" guid="{393c8785-4400-4f80-aa7e-bdaa54f89a03}" relid="0x7" childrelidcntr="0x3">
+					<name>LatencyEvent</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>105,140</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="PrefixTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="SpecifyIdTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="VersionTag" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="abstract" status="meta">
+						<value>false</value>
+					</attribute>
+					<reference id="id-0067-0000002c" kind="Member" role="Member" guid="{d206de65-b14f-48da-8473-45c3fb2c4be0}" relid="0x1" referred="id-0066-0000000c">
+						<name>sequence_number</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>119,28</value>
+								</regnode>
+							</regnode>
+						</regnode>
+					</reference>
+					<reference id="id-0067-0000002d" kind="ArrayMember" role="ArrayMember" guid="{24310540-fea8-4908-a804-e681dd2d09c6}" relid="0x2" referred="id-0066-00000008">
+						<name>data</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="InterfaceDefinition" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>126,140</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Size">
+							<value>1024</value>
+						</attribute>
+					</reference>
+				</model>
+				<reference id="id-0067-00000003" kind="FileRef" role="FileRef" guid="{fc3db202-16d4-46c9-a630-5f2dfd640fbf}" relid="0x4" referred="id-0065-00000001">
+					<name>FileRef</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="InterfaceDefinition" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>265,118</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+			</model>
+		</folder>
+		<folder id="id-006a-00000003" relid="0x1" childrelidcntr="0x1" kind="PredefinedTypes" guid="{9130233d-9d86-4fe2-b3c1-0532abe15eee}">
+			<name>PredefinedTypes</name>
+			<atom id="id-0066-00000007" kind="Boolean" guid="{2d753f7c-8d2d-470a-ab97-d7c9316f7b0b}" relid="0x0">
+				<name>Boolean</name>
+			</atom>
+			<atom id="id-0066-00000008" kind="Byte" guid="{0bbeeb8c-9a4c-40d4-8f1f-3b70d61fbb54}" relid="0x0">
+				<name>Byte</name>
+			</atom>
+			<atom id="id-0066-00000009" kind="Char" guid="{e35fe9c8-fa28-4bde-a95a-d0005e7634ee}" relid="0x0">
+				<name>Char</name>
+			</atom>
+			<atom id="id-0066-0000000a" kind="WideChar" guid="{b4b9cb54-aa91-4242-b1a6-6a98daecb46c}" relid="0x0">
+				<name>WideChar</name>
+			</atom>
+			<atom id="id-0066-0000000b" kind="ShortInteger" guid="{a24ecfe1-d72e-459e-a65b-dbbbb9c18c1d}" relid="0x0">
+				<name>ShortInteger</name>
+			</atom>
+			<atom id="id-0066-0000000c" kind="LongInteger" guid="{c6904adb-e6b4-4879-ba97-7f43b33b0680}" relid="0x0">
+				<name>LongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000d" kind="LongLongInteger" guid="{ef0fe370-c483-40da-ac55-09df00f19f7a}" relid="0x0">
+				<name>LongLongInteger</name>
+			</atom>
+			<atom id="id-0066-0000000e" kind="UnsignedShortInteger" guid="{74d8b66e-c1c2-4500-aba8-2800d2be36ff}" relid="0x0">
+				<name>UnsignedShortInteger</name>
+			</atom>
+			<atom id="id-0066-0000000f" kind="UnsignedLongInteger" guid="{d77648e4-dc3d-4df5-878c-4f7156edc434}" relid="0x0">
+				<name>UnsignedLongInteger</name>
+			</atom>
+			<atom id="id-0066-00000010" kind="UnsignedLongLongInteger" guid="{757d7a3c-3025-4812-bcd8-a898101d8450}" relid="0x0">
+				<name>UnsignedLongLongInteger</name>
+			</atom>
+			<atom id="id-0066-00000011" kind="FloatNumber" guid="{b3a573e3-69e2-41fd-9c31-ac445fd23612}" relid="0x0">
+				<name>FloatNumber</name>
+			</atom>
+			<atom id="id-0066-00000012" kind="DoubleNumber" guid="{db4772dd-e05f-4998-9e6a-e42374ecd59e}" relid="0x0">
+				<name>DoubleNumber</name>
+			</atom>
+			<atom id="id-0066-00000013" kind="LongDoubleNumber" guid="{b79accfc-105f-409d-8059-771012c46e1d}" relid="0x0">
+				<name>LongDoubleNumber</name>
+			</atom>
+			<atom id="id-0066-00000014" kind="GenericObject" guid="{f3b70e96-7977-4527-a7ae-0aff9d546601}" relid="0x0">
+				<name>GenericObject</name>
+			</atom>
+			<atom id="id-0066-00000015" kind="GenericValue" guid="{14909e42-7fd9-4b3c-b1b9-4bd6f96ed971}" relid="0x0">
+				<name>GenericValue</name>
+			</atom>
+			<atom id="id-0066-00000016" kind="GenericValueObject" guid="{f1113f2e-b6fd-4d06-aafe-ddb4f9e8fe2f}" relid="0x0">
+				<name>GenericValueObject</name>
+			</atom>
+			<atom id="id-0066-00000017" kind="String" guid="{d6ea8585-1acd-437d-83d8-ae9b0988f9c0}" relid="0x0">
+				<name>String</name>
+			</atom>
+			<atom id="id-0066-00000018" kind="WideString" guid="{87161192-219f-4daa-b335-73989680c2ac}" relid="0x0">
+				<name>WideString</name>
+			</atom>
+		</folder>
+		<folder id="id-006a-00000004" relid="0x3" childrelidcntr="0x3" kind="ImplementationArtifacts" guid="{b289d73d-0448-475d-bbd7-cf7ab7260fa3}">
+			<name>ImplementationArtifacts</name>
+			<model id="id-0065-0000000c" kind="ArtifactContainer" guid="{fec796f0-7565-4986-80ec-fdb60301e7e2}" relid="0x1" childrelidcntr="0x2">
+				<name>HelloWorldArtifacts</name>
+				<atom id="id-0066-00000019" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{c3d70421-d3a1-41e0-b30d-7f975d321803}" relid="0x1">
+					<name>HelloSender_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>150,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>C56D505C-E6A3-11DF-8DD0-000C2958D27B</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>HelloWorld_Components_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001a" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{c392d720-6c4f-4c19-b4c1-2a726f93706f}" relid="0x2">
+					<name>HelloSender_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>450,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>C56D505C-E6A3-11DF-8DD1-000C2958D27B</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>HelloSender_impl</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000000d" kind="ArtifactContainer" guid="{98d10006-b831-41d5-baf3-011237fceb40}" relid="0x2" childrelidcntr="0x2">
+				<name>HelloReceiverArtifacts</name>
+				<atom id="id-0066-0000001b" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{e5979fe2-8927-4324-9c23-fbf455823c2d}" relid="0x1">
+					<name>HelloReceiver_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>150,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>B889F61E-267C-11E1-8000-000C29A84559</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>HelloWorld_Components_svnt</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001c" kind="ImplementationArtifact" role="ImplementationArtifact" guid="{8a1e1eec-8c0b-4462-bcb8-71e568e0f8b7}" relid="0x2">
+					<name>HelloReceiver_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>450,150</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>B88A4272-267C-11E1-8000-000C29A84559</value>
+					</attribute>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="artifactVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="configuration" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="location">
+						<value>HelloReceiver_impl</value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+			</model>
+		</folder>
+		<folder id="id-006a-00000005" relid="0x4" childrelidcntr="0x5" kind="ComponentImplementations" guid="{45b0762f-e68c-404a-83f5-0bd87d953309}">
+			<name>ComponentImplementations</name>
+			<model id="id-0065-0000000e" kind="ComponentImplementationContainer" guid="{5c8e719d-f19f-4fa3-bae6-a6cc6a8f1a98}" relid="0x1" childrelidcntr="0x7">
+				<name>HelloSenderImpl</name>
+				<atom id="id-0066-0000001d" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{875bc6cc-d0b9-48c7-a0af-53c169cfd4d8}" relid="0x1">
+					<name>HelloSenderImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>250,250</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>C56D505C-E6A3-11DF-8DD2-000C2958D27B</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000004" kind="ComponentRef" role="ComponentRef" guid="{13912223-a8a7-41d1-997f-3118bc1ff583}" relid="0x2" referred="id-0065-00000005">
+					<name>HelloSender</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>187,75</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000005" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{a14f3edf-6c29-4b97-913c-f1c684507af8}" relid="0x4" referred="id-0066-00000019">
+					<name>HelloSender_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,347</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_HelloSender_Servant</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000006" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{fc2813b2-35fe-45fa-91a8-76b68783b545}" relid="0x6" referred="id-0066-0000001a">
+					<name>HelloSender_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,151</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_HelloSender_Impl</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-0000000b" kind="Implements" role="Implements" guid="{0393bb9f-f44a-4a6a-b2cd-97ce7c38aa70}" relid="0x3">
+					<name>Implements</name>
+					<connpoint role="src" target="id-0066-0000001d"/>
+					<connpoint role="dst" target="id-0067-00000004"/>
+				</connection>
+				<connection id="id-0068-0000000c" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{1aba49d4-64c4-4a7f-9773-6fcd4aff31fb}" relid="0x5">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-0000001d"/>
+					<connpoint role="dst" target="id-0067-00000005"/>
+				</connection>
+				<connection id="id-0068-0000000d" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{9fc5d1b9-2b2f-4af7-ade4-052722de3ce3}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-0000001d"/>
+					<connpoint role="dst" target="id-0067-00000006"/>
+				</connection>
+			</model>
+			<model id="id-0065-0000000f" kind="ComponentImplementationContainer" guid="{69f8b757-4765-4b2a-b7b1-0405cdcc1590}" relid="0x3" childrelidcntr="0x1">
+				<name>HelloWorld_asm</name>
+				<model id="id-0065-00000010" kind="ComponentAssembly" role="ComponentAssembly" guid="{2d27c383-2d52-40e6-bec0-61f0302ec2c6}" relid="0x1" childrelidcntr="0xc">
+					<name>HelloWorld_asm</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="ImplementationProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>186,82</value>
+							</regnode>
+						</regnode>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>186,82</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>5578615A-22A8-11E1-8DCF-000C29A84559</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-00000011" kind="ComponentInstance" role="ComponentInstance" guid="{2b4c48b2-d419-47c6-b863-0f4566536d78}" relid="0x7" childrelidcntr="0x6">
+						<name>Sender</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>83,134</value>
+								</regnode>
+							</regnode>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>83,176</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="UUID">
+							<value>138A3272-267D-11E1-8000-000C29A84559</value>
+						</attribute>
+						<reference id="id-0067-00000007" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{df81031c-3b49-40d0-9582-054396457fb4}" relid="0x1" referred="id-0066-0000001d">
+							<name>HelloWorldImpl</name>
+						</reference>
+						<reference id="id-0067-00000008" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{647df853-5b5b-4c69-bc5c-2b8ae5a37f23}" relid="0x2" referred="id-0067-00000001">
+							<name>echo</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentInterface" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>560,168</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-00000009" kind="AttributeInstance" role="AttributeInstance" guid="{a05927cd-6914-4fea-9f2f-0cb02390ecb7}" relid="0x3">
+							<name>message</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="ComponentInterface" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>580,55</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</reference>
+						<reference id="id-0067-00000020" kind="AttributeInstance" role="AttributeInstance" guid="{a0ae0068-f63b-4ed0-894c-b2e7b020a997}" relid="0x4">
+							<name>Attribute</name>
+						</reference>
+						<reference id="id-0067-00000026" kind="AttributeInstance" role="AttributeInstance" guid="{2b8c7e14-d606-4c2d-b012-5ee4c373f906}" relid="0x5" referred="id-0065-00000027">
+							<name>count</name>
+						</reference>
+						<reference id="id-0067-00000031" kind="InEventPortInstance" role="InEventPortInstance" guid="{76c5484a-b3c1-4ff0-aca0-d28302e304c0}" relid="0x6" referred="id-0067-00000030">
+							<name>response</name>
+						</reference>
+					</model>
+					<model id="id-0065-00000012" kind="ComponentInstance" role="ComponentInstance" guid="{79f25b48-fc89-4ae3-a090-e9b6305c14dd}" relid="0x8" childrelidcntr="0x3">
+						<name>Receiver</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>426,169</value>
+								</regnode>
+							</regnode>
+							<regnode name="Packaging" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>426,169</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="UUID">
+							<value>187CFE54-267D-11E1-8000-000C29A84559</value>
+						</attribute>
+						<reference id="id-0067-0000000a" kind="InEventPortInstance" role="InEventPortInstance" guid="{3891c6ac-cfb8-4345-a952-261222826ea1}" relid="0x2" referred="id-0067-00000002">
+							<name>echo</name>
+						</reference>
+						<reference id="id-0067-0000001c" kind="ComponentInstanceType" role="ComponentInstanceType" guid="{d4149792-0525-4ddc-8128-6373c47beb98}" relid="0x1" referred="id-0066-0000001e">
+							<name>HelloReceiverImpl</name>
+						</reference>
+						<reference id="id-0067-00000033" kind="OutEventPortInstance" role="OutEventPortInstance" guid="{ca0482f8-3b37-4edd-95c4-e3ca07a9ecc0}" relid="0x3" referred="id-0067-00000032">
+							<name>response</name>
+						</reference>
+					</model>
+					<reference id="id-0067-0000000b" kind="SimpleProperty" role="SimpleProperty" guid="{fee1da35-bb47-4867-a25e-786054d9a51d}" relid="0x4" referred="id-0066-00000017">
+						<name>message</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="AssemblyProperties" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>27,293</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Value">
+							<value>Hello, World!</value>
+						</attribute>
+					</reference>
+					<connection id="id-0068-0000000e" kind="SendsTo" role="SendsTo" guid="{dc577ffa-958a-4f01-ad11-32709794f793}" relid="0x9">
+						<name>SendsTo</name>
+						<connpoint role="src" target="id-0067-00000008"/>
+						<connpoint role="dst" target="id-0067-0000000a"/>
+					</connection>
+					<connection id="id-0068-0000000f" kind="AttributeValue" role="AttributeValue" guid="{261213ef-47c3-4bc1-b011-dcdd3dfb58ad}" relid="0xa">
+						<name>AttributeValue</name>
+						<regnode name="autorouterPref" isopaque="yes">
+							<value>n</value>
+						</regnode>
+						<connpoint role="src" target="id-0067-00000009"/>
+						<connpoint role="dst" target="id-0067-0000000b"/>
+					</connection>
+				</model>
+			</model>
+			<model id="id-0065-00000013" kind="ComponentImplementationContainer" guid="{7b1e3be8-4746-4a65-95b2-7f53cb6b4467}" relid="0x4" childrelidcntr="0x7">
+				<name>HelloReceiverImpl</name>
+				<atom id="id-0066-0000001e" kind="MonolithicImplementation" role="MonolithicImplementation" guid="{1c8f6192-c41e-4429-894a-cc9b0e779043}" relid="0x1">
+					<name>HelloReceiverImpl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>250,250</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="UUID">
+						<value>B88B0130-267C-11E1-8000-000C29A84559</value>
+					</attribute>
+					<attribute kind="defaultVersion" status="meta">
+						<value>0.0.0.0</value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-0000000c" kind="ComponentRef" role="ComponentRef" guid="{ce30c22e-30d1-4c50-b80b-c20444a66aae}" relid="0x2" referred="id-0065-0000000b">
+					<name>HelloReceiver</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>187,75</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-0000000d" kind="ComponentServantArtifact" role="ComponentServantArtifact" guid="{fc0a51f0-2f35-4c98-9c73-1fe239f25cf4}" relid="0x4" referred="id-0066-0000001b">
+					<name>HelloReceiver_svnt</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,347</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_HelloReceiver_Servant</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000000e" kind="ComponentImplementationArtifact" role="ComponentImplementationArtifact" guid="{6d6fed91-e0c3-49ae-a28e-7130c297f7f0}" relid="0x6" referred="id-0066-0000001c">
+					<name>HelloReceiver_impl</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Packaging" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>506,151</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="EntryPoint">
+						<value>create_HelloReceiver_Impl</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000010" kind="Implements" role="Implements" guid="{18c13267-ec95-4ef6-a53f-5097a026ace4}" relid="0x3">
+					<name>Implements</name>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0067-0000000c"/>
+				</connection>
+				<connection id="id-0068-00000011" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{1877d88d-f156-4830-a423-c8c444daf702}" relid="0x5">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0067-0000000d"/>
+				</connection>
+				<connection id="id-0068-00000012" kind="MonolithprimaryArtifact" role="MonolithprimaryArtifact" guid="{d5a30728-7d28-4245-8dba-b93b1b2a7572}" relid="0x7">
+					<name>MonolithprimaryArtifact</name>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0067-0000000e"/>
+				</connection>
+			</model>
+		</folder>
+		<folder id="id-006a-00000006" relid="0x5" childrelidcntr="0x1" kind="Targets" guid="{ae9e39ff-acc3-48c2-be19-782f83c3b8b1}">
+			<name>Targets</name>
+			<model id="id-0065-00000014" kind="Domain" guid="{75ef63fe-eda6-4818-936d-3667e58e9e5a}" relid="0x1" childrelidcntr="0x2">
+				<name>Domain</name>
+				<attribute kind="UUID">
+					<value>88FDEC16-E7C6-11DF-8DCF-000C2958D27B</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000015" kind="Node" role="Node" guid="{7360e023-e9cf-439d-a66b-b42318ef465c}" relid="0x1" childrelidcntr="0x0">
+					<name>MainNode</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="Target" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>391,216</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+				<model id="id-0065-00000016" kind="Node" role="Node" guid="{a38c46da-606d-4c71-b2b3-3c35e77925cd}" relid="0x2" childrelidcntr="0x0">
+					<name>SecondNode</name>
+					<attribute kind="architecture" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="label" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="operatingSystem" status="meta">
+						<value></value>
+					</attribute>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-00000007" relid="0x6" childrelidcntr="0x2" kind="DeploymentPlans" guid="{0d0d3394-ee3a-484f-b8a7-53600dddedba}">
+			<name>DeploymentPlans</name>
+			<model id="id-0065-00000017" kind="DeploymentPlan" guid="{549373c8-b004-4337-a5b5-fcc1d1520d96}" relid="0x2" childrelidcntr="0x18">
+				<name>HelloWorld</name>
+				<attribute kind="UUID">
+					<value>B991F41E-22AB-11E1-8000-000C29A84559</value>
+				</attribute>
+				<attribute kind="label" status="meta">
+					<value></value>
+				</attribute>
+				<reference id="id-0067-0000000f" kind="NodeReference" role="NodeReference" guid="{0f71622d-fabe-4569-a67d-33fb43df8396}" relid="0x1" referred="id-0065-00000015">
+					<name>MainNode</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>137,46</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>328,34</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000010" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{27f29176-f026-485b-a2da-d87fad6b141f}" relid="0x4" referred="id-0065-00000012">
+					<name>HelloReceiver</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>453,257</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000011" kind="ComponentInstanceRef" role="ComponentInstanceRef" guid="{ba63cbf9-08cb-4727-97ec-aebc34d58ed0}" relid="0x5" referred="id-0065-00000011">
+					<name>HelloSender</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>182,252</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="decorator" isopaque="yes">
+						<value></value>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000012" kind="SimpleProperty" role="SimpleProperty" guid="{91ac248c-c0b9-4300-841f-f80060847d33}" relid="0x7" referred="id-0066-00000017">
+					<name>StringIOR</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>223,132</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Value">
+						<value>corbaloc:iiop:localhost:60001</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000013" kind="NodeReference" role="NodeReference" guid="{b472e9af-9401-43e3-9a72-21c009701fe2}" relid="0xd" referred="id-0065-00000016">
+					<name>SecondNode</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>501,46</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>496,34</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</reference>
+				<reference id="id-0067-00000014" kind="SimpleProperty" role="SimpleProperty" guid="{511d227a-0e57-4109-877c-68cf11445c57}" relid="0x10" referred="id-0066-00000017">
+					<name>StringIOR</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>412,125</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Value">
+						<value>corbaloc:iiop:localhost:60002</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000013" kind="PropertyMapping" role="PropertyMapping" guid="{1a103899-f52a-4044-bbcd-157a1c3ff739}" relid="0xc">
+					<name>PropertyMapping</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>En</value>
+					</regnode>
+					<connpoint role="src" target="id-0067-0000000f"/>
+					<connpoint role="dst" target="id-0067-00000012"/>
+				</connection>
+				<connection id="id-0068-00000014" kind="InstanceMapping" role="InstanceMapping" guid="{c021a9b5-b43b-4382-86dd-ab308bc2833a}" relid="0xf">
+					<name></name>
+					<connpoint role="dst" target="id-0067-00000013"/>
+					<connpoint role="src" target="id-0069-00000002"/>
+				</connection>
+				<connection id="id-0068-00000015" kind="PropertyMapping" role="PropertyMapping" guid="{818efe57-fdcd-4b77-bc7a-f8dd65a41238}" relid="0x11">
+					<name>PropertyMapping</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Wn</value>
+					</regnode>
+					<connpoint role="src" target="id-0067-00000013"/>
+					<connpoint role="dst" target="id-0067-00000014"/>
+				</connection>
+				<connection id="id-0068-00000016" kind="InstanceMapping" role="InstanceMapping" guid="{a7bc4e1a-83d0-4a8c-a12f-2951e98a8de3}" relid="0x14">
+					<name>InstanceMapping</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>Ns</value>
+					</regnode>
+					<connpoint role="dst" target="id-0067-0000000f"/>
+					<connpoint role="src" target="id-0069-00000001"/>
+				</connection>
+				<set id="id-0069-00000001" kind="CollocationGroup" role="CollocationGroup" guid="{f037bf7b-b636-4af2-86cb-3d27df40f266}" relid="0x2" members="id-0067-00000011">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>139,202</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>328,146</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+				<set id="id-0069-00000002" kind="CollocationGroup" role="CollocationGroup" guid="{2ce1bdbd-59d3-4575-898d-6838b0602573}" relid="0xe" members="id-0067-00000010">
+					<name>DefaultGroup</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="DeploymentProperties" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>503,202</value>
+							</regnode>
+						</regnode>
+						<regnode name="NodeMapping" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>499,168</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</set>
+			</model>
+		</folder>
+		<folder id="id-006a-00000008" relid="0x7" childrelidcntr="0x1" kind="WorkerLibraries" guid="{01321868-c99f-4ba8-8b93-cd76b13ff96a}">
+			<name>WorkerLibraries</name>
+			<model id="id-0065-00000018" kind="WorkerLibrary" guid="{4474ac1b-66fd-403d-b207-f76be51fd0d2}" relid="0x1" childrelidcntr="0x1">
+				<name>WorkerLibrary</name>
+				<attribute kind="Location" status="meta">
+					<value></value>
+				</attribute>
+				<model id="id-0065-00000019" kind="WorkerFile" role="WorkerFile" guid="{c3be1f8d-000d-466e-beaa-66b99d03fc88}" relid="0x1" childrelidcntr="0x2">
+					<name>WorkerFile</name>
+					<attribute kind="Location" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000001a" kind="Worker" role="Worker" guid="{2ea05291-3c1b-4d6c-b868-cbd296dc14e6}" relid="0x1" childrelidcntr="0x2">
+						<name>FooWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkerBehavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>161,149</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Abstract" status="meta">
+							<value>false</value>
+						</attribute>
+						<model id="id-0065-0000001b" kind="Operation" role="Operation" guid="{04648810-53cf-42d3-ab03-5731865c563c}" relid="0x1" childrelidcntr="0x0">
+							<name>operation1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,122</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-0000001c" kind="Operation" role="Operation" guid="{1d3ee529-a316-49b4-b7b6-54ed740b1c4e}" relid="0x2" childrelidcntr="0x0">
+							<name>operation2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,206</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+					</model>
+					<model id="id-0065-0000001d" kind="Worker" role="Worker" guid="{24ffd77a-f4b4-48f3-9c2c-49c8554aa0f0}" relid="0x2" childrelidcntr="0x2">
+						<name>BarWorker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkerBehavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>294,149</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Abstract" status="meta">
+							<value>false</value>
+						</attribute>
+						<model id="id-0065-0000001e" kind="Operation" role="Operation" guid="{7198ceb0-a305-4080-a8b5-0e1daeb2bcf6}" relid="0x1" childrelidcntr="0x0">
+							<name>operation1</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,122</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+						<model id="id-0065-0000001f" kind="Operation" role="Operation" guid="{8acf89fa-b51d-4919-8990-505ffe227e69}" relid="0x2" childrelidcntr="0x0">
+							<name>operation2</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>192,199</value>
+									</regnode>
+								</regnode>
+							</regnode>
+						</model>
+					</model>
+				</model>
+			</model>
+		</folder>
+		<folder id="id-006a-0000000f" relid="0xb" childrelidcntr="0x2" libref="..\SEM_stable\SEM\CUTS\cuts\workers\lock\models\CUTS_Lock_Worker.mga" kind="RootFolder" guid="{81d06039-96f8-4bf2-84b5-f6cad1e74f30}">
+			<name>..\SEM_stable\SEM\CUTS\cuts\workers\lock\models\CUTS_Lock_Worker.mga</name>
+			<folder id="id-006a-00000010" relid="0x2" childrelidcntr="0x1" kind="WorkerLibraries" guid="{31d16d97-62f8-442e-a0d9-cdc9a5083056}">
+				<name>WorkerLibraryFolder</name>
+				<model id="id-0065-0000004a" kind="WorkerLibrary" guid="{d7f1e5b4-33da-4276-833e-91b1ad4df303}" relid="0x1" childrelidcntr="0x1">
+					<name>CUTS_Lock_Worker</name>
+					<attribute kind="Location" status="meta">
+						<value></value>
+					</attribute>
+					<model id="id-0065-0000004b" kind="WorkerFile" role="WorkerFile" guid="{4e32bcc8-0e51-43d3-96b3-9d9f56422611}" relid="0x1" childrelidcntr="0x1">
+						<name>Lock_Worker</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkerBehavior" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>118,132</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Location">
+							<value>$(CUTS_ROOT)/cuts/workers/lock</value>
+						</attribute>
+						<model id="id-0065-0000004c" kind="Worker" role="Worker" guid="{d4ffcbfb-fba1-4416-a09f-5b7ec1ad4944}" relid="0x1" childrelidcntr="0x6">
+							<name>CUTS_Lock_Worker</name>
+							<regnode name="PartRegs" status="undefined">
+								<value></value>
+								<regnode name="WorkerBehavior" status="undefined">
+									<value></value>
+									<regnode name="Position" isopaque="yes">
+										<value>203,170</value>
+									</regnode>
+								</regnode>
+							</regnode>
+							<attribute kind="Abstract" status="meta">
+								<value>false</value>
+							</attribute>
+							<model id="id-0065-0000004d" kind="Operation" role="Operation" guid="{1142f245-2e12-4135-9578-a727345e1dbd}" relid="0x6" childrelidcntr="0x0">
+								<name>noop</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="WorkerBehavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>210,224</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</model>
+							<model id="id-0065-0000004e" kind="Operation" role="Operation" guid="{b21bfd81-da54-4440-ad63-225d875bc8ac}" relid="0x5" childrelidcntr="0x0">
+								<name>signal</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="WorkerBehavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>322,147</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</model>
+							<model id="id-0065-0000004f" kind="Operation" role="Operation" guid="{10e1cfff-09c5-4e2b-b380-99a28966ad56}" relid="0x4" childrelidcntr="0x0">
+								<name>wait</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="WorkerBehavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>322,70</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</model>
+							<model id="id-0065-00000050" kind="Operation" role="Operation" guid="{cad4c5ec-d6e2-4e40-a2b6-037e810e6751}" relid="0x3" childrelidcntr="0x0">
+								<name>release</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="WorkerBehavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>140,140</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</model>
+							<model id="id-0065-00000051" kind="Operation" role="Operation" guid="{aef1cd66-49e4-403b-a226-b4ef4b435576}" relid="0x2" childrelidcntr="0x0">
+								<name>acquire</name>
+								<regnode name="PartRegs" status="undefined">
+									<value></value>
+									<regnode name="WorkerBehavior" status="undefined">
+										<value></value>
+										<regnode name="Position" isopaque="yes">
+											<value>147,63</value>
+										</regnode>
+									</regnode>
+								</regnode>
+							</model>
+						</model>
+					</model>
+				</model>
+			</folder>
+			<folder id="id-006a-00000011" relid="0x1" childrelidcntr="0x13" kind="PredefinedTypes" guid="{a8ded0ee-561f-4a9d-8b3b-13f10abd79ee}">
+				<name>PredefinedTypes</name>
+				<atom id="id-0066-0000007c" kind="WideString" guid="{d2b14f7c-7f5f-4359-8425-d9cb20c74f8d}" relid="0x13">
+					<name>WideString</name>
+				</atom>
+				<atom id="id-0066-0000007d" kind="String" guid="{b30f91d7-6014-4dc2-bb85-dad20c36579b}" relid="0x12">
+					<name>String</name>
+				</atom>
+				<atom id="id-0066-0000007e" kind="GenericValueObject" guid="{e8a5962f-b330-479c-ac65-e0edc6d521b4}" relid="0x11">
+					<name>GenericValueObject</name>
+				</atom>
+				<atom id="id-0066-0000007f" kind="GenericValue" guid="{e39f9995-1833-49d8-b833-48fa92af6e8f}" relid="0x10">
+					<name>GenericValue</name>
+				</atom>
+				<atom id="id-0066-00000080" kind="GenericObject" guid="{2733c752-527e-47a8-83c3-b119d0af9bd4}" relid="0xf">
+					<name>GenericObject</name>
+				</atom>
+				<atom id="id-0066-00000081" kind="LongDoubleNumber" guid="{3c35a4a8-bd30-4f12-95cb-20b018859638}" relid="0xe">
+					<name>LongDoubleNumber</name>
+				</atom>
+				<atom id="id-0066-00000082" kind="DoubleNumber" guid="{17b3e753-7ad7-4bf5-851b-8c6c813c65fe}" relid="0xd">
+					<name>DoubleNumber</name>
+				</atom>
+				<atom id="id-0066-00000083" kind="FloatNumber" guid="{77d3d9ae-c3eb-40b9-a340-7aa2842c15e7}" relid="0xc">
+					<name>FloatNumber</name>
+				</atom>
+				<atom id="id-0066-00000084" kind="UnsignedLongLongInteger" guid="{be44c63f-154b-47d4-a4b8-fc5123b9cc11}" relid="0xb">
+					<name>UnsignedLongLongInteger</name>
+				</atom>
+				<atom id="id-0066-00000085" kind="UnsignedShortInteger" guid="{ec02ff3e-1cc9-4edd-bc85-f43019b88c3c}" relid="0xa">
+					<name>UnsignedShortInteger</name>
+				</atom>
+				<atom id="id-0066-00000086" kind="LongLongInteger" guid="{4ec57ce7-86a0-4a7b-bf42-9ab0ba2fc75a}" relid="0x9">
+					<name>LongLongInteger</name>
+				</atom>
+				<atom id="id-0066-00000087" kind="LongInteger" guid="{8481f5c0-c18f-47a3-b814-7754f0accbde}" relid="0x8">
+					<name>LongInteger</name>
+				</atom>
+				<atom id="id-0066-00000088" kind="ShortInteger" guid="{e92573cb-bfeb-4e26-b868-ce8d088e2c51}" relid="0x7">
+					<name>ShortInteger</name>
+				</atom>
+				<atom id="id-0066-00000089" kind="WideChar" guid="{751ae6ad-7e51-429d-bfc6-23f886ec3927}" relid="0x6">
+					<name>WideChar</name>
+				</atom>
+				<atom id="id-0066-0000008a" kind="Char" guid="{21abd683-22dc-47c5-a949-85a6b604bee7}" relid="0x5">
+					<name>Char</name>
+				</atom>
+				<atom id="id-0066-0000008b" kind="Byte" guid="{12a66020-511b-4ce9-8f7d-86807420ee09}" relid="0x4">
+					<name>Byte</name>
+				</atom>
+				<atom id="id-0066-0000008c" kind="Boolean" guid="{48b6d071-b38c-4a86-a40e-7333c6b0024f}" relid="0x3">
+					<name>Boolean</name>
+				</atom>
+				<atom id="id-0066-0000008d" kind="UnsignedLongInteger" guid="{9026bb09-7ccf-4c85-9c7c-e2438279590b}" relid="0x2">
+					<name>UnsignedLongInteger</name>
+				</atom>
+			</folder>
+		</folder>
+		<regnode name="CUTS" status="undefined">
+			<value></value>
+			<regnode name="CodeGeneration" status="undefined">
+				<value></value>
+				<regnode name="Backend" isopaque="yes">
+					<value>2</value>
+				</regnode>
+				<regnode name="OutputPath" isopaque="yes">
+					<value>C:\Users\dfeiock.ADS\Documents\models\latency_rti</value>
+				</regnode>
+			</regnode>
+		</regnode>
+		<regnode name="DeploymentPlanGenerator" status="undefined">
+			<value></value>
+			<regnode name="DisableOptimize" isopaque="yes">
+				<value>false</value>
+			</regnode>
+			<regnode name="HasLocalityManager" isopaque="yes">
+				<value>true</value>
+			</regnode>
+			<regnode name="OutputPath" isopaque="yes">
+				<value>C:\Users\dfeiock.ADS\Documents\models\latency_rti</value>
+			</regnode>
+		</regnode>
+		<regnode name="__OutputDir__" status="undefined">
+			<value></value>
+			<regnode name="CUTS_PICML" isopaque="yes">
+				<value>E:\TEMP\OpenSplice2</value>
+			</regnode>
+		</regnode>
+	</folder>
+</project>
