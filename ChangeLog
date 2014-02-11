@@ -88,6 +88,13 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Tue Feb 11 17:10:53 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+
+          Changed facet getter implementation to not make a call to the behavior generator
+          (#622).  Thanks Marianne!
+
 Mon Feb 10 15:07:49 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * tests/iccm/compiler/models:
