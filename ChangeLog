@@ -88,6 +88,40 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Wed Feb 12 18:56:32 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB.cpp:
+        * cuts/unite/dmac/Dmac_App.cpp:
+        * cuts/unite/presentation/gnuplot/Gnuplot_Presentation_Service.cpp:
+        * cuts/utils/antispam/Antispam_App.cpp:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+        * cuts/utils/archiving/server/Test_Archive_Server.cpp:
+        * cuts/utils/barrier/client/Barrier_Client.cpp:
+        * cuts/utils/barrier/server/Barrier_Server.cpp:
+        * cuts/utils/deployment/unique-deployments.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/node/client/NodeDaemon_Client_App.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.cpp:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+        * performance-tests/DOA-2009/CORBA/client.cpp:
+        * performance-tests/DOA-2009/CORBA/server.cpp:
+        * performance-tests/DOA-2009/EISA/client.cpp:
+        * performance-tests/DOA-2009/EISA/server.cpp:
+        * performance-tests/DOA-2009/overhead/client.cpp:
+        * performance-tests/DOA-2009/overhead/dac-server.cpp:
+        * performance-tests/DOA-2009/overhead/server.cpp:
+        * performance-tests/cuts/utils/unite/scalability.cpp:
+
+          Fixed get_opt data type for embedded devices.
+
 Wed Feb 12 18:36:27 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
