@@ -442,6 +442,10 @@ generate_idlgen_project (const CUTS_BE_IDL_Node & node)
         << "              -Gxhsv \\" << std::endl;
   }
 
+  if (this->file_has_object_with_reference (node.file_))
+    this->ctx_.project_
+      << "              -Glem -Gsv \\" << std::endl;
+
   this->ctx_.project_
     << "              -Sa -Sal -St" << std::endl;
 
