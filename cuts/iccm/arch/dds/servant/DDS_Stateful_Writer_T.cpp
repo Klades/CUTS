@@ -49,7 +49,11 @@ void DDS_Unregistered_Instance_Writer_T <T, EVENT>::send_event (EVENT * ev)
   if (0 != ev)
   {
     typedef typename T::returncode_type returncode_type;
-    returncode_type retcode = this->writer_->write (downcall->dds_event (), T::HANDLE_NIL);
+    #ifdef ICCM_DDS_USES_POINTERS
+      returncode_type retcode = this->writer_->write (&downcall->dds_event (), T::HANDLE_NIL);
+    #else
+      returncode_type retcode = this->writer_->write (downcall->dds_event (), T::HANDLE_NIL);
+    #endif
 
     if (retcode != T::RETCODE_OK)
       ACE_ERROR ((LM_ERROR,
@@ -118,7 +122,11 @@ void DDS_Registered_Instance_Writer_T <T, EVENT>::passivate (void)
 template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::register_instance (void)
 {
+#ifdef ICCM_DDS_USES_POINTERS
+  this->inst_ = this->writer_->register_instance (&this->event_.dds_event ());
+#else
   this->inst_ = this->writer_->register_instance (this->event_.dds_event ());
+#endif
 }
 
 //
@@ -127,7 +135,11 @@ void DDS_Registered_Instance_Writer_T <T, EVENT>::register_instance (void)
 template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::unregister_instance (void)
 {
+#ifdef ICCM_DDS_USES_POINTERS
+  this->writer_->unregister_instance (&this->event_.dds_event (), this->inst_);
+#else
   this->writer_->unregister_instance (this->event_.dds_event (), this->inst_);
+#endif
 }
 
 //
@@ -137,13 +149,22 @@ template <typename T, typename EVENT>
 void DDS_Registered_Instance_Writer_T <T, EVENT>::send_event (EVENT * ev)
 {
   typedef typename T::returncode_type returncode_type;
-  returncode_type retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
+  #ifdef ICCM_DDS_USES_POINTERS
+    returncode_type retcode = this->writer_->write (&this->event_.dds_event (), this->inst_);
+  #else
+    returncode_type retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
+  #endif
 
   if (retcode != T::RETCODE_OK)
   {
     // Sending failed, register instance and try again
     this->register_instance ();
-    retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
+    #ifdef ICCM_DDS_USES_POINTERS
+      retcode = this->writer_->write (&this->event_.dds_event (), this->inst_);
+    #else
+      retcode = this->writer_->write (this->event_.dds_event (), this->inst_);
+    #endif
+
     if (retcode != T::RETCODE_OK)
     {
       ACE_ERROR ((LM_ERROR,

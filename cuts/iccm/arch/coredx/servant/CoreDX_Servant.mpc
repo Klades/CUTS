@@ -1,0 +1,89 @@
+// $Id$
+
+project (iCCM_CoreDX_stub) : requires_coredx, cutslib, iccm_dds_stub {
+  sharedname    = iCCM_CoreDX_stub
+  dynamicflags += ICCM_COREDX_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_COREDX_STUB_Export \
+              -Wb,stub_export_include=CoreDX_stub_export.h \
+              -Wb,skel_export_macro=ICCM_COREDX_SKEL_Export \
+              -Wb,skel_export_include=CoreDX_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_COREDX_SVNT_Export \
+              -Wb,svnt_export_include=CoreDX_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    CoreDX_Events.idl
+  }
+
+  Source_Files {
+    CoreDX_EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_CoreDX_skel) : iccm_coredx_stub, cutslib, iccm_dds_skel {
+  sharedname    = iCCM_CoreDX_skel
+  dynamicflags += ICCM_COREDX_SKEL_BUILD_DLL
+
+  Source_Files {
+    CoreDX_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_CoreDX_svnt) : iccm_coredx_skel, iccm_servant, iccm_ddsxml, cutslib {
+  sharedname    = iCCM_CoreDX_svnt
+  dynamicflags += ICCM_COREDX_SVNT_BUILD_DLL
+
+  after += iCCM_CoreDX_skel
+  libs  += iCCM_CoreDX_skel iCCM_CoreDX_stub
+
+  Source_Files {
+    CoreDX_Servant.cpp
+    CoreDX.cpp
+  }
+
+  Template_Files {
+    CoreDX_EventConsumer_T.cpp
+    CoreDX_Servant_T.cpp
+    CoreDX_Publisher_T.cpp
+    CoreDX_Publisher_Table_T.cpp
+  }
+
+  Header_Files {
+    CoreDX_EventConsumer.h
+    CoreDX_Publisher.h
+    CoreDX_Publisher_Table.h
+  }
+
+  IDL_Files {
+
+  }
+}

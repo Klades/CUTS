@@ -1,0 +1,17 @@
+// $Id$
+
+project {
+  Define_Custom (ICCM) {
+    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_coredx<%quote%>
+    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_coredx<%quote%>
+    inputext              = .idl
+
+    source_outputext      = C.cpp
+    header_outputext      = C.h
+    source_pre_filename   = CoreDX_
+    header_pre_filename   = CoreDX_
+    generic_outputext     = _iCCM.idl
+
+    keyword iccm_coredx_flags = commandflags
+  }
+}

@@ -16,3 +16,17 @@ namespace iCCM
 
   const long RTIDDS::LENGTH_UNLIMITED = ::DDS_LENGTH_UNLIMITED;
 }
+
+/**
+ * QoS operators
+ */
+void operator <<= (::iCCM::RTIDDS::datareaderqos_type & out, const ::iCCM::RTIDDS::datareaderqos_type & in)
+{
+  out = in;
+}
+
+void operator <<= (::iCCM::RTIDDS::topicqos_type & out, const ::iCCM::RTIDDS::topicqos_type & in)
+{
+  out = in;
+}
+

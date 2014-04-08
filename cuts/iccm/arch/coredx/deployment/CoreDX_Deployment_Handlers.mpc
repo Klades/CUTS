@@ -1,0 +1,12 @@
+// $Id$
+
+project (iCCM_CoreDX_Deployment_Handlers) : iccm_dds_deployment_handlers, iccm_coredx_svnt, cutslib {
+  sharedname    = iCCM_CoreDX_Deployment_Handlers
+  dynamicflags += ICCM_COREDX_DEPLOYMENT_HANDLERS_BUILD_DLL
+
+  Source_Files {
+    CoreDX_Container.cpp
+    CoreDX_Container_Strategy.cpp
+    CoreDX_Component_Instance_Handler.cpp
+  }
+}

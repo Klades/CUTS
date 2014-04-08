@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_coredx_skel, iccm_dds_svnt, iccm_servant {
+  libs  += iCCM_CoreDX_svnt
+  after += iCCM_CoreDX_svnt
+}

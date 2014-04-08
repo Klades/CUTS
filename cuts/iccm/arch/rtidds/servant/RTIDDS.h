@@ -205,6 +205,11 @@ const T * RTIDDS::nil <T>::result_type = 0;
 
 };
 
+// QoS operators (<<=)
+ICCM_RTIDDS_SVNT_Export void operator <<= (::iCCM::RTIDDS::datareaderqos_type &, const ::iCCM::RTIDDS::datareaderqos_type &);
+ICCM_RTIDDS_SVNT_Export void operator <<= (::iCCM::RTIDDS::topicqos_type &, const ::iCCM::RTIDDS::topicqos_type &);
+
+
 #if defined (__CUTS_INLINE__)
 #include "RTIDDS.inl"
 #endif

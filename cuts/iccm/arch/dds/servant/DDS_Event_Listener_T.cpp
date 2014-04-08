@@ -14,6 +14,7 @@ DDS_Event_Listener_T (SERVANT * servant, DESERIALIZE_METHOD callback)
   servant_ (servant),
   callback_ (callback)
 {
+
 }
 
 //
@@ -23,6 +24,7 @@ template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 DDS_Event_Listener_T <T, SERVANT, EVENT>::~DDS_Event_Listener_T (void)
 {
+
 }
 
 //
@@ -44,6 +46,7 @@ CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_requested_deadline_missed (datareader_ptr_type, const typename T::requesteddeadlinemissedstatus_type &)
 {
+
 }
 
 //
@@ -54,6 +57,7 @@ CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_requested_incompatible_qos (datareader_ptr_type, const typename T::requestedincompatibleqosstatus_type &)
 {
+
 }
 
 //
@@ -64,6 +68,7 @@ CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_sample_rejected (datareader_ptr_type, const typename T::samplerejectedstatus_type &)
 {
+
 }
 
 //
@@ -74,6 +79,7 @@ CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_liveliness_changed (datareader_ptr_type, const typename T::livelinesschangedstatus_type &)
 {
+
 }
 
 //
@@ -94,12 +100,21 @@ on_data_available (datareader_ptr_type data_reader)
   typed_reader_var_type reader = T::template _reader_cast < typed_reader_type > (data_reader);
 
   sampleinfoseq_type sample_info;
+  #ifdef ICCM_DDS_USES_POINTERS
+  returncode_type status = reader->take (&event_seq,
+                                         &sample_info,
+                                         T::LENGTH_UNLIMITED,
+                                         T::ANY_SAMPLE_STATE,
+                                         T::ANY_VIEW_STATE,
+                                         T::ANY_INSTANCE_STATE);
+  #else
   returncode_type status = reader->take (event_seq,
                                          sample_info,
                                          T::LENGTH_UNLIMITED,
                                          T::ANY_SAMPLE_STATE,
                                          T::ANY_VIEW_STATE,
                                          T::ANY_INSTANCE_STATE);
+  #endif
 
   switch (status)
   {
@@ -107,16 +122,28 @@ on_data_available (datareader_ptr_type data_reader)
     {
       // Push each event in the sequence to the servant so it can
       // pass it along to the implementation.
-      const size_t length = event_seq.length ();
+      #ifdef ICCM_DDS_SEQ_USES_SIZE
+        const size_t length = event_seq.size ();
+      #else
+        const size_t length = event_seq.length ();
+      #endif
 
       for (size_t i = 0; i < length; ++ i)
       {
-        typename event_traits_type::upcall_event_type upcall_event (event_seq[i]);
+        #ifdef ICCM_DDS_USES_POINTERS
+          typename event_traits_type::upcall_event_type upcall_event (*event_seq[i]);
+        #else
+          typename event_traits_type::upcall_event_type upcall_event (event_seq[i]);
+        #endif
         (this->servant_->*this->callback_) (&upcall_event);
       }
 
       // Return our loan back to the system.
-      reader->return_loan (event_seq, sample_info);
+      #ifdef ICCM_DDS_USES_POINTERS
+        reader->return_loan (&event_seq, &sample_info);
+      #else
+        reader->return_loan (event_seq, sample_info);
+      #endif
     }
     break;
 
@@ -139,6 +166,7 @@ CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_subscription_matched (datareader_ptr_type, const typename T::subscriptionmatchedstatus_type &)
 {
+
 }
 
 //
@@ -149,6 +177,7 @@ CUTS_INLINE
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_sample_lost (datareader_ptr_type, const typename T::sampleloststatus_type &)
 {
+
 }
 
 }

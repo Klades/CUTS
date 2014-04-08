@@ -40,8 +40,8 @@ configure (subscriber_ptr_type subscriber,
   // when set_topic () is called.
   this->subscriber_ = T::_duplicate (subscriber);
 
-  this->reader_qos_ = qos;
-  this->topic_qos_ = topic_qos;
+  this->reader_qos_ <<= qos;
+  this->topic_qos_ <<= topic_qos;
 }
 
 //
@@ -75,18 +75,6 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
 
   // First, try to locate the topic. If we cannot find it, then we need
   // to create a new one for this participant.
-  domainparticipant_var_type participant = this->subscriber_->get_participant ();
-  topic_var_type topic =
-    participant->create_topic (topic_name,
-                               this->type_name_.c_str (),
-                               this->topic_qos_,
-                               0,
-                               T::STATUS_MASK_NONE);
-
-  // Create a new data reader object. Right now this work if we only
-  // have one connection. If there are multiple connections into this
-  // consumer, then we will overwrite the <abstract_reader_> each
-  // time. So, we need to fix this!!
   listener_type * listener = 0;
 
   if (0 == this->listeners_.find (topic_name, listener))
@@ -101,39 +89,62 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
     // the object when we remove a topic, but there are still connections
     // associated with the topic.
     T::_add_ref (listener);
+    return;
   }
+
+  domainparticipant_var_type participant = this->subscriber_->get_participant ();
+  topic_var_type topic =
+    participant->create_topic (topic_name,
+                               this->type_name_.c_str (),
+                               this->topic_qos_,
+                               0,
+                               T::STATUS_MASK_NONE);
+
+  if (T::_is_nil (topic))
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - Failed to create topic\n")));
+
+  // Create a new data reader object. Right now this work if we only
+  // have one connection. If there are multiple connections into this
+  // consumer, then we will overwrite the <abstract_reader_> each
+  // time. So, we need to fix this!!
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - creating new listener for ")
+              ACE_TEXT ("topic <%s>\n"),
+              topic_name));
+
+  // Allocate a new listener since this is the first time we have seen
+  // this topic name.
+  ACE_NEW_THROW_EX (listener,
+                    listener_type (this->servant_, this->callback_),
+                    ::CORBA::NO_MEMORY ());
+
+  this->listeners_.bind (topic_name, listener);
+
+  // Use the listener to create a new data reader. We should use
+  // the listener to create the data reader. In other words, put a
+  // configuration method on the listener object.
+  #ifdef ICCM_DDS_LACKS_READER_QOS
+  typename T::datareader_var_type reader =
+    this->subscriber_->create_datareader (topic,
+                                          T::datareader_qos_default (),
+                                          listener,
+                                          T::STATUS_MASK_DATA_AVAILABLE);
+  #else
+  typename T::datareader_var_type reader =
+    this->subscriber_->create_datareader (topic,
+                                          this->reader_qos_,
+                                          listener,
+                                          T::STATUS_MASK_DATA_AVAILABLE);
+  #endif
+
+  if (!T::_is_nil (reader))
+    listener->configure (reader);
   else
-  {
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - creating new listener for ")
-                ACE_TEXT ("topic <%s>\n"),
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to configure listener ")
+                ACE_TEXT ("for topic <%s>\n"),
                 topic_name));
-
-    // Allocate a new listener since this is the first time we have seen
-    // this topic name.
-    ACE_NEW_THROW_EX (listener,
-                      listener_type (this->servant_, this->callback_),
-                      ::CORBA::NO_MEMORY ());
-
-    this->listeners_.bind (topic_name, listener);
-
-    // Use the listener to create a new data reader. We should use
-    // the listener to create the data reader. In other words, put a
-    // configuration method on the listener object.
-    typename T::datareader_var_type reader =
-      this->subscriber_->create_datareader (topic,
-                                            this->reader_qos_,
-                                            listener,
-                                            T::STATUS_MASK_DATA_AVAILABLE);
-
-    if (!T::_is_nil (reader))
-      listener->configure (reader);
-    else
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - failed to configure listener ")
-                  ACE_TEXT ("for topic <%s>\n"),
-                  topic_name));
-  }
 }
 
 //
@@ -178,6 +189,10 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::activate (void)
                                  this->topic_qos_,
                                  0,
                                  T::STATUS_MASK_NONE);
+
+    if (T::_is_nil (topic))
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - Failed to create topic\n")));
 
     // Create the datareader
     reader = this->subscriber_->create_datareader (topic,

@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_dds_skel, iccm_coredx_stub {
+  libs  += iCCM_CoreDX_skel
+  after += iCCM_CoreDX_skel
+}

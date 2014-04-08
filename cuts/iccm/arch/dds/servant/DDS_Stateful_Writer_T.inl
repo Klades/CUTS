@@ -61,7 +61,11 @@ template <typename T, typename EVENT>
 CUTS_INLINE
 DDS_Registered_Instance_Writer_T <T, EVENT>::~DDS_Registered_Instance_Writer_T (void)
 {
-  this->writer_->dispose (this->event_.dds_event (), this->inst_);
+  #ifdef ICCM_DDS_USES_POINTERS
+    this->writer_->dispose (&this->event_.dds_event (), this->inst_);
+  #else
+    this->writer_->dispose (this->event_.dds_event (), this->inst_);
+  #endif
 }
 
 }

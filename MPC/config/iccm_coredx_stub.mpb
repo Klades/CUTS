@@ -1,0 +1,6 @@
+// $Id$
+
+project : coredxlib, ccm_stub, requires_coredx {
+  libs  += iCCM_CoreDX_stub
+  after += iCCM_CoreDX_stub
+}

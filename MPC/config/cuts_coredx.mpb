@@ -1,0 +1,6 @@
+// $Id$
+
+project : requires_coredx, coredxlib, cutslib {
+  libs  += CUTS_CoreDX
+  after += CUTS_CoreDX
+}

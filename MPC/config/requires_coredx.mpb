@@ -1,0 +1,9 @@
+// $Id$
+
+project {
+  requires += coredx
+}
+
+feature (coredx) {
+  macros += CUTS_HAS_COREDX
+}

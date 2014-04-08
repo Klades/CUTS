@@ -1,3 +1,116 @@
+Tue Apr  8 15:11:07 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/cuts_coredx.mpb:
+        * MPC/config/iccm_coredx.mpb:
+        * MPC/config/iccm_coredx_idl2ddl.mpb:
+        * MPC/config/iccm_coredx_skel.mpb:
+        * MPC/config/iccm_coredx_stub.mpb:
+        * MPC/config/iccm_coredx_svnt.mpb:
+        * MPC/config/requires_coredx.mpb:
+        * bin/handlers/coredx.locality.config:
+        * cuts/iccm/arch/coredx:
+        * cuts/iccm/arch/coredx/CoreDX_iCCM.mwc:
+        * cuts/iccm/arch/coredx/compiler:
+        * cuts/iccm/arch/coredx/compiler/Compiler.cpp:
+        * cuts/iccm/arch/coredx/compiler/Context.h:
+        * cuts/iccm/arch/coredx/compiler/Context.cpp:
+        * cuts/iccm/arch/coredx/compiler/CoreDX_Compiler.mpc:
+        * cuts/iccm/arch/coredx/compiler/DDL_File.h:
+        * cuts/iccm/arch/coredx/compiler/DDL_File.cpp:
+        * cuts/iccm/arch/coredx/compiler/Downcall_Event.h:
+        * cuts/iccm/arch/coredx/compiler/Downcall_Event.cpp:
+        * cuts/iccm/arch/coredx/compiler/Event_Traits.h:
+        * cuts/iccm/arch/coredx/compiler/Event_Traits.cpp:
+        * cuts/iccm/arch/coredx/compiler/Stub_File.h:
+        * cuts/iccm/arch/coredx/compiler/Stub_File.cpp:
+        * cuts/iccm/arch/coredx/compiler/Upcall_Event.h:
+        * cuts/iccm/arch/coredx/compiler/Upcall_Event.cpp:
+        * cuts/iccm/arch/coredx/deployment:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Component_Instance_Handler.h:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Component_Instance_Handler.inl:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Component_Instance_Handler.cpp:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Container.h:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Container.inl:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Container.cpp:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Container_Strategy.h:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Container_Strategy.inl:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Container_Strategy.cpp:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Deployment.h:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Deployment_Handlers.mpc:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Deployment_Handlers_export.h:
+        * cuts/iccm/arch/coredx/servant:
+        * cuts/iccm/arch/coredx/servant/CoreDX.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_EventConsumer.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_EventConsumer_T.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_EventConsumer_T.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_EventConsumer_T.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Events.idl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_T.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_T.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_T.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_Table.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_Table.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_Table.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_Table_T.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_Table_T.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.mpc:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant_T.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant_T.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant_T.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_skel_export.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_stub_export.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_svnt_export.h:
+
+          First implementation of CoreDX integration with iCCM.
+          Currently, the basic HelloWorld example is supported,
+          but only the default DataReaderQos is supported.
+          Dynamic QoS handling via XML is not currently supported.
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Stateful_Writer_T.cpp:
+
+          Updated architecture to allow definitions for pointer
+          vs reference parameters to various DDS methods.  Also
+          Added define guard for supporting sequence size getter
+          compared to length.  Lastly, the <<= operator must now
+          be defined for Topic QoS and DataReader QoS by all
+          concrete DDS implementations.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.cpp:
+
+          Wrapped the assignment operator in the <<= operators
+          for Topic and DataReader QoS.
+
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.cpp:
+
+          Wrapped the assignment operator in the <<= operators
+          for Topic and DataReader QoS.
+
+        * examples/iccm/HelloWorld/coredx:
+        * examples/iccm/HelloWorld/coredx/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/coredx/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/coredx/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/coredx/descriptors:
+        * examples/iccm/HelloWorld/coredx/descriptors/.dance_artifacts:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/coredx/descriptors/run_test.pl:
+
+          Implemented and verified HelloWorld example to use CoreDX.
+
 Tue Jan 21 14:30:04 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/dds/deployment/DDS_Container_Strategy.cpp:

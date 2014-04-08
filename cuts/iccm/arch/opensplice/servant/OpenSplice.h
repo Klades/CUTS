@@ -216,6 +216,11 @@ public:
 
 };
 
+// QoS operators (<<=)
+ICCM_OPENSPLICE_SVNT_Export void operator <<= (::iCCM::OpenSplice::datareaderqos_type &, const ::iCCM::OpenSplice::datareaderqos_type &);
+ICCM_OPENSPLICE_SVNT_Export void operator <<= (::iCCM::OpenSplice::topicqos_type &, const ::iCCM::OpenSplice::topicqos_type &);
+
+
 #if defined (__CUTS_INLINE__)
 #include "OpenSplice.inl"
 #endif
