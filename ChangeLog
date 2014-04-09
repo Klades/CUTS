@@ -1,3 +1,16 @@
+Wed Apr  9 14:59:33 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/coredx/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/coredx/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/coredx/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/coredx/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/coredx/HelloWorld.idl:
+        * examples/iccm/HelloWorld/coredx/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/coredx/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/coredx/HelloWorld_Components.mpc:
+
+          Missed adding some files for the CoreDX HelloWorld example.
+
 Tue Apr  8 15:43:55 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
