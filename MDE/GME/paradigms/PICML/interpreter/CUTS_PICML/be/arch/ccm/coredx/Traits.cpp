@@ -111,6 +111,17 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
   }
 }
 
+void Traits::
+write_stub_custom (std::ostream & proj, const CUTS_BE_IDL_Node & node)
+{
+  // Define dynamicflags to link and export CoreDX stubs properly on windows
+  if (node.has_dds_events_)
+    proj <<
+      << "  specific (prop:windows) {" << std::endl
+      << "    dynamicflags += COREDX_DLL_TS_EXPORTS LD" << std::endl
+      << "  }" << std::endl;
+}
+
 //
 // write_stub_after
 //

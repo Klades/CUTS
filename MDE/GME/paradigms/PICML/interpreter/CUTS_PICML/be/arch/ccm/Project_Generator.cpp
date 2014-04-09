@@ -597,7 +597,7 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
   this->ctx_.project_
     << "cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << skel_name << std::endl
-    << "  dynamicflags = " << skel_export << "_BUILD_DLL" << std::endl
+    << "  dynamicflags += " << skel_export << "_BUILD_DLL" << std::endl
     << std::endl
     << "  after       += " << node.name_ << "_stub" << std::endl
     << "  libs        += " << node.name_ << "_stub" << std::endl
@@ -824,7 +824,7 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
     << this->ctx_.traits_->svnt_base_project ()
     << ", cuts_codegen_defaults {" << std::endl
     << "  sharedname   = " << svnt_project << std::endl
-    << "  dynamicflags = " << export_basename << "_BUILD_DLL" << std::endl
+    << "  dynamicflags += " << export_basename << "_BUILD_DLL" << std::endl
     << std::endl
     << "  after += "
     << name << "_exec "

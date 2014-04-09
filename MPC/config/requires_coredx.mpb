@@ -2,6 +2,11 @@
 
 project {
   requires += coredx
+  
+  // Fix linker errors on Windows
+  specific (prop:windows) {
+    dynamicflags += COREDX_DLL COREDX_DLL_TS
+  }
 }
 
 feature (coredx) {
