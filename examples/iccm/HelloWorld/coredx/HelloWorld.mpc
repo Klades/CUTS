@@ -62,7 +62,7 @@ project (HelloWorld_stub) : avoids_ace_for_tao, iccm_coredx_stub, cuts_codegen_d
   }
 
   specific (prop:windows) {
-    macros += COREDX_DLL_TS_EXPORTS LD
+    dynamicflags += COREDX_DLL_TS_EXPORTS LD
   }
 }
 

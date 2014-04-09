@@ -1,26 +1,24 @@
-Wed Apr  9 18:14:51 UTC 2014  unknown  <unknown@ads.iu.edu>
+Wed Apr  9 18:42:56 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
-        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
-
-        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/coredx/Traits.h:
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/coredx/Traits.cpp:
 
-        * MPC/config/requires_coredx.mpb:
-
-        * cuts/unite/cuts-unite.h:
-        * cuts/unite/cuts-unite.inl:
-        * cuts/unite/cuts-unite.cpp:
-
-        * cuts/utils/node/cutsnode.h:
-        * cuts/utils/node/cutsnode.inl:
-        * cuts/utils/node/cutsnode.cpp:
-
-        * cuts/utils/testing/test.h:
-        * cuts/utils/testing/test.inl:
-        * cuts/utils/testing/test.cpp:
+          Fixed workspace generation for CoreDX stubs.
 
         * examples/iccm/HelloWorld/coredx/HelloWorld.mpc:
         * examples/iccm/HelloWorld/coredx/HelloWorld_Components.mpc:
+
+          Regenerated workspace.
+
+Wed Apr  9 18:14:51 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/coredx/Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/coredx/Traits.cpp:
+        * MPC/config/requires_coredx.mpb:
+        * examples/iccm/HelloWorld/coredx/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/coredx/HelloWorld_Components.mpc:
+
+          Working on code generation.
 
 Wed Apr  9 16:03:07 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 

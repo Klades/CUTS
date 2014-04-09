@@ -59,7 +59,6 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
     // the CoreDX IDL preprocessor on this file. This will ensure
     // we have the DDS types defined and implemented.
     const std::string project_name = name + "_CoreDX_IDL_Gen";
-
     proj
       << "project (" << project_name << ") : coredx_ts_defaults, iccm_coredx_idl2ddl {" << std::endl
       << "  custom_only = 1" << std::endl
@@ -69,14 +68,15 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
       << "  IDL2DDL_Files {" << std::endl
       << "    gendir = ." << std::endl
       << std::endl
+      << "    " << name << ".idl" << std::endl
+      << "  }" << std::endl
+      << std::endl
       << "  CoreDXTypeSupport_Files {" << std::endl
       << "    gendir = ." << std::endl
       << std::endl
       << "    CoreDX_" << name << ".ddl" << std::endl
       << "  }" << std::endl
       << std::endl
-      << "    " << name << ".idl" << std::endl
-      << "  }" << std::endl
       << "}" << std::endl
       << std::endl;
 
@@ -116,7 +116,8 @@ write_stub_custom (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
   // Define dynamicflags to link and export CoreDX stubs properly on windows
   if (node.has_dds_events_)
-    proj <<
+    proj
+      << std::endl
       << "  specific (prop:windows) {" << std::endl
       << "    dynamicflags += COREDX_DLL_TS_EXPORTS LD" << std::endl
       << "  }" << std::endl;
