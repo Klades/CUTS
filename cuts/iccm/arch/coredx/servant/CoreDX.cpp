@@ -18,7 +18,7 @@ namespace iCCM
  */
 void operator <<= (::iCCM::CoreDX::datareaderqos_type & out, const ::iCCM::CoreDX::datareaderqos_type & in)
 {
-/*
+#ifndef WIN32
   out.durability.copy (&in.durability);
 //  out.deadline.copy (&in.deadline);
   out.latency_budget.copy (&in.latency_budget);
@@ -34,11 +34,12 @@ void operator <<= (::iCCM::CoreDX::datareaderqos_type & out, const ::iCCM::CoreD
   out.entity_name = in.entity_name;
   out.logging = in.logging;
   out.rtps_reader = in.rtps_reader;
-*/
+#endif
 }
 
 void operator <<= (::iCCM::CoreDX::topicqos_type & out, const ::iCCM::CoreDX::topicqos_type & in)
 {
+#ifndef WIN32
   out.topic_data.copy (&in.topic_data);
   out.durability.copy (&in.durability);
   out.durability_service.copy (&in.durability_service);
@@ -54,4 +55,5 @@ void operator <<= (::iCCM::CoreDX::topicqos_type & out, const ::iCCM::CoreDX::to
   out.ownership.copy (&in.ownership);
   out.entity_name = in.entity_name;
   out.logging = in.logging;
+#endif
 }

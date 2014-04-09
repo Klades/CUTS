@@ -1,3 +1,31 @@
+Wed Apr  9 16:03:07 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/coredx/compiler/Stub_File.cpp:
+
+          Added macro definition to bypass copying TopicQoS on windows
+
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Component_Instance_Handler.h:
+        * cuts/iccm/arch/coredx/deployment/CoreDX_Component_Instance_Handler.cpp:
+
+          Fixed exports for factory method
+
+        * cuts/iccm/arch/coredx/servant/CoreDX.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX.cpp:
+
+          Fixed QoS realated compilation errors on Windows.  For windows,
+          defined macro to bypass Topic QoS copies.  Only the default
+          topic qos is supported.
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+
+          Similar to the data reader qos, added guards when working with
+          topic qos.
+
+        * examples/iccm/HelloWorld/coredx/HelloWorld.mpc:
+
+          Manually fixed linker errors with windows.  Need to modify
+          generation with GME.
+
 Wed Apr  9 14:59:33 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/HelloWorld/coredx/HelloReceiverImpl.h:

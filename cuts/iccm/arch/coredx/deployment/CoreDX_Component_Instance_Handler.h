@@ -21,6 +21,8 @@
 #include "cuts/iccm/arch/dds/deployment/DDS_Component_Instance_Handler.h"
 #include "CoreDX_Container.h"
 
+#include "CoreDX_Deployment_Handlers_export.h"
+
 namespace iCCM
 {
 

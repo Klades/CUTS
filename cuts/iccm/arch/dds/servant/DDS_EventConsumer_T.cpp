@@ -93,12 +93,21 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
   }
 
   domainparticipant_var_type participant = this->subscriber_->get_participant ();
+  #ifdef ICCM_DDS_LACKS_TOPIC_QOS
+  topic_var_type topic =
+    participant->create_topic (topic_name,
+                               this->type_name_.c_str (),
+                               T::topic_qos_default (),
+                               0,
+                               T::STATUS_MASK_NONE);
+  #else
   topic_var_type topic =
     participant->create_topic (topic_name,
                                this->type_name_.c_str (),
                                this->topic_qos_,
                                0,
                                T::STATUS_MASK_NONE);
+  #endif
 
   if (T::_is_nil (topic))
     ACE_ERROR ((LM_ERROR,
@@ -183,22 +192,38 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::activate (void)
     if (!T::_is_nil (reader))
       continue;
 
+    #ifdef ICCM_DDS_LACKS_TOPIC_QOS
+    topic_var_type topic =
+      participant->create_topic (topic_name,
+                                 this->type_name_.c_str (),
+                                 T::topic_qos_default (),
+                                 0,
+                                 T::STATUS_MASK_NONE);
+    #else
     topic_var_type topic =
       participant->create_topic (topic_name,
                                  this->type_name_.c_str (),
                                  this->topic_qos_,
                                  0,
                                  T::STATUS_MASK_NONE);
+    #endif
 
     if (T::_is_nil (topic))
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("%T (%t) - %M - Failed to create topic\n")));
 
     // Create the datareader
+    #ifdef ICCM_DDS_LACKS_READER_QOS
+    reader = this->subscriber_->create_datareader (topic,
+                                                   T::datareader_qos_default (),
+                                                   listener,
+                                                   T::STATUS_MASK_DATA_AVAILABLE);
+    #else
     reader = this->subscriber_->create_datareader (topic,
                                                    this->reader_qos_,
                                                    listener,
                                                    T::STATUS_MASK_DATA_AVAILABLE);
+    #endif
 
     if (!T::_is_nil (reader))
       listener->configure (reader);

@@ -209,9 +209,13 @@ int Stub_File::visit_root (AST_Root * node)
     << std::endl
     << include_t (be_global->get_source_basename () + "C.h")
     << include_t ("cuts/iccm/arch/dds/servant/DDS_Traits_T.h")
+    << std::endl
     << "#define ICCM_DDS_USES_POINTERS" << std::endl
     << "#define ICCM_DDS_SEQ_USES_SIZE" << std::endl
     << "#define ICCM_DDS_LACKS_READER_QOS" << std::endl
+    << "#ifdef WIN32" << std::endl
+    << "  #define ICCM_DDS_LACKS_TOPIC_QOS" << std::endl
+    << "#endif" << std::endl
     << std::endl;
 
   // List the include files for the DDS event types.

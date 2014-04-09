@@ -34,6 +34,11 @@
 // Workaround for DataReader QoS issues
 #define ICCM_DDS_LACKS_READER_QOS
 
+// Workaround for Topic QoS issues on windows
+#ifdef WIN32
+  #define ICCM_DDS_LACKS_TOPIC_QOS
+#endif
+
 namespace iCCM
 {
 // Forward decl.
