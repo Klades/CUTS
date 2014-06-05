@@ -51,8 +51,8 @@ public:
    * @param[in]         qos               Data reader QoS
    */
   virtual void configure (subscriber_ptr_type subscriber,
-                          const topicqos_type & topic_qos,
-                          const datareaderqos_type & qos) = 0;
+                          const topicqos_type * topic_qos,
+                          const datareaderqos_type * qos) = 0;
 
   /**
    * Configure the event consumer for a specific topic. This methods
@@ -61,8 +61,8 @@ public:
    * CCM connection.
    */
   virtual void configure (subscriber_ptr_type subscriber,
-                          const topicqos_type & topic_qos,
-                          const datareaderqos_type & qos,
+                          const topicqos_type * topic_qos,
+                          const datareaderqos_type * qos,
                           const char * topic_name) = 0;
 
   /// Test if the consumer has been configured.
@@ -82,10 +82,10 @@ protected:
   datareader_var_type abs_reader_;
 
   /// QoS parameters for the data reader.
-  datareaderqos_type reader_qos_;
+  const datareaderqos_type * reader_qos_;
 
   /// Topic QoS for the data reader.
-  topicqos_type topic_qos_;
+  const topicqos_type * topic_qos_;
 };
 
 }

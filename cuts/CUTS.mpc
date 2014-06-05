@@ -7,6 +7,7 @@ project (CUTS) : boost_base, cuts_skel, cutslib {
   Header_Files {
     Activation_Record_Log.h
     Activation_Record_Entry.h
+    Application_Task.h
     config.h
     Component_Info.h
     Component_Type.h
@@ -26,6 +27,7 @@ project (CUTS) : boost_base, cuts_skel, cutslib {
     Activation_Record.cpp
     Activation_Record_Endpoint.cpp
     Active_Object.cpp
+    Application_Task.cpp
     Benchmark_Agent.cpp
     Component.cpp
     Component_Metric.cpp
@@ -75,6 +77,7 @@ project (CUTS) : boost_base, cuts_skel, cutslib {
     Action_T.cpp
     Action_Iterator_T.cpp
     Activation_Record_T.cpp
+    Application_Task_T.cpp
     Async_Event_Handler_T.cpp
     Async_Event_Handler_Queue_T.cpp
     Auto_Release_Ptr.cpp

@@ -13,8 +13,8 @@ namespace iCCM
 template <typename T, typename SERVANT, typename EVENT>
 void DDS_EventConsumer_T <T, SERVANT, EVENT>::
 configure (subscriber_ptr_type subscriber,
-           const topicqos_type & topic_qos,
-           const datareaderqos_type & qos)
+           const topicqos_type * topic_qos,
+           const datareaderqos_type * qos)
 {
   // Make sure the type is registered with the participant. This requires
   // us allocating a type support object from the event. Then, we are
@@ -40,8 +40,8 @@ configure (subscriber_ptr_type subscriber,
   // when set_topic () is called.
   this->subscriber_ = T::_duplicate (subscriber);
 
-  this->reader_qos_ <<= qos;
-  this->topic_qos_ <<= topic_qos;
+  this->reader_qos_ = qos;
+  this->topic_qos_ = topic_qos;
 }
 
 //
@@ -50,8 +50,8 @@ configure (subscriber_ptr_type subscriber,
 template <typename T, typename SERVANT, typename EVENT>
 void DDS_EventConsumer_T <T, SERVANT, EVENT>::
 configure (subscriber_ptr_type subscriber,
-           const topicqos_type & topic_qos,
-           const datareaderqos_type & qos,
+           const topicqos_type * topic_qos,
+           const datareaderqos_type * qos,
            const char * topic_name)
 {
   // Configure the event consumer, then manually add the topic.
@@ -93,21 +93,8 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
   }
 
   domainparticipant_var_type participant = this->subscriber_->get_participant ();
-  #ifdef ICCM_DDS_LACKS_TOPIC_QOS
-  topic_var_type topic =
-    participant->create_topic (topic_name,
-                               this->type_name_.c_str (),
-                               T::topic_qos_default (),
-                               0,
-                               T::STATUS_MASK_NONE);
-  #else
-  topic_var_type topic =
-    participant->create_topic (topic_name,
-                               this->type_name_.c_str (),
-                               this->topic_qos_,
-                               0,
-                               T::STATUS_MASK_NONE);
-  #endif
+
+  topic_var_type topic = this->create_topic (topic_name, participant);
 
   if (T::_is_nil (topic))
     ACE_ERROR ((LM_ERROR,
@@ -133,19 +120,8 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
   // Use the listener to create a new data reader. We should use
   // the listener to create the data reader. In other words, put a
   // configuration method on the listener object.
-  #ifdef ICCM_DDS_LACKS_READER_QOS
   typename T::datareader_var_type reader =
-    this->subscriber_->create_datareader (topic,
-                                          T::datareader_qos_default (),
-                                          listener,
-                                          T::STATUS_MASK_DATA_AVAILABLE);
-  #else
-  typename T::datareader_var_type reader =
-    this->subscriber_->create_datareader (topic,
-                                          this->reader_qos_,
-                                          listener,
-                                          T::STATUS_MASK_DATA_AVAILABLE);
-  #endif
+    this->create_datareader (topic, listener);
 
   if (!T::_is_nil (reader))
     listener->configure (reader);
@@ -156,6 +132,65 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
                 topic_name));
 }
 
+//
+// create_topic
+//
+template <typename T, typename SERVANT, typename EVENT>
+typename T::topic_var_type
+DDS_EventConsumer_T <T, SERVANT, EVENT>::
+create_topic (const char * topic_name,
+              domainparticipant_var_type & participant)
+{
+  #ifdef ICCM_DDS_LACKS_TOPIC_QOS
+  return participant->create_topic (topic_name,
+                                    this->type_name_.c_str (),
+                                    *T::topic_qos_default (),
+                                    0,
+                                    T::STATUS_MASK_NONE);
+  #else
+  if (!this->topic_qos_)
+    return participant->create_topic (topic_name,
+                                      this->type_name_.c_str (),
+                                      *T::topic_qos_default (),
+                                      0,
+                                      T::STATUS_MASK_NONE);
+  else
+    return participant->create_topic (topic_name,
+                                      this->type_name_.c_str (),
+                                      *this->topic_qos_,
+                                      0,
+                                      T::STATUS_MASK_NONE);
+  #endif
+
+}
+
+//
+// create_datareader
+//
+template <typename T, typename SERVANT, typename EVENT>
+typename T::datareader_var_type
+DDS_EventConsumer_T <T, SERVANT, EVENT>::
+create_datareader (typename T::topic_var_type topic,
+                   listener_type * listener)
+{
+  #ifdef ICCM_DDS_LACKS_READER_QOS
+    return this->subscriber_->create_datareader (topic,
+                                                 *T::datareader_qos_default (),
+                                                 listener,
+                                                 T::STATUS_MASK_DATA_AVAILABLE);
+  #else
+  if (!this->reader_qos_)
+    return this->subscriber_->create_datareader (topic,
+                                                 *T::datareader_qos_default (),
+                                                 listener,
+                                                 T::STATUS_MASK_DATA_AVAILABLE);
+  else
+    return this->subscriber_->create_datareader (topic,
+                                                 *this->reader_qos_,
+                                                 listener,
+                                                 T::STATUS_MASK_DATA_AVAILABLE);
+  #endif
+}
 //
 // remove_topic
 //
@@ -192,38 +227,14 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::activate (void)
     if (!T::_is_nil (reader))
       continue;
 
-    #ifdef ICCM_DDS_LACKS_TOPIC_QOS
-    topic_var_type topic =
-      participant->create_topic (topic_name,
-                                 this->type_name_.c_str (),
-                                 T::topic_qos_default (),
-                                 0,
-                                 T::STATUS_MASK_NONE);
-    #else
-    topic_var_type topic =
-      participant->create_topic (topic_name,
-                                 this->type_name_.c_str (),
-                                 this->topic_qos_,
-                                 0,
-                                 T::STATUS_MASK_NONE);
-    #endif
+    topic_var_type topic = this->create_topic (topic_name, participant);
 
     if (T::_is_nil (topic))
       ACE_ERROR ((LM_ERROR,
                   ACE_TEXT ("%T (%t) - %M - Failed to create topic\n")));
 
     // Create the datareader
-    #ifdef ICCM_DDS_LACKS_READER_QOS
-    reader = this->subscriber_->create_datareader (topic,
-                                                   T::datareader_qos_default (),
-                                                   listener,
-                                                   T::STATUS_MASK_DATA_AVAILABLE);
-    #else
-    reader = this->subscriber_->create_datareader (topic,
-                                                   this->reader_qos_,
-                                                   listener,
-                                                   T::STATUS_MASK_DATA_AVAILABLE);
-    #endif
+    reader = this->create_datareader (topic, listener);
 
     if (!T::_is_nil (reader))
       listener->configure (reader);

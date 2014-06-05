@@ -44,9 +44,9 @@ const RTIDDS::subscriberqos_type & RTIDDS::subscriber_qos_default (void)
 // topic_qos_default
 //
 CUTS_INLINE
-const RTIDDS::topicqos_type & RTIDDS::topic_qos_default (void)
+const RTIDDS::topicqos_type * RTIDDS::topic_qos_default (void)
 {
-  return DDS_TOPIC_QOS_DEFAULT;
+  return &DDS_TOPIC_QOS_DEFAULT;
 }
 
 //
@@ -62,9 +62,9 @@ const RTIDDS::datawriterqos_type & RTIDDS::datawriter_qos_default (void)
 // datareader_qos_default
 //
 CUTS_INLINE
-const RTIDDS::datareaderqos_type & RTIDDS::datareader_qos_default (void)
+const RTIDDS::datareaderqos_type * RTIDDS::datareader_qos_default (void)
 {
-  return DDS_DATAREADER_QOS_DEFAULT;
+  return &DDS_DATAREADER_QOS_DEFAULT;
 }
 
 }

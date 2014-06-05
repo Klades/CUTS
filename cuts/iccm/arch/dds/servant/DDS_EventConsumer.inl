@@ -11,7 +11,9 @@ template <typename T>
 CUTS_INLINE
 DDS_EventConsumer <T>::DDS_EventConsumer (void)
 : subscriber_ (0),
-  abs_reader_ (0)
+  abs_reader_ (0),
+  reader_qos_ (0),
+  topic_qos_ (0)
 {
 
 }

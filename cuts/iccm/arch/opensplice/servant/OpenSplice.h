@@ -144,12 +144,12 @@ public:
 
   static domainparticipantfactory_ptr_type get_domainparticipantfactory_instance (void);
 
-  static const topicqos_type & topic_qos_default (void);
+  static const topicqos_type * topic_qos_default (void);
   static const domainparticipantqos_type & domainparticipant_qos_default (void);
   static const subscriberqos_type & subscriber_qos_default (void);
   static const publisherqos_type & publisher_qos_default (void);
   static const datawriterqos_type & datawriter_qos_default (void);
-  static const datareaderqos_type & datareader_qos_default (void);
+  static const datareaderqos_type * datareader_qos_default (void);
 
   template <typename TYPE_SUPPORT>
   static returncode_type register_type (domainparticipant_ptr_type p, ACE_CString & type_name)
@@ -215,11 +215,6 @@ public:
 };
 
 };
-
-// QoS operators (<<=)
-ICCM_OPENSPLICE_SVNT_Export void operator <<= (::iCCM::OpenSplice::datareaderqos_type &, const ::iCCM::OpenSplice::datareaderqos_type &);
-ICCM_OPENSPLICE_SVNT_Export void operator <<= (::iCCM::OpenSplice::topicqos_type &, const ::iCCM::OpenSplice::topicqos_type &);
-
 
 #if defined (__CUTS_INLINE__)
 #include "OpenSplice.inl"

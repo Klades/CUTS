@@ -83,8 +83,8 @@ protected:
   /// Configure the event consumer for future data readers.
   virtual void
     configure_eventconsumer (const char * name,
-                             const datareaderqos_type & qos,
-                             const topicqos_type & topic_qos,
+                             const datareaderqos_type * qos,
+                             const topicqos_type * topic_qos,
                              subscriber_ptr_type publisher,
                              bool is_global) = 0;
 
@@ -107,10 +107,15 @@ protected:
                         subscriber_var_type,
                         ACE_Null_Mutex> subscribers_;
 
-  /// Collection to topic QoS entities.
+  /// Collection of topic QoS entities.
   ACE_Hash_Map_Manager <ACE_CString,
                         topicqos_type *,
                         ACE_Null_Mutex> topic_qos_;
+
+  /// Collection of datareader QoS entities
+  ACE_Hash_Map_Manager <ACE_CString,
+                        datareaderqos_type *,
+                        ACE_Null_Mutex> datareader_qos_;
 };
 
 }

@@ -67,8 +67,8 @@ protected:
 
   virtual void
     configure_eventconsumer (const char * name,
-                             const typename TRAIT::datareaderqos_type & qos,
-                             const typename TRAIT::topicqos_type & topic_qos,
+                             const typename TRAIT::datareaderqos_type * qos,
+                             const typename TRAIT::topicqos_type * topic_qos,
                              typename TRAIT::subscriber_ptr_type subscriber,
                              bool is_global);
 

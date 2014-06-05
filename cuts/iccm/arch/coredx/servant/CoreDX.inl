@@ -44,9 +44,9 @@ const CoreDX::subscriberqos_type & CoreDX::subscriber_qos_default (void)
 // topic_qos_default
 //
 CUTS_INLINE
-const CoreDX::topicqos_type & CoreDX::topic_qos_default (void)
+const CoreDX::topicqos_type * CoreDX::topic_qos_default (void)
 {
-  return ::DDS::TOPIC_QOS_DEFAULT;
+  return &::DDS::TOPIC_QOS_DEFAULT;
 }
 
 //
@@ -62,9 +62,9 @@ const CoreDX::datawriterqos_type & CoreDX::datawriter_qos_default (void)
 // datareader_qos_default
 //
 CUTS_INLINE
-const CoreDX::datareaderqos_type & CoreDX::datareader_qos_default (void)
+const CoreDX::datareaderqos_type * CoreDX::datareader_qos_default (void)
 {
-  return ::DDS::DATAREADER_QOS_DEFAULT;
+  return &::DDS::DATAREADER_QOS_DEFAULT;
 }
 
 }

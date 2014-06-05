@@ -44,9 +44,9 @@ const OpenSplice::subscriberqos_type & OpenSplice::subscriber_qos_default (void)
 // topic_qos_default
 //
 CUTS_INLINE
-const OpenSplice::topicqos_type & OpenSplice::topic_qos_default (void)
+const OpenSplice::topicqos_type * OpenSplice::topic_qos_default (void)
 {
-  return TOPIC_QOS_DEFAULT;
+  return &TOPIC_QOS_DEFAULT;
 }
 
 //
@@ -62,9 +62,9 @@ const OpenSplice::datawriterqos_type & OpenSplice::datawriter_qos_default (void)
 // datareader_qos_default
 //
 CUTS_INLINE
-const OpenSplice::datareaderqos_type & OpenSplice::datareader_qos_default (void)
+const OpenSplice::datareaderqos_type * OpenSplice::datareader_qos_default (void)
 {
-  return DATAREADER_QOS_USE_TOPIC_QOS;
+  return &DATAREADER_QOS_USE_TOPIC_QOS;
 }
 
 }

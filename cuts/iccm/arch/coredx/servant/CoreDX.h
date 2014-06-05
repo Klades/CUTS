@@ -32,7 +32,7 @@
 #define ICCM_DDS_SEQ_USES_SIZE
 
 // Workaround for DataReader QoS issues
-#define ICCM_DDS_LACKS_READER_QOS
+//#define ICCM_DDS_LACKS_READER_QOS
 
 // Workaround for Topic QoS issues on windows
 #ifdef WIN32
@@ -164,12 +164,12 @@ public:
 
   static domainparticipantfactory_ptr_type get_domainparticipantfactory_instance (void);
 
-  static const topicqos_type & topic_qos_default (void);
+  static const topicqos_type * topic_qos_default (void);
   static const domainparticipantqos_type & domainparticipant_qos_default (void);
   static const subscriberqos_type & subscriber_qos_default (void);
   static const publisherqos_type & publisher_qos_default (void);
   static const datawriterqos_type & datawriter_qos_default (void);
-  static const datareaderqos_type & datareader_qos_default (void);
+  static const datareaderqos_type * datareader_qos_default (void);
 
   template <typename TYPE_SUPPORT>
   static returncode_type register_type (domainparticipant_ptr_type p, ACE_CString & type_name)

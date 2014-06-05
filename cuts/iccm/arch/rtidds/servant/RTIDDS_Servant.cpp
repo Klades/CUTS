@@ -756,15 +756,23 @@ configure_datareader (const ::iccm::DataReaderQos & value)
   // created until a connection is made between an input/output port.
   // We therefore need to initialize the data reader's QoS parameters
   // and the consumer will use it when instantiating the data readers.
-  ::DDS_DataReaderQos current (::DDS_DATAREADER_QOS_DEFAULT);
+  ::DDS_DataReaderQos * current = 0;
+  ACE_NEW_THROW_EX (current,
+                    ::DDS_DataReaderQos (::DDS_DATAREADER_QOS_DEFAULT),
+                    ::CORBA::NO_MEMORY ());
 
-  current <<= value;
+  ACE_Auto_Ptr < ::DDS_DataReaderQos > auto_clean (current);
 
-  this->configure_eventconsumer (value.name ().c_str (),
-                                 current,
-                                 topic_qos,
-                                 subscriber,
-                                 value.isprivate ());
+  *current <<= value;
+
+  if (0 == this->datareader_qos_.bind (value.name ().c_str (), current))
+    auto_clean.release ();
+  else
+    this->configure_eventconsumer (value.name ().c_str (),
+                                   current,
+                                   &topic_qos,
+                                   subscriber,
+                                   value.isprivate ());
 }
 
 //

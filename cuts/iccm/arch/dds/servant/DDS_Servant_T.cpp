@@ -73,7 +73,7 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
                   this->name_.c_str ()));
 
       emits->configure (this->publisher_,
-                        TRAIT::topic_qos_default (),
+                        *TRAIT::topic_qos_default (),
                         topic_name.c_str (),
                         false);
     }
@@ -98,7 +98,7 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
                   this->name_.c_str ()));
 
       pub_table->configure (this->publisher_,
-                            TRAIT::topic_qos_default (),
+                            *TRAIT::topic_qos_default (),
                             topic_name.c_str (),
                             false);
     }
@@ -154,8 +154,8 @@ create_datawriter (const char * name,
 template <typename TRAIT, typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
 void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 configure_eventconsumer (const char * name,
-                         const typename TRAIT::datareaderqos_type & reader_qos,
-                         const typename TRAIT::topicqos_type & topic_qos,
+                         const typename TRAIT::datareaderqos_type * reader_qos,
+                         const typename TRAIT::topicqos_type * topic_qos,
                          typename TRAIT::subscriber_ptr_type publisher,
                          bool is_private)
 {

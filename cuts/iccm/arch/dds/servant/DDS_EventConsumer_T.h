@@ -61,12 +61,12 @@ public:
 
   // Configure the event consumer object.
   virtual void configure (subscriber_ptr_type subscriber,
-                          const topicqos_type & topic_qos,
-                          const datareaderqos_type & qos);
+                          const topicqos_type * topic_qos,
+                          const datareaderqos_type * qos);
 
   virtual void configure (subscriber_ptr_type subscriber,
-                          const topicqos_type & topic_qos,
-                          const datareaderqos_type & qos,
+                          const topicqos_type * topic_qos,
+                          const datareaderqos_type * qos,
                           const char * topic_name);
 
   /**
@@ -88,6 +88,17 @@ public:
   // Passivate the consumer
   virtual void passivate (void);
 private:
+  /// Helper method to create topics
+  typedef typename T::topic_var_type topic_var_type;
+  typedef typename T::domainparticipant_var_type domainparticipant_var_type;
+  topic_var_type create_topic (const char * topic_name,
+                               domainparticipant_var_type & participant);
+
+  /// Helper method to create datareaders
+  typedef typename T::datareader_var_type datareader_var_type;
+  datareader_var_type create_datareader (topic_var_type topic,
+                                         listener_type * listener);
+
   /// Servant to pass event.
   SERVANT * servant_;
 

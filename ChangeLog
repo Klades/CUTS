@@ -1,3 +1,51 @@
+Thu Jun  5 18:59:15 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/Application_Task.h:
+        * cuts/Application_Task.inl:
+        * cuts/Application_Task.cpp:
+        * cuts/Application_Task_T.h:
+        * cuts/Application_Task_T.inl:
+        * cuts/Application_Task_T.cpp:
+        * cuts/CUTS.mpc:
+
+          Added application tasks to support running threaded workloads
+          as part of a component.
+
+        * cuts/iccm/arch/coredx/servant/CoreDX.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX.inl:
+
+          Updated default topic and datareader qos getters to return
+          pointers.
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer.inl:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+
+          Updated event consumers to store topic and datareader qos entities
+          as pointers instead of by value.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.cpp:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+
+          Updated default topic and datareader qos getters to return
+          pointers.  Also updated servant logic to put the datareader
+          qos entities into a hash map.
+
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.inl:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.cpp:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.cpp:
+
+          Updated default topic and datareader qos getters to return
+          pointers.  Also updated servant logic to put the datareader
+          qos entities into a hash map.
+
 Wed Apr  9 18:42:56 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/coredx/Traits.cpp:
