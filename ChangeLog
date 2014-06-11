@@ -1,3 +1,13 @@
+Wed Jun 11 19:38:34 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/arch/coredx/servant/CoreDX.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX.cpp:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.mpc:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.cpp:
+
+          Added preliminary QoS handling.
+
 Thu Jun  5 18:59:15 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/Application_Task.h:

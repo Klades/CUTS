@@ -58,7 +58,7 @@ project (iCCM_CoreDX_skel) : iccm_coredx_stub, cutslib, iccm_dds_skel {
   }
 }
 
-project (iCCM_CoreDX_svnt) : iccm_coredx_skel, iccm_servant, iccm_ddsxml, cutslib {
+project (iCCM_CoreDX_svnt) : boost_base, iccm_coredx_skel, iccm_servant, iccm_ddsxml, cutslib {
   sharedname    = iCCM_CoreDX_svnt
   dynamicflags += ICCM_COREDX_SVNT_BUILD_DLL
 

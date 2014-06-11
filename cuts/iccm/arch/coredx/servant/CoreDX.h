@@ -220,10 +220,6 @@ const T * CoreDX::nil <T>::result_type = 0;
 
 };
 
-// QoS operators (<<=)
-ICCM_COREDX_SVNT_Export void operator <<= (::iCCM::CoreDX::datareaderqos_type &, const ::iCCM::CoreDX::datareaderqos_type &);
-ICCM_COREDX_SVNT_Export void operator <<= (::iCCM::CoreDX::topicqos_type &, const ::iCCM::CoreDX::topicqos_type &);
-
 #if defined (__CUTS_INLINE__)
 #include "CoreDX.inl"
 #endif
