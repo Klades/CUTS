@@ -34,11 +34,11 @@ DDS_Publisher <T>::~DDS_Publisher (void)
 //
 template <typename T>
 void DDS_Publisher <T>::
-configure (publisher_ptr_type publisher, topic_ptr_type topic)
+configure (publisher_ptr_type publisher, const datawriterqos_type & datawriter_qos, topic_ptr_type topic)
 {
   this->abs_writer_ =
     publisher->create_datawriter (topic,
-                                  T::datawriter_qos_default (),
+                                  datawriter_qos,
                                   0,
                                   T::STATUS_MASK_NONE);
 

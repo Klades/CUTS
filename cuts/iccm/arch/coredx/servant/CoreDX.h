@@ -147,6 +147,86 @@ public:
   typedef ::DDS::SubscriptionMatchedStatus subscriptionmatchedstatus_type;
   typedef ::DDS::SampleLostStatus sampleloststatus_type;
 
+  // Qos typedefs
+  typedef ::DDS::Duration_t duration_type;
+
+  enum HistoryQosPolicyKind
+  {
+    KEEP_ALL_HISTORY_QOS = ::DDS::KEEP_ALL_HISTORY_QOS,
+    KEEP_LAST_HISTORY_QOS = ::DDS::KEEP_LAST_HISTORY_QOS
+  };
+  typedef ::DDS::HistoryQosPolicyKind history_kind_type;
+
+  enum LivelinessQosPolicyKind
+  {
+    AUTOMATIC_LIVELINESS_QOS = ::DDS::AUTOMATIC_LIVELINESS_QOS,
+    MANUAL_BY_PARTICIPANT_LIVELINESS_QOS = ::DDS::MANUAL_BY_PARTICIPANT_LIVELINESS_QOS,
+    MANUAL_BY_TOPIC_LIVELINESS_QOS = ::DDS::MANUAL_BY_TOPIC_LIVELINESS_QOS
+  };
+  typedef ::DDS::LivelinessQosPolicyKind liveliness_kind_type;
+
+  enum DurabilityQosPolicyKind
+  {
+    PERSISTENT_DURABILITY_QOS = ::DDS::PERSISTENT_DURABILITY_QOS,
+    TRANSIENT_DURABILITY_QOS = ::DDS::TRANSIENT_DURABILITY_QOS,
+    TRANSIENT_LOCAL_DURABILITY_QOS = ::DDS::TRANSIENT_LOCAL_DURABILITY_QOS,
+    VOLATILE_DURABILITY_QOS = ::DDS::VOLATILE_DURABILITY_QOS
+  };
+  typedef ::DDS::DurabilityQosPolicyKind durability_kind_type;
+
+  enum ReliabilityQosPolicyKind
+  {
+    BEST_EFFORT_RELIABILITY_QOS = ::DDS::BEST_EFFORT_RELIABILITY_QOS,
+    RELIABLE_RELIABILITY_QOS = ::DDS::RELIABLE_RELIABILITY_QOS
+  };
+  typedef ::DDS::ReliabilityQosPolicyKind reliability_kind_type;
+
+  enum DestinationOrderQosPolicyKind
+  {
+    BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS = ::DDS::BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS,
+    BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS = ::DDS::BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS
+  };
+  typedef ::DDS::DestinationOrderQosPolicyKind destination_order_kind_type;
+
+  enum OwnershipQosPolicyKind
+  {
+    EXCLUSIVE_OWNERSHIP_QOS = ::DDS::EXCLUSIVE_OWNERSHIP_QOS,
+    SHARED_OWNERSHIP_QOS = ::DDS::SHARED_OWNERSHIP_QOS
+  };
+  typedef ::DDS::OwnershipQosPolicyKind ownership_kind_type;
+
+  enum PresentationQosPolicyAccessScopeKind
+  {
+    GROUP_PRESENTATION_QOS = ::DDS::GROUP_PRESENTATION_QOS,
+    INSTANCE_PRESENTATION_QOS = ::DDS::INSTANCE_PRESENTATION_QOS,
+    TOPIC_PRESENTATION_QOS = ::DDS::TOPIC_PRESENTATION_QOS
+  };
+  typedef ::DDS::PresentationQosPolicyAccessScopeKind access_scope_type;
+
+  typedef ::DDS::DurabilityQosPolicy durability_type;
+  typedef ::DDS::DurabilityServiceQosPolicy durability_service_type;
+  typedef ::DDS::DeadlineQosPolicy deadline_type;
+  typedef ::DDS::LatencyBudgetQosPolicy latency_budget_type;
+  typedef ::DDS::LivelinessQosPolicy liveliness_type;
+  typedef ::DDS::ReliabilityQosPolicy reliability_type;
+  typedef ::DDS::DestinationOrderQosPolicy destination_order_type;
+  typedef ::DDS::HistoryQosPolicy history_type;
+  typedef ::DDS::ResourceLimitsQosPolicy resource_limits_type;
+  typedef ::DDS::TransportPriorityQosPolicy transport_priority_type;
+  typedef ::DDS::LifespanQosPolicy lifespan_type;
+  typedef ::DDS::OwnershipQosPolicy ownership_type;
+  typedef ::DDS::PresentationQosPolicy presentation_type;
+  typedef ::DDS::StringSeq stringseq_type;
+  static void copy_string (stringseq_type & dst, const ::iccm::StringSeq & src);
+  typedef ::DDS::PartitionQosPolicy partition_type;
+  typedef ::DDS::GroupDataQosPolicy group_data_type;
+  typedef ::DDS::UserDataQosPolicy user_data_type;
+  typedef ::DDS::TimeBasedFilterQosPolicy time_based_filter_type;
+  typedef ::DDS::ReaderDataLifecycleQosPolicy reader_data_lifecycle_type;
+  typedef ::DDS::OwnershipStrengthQosPolicy ownership_strength_type;
+  typedef ::DDS::WriterDataLifecycleQosPolicy writer_data_lifecycle_type;
+  typedef ::DDS::EntityFactoryQosPolicy entity_factory_type;
+
   typedef ::DDS::StatusKind statusmask_type;
   static const statusmask_type STATUS_MASK_NONE;
   static const statusmask_type STATUS_MASK_DATA_AVAILABLE;

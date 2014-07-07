@@ -92,14 +92,6 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
     return;
   }
 
-  domainparticipant_var_type participant = this->subscriber_->get_participant ();
-
-  topic_var_type topic = this->create_topic (topic_name, participant);
-
-  if (T::_is_nil (topic))
-    ACE_ERROR ((LM_ERROR,
-                ACE_TEXT ("%T (%t) - %M - Failed to create topic\n")));
-
   // Create a new data reader object. Right now this work if we only
   // have one connection. If there are multiple connections into this
   // consumer, then we will overwrite the <abstract_reader_> each
@@ -116,6 +108,21 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::add_topic (const char * topic_name
                     ::CORBA::NO_MEMORY ());
 
   this->listeners_.bind (topic_name, listener);
+
+  // If the component isn't activated, we might not have the right
+  // qos for the topic or data reader yet.  Rather than creating
+  // the topic and data reader now, let's delay the creation
+  // until the component is activated.
+  if (!this->is_active_)
+    return;
+
+  domainparticipant_var_type participant = this->subscriber_->get_participant ();
+
+  topic_var_type topic = this->create_topic (topic_name, participant);
+
+  if (T::_is_nil (topic))
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - Failed to create topic\n")));
 
   // Use the listener to create a new data reader. We should use
   // the listener to create the data reader. In other words, put a
@@ -161,7 +168,6 @@ create_topic (const char * topic_name,
                                       0,
                                       T::STATUS_MASK_NONE);
   #endif
-
 }
 
 //
@@ -191,6 +197,7 @@ create_datareader (typename T::topic_var_type topic,
                                                  T::STATUS_MASK_DATA_AVAILABLE);
   #endif
 }
+
 //
 // remove_topic
 //
@@ -198,7 +205,11 @@ template <typename T, typename SERVANT, typename EVENT>
 void DDS_EventConsumer_T <T, SERVANT, EVENT>::
 remove_topic (const char * topic_name)
 {
-  ACE_UNUSED_ARG (topic_name);
+  typename T::datareader_var_type reader =
+    this->subscriber_->lookup_datareader (topic_name);
+
+  if (!T::_is_nil (reader))
+    this->subscriber_->delete_datareader (reader);
 }
 
 //
@@ -227,6 +238,10 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::activate (void)
     if (!T::_is_nil (reader))
       continue;
 
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - Creating datareader for topic <%s>\n"),
+                topic_name));
+
     topic_var_type topic = this->create_topic (topic_name, participant);
 
     if (T::_is_nil (topic))
@@ -244,6 +259,8 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::activate (void)
                   ACE_TEXT ("for topic <%s>\n"),
                   topic_name));
   }
+
+  this->is_active_ = true;
 }
 
 //
@@ -265,6 +282,8 @@ void DDS_EventConsumer_T <T, SERVANT, EVENT>::passivate (void)
     if (!T::_is_nil (reader))
       this->subscriber_->delete_datareader (reader);
   }
+
+  this->is_active_ = false;
 }
 
 }

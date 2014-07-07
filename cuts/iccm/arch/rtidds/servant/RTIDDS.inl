@@ -67,4 +67,19 @@ const RTIDDS::datareaderqos_type * RTIDDS::datareader_qos_default (void)
   return &DDS_DATAREADER_QOS_DEFAULT;
 }
 
+//
+// copy_string
+//
+CUTS_INLINE
+void RTIDDS::copy_string (RTIDDS::stringseq_type & dst, const ::iccm::StringSeq & src)
+{
+  dst.ensure_length (src.count_item (), src.count_item ());
+
+  ::iccm::StringSeq::item_const_iterator
+    iter = src.begin_item (), iter_end = src.end_item ();
+
+  for (size_t i = 0; iter != iter_end; ++ iter, ++ i)
+    dst[i] = DDS_String_dup((*iter)->c_str ());
+}
+
 }

@@ -32,6 +32,7 @@ class DDS_Publisher : public Publisher
 public:
   /// Type definition of the DDS entities.
   typedef typename T::publisher_ptr_type publisher_ptr_type;
+  typedef typename T::datawriterqos_type datawriterqos_type;
   typedef typename T::topicqos_type topicqos_type;
   typedef typename T::topic_ptr_type topic_ptr_type;
   typedef typename T::datawriter_ptr_type datawriter_ptr_type;
@@ -51,6 +52,7 @@ public:
    * @param[in]         topic             Topic for writer
    */
   virtual void configure (publisher_ptr_type publisher,
+                          const datawriterqos_type & datawriter_qos,
                           const topicqos_type & topic_qos,
                           const char * topic_name,
                           bool isinstance) = 0;
@@ -75,7 +77,9 @@ protected:
    * @param[in]         publisher         Target DDS publisher
    * @param[in]         topic             Topic for writer
    */
-  void configure (publisher_ptr_type publisher, topic_ptr_type topic);
+  void configure (publisher_ptr_type publisher,
+                  const datawriterqos_type & datawriter_qos,
+                  topic_ptr_type topic);
 
   /// The consumer connected to this publisher.
   ::Components::DDS::EventConsumer_var consumer_;

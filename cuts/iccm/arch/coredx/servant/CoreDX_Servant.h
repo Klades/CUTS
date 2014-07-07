@@ -76,6 +76,9 @@ private:
   void configure_subscriber (const ::iccm::SubscriberQos & value);
   void configure_datareader (const ::iccm::DataReaderQos & value);
   void configure_datawriter (const ::iccm::DataWriterQos & value);
+
+  ::DDS::Subscriber * get_default_subscriber (void);
+  ::DDS::Publisher * get_default_publisher (void);
 };
 
 }

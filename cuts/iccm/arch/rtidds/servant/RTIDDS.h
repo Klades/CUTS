@@ -13,6 +13,10 @@
 #ifndef _ICCM_RTIDDS_H_
 #define _ICCM_RTIDDS_H_
 
+// Non-standard DDS features supported by RTIDDS
+#define ICCM_DDS_SUPPORTS_INITIAL_RESOURCE_LIMITS
+#define ICCM_DDS_SUPPORTS_WRITER_PROTOCOL_QOS
+
 #include "cuts/iccm/arch/dds/servant/DDS_EventConsumer.h"
 #include "cuts/iccm/arch/dds/servant/DDS_Publisher_Table.h"
 #include "cuts/iccm/arch/dds/servant/DDS_Publisher.h"
@@ -132,7 +136,90 @@ public:
   typedef ::DDS_SubscriptionMatchedStatus subscriptionmatchedstatus_type;
   typedef ::DDS_SampleLostStatus sampleloststatus_type;
 
-  typedef DDS_StatusMask statusmask_type;
+  // Qos typedefs
+  typedef ::DDS_DataWriterProtocolQosPolicy writer_protocol_type;
+  typedef ::DDS_RtpsReliableWriterProtocol_t rtps_reliable_writer_protocol_type;
+
+  typedef ::DDS_Duration_t duration_type;
+
+  enum HistoryQosPolicyKind
+  {
+    KEEP_ALL_HISTORY_QOS = ::DDS_KEEP_ALL_HISTORY_QOS,
+    KEEP_LAST_HISTORY_QOS = ::DDS_KEEP_LAST_HISTORY_QOS
+  };
+  typedef ::DDS_HistoryQosPolicyKind history_kind_type;
+
+  enum LivelinessQosPolicyKind
+  {
+    AUTOMATIC_LIVELINESS_QOS = ::DDS_AUTOMATIC_LIVELINESS_QOS,
+    MANUAL_BY_PARTICIPANT_LIVELINESS_QOS = ::DDS_MANUAL_BY_PARTICIPANT_LIVELINESS_QOS,
+    MANUAL_BY_TOPIC_LIVELINESS_QOS = ::DDS_MANUAL_BY_TOPIC_LIVELINESS_QOS
+  };
+  typedef ::DDS_LivelinessQosPolicyKind liveliness_kind_type;
+
+  enum DurabilityQosPolicyKind
+  {
+    PERSISTENT_DURABILITY_QOS = ::DDS_PERSISTENT_DURABILITY_QOS,
+    TRANSIENT_DURABILITY_QOS = ::DDS_TRANSIENT_DURABILITY_QOS,
+    TRANSIENT_LOCAL_DURABILITY_QOS = ::DDS_TRANSIENT_LOCAL_DURABILITY_QOS,
+    VOLATILE_DURABILITY_QOS = ::DDS_VOLATILE_DURABILITY_QOS
+  };
+  typedef ::DDS_DurabilityQosPolicyKind durability_kind_type;
+
+  enum ReliabilityQosPolicyKind
+  {
+    BEST_EFFORT_RELIABILITY_QOS = ::DDS_BEST_EFFORT_RELIABILITY_QOS,
+    RELIABLE_RELIABILITY_QOS = ::DDS_RELIABLE_RELIABILITY_QOS
+  };
+  typedef ::DDS_ReliabilityQosPolicyKind reliability_kind_type;
+
+  enum DestinationOrderQosPolicyKind
+  {
+    BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS = ::DDS_BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS,
+    BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS = ::DDS_BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS
+  };
+  typedef ::DDS_DestinationOrderQosPolicyKind destination_order_kind_type;
+
+  enum OwnershipQosPolicyKind
+  {
+    EXCLUSIVE_OWNERSHIP_QOS = ::DDS_EXCLUSIVE_OWNERSHIP_QOS,
+    SHARED_OWNERSHIP_QOS = ::DDS_SHARED_OWNERSHIP_QOS
+  };
+  typedef ::DDS_OwnershipQosPolicyKind ownership_kind_type;
+
+  enum PresentationQosPolicyAccessScopeKind
+  {
+    GROUP_PRESENTATION_QOS = ::DDS_GROUP_PRESENTATION_QOS,
+    INSTANCE_PRESENTATION_QOS = ::DDS_INSTANCE_PRESENTATION_QOS,
+    TOPIC_PRESENTATION_QOS = ::DDS_TOPIC_PRESENTATION_QOS
+  };
+  typedef ::DDS_PresentationQosPolicyAccessScopeKind access_scope_type;
+
+  typedef ::DDS_DurabilityQosPolicy durability_type;
+  typedef ::DDS_DurabilityServiceQosPolicy durability_service_type;
+  typedef ::DDS_DeadlineQosPolicy deadline_type;
+  typedef ::DDS_LatencyBudgetQosPolicy latency_budget_type;
+  typedef ::DDS_LivelinessQosPolicy liveliness_type;
+  typedef ::DDS_ReliabilityQosPolicy reliability_type;
+  typedef ::DDS_DestinationOrderQosPolicy destination_order_type;
+  typedef ::DDS_HistoryQosPolicy history_type;
+  typedef ::DDS_ResourceLimitsQosPolicy resource_limits_type;
+  typedef ::DDS_TransportPriorityQosPolicy transport_priority_type;
+  typedef ::DDS_LifespanQosPolicy lifespan_type;
+  typedef ::DDS_OwnershipQosPolicy ownership_type;
+  typedef ::DDS_PresentationQosPolicy presentation_type;
+  typedef ::DDS_StringSeq stringseq_type;
+  static void copy_string (stringseq_type & dst, const ::iccm::StringSeq & src);
+  typedef ::DDS_PartitionQosPolicy partition_type;
+  typedef ::DDS_GroupDataQosPolicy group_data_type;
+  typedef ::DDS_UserDataQosPolicy user_data_type;
+  typedef ::DDS_TimeBasedFilterQosPolicy time_based_filter_type;
+  typedef ::DDS_ReaderDataLifecycleQosPolicy reader_data_lifecycle_type;
+  typedef ::DDS_OwnershipStrengthQosPolicy ownership_strength_type;
+  typedef ::DDS_WriterDataLifecycleQosPolicy writer_data_lifecycle_type;
+  typedef ::DDS_EntityFactoryQosPolicy entity_factory_type;
+
+  typedef ::DDS_StatusMask statusmask_type;
   static const statusmask_type STATUS_MASK_NONE = DDS_STATUS_MASK_NONE;
   static const statusmask_type STATUS_MASK_DATA_AVAILABLE = DDS_DATA_AVAILABLE_STATUS;
 
@@ -140,12 +227,12 @@ public:
   static const unsigned long ANY_VIEW_STATE;
   static const unsigned long ANY_INSTANCE_STATE;
 
-  static const long LENGTH_UNLIMITED;
-
-  static const returncode_type RETCODE_OK = DDS_RETCODE_OK;
-  static const returncode_type RETCODE_NO_DATA = DDS_RETCODE_NO_DATA;
-
   static const instancehandle_type HANDLE_NIL;
+
+  static const returncode_type RETCODE_OK = ::DDS_RETCODE_OK;
+  static const returncode_type RETCODE_NO_DATA = ::DDS_RETCODE_NO_DATA;
+
+  static const long LENGTH_UNLIMITED;
 
   static domainparticipantfactory_ptr_type get_domainparticipantfactory_instance (void);
 

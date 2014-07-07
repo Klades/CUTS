@@ -41,11 +41,11 @@ bool DDS_Publisher_Table <T>::is_configured (void) const
 template <typename T>
 CUTS_INLINE
 void DDS_Publisher_Table <T>::
-configure (publisher_ptr_type publisher, topic_ptr_type topic)
+configure (publisher_ptr_type publisher, const datawriterqos_type & datawriter_qos, topic_ptr_type topic)
 {
   this->abs_writer_ =
     publisher->create_datawriter (topic,
-                                  T::datawriter_qos_default (),
+                                  datawriter_qos,
                                   0,
                                   T::STATUS_MASK_NONE);
 }

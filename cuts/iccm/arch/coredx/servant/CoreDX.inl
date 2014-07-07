@@ -67,4 +67,19 @@ const CoreDX::datareaderqos_type * CoreDX::datareader_qos_default (void)
   return &::DDS::DATAREADER_QOS_DEFAULT;
 }
 
+//
+// copy_string
+//
+CUTS_INLINE
+void CoreDX::copy_string (CoreDX::stringseq_type & dst, const ::iccm::StringSeq & src)
+{
+  dst.resize (src.count_item ());
+
+  ::iccm::StringSeq::item_const_iterator
+    iter = src.begin_item (), iter_end = src.end_item ();
+
+  for (size_t i = 0; iter != iter_end; ++ iter, ++ i)
+    dst[i] = ACE_OS::strdup ((*iter)->c_str ());
+}
+
 }

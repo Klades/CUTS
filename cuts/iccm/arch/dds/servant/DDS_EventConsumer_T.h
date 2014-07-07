@@ -118,6 +118,9 @@ private:
   /// Custom topic name for the event consumer. This will override
   /// the topic name in the connection, if it exists.
   ACE_CString type_name_;
+
+  /// Activation flag
+  bool is_active_;
 };
 
 }

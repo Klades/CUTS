@@ -53,7 +53,7 @@ project (iCCM_DDS_skel) : ccm_svnt, iccm_dds_stub, cutslib {
   }
 }
 
-project (iCCM_DDS_svnt) : boost_base, iccm_ddsxml, iccm_dds_skel, iccm_servant, cutslib {
+project (iCCM_DDS_svnt) : boost_base, iccm_dds_skel, iccm_servant, iccm_ddsxml, cutslib {
   sharedname    = iCCM_DDS_svnt
   dynamicflags += ICCM_DDS_SVNT_BUILD_DLL
 

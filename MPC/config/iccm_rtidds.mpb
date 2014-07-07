@@ -9,6 +9,7 @@ project : requires_rtidds {
     source_outputext      = C.cpp
     header_outputext      = C.h
     source_pre_filename   = RTIDDS_
+    header_pre_filename   = RTIDDS_
     generic_outputext     = _iCCM.idl
 
     keyword iccm_rtidds_flags = commandflags

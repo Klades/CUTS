@@ -1,3 +1,80 @@
+Mon Jul  7 14:07:35 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_coredx_svnt.mpb:
+        * MPC/config/iccm_opensplice_svnt.mpb:
+        * MPC/config/iccm_rtidds_svnt.mpb:
+
+          Added iccm_ddsxml as base projects
+
+        * MPC/config/iccm_rtidds.mpb:
+
+          Added header_pre_filename to clean up stub file
+
+        * cuts/iccm/arch/coredx/servant/CoreDX.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX.inl:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.h:
+        * cuts/iccm/arch/coredx/servant/CoreDX_Servant.cpp:
+
+          Added typedefs and changed qos handling to work with
+          DDS integration layer refactoring.
+
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.inl:
+        * cuts/iccm/arch/dds/servant/DDS_EventConsumer_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Event_Listener_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table.inl:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Publisher_Table_T.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.cpp:
+        * cuts/iccm/arch/dds/servant/DDS_Servant.mpc:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.h:
+        * cuts/iccm/arch/dds/servant/DDS_Servant_T.cpp:
+
+          Updated QoS handling to use typedefs defined in the concrete
+          implementation traits file.  This reduces redundant code in the
+          concerete servants to handle QoS.
+
+          Also changed EventConsumer behavior to not create topics and
+          datareaders when add_topic is called and the component has not
+          been activated yet.  This was necessary because add_topic could
+          be called before the EventConsumer received the QoS settings.
+          Datareaders are now created when the activate method is called.
+
+          Define guards are now used heavily to control non-standard QoS
+          settings.
+
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice.inl:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.h:
+        * cuts/iccm/arch/opensplice/servant/OpenSplice_Servant.cpp:
+
+          Added typedefs and changed qos handling to work with
+          DDS integration layer refactoring.
+
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS.inl:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.h:
+        * cuts/iccm/arch/rtidds/servant/RTIDDS_Servant.cpp:
+
+          Added typedefs and changed qos handling to work with
+          DDS integration layer refactoring.
+
+        * etc/schemas/iccm/dds.xsd:
+
+          Added non-standard QoS settings to get the HelloWorld example
+          working for RTIDDS.
+
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/SenderQoS.dpd
+        * tests/iccm/opensplice/ParticipantQoS/descriptors/ReceiverQoS.dpd
+
+          Updated QoS files to work with OpenSplice, RTIDDS, and CoreDX.
+
 Wed Jun 11 19:38:34 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/arch/coredx/servant/CoreDX.h:

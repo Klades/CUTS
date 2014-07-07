@@ -28,7 +28,7 @@ DDS_Event_Listener_T <T, SERVANT, EVENT>::~DDS_Event_Listener_T (void)
 }
 
 //
-// ~DDS_Event_Listener_T
+// configure
 //
 template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE

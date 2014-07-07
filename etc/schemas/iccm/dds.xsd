@@ -188,10 +188,22 @@
     <xsd:attribute name="max_samples" type="xsd:long" />
     <xsd:attribute name="max_instances" type="xsd:long" />
     <xsd:attribute name="max_samples_per_instance" type="xsd:long" />
+    <xsd:attribute name="initial_samples" type="xsd:long" />
+    <xsd:attribute name="initial_instances" type="xsd:long" />
   </xsd:complexType>
 
   <xsd:complexType name="EntityFactoryQosPolicy">
     <xsd:attribute name="autoenable_created_entities" type="xsd:boolean" />
+  </xsd:complexType>
+
+  <xsd:complexType name="RtpsReliableWriterProtocol">
+    <xsd:attribute name="heartbeats_per_max_samples" type="xsd:long" />
+  </xsd:complexType>
+
+  <xsd:complexType name="DataWriterProtocolQosPolicy">
+    <xsd:sequence>
+      <xsd:element name="rtps_reliable_writer" type="RtpsReliableWriterProtocol" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="WriterDataLifecycleQosPolicy">
@@ -318,6 +330,7 @@
       <xsd:element name="ownership" type="OwnershipQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="ownership_strength" type="OwnershipStrengthQosPolicy" minOccurs="0" maxOccurs="1" />
       <xsd:element name="writer_data_lifecycle" type="WriterDataLifecycleQosPolicy" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="protocol" type="DataWriterProtocolQosPolicy" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
 
     <!-- name of the target DataReader -->

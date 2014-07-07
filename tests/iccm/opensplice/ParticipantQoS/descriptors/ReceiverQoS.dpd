@@ -34,7 +34,7 @@
     <reliability kind="BEST_EFFORT_RELIABILITY_QOS" synchronous="true" max_blocking_time="1" />
     <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
     <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
-    <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
+    <resource_limits initial_samples="1" initial_instances="1" max_samples="1" max_instances="1" max_samples_per_instance="1" />
     <transport_priority value="1" />
     <lifespan duration="1" />
     <ownership kind="SHARED_OWNERSHIP_QOS" />
@@ -55,12 +55,13 @@
 
   <datareader name="greeting" topic="MessageTopic" subscriber="NoDefaultSubscriber" isprivate="true">
     <durability kind="VOLATILE_DURABILITY_QOS" />
+    <deadline period="1" />
     <latency_budget duration="1" />
     <liveliness lease_duration="1" kind="AUTOMATIC_LIVELINESS_QOS" />
     <reliability kind="BEST_EFFORT_RELIABILITY_QOS" synchronous="true" max_blocking_time="1" />
     <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
     <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
-    <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
+    <resource_limits initial_samples="1" initial_instances="1" max_samples="1" max_instances="1" max_samples_per_instance="1" />
     <user_data />
     <ownership kind="SHARED_OWNERSHIP_QOS" />
     <reader_data_lifecycle autopurge_nowriter_samples_delay="1"

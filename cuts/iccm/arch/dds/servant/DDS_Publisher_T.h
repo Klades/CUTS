@@ -36,6 +36,7 @@ public:
   typedef typename T::template event_traits_type <EVENT>::result_type event_traits_type;
   typedef typename DDS_Publisher <T>::publisher_ptr_type publisher_ptr_type;
   typedef typename DDS_Publisher <T>::topicqos_type topicqos_type;
+  typedef typename DDS_Publisher <T>::datawriterqos_type datawriterqos_type;
 
   /// Default constructor.
   DDS_Publisher_T (void);
@@ -51,6 +52,7 @@ public:
    * @param[in]         topic             Topic for writer
    */
   virtual void configure (publisher_ptr_type publisher,
+                          const datawriterqos_type & datawriter_qos,
                           const topicqos_type & topic_qos,
                           const char * topic_name,
                           bool isinstance);

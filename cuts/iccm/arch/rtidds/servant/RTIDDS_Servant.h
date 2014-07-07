@@ -18,8 +18,8 @@
 #ifndef _ICCM_RTIDDS_SERVANT_H_
 #define _ICCM_RTIDDS_SERVANT_H_
 
-#include "cuts/iccm/servant/Servant.h"
 #include "RTIDDS.h"
+#include "cuts/iccm/arch/dds/servant/DDS_Servant.h"
 
 namespace iccm
 {
@@ -53,6 +53,11 @@ class ICCM_RTIDDS_SVNT_Export RTIDDS_Servant :
   public DDS_Servant <RTIDDS>
 {
 public:
+  /// Trait definitions for iCCM::Servant_T object.
+  typedef RTIDDS_EventConsumer eventconsumer_type;
+  typedef RTIDDS_Publisher publisher_type;
+  typedef RTIDDS_Publisher_Table publisher_table_type;
+
   /// Base class typedef
   typedef DDS_Servant <RTIDDS> base_class;
 
@@ -74,6 +79,9 @@ private:
   void configure_subscriber (const ::iccm::SubscriberQos & value);
   void configure_datareader (const ::iccm::DataReaderQos & value);
   void configure_datawriter (const ::iccm::DataWriterQos & value);
+
+  ::DDSSubscriber * get_default_subscriber (void);
+  ::DDSPublisher * get_default_publisher (void);
 };
 
 }

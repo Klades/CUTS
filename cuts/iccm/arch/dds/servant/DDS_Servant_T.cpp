@@ -36,6 +36,9 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
     typename publishes_map_type::KEY & topic_name = consumer_iter->key ();
     typename consumer_map_type::VALUE consumer = consumer_iter->item ();
 
+    typename TRAIT::subscriber_var_type subscriber;
+    this->subscribers_.find (ICCM_DDS_DEFAULT_SUBSCRIBER, subscriber);
+
     if (!consumer->is_configured ())
     {
       // Configure the consumer with the default configuration. This
@@ -47,7 +50,7 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
                   topic_name.c_str (),
                   this->name_.c_str ()));
 
-      consumer->configure (this->subscriber_,
+      consumer->configure (subscriber,
                            TRAIT::topic_qos_default (),
                            TRAIT::datareader_qos_default (),
                            topic_name.c_str ());
@@ -55,6 +58,9 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
   }
 
   typename emits_map_type::ITERATOR emits_iter (this->emits_);
+
+  typename TRAIT::publisher_var_type publisher;
+  this->publishers_.find (ICCM_DDS_DEFAULT_PUBLISHER, publisher);
 
   for (; !emits_iter.done (); ++ emits_iter)
   {
@@ -72,7 +78,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
                   topic_name.c_str (),
                   this->name_.c_str ()));
 
-      emits->configure (this->publisher_,
+      emits->configure (publisher,
+                        TRAIT::datawriter_qos_default (),
                         *TRAIT::topic_qos_default (),
                         topic_name.c_str (),
                         false);
@@ -97,7 +104,8 @@ void DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::configure (void)
                   topic_name.c_str (),
                   this->name_.c_str ()));
 
-      pub_table->configure (this->publisher_,
+      pub_table->configure (publisher,
+                            TRAIT::datawriter_qos_default (),
                             *TRAIT::topic_qos_default (),
                             topic_name.c_str (),
                             false);
@@ -112,6 +120,7 @@ template <typename TRAIT, typename T, typename CONTEXT, typename EXECUTOR, typen
 typename TRAIT::datawriter_ptr_type
 DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
 create_datawriter (const char * name,
+                   const typename TRAIT::datawriterqos_type & datawriter_qos,
                    const char * topic_name,
                    const typename TRAIT::topicqos_type & topic_qos,
                    typename TRAIT::publisher_ptr_type publisher,
@@ -127,12 +136,12 @@ create_datawriter (const char * name,
 
   if (0 == this->emits_.find (name, emits))
   {
-    emits->configure (publisher, topic_qos, runtime_topic_name.c_str (), isinstance);
+    emits->configure (publisher, datawriter_qos, topic_qos, runtime_topic_name.c_str (), isinstance);
     data_writer = emits->get_datawriter ();
   }
   else if (0 == this->publishes_.find (name, publishes))
   {
-    publishes->configure (publisher, topic_qos, runtime_topic_name.c_str (), isinstance);
+    publishes->configure (publisher, datawriter_qos, topic_qos, runtime_topic_name.c_str (), isinstance);
     data_writer = publishes->get_datawriter ();
   }
   else

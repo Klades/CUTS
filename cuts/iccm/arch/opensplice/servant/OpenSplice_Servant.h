@@ -13,8 +13,8 @@
 #ifndef _ICCM_OPENSPLICE_SERVANT_H_
 #define _ICCM_OPENSPLICE_SERVANT_H_
 
-#include "cuts/iccm/arch/dds/servant/DDS_Servant.h"
 #include "OpenSplice.h"
+#include "cuts/iccm/arch/dds/servant/DDS_Servant.h"
 
 namespace iccm
 {
@@ -66,6 +66,9 @@ private:
   void configure_subscriber (const ::iccm::SubscriberQos & value);
   void configure_datareader (const ::iccm::DataReaderQos & value);
   void configure_datawriter (const ::iccm::DataWriterQos & value);
+
+  ::DDS::Subscriber_var get_default_subscriber (void);
+  ::DDS::Publisher_var get_default_publisher (void);
 };
 
 }

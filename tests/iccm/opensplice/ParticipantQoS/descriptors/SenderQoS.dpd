@@ -34,7 +34,7 @@
     <reliability kind="BEST_EFFORT_RELIABILITY_QOS" synchronous="true" max_blocking_time="1" />
     <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
     <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
-    <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
+    <resource_limits initial_samples="1" initial_instances="1" max_samples="1" max_instances="1" max_samples_per_instance="1" />
     <transport_priority value="1" />
     <lifespan duration="1" />
     <ownership kind="SHARED_OWNERSHIP_QOS" />
@@ -61,7 +61,7 @@
     <reliability kind="BEST_EFFORT_RELIABILITY_QOS" synchronous="true" max_blocking_time="1" />
     <destination_order kind="BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS" />
     <history kind="KEEP_LAST_HISTORY_QOS" depth="1" />
-    <resource_limits max_samples="1" max_instances="1" max_samples_per_instance="1" />
+    <resource_limits initial_samples="1" initial_instances="1" max_samples="1" max_instances="1" max_samples_per_instance="1" />
     <transport_priority value="1" />
     <lifespan duration="1" />
     <user_data />
@@ -70,6 +70,9 @@
     <writer_data_lifecycle autodispose_unregistered_instances="true"
                            autopurge_suspended_samples_delay="1.0"
                            autounregister_instance_delay="1.0" />
+    <protocol>
+      <rtps_reliable_writer heartbeats_per_max_samples="1" />
+    </protocol>
   </datawriter>
 
 </dds:participant>

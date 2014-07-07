@@ -40,6 +40,7 @@ public:
   typedef typename T::template event_traits_type <EVENT>::result_type event_traits_type;
   typedef typename T::publisher_ptr_type publisher_ptr_type;
   typedef typename T::topicqos_type topicqos_type;
+  typedef typename T::datawriterqos_type datawriterqos_type;
   typedef typename T::topic_ptr_type topic_ptr_type;
   typedef typename T::datawriter_ptr_type datawriter_ptr_type;
   typedef typename T::datawriter_var_type datawriter_var_type;
@@ -58,6 +59,7 @@ public:
    * @param[in]         topic_name        Topic name for writer
    */
   virtual void configure (publisher_ptr_type publisher,
+                          const datawriterqos_type & datawriter_qos,
                           const topicqos_type & qos,
                           const char * topic_name,
                           bool isinstance);

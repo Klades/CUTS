@@ -13,6 +13,7 @@ namespace iCCM
 template <typename T, typename EVENT>
 void DDS_Publisher_T <T, EVENT>::
 configure (publisher_ptr_type publisher,
+           const datawriterqos_type & datawriter_qos,
            const topicqos_type & topic_qos,
            const char * topic_name,
            bool isinstance)
@@ -53,7 +54,7 @@ configure (publisher_ptr_type publisher,
 
   // Finally, pass control to the base class. It will finish configuring
   // this provider object.
-  DDS_Publisher <T>::configure (publisher, topic);
+  DDS_Publisher <T>::configure (publisher, datawriter_qos, topic);
 
   // Store the concrete writer type and register an instance.
   writer_type * writer = 0;

@@ -67,4 +67,19 @@ const OpenSplice::datareaderqos_type * OpenSplice::datareader_qos_default (void)
   return &DATAREADER_QOS_USE_TOPIC_QOS;
 }
 
+//
+// copy_string
+//
+CUTS_INLINE
+void OpenSplice::copy_string (OpenSplice::stringseq_type & dst, const ::iccm::StringSeq & src)
+{
+  dst.length (src.count_item ());
+
+  ::iccm::StringSeq::item_const_iterator
+    iter = src.begin_item (), iter_end = src.end_item ();
+
+  for (size_t i = 0; iter != iter_end; ++ iter, ++ i)
+    dst[i] = (*iter)->c_str ();
+}
+
 }
