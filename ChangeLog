@@ -1,3 +1,76 @@
+Wed Jul  9 14:14:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/unite/Dataflow_Graph.h:
+        * cuts/unite/Dataflow_Graph.inl:
+        * cuts/unite/Dataflow_Graph.cpp:
+        * cuts/unite/Dataflow_Graph_Analyzer.h:
+        * cuts/unite/Dataflow_Graph_Analyzer.inl:
+        * cuts/unite/Dataflow_Graph_Analyzer.cpp:
+        * cuts/unite/Dataset_Repo.h:
+        * cuts/unite/Dataset_Repo.cpp:
+        * cuts/unite/Graph_Worker.h:
+        * cuts/unite/Graph_Worker.cpp:
+        * cuts/unite/Log_Format.h:
+        * cuts/unite/Log_Format.cpp:
+        * cuts/unite/Unite_App.h:
+        * cuts/unite/Unite_App.cpp:
+        * cuts/unite/Variable.h:
+        * cuts/unite/cuts-unite.h:
+        * cuts/unite/cuts-unite.inl:
+        * cuts/unite/cuts-unite.cpp:
+
+        Enable UNITE to support multi-sink dataflow models.
+
+        * cuts/unite/dmac/Dmac_App.h:
+        * cuts/unite/dmac/Dmac_App.cpp:
+        * cuts/unite/dmac/Dmac_Candidate_Relation.h:
+        * cuts/unite/dmac/Dmac_Candidate_Relation.cpp:
+        * cuts/unite/dmac/Dmac_Execution.h:
+        * cuts/unite/dmac/Dmac_Execution.cpp:
+        * cuts/unite/dmac/Dmac_Log_Database_Miner.h:
+        * cuts/unite/dmac/Dmac_Log_File_Miner.h:
+        * cuts/unite/dmac/Dmac_Log_Format.h:
+        * cuts/unite/dmac/Dmac_Log_Format.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph.h:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph_Builder.h:
+        * cuts/unite/dmac/Dmac_Log_Format_Graph_Builder.cpp:
+        * cuts/unite/dmac/Dmac_Log_Miner.h:
+        * cuts/unite/dmac/Dmac_Log_Msg_Details.h:
+        * cuts/unite/dmac/Dmac_Log_Msg_Details.cpp:
+        * cuts/unite/dmac/Dmac_Relation.h:
+        * cuts/unite/dmac/Dmac_Relation_Miner.h:
+        * cuts/unite/dmac/Dmac_Static_Part.h:
+        * cuts/unite/dmac/Dmac_Utils.h:
+        * cuts/unite/dmac/Dmac_Vertical_Format.h:
+        * cuts/unite/dmac/Dmac_Vertical_Generator.h:
+        * cuts/unite/dmac/dmac.mpc:
+
+        Some Experimental implmentation work on DMAC.
+
+        * cuts/unite/setaf/Setaf_Add_Command.cpp:
+        * cuts/unite/setaf/Setaf_Command.h:
+        * cuts/unite/setaf/Setaf_Interpreter.h:
+        * cuts/unite/setaf/Setaf_Interpreter.cpp:
+        * cuts/unite/setaf/Setaf_Parser.cpp:
+        * cuts/unite/setaf/Setaf_Utils.h:
+        * cuts/unite/setaf/Setaf_Variable.h:
+
+        * cuts/unite/unite.mpc:
+
+        * cuts/utils/evidence/Dsf.cpp:
+        * cuts/utils/evidence/dsf.mpc:
+
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+
+        Chnaged TE_Score work according to the latest chnages in UNITE.
+
+        * examples/java/logging/client/log4j/cutsnode.config:
+        * examples/java/logging/client/log4j/log4j.properties:
+
+        Updated to the cuts namespace.
+
 Mon Jul  7 14:07:35 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_coredx_svnt.mpb:

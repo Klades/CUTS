@@ -293,24 +293,63 @@ create_increment_command (std::string & incr_var_qual_name,
 // create_add_command
 //
 void CUTS_Setaf_Interpreter::
-create_add_command (std::string & lhs_var_qual_name,
-                    std::string & rhs_var_qual_name,
-                    int value,
+create_integer_add_command (std::string & lhs_var_qual_name,
+                    std::string & operand1_qual_name,
+                    int operand2,
                     string_vector & lf_names)
 {
   // First get the variables either interpreter variables
   // or unite variables associated with the name.
 
   CUTS_Setaf_Variable * lhs_var = 0;
-  CUTS_Setaf_Variable * rhs_var = 0;
+  CUTS_Setaf_Variable * operand1_var = 0;
+  CUTS_Setaf_Variable * operand2_var = 0;
+
 
   this->get_variable (lhs_var_qual_name, &lhs_var);
-  this->get_variable (rhs_var_qual_name, &rhs_var);
+  this->get_variable (operand1_qual_name, &operand1_var);
+
+  ACE_NEW_THROW_EX (operand2_var,
+                    CUTS_Setaf_Integer_Constant (operand2),
+                    ACE_bad_alloc ());
 
   CUTS_Setaf_Command * command = 0;
 
   ACE_NEW_THROW_EX (command,
-                    CUTS_Setaf_Add_Command (lhs_var, rhs_var, value),
+                    CUTS_Setaf_Add_Command (lhs_var, operand1_var, operand2_var),
+                    ACE_bad_alloc ());
+
+  // Now add the command to the relevant log formats.
+
+  this->add_setaf_command (lf_names, command);
+
+}
+
+//
+// create_add_command
+//
+void CUTS_Setaf_Interpreter::
+create_variable_add_command (std::string & lhs_var_qual_name,
+                    std::string & operand1_qual_name,
+                    std::string & operand2_qual_name,
+                    string_vector & lf_names)
+{
+  // First get the variables either interpreter variables
+  // or unite variables associated with the name.
+
+  CUTS_Setaf_Variable * lhs_var = 0;
+  CUTS_Setaf_Variable * operand1_var = 0;
+  CUTS_Setaf_Variable * operand2_var = 0;
+
+
+  this->get_variable (lhs_var_qual_name, &lhs_var);
+  this->get_variable (operand1_qual_name, &operand1_var);
+  this->get_variable (operand2_qual_name, &operand2_var);
+
+  CUTS_Setaf_Command * command = 0;
+
+  ACE_NEW_THROW_EX (command,
+                    CUTS_Setaf_Add_Command (lhs_var, operand1_var, operand2_var),
                     ACE_bad_alloc ());
 
   // Now add the command to the relevant log formats.

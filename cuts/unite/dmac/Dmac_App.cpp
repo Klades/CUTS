@@ -11,6 +11,7 @@
 #include "Dmac_Log_Database_Miner.h"
 #include "Dmac_Vertical_Generator.h"
 #include "Dmac_Relation_Miner.h"
+#include "Dmac_Log_Format_File_Processor.h"
 #include "cuts/Auto_Functor_T.h"
 
 #define COVERAGE 80
@@ -33,7 +34,8 @@ static const char * __HELP__ =
 CUTS_Dmac_App::CUTS_Dmac_App (void)
 : round_ (0),
   coverage_ (0.0),
-  current_coverage_ (0)
+  current_coverage_ (0),
+  use_lf_file_ (false)
 {
 
 }
@@ -59,19 +61,25 @@ int CUTS_Dmac_App::run_main (int argc, char * argv [])
   if (!this->open_database ())
     return -1;
 
-  // Find the log formats
-  // this->find_log_formats ();
+  // User has provided the log formats, so just need to read them
+  if(use_lf_file_)
+    this->create_log_formats_from_file();
 
-  // this->print_final_patterns ();
+  else
+  {
+    // Find the log formats
 
-  // this->print_coverage ();
+    this->find_log_formats ();
 
-  // std::cout << std::endl;
+    this->print_final_patterns ();
+
+    this->print_coverage ();
+
+    std::cout << std::endl;
+  }
 
   // Generation of dataflow
   std::cout << "Generating Dataflow...." << std::endl << std::endl;
-
-  this->create_log_formats_from_file ();
 
   // Relation mining step
   CUTS_Dmac_Relation_Miner rel_miner (this->name_,
@@ -80,7 +88,7 @@ int CUTS_Dmac_App::run_main (int argc, char * argv [])
 
   std::string temp (this->delims_.c_str ());
   //std::string delimitters = " \n\t" + temp;
-  std::string delimitters (" \n\t");
+  std::string delimitters (" \n\t\x01");
 
   rel_miner.delims (delimitters);
 
@@ -101,7 +109,7 @@ void CUTS_Dmac_App::find_log_formats ()
   // default delimitters
 
   std::string temp (this->delims_.c_str ());
-  std::string delimitters = " \n\t" + temp;
+  std::string delimitters = " \n\t\0x01" + temp;
 
   // In the first round we always mine the database file
 
@@ -438,12 +446,13 @@ void CUTS_Dmac_App::print_help (void)
 
 int CUTS_Dmac_App::parse_args (int argc, char * argv [])
 {
-  const char * optstr = "hf:l:n:";
+  const char * optstr = "hf:l:n:s:";
 
   ACE_Get_Opt get_opt (argc, argv, optstr);
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("lffile", 'l', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("name", 'n', ACE_Get_Opt::ARG_REQUIRED);
+  get_opt.long_option ("min-sup",'s', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
 
   char ch;
@@ -465,6 +474,10 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
       {
         this->name_ = get_opt.opt_arg ();
       }
+      else if (ACE_OS::strcmp (get_opt.long_option (), "min-sup") == 0)
+      {
+        this->min_sup_ = get_opt.opt_arg ();
+      }
       else if (ACE_OS::strcmp (get_opt.long_option (), "help") == 0)
       {
         this->print_help ();
@@ -481,6 +494,10 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
 
     case 'n':
       this->name_ = get_opt.opt_arg ();
+      break;
+
+    case 's':
+      this->min_sup_ = get_opt.opt_arg ();
       break;
 
    case 'h':
@@ -531,23 +548,8 @@ int CUTS_Dmac_App::execute_process (const char * args,
 void CUTS_Dmac_App::
 create_log_formats_from_file ()
 {
-  std::string delims (" \t\n");
-  ifstream lf_file;
-  lf_file.open (this->lf_file_.c_str ());
-  lf_file.seekg (0, ios::beg);
-  if (lf_file.is_open ())
-  {
-    size_t i = 0;
-    while (lf_file.good ())
-    {
-      CUTS_DMAC_UTILS::string_vector word_list;
-      std::string row;
-      getline (lf_file, row);
-      CUTS_DMAC_UTILS::tokenize (row, word_list, delims);
-      i++;
-      CUTS_Dmac_Log_Format * lf = new CUTS_Dmac_Log_Format (i, word_list);
-      this->log_formats_.push_back (lf);
-    }
-    lf_file.close ();
-  }
+  CUTS_Dmac_Log_Format_File_Processor file_processor;
+
+  file_processor.process_file (this->lf_file_.c_str (),
+                               this->log_formats_);
 }

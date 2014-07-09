@@ -44,7 +44,8 @@ add_evidence (double positive, double negative)
 
 double CUTS_Dsf::combine_evidence (void)
 {
-  std::vector <CUTS_Dsf::EVIDENCE>::iterator ev_iter;
+  std::vector <CUTS_Dsf::EVIDENCE>::iterator ev_iter
+    = this->evidences_.begin ();
   std::vector <CUTS_Dsf::EVIDENCE>::iterator ev_last
     = this->evidences_.end ();
 
@@ -60,23 +61,23 @@ double CUTS_Dsf::combine_evidence (void)
     CUTS_Dsf::EVIDENCE temp;
     CUTS_Dsf::EVIDENCE::iterator it1, it2, temp_it;
 
-    it2 = this->total_mass_.begin ();
-
-    for (it1 = ev_iter->begin (); it1 != ev_iter->end (); it1++)
+    for (it2 = this->total_mass_.begin ();
+         it2 != this->total_mass_.end (); it2++)
     {
-      // Do the intersection and find the member which needs to be
-      // updated.
-      CUTS_Dsf::powerset_member member =
-        this->intersected_value (it1->first, it2->first);
-      temp_it = temp.find (member);
-      if (temp_it != temp.end ())
+      for (it1 = ev_iter->begin (); it1 != ev_iter->end (); it1++)
       {
-        temp_it->second = temp_it->second + (it1->second * it2->second);
+        // Do the intersection and find the member which needs to be
+        // updated.
+        CUTS_Dsf::powerset_member member =
+          this->intersected_value (it1->first, it2->first);
+        temp_it = temp.find (member);
+        if (temp_it != temp.end ())
+        {
+          temp_it->second = temp_it->second + (it1->second * it2->second);
+        }
+        else
+          temp.insert (std::pair <CUTS_Dsf::powerset_member, double> (member, it1->second * it2->second));
       }
-      else
-        temp.insert (std::pair <CUTS_Dsf::powerset_member, double> (member, it1->second * it2->second));
-
-      it2++;
     }
 
     this->total_mass_.clear ();

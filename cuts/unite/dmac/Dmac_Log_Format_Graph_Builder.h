@@ -5,8 +5,9 @@
 
 #include "Dmac_Log_Format_Graph.h"
 #include "cuts/utils/testing/Test_Database.h"
+#include "Dmac_export.h"
 
-class CUTS_Dmac_Log_Format_Graph_Builder
+class CUTS_DMAC_Export CUTS_Dmac_Log_Format_Graph_Builder
 {
 public:
   /// Default Constructor

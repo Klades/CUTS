@@ -52,7 +52,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < testConfig, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::testConfig, ACE_Null_Mutex > _ptr;
 
       // name
       //
@@ -142,7 +142,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < logformatType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatType, ACE_Null_Mutex > _ptr;
 
       // value
       //
@@ -193,7 +193,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < relationList, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationList, ACE_Null_Mutex > _ptr;
 
       // relation
       //
@@ -231,7 +231,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < causalityType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::causalityType, ACE_Null_Mutex > _ptr;
 
       // cause
       //
@@ -273,7 +273,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < relationType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationType, ACE_Null_Mutex > _ptr;
 
       // causality
       //
@@ -321,7 +321,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < logformatList, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatList, ACE_Null_Mutex > _ptr;
 
       // logformat
       //
@@ -359,7 +359,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < groupitemType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupitemType, ACE_Null_Mutex > _ptr;
 
       // name
       //
@@ -390,7 +390,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < groupingType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupingType, ACE_Null_Mutex > _ptr;
 
       // groupitem
       //
@@ -428,7 +428,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < datagraphType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::datagraphType, ACE_Null_Mutex > _ptr;
 
       // name
       //
@@ -488,7 +488,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < datagraphLink, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::datagraphLink, ACE_Null_Mutex > _ptr;
 
       // location
       //
@@ -519,7 +519,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < filterList, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterList, ACE_Null_Mutex > _ptr;
 
       // filter
       //
@@ -557,7 +557,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < filterType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterType, ACE_Null_Mutex > _ptr;
 
       // variable
       //
@@ -617,7 +617,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < filterVariableType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > _ptr;
 
       // name
       //
@@ -660,7 +660,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < serviceType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceType, ACE_Null_Mutex > _ptr;
 
       // location
       //
@@ -721,7 +721,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < serviceList, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceList, ACE_Null_Mutex > _ptr;
 
       // service
       //
@@ -794,7 +794,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < expressionType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > _ptr;
 
       // format
       //
@@ -858,7 +858,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < aspectType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > _ptr;
 
       // name
       //
@@ -908,7 +908,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < viewpointType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::viewpointType, ACE_Null_Mutex > _ptr;
 
       // before
       //
@@ -951,7 +951,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < stateType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > _ptr;
 
       // condition
       //
@@ -1036,7 +1036,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < validationType, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::validationType, ACE_Null_Mutex > _ptr;
 
       // datagraph
       //

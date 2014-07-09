@@ -8,6 +8,7 @@
 #include "ace/OS_Memory.h"
 #include "cuts/config.h"
 #include "cuts/unite/dmac/Dmac_Utils.h"
+#include "Dmac_export.h"
 #include <fstream>
 #include <sstream>
 
@@ -16,7 +17,7 @@
  *
  * Represent the vertical format of a log message
  */
-class CUTS_Dmac_Vertical_Format
+class CUTS_DMAC_Export CUTS_Dmac_Vertical_Format
 {
 
 public:

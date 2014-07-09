@@ -23,6 +23,20 @@ CUTS_Dataflow_Graph::CUTS_Dataflow_Graph (const ACE_CString & name)
 }
 
 //
+// CUTS_Dataflow_Graph
+//
+CUTS_INLINE
+CUTS_Dataflow_Graph::CUTS_Dataflow_Graph (
+  const CUTS_Dataflow_Graph & dataflow_graph)
+: name_ (dataflow_graph.name_),
+graph_ (dataflow_graph.graph_),
+vertices_ (dataflow_graph.vertices_),
+adapter_ (dataflow_graph.adapter_)
+{
+}
+
+
+//
 // ~CUTS_Dataflow_Graph
 //
 CUTS_INLINE
@@ -77,6 +91,15 @@ CUTS_Dataflow_Graph::get_log_format (vertex_descriptor vertex) const
 //
 CUTS_INLINE
 const CUTS_Unit_Test_Graph_Type & CUTS_Dataflow_Graph::graph (void) const
+{
+  return this->graph_;
+}
+
+//
+// graph
+//
+CUTS_INLINE
+CUTS_Unit_Test_Graph_Type & CUTS_Dataflow_Graph::get_graph (void)
 {
   return this->graph_;
 }

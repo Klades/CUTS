@@ -11,6 +11,9 @@
 #include "Dmac_Log_Format.h"
 #include "Dmac_Execution.h"
 #include "ace/Date_Time.h"
+#include "Dmac_Candidate_Relation.h"
+#include "Dmac_Utils.h"
+#include "Dmac_export.h"
 
 /**
  * @class CUTS_Dmac_Log_Format_Graph_Traits
@@ -18,7 +21,7 @@
  * Trait class for CUTS_Dmac_Log_Format_Graph
  */
 
-class CUTS_Dmac_Log_Format_Graph_Traits
+class CUTS_DMAC_Export CUTS_Dmac_Log_Format_Graph_Traits
 {
 public:
   struct log_format_t
@@ -30,6 +33,7 @@ public:
     boost::property <boost::vertex_name_t, ACE_CString,
     boost::property <log_format_t, CUTS_Dmac_Log_Format *> >
     property_type;
+
 };
 
 /// Type defintion of the graph type
@@ -37,7 +41,7 @@ typedef
   boost::adjacency_list <boost::vecS,
                          boost::vecS,
                          boost::directedS,
-                         CUTS_Dmac_Log_Format_Graph_Traits::property_type>
+                         CUTS_Dmac_Log_Format_Graph_Traits::property_type >
                          CUTS_Dmac_Log_Format_Graph_Type;
 
 
@@ -54,7 +58,7 @@ struct corelation_result
  * Represent the Dataflow model
  */
 
-class CUTS_Dmac_Log_Format_Graph
+class CUTS_DMAC_Export CUTS_Dmac_Log_Format_Graph
 {
 public:
 
@@ -91,14 +95,28 @@ public:
   void find_inter_ec_relations (std::vector <CUTS_Dmac_Log_Format *> & log_formats,
                                 CUTS_Test_Database & testdata);
 
+  void print_candidate_relations (void);
+
+  bool is_reachable (CUTS_Dmac_Log_Format * lf1,
+                     CUTS_Dmac_Log_Format * lf2);
+
+  void populate_domain (const char * file_name,
+                        CUTS_DMAC_UTILS::int_double_map & knowledge);
+
 private:
 
   /// This method checks whether we need to add a log format pair
   bool check_for_addition (CUTS_DMAC_UTILS::int_pair & pair,
                            CUTS_DMAC_UTILS::int_vector & lf_order_list);
 
+  void extend_graph (CUTS_Dmac_Log_Format * cause_lf,
+                     CUTS_Dmac_Log_Format * effect_lf);
+
+  void connect_inter_ec_log_formats (CUTS_Dmac_Log_Format * cause_lf,
+                                     CUTS_Dmac_Log_Format * effect_lf);
+
   /// is_correlated
- void check_corelation  (CUTS_Dmac_Log_Format * lf1,
+  void check_corelation (CUTS_Dmac_Log_Format * lf1,
                          CUTS_Dmac_Log_Format * lf2,
                          CUTS_Test_Database & testdata,
                          corelation_result & result);
@@ -117,6 +135,9 @@ private:
 
   /// Local cache of the vertices
   VERTEX_MAP vertices_;
+
+  /// Set of candidate relations
+  std::vector <CUTS_Dmac_Candidate_Relation> cand_relations_;
 
 };
 

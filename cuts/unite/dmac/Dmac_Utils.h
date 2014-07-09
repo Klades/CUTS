@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 #include "ace/Date_Time.h"
+#include "Dmac_export.h"
 
 class CUTS_Dmac_Log_Format;
 
@@ -36,6 +37,8 @@ namespace CUTS_DMAC_UTILS
 
   // Type definiton for integer pair
   typedef std::pair <int, int> int_pair;
+
+  typedef std::map <std::pair <int, int>, double> int_double_map;
 
   // Given a string this will tokenize it and fill the vector
   void tokenize (const std::string & str,

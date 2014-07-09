@@ -80,6 +80,9 @@ public:
    */
   CUTS_Dataflow_Graph (const ACE_CString & name);
 
+  /// Copy Constructer
+  CUTS_Dataflow_Graph (const CUTS_Dataflow_Graph & dataflow_graph);
+
   /// Desturctor
   ~CUTS_Dataflow_Graph (void);
 
@@ -128,11 +131,16 @@ public:
   /// Get the Graph type
   const CUTS_Unit_Test_Graph_Type & graph (void) const;
 
+  CUTS_Unit_Test_Graph_Type & get_graph (void);
+
   /// Get the log format adapter object if there is any
   CUTS_Log_Format_Adapter * adapter (void);
 
   /// Set a log format adapter object
   void adapter (CUTS_Log_Format_Adapter * adapter);
+
+  /// Get the vertex descriptor given the log format name
+  vertex_descriptor find_vertex (const ACE_CString & lf_name);
 
 
 private:

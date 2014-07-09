@@ -97,6 +97,7 @@ void CUTS_Dmac_Execution::create_order_list (void)
     {
       this->lf_order_list_.push_back (cur_id);
       this->final_patterns_ [cur_id - 1]->insert_msg_instance (record, trace_items);
+      this->final_patterns_ [cur_id - 1]->insert_execution (this);
     }
   }
   record->reset ();

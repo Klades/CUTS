@@ -273,4 +273,54 @@ private:
 
 };
 
+
+/**
+ * @ingroup SETAF_Common
+ *
+ * @class CUTS_Setaf_Integer_Constant
+ *
+ * Represent an integer constant in UNITE.
+ */
+
+class CUTS_Setaf_Integer_Constant :
+  public CUTS_Setaf_Variable
+{
+public:
+
+  /// Constructor
+  CUTS_Setaf_Integer_Constant (int value);
+
+  /// Destructor
+  ~CUTS_Setaf_Integer_Constant (void);
+
+  /// Set the init value
+  virtual void init_value (std::string & val);
+
+  /// Set the reset value
+  virtual void reset_value (std::string & val);
+
+  /// Assign a new value to the variable
+  virtual void assign_value (CUTS_Setaf_Variable * var,
+                             CUTS_Log_Format_Variable_Table & vars);
+
+  /// Initialize the value
+  virtual void init (void);
+
+  /// Reset the value
+  virtual void reset (void);
+
+  /// Increment the value
+  virtual void increment (void);
+
+  /// Get the value
+
+  int value (void);
+
+private:
+
+  /// The value of the constant
+  int value_;
+
+};
+
 #endif  // !defined _CUTS_SETAF_VARIABLE_H_

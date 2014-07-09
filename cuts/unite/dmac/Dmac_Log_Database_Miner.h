@@ -6,6 +6,7 @@
 
 #include "Dmac_Log_Miner.h"
 #include "cuts/utils/testing/Test_Database.h"
+#include "Dmac_export.h"
 
 /**
  * @class CUTS_Dmac_Log_Database_Miner
@@ -13,7 +14,7 @@
  * Dmac Log_Database_Miner class
  */
 
-class CUTS_Dmac_Log_Database_Miner : public CUTS_Dmac_Log_Miner
+class CUTS_DMAC_Export CUTS_Dmac_Log_Database_Miner : public CUTS_Dmac_Log_Miner
 {
 public:
 

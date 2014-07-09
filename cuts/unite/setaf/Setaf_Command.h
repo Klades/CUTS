@@ -139,8 +139,8 @@ public:
    * @param[in]     value The value which need to be added to the variable.
    */
   CUTS_Setaf_Add_Command (CUTS_Setaf_Variable * lhs,
-                          CUTS_Setaf_Variable * rhs,
-                          int value);
+                          CUTS_Setaf_Variable * op1,
+                          CUTS_Setaf_Variable * op2);
 
   /// Destructor
   ~CUTS_Setaf_Add_Command (void);
@@ -153,14 +153,17 @@ public:
 
 private:
 
+  int get_operand_val (CUTS_Setaf_Variable * operand,
+                       CUTS_Log_Format_Variable_Table & vars);
+
   /// The left hand side of the add command.
   CUTS_Setaf_Variable * lhs_;
 
-  /// The right hand side of the add command.
-  CUTS_Setaf_Variable * rhs_;
+  /// The first operand.
+  CUTS_Setaf_Variable * operand1_;
 
-  /// The value need to be added.
-  int value_;
+   /// The second operand.
+  CUTS_Setaf_Variable * operand2_;
 
 };
 

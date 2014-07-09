@@ -52,28 +52,31 @@ namespace CUTS
     testConfig& testConfig::
     operator= (testConfig const& s)
     {
-      name (*s.name_);
+      if (&s != this)
+      {
+        name (*s.name_);
 
-      if (s.description_.get ())
-        description (*(s.description_));
-      else
-        description_.reset (0);
+        if (s.description_.get ())
+          description (*(s.description_));
+        else
+          description_.reset (0);
 
-      evaluation (*s.evaluation_);
+        evaluation (*s.evaluation_);
 
-      aggregation (*s.aggregation_);
+        aggregation (*s.aggregation_);
 
-      datagraph (*s.datagraph_);
+        datagraph (*s.datagraph_);
 
-      if (s.grouping_.get ())
-        grouping (*(s.grouping_));
-      else
-        grouping_.reset (0);
+        if (s.grouping_.get ())
+          grouping (*(s.grouping_));
+        else
+          grouping_.reset (0);
 
-      if (s.services_.get ())
-        services (*(s.services_));
-      else
-        services_.reset (0);
+        if (s.services_.get ())
+          services (*(s.services_));
+        else
+          services_.reset (0);
+      }
 
       return *this;
     }
@@ -275,14 +278,17 @@ namespace CUTS
     logformatType& logformatType::
     operator= (logformatType const& s)
     {
-      value (*s.value_);
+      if (&s != this)
+      {
+        value (*s.value_);
 
-      if (s.relations_.get ())
-        relations (*(s.relations_));
-      else
-        relations_.reset (0);
+        if (s.relations_.get ())
+          relations (*(s.relations_));
+        else
+          relations_.reset (0);
 
-      id (s.id ());
+        id (s.id ());
+      }
 
       return *this;
     }
@@ -385,7 +391,10 @@ namespace CUTS
     relationList& relationList::
     operator= (relationList const& s)
     {
-      relation_ = s.relation_;
+      if (&s != this)
+      {
+        relation_ = s.relation_;
+      }
 
       return *this;
     }
@@ -468,9 +477,12 @@ namespace CUTS
     causalityType& causalityType::
     operator= (causalityType const& s)
     {
-      cause (s.cause ());
+      if (&s != this)
+      {
+        cause (s.cause ());
 
-      effect (s.effect ());
+        effect (s.effect ());
+      }
 
       return *this;
     }
@@ -552,9 +564,12 @@ namespace CUTS
     relationType& relationType::
     operator= (relationType const& s)
     {
-      causality_ = s.causality_;
+      if (&s != this)
+      {
+        causality_ = s.causality_;
 
-      effectref (s.effectref ());
+        effectref (s.effectref ());
+      }
 
       return *this;
     }
@@ -653,7 +668,10 @@ namespace CUTS
     logformatList& logformatList::
     operator= (logformatList const& s)
     {
-      logformat_ = s.logformat_;
+      if (&s != this)
+      {
+        logformat_ = s.logformat_;
+      }
 
       return *this;
     }
@@ -731,7 +749,10 @@ namespace CUTS
     groupitemType& groupitemType::
     operator= (groupitemType const& s)
     {
-      name (s.name ());
+      if (&s != this)
+      {
+        name (s.name ());
+      }
 
       return *this;
     }
@@ -787,7 +808,10 @@ namespace CUTS
     groupingType& groupingType::
     operator= (groupingType const& s)
     {
-      groupitem_ = s.groupitem_;
+      if (&s != this)
+      {
+        groupitem_ = s.groupitem_;
+      }
 
       return *this;
     }
@@ -872,22 +896,25 @@ namespace CUTS
     datagraphType& datagraphType::
     operator= (datagraphType const& s)
     {
-      name (*s.name_);
+      if (&s != this)
+      {
+        name (*s.name_);
 
-      if (s.adapter_.get ())
-        adapter (*(s.adapter_));
-      else
-        adapter_.reset (0);
+        if (s.adapter_.get ())
+          adapter (*(s.adapter_));
+        else
+          adapter_.reset (0);
 
-      if (s.interpreter_.get ())
-        interpreter (*(s.interpreter_));
-      else
-        interpreter_.reset (0);
+        if (s.interpreter_.get ())
+          interpreter (*(s.interpreter_));
+        else
+          interpreter_.reset (0);
 
-      if (s.logformats_.get ())
-        logformats (*(s.logformats_));
-      else
-        logformats_.reset (0);
+        if (s.logformats_.get ())
+          logformats (*(s.logformats_));
+        else
+          logformats_.reset (0);
+      }
 
       return *this;
     }
@@ -1033,7 +1060,10 @@ namespace CUTS
     datagraphLink& datagraphLink::
     operator= (datagraphLink const& s)
     {
-      location (s.location ());
+      if (&s != this)
+      {
+        location (s.location ());
+      }
 
       return *this;
     }
@@ -1088,7 +1118,10 @@ namespace CUTS
     filterList& filterList::
     operator= (filterList const& s)
     {
-      filter_ = s.filter_;
+      if (&s != this)
+      {
+        filter_ = s.filter_;
+      }
 
       return *this;
     }
@@ -1175,11 +1208,14 @@ namespace CUTS
     filterType& filterType::
     operator= (filterType const& s)
     {
-      variable_ = s.variable_;
+      if (&s != this)
+      {
+        variable_ = s.variable_;
 
-      id (s.id ());
+        id (s.id ());
 
-      target (s.target ());
+        target (s.target ());
+      }
 
       return *this;
     }
@@ -1303,11 +1339,14 @@ namespace CUTS
     filterVariableType& filterVariableType::
     operator= (filterVariableType const& s)
     {
-      if (s.name_.get ()) name (*(s.name_));
-      else name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+      if (&s != this)
+      {
+        if (s.name_.get ()) name (*(s.name_));
+        else name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
 
-      if (s.when_.get ()) when (*(s.when_));
-      else when_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+        if (s.when_.get ()) when (*(s.when_));
+        else when_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+      }
 
       return *this;
     }
@@ -1432,16 +1471,19 @@ namespace CUTS
     serviceType& serviceType::
     operator= (serviceType const& s)
     {
-      location (*s.location_);
+      if (&s != this)
+      {
+        location (*s.location_);
 
-      classname (*s.classname_);
+        classname (*s.classname_);
 
-      if (s.params_.get ())
-        params (*(s.params_));
-      else
-        params_.reset (0);
+        if (s.params_.get ())
+          params (*(s.params_));
+        else
+          params_.reset (0);
 
-      id (s.id ());
+        id (s.id ());
+      }
 
       return *this;
     }
@@ -1561,7 +1603,10 @@ namespace CUTS
     serviceList& serviceList::
     operator= (serviceList const& s)
     {
-      service_ = s.service_;
+      if (&s != this)
+      {
+        service_ = s.service_;
+      }
 
       return *this;
     }
@@ -1682,14 +1727,17 @@ namespace CUTS
     expressionType& expressionType::
     operator= (expressionType const& s)
     {
-      format (s.format ());
+      if (&s != this)
+      {
+        format (s.format ());
 
-      variable (s.variable ());
+        variable (s.variable ());
 
-      value (s.value ());
+        value (s.value ());
 
-      if (s.negate_.get ()) negate (*(s.negate_));
-      else negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+        if (s.negate_.get ()) negate (*(s.negate_));
+        else negate_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+      }
 
       return *this;
     }
@@ -1836,17 +1884,20 @@ namespace CUTS
     aspectType& aspectType::
     operator= (aspectType const& s)
     {
-      if (s.name_.get ())
-        name (*(s.name_));
-      else
-        name_.reset (0);
+      if (&s != this)
+      {
+        if (s.name_.get ())
+          name (*(s.name_));
+        else
+          name_.reset (0);
 
-      if (s.viewpoint_.get ())
-        viewpoint (*(s.viewpoint_));
-      else
-        viewpoint_.reset (0);
+        if (s.viewpoint_.get ())
+          viewpoint (*(s.viewpoint_));
+        else
+          viewpoint_.reset (0);
 
-      condition (*s.condition_);
+        condition (*s.condition_);
+      }
 
       return *this;
     }
@@ -1960,11 +2011,14 @@ namespace CUTS
     viewpointType& viewpointType::
     operator= (viewpointType const& s)
     {
-      if (s.before_.get ()) before (*(s.before_));
-      else before_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
+      if (&s != this)
+      {
+        if (s.before_.get ()) before (*(s.before_));
+        else before_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
-      if (s.after_.get ()) after (*(s.after_));
-      else after_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
+        if (s.after_.get ()) after (*(s.after_));
+        else after_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
+      }
 
       return *this;
     }
@@ -2093,20 +2147,23 @@ namespace CUTS
     stateType& stateType::
     operator= (stateType const& s)
     {
-      condition (*s.condition_);
+      if (&s != this)
+      {
+        condition (*s.condition_);
 
-      name (s.name ());
+        name (s.name ());
 
-      priority (s.priority ());
+        priority (s.priority ());
 
-      if (s.minoccurs_.get ()) minoccurs (*(s.minoccurs_));
-      else minoccurs_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
+        if (s.minoccurs_.get ()) minoccurs (*(s.minoccurs_));
+        else minoccurs_ = ::std::auto_ptr< ::XMLSchema::unsignedInt > (0);
 
-      if (s.maxoccurs_.get ()) maxoccurs (*(s.maxoccurs_));
-      else maxoccurs_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
+        if (s.maxoccurs_.get ()) maxoccurs (*(s.maxoccurs_));
+        else maxoccurs_ = ::std::auto_ptr< ::XMLSchema::string< char > > (0);
 
-      if (s.isvalid_.get ()) isvalid (*(s.isvalid_));
-      else isvalid_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+        if (s.isvalid_.get ()) isvalid (*(s.isvalid_));
+        else isvalid_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+      }
 
       return *this;
     }
@@ -2321,9 +2378,12 @@ namespace CUTS
     validationType& validationType::
     operator= (validationType const& s)
     {
-      datagraph (*s.datagraph_);
+      if (&s != this)
+      {
+        datagraph (*s.datagraph_);
 
-      state_ = s.state_;
+        state_ = s.state_;
+      }
 
       return *this;
     }

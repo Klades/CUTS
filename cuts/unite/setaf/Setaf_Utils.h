@@ -31,8 +31,11 @@ namespace CUTS_SETAF_UTILS
     /// The variable is an integer
     ST_INTEGER,
 
-    /// The varialbe is an float/double
+    /// The varialbe is a UNITE variable
     ST_UNITE,
+
+    /// This is an integer constant
+    ST_INTEGER_CONSTANT
 
   };
 

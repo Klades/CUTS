@@ -1,14 +1,15 @@
 #include "Dmac_Log_Format.h"
+#include "ace/OS_Memory.h"
+#include "ace/CORBA_macros.h"
 #include <iostream>
 
-
-bool compare_time (CUTS_Dmac_Log_Msg_Details & ins1,
-                   CUTS_Dmac_Log_Msg_Details & ins2)
+bool compare_time (CUTS_Dmac_Log_Msg_Details * ins1,
+                   CUTS_Dmac_Log_Msg_Details * ins2)
 {
-  double val1 = ins1.time_val ();
-  double val2 = ins2.time_val ();
+  double val1 = ins1->time_val ();
+  double val2 = ins2->time_val ();
 
-  return val1 <= val2;
+  return val1 < val2;
 }
 
 //
@@ -101,17 +102,18 @@ add_relation (CUTS_Dmac_Relation & relation)
 void CUTS_Dmac_Log_Format::
 extract_variable_relations (CUTS_Dmac_Log_Format * log_format)
 {
-  std::map <int, std::string>::iterator it1;
-  std::map <int, std::string>::iterator it2;
-  std::vector <CUTS_DMAC_UTILS::int_pair> temp;
   CUTS_Dmac_Relation relation (log_format);
 
-  for (it1 = this->msg_instances_ [0].var_table_.begin ();
-       it1 != this->msg_instances_ [0].var_table_.end ();
+  /*std::map <int, std::string>::iterator it1;
+  std::map <int, std::string>::iterator it2;
+  std::vector <CUTS_DMAC_UTILS::int_pair> temp;
+
+  for (it1 = this->msg_instances_ [0]->var_table_.begin ();
+       it1 != this->msg_instances_ [0]->var_table_.end ();
        it1++)
   {
-    for (it2 = log_format->msg_instances_ [0].var_table_.begin ();
-         it2 != log_format->msg_instances_ [0].var_table_.end ();
+    for (it2 = log_format->msg_instances_ [0]->var_table_.begin ();
+         it2 != log_format->msg_instances_ [0]->var_table_.end ();
          it2++)
     {
       CUTS_DMAC_UTILS::int_pair p (it1->first, it2->first);
@@ -120,7 +122,7 @@ extract_variable_relations (CUTS_Dmac_Log_Format * log_format)
   }
 
   std::vector <CUTS_DMAC_UTILS::int_pair>::iterator it3;
-  std::vector <CUTS_Dmac_Log_Msg_Details>::iterator it4, it5;
+  std::vector <CUTS_Dmac_Log_Msg_Details *>::iterator it4, it5;
 
   for (it3 = temp.begin (); it3 != temp.end (); it3++)
   {
@@ -134,10 +136,10 @@ extract_variable_relations (CUTS_Dmac_Log_Format * log_format)
            it5 != log_format->msg_instances_.end ();
            it5++)
       {
-        if (it4->time_val_ <= it5->time_val_)
+        if ((*it4)->time_val_ <= (*it5)->time_val_)
         {
-          if (it4->var_table_ [it3->first] ==
-              it5->var_table_ [it3->second])
+          if ((*it4)->var_table_ [it3->first] ==
+              (*it5)->var_table_ [it3->second])
           {
             equal = true;
             break;
@@ -149,7 +151,9 @@ extract_variable_relations (CUTS_Dmac_Log_Format * log_format)
     }
     if (equal)
       relation.add_cause_effect (*it3);
-  }
+  }*/
+
+  this->relations_.push_back (relation);
 }
 
 
@@ -351,23 +355,44 @@ is_reachable (CUTS_Dmac_Log_Format * lf)
       return true;
   }
   return false;
+
+  /*if (this->relations_.empty ())
+    return false;
+
+  std::vector <CUTS_Dmac_Relation>::iterator it;
+  std::vector <CUTS_Dmac_Relation>::iterator first =
+    this->relations_.begin ();
+  std::vector <CUTS_Dmac_Relation>::iterator last =
+    this->relations_.end ();
+
+  for (it = first; it != last; it++)
+  {
+    if (it->effect_lf_->id () == lf->id ())
+      return true;
+    else if (it->effect_lf_->is_reachable (lf))
+      return true;
+  }
+  return false;*/
 }
 
 void CUTS_Dmac_Log_Format::
 insert_msg_instance (ADBC::SQLite::Record * record,
                      CUTS_DMAC_UTILS::string_vector & trace)
 {
-  CUTS_Dmac_Log_Msg_Details msg_details;
+  CUTS_Dmac_Log_Msg_Details * msg_details = 0;
   long lid = 0;
   ACE_Date_Time date_time;
 
+  ACE_NEW_THROW_EX (msg_details,
+                    CUTS_Dmac_Log_Msg_Details (),
+                    ACE_bad_alloc ());
   record->get_data (0, lid);
   record->get_data (1, date_time);
 
   double time_val = CUTS_DMAC_UTILS::get_seconds_since_1970 (date_time);
 
-  msg_details.lid_ = lid;
-  msg_details.time_val_ = time_val;
+  msg_details->lid_ = lid;
+  msg_details->time_val_ = time_val;
 
   // Keep the values of variables
 
@@ -380,7 +405,7 @@ insert_msg_instance (ADBC::SQLite::Record * record,
     if (this->log_format_items_ [i].compare (empty_str) == 0)
     {
       j++;
-      msg_details.var_table_.insert (std::pair <int, std::string>(j, trace [i]));
+      msg_details->var_table_.insert (std::pair <int, std::string>(j, trace [i]));
     }
   }
 
@@ -392,15 +417,39 @@ sort_msg_instances (void)
 {
   if (!this->sorted_)
   {
-    /*std::sort (this->msg_instances_.begin (),
+    std::sort (this->msg_instances_.begin (),
                this->msg_instances_.end (),
-               compare_time);*/
+               compare_time);
     this->sorted_ = true;
   }
 }
 
-std::vector <CUTS_Dmac_Log_Msg_Details> & CUTS_Dmac_Log_Format::
+std::vector <CUTS_Dmac_Log_Msg_Details *> & CUTS_Dmac_Log_Format::
 msg_instances (void)
 {
   return this->msg_instances_;
+}
+
+void CUTS_Dmac_Log_Format::
+insert_execution (CUTS_Dmac_Execution * ex)
+{
+  this->execution_list_.push_back (ex);
+}
+
+bool CUTS_Dmac_Log_Format::
+has_similar_execution (CUTS_Dmac_Log_Format * lf)
+{
+  std::vector <CUTS_Dmac_Execution *>::iterator it1, it2;
+
+  for (it1 = this->execution_list_.begin ();
+       it1 != this->execution_list_.end (); it1++)
+  {
+    for (it2 = lf->execution_list_.begin ();
+         it2 != lf->execution_list_.end (); it2++)
+    {
+      if (*it1 == *it2)
+        return true;
+    }
+  }
+  return false;
 }

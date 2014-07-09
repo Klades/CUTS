@@ -275,6 +275,12 @@ struct CUTS_Log_Format_Variable_Type_T <ACE_UINT64>
   static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_INTEGER;
 };
 
+template < >
+struct CUTS_Log_Format_Variable_Type_T <double>
+{
+  static const CUTS_Log_Format_Variable::type_t result_type = CUTS_Log_Format_Variable::VT_DOUBLE;
+};
+
 #if defined (__CUTS_INLINE__)
 #include "Variable.inl"
 #include "Variable_T.inl"

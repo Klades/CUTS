@@ -4,13 +4,13 @@
 
 #include "Dataflow_Graph.h"
 #include "Dataflow_Graph_Builder.h"
-#include "Dataset_Repo.h"
 #include "Dataset_Result.h"
 #include "Unite_Config_File.h"
 #include "Unite_Datagraph_File.h"
 #include "Unite_Aspect_File.h"
 #include "Unite_Test.h"
 #include "Unite_Test_Builder.h"
+#include "Dataflow_Graph_Analyzer.h"
 
 #include "presentation/console/Console_Presentation_Service.h"
 #include "cuts/utils/testing/Test_Database.h"
@@ -104,6 +104,9 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
 {
   try
   {
+    ACE_High_Res_Timer timer;
+    timer.start ();
+
     if (this->parse_args (argc, argv) == -1)
       return -1;
 
@@ -162,6 +165,7 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
                          datagraph.name ().c_str ()),
                          -1);
 
+
     // Finally, load the aspect, if applicable, and convert it into a
     // WHERE clause for the SQL statement.
     ACE_Auto_Ptr <CUTS_UNITE_Aspect> aspect;
@@ -197,40 +201,15 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
       }
     }
 
-    // Open the database that contains the test data.
-    CUTS_Test_Database testdata;
+    //ACE_High_Res_Timer timer;
+    //timer.start ();
 
-    if (!testdata.open (this->datafile_))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
-                         this->datafile_.c_str ()),
-                         -1);
+    // Construct the variable table
+    CUTS_Dataset_Repo * repo = this->construct_vtable (graph);
 
-    // Open the repository for the test data.
-    CUTS_Dataset_Repo repo;
-    if (!repo.open (this->repo_location_, testdata))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to open variable table repo\n")),
-                         -1);
+    ACE_Auto_Ptr <CUTS_Dataset_Repo> auto_clean (repo);
 
-    ACE_High_Res_Timer timer;
-    timer.start ();
-
-    // Time the evaluation operation.
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - constructing variable table; please wait...\n")));
-
-    // Construct the variable table for the log format graph.
-    if (!repo.insert (graph))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
-                         -1);
-
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - evaluating datagraph; please wait...\n")));
-
-    // Evaluate the dataset.
-    CUTS_Dataset_Result result (repo);
+    CUTS_Dataset_Result result (*repo);
 
     int retval = result.evaluate (unite_test,
                                   graph.name (),
@@ -244,10 +223,8 @@ int CUTS_Unite_App::run_main (int argc, char * argv [])
                          graph.name ().c_str ()),
                          -1);
 
-    // Stop the timer for the evaluation.
     timer.stop ();
 
-    // Determine the elapsed time of the evaluation.
     ACE_Time_Value elapsed;
     timer.elapsed_time (elapsed);
 
@@ -416,4 +393,23 @@ load_services (const ::CUTS::XML::serviceList & list)
 
   for (; !iter.done (); ++ iter)
     this->svc_mgr_.suspend ((*iter).c_str ());
+}
+
+//
+// split_graph
+//
+
+CUTS_Dataset_Repo * CUTS_Unite_App::construct_vtable (CUTS_Dataflow_Graph & graph)
+{
+  CUTS_Test_Database testdata;
+
+  if (!testdata.open (this->datafile_))
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
+                this->datafile_.c_str ()));
+
+  CUTS_Dataflow_Graph_Analyzer analyzer (graph);
+  analyzer.analyze (testdata, this->repo_location_);
+
+  return analyzer.join (testdata, this->repo_location_);
 }

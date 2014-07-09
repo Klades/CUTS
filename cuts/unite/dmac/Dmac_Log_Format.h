@@ -11,6 +11,7 @@
 #include "Dmac_Log_Msg_Details.h"
 #include "cuts/utils/testing/Test_Database.h"
 #include "adbc/SQLite/Connection.h"
+#include "Dmac_export.h"
 
 
 /**
@@ -20,8 +21,9 @@
  */
 
 class CUTS_Dmac_Candidate_Relation;
+class CUTS_Dmac_Execution;
 
-class CUTS_Dmac_Log_Format
+class CUTS_DMAC_Export CUTS_Dmac_Log_Format
 {
 public:
 
@@ -132,9 +134,16 @@ public:
 
   void sort_msg_instances (void);
 
-  std::vector <CUTS_Dmac_Log_Msg_Details> & msg_instances (void);
+  std::vector <CUTS_Dmac_Log_Msg_Details *> & msg_instances (void);
+
+  void insert_execution (CUTS_Dmac_Execution * ex);
+
+  bool has_similar_execution (CUTS_Dmac_Log_Format * lf);
 
   friend class CUTS_Dmac_Candidate_Relation;
+
+  friend class CUTS_Dmac_Execution;
+
 
 private:
 
@@ -151,7 +160,10 @@ private:
   variable_table vars_;
 
   // details of the log message instances
-  std::vector <CUTS_Dmac_Log_Msg_Details> msg_instances_;
+  std::vector <CUTS_Dmac_Log_Msg_Details *> msg_instances_;
+
+  // Executions where the log format is occurring
+  std::vector <CUTS_Dmac_Execution *> execution_list_;
 
  // Number of messages covered by this log format
   long coverage_;

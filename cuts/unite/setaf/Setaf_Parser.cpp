@@ -132,13 +132,24 @@ struct CUTS_Setaf_Parser_Grammar :
         ascii::char_(']')) | this->ident_;
 
     /// Definition of an Add command
-    this->add_command_ =
+    this->integer_add_command_ =
         this->variable_[qi::_a = qi::_1] >>
         ascii::char_("=") >>
         this->variable_[qi::_b = qi::_1] >>
         ascii::char_("+") >>
         qi::int_[qi::_c = qi::_1] >>
-        ascii::char_(";")[phoenix::bind (&CUTS_Setaf_Interpreter::create_add_command, qi::_r1, qi::_a, qi::_b, qi::_c, qi::_r2)];
+        ascii::char_(";")[phoenix::bind (&CUTS_Setaf_Interpreter::create_integer_add_command, qi::_r1, qi::_a, qi::_b, qi::_c, qi::_r2)];
+
+    /// Definition of an Add command
+    this->variable_add_command_ =
+        this->variable_[qi::_a = qi::_1] >>
+        ascii::char_("=") >>
+        this->variable_[qi::_b = qi::_1] >>
+        ascii::char_("+") >>
+        this->variable_[qi::_c = qi::_1] >>
+        ascii::char_(";")[phoenix::bind (&CUTS_Setaf_Interpreter::create_variable_add_command, qi::_r1, qi::_a, qi::_b, qi::_c, qi::_r2)];
+
+    this->add_command_ = this->integer_add_command_(qi::_r1, qi::_r2) | this->variable_add_command_(qi::_r1, qi::_r2);
 
     /// Definition of an Assignment command
     this->assignment_command_ =
@@ -271,6 +282,16 @@ private:
   qi::rule <IteratorT,
             void (CUTS_Setaf_Interpreter *, string_vector),
             qi::locals <std::string, std::string, int>,
+            ascii::space_type> integer_add_command_;
+
+  /// Rule for an add command
+  qi::rule <IteratorT,
+            void (CUTS_Setaf_Interpreter *, string_vector),
+            qi::locals <std::string, std::string, std::string>,
+            ascii::space_type> variable_add_command_;
+
+  qi::rule <IteratorT,
+            void (CUTS_Setaf_Interpreter *, string_vector),
             ascii::space_type> add_command_;
 
   /// Rule for an assignment command

@@ -125,3 +125,17 @@ void CUTS_Dataflow_Graph::adapter (CUTS_Log_Format_Adapter * adapter)
 {
   this->adapter_ = adapter;
 }
+
+//
+// Find the vertex descriptor
+//
+
+CUTS_Dataflow_Graph::vertex_descriptor CUTS_Dataflow_Graph::find_vertex (const ACE_CString & lf_name)
+{
+  vertex_descriptor vertex = 0;
+
+  if (this->vertices_.find (lf_name, vertex) == 0)
+    return vertex;
+  else
+    return -1;
+}

@@ -8,22 +8,17 @@
 #include "cuts/config.h"
 #include "Dmac_Utils.h"
 #include "Dmac_Log_Format.h"
-
-// Represent a possible variable
-// relation
-struct var_relation
-{
-  int cause_var;
-  int effect_var;
-  int sup_count;
-};
+#include "Dmac_Variable_Evidence.h"
+#include "Dmac_Time_Evidence.h"
+#include "Dmac_Domain_Evidence.h"
+#include "Dmac_export.h"
 
 /**
  * @class CUTS_Dmac_Candidate_Relation
  *
  * Represent a candidate relation with beleif
  */
-class CUTS_Dmac_Candidate_Relation
+class CUTS_DMAC_Export CUTS_Dmac_Candidate_Relation
 {
 public:
 
@@ -34,32 +29,49 @@ public:
   // Destructor
   ~CUTS_Dmac_Candidate_Relation (void);
 
-
-private:
-
-  // Get the total support
-  long count_support (void);
-
   // Populate the cause_effect tables
   void populate_cause_effect_vars (void);
 
-  // Calculate the variable evidence
-  void calculate_var_evidence (void);
+  CUTS_Dmac_Log_Format * cause_lf (void);
 
-  // Calculate the time evidence
-  void calculate_time_evidence (void);
+  CUTS_Dmac_Log_Format * effect_lf (void);
+
+  void calculate_belief (CUTS_DMAC_UTILS::int_double_map & knowledge_data);
+
+  double belief (void);
+
+  void var_evidence_val (double val);
+
+  double var_evidence_val (void);
+
+  double time_evidence_val (void);
+
+  double domain_evidence_val (void);
+
+  void belief (double val);
+
+  void var_evidence_calculated (bool val);
+
+
+private:
 
   CUTS_Dmac_Log_Format * cause_lf_;
 
   CUTS_Dmac_Log_Format * effect_lf_;
 
-  double var_evidence_;
+  double belief_;
 
-  double time_evidence_;
+  double var_evidence_val_;
 
-  long support_;
+  double time_evidence_val_;
+
+  double domain_evidence_val_;
+
+  bool var_evidence_calculated_;
 
   std::vector <var_relation> cause_effect_vars_;
+
+  std::vector <CUTS_DSF_Evidence> evidences_;
 
 };
 

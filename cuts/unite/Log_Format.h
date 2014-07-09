@@ -16,6 +16,7 @@
 #include "Unite_export.h"
 #include "Variable_Table.h"
 #include "Relation.h"
+#include "ace/Task.h"
 #include <vector>
 
 // Forward decl.
@@ -115,6 +116,9 @@ private:
   // prevent the following operations
   CUTS_Log_Format (const CUTS_Log_Format &);
   const CUTS_Log_Format & operator = (const CUTS_Log_Format &);
+
+  // Mutex to be used when this log format is processed by multiple threads
+  ACE_Thread_Mutex mutex_;
 };
 
 #endif  // !defined _CUTS_UNITE_LOG_FORMAT_H_

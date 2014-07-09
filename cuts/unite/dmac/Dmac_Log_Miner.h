@@ -10,6 +10,7 @@
 #include "Dmac_Utils.h"
 #include "Dmac_Log_Format.h"
 #include "Dmac_Static_Part.h"
+#include "Dmac_export.h"
 
 /**
  * @class CUTS_Dmac_Log_Miner
@@ -17,7 +18,7 @@
  * Dmac Log_Miner class
  */
 
-class CUTS_Dmac_Log_Miner
+class CUTS_DMAC_Export CUTS_Dmac_Log_Miner
 {
 public:
 

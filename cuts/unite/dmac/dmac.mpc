@@ -1,7 +1,10 @@
 // $Id$
 
-project (CUTS_Dmac) : boost_base, codegenerationkit, cuts_test_database, cutsexe {
-  exename = cuts-dmac
+project (CUTS_Dmac_Common) : boost_base, codegenerationkit, cuts_test_database, cutslib, acelib {
+  sharedname = CUTS_Dmac_Common
+  dynamicflags += CUTS_DMAC_BUILD_DLL
+  libs += CUTS_DSF
+  libpaths += $(CUTS_ROOT)/lib
 
   Source_Files {
     Dmac_Relation.cpp
@@ -21,8 +24,48 @@ project (CUTS_Dmac) : boost_base, codegenerationkit, cuts_test_database, cutsexe
     Dmac_Log_Format_Graph_Builder.cpp
     Dmac_Candidate_Relation.cpp
     Dmac_Log_Msg_Details.cpp
+    Dmac_Time_Evidence.cpp
+    Dmac_Variable_Evidence.cpp
+    Dmac_Domain_Evidence.cpp
+    Dmac_Log_Format_File_Processor.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+}
+
+project (CUTS_Dmac_Exe) : boost_base, cutsexe {
+  exename = cuts-dmac
+  after += CUTS_Dmac_Common
+  libs += CUTS_Dmac_Common
+
+  Source_Files {
     Dmac_App.cpp
     Dmac.cpp
+  }
+
+  Inline_Files {
+
+  }
+
+  Header_Files {
+
+  }
+}
+
+project (CUTS_Dmac_DK_Exe) : boost_base, cutsexe {
+  exename = cuts-dmac-dk
+  after += CUTS_Dmac_Common
+  libs += CUTS_Dmac_Common
+
+  Source_Files {
+    Dmac_Dk_App.cpp
+    Dmac_Dk.cpp
   }
 
   Inline_Files {

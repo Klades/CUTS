@@ -9,6 +9,7 @@
 #include "Dmac_Utils.h"
 #include "Dmac_Log_Format.h"
 #include "cuts/utils/testing/Test_Database.h"
+#include "Dmac_export.h"
 
 /**
  * @class CUTS_Dmac_Static_Part
@@ -16,7 +17,7 @@
  * Represent a Static portion of a log format
  */
 
-class CUTS_Dmac_Static_Part
+class CUTS_DMAC_Export CUTS_Dmac_Static_Part
 {
 
 public:

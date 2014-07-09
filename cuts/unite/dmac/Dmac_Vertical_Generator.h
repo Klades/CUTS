@@ -6,6 +6,7 @@
 #include <iostream>
 #include "ace/SString.h"
 #include "Dmac_Vertical_Format.h"
+#include "Dmac_export.h"
 #include <algorithm>
 #include <sstream>
 
@@ -15,7 +16,7 @@
  *
  * Convert the dataset to a vertical format
  */
-class CUTS_Dmac_Vertical_Generator
+class CUTS_DMAC_Export CUTS_Dmac_Vertical_Generator
 {
 public:
 
@@ -51,7 +52,7 @@ protected:
  *
  * Convert the dataset in a database to a vertical format
  */
-class CUTS_Dmac_DB_Vertical_Generator : public CUTS_Dmac_Vertical_Generator
+class CUTS_DMAC_Export CUTS_Dmac_DB_Vertical_Generator : public CUTS_Dmac_Vertical_Generator
 {
 public:
 
@@ -72,7 +73,7 @@ public:
  *
  * Convert the dataset in a database to a vertical format
  */
-class CUTS_Dmac_File_Vertical_Generator : public CUTS_Dmac_Vertical_Generator
+class CUTS_DMAC_Export CUTS_Dmac_File_Vertical_Generator : public CUTS_Dmac_Vertical_Generator
 {
 public:
 

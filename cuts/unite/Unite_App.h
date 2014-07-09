@@ -16,6 +16,8 @@
 #include "ace/SString.h"
 #include "ace/Unbounded_Set.h"
 #include "Presentation_Service_Manager.h"
+#include "Dataflow_Graph.h"
+#include "Dataset_Repo.h"
 
 namespace CUTS
 {
@@ -61,6 +63,9 @@ private:
 
   /// Print the help screen for the application.
   void print_help (void);
+
+  /// Construct the vtable
+  CUTS_Dataset_Repo * construct_vtable (CUTS_Dataflow_Graph & graph);
 
   /// Location of the configuration file.
   ACE_CString config_;

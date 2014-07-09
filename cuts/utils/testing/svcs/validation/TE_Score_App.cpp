@@ -15,6 +15,7 @@
 #include "cuts/unite/Unite_Datagraph_File.h"
 #include "cuts/unite/Validation_Test_File.h"
 #include "cuts/utils/testing/Test_Database.h"
+#include "cuts/unite/Dataflow_Graph_Analyzer.h"
 
 #include "XSC/utils/XML_Error_Handler.h"
 
@@ -158,28 +159,16 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 ACE_TEXT ("%T (%t) - %M - opening dataset repository\n")));
 
-    CUTS_Dataset_Repo repo;
+    CUTS_Dataflow_Graph_Analyzer analyzer (graph);
+    analyzer.analyze (test_db, this->opts_.sandbox_);
 
-    if (!repo.open (this->opts_.sandbox_, test_db))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to open dataset repository\n"),
-                         this->opts_.test_db_file_.c_str ()),
-                         -1);
-
-    // Create a new dataset in the repository.
-    ACE_DEBUG ((LM_DEBUG,
-                ACE_TEXT ("%T (%t) - %M - inserting new dataset into repository\n")));
-
-    if (!repo.insert (graph))
-      ACE_ERROR_RETURN ((LM_ERROR,
-                         ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
-                         -1);
+    CUTS_Dataset_Repo * repo = analyzer.join (test_db, this->opts_.sandbox_);
 
     ACE_DEBUG ((LM_INFO,
                 ACE_TEXT ("%T (%t) - %M - evaluating correctness; please wait...\n")));
 
     // Evaluate the states for the current test.
-    CUTS_TE_Score_Evaluator evaluator (repo);
+    CUTS_TE_Score_Evaluator evaluator (*repo);
     evaluator.evaluate (graph.name (), states);
 
     std::cout
@@ -262,7 +251,6 @@ int CUTS_TE_Score_App::parse_args (int argc, char * argv [])
 
   return 0;
 }
-
 //
 // print_help
 //

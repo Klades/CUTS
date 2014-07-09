@@ -85,6 +85,10 @@ private:
   // Delimiter string
   ACE_CString delims_;
 
+  // Specifies whether to use a given file to find log formats
+  bool use_lf_file_;
+
+  // The file to read for log formats when they are already found
   ACE_CString lf_file_;
 
   // Current mining round

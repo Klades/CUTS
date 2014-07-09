@@ -11,6 +11,7 @@
 #include "Dmac_Log_Format.h"
 #include "Dmac_Log_Format_Graph_Builder.h"
 #include "cuts/utils/testing/Test_Database.h"
+#include "Dmac_export.h"
 
 
 /**
@@ -19,7 +20,7 @@
  * Dmac Relation Miner class
  */
 
-class CUTS_Dmac_Relation_Miner
+class CUTS_DMAC_Export CUTS_Dmac_Relation_Miner
 {
 public:
 

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include "Dmac_Utils.h"
+#include "Dmac_export.h"
 
 
 // Forward declerations
@@ -19,7 +20,7 @@ class CUTS_Dmac_Log_Format;
  * Represent a relation between two log formats in DMAC
  */
 
-class CUTS_Dmac_Relation
+class CUTS_DMAC_Export CUTS_Dmac_Relation
 {
 public:
 

@@ -5,11 +5,12 @@
 
 #include <map>
 #include <string>
+#include "Dmac_export.h"
 
 class CUTS_Dmac_Log_Format;
 class CUTS_Dmac_Candidate_Relation;
 
-class CUTS_Dmac_Log_Msg_Details
+class CUTS_DMAC_Export CUTS_Dmac_Log_Msg_Details
 {
 public:
 
@@ -18,6 +19,8 @@ public:
   ~CUTS_Dmac_Log_Msg_Details (void);
 
   double time_val (void);
+
+  std::map <int, std::string> & var_table ();
 
   friend class CUTS_Dmac_Log_Format;
 

@@ -135,16 +135,28 @@ public:
                                  string_vector & lf_names);
 
   /**
-   * Create an assignemnt command
+   * Create an add command
    * @param[in]     lhs_var_qual_name     The name of the left hand side variable.
-   * @param[in]     rhs_var_qual_name     The name of the right hand side of the variable.
+   * @param[in]     operand1_qual_name    The name of the right hand side of the variable.
    * @param[in]     value                 The value need to be added.
    * @param[in]     lf_name               The name of the log format.
    */
-  void create_add_command (std::string & lhs_var_qual_name,
-                           std::string & rhs_var_qual_name,
-                           int value,
-                           string_vector & lf_names);
+  void create_integer_add_command (std::string & lhs_var_qual_name,
+                                   std::string & operand1_qual_name,
+                                   int operand2,
+                                   string_vector & lf_names);
+
+  /**
+   * Create an assignemnt command
+   * @param[in]     lhs_var_qual_name     The name of the left hand side variable.
+   * @param[in]     operand1_qual_name    The name of the right hand side of the variable.
+   * @param[in]     value                 The value need to be added.
+   * @param[in]     lf_name               The name of the log format.
+   */
+  void create_variable_add_command (std::string & lhs_var_qual_name,
+                                    std::string & operand1_qual_name,
+                                    std::string & operand2_qual_name,
+                                    string_vector & lf_names);
 
 
 private:

@@ -8,6 +8,7 @@
 #include "adbc/SQLite/Connection.h"
 #include "Dmac_Log_Format.h"
 #include "Dmac_Utils.h"
+#include "Dmac_export.h"
 
 /**
  * @class CUTS_Dmac_Execution
@@ -17,7 +18,7 @@
 
 class CUTS_Dmac_Log_Format_Graph;
 
-class CUTS_Dmac_Execution
+class CUTS_DMAC_Export CUTS_Dmac_Execution
 {
 public:
 

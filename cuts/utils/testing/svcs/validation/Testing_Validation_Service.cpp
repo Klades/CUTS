@@ -9,6 +9,7 @@
 #include "cuts/unite/Dataset_Repo.h"
 #include "cuts/unite/Dataset_Result.h"
 #include "cuts/unite/cuts-unite.h"
+#include "cuts/unite/Dataflow_Graph_Analyzer.h"
 #include "cuts/utils/testing/Testing_App_Base.h"
 #include "XSC/utils/XML_Error_Handler.h"
 #include "ace/Get_Opt.h"
@@ -163,23 +164,16 @@ int CUTS_Testing_Validation_Service::validate_test (void)
                        -1);
 
   // Open the database that contains the test data.
-   CUTS_Test_Database & test_db = this->test_app ()->test_db ();
+  CUTS_Test_Database & test_db = this->test_app ()->test_db ();
 
-  // Open the repository for the test data.
-  CUTS_Dataset_Repo repo;
-  if (!repo.open (":memory:", test_db))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to open variable table repo\n")),
-                       -1);
+  ACE_CString repo_location (":memory:");
+  CUTS_Dataflow_Graph_Analyzer analyzer (graph);
+  analyzer.analyze (test_db, repo_location);
 
-  // Construct the variable table for the log format graph.
-  if (!repo.insert (graph))
-    ACE_ERROR_RETURN ((LM_ERROR,
-                       ACE_TEXT ("%T (%t) - %M - failed to construct variable table\n")),
-                       -1);
+  CUTS_Dataset_Repo * repo = analyzer.join (test_db, repo_location);
 
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - validating test; please wait...\n")));
+             ACE_TEXT ("%T (%t) - %M - validating test; please wait...\n")));
 
   // Open the XML document for reading.
   CUTS_Unite_Validation_File validation_file;
@@ -196,7 +190,7 @@ int CUTS_Testing_Validation_Service::validate_test (void)
   validation_file >>= validation;
 
   // Validate the dataset.
-  CUTS_TE_Score_Evaluator evaluator (repo);
+  CUTS_TE_Score_Evaluator evaluator (*repo);
   //bool validation_result = evaluator.evaluate (datagraph.name ().c_str (),
   //                                          validation_state,
   //                                          0,

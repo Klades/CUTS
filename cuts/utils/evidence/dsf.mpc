@@ -1,10 +1,11 @@
 // $Id$
-project (CUTS_Dsf) : boost_base, cutslib, acelib {
+project (CUTS_DSF) : boost_base, cutslib, acelib {
   sharedname = CUTS_DSF
   dynamicflags += CUTS_DSF_BUILD_DLL
 
   Source_Files {
-    Dsf.cpp
+    DSF_Evidence.cpp
+    DSF_Evidence_Combiner.cpp
   }
 
   Inline_Files {
