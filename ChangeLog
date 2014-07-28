@@ -1,3 +1,13 @@
+Mon Jul 28 19:43:45 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/unite/dmac/Dmac_Time_Evidence.h:
+        * cuts/unite/dmac/Dmac_Time_Evidence.cpp:
+        * cuts/unite/dmac/Dmac_Variable_Evidence.h:
+        * cuts/unite/dmac/Dmac_Variable_Evidence.cpp:
+        * cuts/unite/dmac/Dmac_export.h:
+
+        Added the missing files to fix the compilation issues.
+
 Wed Jul  9 14:14:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/Dataflow_Graph.h:
