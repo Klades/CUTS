@@ -88,6 +88,14 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Jul 28 15:47:59 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+
+          Added CoreDX middleware to the CUTS interpreter
+
 Wed Feb 12 18:56:32 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/T2M/executor/Executor_App.cpp:
