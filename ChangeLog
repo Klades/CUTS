@@ -1,3 +1,25 @@
+Tue Jul 29 04:38:42 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/unite/dmac/Dmac_Domain_Evidence.h:
+        * cuts/unite/dmac/Dmac_Domain_Evidence.cpp:
+        * cuts/unite/dmac/Dmac_Log_Format_File_Processor.h:
+        * cuts/unite/dmac/Dmac_Log_Format_File_Processor.cpp:
+        * cuts/unite/dmac/dmac.mpc:
+
+          Fixes to the compilation issues in DMAC.
+
+        * cuts/utils/evidence/DSF_Evidence.h:
+        * cuts/utils/evidence/DSF_Evidence.cpp:
+        * cuts/utils/evidence/DSF_Evidence_Combiner.h:
+        * cuts/utils/evidence/DSF_Evidence_Combiner.cpp:
+
+          Added the new files in DS theory evidence calculation.
+
+        * cuts/utils/evidence/Dsf.h:
+        * cuts/utils/evidence/Dsf.cpp:
+
+          Removed these files.
+
 Mon Jul 28 19:43:45 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/dmac/Dmac_Time_Evidence.h:
@@ -6,7 +28,7 @@ Mon Jul 28 19:43:45 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/unite/dmac/Dmac_Variable_Evidence.cpp:
         * cuts/unite/dmac/Dmac_export.h:
 
-        Added the missing files to fix the compilation issues.
+          Added the missing files to fix the compilation issues.
 
 Wed Jul  9 14:14:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
@@ -29,7 +51,7 @@ Wed Jul  9 14:14:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/unite/cuts-unite.inl:
         * cuts/unite/cuts-unite.cpp:
 
-        Enable UNITE to support multi-sink dataflow models.
+          Enable UNITE to support multi-sink dataflow models.
 
         * cuts/unite/dmac/Dmac_App.h:
         * cuts/unite/dmac/Dmac_App.cpp:
@@ -56,7 +78,7 @@ Wed Jul  9 14:14:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/unite/dmac/Dmac_Vertical_Generator.h:
         * cuts/unite/dmac/dmac.mpc:
 
-        Some Experimental implmentation work on DMAC.
+          Some Experimental implmentation work on DMAC.
 
         * cuts/unite/setaf/Setaf_Add_Command.cpp:
         * cuts/unite/setaf/Setaf_Command.h:
@@ -74,12 +96,12 @@ Wed Jul  9 14:14:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
         * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
         * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
 
-        Chnaged TE_Score work according to the latest chnages in UNITE.
+          Chnaged TE_Score work according to the latest chnages in UNITE.
 
         * examples/java/logging/client/log4j/cutsnode.config:
         * examples/java/logging/client/log4j/log4j.properties:
 
-        Updated to the cuts namespace.
+          Updated to the cuts namespace.
 
 Mon Jul  7 14:07:35 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
