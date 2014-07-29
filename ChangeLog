@@ -1,3 +1,10 @@
+Tue Jul 29 14:21:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/unite/setaf/Setaf_Integer_Constant.cpp:
+        * cuts/unite/setaf/setaf.mpc:
+
+          Fixed the compilation issues in SETAF.
+
 Tue Jul 29 04:38:42 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/dmac/Dmac_Domain_Evidence.h:

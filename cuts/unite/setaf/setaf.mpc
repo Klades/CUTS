@@ -20,6 +20,7 @@ project (CUTS_Setaf_Common) : boost_base, codegenerationkit, cutslib, acelib, cu
     Setaf_Add_Command.cpp
     Setaf_Interpreter.cpp
     Setaf_Parser.cpp
+	Setaf_Integer_Constant.cpp
   }
 
   Inline_Files {
