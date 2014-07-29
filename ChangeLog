@@ -1,3 +1,9 @@
+Tue Jul 29 14:31:04 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/unite/dmac/Dmac_Candidate_Relation.cpp:
+
+          Fixed the compilation issue due to the chnages to the DSF framework.
+
 Tue Jul 29 14:21:02 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/setaf/Setaf_Integer_Constant.cpp:
