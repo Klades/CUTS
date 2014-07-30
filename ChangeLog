@@ -2,6 +2,8 @@ Tue Jul 29 23:47:12 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/dmac/dmac.mpc:
 
+          Added the compilation order for Dmac_Common.
+
 Tue Jul 29 14:31:04 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/dmac/Dmac_Candidate_Relation.cpp:
