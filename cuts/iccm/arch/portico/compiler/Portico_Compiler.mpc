@@ -22,6 +22,10 @@ project (iCCM_Portico_Compiler) : iccm_compiler {
     macros += _SCL_SECURE_NO_WARNINGS
   }
 
+  specific (vc11) {
+    subsystem = NotSet
+  }
+
   Source_Files {
     Compiler.cpp
     Context.cpp

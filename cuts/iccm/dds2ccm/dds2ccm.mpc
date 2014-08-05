@@ -25,6 +25,10 @@ project (dds2ccm) : boost_base, codegenerationkit, tao_idl_fe, cutsexe {
     macros += _SCL_SECURE_NO_WARNINGS
   }
 
+  specific (vc11) {
+    subsystem = NotSet
+  }
+
   Source_Files {
     be_global.cpp
     be_init.cpp

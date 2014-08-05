@@ -1,3 +1,26 @@
+Tue Aug  5 13:15:53 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MPC/config/cutsexe.mpb:
+        * cuts/iccm/arch/coredx/compiler/CoreDX_Compiler.mpc:
+        * cuts/iccm/arch/opensplice/compiler/OpenSplice_Compiler.mpc:
+        * cuts/iccm/arch/portico/compiler/Portico_Compiler.mpc:
+        * cuts/iccm/arch/rtidds/compiler/RTIDDS_Compiler.mpc:
+        * cuts/iccm/arch/tao/compiler/TAO_Compiler.mpc:
+        * cuts/iccm/arch/tcpip/compiler/TCPIP_Compiler.mpc:
+        * cuts/iccm/compiler/Compiler.mpc:
+        * cuts/iccm/dds2ccm/dds2ccm.mpc:
+
+          Fixed errors with Subsystem project setting on vc11.
+
+        * MPC/config/iccm_compiler.mpb:
+        * MPC/config/iccm_ospl.mpb:
+        * MPC/config/iccm_portico.mpb:
+        * MPC/config/iccm_rtidds.mpb:
+        * MPC/config/iccm_tao.mpb:
+        * MPC/config/iccm_tcpip.mpb:
+
+          Fixed errors with custom command on vc11.
+
 Tue Jul 29 23:47:12 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
 
         * cuts/unite/dmac/dmac.mpc:

@@ -1,9 +1,13 @@
 // $Id$
 
 project {
+  specific {
+    iccm_tao = $(CUTS_ROOT)/bin/iccm_tao
+  }
+
   Define_Custom (ICCM) {
-    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_tao<%quote%>
-    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_tao<%quote%>
+    command               = $(ICCM_TAO)
+    dependent             = $(ICCM_TAO)
     inputext              = .idl
 
     source_outputext      = C.cpp

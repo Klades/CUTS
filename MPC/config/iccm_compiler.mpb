@@ -28,6 +28,14 @@ project : boost_base, codegenerationkit, tao_idl_fe, cutsexe {
     subsystem = 0
     macros += _SCL_SECURE_NO_WARNINGS
   }
+  
+  specific (vc11) {
+    subsystem = NotSet
+  }
+
+  specific (vc11) {
+    subsystem = NotSet
+  }
 
   Source_Files {
     $(TAO_ROOT)/TAO_IDL/driver/drv_args.cpp

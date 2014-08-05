@@ -1,9 +1,13 @@
 // $Id$
 
 project : requires_rtidds {
+  specific {
+    iccm_rtidds = $(CUTS_ROOT)/bin/iccm_rtidds
+  }
+
   Define_Custom (ICCM) {
-    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_rtidds<%quote%>
-    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_rtidds<%quote%>
+    command               = $(ICCM_RTIDDS)
+    dependent             = $(ICCM_RTIDDS)
     inputext              = .idl
 
     source_outputext      = C.cpp

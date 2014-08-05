@@ -28,6 +28,10 @@ project (iCCM_Compiler) : boost_base, codegenerationkit, tao_idl_fe, cutslib {
     subsystem = 0
     macros += _SCL_SECURE_NO_WARNINGS
   }
+  
+  specific (vc11) {
+    subsystem = NotSet
+  }
 
   Source_Files {
     includes/be_util.cpp

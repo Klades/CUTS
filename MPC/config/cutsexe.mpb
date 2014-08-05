@@ -10,4 +10,8 @@ project : aceexe, cuts_base {
   specific (prop:windows) {
     subsystem = 0
   }
+
+  specific (vc11) {
+    subsystem = NotSet
+  }
 }

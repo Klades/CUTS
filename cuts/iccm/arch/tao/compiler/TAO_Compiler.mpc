@@ -23,6 +23,10 @@ project (iCCM_TAO_Compiler) : iccm_compiler {
     subsystem = 0
     macros += _SCL_SECURE_NO_WARNINGS
   }
+  
+  specific (vc11) {
+    subsystem = NotSet
+  }
 
   Source_Files {
     Compiler.cpp

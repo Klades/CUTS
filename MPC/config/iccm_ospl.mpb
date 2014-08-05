@@ -1,9 +1,13 @@
 // $Id$
 
 project : requires_opensplice {
+  specific {
+    iccm_ospl = $(CUTS_ROOT)/bin/iccm_ospl
+  }
+
   Define_Custom (ICCM) {
-    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
-    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_ospl<%quote%>
+    command               = $(ICCM_OSPL)
+    dependent             = $(ICCM_OSPL)
     inputext              = .idl
 
     source_outputext      = C.cpp
