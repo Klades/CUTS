@@ -1,10 +1,14 @@
 // $Id:
 
 project {
+  specific {
+    idl2ddl = $(CUTS_ROOT)/bin/iccm_coredx
+  }
+
   Define_Custom(IDL2DDL) {
-    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_coredx<%quote%>
+    command               = $(IDL2DDL)
     commandflags          = -Wb,generate_ddl
-    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_coredx<%quote%>
+    dependent             = $(IDL2DDL)
     inputext              = .idl
 
     generic_pre_filename   = CoreDX_

@@ -1,9 +1,13 @@
 // $Id$
 
 project {
+  specific {
+    iccm_coredx = $(CUTS_ROOT)/bin/iccm_coredx
+  }
+
   Define_Custom (ICCM) {
-    command               = <%quote%>$(CUTS_ROOT)/bin/iccm_coredx<%quote%>
-    dependent             = <%quote%>$(CUTS_ROOT)/bin/iccm_coredx<%quote%>
+    command               = $(ICCM_COREDX)
+    dependent             = $(ICCM_COREDX)
     inputext              = .idl
 
     source_outputext      = C.cpp
