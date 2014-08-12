@@ -88,6 +88,17 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Tue Aug 12 19:55:13 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MPC/config/cuts_coredx.mpb:
+        * MPC/config/iccm_coredx_skel.mpb:
+        * MPC/config/iccm_coredx_stub.mpb:
+        * MPC/config/iccm_coredx_svnt.mpb:
+        * MPC/config/requires_coredx.mpb:
+
+          Fixed missing files and merge problems.
+
 Mon Jul 28 15:47:59 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:

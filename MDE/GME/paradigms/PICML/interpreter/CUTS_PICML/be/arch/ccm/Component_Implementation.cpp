@@ -278,8 +278,9 @@ generate (const PICML::MonolithicImplementation_in impl,
   if (apptasks.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Application_Task_T");
 
-  std::vector <PICML::ProvidedRequestPort> facets =
-    component.ProvidedRequestPort_kind_children ();
+  // Generate the object implementations
+  CUTS_BE_CCM::Cpp::Object_Impl_Generator obj_impl_gen (this->ctx_);
+  obj_impl_gen.generate (component);
 
   if (!facets.empty ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T");
@@ -366,6 +367,9 @@ generate (const PICML::MonolithicImplementation_in impl,
   // Generate ApplicationTask initalization
   for (auto task : apptasks)
     task->accept (&entity);
+
+  for (auto apptask : apptasks)
+    apptask.Accept (entity);
 
   if (this->ctx_.traits_->emulates_async ())
   {
@@ -947,6 +951,39 @@ generate (const PICML::PeriodicEvent_in periodic)
 
 void CUTS_BE_PeriodicEvent_End_T <CUTS_BE_CCM::Cpp::Context>::
 generate (const PICML::PeriodicEvent_in periodic)
+{
+  this->ctx_.source_
+    << "}";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Begin_T
+
+void CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::ApplicationTask & apptask)
+{
+  std::string name = apptask.name ();
+  std::string func_name = "apptask_" + name;
+
+  PICML::Component parent (PICML::Component::Cast (apptask.parent ()));
+  std::string parent_name (parent.name ());
+
+  this->ctx_.header_
+    << CUTS_BE_CPP::single_line_comment ("ApplicationTask: " + name)
+    << "void " << func_name << " (void);"
+    << std::endl;
+
+  this->ctx_.source_
+    << CUTS_BE_CPP::function_header ("ApplicationTask: " + name)
+    << "void " << parent_name << "::" << func_name << " (void)"
+    << "{";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_End_T
+
+void CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::ApplicationTask & apptask)
 {
   this->ctx_.source_
     << "}";
