@@ -10,6 +10,8 @@
 #include <iterator>
 #include "UdmBase.h"
 
+namespace CUTS
+{
 namespace Udm
 {
   //
@@ -21,7 +23,7 @@ namespace Udm
   {
     // Get the children of the parent.
     typedef std::vector <T> T_set;
-    T_set children = Udm::ChildrenAttr <T> (parent.__impl (), Udm::NULLCHILDROLE);
+    T_set children = ::Udm::ChildrenAttr <T> (parent.__impl (), ::Udm::NULLCHILDROLE);
 
     return (*this) (children, element);
   }
@@ -241,4 +243,5 @@ namespace Udm
     instance = element.CreateInstance (parent);
     return true;
   }
+}
 }

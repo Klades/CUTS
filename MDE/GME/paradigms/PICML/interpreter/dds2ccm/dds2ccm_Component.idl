@@ -14,6 +14,7 @@
 #define _DDS2CCM_COMPONENT_IDL_
 
 #include <Gme.idl>
+#include <Core.idl>
 
 [
 	uuid (ce635c39-2124-4175-8b23-f5576937f43e),
@@ -28,7 +29,7 @@ library dds2ccm_Component
 	{
 		[default] interface IMgaComponentEx;
 		interface IMgaComponent;
-		interface IMgaVersionInfo;
+    interface IGMEVersionInfo;
 	};
 };
 

@@ -45,10 +45,8 @@ void Event_Creator::
 visit_RootFolder (GAME::Mga::RootFolder_in folder)
 {
   // Visit all the InterfaceDefinitions folders in the root folder.
-  GAME::Mga::Iterator <GAME::Mga::Folder> iter = folder->folders ();
-  std::for_each (GAME::Mga::make_impl_iter (iter),
-                 GAME::Mga::make_impl_iter (iter.make_end ()),
-                 boost::bind (&GAME::Mga::Folder::impl_type::accept, _1, this));
+  for (auto item : folder->folders ())
+    item->accept (this);
 }
 
 //
@@ -119,16 +117,12 @@ void Event_Creator::visit_File (PICML::File_in item)
   scoped_swap <GAME::Mga::Model> swapper (this->target_model_, file);
 
   // Visit all the Package elements in this file.
-  GAME::Mga::Iterator <PICML::Package> packages = item->get_Packages ();
-  std::for_each (GAME::Mga::make_impl_iter (packages),
-                 GAME::Mga::make_impl_iter (packages.make_end ()),
-                 boost::bind (&PICML::Package::impl_type::accept, _1, this));
+  for (auto package : item->get_Packages ())
+    package->accept (this);
 
   // Visit all the Aggregate elmeents in this file.
-  GAME::Mga::Iterator <PICML::Aggregate> iter = item->get_Aggregates ();
-  std::for_each (GAME::Mga::make_impl_iter (iter),
-                 GAME::Mga::make_impl_iter (iter.make_end ()),
-                 boost::bind (&PICML::Aggregate::impl_type::accept, _1, this));
+  for (auto aggr : item->get_Aggregates ())
+    aggr->accept (this);
 }
 
 //
@@ -153,16 +147,12 @@ void Event_Creator::visit_Package (PICML::Package_in item)
   scoped_swap <GAME::Mga::Model> swapper (this->target_model_, package);
 
   // Visit all the Package elements in this file.
-  GAME::Mga::Iterator <PICML::Package> packages = item->get_Packages ();
-  std::for_each (GAME::Mga::make_impl_iter (packages),
-                 GAME::Mga::make_impl_iter (packages.make_end ()),
-                 boost::bind (&PICML::Package::impl_type::accept, _1, this));
+  for (auto package : item->get_Packages ())
+    package->accept (this);
 
   // Visit all the Aggregate elmeents in this file.
-  GAME::Mga::Iterator <PICML::Aggregate> iter = item->get_Aggregates ();
-  std::for_each (GAME::Mga::make_impl_iter (iter),
-                 GAME::Mga::make_impl_iter (iter.make_end ()),
-                 boost::bind (&PICML::Aggregate::impl_type::accept, _1, this));
+  for (auto aggr : item->get_Aggregates ())
+    aggr->accept (this);
 }
 
 //
@@ -185,10 +175,8 @@ void Event_Creator::visit_Aggregate (PICML::Aggregate_in item)
   }
 
   this->target_event_ = PICML::Event::_narrow (model);
-  GAME::Mga::Iterator <PICML::Member> iter = item->get_Members ();
-  std::for_each (GAME::Mga::make_impl_iter (iter),
-                 GAME::Mga::make_impl_iter (iter.make_end ()),
-                 boost::bind (&PICML::Member::impl_type::accept, _1, this));
+  for (auto member : item->get_Members ())
+    member->accept (this);
 }
 
 //

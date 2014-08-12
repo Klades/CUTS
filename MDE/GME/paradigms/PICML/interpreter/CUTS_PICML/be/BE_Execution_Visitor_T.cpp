@@ -457,7 +457,7 @@ Visit_State (const PICML::State & state)
 
   PICML::Finish finish;
 
-  if (Udm::contains (boost::bind (std::equal_to <PICML::BehaviorInputAction> (),
+  if (CUTS::Udm::contains (boost::bind (std::equal_to <PICML::BehaviorInputAction> (),
       this->action_stack_.top (),
       boost::bind (&PICML::Finish::dstFinish_end,
                     _1))) (finish_set, finish))
@@ -502,7 +502,7 @@ Visit_BranchState (const PICML::BranchState & state)
   branches_begin_gen.generate (transitions.size ());
 
   CUTS_BE::visit <CONTEXT> (transitions,
-    boost::bind (&PICML::BranchTransition::Accept, _1, boost::ref (*this)));
+    [&] (PICML::BranchTransition item) {item.Accept (*this);});
 
   // Signal the backend we are starting a branch state.
   CUTS_BE_Branches_End_T <CONTEXT> branches_end_gen (this->context_);
@@ -649,9 +649,7 @@ Visit_RequestAction (const PICML::RequestAction & action)
     action_props_begin_gen.generate (properties.size ());
 
     CUTS_BE::visit <CONTEXT> (properties,
-                              boost::bind (&Property_Set::value_type::Accept,
-                                           _1,
-                                           boost::ref (*this)));
+      [&] (PICML::Property item) {item.Accept (*this);});
 
     CUTS_BE_Action_Properties_End_T <CONTEXT> action_props_end_gen (this->context_);
     action_props_end_gen.generate ();
@@ -699,8 +697,7 @@ Visit_Action (const PICML::Action & action)
     action_props_begin_gen.generate (properties.size ());
 
     CUTS_BE::visit <CONTEXT> (properties,
-      boost::bind (&Property_Set::value_type::Accept,
-      _1, boost::ref (*this)));
+      [&] (PICML::SimpleProperty item) {item.Accept (*this);});
 
     CUTS_BE_Action_Properties_End_T <CONTEXT> action_props_end_gen (this->context_);
     action_props_end_gen.generate ();

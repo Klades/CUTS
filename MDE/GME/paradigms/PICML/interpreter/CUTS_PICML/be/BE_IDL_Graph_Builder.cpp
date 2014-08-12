@@ -35,11 +35,8 @@ Visit_RootFolder (const PICML::RootFolder & root)
   typedef std::set <PICML::InterfaceDefinitions> IDefs_Set;
   IDefs_Set defs = root.InterfaceDefinitions_kind_children ();
 
-  std::for_each (defs.begin (),
-                 defs.end (),
-                 boost::bind (&IDefs_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto def : defs)
+    def.Accept (*this);
 }
 
 //
@@ -51,11 +48,8 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
   typedef std::set <PICML::File> File_Set;
   File_Set files = folder.File_kind_children ();
 
-  std::for_each (files.begin (),
-                 files.end (),
-                 boost::bind (&File_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto file : files)
+      file.Accept (*this);
 }
 
 //
@@ -78,9 +72,8 @@ Visit_File (const PICML::File & file)
     this->current_node_->file_ = file;
 
     std::vector <PICML::FileRef> filerefs = file.FileRef_children ();
-    std::for_each (filerefs.begin (),
-                   filerefs.end (),
-                   boost::bind (&PICML::FileRef::Accept, _1, boost::ref (*this)));
+    for (auto fileref : filerefs)
+      fileref.Accept (*this);
 
     // Save the active file and visit its contents.
     this->active_file_ = file;
@@ -132,51 +125,36 @@ visit_file_and_package_contents (const Udm::Object & obj)
   std::vector <PICML::Event> events =
     Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&PICML::Event::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto event : events)
+      event.Accept (*this);
 
   // Visit all the objects at this level.
   std::vector <PICML::Object> objects =
     Udm::ChildrenAttr <PICML::Object> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (objects.begin (),
-                 objects.end (),
-                 boost::bind (&PICML::Object::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto object : objects)
+      object.Accept (*this);
 
   // Visit all the aggregates (i.e., structure) objects.
   std::vector <PICML::Aggregate> aggregates =
     Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (aggregates.begin (),
-                 aggregates.end (),
-                 boost::bind (&PICML::Aggregate::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto aggregate : aggregates)
+      aggregate.Accept (*this);
 
   // Visit all the components at this level.
   std::vector <PICML::Component> components =
     Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (components.begin (),
-                 components.end (),
-                 boost::bind (&PICML::Component::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto component : components)
+      component.Accept (*this);
 
   // Visit all the packages at this level.
   std::set <PICML::Package> packages =
     Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (packages.begin (),
-                 packages.end (),
-                 boost::bind (&PICML::Package::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
 }
 
 //
@@ -201,51 +179,36 @@ Visit_Component (const PICML::Component & component)
   typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
   OutEventPort_Set oep_set = component.OutEventPort_kind_children ();
 
-  std::for_each (oep_set.begin (),
-                 oep_set.end (),
-                 boost::bind (&OutEventPort_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto oep : oep_set)
+      oep.Accept (*this);
 
   // Determine if the component has input events.
   typedef std::vector <PICML::InEventPort> InEventPort_Set;
   InEventPort_Set iep_set = component.InEventPort_kind_children ();
 
-  std::for_each (iep_set.begin (),
-                 iep_set.end (),
-                 boost::bind (&InEventPort_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto iep : iep_set)
+      iep.Accept (*this);
 
   // Determine if the component has any receptacles.
   typedef std::vector <PICML::RequiredRequestPort> Receptacle_Set;
   Receptacle_Set receptacles = component.RequiredRequestPort_kind_children ();
 
-  std::for_each (receptacles.begin (),
-                 receptacles.end (),
-                 boost::bind (&Receptacle_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto receptacle : receptacles)
+      receptacle.Accept (*this);
 
   // Determine if the component has any facets.
   typedef std::vector <PICML::ProvidedRequestPort> Facet_Set;
   Facet_Set facets = component.ProvidedRequestPort_kind_children ();
 
-  std::for_each (facets.begin (),
-                 facets.end (),
-                 boost::bind (&Facet_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto facet : facets)
+      facet.Accept (*this);
 
   // Determine the dependency for supported interfaces.
   typedef std::vector <PICML::Supports> Supports_Set;
   Supports_Set supports = component.Supports_children ();
 
-  std::for_each (supports.begin (),
-                 supports.end (),
-                 boost::bind (&Supports_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto support : supports)
+      support.Accept (*this);
 
   // Determine the dependency for attributes. We get the read-only
   // kind since it will return both read-only and read-write
@@ -253,11 +216,8 @@ Visit_Component (const PICML::Component & component)
   typedef std::vector <PICML::ReadonlyAttribute> Readonly_Set;
   Readonly_Set attrs = component.ReadonlyAttribute_kind_children ();
 
-  std::for_each (attrs.begin (),
-                 attrs.end (),
-                 boost::bind (&Readonly_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+    for (auto attr : attrs)
+      attr.Accept (*this);
 
   // If this component is a <subtype> of another component, there is a
   // chance that it is located in another file. If this is the case
@@ -348,11 +308,8 @@ Visit_Event (const PICML::Event & evt)
   this->Visit_NamedType (evt);
 
   std::vector <PICML::Member> members = evt.Member_children ();
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto member : members)
+    member.Accept (*this);
 }
 
 //
@@ -363,11 +320,8 @@ Visit_Aggregate (const PICML::Aggregate & a)
 {
   // Visit the members in this aggregate.
   std::vector <PICML::Member> members = a.Member_children ();
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&PICML::Member::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto member : members)
+    member.Accept (*this);
 
   PICML::Key key = a.Key_child ();
 

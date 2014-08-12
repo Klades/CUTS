@@ -1,3 +1,58 @@
+Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Env_Visitor_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_IDL_Graph.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Impl_Graph_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_Workspace_Generator_T.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/BE_algorithm.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Context_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/IDL_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Project_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc.disable:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/cpp/Component_Impl_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/opensplice/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/rtidds/Stub_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Input_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Output_Stream_Source_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Stub_Header_Generator.cpp:
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/tcpip/Stub_Source_Generator.cpp:
+
+          Started fixing vc11 compilation errors.  Disabled project for now.
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation.idl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_CUTS_Project.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Env_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_IDL_Graph_Builder.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Graph_Builder_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Workspace_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_algorithm.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Context_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Header_Include_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Servant_Header_Include_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/modelgen.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/modelgen.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/modelgen.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
+
+          Fixed compilation errors on vc11.
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+
+          Removed this file.
+
 Tue Aug  5 19:36:29 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_coredx.mpb:

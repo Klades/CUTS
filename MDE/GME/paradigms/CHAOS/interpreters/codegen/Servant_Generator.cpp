@@ -240,11 +240,8 @@ void Servant_Generator::
 Visit_RootFolder (const CHAOS::RootFolder & folder)
 {
   std::set <CHAOS::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
-  std::for_each (folders.begin (),
-                 folders.end (),
-                 boost::bind (&CHAOS::InterfaceDefinitions::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto folder : folders)
+    folder.Accept (*this);
 }
 
 //
@@ -254,12 +251,8 @@ void Servant_Generator::
 Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
 {
   std::set <CHAOS::File> files = folder.File_children ();
-
-  std::for_each (files.begin (),
-                 files.end (),
-                 boost::bind (&CHAOS::File::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto file : files)
+    file.Accept (*this);
 }
 
 //
@@ -379,21 +372,15 @@ void Servant_Generator::Visit_FilePackage_i (const Udm::Object & obj)
   std::set <CHAOS::Component> components =
     Udm::ChildrenAttr <CHAOS::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (components.begin (),
-                 components.end (),
-                 boost::bind (&CHAOS::Component::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto component : components)
+    component.Accept (*this);
 
   // Visit the remaining packages.
   std::set <CHAOS::Package> packages =
     Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (packages.begin (),
-                 packages.end (),
-                 boost::bind (&CHAOS::Package::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto package : packages)
+    package.Accept (*this);
 }
 
 //
@@ -446,31 +433,22 @@ Visit_Component (const CHAOS::Component & component)
 
   Servant_Base_Member_Init bmi (this->source_, this->servant_);
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (bmi)));
+  for (auto input : inputs)
+    input.Accept (bmi);
 
   this->source_
     << "{";
 
   Port_Binder port_binder (this->source_);
 
-  std::for_each (outputs.begin (),
-                 outputs.end (),
-                 boost::bind (&CHAOS::OutEventPort::Accept,
-                              _1,
-                              boost::ref (port_binder)));
+  for (auto output : outputs)
+    output.Accept (port_binder);
 
   this->source_
     << std::endl;
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (port_binder)));
+  for (auto input : inputs)
+    input.Accept (port_binder);
 
   // Register the CORBA value types.
   Register_Value_Type register_value_type (this->source_);
@@ -479,20 +457,14 @@ Visit_Component (const CHAOS::Component & component)
     << std::endl
     << CUTS_BE_CPP::single_line_comment ("register CORBA value types");
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (register_value_type)));
+  for (auto input : inputs)
+    input.Accept (register_value_type);
 
   // Count the number of TCP/IP input ports.
   TCPIP_Port_Count tcpip_port_count;
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (tcpip_port_count)));
+  for (auto input : inputs)
+    input.Accept (tcpip_port_count);
 
   this->source_
     << std::endl
@@ -506,11 +478,8 @@ Visit_Component (const CHAOS::Component & component)
 
   Virtual_Table_Init vti (this->source_, this->servant_);
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (vti)));
+  for (auto input : inputs)
+    input.Accept (vti);
 
   this->source_
     << "}"
@@ -519,17 +488,12 @@ Visit_Component (const CHAOS::Component & component)
     << "{"
     << "}";
 
-  std::for_each (outputs.begin (),
-                 outputs.end (),
-                 boost::bind (&CHAOS::OutEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto output : outputs)
+    output.Accept (*this);
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto input : inputs)
+    input.Accept (*this);
+
   this->header_
     << "};";
 

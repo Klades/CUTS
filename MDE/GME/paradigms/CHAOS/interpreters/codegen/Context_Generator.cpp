@@ -77,11 +77,8 @@ Visit_Component (const CHAOS::Component & component)
     << "}";
 
   std::vector <CHAOS::OutEventPort> ports = component.OutEventPort_kind_children ();
-  std::for_each (ports.begin (),
-                 ports.end (),
-                 boost::bind (&CHAOS::OutEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto port : ports)
+    port.Accept (*this);
 
   this->header_
     << "};";

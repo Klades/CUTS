@@ -161,11 +161,8 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
     this->monoimpl_ = monoimpl;
     std::set <PICML::MonolithprimaryArtifact> artifacts = monoimpl.dstMonolithprimaryArtifact ();
 
-    std::for_each (artifacts.begin (),
-                   artifacts.end (),
-                   boost::bind (&PICML::MonolithprimaryArtifact::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto artifact : artifacts)
+      artifact.Accept (*this);
 
     //PICML::ComponentFactory factory;
 

@@ -57,21 +57,13 @@ public:
   {
     // Visit all the input event ports.
     std::vector <CHAOS::InEventPort> inputs = component.InEventPort_kind_children ();
-
-    std::for_each (inputs.begin (),
-                   inputs.end (),
-                   boost::bind (&CHAOS::InEventPort::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto input : inputs)
+      input.Accept (*this);
 
     // Visit all the ouptut event ports.
     std::vector <CHAOS::OutEventPort> outputs = component.OutEventPort_kind_children ();
-
-    std::for_each (outputs.begin (),
-                   outputs.end (),
-                   boost::bind (&CHAOS::OutEventPort::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto output : outputs)
+      output.Accept (*this);
   }
 
   virtual void Visit_InEventPort (const CHAOS::InEventPort & port)
@@ -116,11 +108,8 @@ private:
     std::vector <CHAOS::Package> packages =
       Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&CHAOS::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
 
     // Does this level contain any events.
     std::vector <CHAOS::Event> events =
@@ -133,11 +122,8 @@ private:
     std::vector <CHAOS::Component> components =
       Udm::ChildrenAttr <CHAOS::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (components.begin (),
-                   components.end (),
-                   boost::bind (&CHAOS::Component::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto component : components)
+      component.Accept (*this);
   }
 
   std::ostream & source_;
@@ -177,11 +163,8 @@ Visit_RootFolder (const CHAOS::RootFolder & folder)
 {
   std::vector <CHAOS::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
 
-  std::for_each (folders.begin (),
-                 folders.end (),
-                 boost::bind (&CHAOS::InterfaceDefinitions::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto folder : folders)
+    folder.Accept (*this);
 }
 
 //
@@ -191,10 +174,8 @@ void Stub_Generator::
 Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
 {
   std::vector <CHAOS::File> files = folder.File_children ();
-
-  std::for_each (files.begin (),
-                 files.end (),
-                 boost::bind (&CHAOS::File::Accept, _1, boost::ref (*this)));
+  for (auto file : files)
+    file.Accept (*this);
 }
 
 //
@@ -275,11 +256,8 @@ Visit_File (const CHAOS::File & file)
 
     Event_Traits_Generator traits_generator (this->header_, this->export_macro_);
 
-    std::for_each (this->events_.begin (),
-                   this->events_.end (),
-                   boost::bind (&CHAOS::Event::Accept,
-                                _1,
-                                boost::ref (traits_generator)));
+    for (auto event : this->events_)
+      event.Accept (traits_generator);
 
     this->header_
       << "#endif  // " << hash_define << std::endl
@@ -322,35 +300,23 @@ Visit_PackageFile_i  (const Udm::Object & obj)
 {
   // Gather all the necessary elements.
   std::set <CHAOS::Event> events = Udm::ChildrenAttr <CHAOS::Event> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&CHAOS::Event::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto event : events)
+    event.Accept (*this);
 
   // Write the output stream generators.
   std::set <CHAOS::Aggregate> aggrs = Udm::ChildrenAttr <CHAOS::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (aggrs.begin (),
-                 aggrs.end (),
-                 boost::bind (&CHAOS::Aggregate::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto aggr : aggrs)
+    aggr.Accept (*this);
 
   std::set <CHAOS::Collection> colls = Udm::ChildrenAttr <CHAOS::Collection> (obj.__impl (), Udm::NULLCHILDROLE);
-  std::for_each (colls.begin (),
-                 colls.end (),
-                 boost::bind (&CHAOS::Collection::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto coll : colls)
+    coll.Accept (*this);
 
   std::set <CHAOS::Package> packages =
     Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (packages.begin (),
-                 packages.end (),
-                 boost::bind (&CHAOS::Package::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto package : packages)
+    package.Accept (*this);
 }
 
 //
@@ -377,9 +343,8 @@ Visit_Event (const CHAOS::Event & event)
 
   Input_Stream_Generator input_stream (this->source_, false);
 
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&CHAOS::Member::Accept, _1, boost::ref (input_stream)));
+  for (auto member : members)
+    member.Accept (input_stream);
 
   this->source_
     << "return true;"
@@ -389,9 +354,8 @@ Visit_Event (const CHAOS::Event & event)
 
   Output_Stream_Generator output_stream (this->source_, false);
 
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&CHAOS::Member::Accept, _1, boost::ref (output_stream)));
+  for (auto member : members)
+    member.Accept (output_stream);
 
   this->source_
     << "return true;"
@@ -423,9 +387,8 @@ Visit_Aggregate (const CHAOS::Aggregate & aggr)
     << "{";
 
   Input_Stream_Generator input_stream (this->source_, true);
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&CHAOS::Member::Accept, _1, boost::ref (input_stream)));
+  for (auto member : members)
+    member.Accept (input_stream);
 
   this->source_
     << "return true;"
@@ -434,9 +397,8 @@ Visit_Aggregate (const CHAOS::Aggregate & aggr)
     << "{";
 
   Output_Stream_Generator output_stream (this->source_, true);
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&CHAOS::Member::Accept, _1, boost::ref (output_stream)));
+  for (auto member : members)
+    member.Accept (output_stream);
 
   this->source_
     << "return true;"

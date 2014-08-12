@@ -39,11 +39,8 @@ const CHAOS::ComponentImplementationContainer & container)
   std::set <CHAOS::MonolithicImplementation> monoimpls =
     container.MonolithicImplementation_kind_children ();
 
-  std::for_each (monoimpls.begin (),
-                 monoimpls.end (),
-                 boost::bind (&CHAOS::MonolithicImplementation::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto monoimpl : monoimpls)
+    monoimpl.Accept (*this);
 }
 
 //

@@ -97,13 +97,8 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     this->ctx_.project_
       << "  libs += " << container_name << "_exec";
 
-    std::for_each (node.references_.begin (),
-                   node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "",
-                                "_stub"));
+    for (auto ref : node.references_)
+      this->generate_listing (ref, "", "_stub");
 
     this->ctx_.project_
       << std::endl
@@ -154,13 +149,8 @@ generate_listing (const CUTS_BE_IDL_Node * node,
     << " \\" << std::endl
     << "    " << prefix << node->name_ << postfix;
 
-  std::for_each (node->references_.begin (),
-                 node->references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              prefix,
-                              postfix));
+  for (auto ref : node->references_)
+    this->generate_listing (ref, prefix, postfix);
 }
 
 //
@@ -439,12 +429,8 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
       << "  // listing of project dependencies" << std::endl
       << "  after        +=";
 
-    std::for_each (node.references_.begin (),
-                   node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "_stub"));
+    for (auto ref : node.references_)
+      this->generate_listing (ref, "_stub");
 
     // Generate the import libraries for this project. This will be
     // all client project of the references for this node. The will
@@ -457,12 +443,8 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  libs  +=";
 
-    std::for_each (node.references_.begin (),
-                   node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "_stub"));
+    for (auto ref : node.references_)
+      this->generate_listing (ref, "_stub");
 
     this->ctx_.project_
       << std::endl;
@@ -541,12 +523,8 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  after +=";
 
-    std::for_each (node.references_.begin (),
-                   node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "_skel"));
+    for (auto ref : node.references_)
+      this->generate_listing (ref, "_skel");
 
     // Generate the import libraries for this project. This will be
     // all client project of the references for this node. The will
@@ -559,21 +537,13 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  libs  +=";
 
-    std::for_each (node.references_.begin (),
-                   node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "_skel"));
+    for (auto ref : node.references_)
+      this->generate_listing (ref, "_skel");
 
     this->visited_nodes_.clear ();
 
-    std::for_each (node.references_.begin (),
-                   node.references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                "_stub"));
+    for (auto ref : node.references_)
+      this->generate_listing (ref, "_stub");
 
     this->ctx_.project_
       << std::endl;
@@ -659,12 +629,8 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     << "  after += " << name << "_EIDL_Gen " << name << "_stub";
 
-  std::for_each (node.references_.begin (),
-                 node.references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_stub"));
+  for (auto ref : node.references_)
+    this->generate_listing (ref, "_stub");
 
   this->visited_nodes_.clear ();
   this->ctx_.project_
@@ -672,12 +638,8 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
     << std::endl
     << "  libs  += " << name << "_stub";
 
-  std::for_each (node.references_.begin (),
-                 node.references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_stub"));
+  for (auto ref : node.references_)
+    this->generate_listing (ref, "_stub");
 
   this->ctx_.project_
     << std::endl
@@ -727,12 +689,8 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
   // Generate the STUB dependencies for this node.
   this->visited_nodes_.clear ();
 
-  std::for_each (node.references_.begin (),
-                 node.references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_stub"));
+  for (auto ref : node.references_)
+    this->generate_listing (ref, "_stub");
 
   this->ctx_.project_
     << std::endl
@@ -748,20 +706,12 @@ generate_svnt_project (const CUTS_BE_IDL_Node & node)
     << name << "_skel";
 
   this->visited_nodes_.clear ();
-  std::for_each (node.references_.begin (),
-                 node.references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_stub"));
+  for (auto ref : node.references_)
+    this->generate_listing (ref, "_stub");
 
   this->visited_nodes_.clear ();
-  std::for_each (node.references_.begin (),
-                 node.references_.end (),
-                 boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                              this,
-                              _1,
-                              "_skel"));
+  for (auto ref : node.references_)
+    this->generate_listing (ref, "_skel");
 
   this->ctx_.project_
     << std::endl
@@ -805,12 +755,8 @@ generate_listing (const CUTS_BE_IDL_Node * node, const char * type)
       << " \\" << std::endl
       << "    " << node->name_ << type;
 
-    std::for_each (node->references_.begin (),
-                   node->references_.end (),
-                   boost::bind (&CUTS_BE_Project_Write_T::generate_listing,
-                                this,
-                                _1,
-                                type));
+    for (auto ref : node->references_)
+      this->generate_listing (ref, type);
   }
 }
 

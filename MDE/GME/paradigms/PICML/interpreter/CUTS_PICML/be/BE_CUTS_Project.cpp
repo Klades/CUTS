@@ -82,8 +82,8 @@ Visit_RootFolder (const PICML::RootFolder & root)
   // locate it, then we will create a new one.
   PICML::InterfaceDefinitions cutsidefs;
 
-  if (Udm::create_if_not (root, cutsidefs,
-      Udm::contains (boost::bind (std::equal_to <std::string> (),
+  if (CUTS::Udm::create_if_not (root, cutsidefs,
+      CUTS::Udm::contains (boost::bind (std::equal_to <std::string> (),
                                   CUTS_INTERFACE_DEFS,
                                   boost::bind (&PICML::InterfaceDefinitions::name, _1)))))
   {
@@ -96,8 +96,8 @@ Visit_RootFolder (const PICML::RootFolder & root)
   // will create a new one.
   PICML::PredefinedTypes ptypes;
 
-  if (Udm::create_if_not (root, ptypes,
-      Udm::contains (boost::bind (std::equal_to <std::string> (),
+  if (CUTS::Udm::create_if_not (root, ptypes,
+      CUTS::Udm::contains (boost::bind (std::equal_to <std::string> (),
                                   CUTS_PREDEFINED_TYPES,
                                   boost::bind (&PICML::PredefinedTypes::name, _1)))))
   {
@@ -115,8 +115,8 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & idefs)
 {
   // Locate the CUTS IDL file. If we are not able to find it then we
   // need to create a new one.
-  if (Udm::create_if_not (idefs, this->cuts_file_,
-      Udm::contains (boost::bind (std::equal_to <std::string> (),
+  if (CUTS::Udm::create_if_not (idefs, this->cuts_file_,
+      CUTS::Udm::contains (boost::bind (std::equal_to <std::string> (),
                                   CUTS_IDL_FILENAME,
                                   boost::bind (&PICML::File::name, _1)))))
   {
@@ -161,8 +161,8 @@ void CUTS_BE_CUTS_Project::Visit_File (const PICML::File & file)
 {
   PICML::Package package;
 
-  if (Udm::create_if_not (file, package,
-      Udm::contains (boost::bind (std::equal_to <std::string> (),
+  if (CUTS::Udm::create_if_not (file, package,
+      CUTS::Udm::contains (boost::bind (std::equal_to <std::string> (),
                                   CUTS_PACKAGE_NAME,
                                   boost::bind (&PICML::Package::name, _1)))))
   {
@@ -177,8 +177,8 @@ void CUTS_BE_CUTS_Project::Visit_File (const PICML::File & file)
 //
 void CUTS_BE_CUTS_Project::Visit_Package (const PICML::Package & package)
 {
-  if (Udm::create_if_not (package, this->testing_service_,
-      Udm::contains (boost::bind (std::equal_to <std::string> (),
+  if (CUTS::Udm::create_if_not (package, this->testing_service_,
+      CUTS::Udm::contains (boost::bind (std::equal_to <std::string> (),
                                   CUTS_TESTING_SERVICE_OBJECT,
                                   boost::bind (&PICML::Object::name, _1)))))
   {

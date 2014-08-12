@@ -119,11 +119,8 @@ void Servant_Generator::
 Visit_RootFolder (const PICML::RootFolder & folder)
 {
   std::set <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
-  std::for_each (folders.begin (),
-                 folders.end (),
-                 boost::bind (&PICML::InterfaceDefinitions::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto folder : folders)
+    folder.Accept (*this);
 }
 
 //
@@ -133,11 +130,8 @@ void Servant_Generator::
 Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
 {
   std::vector <PICML::File> files = folder.File_children ();
-  std::for_each (files.begin (),
-                 files.end (),
-                 boost::bind (&PICML::File::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto file : files)
+    file.Accept (*this);
 }
 
 //
@@ -255,21 +249,15 @@ Visit_FilePackage_i (const Udm::Object & obj)
   std::set <PICML::Component> components =
     Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (components.begin (),
-                 components.end (),
-                 boost::bind (&PICML::Component::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto component : components)
+    component.Accept (*this);
 
   // Visit the remaining packages.
   std::set <PICML::Package> packages =
     Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (packages.begin (),
-                 packages.end (),
-                 boost::bind (&PICML::Package::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto package : packages)
+    package.Accept (*this);
 }
 
 //
@@ -324,31 +312,22 @@ Visit_Component (const PICML::Component & component)
 
   Servant_Base_Member_Init bmi (this->source_, this->servant_);
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&PICML::InEventPort::Accept,
-                              _1,
-                              boost::ref (bmi)));
+  for (auto input : inputs)
+    input.Accept (bmi);
 
   this->source_
     << "{";
 
   Port_Binder port_binder (this->source_);
 
-  std::for_each (outputs.begin (),
-                 outputs.end (),
-                 boost::bind (&PICML::OutEventPort::Accept,
-                              _1,
-                              boost::ref (port_binder)));
+  for (auto output : outputs)
+    output.Accept (port_binder);
 
   this->source_
     << std::endl;
 
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&PICML::InEventPort::Accept,
-                              _1,
-                              boost::ref (port_binder)));
+  for (auto input : inputs)
+    input.Accept (port_binder);
 
   this->source_
     << "}"
@@ -361,11 +340,8 @@ Visit_Component (const PICML::Component & component)
   typedef std::vector <PICML::Attribute> Attribute_Set;
   Attribute_Set attrs = component.Attribute_kind_children ();
 
-  std::for_each (attrs.begin (),
-                 attrs.end (),
-                 boost::bind (&PICML::Attribute::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto attr : attrs)
+    attr.Accept (*this);
 
   // Visit all the ReadonlyAttribute elements of the <component>.
   typedef std::vector <PICML::ReadonlyAttribute> ReadonlyAttribute_Set;
@@ -387,18 +363,13 @@ Visit_Component (const PICML::Component & component)
   PICML::Component (component).Accept (set_attribute_gen);
 
   // Write methods for each of the event sources.
-  std::for_each (outputs.begin (),
-                 outputs.end (),
-                 boost::bind (&PICML::OutEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto output : outputs)
+    output.Accept (*this);
 
   // Write methods for each of the event sinks.
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&PICML::InEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto input : inputs)
+    input.Accept (*this);
+
   this->header_
     << "};";
 

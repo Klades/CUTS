@@ -30,11 +30,8 @@ Visit_RootFolder (const CHAOS::RootFolder & root)
   typedef std::set <CHAOS::InterfaceDefinitions> IDefs_Set;
   IDefs_Set defs = root.InterfaceDefinitions_kind_children ();
 
-  std::for_each (defs.begin (),
-                 defs.end (),
-                 boost::bind (&IDefs_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto def : defs)
+    def.Accept (*this);
 }
 
 //
@@ -46,11 +43,8 @@ Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
   typedef std::set <CHAOS::File> File_Set;
   File_Set files = folder.File_kind_children ();
 
-  std::for_each (files.begin (),
-                 files.end (),
-                 boost::bind (&File_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto file : files)
+    file.Accept (*this);
 }
 
 //
@@ -105,11 +99,8 @@ visit_file_and_package_contents (const Udm::Object & obj)
   if (!events.empty ())
     this->current_node_->has_events_ = true;
 
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&Event_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto event : events)
+    event.Accept (*this);
 
   // Visit all the objects at this level.
   typedef std::vector <CHAOS::Object> Object_Set;
@@ -118,11 +109,8 @@ visit_file_and_package_contents (const Udm::Object & obj)
     Udm::ChildrenAttr <CHAOS::Object> (
     obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (objects.begin (),
-                 objects.end (),
-                 boost::bind (&Object_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto object : objects)
+    object.Accept (*this);
 
   // Visit all the components at this level.
   typedef std::vector <CHAOS::Component> Component_Set;
@@ -131,11 +119,8 @@ visit_file_and_package_contents (const Udm::Object & obj)
     Udm::ChildrenAttr <CHAOS::Component> (
     obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (components.begin (),
-                 components.end (),
-                 boost::bind (&Component_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto component : components)
+    component.Accept (*this);
 
   // Visit all the packages at this level.
   typedef std::set <CHAOS::Package> Package_Set;
@@ -144,11 +129,8 @@ visit_file_and_package_contents (const Udm::Object & obj)
     Udm::ChildrenAttr <CHAOS::Package> (
     obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (packages.begin (),
-                 packages.end (),
-                 boost::bind (&Package_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto package : packages)
+    package.Accept (*this);
 }
 
 //
@@ -170,51 +152,36 @@ Visit_Component (const CHAOS::Component & component)
   typedef std::vector <CHAOS::OutEventPort> OutEventPort_Set;
   OutEventPort_Set oep_set = component.OutEventPort_kind_children ();
 
-  std::for_each (oep_set.begin (),
-                 oep_set.end (),
-                 boost::bind (&OutEventPort_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto oep : oep_set)
+    oep.Accept (*this);
 
   // Determine if the component has input events.
   typedef std::vector <CHAOS::InEventPort> InEventPort_Set;
   InEventPort_Set iep_set = component.InEventPort_kind_children ();
 
-  std::for_each (iep_set.begin (),
-                 iep_set.end (),
-                 boost::bind (&InEventPort_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto iep : iep_set)
+    iep.Accept (*this);
 
   // Determine if the component has any receptacles.
   typedef std::vector <CHAOS::RequiredRequestPort> Receptacle_Set;
   Receptacle_Set receptacles = component.RequiredRequestPort_kind_children ();
 
-  std::for_each (receptacles.begin (),
-                 receptacles.end (),
-                 boost::bind (&Receptacle_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto receptacle : receptacles)
+    receptacle.Accept (*this);
 
   // Determine if the component has any facets.
   typedef std::vector <CHAOS::ProvidedRequestPort> Facet_Set;
   Facet_Set facets = component.ProvidedRequestPort_kind_children ();
 
-  std::for_each (facets.begin (),
-                 facets.end (),
-                 boost::bind (&Facet_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto facet : facets)
+    facet.Accept (*this);
 
   // Determine the dependency for supported interfaces.
   typedef std::vector <CHAOS::Supports> Supports_Set;
   Supports_Set supports = component.Supports_children ();
 
-  std::for_each (supports.begin (),
-                 supports.end (),
-                 boost::bind (&Supports_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto support : supports)
+    support.Accept (*this);
 
   // Determine the dependency for attributes. We get the read-only
   // kind since it will return both read-only and read-write
@@ -222,11 +189,8 @@ Visit_Component (const CHAOS::Component & component)
   typedef std::vector <CHAOS::ReadonlyAttribute> Readonly_Set;
   Readonly_Set attrs = component.ReadonlyAttribute_kind_children ();
 
-  std::for_each (attrs.begin (),
-                 attrs.end (),
-                 boost::bind (&Readonly_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto attr : attrs)
+    attr.Accept (*this);
 
   // If this component is a <subtype> of another component, there is a
   // chance that it is located in another file. If this is the case

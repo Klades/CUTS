@@ -41,11 +41,8 @@ const CHAOS::ComponentImplementationContainer & container)
   MonoImpl_Set monoimpls = container.MonolithicImplementation_kind_children ();
 
   // Visit all the monolithic implementations.
-  std::for_each (monoimpls.begin (),
-                 monoimpls.end (),
-                 boost::bind (&MonoImpl_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto monoimpl : monoimpls)
+    monoimpl.Accept (*this);
 }
 
 //
@@ -76,11 +73,8 @@ Visit_MonolithicImplementation (const CHAOS::MonolithicImplementation & monoimpl
   typedef std::set <CHAOS::MonolithprimaryArtifact> PrimaryArtifact_Set;
   PrimaryArtifact_Set primaries = monoimpl.dstMonolithprimaryArtifact ();
 
-  std::for_each (primaries.begin (),
-                 primaries.end (),
-                 boost::bind (&PrimaryArtifact_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto primary : primaries)
+    primary.Accept (*this);
 }
 
 //
@@ -134,11 +128,8 @@ Visit_Component (const CHAOS::Component & component)
   typedef std::vector <CHAOS::WorkerType> WorkerType_Set;
   WorkerType_Set workers = component.WorkerType_kind_children ();
 
-  std::for_each (workers.begin (),
-                 workers.end (),
-                 boost::bind (&WorkerType_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto worker : workers)
+    worker.Accept (*this);
 }
 
 //

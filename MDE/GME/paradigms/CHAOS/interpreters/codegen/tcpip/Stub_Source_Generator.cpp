@@ -40,11 +40,8 @@ Visit_RootFolder (const CHAOS::RootFolder & folder)
 {
   std::set <CHAOS::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
 
-  std::for_each (folders.begin (),
-                 folders.end (),
-                 boost::bind (&CHAOS::InterfaceDefinitions::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto folder : folders)
+    folder.Accept (*this);
 }
 
 //
@@ -55,9 +52,8 @@ Visit_InterfaceDefinitions (const CHAOS::InterfaceDefinitions & folder)
 {
   std::set <CHAOS::File> files = folder.File_children ();
 
-  std::for_each (files.begin (),
-                 files.end (),
-                 boost::bind (&CHAOS::File::Accept, _1, boost::ref (*this)));
+  for (auto file : files)
+    file.Accept (*this);
 }
 
 //
@@ -128,37 +124,28 @@ Visit_PackageFile_i  (const Udm::Object & obj)
   std::set <CHAOS::Collection> colls = Udm::ChildrenAttr <CHAOS::Collection> (obj.__impl (), Udm::NULLCHILDROLE);
 
   // Write the output stream generators.
-  std::for_each (aggrs.begin (),
-                 aggrs.end (),
-                 boost::bind (&CHAOS::Aggregate::Accept, _1, osg));
+  for (auto aggr : aggrs)
+    aggr.Accept (osg);
 
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&CHAOS::Event::Accept, _1, osg));
+  for (auto event : events)
+    event.Accept (osg);
 
-  std::for_each (colls.begin (),
-                 colls.end (),
-                 boost::bind (&CHAOS::Collection::Accept, _1, osg));
+  for (auto coll : colls)
+    coll.Accept (osg);
 
   // Write the input stream generators.
-  std::for_each (aggrs.begin (),
-                 aggrs.end (),
-                 boost::bind (&CHAOS::Aggregate::Accept, _1, isg));
+  for (auto aggr : aggrs)
+    aggr.Accept (isg);
 
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&CHAOS::Event::Accept, _1, isg));
+  for (auto event : events)
+    event.Accept (isg);
 
-  std::for_each (colls.begin (),
-                 colls.end (),
-                 boost::bind (&CHAOS::Collection::Accept, _1, isg));
+  for (auto coll : colls)
+    coll.Accept (isg);
 
   std::set <CHAOS::Package> packages =
     Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-  std::for_each (packages.begin (),
-                 packages.end (),
-                 boost::bind (&CHAOS::Package::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto package : packages)
+    package.Accept (*this);
 }

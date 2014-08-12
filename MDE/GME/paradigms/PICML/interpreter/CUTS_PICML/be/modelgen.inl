@@ -1,6 +1,8 @@
 // -*- C++ -*-
 // $Id$
 
+namespace CUTS
+{
 namespace Udm
 {
   //
@@ -58,4 +60,5 @@ namespace Udm
   {
     return contains_t <PRED> (predicate);
   }
+}
 }

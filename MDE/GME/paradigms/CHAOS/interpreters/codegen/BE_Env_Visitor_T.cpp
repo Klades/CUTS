@@ -33,8 +33,7 @@ Visit_Environment (const CHAOS::Environment & env)
   MultiInput_Set inputs = env.dstMultiInput ();
 
   CUTS_BE::visit <CONTEXT> (inputs,
-    boost::bind (&MultiInput_Set::value_type::Accept,
-    _1, boost::ref (*this)));
+    [&] (MultiInput_Set::value_type item) {item.Accept (*this);});
 }
 
 //
@@ -47,7 +46,7 @@ Visit_MultiInput (const CHAOS::MultiInput & input)
   CHAOS::MultiInputAction action = input.dstMultiInput_end ();
 
   CUTS_BE::visit <CONTEXT> (action,
-    boost::bind (&CHAOS::MultiInputAction::Accept, _1, boost::ref (*this)));
+    [&] (CHAOS::MultiInputAction item) {item.Accept (*this);});
 }
 
 //
@@ -64,7 +63,7 @@ Visit_MultiInputAction (const CHAOS::MultiInputAction & action)
   CHAOS::MultiInputAction mia (action);
 
   CUTS_BE::visit <CONTEXT> (mia,
-    boost::bind (&CHAOS::MultiInputAction::Accept, _1, boost::ref (exec_visitor)));
+    [&] (CHAOS::MultiInputAction item) {item.Accept (exec_visitor);});
 
   CUTS_BE_Environment_Method_End_T <CONTEXT> env_method_end_gen (this->context_);
   env_method_end_gen.generate (action);

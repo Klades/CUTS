@@ -119,11 +119,8 @@ generate_impl_project (const CUTS_BE_Impl_Node * node)
   // Now, we need to add all the stubs for this implementation to the
   // collection of <required_stubs_>. We will iterate over this collection
   // once we have finished all the implementation projects.
-  std::for_each (node->references_.begin (),
-                 node->references_.end (),
-                 boost::bind (&IDL_Node_Set::insert,
-                              boost::ref (this->required_stubs_),
-                              _1));
+  for (auto reference : node->references_)
+    this->required_stubs_.insert (reference);
 }
 
 //
@@ -184,9 +181,6 @@ generate_stub_project (const CUTS_BE_IDL_Node * node)
   workspace_include.generate (*node);
 
   // Generate all the project for this stub references.
-  std::for_each (node->references_.begin (),
-                 node->references_.end (),
-                 boost::bind (&CUTS_BE_Workspace_Generator_T::generate_stub_project,
-                              this,
-                              _1));
+  for (auto reference : node->references_)
+    this->generate_stub_project (reference);
 }

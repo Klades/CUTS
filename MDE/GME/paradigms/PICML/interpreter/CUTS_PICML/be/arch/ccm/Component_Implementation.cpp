@@ -9,9 +9,10 @@
 #include "In_Type_Generator.h"
 #include "Retn_Type_Generator.h"
 
+#include "boost/bind.hpp"
+
 #include "../../BE_Options.h"
 #include "../../lang/cpp/Component_Impl_Generator.h"
-#include "boost/bind.hpp"
 #include "Uml.h"
 
 /**
@@ -95,11 +96,8 @@ public:
   {
     std::set < PICML::WorkerType > workers = component.WorkerType_children ();
 
-    std::for_each (workers.begin (),
-                   workers.end (),
-                   boost::bind (&PICML::WorkerType::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto worker : workers)
+      worker.Accept (*this);
   }
 
   virtual void Visit_WorkerType (const PICML::WorkerType & wt)
@@ -285,20 +283,14 @@ generate (const PICML::MonolithicImplementation & impl,
   typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
   OutEventPort_Set outevents = component.OutEventPort_kind_children ();
 
-  std::for_each (outevents.begin (),
-                 outevents.end (),
-                 boost::bind (&PICML::OutEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto outevent : outevents)
+    outevent.Accept (*this);
 
   std::vector <PICML::ProvidedRequestPort> facets =
     component.ProvidedRequestPort_kind_children ();
 
-  std::for_each (facets.begin (),
-                 facets.end (),
-                 boost::bind (&PICML::ProvidedRequestPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto facet : facets)
+    facet.Accept (*this);
 
   std::string destructor = "~" + implname;
 
@@ -360,19 +352,14 @@ generate (const PICML::MonolithicImplementation & impl,
   std::vector <PICML::InEventPort> input_events = component.InEventPort_kind_children ();
 
   CUTS_BE_CPP::Initialize_Entity entity (this->ctx_.source_);
-  std::for_each (periodics.begin (),
-                 periodics.end (),
-                 boost::bind (&PICML::PeriodicEvent::Accept,
-                              _1,
-                              boost::ref (entity)));
+
+  for (auto periodic : periodics)
+    periodic.Accept (entity);
 
   if (this->ctx_.traits_->emulates_async ())
   {
-    std::for_each (input_events.begin (),
-                   input_events.end (),
-                   boost::bind (&PICML::InEventPort::Accept,
-                                _1,
-                                boost::ref (entity)));
+    for (auto event : input_events)
+      event.Accept (entity);
   }
 
   // Finish the constructor.
@@ -468,9 +455,8 @@ Visit_InputAction (const PICML::InputAction & action)
     << "&type::push_" << this->sink_name_ << "_i);"
     << "this->register_object (&this->" << varname << ");";
 
-  std::for_each (properties.begin (),
-                 properties.end (),
-                 boost::bind (&PICML::Property::Accept, _1, boost::ref (*this)));
+  for (auto property : properties)
+    property.Accept (*this);
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::

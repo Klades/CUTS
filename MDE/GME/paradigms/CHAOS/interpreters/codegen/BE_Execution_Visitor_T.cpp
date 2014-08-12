@@ -107,7 +107,7 @@ generate (const CHAOS::SingleInputBase & base)
   if (input != Udm::null)
   {
     CUTS_BE::visit <CONTEXT> (input,
-      boost::bind (&CHAOS::Input::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::Input item) {item.Accept (*this);});
   }
 }
 
@@ -125,8 +125,7 @@ generate (const CHAOS::MultiInputBase & base)
   if (!inputs.empty ())
   {
     CUTS_BE::visit <CONTEXT> (inputs,
-      boost::bind (&MultiInput_Set::value_type::Accept,
-      _1, boost::ref (*this)));
+      [&] (MultiInput_Set::value_type item) {item.Accept (*this);});
   }
 }
 
@@ -141,7 +140,7 @@ Visit_Input (const CHAOS::Input & input)
     CHAOS::InputAction::Cast (input.dstInput_end ());
 
   CUTS_BE::visit <CONTEXT> (action,
-    boost::bind (&CHAOS::InputAction::Accept, _1, boost::ref (*this)));
+    [&] (CHAOS::InputAction item) {item.Accept (*this);});
 }
 
 
@@ -155,7 +154,7 @@ Visit_MultiInput (const CHAOS::MultiInput & input)
   CHAOS::MultiInputAction action = input.dstMultiInput_end ();
 
   CUTS_BE::visit <CONTEXT> (action,
-    boost::bind (&CHAOS::MultiInputAction::Accept, _1, boost::ref (*this)));
+    [&] (CHAOS::MultiInputAction item) {item.Accept (*this);});
 }
 
 //
@@ -174,7 +173,7 @@ Visit_InputAction (const CHAOS::InputAction & action)
   if (input_effect != Udm::null)
   {
     CUTS_BE::visit <CONTEXT> (input_effect,
-      boost::bind (&CHAOS::InputEffect::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::InputEffect item) {item.Accept (*this);});
   }
 
   // Remove the <action> from the stack since we have
@@ -198,7 +197,7 @@ Visit_MultiInputAction (const CHAOS::MultiInputAction & action)
   if (input_effect != Udm::null)
   {
     CUTS_BE::visit <CONTEXT> (input_effect,
-      boost::bind (&CHAOS::InputEffect::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::InputEffect item) {item.Accept (*this);});
   }
 
   // Remove the <action> from the stack since we have
@@ -261,28 +260,28 @@ Visit_StateBase (const CHAOS::StateBase & base)
     CHAOS::State state = CHAOS::State::Cast (base);
 
     CUTS_BE::visit <CONTEXT> (state,
-      boost::bind (&CHAOS::State::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::State item) {item.Accept (*this);});
   }
   else if (type_name == CHAOS::BranchState::meta)
   {
     CHAOS::BranchState branch = CHAOS::BranchState::Cast (base);
 
     CUTS_BE::visit <CONTEXT> (branch,
-      boost::bind (&CHAOS::BranchState::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::BranchState item) {item.Accept (*this);});
   }
   else if (type_name == CHAOS::DoWhileState::meta)
   {
     CHAOS::DoWhileState do_while (CHAOS::DoWhileState::Cast (base));
 
     CUTS_BE::visit <CONTEXT> (do_while,
-      boost::bind (&CHAOS::DoWhileState::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::DoWhileState item) {item.Accept (*this);});
   }
   else if (type_name == CHAOS::WhileState::meta)
   {
     CHAOS::WhileState while_state (CHAOS::WhileState::Cast (base));
 
     CUTS_BE::visit <CONTEXT> (while_state,
-      boost::bind (&CHAOS::WhileState::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::WhileState item) {item.Accept (*this);});
   }
 }
 
@@ -422,7 +421,7 @@ Visit_State (const CHAOS::State & state)
   if (transition != Udm::null)
   {
     CUTS_BE::visit <CONTEXT> (transition,
-      boost::bind (&CHAOS::Transition::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::Transition item) {item.Accept (*this);});
   }
   else
   {
@@ -430,7 +429,7 @@ Visit_State (const CHAOS::State & state)
     CHAOS::TerminalTransition term = state.dstTerminalTransition ();
 
     CUTS_BE::visit <CONTEXT> (term,
-      boost::bind (&CHAOS::TerminalTransition::Accept, _1, boost::ref (*this)));
+      [&] (CHAOS::TerminalTransition item) {item.Accept (*this);});
   }
 }
 
@@ -453,7 +452,7 @@ Visit_BranchState (const CHAOS::BranchState & state)
   branches_begin_gen.generate (transitions.size ());
 
   CUTS_BE::visit <CONTEXT> (transitions,
-    boost::bind (&CHAOS::BranchTransition::Accept, _1, boost::ref (*this)));
+    [&] (CHAOS::BranchTransition item) {item.Accept (*this);});
 
   // Signal the backend we are starting a branch state.
   CUTS_BE_Branches_End_T <CONTEXT> branches_end_gen (this->context_);
@@ -623,8 +622,7 @@ Visit_Action (const CHAOS::Action & action)
     action_props_begin_gen.generate (properties.size ());
 
     CUTS_BE::visit <CONTEXT> (properties,
-      boost::bind (&Property_Set::value_type::Accept,
-      _1, boost::ref (*this)));
+      [&] (Property_Set::value_type item) {item.Accept (*this);});
 
     CUTS_BE_Action_Properties_End_T <CONTEXT> action_props_end_gen (this->context_);
     action_props_end_gen.generate ();
@@ -649,8 +647,7 @@ Visit_OutputAction (const CHAOS::OutputAction & action)
   Property_Set properties = action.Property_kind_children ();
 
   CUTS_BE::visit <CONTEXT> (properties,
-    boost::bind (&CUTS_BE_Execution_Visitor_T::Visit_OutputAction_Property,
-    boost::ref (*this), _1));
+    [&] (CHAOS::Property item) {this->Visit_OutputAction_Property (item);});
 
   CUTS_BE_OutputAction_End_T <CONTEXT> output_action_end (this->context_);
   output_action_end.generate (action);

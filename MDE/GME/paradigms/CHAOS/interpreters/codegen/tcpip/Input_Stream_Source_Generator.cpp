@@ -38,9 +38,8 @@ void Input_Stream_Source_Generator::Visit_Event (const CHAOS::Event & ev)
   std::set <CHAOS::Member> members = ev.Member_children ();
   Input_Stream_Event_Member_Generator emg (this->out_);
 
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&CHAOS::Member::Accept, _1, boost::ref (emg)));
+  for (auto member : members)
+    member.Accept (emg);
 
   this->out_ << "return stream.good_bit ();"
              << "}";
@@ -58,9 +57,8 @@ Visit_Aggregate (const CHAOS::Aggregate & aggr)
   Input_Stream_Aggr_Member_Generator amg (this->out_);
   std::set <CHAOS::Member> members = aggr.Member_children ();
 
-  std::for_each (members.begin (),
-                 members.end (),
-                 boost::bind (&CHAOS::Member::Accept, _1, boost::ref (amg)));
+  for (auto member : members)
+    member.Accept (amg);
 
   this->out_ << "return stream.good_bit ();"
              << "}";

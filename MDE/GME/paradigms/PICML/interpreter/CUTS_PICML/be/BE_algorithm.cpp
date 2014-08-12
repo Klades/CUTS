@@ -64,11 +64,9 @@ protected:
     std::set <PICML::Package> packages =
       Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&PICML::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
+
   }
 
 private:
@@ -121,11 +119,8 @@ protected:
     std::set <PICML::Package> packages =
       Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&PICML::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
   }
 
 private:
@@ -212,11 +207,8 @@ protected:
     std::set <PICML::Package> packages =
       Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&PICML::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
   }
 
 private:
@@ -280,21 +272,15 @@ protected:
     std::set <PICML::Aggregate> structs =
       Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (structs.begin (),
-                   structs.end (),
-                   boost::bind (&PICML::Aggregate::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto struct_target : structs)
+      struct_target.Accept (*this);
 
     // Visit the remaining packages.
     std::set <PICML::Package> packages =
       Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&PICML::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
   }
 
 private:
@@ -380,11 +366,8 @@ protected:
     std::set <PICML::Package> packages =
       Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&PICML::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
   }
 
 private:

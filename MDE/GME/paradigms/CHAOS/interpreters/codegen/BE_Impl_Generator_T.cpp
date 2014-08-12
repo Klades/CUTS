@@ -45,11 +45,8 @@ const CHAOS::ComponentImplementations & impls)
     CHAOS::ComponentImplementationContainer> containers =
     impls.ComponentImplementationContainer_children ();
 
-  std::for_each (containers.begin (),
-                 containers.end (),
-                 boost::bind (&CHAOS::ComponentImplementationContainer::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto container : containers)
+    container.Accept (*this);
 }
 
 //
@@ -69,11 +66,8 @@ const CHAOS::ComponentImplementationContainer & container)
   // as we can about the current component's implementation.
   CUTS_BE_PREPROCESSOR (CONTEXT)->preprocess (container);
 
-  std::for_each (impls.begin (),
-                 impls.end (),
-                 boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ComponentImplementation,
-                              this,
-                              _1));
+  for (auto impl : impls)
+    this->Visit_ComponentImplementation (impl);
 }
 
 //
@@ -171,11 +165,8 @@ Visit_MonolithicImplementation (const CHAOS::MonolithicImplementation & monoimpl
     this->monoimpl_ = monoimpl;
     std::set <CHAOS::MonolithprimaryArtifact> artifacts = monoimpl.dstMonolithprimaryArtifact ();
 
-    std::for_each (artifacts.begin (),
-                   artifacts.end (),
-                   boost::bind (&CHAOS::MonolithprimaryArtifact::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto artifact : artifacts)
+      artifact.Accept (*this);
 
     //CHAOS::ComponentFactory factory;
 
@@ -270,8 +261,7 @@ Visit_Component (const CHAOS::Component & component)
                     ro_attrs.begin (), ro_attrs.end ()),
                  boost::make_filter_iterator <ReadonlyAttribute_Type> (
                     ro_attrs.end (), ro_attrs.end ()),
-                 boost::bind (&ReadonlyAttribute_Set::value_type::Accept,
-                    _1, boost::ref (*this)));
+                 [&] (CHAOS::ReadonlyAttribute item) {item.Accept (*this);});
 
   // Get the environment for the component.
   CHAOS::Environment env = component.Environment_child ();
@@ -671,41 +661,29 @@ write_variables_i (const CHAOS::Component & component)
   typedef std::vector <CHAOS::Variable> Variable_Set;
   Variable_Set vars = component.Variable_kind_children ();
 
-  std::for_each (vars.begin (),
-                 vars.end (),
-                 boost::bind (&CHAOS::Variable::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto var : vars)
+    var.Accept (*this);
 
   // Write all the worker related variables.
   typedef std::vector <CHAOS::WorkerType> WorkerType_Set;
   WorkerType_Set workers = component.WorkerType_kind_children ();
 
-  std::for_each (workers.begin (),
-                 workers.end (),
-                 boost::bind (&CHAOS::WorkerType::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto worker : workers)
+    worker.Accept (*this);
 
   // Write the attribute variables.
   typedef std::vector <CHAOS::ReadonlyAttribute> ReadonlyAttribute_Set;
   ReadonlyAttribute_Set ro_attrs = component.ReadonlyAttribute_kind_children ();
 
-  std::for_each (ro_attrs.begin (),
-                 ro_attrs.end (),
-                 boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ReadonlyAttribute_Variable,
-                              this,
-                              _1));
+  for (auto ro_attr : ro_attrs)
+    this->Visit_ReadonlyAttribute_Variable (ro_attr);
 
   // Write the periodic event variables.
   typedef std::vector <CHAOS::PeriodicEvent> PeriodicEvent_Set;
   PeriodicEvent_Set periodics = component.PeriodicEvent_kind_children ();
 
-  std::for_each (periodics.begin (),
-                 periodics.end (),
-                 boost::bind (&CUTS_BE_Impl_Generator_T::Visit_PeriodicEvent_Variable,
-                              this,
-                              _1));
+  for (auto periodic : periodics)
+    this->Visit_PeriodicEvent_Variable (periodic);
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);

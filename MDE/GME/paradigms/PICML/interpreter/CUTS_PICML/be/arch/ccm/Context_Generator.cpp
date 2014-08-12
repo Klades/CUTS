@@ -59,11 +59,8 @@ Visit_Component (const PICML::Component & component)
     << "}";
 
   std::vector <PICML::OutEventPort> ports = component.OutEventPort_kind_children ();
-  std::for_each (ports.begin (),
-                 ports.end (),
-                 boost::bind (&PICML::OutEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto port : ports)
+    port.Accept (*this);
 
   this->header_
     << "};";

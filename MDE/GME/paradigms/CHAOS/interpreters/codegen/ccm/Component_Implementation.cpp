@@ -164,11 +164,8 @@ generate (const CHAOS::MonolithicImplementation & impl,
   typedef std::vector <CHAOS::OutEventPort> OutEventPort_Set;
   OutEventPort_Set outevents = component.OutEventPort_kind_children ();
 
-  std::for_each (outevents.begin (),
-                 outevents.end (),
-                 boost::bind (&CHAOS::OutEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto outevent : outevents)
+    outevent.Accept (*this);
 
   //for (OutEventPort_Set::iterator iter = outevents.begin ();
   //     iter != outevents.end ();
@@ -188,11 +185,8 @@ generate (const CHAOS::MonolithicImplementation & impl,
   std::vector <CHAOS::ProvidedRequestPort> facets =
     component.ProvidedRequestPort_kind_children ();
 
-  std::for_each (facets.begin (),
-                 facets.end (),
-                 boost::bind (&CHAOS::ProvidedRequestPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto facet : facets)
+    facet.Accept (*this);
 
   std::string destructor = "~" + implname;
 
@@ -251,18 +245,12 @@ generate (const CHAOS::MonolithicImplementation & impl,
     << "{";
 
   std::vector <CHAOS::InEventPort> events = component.InEventPort_kind_children ();
-  std::for_each (events.begin (),
-                 events.end (),
-                 boost::bind (&CHAOS::InEventPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto event : events)
+    event.Accept (*this);
 
   CUTS_BE_CPP::Initialize_Entity entity (this->ctx_.source_);
-  std::for_each (periodics.begin (),
-                 periodics.end (),
-                 boost::bind (&CHAOS::PeriodicEvent::Accept,
-                              _1,
-                              boost::ref (entity)));
+  for (auto periodic : periodics)
+    periodic.Accept (entity);
 
   // Finish the constructor.
   this->ctx_.source_
@@ -357,9 +345,8 @@ Visit_InputAction (const CHAOS::InputAction & action)
     << "&type::push_" << this->sink_name_ << "_i);"
     << "this->register_object (&this->" << varname << ");";
 
-  std::for_each (properties.begin (),
-                 properties.end (),
-                 boost::bind (&CHAOS::Property::Accept, _1, boost::ref (*this)));
+  for (auto property : properties)
+    property.Accept (*this);
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::

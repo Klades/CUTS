@@ -82,11 +82,8 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
     typedef std::set <PICML::MonolithprimaryArtifact> PrimaryArtifact_Set;
     PrimaryArtifact_Set primaries = monoimpl.dstMonolithprimaryArtifact ();
 
-    std::for_each (primaries.begin (),
-                   primaries.end (),
-                   boost::bind (&PrimaryArtifact_Set::value_type::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto primary : primaries)
+      primary.Accept (*this);
   }
 }
 

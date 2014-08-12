@@ -163,9 +163,12 @@ invoke_ex (GAME::Mga::Project project,
     }
 
     // Save the current selections for next time.
-    GAME::Mga::Project_Settings settings (project, "CUTS/CodeGeneration");
-    settings.set_value ("OutputPath", this->output_);
-    settings.set_value ("Backend", this->selected_backend_);
+    // Current bug with GAME prevents saving project settings.
+    // Initalizing ctor for the Folder_Impl isn't getting called for the PICML::RootFolder
+
+    //GAME::Mga::Project_Settings settings (project, "CUTS/CodeGeneration");
+    //settings.set_value ("OutputPath", this->output_);
+    //settings.set_value ("Backend", this->selected_backend_);
 
     // Closing backend
     dngBackend.CloseWithUpdate ();

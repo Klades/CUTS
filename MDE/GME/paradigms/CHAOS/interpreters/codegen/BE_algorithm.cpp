@@ -62,11 +62,8 @@ protected:
     std::set <CHAOS::Package> packages =
       Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&CHAOS::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
   }
 
 private:
@@ -131,11 +128,8 @@ protected:
     std::set <CHAOS::Package> packages =
       Udm::ChildrenAttr <CHAOS::Package> (obj.__impl (), Udm::NULLCHILDROLE);
 
-    std::for_each (packages.begin (),
-                   packages.end (),
-                   boost::bind (&CHAOS::Package::Accept,
-                                _1,
-                                boost::ref (*this)));
+    for (auto package : packages)
+      package.Accept (*this);
   }
 
 private:

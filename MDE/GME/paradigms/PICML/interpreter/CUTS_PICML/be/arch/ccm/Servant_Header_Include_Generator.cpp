@@ -38,11 +38,8 @@ const PICML::ComponentImplementationContainer & container)
   std::set <PICML::MonolithicImplementation> monoimpls =
     container.MonolithicImplementation_kind_children ();
 
-  std::for_each (monoimpls.begin (),
-                 monoimpls.end (),
-                 boost::bind (&PICML::MonolithicImplementation::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto monoimpl : monoimpls)
+    monoimpl.Accept (*this);
 }
 
 //

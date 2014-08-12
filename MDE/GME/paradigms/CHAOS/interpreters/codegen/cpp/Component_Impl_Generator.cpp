@@ -4,6 +4,7 @@
 #include "Component_Impl_Generator.h"
 #include "UDM_Utility_T.h"
 #include "boost/bind.hpp"
+#include <functional>
 
 namespace CUTS_BE_CPP
 {
@@ -53,9 +54,7 @@ Visit_Component (const CHAOS::Component & component)
       // Write the initial values of the remaining variables.
       std::for_each (++ iter,
                      variables.end (),
-                     boost::bind (&CHAOS::Variable::Accept,
-                                  _1,
-                                  boost::ref (*this)));
+                      [&] (CHAOS::Variable item) {item.Accept (*this);});
     }
   }
 }

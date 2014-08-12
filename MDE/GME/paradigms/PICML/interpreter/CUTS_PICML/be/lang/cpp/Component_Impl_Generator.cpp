@@ -4,6 +4,8 @@
 #include "../../UDM_Utility_T.h"
 #include "boost/bind.hpp"
 
+#include <functional>
+
 namespace CUTS_BE_CPP
 {
 //

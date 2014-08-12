@@ -33,7 +33,7 @@ Visit_Environment (const PICML::Environment & env)
   MultiInput_Set inputs = env.dstMultiInput ();
 
   CUTS_BE::visit <CONTEXT> (inputs,
-    boost::bind (&MultiInput_Set::value_type::Accept, _1, boost::ref (*this)));
+    [&] (PICML::MultiInput item) {item.Accept (*this);});
 }
 
 //

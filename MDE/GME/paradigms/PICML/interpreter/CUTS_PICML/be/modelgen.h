@@ -15,6 +15,8 @@
 
 #include <iterator>
 
+namespace CUTS
+{
 namespace Udm
 {
   //===========================================================================
@@ -148,6 +150,7 @@ namespace Udm
   template <typename P, typename C, typename T, typename PRED>
   bool create_instance_if_not (P & parent, const C & container,
                                T & element, T & instance, PRED predicate);
+}
 }
 
 #if defined (__CUTS_INLINE__)
