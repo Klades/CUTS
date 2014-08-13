@@ -4,6 +4,7 @@
 #include "HelloSenderImpl.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
 
+
 namespace HelloSenderImpl
 {
   //
@@ -28,10 +29,14 @@ namespace HelloSenderImpl
   //
   void HelloSender::periodic_EventCreator (void)
   {
-    ::MessageEvent_var __event_100000008__ (this->ctx_->new_greeting_event ());
-    __event_100000008__->content (this->message_.c_str ());
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender before publishing greeting %s\n"), "" ) );
+    ::MessageEvent_var __event_100000012__ = this->ctx_->new_greeting_event ();
+    __event_100000012__->content (this->message_.c_str ());
+    this->ctx_->push_greeting (__event_100000012__.in ());
 
-    this->ctx_->push_greeting (__event_100000008__.in ());
+    this->ctx_->get_connection_messenger_object ()->increment_count ();
+
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender after requesting increment_count %s\n"), "" ) );
   }
 
   //

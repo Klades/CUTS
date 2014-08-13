@@ -9,6 +9,10 @@ project (HelloWorld_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
               -Wb,skel_export_macro=HELLOWORLD_SKEL_Export \
               -Wb,skel_export_include=HelloWorld_skel_export.h \
               -Gxhst -Gxhsk \
+              -Wb,exec_export_macro=HELLOWORLD_EXEC_Export \
+              -Wb,exec_export_include=HelloWorld_exec_export.h \
+              -Gxhex \
+              -Glem -Gsv \
               -Sa -Sal -St
 
   IDL_Files {
@@ -36,6 +40,69 @@ project (HelloWorld_stub) : avoids_ace_for_tao, iccm_tcpip_stub, cuts_codegen_de
 
   Inline_Files {
     HelloWorldC.inl
+  }
+}
+
+project (HelloWorld_skel) : avoids_ace_for_tao, iccm_tcpip_skel, cuts_codegen_defaults {
+  sharedname   = HelloWorld_skel
+  dynamicflags += HELLOWORLD_SKEL_BUILD_DLL
+
+  after       += HelloWorld_stub
+  libs        += HelloWorld_stub
+
+
+  IDL_Files {
+
+  }
+
+  Source_Files {
+    HelloWorldS.cpp
+  }
+
+  Header_Files {
+    HelloWorldS.h
+  }
+
+  Inline_Files {
+    HelloWorldS.inl
+  }
+}
+
+project (HelloWorld_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
+  custom_only = 1
+
+  after    += HelloWorld_IDL_Gen HelloWorld_iCCM_IDL_Gen
+
+  idlflags += -Wb,export_macro=HELLOWORLD_EXEC_Export \
+              -Wb,export_include=HelloWorld_exec_export.h \
+              -Sa -Sal -SS
+
+  IDL_Files {
+    HelloWorldE.idl
+  }
+}
+
+project (HelloWorld_exec) : iccm_tcpip_skel, cuts_codegen_defaults {
+  sharedname    = HelloWorld_exec
+  dynamicflags += HELLOWORLD_EXEC_BUILD_DLL
+
+  after += HelloWorld_EIDL_Gen \
+    HelloWorld_stub
+
+  libs  += HelloWorld_stub
+
+  Source_Files {
+    HelloWorldEC.cpp
+  }
+
+  Inline_Files {
+  }
+
+  Header_Files {
+    HelloWorldEC.h
+  }
+
+  IDL_Files {
   }
 }
 

@@ -37,6 +37,8 @@ project (HelloWorld_Components_IDL_Gen) : componentidldefaults, cuts_codegen_def
 
   idlflags -= -Gsv
 
+  after += HelloWorld_IDL_Gen
+
   IDL_Files {
     HelloWorld_Components.idl
   }
@@ -75,15 +77,17 @@ project (HelloWorld_Components_stub) : avoids_ace_for_tao, iccm_opensplice_stub,
 
 project (HelloWorld_Components_skel) : avoids_ace_for_tao, iccm_opensplice_skel, cuts_codegen_defaults {
   sharedname   = HelloWorld_Components_skel
-  dynamicflags = HELLOWORLD_COMPONENTS_SKEL_BUILD_DLL
+  dynamicflags += HELLOWORLD_COMPONENTS_SKEL_BUILD_DLL
 
   after       += HelloWorld_Components_stub
   libs        += HelloWorld_Components_stub
 
 
-  after +=
+  after += \
+    HelloWorld_skel
 
   libs  += \
+    HelloWorld_skel \
     HelloWorld_stub
 
   IDL_Files {
@@ -106,7 +110,8 @@ project (HelloWorld_Components_skel) : avoids_ace_for_tao, iccm_opensplice_skel,
 project (HelloWorld_Components_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
   custom_only = 1
 
-  after    += HelloWorld_Components_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen
+  after    += HelloWorld_Components_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen \
+    HelloWorld_EIDL_Gen
 
   idlflags += -Wb,export_macro=HELLOWORLD_COMPONENTS_EXEC_Export \
               -Wb,export_include=HelloWorld_Components_exec_export.h \
@@ -124,10 +129,12 @@ project (HelloWorld_Components_exec) : iccm_opensplice_skel, cuts_codegen_defaul
 
   after += HelloWorld_Components_EIDL_Gen \
     HelloWorld_Components_stub \
-    HelloWorld_stub
+    HelloWorld_stub \
+    HelloWorld_exec
 
   libs  += HelloWorld_Components_stub \
-    HelloWorld_stub
+    HelloWorld_stub \
+    HelloWorld_exec
 
   Source_Files {
     HelloWorld_ComponentsEC.cpp
@@ -147,13 +154,17 @@ project (HelloWorld_Components_exec) : iccm_opensplice_skel, cuts_codegen_defaul
 
 project (HelloWorld_Components_svnt) : iccm_opensplice_svnt, cuts_codegen_defaults {
   sharedname   = HelloWorld_Components_svnt
-  dynamicflags = HELLOWORLD_COMPONENTS_SVNT_BUILD_DLL
+  dynamicflags += HELLOWORLD_COMPONENTS_SVNT_BUILD_DLL
 
   after += HelloWorld_Components_exec HelloWorld_Components_stub HelloWorld_Components_skel \
-    HelloWorld_stub
+    HelloWorld_stub \
+    HelloWorld_skel \
+    HelloWorld_exec
 
   libs += HelloWorld_Components_exec HelloWorld_Components_stub HelloWorld_Components_skel \
-    HelloWorld_stub
+    HelloWorld_stub \
+    HelloWorld_skel \
+    HelloWorld_exec
 
   Source_Files {
     HelloWorld_Components_svnt.cpp

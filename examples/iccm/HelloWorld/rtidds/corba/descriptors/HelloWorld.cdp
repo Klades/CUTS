@@ -149,24 +149,6 @@
     <implementation xmi:idref="_B88B0130-267C-11E1-8000-000C29A84559"/>
   </instance>
 
-  <instance xmi:id="MainNode.DefaultGroup">
-    <name>MainNode.DefaultGroup</name>
-    <node>MainNode</node>
-    <source/>
-    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
-    <configProperty>
-      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>DefaultGroup</string>
-        </value>
-      </value>
-    </configProperty>
-  </instance>
-
   <instance xmi:id="SecondNode.DefaultGroup">
     <name>SecondNode.DefaultGroup</name>
     <node>SecondNode</node>
@@ -185,18 +167,36 @@
     </configProperty>
   </instance>
 
+  <instance xmi:id="MainNode.DefaultGroup">
+    <name>MainNode.DefaultGroup</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
   <connection>
-    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.greeting::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.greeting</name>
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.messenger_object::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.echo</name>
     <internalEndpoint>
-      <portName>greeting</portName>
+      <portName>messenger_object</portName>
       <provider>false</provider>
-      <kind>EventPublisher</kind>
+      <kind>SimplexReceptacle</kind>
       <instance xmi:idref="_138A3272-267D-11E1-8000-000C29A84559"/>
     </internalEndpoint>
     <internalEndpoint>
-      <portName>greeting</portName>
+      <portName>echo</portName>
       <provider>true</provider>
-      <kind>EventConsumer</kind>
+      <kind>Facet</kind>
       <instance xmi:idref="_187CFE54-267D-11E1-8000-000C29A84559"/>
     </internalEndpoint>
   </connection>

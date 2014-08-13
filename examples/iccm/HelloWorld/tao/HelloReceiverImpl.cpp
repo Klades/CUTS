@@ -4,6 +4,7 @@
 #include "HelloReceiverImpl.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
 
+
 namespace HelloReceiverImpl
 {
   //
@@ -32,6 +33,8 @@ namespace HelloReceiverImpl
     i++;
 
     this->getParent ().count (i);
+
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver Facet Request increment count = %d\n"), this->getParent ().count () ) );
   }
 
   //
@@ -40,6 +43,8 @@ namespace HelloReceiverImpl
   HelloReceiver::HelloReceiver (void)
   : count_ (0)
   {
+    this->greeting_event_handler_.init (this, &HelloReceiver::push_greeting_i);
+    this->register_object (&this->greeting_event_handler_);
   }
 
   //
@@ -54,6 +59,15 @@ namespace HelloReceiverImpl
   //
   void HelloReceiver::push_greeting (::MessageEvent * ev)
   {
+    this->greeting_event_handler_.handle_event (ev);
+  }
+
+  //
+  // sink: greeting
+  //
+  void HelloReceiver::push_greeting_i (::MessageEvent * ev)
+  {
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver InputAction Effect for content = %s, count = %d\n"), ev->content (),  this->count () ) );
     ACE_UNUSED_ARG (ev);
   }
 

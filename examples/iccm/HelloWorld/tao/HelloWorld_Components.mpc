@@ -77,7 +77,7 @@ project (HelloWorld_Components_stub) : avoids_ace_for_tao, iccm_tao_stub, cuts_c
 
 project (HelloWorld_Components_skel) : avoids_ace_for_tao, iccm_tao_skel, cuts_codegen_defaults {
   sharedname   = HelloWorld_Components_skel
-  dynamicflags = HELLOWORLD_COMPONENTS_SKEL_BUILD_DLL
+  dynamicflags += HELLOWORLD_COMPONENTS_SKEL_BUILD_DLL
 
   after       += HelloWorld_Components_stub
   libs        += HelloWorld_Components_stub
@@ -154,7 +154,7 @@ project (HelloWorld_Components_exec) : iccm_tao_skel, cuts_codegen_defaults {
 
 project (HelloWorld_Components_svnt) : iccm_tao_svnt, cuts_codegen_defaults {
   sharedname   = HelloWorld_Components_svnt
-  dynamicflags = HELLOWORLD_COMPONENTS_SVNT_BUILD_DLL
+  dynamicflags += HELLOWORLD_COMPONENTS_SVNT_BUILD_DLL
 
   after += HelloWorld_Components_exec HelloWorld_Components_stub HelloWorld_Components_skel \
     HelloWorld_stub \

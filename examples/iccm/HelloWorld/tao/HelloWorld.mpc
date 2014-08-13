@@ -30,6 +30,7 @@ project (HelloWorld_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
               -Wb,exec_export_macro=HELLOWORLD_EXEC_Export \
               -Wb,exec_export_include=HelloWorld_exec_export.h \
               -Gxhex \
+              -Glem -Gsv \
               -Sa -Sal -St
 
   IDL_Files {
@@ -62,7 +63,7 @@ project (HelloWorld_stub) : avoids_ace_for_tao, iccm_tao_stub, cuts_codegen_defa
 
 project (HelloWorld_skel) : avoids_ace_for_tao, iccm_tao_skel, cuts_codegen_defaults {
   sharedname   = HelloWorld_skel
-  dynamicflags = HELLOWORLD_SKEL_BUILD_DLL
+  dynamicflags += HELLOWORLD_SKEL_BUILD_DLL
 
   after       += HelloWorld_stub
   libs        += HelloWorld_stub
