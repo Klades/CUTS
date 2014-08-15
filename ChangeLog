@@ -88,6 +88,18 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Fri Aug 15 15:36:20 UTC 2014  Dennis Feiock <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_coredx.mpb:
+        * MPC/config/iccm_ospl.mpb:
+        * MPC/config/iccm_portico.mpb:
+        * MPC/config/iccm_rtidds.mpb:
+        * MPC/config/iccm_tao.mpb:
+        * MPC/config/iccm_tcpip.mpb:
+
+          Reverted changes to MPB files.  Found that specific variables
+          do not work on linux with gnuace type.
+
 Fri Aug 15 15:25:27 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * cuts/iccm/servant/Receptacle_T.cpp:
