@@ -11,7 +11,7 @@ template <typename T>
 ::Components::Cookie *
 Receptacle_T <T>::connect (::CORBA::Object_ptr obj)
 {
-  this->connection_ = typename T::_narrow (obj);
+  this->connection_ = T::_narrow (obj);
   if (CORBA::is_nil (this->connection_))
     throw ::CORBA::INTERNAL ();
 
