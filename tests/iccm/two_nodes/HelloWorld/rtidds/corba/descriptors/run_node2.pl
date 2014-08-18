@@ -82,7 +82,7 @@ sub run_node_daemons {
       $node_app = "$DANCE_ROOT/bin/dance_locality_manager";
 
       $d_cmd = "$DANCE_ROOT/bin/dance_node_manager";
-      $d_param = "-ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --locality-config $CUTS_ROOT/bin/handlers/tcpip.locality.config";
+      $d_param = "-ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --locality-config $CUTS_ROOT/bin/handlers/rtidds.locality.config";
 
       $Daemons[$i] = new PerlACE::Process ($d_cmd, $d_param);
       $result = $Daemons[$i]->Spawn ();
