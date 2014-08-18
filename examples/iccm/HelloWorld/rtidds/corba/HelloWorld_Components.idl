@@ -15,18 +15,18 @@ eventtype MessageEvent
   
 };
 
+component HelloReceiver
+{
+  provides ::Messenger echo;
+  consumes ::MessageEvent greeting;
+  
+};
+
 component HelloSender
 {
   uses ::Messenger messenger_object;
   publishes ::MessageEvent greeting;
   attribute string message;
-  
-};
-
-component HelloReceiver
-{
-  provides ::Messenger echo;
-  consumes ::MessageEvent greeting;
   
 };
 

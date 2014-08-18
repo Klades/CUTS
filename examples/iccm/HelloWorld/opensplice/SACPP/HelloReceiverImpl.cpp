@@ -34,7 +34,7 @@ namespace HelloReceiverImpl
 
     this->getParent ().count (i);
 
-    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver Facet Request increment count = %d\n"), this->getParent ().count () ) );
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver: Facet Request increment count = %d\n"), this->getParent ().count () ) );
   }
 
   //
@@ -57,7 +57,7 @@ namespace HelloReceiverImpl
   //
   void HelloReceiver::push_greeting (::MessageEvent * ev)
   {
-    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver InputAction Effect for content = %s, count = %d\n"), ev->content (),  this->count () ) );
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver InputAction Effect for content = %s, count = %d\n"), ev->content (),  this->count ()));
     ACE_UNUSED_ARG (ev);
   }
 

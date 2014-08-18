@@ -64,14 +64,6 @@ namespace HelloReceiverImpl
     // sink: greeting
     virtual void push_greeting (::MessageEvent * ev);
 
-    private:
-    // async event handler variable: greeting
-    CUTS_CCM_Event_Handler_T < HelloReceiver, ::MessageEvent > greeting_event_handler_;
-
-    public:
-    // sink impl: greeting
-    void push_greeting_i (::MessageEvent * ev);
-
     // facet: echo
     virtual ::CCM_Messenger_ptr
       get_echo (void);

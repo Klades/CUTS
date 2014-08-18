@@ -88,6 +88,44 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Aug 18 15:46:38 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/models/HelloWorld.xme:
+
+          Updated model to include debugging messages
+
+        * examples/iccm/HelloWorld/coredx/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/coredx/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/portico/HelloWorld.idl:
+        * examples/iccm/HelloWorld/portico/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+
+          Regenerated files from GME.
+
 Fri Aug 15 15:36:20 UTC 2014  Dennis Feiock <dfeiock at iupui dot edu>
 
         * MPC/config/iccm_coredx.mpb:
