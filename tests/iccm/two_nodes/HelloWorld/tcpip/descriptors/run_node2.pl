@@ -17,8 +17,8 @@ $daemons_running = 0;
 $em_running = 0;
 $ns_running = 0;
 
-$hostname = node-2.2node.CUTS.emulab.cs.iupui.edu
-$nshost = node-1.2node.CUTS.emulab.cs.iupui.edu
+$hostname = 'node-2.2node.CUTS.emulab.cs.iupui.edu';
+$nshost = 'node-1.2node.CUTS.emulab.cs.iupui.edu';
 
 $daemons = 1;
 @ports = ( 60002 );
@@ -117,8 +117,8 @@ if ($status != 0) {
 
 $daemons_running = 1;
 
-# wait for 20 seconds.
-sleep (20);
+print "Press enter after execution has completed";
+$pause = <STDIN>;
 
 print "Executor returned.\n";
 print "Shutting down rest of the processes.\n";

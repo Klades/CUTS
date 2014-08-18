@@ -17,8 +17,8 @@ $daemons_running = 0;
 $em_running = 0;
 $ns_running = 0;
 
-$hostname = node-1.2node.CUTS.emulab.cs.iupui.edu
-$nshost = node-1.2node.CUTS.emulab.cs.iupui.edu
+$hostname = 'node-1.2node.CUTS.emulab.cs.iupui.edu';
+$nshost = 'node-1.2node.CUTS.emulab.cs.iupui.edu';
 
 $daemons = 1;
 @ports = ( 60001 );
