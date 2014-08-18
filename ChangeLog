@@ -88,6 +88,40 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Aug 18 18:25:14 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes:
+        * tests/iccm/two_nodes/HelloWorld:
+        * tests/iccm/two_nodes/HelloWorld/coredx:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/models:
+        * tests/iccm/two_nodes/HelloWorld/models/HelloWorld.xme:
+        * tests/iccm/two_nodes/HelloWorld/opensplice:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/portico:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/rtidds:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/tao:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/tcpip:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node2.pl:
+
+          Created HelloWorld two node test.  This executes the HelloWorld example
+          on two seperate nodes within Emulab.
+
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_test.pl:
+
+          Removed this file.
+
 Mon Aug 18 15:46:38 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * examples/iccm/HelloWorld/models/HelloWorld.xme:
