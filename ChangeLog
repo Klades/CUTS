@@ -88,6 +88,29 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Mon Aug 18 18:36:00 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_node2.pl:
+
+          Modified scripts to have one perl script per node.
+
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_test.pl:
+
+          Removed these files.
+
 Mon Aug 18 18:31:07 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node1.pl:

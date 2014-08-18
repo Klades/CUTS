@@ -8,19 +8,22 @@ eval '(exit $?0)' && eval 'exec perl -S $0 ${1+"$@"}'
 use lib "$ENV{'ACE_ROOT'}/bin";
 use PerlACE::Run_Test;
 
+$CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 $CIAO_ROOT = "$ENV{'CIAO_ROOT'}";
 $TAO_ROOT = "$ENV{'TAO_ROOT'}";
 $DANCE_ROOT = "$ENV{'DANCE_ROOT'}";
-$CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 
 $daemons_running = 0;
 $em_running = 0;
 $ns_running = 0;
 
-$daemons = 2;
-@ports = ( 60001, 60002 );
-@iorfiles = ( "MainNode.ior", "SecondNode.ior" );
-@nodenames = ( "MainNode", "SecondNode" );
+$hostname = 'node-2.2node.CUTS.emulab.cs.iupui.edu';
+$nshost = 'node-1.2node.CUTS.emulab.cs.iupui.edu';
+
+$daemons = 1;
+@ports = ( 60002 );
+@iorfiles = ( "SecondNode.ior" );
+@nodenames = ( "SecondNode" );
 
 $status = 0;
 $dat_file = "HelloWorld.cdd";
@@ -75,11 +78,11 @@ sub run_node_daemons {
       $iorfile = $iorfiles[$i];
       $port = $ports[$i];
       $nodename = $nodenames[$i];
-      $iiop = "iiop://localhost:$port";
+      $iiop = "iiop://$hostname:$port";
       $node_app = "$DANCE_ROOT/bin/dance_locality_manager";
 
       $d_cmd = "$DANCE_ROOT/bin/dance_node_manager";
-      $d_param = "-ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --locality-config $CUTS_ROOT/bin/handlers/coredx.locality.config";
+      $d_param = "-ORBEndpoint $iiop -s $node_app -n $nodename=$iorfile -t 30 --locality-config $CUTS_ROOT/bin/handlers/tcpip.locality.config";
 
       $Daemons[$i] = new PerlACE::Process ($d_cmd, $d_param);
       $result = $Daemons[$i]->Spawn ();
@@ -99,6 +102,9 @@ sub run_node_daemons {
 
 delete_ior_files ();
 
+# Set up NamingService environment
+$ENV{"NameServiceIOR"} = "corbaloc:iiop:$nshost:60003/NameService";
+
 # Invoke node daemons.
 print "Invoking node daemons\n";
 $status = run_node_daemons ();
@@ -111,35 +117,12 @@ if ($status != 0) {
 
 $daemons_running = 1;
 
-# Invoke execution manager.
-print "Invoking execution manager\n";
-$EM = new PerlACE::Process ("$DANCE_ROOT/bin/dance_execution_manager", "-eEM.ior --cdd $dat_file");
-$EM->Spawn ();
+print "Press enter after execution has completed";
+$pause = <STDIN>;
 
-if (PerlACE::waitforfile_timed ("EM.ior", $PerlACE::wait_interval_for_process_creation) == -1) {
-  print STDERR "ERROR: The ior file of execution manager could not be found\n";
-  kill_open_processes ();
-  exit 1;
-}
-
-$em_running = 1;
-
-# Invoke executor - start the application -.
-print "Invoking executor - start the application -\n";
-$E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-x $cdp_file -k file://EM.ior");
-
-$E->SpawnWaitKill (10000);
-
-# wait for 10 seconds.
-sleep (10);
-
-# Invoke executor - stop the application -.
-print "Invoking executor - stop the application -\n";
-$E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-k file://EM.ior -x $cdp_file -s");
-$E->SpawnWaitKill (3000);
 print "Executor returned.\n";
-
 print "Shutting down rest of the processes.\n";
+
 delete_ior_files ();
 kill_open_processes ();
 
