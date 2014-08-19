@@ -147,6 +147,11 @@ if (PerlACE::waitforfile_timed ("EM.ior", $PerlACE::wait_interval_for_process_cr
 
 $em_running = 1;
 
+# Invoke OpenSplice - start the server -
+print "Invoke OpenSplice - start the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "start");
+$OSPL->SpawnWaitKill (3000);
+
 # Invoke executor - start the application -.
 print "Invoking executor - start the application -\n";
 $E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-x $cdp_file -k file://EM.ior");
@@ -162,6 +167,12 @@ $E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-k file://EM.
 $E->SpawnWaitKill (3000);
 
 print "Executor returned.\n";
+
+# Invoke OpenSplice - stop the server -
+print "Invoke OpenSplice - stop the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "stop");
+$OSPL->SpawnWaitKill (3000);
+
 print "Shutting down rest of the processes.\n";
 
 delete_ior_files ();

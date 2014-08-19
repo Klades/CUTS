@@ -117,10 +117,21 @@ if ($status != 0) {
 
 $daemons_running = 1;
 
+# Invoke OpenSplice - start the server -
+print "Invoke OpenSplice - start the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "start");
+$OSPL->SpawnWaitKill (3000);
+
 print "Press enter after execution has completed";
 $pause = <STDIN>;
 
 print "Executor returned.\n";
+
+# Invoke OpenSplice - stop the server -
+print "Invoke OpenSplice - stop the server -\n";
+$OSPL = new PerlACE::Process ("$OSPL_HOME/bin/ospl", "stop");
+$OSPL->SpawnWaitKill (3000);
+
 print "Shutting down rest of the processes.\n";
 
 delete_ior_files ();
