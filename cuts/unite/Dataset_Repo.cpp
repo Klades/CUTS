@@ -27,7 +27,7 @@
 class process_log_format
 {
 public:
-  process_log_format (CUTS_Dataflow_Graph & graph,
+  process_log_format (CUTS_Dataflow_Graph * graph,
                       CUTS_Log_Format_Data_Entry & entry,
                       ADBC::SQLite::Record & record,
                       CUTS_Dataset_Repo & repo)
@@ -42,7 +42,7 @@ public:
   void operator () (CUTS_Dataflow_Graph::vertex_descriptor vertex) const
   {
     // Get the log format from the vertex.
-    CUTS_Log_Format * format = this->graph_.get_log_format (vertex);
+    CUTS_Log_Format * format = this->graph_->get_log_format (vertex);
 
     bool is_relations = false;
     std::vector <size_t> qualified_rels;
@@ -59,7 +59,7 @@ public:
 
       for (size_t i = 0; i < relation_count; i++)
       {
-        if (this->repo_.qualified_relation (format->relations ()[i], this->graph_))
+        if (this->repo_.qualified_relation (format->relations ()[i], *(this->graph_)))
         {
           is_relations = true;
           qualified_rels.push_back (i);
@@ -92,9 +92,9 @@ private:
     char message[1024];
 
     // Reset the private variables in the adapter
-    if(graph_.adapter ())
+    if(graph_->adapter ())
     {
-      graph_.adapter ()->reset ();
+      graph_->adapter ()->reset ();
     }
 
     for ( ; !this->record_.done (); this->record_.advance ())
@@ -106,14 +106,14 @@ private:
       // the database. It depends on if the message matches the current
       // log format.
 
-      this->entry_.execute(message, graph_.adapter ());
+      this->entry_.execute(message, graph_->adapter ());
 
     }
 
     this->record_.reset ();
   }
 
-  CUTS_Dataflow_Graph & graph_;
+  CUTS_Dataflow_Graph * graph_;
 
   CUTS_Log_Format_Data_Entry & entry_;
 
@@ -246,16 +246,16 @@ void CUTS_Dataset_Repo::close (void)
 //
 // evaluate
 //
-bool CUTS_Dataset_Repo::insert (CUTS_Dataflow_Graph & graph,
+bool CUTS_Dataset_Repo::insert (CUTS_Dataflow_Graph * graph,
                                 vertex_list & sorted_list)
 {
   try
   {
     // Create an empty table for the data set.
-    this->create_vtable (graph, sorted_list);
+    this->create_vtable (*graph, sorted_list);
 
     // Create all the indices for the dataset.
-    this->create_vtable_indices (graph, sorted_list);
+    this->create_vtable_indices (*graph, sorted_list);
 
     // First, select all the log message from the database.
     ADBC::SQLite::Query * query = this->data_->create_query ();
@@ -271,12 +271,12 @@ bool CUTS_Dataset_Repo::insert (CUTS_Dataflow_Graph & graph,
                    process_log_format (graph, entry, record, *this));
 
     // Finally, prune the incomplete rows from the table.
-    this->prune_incomplete_rows (graph, sorted_list);
+    this->prune_incomplete_rows (*graph, sorted_list);
 
     // If there is an open adapter close it.
-    if(graph.adapter ())
+    if(graph->adapter ())
     {
-      graph.adapter ()->close ();
+      graph->adapter ()->close ();
     }
 
     return true;

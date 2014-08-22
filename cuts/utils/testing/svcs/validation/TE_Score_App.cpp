@@ -159,7 +159,7 @@ int CUTS_TE_Score_App::run_main (int argc, char * argv [])
     ACE_DEBUG ((LM_DEBUG,
                 ACE_TEXT ("%T (%t) - %M - opening dataset repository\n")));
 
-    CUTS_Dataflow_Graph_Analyzer analyzer (graph);
+    CUTS_Dataflow_Graph_Analyzer analyzer (&graph);
     analyzer.analyze (test_db, this->opts_.sandbox_);
 
     CUTS_Dataset_Repo * repo = analyzer.join (test_db, this->opts_.sandbox_);

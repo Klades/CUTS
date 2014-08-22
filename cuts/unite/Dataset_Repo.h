@@ -91,7 +91,7 @@ public:
    * @param[in]       graph           Graph of the unit test.
    * @param[in]       sorted_list     topologically sorted vertices.
    */
-  bool insert (CUTS_Dataflow_Graph & graph,
+  bool insert (CUTS_Dataflow_Graph * graph,
                vertex_list & sorted_list);
 
   /// Creates a SQLite Query

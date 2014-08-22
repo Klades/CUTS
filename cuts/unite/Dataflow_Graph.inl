@@ -23,20 +23,6 @@ CUTS_Dataflow_Graph::CUTS_Dataflow_Graph (const ACE_CString & name)
 }
 
 //
-// CUTS_Dataflow_Graph
-//
-CUTS_INLINE
-CUTS_Dataflow_Graph::CUTS_Dataflow_Graph (
-  const CUTS_Dataflow_Graph & dataflow_graph)
-: name_ (dataflow_graph.name_),
-graph_ (dataflow_graph.graph_),
-vertices_ (dataflow_graph.vertices_),
-adapter_ (dataflow_graph.adapter_)
-{
-}
-
-
-//
 // ~CUTS_Dataflow_Graph
 //
 CUTS_INLINE

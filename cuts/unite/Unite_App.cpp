@@ -408,7 +408,7 @@ CUTS_Dataset_Repo * CUTS_Unite_App::construct_vtable (CUTS_Dataflow_Graph & grap
                 ACE_TEXT ("%T (%t) - %M - failed to open %s\n"),
                 this->datafile_.c_str ()));
 
-  CUTS_Dataflow_Graph_Analyzer analyzer (graph);
+  CUTS_Dataflow_Graph_Analyzer analyzer (&graph);
   analyzer.analyze (testdata, this->repo_location_);
 
   return analyzer.join (testdata, this->repo_location_);

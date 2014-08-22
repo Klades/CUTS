@@ -28,7 +28,7 @@ public:
   friend class CUTS_Dataset_Repo;
 
   // Initializing constructor
-  CUTS_Graph_Worker (CUTS_Dataflow_Graph & g,
+  CUTS_Graph_Worker (CUTS_Dataflow_Graph * g,
                      std::map <int, vertex_descriptor> & leaves,
                      CUTS_Dataflow_Graph_Analyzer::VERTEX_INFO & vertex_data,
                      CUTS_Test_Database & testdata,
@@ -71,7 +71,7 @@ private:
   void get_subgraph_process_order (void);
 
   // The original dataflow model
-  CUTS_Dataflow_Graph  & g_;
+  CUTS_Dataflow_Graph  * g_;
 
   // The leaves map
   std::map <int, vertex_descriptor> & leaves_;

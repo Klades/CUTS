@@ -10,7 +10,7 @@
 // CUTS_Dataflow_Graph_Analyzer
 //
 CUTS_Dataflow_Graph_Analyzer::
-CUTS_Dataflow_Graph_Analyzer (CUTS_Dataflow_Graph & g)
+CUTS_Dataflow_Graph_Analyzer (CUTS_Dataflow_Graph * g)
 : g_ (g),
   repo_ (0)
 {
@@ -37,7 +37,7 @@ void CUTS_Dataflow_Graph_Analyzer::get_descendents (
 {
   // Fill the descendents list for a particular vertex
   CUTS_Unit_Test_Graph_Type::adjacency_iterator ai, ai_end;
-  boost::tie (ai, ai_end) = boost::adjacent_vertices (u, g_.graph ());
+  boost::tie (ai, ai_end) = boost::adjacent_vertices (u, g_->graph ());
 
   for (; ai != ai_end; ++ai)
   {
@@ -92,14 +92,14 @@ void CUTS_Dataflow_Graph_Analyzer::initialize (void)
   // Initialize the data structure to keep the colored data graph with
   // all the vertex descriptos
   vertex_iterator iter, iter_end;
-  boost::tie(iter, iter_end) = boost::vertices (g_.graph ());
+  boost::tie(iter, iter_end) = boost::vertices (g_->graph ());
 
   int i = 0;
   for (; iter != iter_end; iter++)
   {
     std::vector <Node_Status> node_status;
     this->vertex_data_.insert (std::pair <vertex_descriptor, std::vector <Node_Status> > (*iter, node_status));
-    if(boost::out_degree (*iter, g_.graph ()) == 0)
+    if(boost::out_degree (*iter, g_->graph ()) == 0)
     {
       this->leaves_.insert (std::pair <int, vertex_descriptor> (i, *iter));
       i++;
@@ -198,7 +198,7 @@ CUTS_Dataset_Repo * CUTS_Dataflow_Graph_Analyzer::join (CUTS_Test_Database & tes
     }
 
     // Invoke the join
-    this->repo_->join (this->workers_, this->g_);
+    this->repo_->join (this->workers_, *(this->g_));
 
   }
   return this->repo_;

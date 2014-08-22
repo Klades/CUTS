@@ -5,7 +5,7 @@
 // CUTS_Graph_Worker
 //
 CUTS_Graph_Worker::CUTS_Graph_Worker (
-    CUTS_Dataflow_Graph & g,
+    CUTS_Dataflow_Graph * g,
     std::map <int, vertex_descriptor> & leaves,
     CUTS_Dataflow_Graph_Analyzer::VERTEX_INFO & vertex_data,
     CUTS_Test_Database & testdata,
@@ -36,7 +36,7 @@ void CUTS_Graph_Worker::get_descendents (
     std::set <vertex_descriptor> & descendents)
 {
   CUTS_Unit_Test_Graph_Type::adjacency_iterator ai, ai_end;
-  boost::tie (ai, ai_end) = boost::adjacent_vertices (u, g_.graph ());
+  boost::tie (ai, ai_end) = boost::adjacent_vertices (u, g_->graph ());
 
   for (; ai != ai_end; ++ai)
   {

@@ -167,7 +167,7 @@ int CUTS_Testing_Validation_Service::validate_test (void)
   CUTS_Test_Database & test_db = this->test_app ()->test_db ();
 
   ACE_CString repo_location (":memory:");
-  CUTS_Dataflow_Graph_Analyzer analyzer (graph);
+  CUTS_Dataflow_Graph_Analyzer analyzer (&graph);
   analyzer.analyze (test_db, repo_location);
 
   CUTS_Dataset_Repo * repo = analyzer.join (test_db, repo_location);

@@ -36,7 +36,7 @@ public:
    *
    * @param[in]     g    The dataflow graph
    */
-  CUTS_Dataflow_Graph_Analyzer (CUTS_Dataflow_Graph & g);
+  CUTS_Dataflow_Graph_Analyzer (CUTS_Dataflow_Graph * g);
 
   // Destructor
   ~CUTS_Dataflow_Graph_Analyzer (void);
@@ -79,8 +79,8 @@ private:
   // Finds the first common vertex for all the single leaf trees
   bool find_common_vertex (vertex_descriptor * common_vertex);
 
-  // Reference to the main dataflow model
-  CUTS_Dataflow_Graph & g_;
+  // Pointer to the main dataflow model
+  CUTS_Dataflow_Graph * g_;
 
   // The list of leaves
   std::map <int, vertex_descriptor> leaves_;

@@ -1,3 +1,20 @@
+Fri Aug 22 15:57:47 UTC 2014  Manjula Peiris  <tmpeiris@cs.iupui.edu>
+
+        * cuts/unite/Dataflow_Graph.h:
+        * cuts/unite/Dataflow_Graph.inl:
+        * cuts/unite/Dataflow_Graph_Analyzer.h:
+        * cuts/unite/Dataflow_Graph_Analyzer.cpp:
+        * cuts/unite/Dataset_Repo.h:
+        * cuts/unite/Dataset_Repo.cpp:
+        * cuts/unite/Graph_Worker.h:
+        * cuts/unite/Graph_Worker.cpp:
+        * cuts/unite/Unite_App.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+
+          Removed the copy constructor from CUTS_Dataflow_Graph. Now it is passed as a
+          pointer.
+
 Tue Aug 12 17:39:16 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
 
         * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.cpp:
