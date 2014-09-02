@@ -22,17 +22,141 @@
 #include "ace/SString.h"
 #include "ace/streams.h"
 #include "ace/Lib_Find.h"
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/utility/confix.hpp"
+#include "boost/config/warning_disable.hpp"
+#include "boost/spirit/include/qi.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_confix.hpp"
+#include "boost/spirit/include/phoenix_bind.hpp"
+#include <boost/spirit/include/qi_lexeme.hpp>
 #include <ostream>
+#include <sstream>
+
+namespace qi = boost::spirit::qi;
+namespace phoenix = boost::phoenix;
+namespace ascii = boost::spirit::ascii;
+
+namespace command_substition_helpers
+{
+  // Append the provided string to the output parameter
+  void append (const std::string & in, std::string * out)
+  {
+    *out += in;
+  }
+
+  // Execute the provided string and put its output into the out parameter
+  void replace (const std::string & cmd, std::string & out)
+  {
+    ACE_DEBUG ((LM_DEBUG,
+                "%T - %M - substituting command: %s\n",
+                cmd.c_str ()));
+
+    // Get a temporary file to store output
+    ACE_TCHAR pathname[1024];
+
+    if (ACE::get_temp_dir (pathname, 1024 - 21) == -1)
+    {
+      ACE_ERROR ((LM_WARNING,
+                  "%T - %M - failed to resolve temporary directory\n"));
+    }
+
+    // Create a temporary filename for the project.
+    ACE_OS::strcat (pathname, "cutsnode-XXXXXX");
+    char * tempfile = ACE_OS::mktemp (pathname);
+
+    if (tempfile != 0)
+    {
+      ACE_DEBUG ((LM_DEBUG,
+                  "%T - %M - saving temporary filename [%s]\n",
+                  tempfile));
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to create temporary file; using %s\n",
+                  pathname));
+
+      tempfile = pathname;
+    }
+
+    int flags = O_WRONLY | O_CREAT;
+    ACE_HANDLE pipe = ACE_OS::open (tempfile, flags);
+
+    // Configure the options for spawning the process.
+    ACE_Process_Options options;
+    options.command_line ("%s", cmd.c_str ());
+    options.set_handles (ACE_INVALID_HANDLE, pipe, ACE_INVALID_HANDLE);
+
+    // Spawn the new process.
+    ACE_Process process;
+    ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
+    pid_t pid = proc_man->spawn (&process, options);
+
+    if (pid != ACE_INVALID_PID)
+    {
+      // Wait for the newly spawned process to exit.
+      proc_man->wait (pid);
+
+      // Close the file used to store the output.
+      ACE_OS::close (pipe);
+
+      if (process.exit_code () == 0)
+      {
+        char substitution[BUFSIZ];
+        std::ifstream infile;
+
+        infile.open (tempfile);
+
+        if (infile.is_open ())
+        {
+          // Get only the first line of the file.
+          infile.getline (substitution, BUFSIZ);
+
+          // Append the line to the stream.
+          out += substitution;
+
+          // Close the file.
+          infile.close ();
+        }
+      }
+      else
+      {
+        ACE_ERROR ((LM_ERROR,
+                    "%T - %M - process had exit status of %d [%s]\n",
+                    process.exit_code (),
+                    cmd.c_str ()));
+
+        out += '`';
+        out += cmd;
+        out += '`';
+      }
+    }
+    else
+    {
+      ACE_ERROR ((LM_ERROR,
+                  "%T - %M - failed to spawn process [%s]\n",
+                  cmd.c_str ()));
+
+      // Insert the original command to the stream.
+      out += '`';
+      out += cmd;
+      out += '`';
+    }
+
+    // Delete the temporary file.
+    ACE_OS::unlink (tempfile);
+  }
+
+};
 
 /**
  * @class CUTS_Command_Substitution_i
  *
  * Parser that actuaully performs the substitution of commands.
  */
+template <typename IteratorT>
 class CUTS_Command_Substitution_Grammar :
-  public boost::spirit::grammar <CUTS_Command_Substitution_Grammar>
+    public boost::spirit::qi::grammar <IteratorT,
+                                       void (std::string *)>
 {
 public:
   /**
@@ -40,270 +164,39 @@ public:
    *
    * @param[out]         str         Expanded version of string
    */
-  CUTS_Command_Substitution_Grammar (std::ostream & ostr)
-    : ostr_ (ostr)
+  CUTS_Command_Substitution_Grammar (void)
+    : CUTS_Command_Substitution_Grammar::base_type (this->spec_)
   {
 
+    this->text_ %=
+      *(qi::char_ - '`');
+
+    this->command_ =
+      '`' >> this->text_ [phoenix::bind (&command_substition_helpers::replace, qi::_1, qi::_val)] >> '`';
+
+    this->content_ =
+      this->text_ [phoenix::bind (&command_substition_helpers::append, qi::_1, qi::_r1)] >>
+      *(this->command_ [phoenix::bind (&command_substition_helpers::append, qi::_1, qi::_r1)] >>
+        this->text_ [phoenix::bind (&command_substition_helpers::append, qi::_1, qi::_r1)]);
+
+    this->spec_ = this->content_ (qi::_r1);
   }
 
-  /**
-   * @class append
-   *
-   * Functor for appending the value of an environment variable to
-   * a string.
-   */
-  class append
-  {
-  public:
-    /**
-     * Initializing contructor.
-     *
-     * @param[out]         str         Target string
-     */
-    append (std::ostream & ostr)
-      : ostr_ (ostr)
-    {
-
-    }
-
-    /**
-     * Functor operator
-     *
-     * @param[in]         begin         Beginning of string
-     * @param[in]         end           End of string
-     */
-    template <typename IteratorT>
-    void operator () (IteratorT begin, IteratorT end) const
-    {
-      std::string str (begin, end);
-      this->ostr_ << str;
-    }
-
-  private:
-    // Target stream for appending.
-    std::ostream & ostr_;
-  };
-
-  /**
-   * @class substitute
-   *
-   * Functor for inserting a string to a stream.
-   */
-  class substitute
-  {
-  public:
-    /**
-     * Initializing constructor.
-     *
-     * @param[in]         ostr        Target string for output
-     */
-    substitute (std::ostream & ostr)
-      : ostr_ (ostr)
-    {
-      // Get the CUTS_ROOT environment variable.
-      ACE_TCHAR pathname[1024];
-
-      if (ACE::get_temp_dir (pathname, 1024 - 21) == -1)
-      {
-        ACE_ERROR ((LM_WARNING,
-                    "%T - %M - failed to resolve temporary directory\n"));
-      }
-
-      // Create a temporary filename for the project.
-      ACE_OS::strcat (pathname, "cutsnode-XXXXXX");
-      char * tempfile = ACE_OS::mktemp (pathname);
-
-      if (tempfile != 0)
-      {
-        ACE_DEBUG ((LM_DEBUG,
-                    "%T - %M - saving temporary filename [%s]\n",
-                    tempfile));
-
-        // Save the filename for later.
-        this->tempfile_ = tempfile;
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T - %M - failed to create temporary file; using %s\n",
-                    pathname));
-
-        this->tempfile_ = pathname;
-      }
-    }
-
-    /**
-     * Copy constructor.
-     */
-    substitute (const substitute & copy)
-      : ostr_ (copy.ostr_),
-        tempfile_ (copy.tempfile_)
-    {
-
-    }
-
-    /**
-     * Assignment operator.
-     */
-    const substitute & operator = (const substitute & rhs)
-    {
-      this->tempfile_ = rhs.tempfile_;
-      return *this;
-    }
-
-    template <typename IteratorT>
-    void operator () (IteratorT begin, IteratorT end) const
-    {
-      std::string str (begin, end);
-
-      ACE_DEBUG ((LM_DEBUG,
-                  "%T - %M - substituting command: %s\n",
-                  str.c_str ()));
-
-      // Open the temporary file, and map it into memory.
-      int flags = O_WRONLY | O_CREAT;
-      ACE_HANDLE pipe = ACE_OS::open (this->tempfile_.c_str (), flags);
-
-      if (pipe != ACE_INVALID_HANDLE)
-      {
-        // Configure the options for spawning the process.
-        ACE_Process_Options options;
-        options.command_line ("%s", str.c_str ());
-        options.set_handles (ACE_INVALID_HANDLE, pipe, ACE_INVALID_HANDLE);
-
-        // Spawn the new process.
-        ACE_Process process;
-        ACE_Process_Manager * proc_man = ACE_Process_Manager::instance ();
-        pid_t pid = proc_man->spawn (&process, options);
-
-        if (pid != ACE_INVALID_PID)
-        {
-          // Wait for the newly spawned process to exit.
-          proc_man->wait (pid);
-
-          // Close the file used to store the output.
-          ACE_OS::close (pipe);
-
-          if (process.exit_code () == 0)
-          {
-            char substitution[BUFSIZ];
-            std::ifstream infile;
-
-            infile.open (this->tempfile_.c_str ());
-
-            if (infile.is_open ())
-            {
-              // Get only the first line of the file.
-              infile.getline (substitution, BUFSIZ);
-
-              // Append the line to the stream.
-              this->ostr_ << substitution;
-
-              // Close the file.
-              infile.close ();
-            }
-          }
-          else
-          {
-            ACE_ERROR ((LM_ERROR,
-                        "%T - %M - process had exit status of %d [%s]\n",
-                        process.exit_code (),
-                        str.c_str ()));
-
-            this->ostr_ << '`' << str << '`';
-          }
-        }
-        else
-        {
-          ACE_ERROR ((LM_ERROR,
-                      "%T - %M - failed to spawn process [%s]\n",
-                      str.c_str ()));
-
-          // Insert the original command to the stream.
-          this->ostr_ << '`' << str << '`';
-        }
-
-        // Delete the temporary file.
-        ACE_OS::unlink (this->tempfile_.c_str ());
-      }
-      else
-      {
-        ACE_ERROR ((LM_ERROR,
-                    "%T - %M - %m\n"
-                    "%T - %M - failed to open temporary file [%s]\n",
-                    this->tempfile_.c_str ()));
-
-        this->ostr_ << str;
-      }
-
-    }
-
-  private:
-    // Target stream for appending.
-    std::ostream & ostr_;
-
-    ACE_CString tempfile_;
-  };
-
-  /**
-   * @class definition
-   *
-   * Definition of the grammar.
-   */
-  template <typename ScannerT>
-  class definition
-  {
-  public:
-    /**
-     * Initializing constructor.
-     *
-     * @param[in]     self        The input grammar.
-     */
-    definition (CUTS_Command_Substitution_Grammar const & self)
-    {
-      using namespace boost::spirit;
-
-      this->text_ =
-        *(anychar_p - '`');
-
-      this->command_value_ =
-        *(anychar_p - '`');
-
-      this->command_ =
-        boost::spirit::confix_p ('`', this->command_value_[substitute (self.ostr_)], '`');
-
-      this->content_ =
-        this->text_ [append (self.ostr_)] >>
-        *(this->command_ >> this->text_ [append (self.ostr_)]);
-    }
-
-    /**
-     * Start of the input grammar.
-     *
-     * @return        Starting expression for the grammar.
-     */
-    const boost::spirit::rule <ScannerT> & start (void) const
-    {
-      return this->content_;
-    }
-
-  private:
-    /// rule: command_
-    boost::spirit::rule <ScannerT> command_;
-
-    /// rule: command_value_
-    boost::spirit::rule <ScannerT> command_value_;
-
-    /// rule: text_;
-    boost::spirit::rule <ScannerT> text_;
-
-    /// Content of the string.
-    boost::spirit::rule <ScannerT> content_;
-  };
-
 private:
-  /// Location to store the converted string.
-  std::ostream & ostr_;
+  qi::rule <IteratorT,
+            void (std::string *)> spec_;
+
+  /// Content of the string.
+  qi::rule <IteratorT,
+            void (std::string *)> content_;
+
+  /// rule: command_
+  qi::rule <IteratorT,
+            std::string (void)> command_;
+
+  /// rule: text_;
+  qi::rule <IteratorT,
+            std::string (void)> text_;
 };
 
 /**
@@ -336,15 +229,13 @@ public:
   template <typename IteratorT>
   bool evaluate (IteratorT begin, IteratorT end, std::ostream & out)
   {
-    CUTS_Command_Substitution_Grammar grammar (out);
-
-    boost::spirit::parse_info <IteratorT> result =
-      boost::spirit::parse (begin,
-                            end,
-                            grammar >> !boost::spirit::end_p);
-
-    return result.full;
+    std::string ostr;
+    CUTS_Command_Substitution_Grammar <IteratorT> grammar;
+    bool retval = qi::phrase_parse (begin, end, grammar (&ostr), qi::space);
+    out << ostr.c_str ();
+    return retval;
   }
+
 };
 
 #if defined (__CUTS_INLINE__)

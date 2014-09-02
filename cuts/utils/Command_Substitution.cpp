@@ -14,14 +14,19 @@
 bool CUTS_Command_Substitution::
 evaluate (const char * str, ACE_CString & result)
 {
-  std::ostringstream ostr;
-  CUTS_Command_Substitution_Grammar grammar (ostr);
+  std::string ostr;
+  CUTS_Command_Substitution_Grammar <const char *> grammar;
 
-  boost::spirit::parse_info < > info =
-    boost::spirit::parse (str, grammar >> !boost::spirit::end_p);
+  const char * begin (str);
+  const char * end (begin + ACE_OS::strlen (begin));
 
-  if (info.full)
-    result = ostr.str ().c_str ();
+  bool retval = boost::spirit::qi::phrase_parse (begin,
+                                                 end,
+                                                 grammar (&ostr),
+                                                 boost::spirit::qi::space);
 
-  return info.full;
+  if (retval)
+    result = ostr.c_str ();
+
+  return retval;
 }

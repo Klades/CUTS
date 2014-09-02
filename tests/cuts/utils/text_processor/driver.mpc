@@ -1,0 +1,9 @@
+// $Id$
+
+project (CUTS_TestTextProcessor) : cuts_test {
+  exename = CUTS_TestTextProcessor
+
+  Source_Files {
+    driver.cpp
+  }
+}
