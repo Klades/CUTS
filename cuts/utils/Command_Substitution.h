@@ -35,20 +35,20 @@ namespace qi = boost::spirit::qi;
 namespace phoenix = boost::phoenix;
 namespace ascii = boost::spirit::ascii;
 
-namespace command_substition_helpers
+namespace actors
 {
-  // Append the provided string to the output parameter
-  void append (const std::string & in, std::string * out)
-  {
-    *out += in;
-  }
 
-  // Execute the provided string and put its output into the out parameter
-  void replace (const std::string & cmd, std::string & out)
+struct replace
+{
+  template <typename Context>
+  void operator()(const std::string & cmd, Context ctx, qi::unused_type) const
   {
+    // Execute the provided string and put its output into the _val (ctx.attributes[0])
     ACE_DEBUG ((LM_DEBUG,
                 "%T - %M - substituting command: %s\n",
                 cmd.c_str ()));
+
+    std::string & out = boost::fusion::at_c <0> (ctx.attributes);
 
     // Get a temporary file to store output
     ACE_TCHAR pathname[1024];
@@ -148,6 +148,8 @@ namespace command_substition_helpers
 
 };
 
+};
+
 /**
  * @class CUTS_Command_Substitution_i
  *
@@ -156,7 +158,7 @@ namespace command_substition_helpers
 template <typename IteratorT>
 class CUTS_Command_Substitution_Grammar :
     public boost::spirit::qi::grammar <IteratorT,
-                                       void (std::string *)>
+                                       std::string (void)>
 {
 public:
   /**
@@ -172,23 +174,22 @@ public:
       *(qi::char_ - '`');
 
     this->command_ =
-      '`' >> this->text_ [phoenix::bind (&command_substition_helpers::replace, qi::_1, qi::_val)] >> '`';
+      '`' >> this->text_ [actors::replace ()] >> '`';
 
-    this->content_ =
-      this->text_ [phoenix::bind (&command_substition_helpers::append, qi::_1, qi::_r1)] >>
-      *(this->command_ [phoenix::bind (&command_substition_helpers::append, qi::_1, qi::_r1)] >>
-        this->text_ [phoenix::bind (&command_substition_helpers::append, qi::_1, qi::_r1)]);
+    this->content_ %=
+      this->text_ >>
+      *(this->command_ >> this->text_);
 
-    this->spec_ = this->content_ (qi::_r1);
+    this->spec_ %= this->content_;
   }
 
 private:
   qi::rule <IteratorT,
-            void (std::string *)> spec_;
+            std::string (void)> spec_;
 
   /// Content of the string.
   qi::rule <IteratorT,
-            void (std::string *)> content_;
+            std::string (void)> content_;
 
   /// rule: command_
   qi::rule <IteratorT,
@@ -231,7 +232,7 @@ public:
   {
     std::string ostr;
     CUTS_Command_Substitution_Grammar <IteratorT> grammar;
-    bool retval = qi::phrase_parse (begin, end, grammar (&ostr), qi::space);
+    bool retval = qi::parse (begin, end, grammar, ostr);
     out << ostr.c_str ();
     return retval;
   }
