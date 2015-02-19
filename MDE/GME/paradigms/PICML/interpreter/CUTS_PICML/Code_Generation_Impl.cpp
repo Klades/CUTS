@@ -93,7 +93,7 @@ private:
 int Code_Generation_Impl::
 invoke_ex (GAME::Mga::Project project,
            GAME::Mga::FCO focus,
-           std::vector <GAME::Mga::FCO> & selected,
+           GAME::Mga::Collection_T <GAME::Mga::FCO> & selected,
            long flags)
 {
   UdmGme::GmeDataNetwork dngBackend (PICML::diagram);
