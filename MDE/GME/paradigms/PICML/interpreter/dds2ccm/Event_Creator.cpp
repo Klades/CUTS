@@ -42,10 +42,10 @@ namespace dds2ccm
 // visit_RootFolder
 //
 void Event_Creator::
-visit_RootFolder (GAME::Mga::RootFolder_in folder)
+visit_RootFolder (PICML::RootFolder_in folder)
 {
   // Visit all the InterfaceDefinitions folders in the root folder.
-  for (auto item : folder->folders ())
+  for (auto item : folder->get_InterfaceDefinitions ())
     item->accept (this);
 }
 
@@ -184,16 +184,17 @@ void Event_Creator::visit_Aggregate (PICML::Aggregate_in item)
 //
 void Event_Creator::visit_Member (PICML::Member_in item)
 {
-  PICML::MemberType member_type = item->get_MemberType ();
+  PICML::MemberType member_type = item->refers_to_MemberType ();
   PICML::Member target_member;
 
   if (GAME::create_if_not <GAME::Mga_t> (this->target_event_, target_member,
-      GAME::contains <GAME::Mga_t> (boost::bind (std::equal_to <PICML::MemberType> (),
-                                    member_type,
-                                    boost::bind (&PICML::Member::impl_type::get_MemberType,
-                                                 boost::bind (&PICML::Member::get, _1))))))
+      GAME::contains <GAME::Mga_t> (
+        [&] (const PICML::Member & m)
+        {
+          return std::equal_to <PICML::MemberType> () (member_type, m->refers_to_MemberType ());
+        })))
   {
-    target_member->set_MemberType (member_type);
+    target_member->refers_to_MemberType (member_type);
   }
 
   target_member->name (item->name ());
