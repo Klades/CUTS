@@ -35,7 +35,7 @@ public:
   /// Destructor.
   virtual ~Event_Creator (void);
 
-  virtual void visit_RootFolder (GAME::Mga::RootFolder_in folder);
+  virtual void visit_RootFolder (PICML::RootFolder_in folder);
   virtual void visit_InterfaceDefinitions (PICML::InterfaceDefinitions_in item);
   virtual void visit_File (PICML::File_in item);
   virtual void visit_Package (PICML::Package_in item);

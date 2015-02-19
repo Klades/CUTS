@@ -40,11 +40,9 @@ dds2ccm_Component_Impl::~dds2ccm_Component_Impl (void)
 int dds2ccm_Component_Impl::
 invoke_ex (GAME::Mga::Project project,
            GAME::Mga::FCO_in focus,
-           std::vector <GAME::Mga::FCO> & selected,
+           GAME::Mga::Collection_T <GAME::Mga::FCO> & selected,
            long flags)
 {
-  using GAME::Mga::RootFolder;
-
   GAME::Mga::Transaction t (project);
 
   try
@@ -52,11 +50,8 @@ invoke_ex (GAME::Mga::Project project,
     // Visit the RootFolder. We are going to create the dds2ccm events
     // in the supplied target folder. We use a seperate IDL folder so it
     // can be easily removed from the model.
-
-    RootFolder root_folder = project.root_folder ();
-
     dds2ccm::Event_Creator creator;
-    root_folder->accept (&creator);
+    project.root_folder ()->accept (&creator);
 
     // Commit our changes to the model.
     t.commit ();
