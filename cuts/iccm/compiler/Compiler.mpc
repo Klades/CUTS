@@ -1,6 +1,6 @@
 // $Id$
 
-project (iCCM_Compiler) : boost_base, codegenerationkit, tao_idl_fe, cutslib {
+project (iCCM_Compiler) : boost_base, cuts_codegenerationkit, tao_idl_fe, cutslib {
   sharedname    = iCCM_Compiler
   dynamicflags += ICCM_COMPILER_BUILD_DLL
 

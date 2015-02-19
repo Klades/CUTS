@@ -1,6 +1,6 @@
 // $Id$
 
-project : boost_base, codegenerationkit, tao_idl_fe, cutsexe {
+project : boost_base, cuts_codegenerationkit, tao_idl_fe, cutsexe {
   after    += iCCM_Compiler
   libs     += iCCM_Compiler
 

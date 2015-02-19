@@ -62,8 +62,8 @@ workspace (CUTS) {
 
   exclude (wix, !gnuace) {
     cmdline += -static -base ccf_root \
-               -include $CUTS_ROOT/contrib/CCF/MPC/config
+               -include $CUTS_ROOT/contrib/CCF/CCF/MPC/config
 
-    $(CUTS_ROOT)/contrib/CCF/CCF/CodeGenerationKit
+    $(CUTS_ROOT)/contrib/CCF/CCF/CCF/CodeGenerationKit
   }
 }

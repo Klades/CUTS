@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_Dmac_Common) : boost_base, codegenerationkit, cuts_test_database, cutslib, acelib {
+project (CUTS_Dmac_Common) : boost_base, cuts_codegenerationkit, cuts_test_database, cutslib, acelib {
   sharedname = CUTS_Dmac_Common
   dynamicflags += CUTS_DMAC_BUILD_DLL
   after += CUTS_DSF
