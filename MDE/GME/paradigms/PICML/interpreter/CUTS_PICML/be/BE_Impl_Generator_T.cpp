@@ -121,8 +121,7 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
 
   // Write the include files for this implementation.
   CUTS_BE::visit <CONTEXT> (impl->include_,
-    boost::bind (&CUTS_BE_Impl_Generator_T::Visit_Include,
-    boost::ref (this), _1));
+    [&] (const std::string & s) {return this->Visit_Include (s);});
 
   // Figure out what type of component we are implementing. Right
   // now there is a one-to-one implementation to component type
@@ -153,8 +152,7 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
     Facet_Set facets = component.ProvidedRequestPort_kind_children ();
 
     CUTS_BE::visit <CONTEXT> (facets,
-      boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ProvidedRequestPort_impl,
-      boost::ref (this), _1));
+      [&] (const PICML::ProvidedRequestPort & p) {return this->Visit_ProvidedRequestPort_impl (p);});
 
     // Find the component implementation artifact so we can generate
     // the entrypoint for this component's implementation.
