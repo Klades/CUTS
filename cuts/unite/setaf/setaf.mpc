@@ -1,7 +1,7 @@
 // $Id$
 
 
-project (CUTS_Setaf_Common) : boost_base, codegenerationkit, cutslib, acelib, cuts_unite {
+project (CUTS_Setaf_Common) : boost_base, cuts_codegenerationkit, cutslib, acelib, cuts_unite {
   sharedname = CUTS_Setaf_Common
   dynamicflags += CUTS_SETAF_BUILD_DLL
 
@@ -32,7 +32,7 @@ project (CUTS_Setaf_Common) : boost_base, codegenerationkit, cutslib, acelib, cu
   }
 }
 
-project (CUTS_Setaf_Exe) : codegenerationkit, boost_base, cutsexe, cuts_unite {
+project (CUTS_Setaf_Exe) : cuts_codegenerationkit, boost_base, cutsexe, cuts_unite {
   exename = cuts-setaf
   after += CUTS_Setaf_Common
   libs += CUTS_Setaf_Common

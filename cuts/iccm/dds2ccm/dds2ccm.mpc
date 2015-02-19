@@ -1,6 +1,6 @@
 // $Id$
 
-project (dds2ccm) : boost_base, codegenerationkit, tao_idl_fe, cutsexe {
+project (dds2ccm) : boost_base, cuts_codegenerationkit, tao_idl_fe, cutsexe {
   exename   = dds2ccm
   includes += . $(TAO_ROOT)
 
