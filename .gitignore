@@ -1,0 +1,50 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Annoying files
+.DS_Store
+*~
+*.tlb
+*.sln
+*.sdf
+*.suo
+*.exe
+*.ilk
+*.pdb
+*.ncb
+*.exp
+
+# Project gen files
+*.vcxproj*
+*.vcproj*
+*_i.c
+*_p.c
+dlldata.c
+*.aps
+
+# VS directories
+Debug/
+Static_Debug/
+Release/
+Static_Release/
+ipch/
+lib/
+
+# GME files
+*.mga
+*.mga.bak
+*.mta
+*.xmp
+*.xmp.log
