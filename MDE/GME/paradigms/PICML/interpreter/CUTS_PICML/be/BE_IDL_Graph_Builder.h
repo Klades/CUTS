@@ -94,14 +94,6 @@ private:
    */
   PICML::File NamedType_parent (const PICML::NamedType & type);
 
-  /**
-   * Visit the contents of a File/Package element in a PICML
-   * model.
-   *
-   * @param[in]     object        The source object.
-   */
-  void visit_file_and_package_contents (const Udm::Object & object);
-
   /// Target IDL graph.
   CUTS_BE_IDL_Graph & graph_;
 

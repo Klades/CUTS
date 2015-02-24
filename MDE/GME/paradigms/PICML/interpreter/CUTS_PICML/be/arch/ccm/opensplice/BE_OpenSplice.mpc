@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_OpenSplice) : boost_base, picml_udm, cuts_be_ccm, cuts_cosmic {
+project (CUTS_BE_OpenSplice) : boost_base, cuts_picml_game_mga, cuts_be_ccm, cuts_cosmic {
   sharedname    += CUTS_BE_OpenSplice
   dynamicflags  += CUTS_BE_OPENSPLICE_BUILD_DLL
 

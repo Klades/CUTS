@@ -8,11 +8,6 @@
 #include "game/mga/component/Interpreter_T.h"
 #include "game/mga/utils/Project_Settings.h"
 
-#include "UdmGme.h"
-#include "UdmStatic.h"
-
-#include "Utils/Utils.h"
-
 #include "Main_Dialog.h"
 #include "be/arch/ccm/ciao/CIAO_Manager.h"
 #include "be/arch/ccm/coredx/Manager.h"
@@ -65,28 +60,6 @@ int Code_Generation_Impl::initialize (GAME::Mga::Project project)
   return 0;
 }
 
-/**
- * @struct insert_udm_t
- */
-struct insert_udm_t
-{
-  insert_udm_t (UdmGme::GmeDataNetwork & network, std::set <Udm::Object> & coll)
-    : network_ (network),
-      coll_ (coll)
-  {
-
-  }
-
-  void operator () (const GAME::Mga::FCO_in fco) const
-  {
-    this->coll_.insert (this->network_.Gme2Udm (fco->impl ()));
-  }
-
-private:
-  UdmGme::GmeDataNetwork & network_;
-  std::set <Udm::Object> & coll_;
-};
-
 //
 // invoke_ex
 //
@@ -96,21 +69,10 @@ invoke_ex (GAME::Mga::Project project,
            GAME::Mga::Collection_T <GAME::Mga::FCO> & selected,
            long flags)
 {
-  UdmGme::GmeDataNetwork dngBackend (PICML::diagram);
-
   try
   {
-    // Opening backend
-    dngBackend.OpenExisting (project.impl ());
-
-    Udm::Object currentObject;
-    if (0 != focus)
-      currentObject = dngBackend.Gme2Udm (focus->impl ());
-
-    set <Udm::Object> selectedObjects;
-    std::for_each (selected.begin (),
-                   selected.end (),
-                   insert_udm_t (dngBackend, selectedObjects));
+    // Start our transaction
+    GAME::Mga::Readonly_Transaction transaction (project);
 
     if (this->is_interactive_)
     {
@@ -135,7 +97,7 @@ invoke_ex (GAME::Mga::Project project,
     std::string message;
 
     // Get the root folder for the project.
-    PICML::RootFolder root = PICML::RootFolder::Cast (dngBackend.GetRootObject());
+    PICML::RootFolder root = project.root_folder ();
     backend_t::FACTORY_METHOD factory = this->backends_[this->selected_backend_].factory_;
 
     if (0 != factory)
@@ -167,18 +129,12 @@ invoke_ex (GAME::Mga::Project project,
     settings.set_value ("OutputPath", this->output_);
     settings.set_value ("Backend", this->selected_backend_);
 
-    // Closing backend
-    dngBackend.CloseWithUpdate ();
     return 0;
   }
-  catch (udm_exception & exc)
+  catch (::GAME::Mga::Exception & ex)
   {
-    if (this->is_interactive_)
-      ::AfxMessageBox (exc.what ());
+    ::AfxMessageBox (ex.message ().c_str ());
   }
-
-  dngBackend.CloseNoUpdate ();
-  return -1;
 }
 
 //

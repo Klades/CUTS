@@ -4,19 +4,22 @@
 #include "BE_IDL_Node.h"
 #include "boost/bind.hpp"
 
+#include "PICML/PICML.h"
+#include "PICML/Visitor.h"
+
 namespace CUTS_BE
 {
 //
 // get_file
 //
-PICML::File get_file (const PICML::NamedType & n)
+PICML::File get_file (const PICML::NamedType_in n)
 {
-  Udm::Object obj = n.GetParent ();
+  GAME::Mga::Object obj;
 
-  while (obj.type () != PICML::File::meta)
-    obj = obj.GetParent ();
+  while (obj->meta ()->name () != PICML::File::impl_type::metaname)
+    obj = obj->parent ();
 
-  return PICML::File::Cast (obj);
+  return obj;
 }
 
 /**
@@ -36,37 +39,30 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File & file)
+  virtual void Visit_File (const PICML::File_in file)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (file);
-  }
-
-  virtual void Visit_Package (const PICML::Package & package)
-  {
-    if (!this->result_)
-      this->Visit_FilePackage_i (package);
-  }
-
-protected:
-  void Visit_FilePackage_i (const Udm::Object & obj)
-  {
-    std::set <PICML::Object> objects =
-      Udm::ChildrenAttr <PICML::Object> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    if (!objects.empty ())
-    {
-      this->result_ = true;
+    if (this->result_)
       return;
-    }
 
-    // Visit the remaining packages.
-    std::set <PICML::Package> packages =
-      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+    if (file->get_Objects ().count ())
+      this->result_ = true;
+    else
+    {
+      for (auto package : file->get_Packages ())
+        package->accept (this);
+    }      
+  }
 
-    for (auto package : packages)
-      package.Accept (*this);
+  virtual void Visit_Package (const PICML::Package_in package)
+  {
+    if (this->result_)
+      return;
 
+    if (package->get_Objects ().count ())
+      this->result_ = true;
+
+    for (auto subpackage : package->get_Packages ())
+      subpackage->accept (this);
   }
 
 private:
@@ -91,36 +87,30 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File & file)
+  virtual void Visit_File (const PICML::File_in file)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (file);
-  }
-
-  virtual void Visit_Package (const PICML::Package & package)
-  {
-    if (!this->result_)
-      this->Visit_FilePackage_i (package);
-  }
-
-protected:
-  void Visit_FilePackage_i (const Udm::Object & obj)
-  {
-    std::set <PICML::Component> components =
-      Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    if (!components.empty ())
-    {
-      this->result_ = true;
+    if (this->result_)
       return;
-    }
 
-    // Visit the remaining packages.
-    std::set <PICML::Package> packages =
-      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+    if (file->get_Components ().count ())
+      this->result_ = true;
+    else
+    {
+      for (auto package : file->get_Packages ())
+        package->accept (this);
+    }      
+  }
 
-    for (auto package : packages)
-      package.Accept (*this);
+  virtual void Visit_Package (const PICML::Package_in package)
+  {
+    if (this->result_)
+      return;
+
+    if (package->get_Components ().count ())
+      this->result_ = true;
+
+    for (auto subpackage : package->get_Packages ())
+      subpackage->accept (this);
   }
 
 private:
@@ -131,10 +121,10 @@ private:
 //
 // has_component
 //
-bool has_component (const PICML::File & file)
+bool has_component (const PICML::File_in file)
 {
   has_component_i search;
-  PICML::File (file).Accept (search);
+  file->accept (&search);
 
   return search.result ();
 }
@@ -142,10 +132,10 @@ bool has_component (const PICML::File & file)
 //
 // has_component
 //
-bool has_interface (const PICML::File & file)
+bool has_interface (const PICML::File_in file)
 {
   has_interface_i search;
-  PICML::File (file).Accept (search);
+  file->accept (&search);
 
   return search.result ();
 }
@@ -178,37 +168,30 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File & file)
+  virtual void Visit_File (const PICML::File_in file)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (file);
-  }
-
-  virtual void Visit_Package (const PICML::Package & package)
-  {
-    if (!this->result_)
-      this->Visit_FilePackage_i (package);
-  }
-
-protected:
-  void Visit_FilePackage_i (const Udm::Object & obj)
-  {
-    // Gather all the necessary elements.
-    std::set <PICML::Event> events =
-      Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    if (!events.empty ())
-    {
-      this->result_ = true;
+    if (this->result_)
       return;
-    }
 
-    // Visit the remaining packages.
-    std::set <PICML::Package> packages =
-      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+    if (file->get_Events ().count ())
+      this->result_ = true;
+    else
+    {
+      for (auto package : file->get_Packages ())
+        package->accept (this);
+    }      
+  }
 
-    for (auto package : packages)
-      package.Accept (*this);
+  virtual void Visit_Package (const PICML::Package_in package)
+  {
+    if (this->result_)
+      return;
+
+    if (package->get_Events ().count ())
+      this->result_ = true;
+
+    for (auto subpackage : package->get_Packages ())
+      subpackage->accept (this);
   }
 
 private:
@@ -219,10 +202,10 @@ private:
 //
 // has_events
 //
-bool has_events (const PICML::File & file)
+bool has_events (const PICML::File_in file)
 {
   has_events_i search;
-  PICML::File (file).Accept (search);
+  file->accept (&search);
 
   return search.result ();
 }
@@ -247,40 +230,34 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File & file)
+  virtual void Visit_File (const PICML::File_in file)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (file);
+    if (this->result_)
+      return;
+
+    for (auto aggregate : file->get_Aggregates ())
+      aggregate->accept (this);
+
+    for (auto package : file->get_Packages ())
+      package->accept (this);
   }
 
-  virtual void Visit_Package (const PICML::Package & package)
+  virtual void Visit_Package (const PICML::Package_in package)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (package);
+    if (this->result_)
+      return;
+
+    for (auto aggregate : package->get_Aggregates ())
+      aggregate->accept (this);
+
+    for (auto package : package->get_Packages ())
+      package->accept (this);
   }
 
-  virtual void Visit_Aggregate (const PICML::Aggregate & aggr)
+  virtual void Visit_Aggregate (const PICML::Aggregate_in aggr)
   {
-    PICML::Key key = aggr.Key_child ();
-    this->result_ |= (key != Udm::null);
-  }
-
-protected:
-  void Visit_FilePackage_i (const Udm::Object & obj)
-  {
-    // Gather all the necessary elements.
-    std::set <PICML::Aggregate> structs =
-      Udm::ChildrenAttr <PICML::Aggregate> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    for (auto struct_target : structs)
-      struct_target.Accept (*this);
-
-    // Visit the remaining packages.
-    std::set <PICML::Package> packages =
-      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    for (auto package : packages)
-      package.Accept (*this);
+    if (aggr->has_Key ())
+      this->result_ = true;
   }
 
 private:
@@ -291,10 +268,10 @@ private:
 //
 // has_dds_events
 //
-bool has_dds_events (const PICML::File & file)
+bool has_dds_events (const PICML::File_in file)
 {
   has_dds_events_i search;
-  PICML::File (file).Accept (search);
+  file->accept (&search);
 
   return search.result ();
 }
@@ -321,53 +298,38 @@ public:
 
   virtual void Visit_File (const PICML::File & file)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (file);
+    if (this->result_)
+      return;
+
+    if (file->get_Events ().count ())
+      this->result_ = true;
+
+    if (file->get_Components ().count ())
+      this->result_ = true;
+
+    if (file->get_Objects ().count ())
+      this->result_ = true;
+
+    for (auto package : file->get_Packages ())
+      package->accept (this);
   }
 
-  virtual void Visit_Package (const PICML::Package & package)
+  virtual void Visit_Package (const PICML::Package_in package)
   {
-    if (!this->result_)
-      this->Visit_FilePackage_i (package);
-  }
-
-protected:
-  void Visit_FilePackage_i (const Udm::Object & obj)
-  {
-    // Gather all the necessary elements.
-    std::set <PICML::Event> events =
-      Udm::ChildrenAttr <PICML::Event> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    if (!events.empty ())
-    {
-      this->result_ = true;
+    if (this->result_)
       return;
-    }
 
-    std::set <PICML::Component> c =
-      Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    if (!c.empty ())
-    {
+    if (package->get_Events ().count ())
       this->result_ = true;
-      return;
-    }
 
-    std::set <PICML::Object> o =
-      Udm::ChildrenAttr <PICML::Object> (obj.__impl (), Udm::NULLCHILDROLE);
-
-    if (!o.empty ())
-    {
+    if (package->get_Components ().count ())
       this->result_ = true;
-      return;
-    }
 
-    // Visit the remaining packages.
-    std::set <PICML::Package> packages =
-      Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
+    if (package->get_Objects ().count ())
+      this->result_ = true;
 
-    for (auto package : packages)
-      package.Accept (*this);
+    for (auto subpackage : package->get_Packages ())
+      subpackage->accept (this);
   }
 
 private:
@@ -378,10 +340,10 @@ private:
 //
 // requires_executor
 //
-bool requires_executor (const PICML::File & file)
+bool requires_executor (const PICML::File_in file)
 {
   requires_executor_i search;
-  PICML::File (file).Accept (search);
+  file->accept (&search);
 
   return search.result ();
 }
@@ -397,19 +359,19 @@ bool requires_executor (const CUTS_BE_IDL_Node * node)
 //
 // get_pathname
 //
-std::string get_pathname (const PICML::File & file,
+std::string get_pathname (const PICML::File_in file,
                           const std::string & separator,
                           const std::string & prefix,
                           const std::string & suffix)
 {
   // Make sure we add the path to the pathname.
-  std::string pathname = file.Path ();
+  std::string pathname = file->Path ();
 
   if (!pathname.empty ())
     pathname += "/";
 
   // Construct the remaining part of the pathname.
-  pathname += prefix + std::string (file.name ()) + suffix;
+  pathname += prefix + std::string (file->name ()) + suffix;
 
   return pathname;
 }

@@ -1,6 +1,6 @@
 // $Id$
 
-project : udm, cuts_codegenerationkit {
+project : cuts_game_mga, cuts_codegenerationkit {
   after += CUTS_BE
   libs  += CUTS_BE
 

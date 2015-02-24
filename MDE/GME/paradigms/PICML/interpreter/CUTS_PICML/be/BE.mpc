@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE) : picml_udm, boost_base, cuts_cosmic {
+project (CUTS_BE) : cuts_picml_game_mga, boost_base, cuts_cosmic {
   after += PICML
 
   sharedname = CUTS_BE

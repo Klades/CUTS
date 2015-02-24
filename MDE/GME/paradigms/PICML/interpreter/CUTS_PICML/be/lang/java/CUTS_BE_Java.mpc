@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_Java) : boost_base, picml_udm, cuts_be, cuts_cosmic {
+project (CUTS_BE_Java) : boost_base, cuts_picml_game_mga, cuts_be, cuts_cosmic {
   sharedname    = CUTS_BE_Java
   dynamicflags += CUTS_BE_JAVA_BUILD_DLL
 
