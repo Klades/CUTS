@@ -14,7 +14,7 @@ CUTS_BE_File_Traits::CUTS_BE_File_Traits (void)
 //
 CUTS_INLINE
 void CUTS_BE_File_Traits::
-close_file (const PICML::ComponentImplementationContainer & container)
+close_file (const PICML::ComponentImplementationContainer_in container)
 {
   this->out_.close ();
 }
