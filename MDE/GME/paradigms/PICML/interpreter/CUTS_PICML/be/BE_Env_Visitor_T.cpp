@@ -27,13 +27,10 @@ CUTS_BE_Env_Visitor_T <CONTEXT>::~CUTS_BE_Env_Visitor_T (void)
 //
 template <typename CONTEXT>
 void CUTS_BE_Env_Visitor_T <CONTEXT>::
-Visit_Environment (const PICML::Environment & env)
+Visit_Environment (const PICML::Environment_in env)
 {
-  typedef std::set <PICML::MultiInput> MultiInput_Set;
-  MultiInput_Set inputs = env.dstMultiInput ();
-
-  CUTS_BE::visit <CONTEXT> (inputs,
-    [&] (PICML::MultiInput item) {item.Accept (*this);});
+  CUTS_BE::visit <CONTEXT> (env->src_of_MultiInput (),
+    [&] (PICML::MultiInput item) {item->accept (this);});
 }
 
 //
@@ -41,12 +38,10 @@ Visit_Environment (const PICML::Environment & env)
 //
 template <typename CONTEXT>
 void CUTS_BE_Env_Visitor_T <CONTEXT>::
-Visit_MultiInput (const PICML::MultiInput & input)
+Visit_MultiInput (const PICML::MultiInput_in input)
 {
-  PICML::MultiInputAction action = input.dstMultiInput_end ();
-
-  CUTS_BE::visit <CONTEXT> (action,
-    boost::bind (&PICML::MultiInputAction::Accept, _1, boost::ref (*this)));
+  CUTS_BE::visit <CONTEXT> (input->dst_MultiInputAction (),
+    [&] (PICML::MultiInputAction action) {action->accept (this);});
 }
 
 //
@@ -54,13 +49,13 @@ Visit_MultiInput (const PICML::MultiInput & input)
 //
 template <typename CONTEXT>
 void CUTS_BE_Env_Visitor_T <CONTEXT>::
-Visit_MultiInputAction (const PICML::MultiInputAction & action)
+Visit_MultiInputAction (const PICML::MultiInputAction_in action)
 {
   CUTS_BE_Environment_Method_Begin_T <architecture_type> env_method_begin_gen (this->context_);
   env_method_begin_gen.generate (action);
 
   CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
-  PICML::MultiInputAction (action).Accept (exec_visitor);
+  action->accept (&exec_visitor);
 
   CUTS_BE_Environment_Method_End_T <architecture_type> env_method_end_gen (this->context_);
   env_method_end_gen.generate (action);

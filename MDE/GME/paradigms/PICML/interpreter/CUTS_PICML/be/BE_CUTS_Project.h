@@ -17,6 +17,7 @@
 
 #include "BE_export.h"
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
 
@@ -50,15 +51,15 @@ public:
   const std::string & message (void) const;
 
 private:
-  void Visit_RootFolder (const PICML::RootFolder &);
+  void Visit_RootFolder (const PICML::RootFolder_in);
 
-  void Visit_PredefinedTypes (const PICML::PredefinedTypes &);
+  void Visit_PredefinedTypes (const PICML::PredefinedTypes_in);
 
-  void Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions &);
+  void Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions_in);
 
-  void Visit_Package (const PICML::Package &);
+  void Visit_Package (const PICML::Package_in);
 
-  void Visit_File (const PICML::File &);
+  void Visit_File (const PICML::File_in);
 
   PICML::Object testing_service_;
 
