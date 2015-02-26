@@ -20,7 +20,7 @@ CUTS_BE_Initialize_T <CONTEXT>::~CUTS_BE_Initialize_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_Initialize_T <CONTEXT>::generate (const PICML::RootFolder & )
+void CUTS_BE_Initialize_T <CONTEXT>::generate (const PICML::RootFolder_in )
 {
 
 }
@@ -44,7 +44,7 @@ CUTS_BE_Finalize_T <CONTEXT>::~CUTS_BE_Finalize_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_Finalize_T <CONTEXT>::generate (const PICML::RootFolder & )
+void CUTS_BE_Finalize_T <CONTEXT>::generate (const PICML::RootFolder_in )
 {
 
 }
@@ -68,8 +68,8 @@ CUTS_BE_File_Open_T <CONTEXT>::~CUTS_BE_File_Open_T (void)
 
 template <typename CONTEXT>
 void CUTS_BE_File_Open_T <CONTEXT>::
-generate (const PICML::ComponentImplementationContainer &,
-          const PICML::MonolithicImplementation &)
+generate (const PICML::ComponentImplementationContainer_in,
+          const PICML::MonolithicImplementation_in)
 {
 
 }
@@ -95,8 +95,8 @@ CUTS_BE_File_Close_T <CONTEXT>::~CUTS_BE_File_Close_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_File_Close_T <CONTEXT>::
-generate (const PICML::ComponentImplementationContainer &,
-          const PICML::MonolithicImplementation &)
+generate (const PICML::ComponentImplementationContainer_in,
+          const PICML::MonolithicImplementation_in)
 {
 
 }
@@ -121,8 +121,8 @@ CUTS_BE_Prologue_T <CONTEXT>::~CUTS_BE_Prologue_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Prologue_T <CONTEXT>::
-generate (const PICML::ComponentImplementationContainer &,
-          const PICML::MonolithicImplementation &)
+generate (const PICML::ComponentImplementationContainer_in,
+          const PICML::MonolithicImplementation_in)
 {
 
 }
@@ -147,8 +147,8 @@ CUTS_BE_Epilogue_T <CONTEXT>::~CUTS_BE_Epilogue_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Epilogue_T <CONTEXT>::
-generate (const PICML::ComponentImplementationContainer &,
-          const PICML::MonolithicImplementation &)
+generate (const PICML::ComponentImplementationContainer_in,
+          const PICML::MonolithicImplementation_in)
 {
 
 }
@@ -202,8 +202,8 @@ CUTS_BE_Component_Impl_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Component_Impl_Begin_T <CONTEXT>::
-generate (const PICML::MonolithicImplementation & ,
-          const PICML::Component & )
+generate (const PICML::MonolithicImplementation_in,
+          const PICML::Component_in)
 {
 
 }
@@ -231,8 +231,8 @@ CUTS_BE_Component_Impl_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Component_Impl_End_T <CONTEXT>::
-generate (const PICML::MonolithicImplementation & ,
-          const PICML::Component & )
+generate (const PICML::MonolithicImplementation_in,
+          const PICML::Component_in)
 {
 
 }
@@ -260,7 +260,7 @@ CUTS_BE_Environment_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Environment_Begin_T <CONTEXT>::
-generate (const PICML::Component &)
+generate (const PICML::Component_in)
 {
 
 }
@@ -287,7 +287,7 @@ CUTS_BE_Environment_Method_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Environment_Method_Begin_T <CONTEXT>::
-generate (const PICML::MultiInputAction & )
+generate (const PICML::MultiInputAction_in)
 {
 
 }
@@ -314,7 +314,7 @@ CUTS_BE_Environment_Method_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Environment_Method_End_T <CONTEXT>::
-generate (const PICML::MultiInputAction & )
+generate (const PICML::MultiInputAction_in)
 {
 
 }
@@ -339,7 +339,7 @@ CUTS_BE_Environment_End_T <CONTEXT>::~CUTS_BE_Environment_End_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_Environment_End_T <CONTEXT>::generate (const PICML::Component & )
+void CUTS_BE_Environment_End_T <CONTEXT>::generate (const PICML::Component_in )
 {
 
 }
@@ -366,7 +366,7 @@ CUTS_BE_Attribute_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Attribute_Begin_T <CONTEXT>::
-generate (const PICML::Attribute & )
+generate (const PICML::Attribute_in )
 {
 
 }
@@ -393,7 +393,7 @@ CUTS_BE_Attribute_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Attribute_End_T <CONTEXT>::
-generate (const PICML::Attribute & )
+generate (const PICML::Attribute_in )
 {
 
 }
@@ -420,7 +420,7 @@ CUTS_BE_ReadonlyAttribute_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ReadonlyAttribute_Begin_T <CONTEXT>::
-generate (const PICML::ReadonlyAttribute & )
+generate (const PICML::ReadonlyAttribute_in )
 {
 
 }
@@ -447,7 +447,7 @@ CUTS_BE_ReadonlyAttribute_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ReadonlyAttribute_End_T <CONTEXT>::
-generate (const PICML::ReadonlyAttribute & )
+generate (const PICML::ReadonlyAttribute_in )
 {
 
 }
@@ -474,7 +474,7 @@ CUTS_BE_Variables_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Variables_Begin_T <CONTEXT>::
-generate (const PICML::Component & )
+generate (const PICML::Component_in )
 {
 
 }
@@ -501,7 +501,7 @@ CUTS_BE_Variables_End_T <CONTEXT>::~CUTS_BE_Variables_End_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Variables_End_T <CONTEXT>::
-generate (const PICML::Component & )
+generate (const PICML::Component_in )
 {
 
 }
@@ -526,7 +526,7 @@ CUTS_BE_Variable_T <CONTEXT>::~CUTS_BE_Variable_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_Variable_T <CONTEXT>::generate (const PICML::Variable & )
+void CUTS_BE_Variable_T <CONTEXT>::generate (const PICML::Variable_in )
 {
 
 }
@@ -552,7 +552,7 @@ CUTS_BE_PeriodicEvent_Variable_T <CONTEXT>::~CUTS_BE_PeriodicEvent_Variable_T (v
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_PeriodicEvent_Variable_T <CONTEXT>::
-generate (const PICML::PeriodicEvent & )
+generate (const PICML::PeriodicEvent_in )
 {
 
 }
@@ -578,7 +578,7 @@ CUTS_BE_Attribute_Variable_T <CONTEXT>::~CUTS_BE_Attribute_Variable_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Attribute_Variable_T <CONTEXT>::
-generate (const PICML::ReadonlyAttribute & attr)
+generate (const PICML::ReadonlyAttribute_in attr)
 {
 
 }
@@ -604,7 +604,7 @@ CUTS_BE_Worker_Variable_T <CONTEXT>::~CUTS_BE_Worker_Variable_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Worker_Variable_T <CONTEXT>::
-generate (const PICML::WorkerType &, const PICML::Worker &)
+generate (const PICML::WorkerType_in, const PICML::Worker_in)
 {
 
 }
@@ -630,8 +630,8 @@ CUTS_BE_Component_Impl_Entrypoint_T <CONTEXT>::~CUTS_BE_Component_Impl_Entrypoin
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Component_Impl_Entrypoint_T <CONTEXT>::
-generate (const PICML::MonolithicImplementation & ,
-          const PICML::ComponentImplementationArtifact & )
+generate (const PICML::MonolithicImplementation_in ,
+          const PICML::ComponentImplementationArtifact_in )
 {
 
 }
@@ -657,7 +657,7 @@ CUTS_BE_InEventPort_Begin_T <CONTEXT>::~CUTS_BE_InEventPort_Begin_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_InEventPort_Begin_T <CONTEXT>::
-generate (const PICML::InEventPort & ,
+generate (const PICML::InEventPort_in ,
           const std::vector <PICML::Property> & )
 {
 
@@ -684,7 +684,7 @@ CUTS_BE_InEventPort_End_T <CONTEXT>::~CUTS_BE_InEventPort_End_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_InEventPort_End_T <CONTEXT>::
-generate (const PICML::InEventPort & ,
+generate (const PICML::InEventPort_in ,
           const std::vector <PICML::Property> & )
 {
 
@@ -712,7 +712,7 @@ CUTS_BE_PeriodicEvent_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_PeriodicEvent_Begin_T <CONTEXT>::
-generate (const PICML::PeriodicEvent & )
+generate (const PICML::PeriodicEvent_in )
 {
 
 }
@@ -739,7 +739,7 @@ CUTS_BE_PeriodicEvent_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_PeriodicEvent_End_T <CONTEXT>::
-generate (const PICML::PeriodicEvent & )
+generate (const PICML::PeriodicEvent_in )
 {
 
 }
@@ -766,7 +766,7 @@ CUTS_BE_ProvidedRequestPort_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ProvidedRequestPort_Begin_T <CONTEXT>::
-generate (const PICML::ProvidedRequestPort & )
+generate (const PICML::ProvidedRequestPort_in )
 {
 
 }
@@ -793,7 +793,7 @@ CUTS_BE_ProvidedRequestPort_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ProvidedRequestPort_End_T <CONTEXT>::
-generate (const PICML::ProvidedRequestPort & )
+generate (const PICML::ProvidedRequestPort_in )
 {
 
 }
@@ -1393,7 +1393,7 @@ CUTS_BE_Action_Property_T <CONTEXT>::~CUTS_BE_Action_Property_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_Action_Property_T <CONTEXT>::generate (const PICML::Property &)
+void CUTS_BE_Action_Property_T <CONTEXT>::generate (const PICML::Property_in)
 {
 
 }
@@ -1443,7 +1443,7 @@ CUTS_BE_WorkerAction_Begin_T <CONTEXT>::~CUTS_BE_WorkerAction_Begin_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_WorkerAction_Begin_T <CONTEXT>::generate (const PICML::Action &)
+void CUTS_BE_WorkerAction_Begin_T <CONTEXT>::generate (const PICML::Action_in)
 {
 
 }
@@ -1469,7 +1469,7 @@ CUTS_BE_OutputAction_Begin_T <CONTEXT>::~CUTS_BE_OutputAction_Begin_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_OutputAction_Begin_T <CONTEXT>::
-generate (const PICML::OutputAction &)
+generate (const PICML::OutputAction_in)
 {
 
 }
@@ -1495,7 +1495,7 @@ CUTS_BE_OutputAction_Property_T <CONTEXT>::~CUTS_BE_OutputAction_Property_T (voi
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_OutputAction_Property_T <CONTEXT>::
-generate (const PICML::OutputAction &, const PICML::Property & property)
+generate (const PICML::OutputAction_in, const PICML::Property_in property)
 {
 
 }
@@ -1521,7 +1521,7 @@ CUTS_BE_OutputAction_End_T <CONTEXT>::~CUTS_BE_OutputAction_End_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_OutputAction_End_T <CONTEXT>::
-generate (const PICML::OutputAction &)
+generate (const PICML::OutputAction_in)
 {
 
 }
@@ -1539,7 +1539,7 @@ CUTS_BE_RequestAction_Begin_T (CONTEXT &)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_RequestAction_Begin_T <CONTEXT>::
-generate (const PICML::RequestAction &)
+generate (const PICML::RequestAction_in)
 {
 
 }
@@ -1557,7 +1557,7 @@ CUTS_BE_RequestAction_End_T (CONTEXT &)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_RequestAction_End_T <CONTEXT>::
-generate (const PICML::RequestAction &)
+generate (const PICML::RequestAction_in)
 {
 
 }
@@ -1607,7 +1607,7 @@ CUTS_BE_State_T <CONTEXT>::~CUTS_BE_State_T (void)
 
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_State_T <CONTEXT>::generate (const PICML::State & state)
+void CUTS_BE_State_T <CONTEXT>::generate (const PICML::State_in state)
 {
 
 }
