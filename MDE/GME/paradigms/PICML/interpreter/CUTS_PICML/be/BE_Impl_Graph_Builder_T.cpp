@@ -2,8 +2,19 @@
 
 #include "BE_Preprocessor_T.h"
 #include "BE_Preprocessor_Handlers_T.h"
-//#include "Uml.h"
+
 #include "boost/bind.hpp"
+
+struct visit_all
+{
+public:
+template <typename T>
+void operator () (T & collection, PICML::Visitor * visitor) const
+{
+  for (auto item : collection)
+    item->accept (visitor);
+}
+};
 
 //
 // CUTS_BE_Impl_Graph_Builder_T
@@ -34,18 +45,10 @@ CUTS_BE_Impl_Graph_Builder_T <T>::~CUTS_BE_Impl_Graph_Builder_T (void)
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
 Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer & container)
+const PICML::ComponentImplementationContainer_in container)
 {
   // Get all the monolithic implemenations in this <container>.
-  typedef std::vector <PICML::MonolithicImplementation> MonoImpl_Set;
-  MonoImpl_Set monoimpls = container.MonolithicImplementation_kind_children ();
-
-  // Visit all the monolithic implementations.
-  std::for_each (monoimpls.begin (),
-                 monoimpls.end (),
-                 boost::bind (&MonoImpl_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  visit_all () (container->get_MonolithicImplementations (), this);
 }
 
 //
@@ -53,7 +56,7 @@ const PICML::ComponentImplementationContainer & container)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl)
+Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimpl)
 {
   // Determine if we should preprocess the implementation. If
   // the element is preprocessed, then we will also include
@@ -64,26 +67,19 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
   {
     // Locate the implementation in the graph. Also, set the container for
     // the implementation.
-    this->impl_graph_.find (monoimpl.name (), this->curr_impl_);
-    this->curr_impl_->container_ = PICML::ComponentImplementationContainer::Cast (monoimpl.parent ());
+    this->impl_graph_.find (monoimpl->name (), this->curr_impl_);
+    this->curr_impl_->container_ = monoimpl->parent ();
 
     // Visit the component that is being implemented.
-    PICML::Implements implements = monoimpl.dstImplements ();
-
-    if (implements != Udm::null)
+    if (monoimpl->has_src_of_Implements ())
     {
-      PICML::ComponentRef ref = implements.dstImplements_end ();
-      PICML::Component component = ref.ref ();
-
-      if (component != Udm::null)
-        component.Accept (*this);
+      PICML::Implements implements = monoimpl->src_of_Implements ();
+      PICML::ComponentRef ref = implements->dst_ComponentRef ();
+      if (!ref->Component_is_nil ())
+        ref->refers_to_Component ()->accept (this);
     }
 
-    typedef std::set <PICML::MonolithprimaryArtifact> PrimaryArtifact_Set;
-    PrimaryArtifact_Set primaries = monoimpl.dstMonolithprimaryArtifact ();
-
-    for (auto primary : primaries)
-      primary.Accept (*this);
+    visit_all () (monoimpl->src_of_MonolithprimaryArtifact (), this);
   }
 }
 
@@ -92,9 +88,9 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation & monoimpl
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_ComponentImplementationArtifact (const PICML::ComponentImplementationArtifact & cia)
+Visit_ComponentImplementationArtifact (const PICML::ComponentImplementationArtifact_in cia)
 {
-  this->curr_impl_->exec_artifact_ = cia.ref ();
+  this->curr_impl_->exec_artifact_ = cia->refers_to_ImplementationArtifact ();
 }
 
 //
@@ -102,9 +98,9 @@ Visit_ComponentImplementationArtifact (const PICML::ComponentImplementationArtif
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact & csa)
+Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact_in csa)
 {
-  this->curr_impl_->svnt_artifact_ = csa.ref ();
+  this->curr_impl_->svnt_artifact_ = csa->refers_to_ImplementationArtifact ();
 }
 
 //
@@ -112,25 +108,25 @@ Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact & csa)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_Component (const PICML::Component & component)
+Visit_Component (const PICML::Component_in component)
 {
   // Let's locate the parent file of this <component>.
-  PICML::MgaObject parent = component.parent ();
+  GAME::Mga::Object parent = component->parent ();
 
-  while (parent.type () != PICML::File::meta)
-    parent = PICML::MgaObject::Cast (parent.parent ());
+  while (parent->meta ()->name () != PICML::File::impl_type::metaname)
+    parent = parent->parent ();
 
   // Save te file for later.
-  PICML::File file = PICML::File::Cast (parent);
+  PICML::File file = PICML::File::_narrow (parent);
   this->curr_impl_->impl_interface_ = file;
 
   // We are going to preprocess this file as well.
   CUTS_BE_IDL_Graph_Builder builder (this->idl_graph_);
-  file.Accept (builder);
+  file->accept (builder);
 
   // We need to locate this file in the graph.
   const CUTS_BE_IDL_Node * idl_node = 0;
-  if (!this->idl_graph_.find (file.name (), idl_node))
+  if (!this->idl_graph_.find (file->name (), idl_node))
     return;
 
   this->curr_impl_->references_.insert (idl_node);
@@ -139,14 +135,7 @@ Visit_Component (const PICML::Component & component)
   // the workers that are defined in this component. This is
   // necessary since to properly generate the implementation
   // code and project files.
-  typedef std::vector <PICML::WorkerType> WorkerType_Set;
-  WorkerType_Set workers = component.WorkerType_kind_children ();
-
-  std::for_each (workers.begin (),
-                 workers.end (),
-                 boost::bind (&WorkerType_Set::value_type::Accept,
-                              _1,
-                              boost::ref (*this)));
+  visit_all () (component->get_WorkerTypes (), this);
 }
 
 //
@@ -154,12 +143,10 @@ Visit_Component (const PICML::Component & component)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_WorkerType (const PICML::WorkerType & worker_type)
+Visit_WorkerType (const PICML::WorkerType_in worker_type)
 {
-  PICML::Worker worker = worker_type.ref ();
-
-  if (worker != Udm::null)
-    worker.Accept (*this);
+  if (!worker_type->Worker_is_nil ())
+    worker_type->refers_to_Worker ()->accept (this);
 }
 
 //
@@ -167,19 +154,19 @@ Visit_WorkerType (const PICML::WorkerType & worker_type)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_Worker (const PICML::Worker & worker)
+Visit_Worker (const PICML::Worker_in worker)
 {
   // We need to locate the parent file for this worker. This may
   // mean iterating over muliple packages before finding the file.
   CUTS_BE_Preprocessor_Worker_T <T> preprocessor;
   preprocessor.generate (this->curr_impl_, worker);
 
-  PICML::MgaObject parent = worker.parent ();
+  GAME::Mga::Object parent = worker->parent ();
 
-  while (parent.type () != PICML::WorkerFile::meta)
-    parent = PICML::MgaObject::Cast (parent.parent ());
+  while (parent->meta ()->name () != PICML::WorkerFile::impl_type::metaname)
+    parent = parent->parent ();
 
-  PICML::WorkerFile::Cast (parent).Accept (*this);
+  parent->accept (this);
 }
 
 //
@@ -187,7 +174,7 @@ Visit_Worker (const PICML::Worker & worker)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_WorkerFile (const PICML::WorkerFile & file)
+Visit_WorkerFile (const PICML::WorkerFile_in file)
 {
   // Add the name of the worker to the collection of
   // include files for this node.
@@ -196,11 +183,11 @@ Visit_WorkerFile (const PICML::WorkerFile & file)
 
   // Add the location of this worker, if the string is not
   // empty, to the collection of include directories.
-  std::string location = file.Location ();
+  std::string location = file->Location ();
 
   // Visit the library hosting the file.
-  PICML::WorkerLibrary library = file.WorkerLibrary_parent ();
-  library.Accept (*this);
+  PICML::WorkerLibrary library = file->parent_WorkerLibrary ();
+  library->accept (this);
 }
 
 //
@@ -208,7 +195,7 @@ Visit_WorkerFile (const PICML::WorkerFile & file)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_WorkerLibrary (const PICML::WorkerLibrary & library)
+Visit_WorkerLibrary (const PICML::WorkerLibrary_in library)
 {
   // Add the name of the library to the collection of
   // import libraries for this node.
@@ -221,16 +208,12 @@ Visit_WorkerLibrary (const PICML::WorkerLibrary & library)
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact & primary)
+Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact_in primary)
 {
-  PICML::ImplementationArtifactReference ref = primary.dstMonolithprimaryArtifact_end ();
-  PICML::ImplementationArtifact artifact = ref.ref ();
+  PICML::ImplementationArtifactReference ref = primary->dst_ImplementationArtifactReference ();
 
-  if (artifact != Udm::null)
-    this->curr_impl_->artifacts_.insert (artifact);
+  if (!ref->ImplementationArtifact_is_nil ())
+    this->curr_impl_->artifacts_.insert (ref->refers_to_ImplementationArtifact ());
 
-  if (PICML::ComponentImplementationArtifact::meta == ref.type ())
-    PICML::ComponentImplementationArtifact::Cast (ref).Accept (*this);
-  else if (PICML::ComponentServantArtifact::meta == ref.type ())
-    PICML::ComponentServantArtifact::Cast (ref).Accept (*this);
+  primary->accept (this);
 }
