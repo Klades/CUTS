@@ -14,6 +14,7 @@
 #define _CUTS_BE_IMPL_GENERATOR_T_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "BE_Preprocessor_T.h"
 
 /**
@@ -41,100 +42,97 @@ public:
   /// Destructor.
   virtual ~CUTS_BE_Impl_Generator_T (void);
 
-  void generate (const PICML::RootFolder & root);
+  void generate (const PICML::RootFolder_in root);
 
   /// Visit a RootFolder element.
   void Visit_RootFolder (
-    const PICML::RootFolder & root);
+    const PICML::RootFolder_in root);
 
   /// Visit a ComponentImplementations folder.
   void Visit_ComponentImplementations (
-    const PICML::ComponentImplementations & impls);
+    const PICML::ComponentImplementations_in impls);
 
   /// Visit a ComponentImplementationContainer element.
   void Visit_ComponentImplementationContainer (
-    const PICML::ComponentImplementationContainer & container);
+    const PICML::ComponentImplementationContainer_in container);
 
   /// Visit a MonolithicImplementation element.
   void Visit_MonolithicImplementation (
-    const PICML::MonolithicImplementation & monoimpl);
+    const PICML::MonolithicImplementation_in monoimpl);
 
   /// Visit a Component element.
   void Visit_Component (
-    const PICML::Component & component);
+    const PICML::Component_in component);
 
   void Visit_Supports (
-    const PICML::Supports & supports);
+    const PICML::Supports_in supports);
 
   /// Visit a Component element.
   void Visit_Object (
-    const PICML::Object & object);
+    const PICML::Object_in object);
 
   /// Visit a InEventPort element.
   void Visit_InEventPort (
-    const PICML::InEventPort & sink);
+    const PICML::InEventPort_in sink);
 
   /// Visit a ProvidedRequestPort element.
   void Visit_ProvidedRequestPort (
-    const PICML::ProvidedRequestPort & facet);
+    const PICML::ProvidedRequestPort_in facet);
 
   /// Visit a ProvidedRequestPort element.
   void Visit_ProvidedRequestPort_impl (
-    const PICML::ProvidedRequestPort & facet);
+    const PICML::ProvidedRequestPort_in facet);
 
   /// Visit a ProvidedRequestPort element.
   void Visit_PeriodicEvent (
-    const PICML::PeriodicEvent & periodic);
+    const PICML::PeriodicEvent_in periodic);
 
   /// Visit a ReadonlyAttribute element.
   void Visit_ReadonlyAttribute (
-    const PICML::ReadonlyAttribute  & ro_attr);
+    const PICML::ReadonlyAttribute_in ro_attr);
 
   /// Visit an Attribute element.
   void Visit_Attribute (
-    const PICML::Attribute & attr);
+    const PICML::Attribute_in attr);
 
   /// Visit a Variable element.
   void Visit_Variable (
-    const PICML::Variable & variable);
+    const PICML::Variable_in variable);
 
   /// Visit a WorkerType element.
   void Visit_WorkerType (
-    const PICML::WorkerType & type);
+    const PICML::WorkerType_in type);
 
   void Visit_OnewayOperation (
-    const PICML::OnewayOperation & oneway);
+    const PICML::OnewayOperation_in oneway);
 
   void Visit_TwowayOperation (
-    const PICML::TwowayOperation & twoway);
+    const PICML::TwowayOperation_in twoway);
 
   void Visit_ComponentFactory (
-    const PICML::ComponentFactory & factory);
+    const PICML::ComponentFactory_in factory);
 
   void Visit_ComponentFactory_inherits (
-    const PICML::Inherits & inherits);
+    const PICML::Inherits_in inherits);
 
   void Visit_FactoryOperation (
-    const PICML::FactoryOperation & factory_op);
+    const PICML::FactoryOperation_in factory_op);
 
   void Visit_MonolithprimaryArtifact (
-    const PICML::MonolithprimaryArtifact & primary);
+    const PICML::MonolithprimaryArtifact_in primary);
 
   void Visit_ImplementationArtifactReference (
-    const PICML::ImplementationArtifactReference & artref);
+    const PICML::ImplementationArtifactReference_in artref);
 
 protected:
   void Visit_Include (
     const std::string & include);
 
   void Visit_ReadonlyAttribute_Variable (
-    const PICML::ReadonlyAttribute & attr);
+    const PICML::ReadonlyAttribute_in attr);
 
   void Visit_PeriodicEvent_Variable (
-    const PICML::PeriodicEvent & periodic);
-
-  void Visit_ComponentImplementation (
-    const PICML::ComponentImplementation &);
+    const PICML::PeriodicEvent_in periodic);
 
 private:
   /// Target context for the generator.
@@ -146,10 +144,10 @@ private:
   PICML::MonolithicImplementation monoimpl_;
 
   /// Helper method to write the variables for the component.
-  void write_variables_i (const PICML::Component & component);
+  void write_variables_i (const PICML::Component_in component);
 
-  bool get_component_factory (const PICML::Component & component,
-                              PICML::ComponentFactory & factory);
+  bool get_component_factory (const PICML::Component_in component,
+                              PICML::ComponentFactory_in factory);
 
   // prevent the following operations
   CUTS_BE_Impl_Generator_T (const CUTS_BE_Impl_Generator_T &);
