@@ -14,12 +14,7 @@
 #define _CUTS_BE_MANAGER_H_
 
 #include "BE_export.h"
-
-namespace PICML
-{
-  // Forward decl.
-  class RootFolder;
-}
+#include "PICML/PICML.h"
 
 /**
  * @class CUTS_BE_Manager
@@ -35,7 +30,7 @@ public:
    *
    * @param[in]       root        Reference to root folder.
    */
-  virtual bool handle (const PICML::RootFolder & root) = 0;
+  virtual bool handle (const PICML::RootFolder_in root) = 0;
 
   /// Close the manager and release its resources.
   virtual void close (void);
