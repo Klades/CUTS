@@ -37,16 +37,16 @@ public:
   virtual ~CUTS_BE_Traits (void);
 
   virtual bool open_file (
-    const PICML::ComponentImplementationContainer & container);
+    const PICML::ComponentImplementationContainer_in container);
 
   virtual void close_file (
-    const PICML::ComponentImplementationContainer & container);
+    const PICML::ComponentImplementationContainer_in container);
 
   virtual void write_prologue (
-    const PICML::ComponentImplementationContainer & container);
+    const PICML::ComponentImplementationContainer_in container);
 
   virtual void write_epilogue (
-    const PICML::ComponentImplementationContainer & container);
+    const PICML::ComponentImplementationContainer_in container);
 
   virtual void write_includes (
     const CUTS_String_Set & includes);
@@ -54,116 +54,116 @@ public:
   // @@ begin component implementation
 
   virtual void write_impl_begin (
-    const PICML::MonolithicImplementation & monoimpl,
-    const PICML::Component & type);
+    const PICML::MonolithicImplementation_in monoimpl,
+    const PICML::Component_in type);
 
   virtual void write_InEventPort_begin (
-    const PICML::InEventPort & sink);
+    const PICML::InEventPort_in sink);
 
   virtual void write_InEventPort_end (
-    const PICML::InEventPort & sink);
+    const PICML::InEventPort_in sink);
 
   virtual void write_ProvidedRequestPort_begin (
-    const PICML::ProvidedRequestPort & facet);
+    const PICML::ProvidedRequestPort_in facet);
 
   virtual void write_ProvidedRequestPort_end (
-    const PICML::ProvidedRequestPort & facet);
+    const PICML::ProvidedRequestPort_in facet);
 
   virtual void write_Attribute_begin (
-    const PICML::Attribute & attr);
+    const PICML::Attribute_in attr);
 
   virtual void write_Attribute_end (
-    const PICML::Attribute & attr);
+    const PICML::Attribute_in attr);
 
   virtual void write_ReadonlyAttribute_begin (
-    const PICML::ReadonlyAttribute & ro_attr);
+    const PICML::ReadonlyAttribute_in ro_attr);
 
   virtual void write_ReadonlyAttribute_end (
-    const PICML::ReadonlyAttribute & ro_attr);
+    const PICML::ReadonlyAttribute_in ro_attr);
 
   virtual void write_PeriodicEvent_begin (
-    const PICML::PeriodicEvent & periodic);
+    const PICML::PeriodicEvent_in periodic);
 
   virtual void write_PeriodicEvent_end (
-    const PICML::PeriodicEvent & periodic);
+    const PICML::PeriodicEvent_in periodic);
 
   virtual void write_environment_begin (
-    const PICML::Component & component);
+    const PICML::Component_in component);
 
   virtual void write_environment_method_begin (
-    const PICML::MultiInputAction &);
+    const PICML::MultiInputAction_in);
 
   virtual void write_environment_method_end (
-    const PICML::MultiInputAction &);
+    const PICML::MultiInputAction_in);
 
   virtual void write_environment_end (
-    const PICML::Component & component);
+    const PICML::Component_in component);
 
   virtual void write_impl_end (
-    const PICML::MonolithicImplementation &,
-    const PICML::Component & type);
+    const PICML::MonolithicImplementation_in,
+    const PICML::Component_in type);
 
   // @@ end component implementation
 
   // @@ begin facet implementation
 
   virtual void write_object_impl_begin (
-    const PICML::Component & component,
-    const PICML::ProvidedRequestPort & facet);
+    const PICML::Component_in component,
+    const PICML::ProvidedRequestPort_in facet);
 
   virtual void write_OnewayOperation_begin (
-    const PICML::OnewayOperation & oneway);
+    const PICML::OnewayOperation_in oneway);
 
   virtual void write_OnewayOperation_end (
-    const PICML::OnewayOperation & oneway);
+    const PICML::OnewayOperation_in oneway);
 
   virtual void write_TwowayOperation_begin (
-    const PICML::TwowayOperation & twoway);
+    const PICML::TwowayOperation_in twoway);
 
   virtual void write_TwowayOperation_end (
-    const PICML::TwowayOperation & twoway);
+    const PICML::TwowayOperation_in twoway);
 
   virtual void write_object_impl_end (
-    const PICML::Component & component,
-    const PICML::ProvidedRequestPort & facet);
+    const PICML::Component_in component,
+    const PICML::ProvidedRequestPort_in facet);
 
   // @@ end facet implementation
 
   // @@ begin home implementation
 
   virtual void write_factory_impl_begin (
-    const PICML::ComponentFactory & factory,
-    const PICML::MonolithicImplementation & impl,
-    const PICML::Component & type);
+    const PICML::ComponentFactory_in factory,
+    const PICML::MonolithicImplementation_in impl,
+    const PICML::Component_in type);
 
   virtual void write_FactoryOperation_begin (
-    const PICML::FactoryOperation & factory);
+    const PICML::FactoryOperation_in factory);
 
   virtual void write_FactoryOperation_end (
-    const PICML::FactoryOperation & factory);
+    const PICML::FactoryOperation_in factory);
 
   virtual void write_factory_impl_end (
-    const PICML::ComponentFactory & factory,
-    const PICML::MonolithicImplementation & impl,
-    const PICML::Component & type);
+    const PICML::ComponentFactory_in factory,
+    const PICML::MonolithicImplementation_in impl,
+    const PICML::Component_in type);
 
   // @@ end home implementation
 
   virtual void write_variables_begin (
-    const PICML::Component & component);
+    const PICML::Component_in component);
 
   virtual void write_variable (
     const PICML::Variable & variable);
 
   virtual void write_worker_variable (
-    const PICML::WorkerType & type,
-    const PICML::Worker & worker);
+    const PICML::WorkerType_in type,
+    const PICML::Worker_in worker);
 
   virtual void write_ReadonlyAttribute_variable (
-    const PICML::ReadonlyAttribute & readonly);
+    const PICML::ReadonlyAttribute_in readonly);
 
   virtual void write_PeriodicEvent_variable (
-    const PICML::PeriodicEvent & periodic);
+    const PICML::PeriodicEvent_in periodic);
 
   virtual void write_variables_end (void);
 
@@ -174,14 +174,14 @@ public:
     const std::string & precondition);
 
   virtual void write_WorkerAction_begin (
-    const PICML::Worker & worker,
-    const PICML::Action & action);
+    const PICML::Worker_in worker,
+    const PICML::Action_in action);
 
   virtual void write_OutputAction_begin (
-    const PICML::OutputAction & action);
+    const PICML::OutputAction_in action);
 
   virtual void write_action_property (
-    const PICML::Property & property);
+    const PICML::Property_in property);
 
   virtual void write_action_end (void);
 
