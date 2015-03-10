@@ -3,7 +3,6 @@
 #include "BE_Options.h"
 #include "BE_Workspace_Generators_T.h"
 #include "BE_Project_Generators_T.h"
-#include "boost/bind.hpp"
 #include <algorithm>
 
 //
@@ -45,19 +44,12 @@ generate (const CUTS_BE_Impl_Graph & impls)
   workspace_begin.generate (workspace);
 
   // We are writing all the implementation projects.
-  std::for_each (impls.graph ().begin (),
-                 impls.graph ().end (),
-                 boost::bind (&CUTS_BE_Workspace_Generator_T::generate_impl_project,
-                              this,
-                              boost::bind (&CUTS_BE_Impl_Graph::Node_Map::value_type::second,
-                                           _1)));
+  for (auto graph : impls.graph ())
+    this->generate_impl_project (graph.second ());
 
   // We are writing all the stub projects.
-  std::for_each (this->required_stubs_.begin (),
-                 this->required_stubs_.end (),
-                 boost::bind (&CUTS_BE_Workspace_Generator_T::generate_stub_project,
-                              this,
-                              _1));
+  for (auto stub : this->required_stubs_)
+    this->generate_stub_project (stub);
 
   // End the workspace.
   CUTS_BE_Workspace_End_T <CONTEXT> workspace_end (this->context_);
