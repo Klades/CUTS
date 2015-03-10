@@ -36,7 +36,7 @@ CUTS_BE_Manager * CUTS_BE_Manager_T <T, CONTEXT>::_create (void)
 // handle
 //
 template <typename T, typename CONTEXT>
-bool CUTS_BE_Manager_T <T, CONTEXT>::handle (const PICML::RootFolder & root)
+bool CUTS_BE_Manager_T <T, CONTEXT>::handle (const PICML::RootFolder_in root)
 {
   CUTS_BE_Preprocessor_T <CONTEXT> preprocessor;
 

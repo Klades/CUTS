@@ -45,7 +45,7 @@ public:
   virtual ~CUTS_BE_Manager_T (void);
 
   // Execute the manager on the root folder.
-  virtual bool handle (const PICML::RootFolder & root);
+  virtual bool handle (const PICML::RootFolder_in root);
 
 private:
   /// The context for the manager.
