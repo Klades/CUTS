@@ -13,6 +13,7 @@
 #ifndef _CUTS_BE_PROJECT_GENERATORS_T_H_
 #define _CUTS_BE_PROJECT_GENERATORS_T_H_
 
+#include "PICML/Visitor.h"
 #include "PICML/PICML.h"
 #include "BE_Visitor_T.h"
 
