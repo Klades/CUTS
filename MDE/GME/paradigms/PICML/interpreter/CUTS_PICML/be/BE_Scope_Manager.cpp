@@ -7,7 +7,6 @@
 #endif
 
 #include <stack>
-#include "Uml.h"
 
 //
 // instance_
@@ -41,7 +40,7 @@ void CUTS_BE_Scope_Manager::close_singleton (void)
 // generator_scope
 //
 std::string CUTS_BE_Scope_Manager::
-generate_scope (const PICML::NamedType & type,
+generate_scope (const PICML::NamedType_in type,
                 const std::string & separator,
                 bool cache)
 {
@@ -49,23 +48,23 @@ generate_scope (const PICML::NamedType & type,
 
   if (!this->find (type, separator, scope))
   {
-    std::stack <PICML::MgaObject> level;
+    std::stack <GAME::Mga::Object> level;
 
     // Move up the hierarchy to the <PICML::File> object. We are going
     // to push each onto a stack so we generate the scope later.
-    PICML::MgaObject parent = type.parent ();
+    GAME::Mga::Object parent = type->parent ();
 
-    while (parent.type () != PICML::File::meta)
+    while (parent->meta ()->name () != PICML::File::impl_type::metaname)
     {
       level.push (parent);
-      parent = PICML::MgaObject::Cast (parent.parent ());
+      parent = parent->parent ();
     }
 
     while (!level.empty ())
     {
       // Get the next scope level.
       parent = level.top ();
-      scope += (std::string) parent.name () + separator;
+      scope += (std::string) parent->name () + separator;
 
       // Remove the scope from the list.
       level.pop ();
@@ -81,7 +80,7 @@ generate_scope (const PICML::NamedType & type,
 //
 // find
 //
-bool CUTS_BE_Scope_Manager::find (const PICML::NamedType & type,
+bool CUTS_BE_Scope_Manager::find (const PICML::NamedType_in type,
                                   const std::string & separator,
                                   std::string & scope)
 {

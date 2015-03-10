@@ -51,7 +51,7 @@ public:
    * @param[in]       separator     The separator string
    * @return          The scope for \a type.
    */
-  std::string generate_scope (const PICML::NamedType & type,
+  std::string generate_scope (const PICML::NamedType_in type,
                               const std::string & separator,
                               bool cache = true);
 
@@ -64,7 +64,7 @@ private:
    *                                \a type using \a separator.
    * @retval          false         Manager does not contain a scope.
    */
-  bool find (const PICML::NamedType & type,
+  bool find (const PICML::NamedType_in type,
              const std::string & separator,
              std::string & scope);
 
