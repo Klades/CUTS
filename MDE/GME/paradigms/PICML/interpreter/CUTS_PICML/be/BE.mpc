@@ -59,9 +59,9 @@ project (CUTS_BE) : cuts_picml_game_mga, boost_base, cuts_cosmic {
     BE_Workspace_Generators_T.cpp
 
     Port_Manager_T.cpp
-    UDM_Abstract_Type_Dispatcher_T.cpp
-    UDM_Position_Sort_T.cpp
-    UDM_Utility_T.cpp
+    //UDM_Abstract_Type_Dispatcher_T.cpp
+    //UDM_Position_Sort_T.cpp
+    //UDM_Utility_T.cpp
     modelgen.cpp
 
     //BE_Assembly_Generator_T.cpp
