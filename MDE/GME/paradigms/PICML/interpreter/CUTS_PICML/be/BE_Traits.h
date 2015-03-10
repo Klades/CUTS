@@ -153,7 +153,7 @@ public:
     const PICML::Component_in component);
 
   virtual void write_variable (
-    const PICML::Variable & variable);
+    const PICML::Variable_in variable);
 
   virtual void write_worker_variable (
     const PICML::WorkerType_in type,

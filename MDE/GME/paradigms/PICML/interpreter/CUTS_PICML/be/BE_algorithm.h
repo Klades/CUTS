@@ -13,7 +13,11 @@
 #ifndef _CUTS_BE_ALGORITHM_H_
 #define _CUTS_BE_ALGORITHM_H_
 
+//#include "game/config.h"
+//#include "game/mga/Mga.h"
+
 #include <algorithm>
+#include <set>
 #include "PICML/PICML.h"
 #include "BE_nil.h"
 #include "BE_export.h"
