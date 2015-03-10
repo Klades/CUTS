@@ -20,7 +20,7 @@ project (CUTS_BE) : cuts_picml_game_mga, boost_base, cuts_cosmic {
     BE_MPC_Workspace.cpp
     BE_nil.cpp
     BE_Options.cpp
-    BE_Position.cpp
+    //BE_Position.cpp
     BE_Project_Generator.cpp
     BE_Scope_Manager.cpp
     BE_Traits.cpp
