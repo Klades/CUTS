@@ -14,33 +14,9 @@ namespace CUTS_BE_CPP
 // Type_System
 //
 Type_System::Type_System (std::ostream & out)
-: out_ (out),
-  predefined_types_ (this)
+: out_ (out)
 {
-  this->predefined_types_.insert <PICML::Boolean> ();
 
-  this->predefined_types_.insert <PICML::Char> ();
-  this->predefined_types_.insert <PICML::Byte> ();
-
-  this->predefined_types_.insert <PICML::GenericObject> ();
-  this->predefined_types_.insert <PICML::GenericValue> ();
-
-  this->predefined_types_.insert <PICML::ShortInteger> ();
-  this->predefined_types_.insert <PICML::UnsignedShortInteger> ();
-  this->predefined_types_.insert <PICML::LongInteger> ();
-  this->predefined_types_.insert <PICML::UnsignedLongInteger> ();
-  this->predefined_types_.insert <PICML::LongLongInteger> ();
-  this->predefined_types_.insert <PICML::UnsignedLongLongInteger> ();
-
-  this->predefined_types_.insert <PICML::FloatNumber> ();
-  this->predefined_types_.insert <PICML::DoubleNumber> ();
-  this->predefined_types_.insert <PICML::LongDoubleNumber> ();
-
-  this->predefined_types_.insert <PICML::String> ();
-  this->predefined_types_.insert <PICML::WideString> ();
-
-  this->predefined_types_.insert <PICML::TypeEncoding> ();
-  this->predefined_types_.insert <PICML::TypeKind> ();
 }
 
 //
@@ -53,17 +29,16 @@ Type_System::~Type_System (void)
 //
 // generate
 //
-void Type_System::generate (const PICML::MemberType & mt)
+void Type_System::generate (const PICML::MemberType_in mt)
 {
-  if (Udm::IsDerivedFrom (mt.type (), PICML::PredefinedType::meta))
+  try
   {
-    PICML::PredefinedType ptype = PICML::PredefinedType::Cast (mt);
-    this->predefined_types_.dispatch (ptype);
+    PICML::NamedType nt = mt;
+    this->out_ << CUTS_BE_CPP::fq_type (nt);
   }
-  else
+  catch (GAME::Mga::Invalid_Cast &)
   {
-    PICML::NamedType named = PICML::NamedType::Cast (mt);
-    this->out_ << CUTS_BE_CPP::fq_type (named);
+    mt->accept (this);
   }
 }
 
@@ -91,7 +66,7 @@ Variable_Type::~Variable_Type (void)
 // Visit_Boolean
 //
 void Variable_Type::
-Visit_Boolean (const PICML::Boolean & )
+Visit_Boolean (const PICML::Boolean_in )
 {
   this->out_ << "::CORBA::Boolean";
 }
@@ -100,7 +75,7 @@ Visit_Boolean (const PICML::Boolean & )
 // Visit_Byte
 //
 void Variable_Type::
-Visit_Byte (const PICML::Byte & )
+Visit_Byte (const PICML::Byte_in )
 {
   this->out_ << "::CORBA::Octet";
 }
@@ -109,7 +84,7 @@ Visit_Byte (const PICML::Byte & )
 // Visit_Char
 //
 void Variable_Type::
-Visit_Char (const PICML::Char & )
+Visit_Char (const PICML::Char_in )
 {
   this->out_ << "::CORBA::Char";
 }
@@ -118,7 +93,7 @@ Visit_Char (const PICML::Char & )
 // Visit_LongInteger
 //
 void Variable_Type::
-Visit_LongInteger (const PICML::LongInteger & value)
+Visit_LongInteger (const PICML::LongInteger_in value)
 {
   this->out_ << "::CORBA::Long";
 }
@@ -127,7 +102,7 @@ Visit_LongInteger (const PICML::LongInteger & value)
 // Visit_UnsignedLongInteger
 //
 void Variable_Type::
-Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & value)
+Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger_in value)
 {
   this->out_ << "::CORBA::ULong";
 }
@@ -136,7 +111,7 @@ Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & value)
 // Visit_LongLongInteger
 //
 void Variable_Type::
-Visit_LongLongInteger (const PICML::LongLongInteger &)
+Visit_LongLongInteger (const PICML::LongLongInteger_in)
 {
   this->out_ << "::CORBA::LongLong";
 }
@@ -145,7 +120,7 @@ Visit_LongLongInteger (const PICML::LongLongInteger &)
 // Visit_UnsignedLongLongInteger
 //
 void Variable_Type::
-Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger &)
+Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger_in)
 {
   this->out_ << "::CORBA::ULongLong";
 }
@@ -154,7 +129,7 @@ Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger &)
 // Visit_ShortInteger
 //
 void Variable_Type::
-Visit_ShortInteger (const PICML::ShortInteger & value)
+Visit_ShortInteger (const PICML::ShortInteger_in value)
 {
   this->out_ << "::CORBA::Short";
 }
@@ -163,7 +138,7 @@ Visit_ShortInteger (const PICML::ShortInteger & value)
 // Visit_ShortInteger
 //
 void Variable_Type::
-Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & value)
+Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger_in value)
 {
   this->out_ << "::CORBA::UShort";
 }
@@ -172,7 +147,7 @@ Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & value)
 // Visit_String
 //
 void Variable_Type::
-Visit_String (const PICML::String & value)
+Visit_String (const PICML::String_in value)
 {
   this->out_ << "ACE_CString";
 }
@@ -181,7 +156,7 @@ Visit_String (const PICML::String & value)
 // Visit_WideString
 //
 void Variable_Type::
-Visit_WideString (const PICML::WideString & value)
+Visit_WideString (const PICML::WideString_in value)
 {
   this->out_ << "ACE_WString";
 }
@@ -190,7 +165,7 @@ Visit_WideString (const PICML::WideString & value)
 // Visit_FloatNumber
 //
 void Variable_Type::
-Visit_FloatNumber (const PICML::FloatNumber & value)
+Visit_FloatNumber (const PICML::FloatNumber_in value)
 {
   this->out_ << "::CORBA::Float";
 }
@@ -199,7 +174,7 @@ Visit_FloatNumber (const PICML::FloatNumber & value)
 // Visit_DoubleNumber
 //
 void Variable_Type::
-Visit_DoubleNumber (const PICML::DoubleNumber & value)
+Visit_DoubleNumber (const PICML::DoubleNumber_in value)
 {
   this->out_ << "::CORBA::Double";
 }
@@ -208,7 +183,7 @@ Visit_DoubleNumber (const PICML::DoubleNumber & value)
 // Visit_LongDoubleNumber
 //
 void Variable_Type::
-Visit_LongDoubleNumber (const PICML::LongDoubleNumber & value)
+Visit_LongDoubleNumber (const PICML::LongDoubleNumber_in value)
 {
   this->out_ << "::CORBA::LongDouble";
 }
@@ -217,7 +192,7 @@ Visit_LongDoubleNumber (const PICML::LongDoubleNumber & value)
 // Visit_GenericValue
 //
 void Variable_Type::
-Visit_GenericValue (const PICML::GenericValue & value)
+Visit_GenericValue (const PICML::GenericValue_in value)
 {
   this->out_ << "::CORBA::Any";
 }
@@ -226,7 +201,7 @@ Visit_GenericValue (const PICML::GenericValue & value)
 // Visit_GenericObject
 //
 void Variable_Type::
-Visit_GenericObject (const PICML::GenericObject & value)
+Visit_GenericObject (const PICML::GenericObject_in value)
 {
   this->out_ << "::CORBA::Object_var";
 }
@@ -235,7 +210,7 @@ Visit_GenericObject (const PICML::GenericObject & value)
 // Visit_TypeKind
 //
 void Variable_Type::
-Visit_TypeKind (const PICML::TypeKind & value)
+Visit_TypeKind (const PICML::TypeKind_in value)
 {
   this->out_ << "::CORBA::TCKind";
 }
@@ -244,7 +219,7 @@ Visit_TypeKind (const PICML::TypeKind & value)
 // Visit_TypeEncoding
 //
 void Variable_Type::
-Visit_TypeEncoding (const PICML::TypeEncoding & value)
+Visit_TypeEncoding (const PICML::TypeEncoding_in value)
 {
   this->out_ << "::CORBA::TypeCode_var";
 }

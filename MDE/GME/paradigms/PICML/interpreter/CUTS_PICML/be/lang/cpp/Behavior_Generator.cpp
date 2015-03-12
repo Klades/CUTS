@@ -13,7 +13,7 @@
 // CUTS_BE_Variables_Begin_T
 
 void CUTS_BE_Variables_Begin_T <CUTS_BE_CPP::Context>::
-generate (const PICML::Component & )
+generate (const PICML::Component_in )
 {
   this->ctx_.header_
     << "private:" << std::endl;
@@ -23,41 +23,43 @@ generate (const PICML::Component & )
 // CUTS_BE_Variable_T
 
 void CUTS_BE_Variable_T <CUTS_BE_CPP::Context>::
-generate (const PICML::Variable & variable)
+generate (const PICML::Variable_in variable)
 {
-  PICML::PredefinedType type = variable.ref ();
+  if (variable->PredefinedType_is_nil ())
+    return;
 
-  if (type != Udm::null)
-  {
-    std::string name (variable.name ());
+  PICML::PredefinedType type = variable->refers_to_PredefinedType ();
 
-    this->ctx_.header_
-      << CUTS_BE_CPP::single_line_comment ("variable: " + name);
+  std::string name (variable->name ());
 
-    CUTS_BE_CPP::Variable_Type var_type (this->ctx_.header_);
-    var_type.generate (type);
+  this->ctx_.header_
+    << CUTS_BE_CPP::single_line_comment ("variable: " + name);
 
-    this->ctx_.header_
-      << " " << name << "_;"
-      << std::endl;
-  }
+  CUTS_BE_CPP::Variable_Type var_type (this->ctx_.header_);
+  var_type.generate (type);
+
+  this->ctx_.header_
+    << " " << name << "_;"
+    << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Attribute_Variable_T
 
 void CUTS_BE_Attribute_Variable_T <CUTS_BE_CPP::Context>::
-generate (const PICML::ReadonlyAttribute & attr)
+generate (const PICML::ReadonlyAttribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-  if (member == Udm::null)
+  if (!attr->has_AttributeMember ())
     return;
 
-  PICML::MemberType type = member.ref ();
-  if (type == Udm::null)
+  PICML::AttributeMember member = attr->get_AttributeMember ();
+
+  if (member->MemberType_is_nil ())
     return;
 
-  std::string name (attr.name ());
+  PICML::MemberType type = member->refers_to_MemberType ();
+
+  std::string name (attr->name ());
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("attribute: " + name);
 
@@ -65,7 +67,7 @@ generate (const PICML::ReadonlyAttribute & attr)
   var_type.generate (type);
 
   this->ctx_.header_
-    << " " << attr.name () << "_;"
+    << " " << attr->name () << "_;"
     << std::endl;
 }
 
@@ -73,14 +75,14 @@ generate (const PICML::ReadonlyAttribute & attr)
 // CUTS_BE_Periodic_Variable_T
 
 void CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_CPP::Context>::
-generate (const PICML::PeriodicEvent & periodic)
+generate (const PICML::PeriodicEvent_in periodic)
 {
-  std::string name (periodic.name ());
-  PICML::Component parent = PICML::Component::Cast (periodic.parent ());
+  std::string name (periodic->name ());
+  PICML::Component parent = PICML::Component::_narrow (periodic->parent ());
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("periodic: " + name)
-    << "CUTS_Periodic_Event_T < " << parent.name ()
+    << "CUTS_Periodic_Event_T < " << parent->name ()
     << " > periodic_" << name << "_;" << std::endl;
 }
 
@@ -88,26 +90,26 @@ generate (const PICML::PeriodicEvent & periodic)
 // CUTS_BE_PeriodicEvent_Variable_T
 
 void CUTS_BE_Worker_Variable_T <CUTS_BE_CPP::Context>::
-generate (const PICML::WorkerType & var, const PICML::Worker & worker)
+generate (const PICML::WorkerType_in var, const PICML::Worker_in worker)
 {
-  std::string name (var.name ());
+  std::string name (var->name ());
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("worker variable: " + name)
-    << worker.name () << " " << name << "_;" << std::endl;
+    << worker->name () << " " << name << "_;" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Action_Property_T
 
 void CUTS_BE_Action_Property_T <CUTS_BE_CPP::Context>::
-generate (const PICML::Property & prop)
+generate (const PICML::Property_in prop)
 {
   // TODO Add support for complex properties.
 
   // Write the value of the prop.
-  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
-  this->ctx_.source_ << simple.Value ();
+  PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
+  this->ctx_.source_ << simple->Value ();
 
   if (this->ctx_.arg_count_ > 1)
   {
@@ -124,7 +126,7 @@ generate (const PICML::Property & prop)
 // CUTS_BE_WorkerAction_Begin_T
 
 void CUTS_BE_WorkerAction_Begin_T <CUTS_BE_CPP::Context>::
-generate (const PICML::Action & action)
+generate (const PICML::Action_in action)
 {
   this->ctx_.skip_action_ = false;
 
@@ -132,33 +134,30 @@ generate (const PICML::Action & action)
   // then we need to invoke the logging method. If not, then we
   // need to invoke the non-logging method.
 
-  PICML::ActionType action_type = action.ActionType_child ();
-  PICML::Operation op = action_type.ref ();
+  PICML::ActionType action_type = action->get_ActionType ();
+  PICML::Operation op = action_type->refers_to_Operation ();
 
   this->ctx_.source_
-    << "this->" << action.name () << "_."
-    << op.name () << " (";
+    << "this->" << action->name () << "_."
+    << op->name () << " (";
 
-  typedef std::vector <PICML::Property> Property_Set;
-  Property_Set args = action.Property_kind_children ();
-
-  this->ctx_.arg_count_ = args.size ();
+  this->ctx_.arg_count_ = action->children <PICML::Property> ().count ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_OutputAction_Begin_T
 
 void CUTS_BE_OutputAction_Begin_T <CUTS_BE_CPP::Context>::
-generate (const PICML::OutputAction & action)
+generate (const PICML::OutputAction_in action)
 {
   std::string scoped_name;
-  const std::string name = action.name ();
+  const std::string name = action->name ();
 
   if (this->ctx_.outevent_mgr_.get_scoped_typename (name, scoped_name))
   {
     this->ctx_.source_
       << "::" << scoped_name << "_var __event_"
-      << action.uniqueId () << "__ = this->ctx_->new_" << name << "_event ();";
+      << action->id () << "__ = this->ctx_->new_" << name << "_event ();";
 
     this->ctx_.skip_action_ = false;
   }
@@ -173,40 +172,35 @@ generate (const PICML::OutputAction & action)
 // CUTS_BE_OutputAction_Property_T
 
 void CUTS_BE_OutputAction_Property_T <CUTS_BE_CPP::Context>::
-generate (const PICML::OutputAction & action,
-          const PICML::Property & prop)
+generate (const PICML::OutputAction_in action,
+          const PICML::Property_in prop)
 {
   std::ostringstream varname;
-  varname << "__event_" << action.uniqueId () << "__";
+  varname << "__event_" << action->id () << "__";
 
-  if (prop.type () == PICML::SimpleProperty::meta)
+  if (prop->meta ()->name () == PICML::SimpleProperty::impl_type::metaname)
   {
     // Write the contents for a simple property.
-    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
-    std::string value = simple.Value ();
+    PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
+    std::string value = simple->Value ();
 
     if (value == "$TIMEOFDAY")
       value = "ACE_OS::gettimeofday ().msec ()";
 
     this->ctx_.source_
-      << varname.str () << "->" << prop.name ()
+      << varname.str () << "->" << prop->name ()
       << " (" << value << ");";
   }
   else
   {
-    PICML::ComplexProperty complex = PICML::ComplexProperty::Cast (prop);
-    std::vector <PICML::DataValue> values = complex.DataValue_kind_children ();
+    PICML::ComplexProperty complex = PICML::ComplexProperty::_narrow (prop);
 
-    std::vector <PICML::DataValue>::const_iterator
-      iter = values.begin (), iter_end = values.end ();
-
-    const std::string propname = prop.name ();
-
-    for ( ; iter != iter_end; ++ iter)
+    const std::string propname = prop->name ();
+    for (auto datavalue : complex->get_DataValues ())
     {
       this->ctx_.source_
         << varname.str () << "->" << propname
-        << " ()." << iter->name () << " = " << iter->Value () << ";";
+        << " ()." << datavalue->name () << " = " << datavalue->Value () << ";";
     }
   }
 }
@@ -215,14 +209,14 @@ generate (const PICML::OutputAction & action,
 // CUTS_BE_OutputAction_End_T
 
 void CUTS_BE_OutputAction_End_T <CUTS_BE_CPP::Context>::
-generate (const PICML::OutputAction & action)
+generate (const PICML::OutputAction_in action)
 {
   if (this->ctx_.skip_action_)
     return;
 
   this->ctx_.source_
     << "this->ctx_->push_"
-    << action.name () << " (__event_" << action.uniqueId () << "__.in ());"
+    << action->name () << " (__event_" << action->id () << "__.in ());"
     << std::endl;
 }
 

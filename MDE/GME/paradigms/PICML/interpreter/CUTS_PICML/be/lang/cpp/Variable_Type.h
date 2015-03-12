@@ -15,7 +15,7 @@
 
 #include <ostream>
 #include "PICML/PICML.h"
-#include "../../UDM_Abstract_Type_Dispatcher_T.h"
+#include "PICML/Visitor.h"
 #include "Cpp_export.h"
 
 namespace CUTS_BE_CPP
@@ -36,7 +36,7 @@ public:
    *
    * @param[in]       mt        Member type of interest.
    */
-  virtual void generate (const PICML::MemberType & mt);
+  virtual void generate (const PICML::MemberType_in mt);
 
 protected:
   /// Default constructor.
@@ -46,7 +46,7 @@ protected:
   std::ostream & out_;
 
   /// Help for dispatching predefined type objects.
-  UDM_Abstract_Type_Dispatcher_T <PICML::Visitor> predefined_types_;
+  //UDM_Abstract_Type_Dispatcher_T <PICML::Visitor> predefined_types_;
 };
 
 /**
@@ -61,32 +61,32 @@ public:
 
   virtual ~Variable_Type (void);
 
-  virtual void Visit_Boolean (const PICML::Boolean & value);
+  virtual void Visit_Boolean (const PICML::Boolean_in value);
 
-  virtual void Visit_Byte (const PICML::Byte & );
-  virtual void Visit_Char (const PICML::Char & );
+  virtual void Visit_Byte (const PICML::Byte_in );
+  virtual void Visit_Char (const PICML::Char_in );
 
-  virtual void Visit_ShortInteger (const PICML::ShortInteger &);
-  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger &);
+  virtual void Visit_ShortInteger (const PICML::ShortInteger_in);
+  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger_in);
 
-  virtual void Visit_LongInteger (const PICML::LongInteger &);
-  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger &);
+  virtual void Visit_LongInteger (const PICML::LongInteger_in);
+  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger_in);
 
-  virtual void Visit_LongLongInteger (const PICML::LongLongInteger &);
-  virtual void Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger &);
+  virtual void Visit_LongLongInteger (const PICML::LongLongInteger_in);
+  virtual void Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger_in);
 
-  virtual void Visit_String (const PICML::String &);
-  virtual void Visit_WideString (const PICML::WideString &);
+  virtual void Visit_String (const PICML::String_in);
+  virtual void Visit_WideString (const PICML::WideString_in);
 
-  virtual void Visit_FloatNumber (const PICML::FloatNumber &);
-  virtual void Visit_DoubleNumber (const PICML::DoubleNumber &);
-  virtual void Visit_LongDoubleNumber (const PICML::LongDoubleNumber &);
+  virtual void Visit_FloatNumber (const PICML::FloatNumber_in);
+  virtual void Visit_DoubleNumber (const PICML::DoubleNumber_in);
+  virtual void Visit_LongDoubleNumber (const PICML::LongDoubleNumber_in);
 
-  virtual void Visit_GenericValue (const PICML::GenericValue &);
-  virtual void Visit_GenericObject (const PICML::GenericObject &);
+  virtual void Visit_GenericValue (const PICML::GenericValue_in);
+  virtual void Visit_GenericObject (const PICML::GenericObject_in);
 
-  virtual void Visit_TypeKind (const PICML::TypeKind &);
-  virtual void Visit_TypeEncoding (const PICML::TypeEncoding &);
+  virtual void Visit_TypeKind (const PICML::TypeKind_in);
+  virtual void Visit_TypeEncoding (const PICML::TypeEncoding_in);
 };
 }
 
