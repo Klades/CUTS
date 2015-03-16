@@ -87,7 +87,7 @@ get_scoped_typename_i (PORTTYPE & port, std::string & dest)
   while (parent->meta ()->name () != PICML::File::impl_type::metaname)
   {
     dest.insert (0, "::");
-    dest.insert (0, parent.name ());
+    dest.insert (0, parent->name ());
 
     parent = parent->parent ();
   }

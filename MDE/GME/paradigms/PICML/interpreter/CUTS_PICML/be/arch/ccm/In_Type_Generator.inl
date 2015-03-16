@@ -30,7 +30,7 @@ In_Type_Generator::~In_Type_Generator (void)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_Boolean (const PICML::Boolean & value)
+Visit_Boolean (const PICML::Boolean_in value)
 {
   this->out_ << "::CORBA::Boolean";
 }
@@ -39,7 +39,7 @@ Visit_Boolean (const PICML::Boolean & value)
 // Visit_Byte
 //
 CUTS_INLINE
-void In_Type_Generator::Visit_Byte (const PICML::Byte &)
+void In_Type_Generator::Visit_Byte (const PICML::Byte_in)
 {
   this->out_ << "::CORBA::Octet";
 }
@@ -48,7 +48,7 @@ void In_Type_Generator::Visit_Byte (const PICML::Byte &)
 // Visit_Char
 //
 CUTS_INLINE
-void In_Type_Generator::Visit_Char (const PICML::Char &)
+void In_Type_Generator::Visit_Char (const PICML::Char_in)
 {
   this->out_ << "char";
 }
@@ -57,7 +57,7 @@ void In_Type_Generator::Visit_Char (const PICML::Char &)
 // Visit_WideChar
 //
 CUTS_INLINE
-void In_Type_Generator::Visit_WideChar (const PICML::WideChar &)
+void In_Type_Generator::Visit_WideChar (const PICML::WideChar_in)
 {
   this->out_ << "wchar_t";
 }
@@ -67,7 +67,7 @@ void In_Type_Generator::Visit_WideChar (const PICML::WideChar &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_LongInteger (const PICML::LongInteger & )
+Visit_LongInteger (const PICML::LongInteger_in )
 {
   this->out_ << "::CORBA::Long";
 }
@@ -77,7 +77,7 @@ Visit_LongInteger (const PICML::LongInteger & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & )
+Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger_in )
 {
   this->out_ << "::CORBA::ULong";
 }
@@ -88,7 +88,7 @@ Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_LongLongInteger (const PICML::LongLongInteger & )
+Visit_LongLongInteger (const PICML::LongLongInteger_in )
 {
   this->out_ << "::CORBA::LongLong";
 }
@@ -98,7 +98,7 @@ Visit_LongLongInteger (const PICML::LongLongInteger & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger & )
+Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger_in )
 {
   this->out_ << "::CORBA::ULongLong";
 }
@@ -108,7 +108,7 @@ Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_ShortInteger (const PICML::ShortInteger & )
+Visit_ShortInteger (const PICML::ShortInteger_in )
 {
   this->out_ << "::CORBA::Short";
 }
@@ -118,7 +118,7 @@ Visit_ShortInteger (const PICML::ShortInteger & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & )
+Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger_in )
 {
   this->out_ << "::CORBA::UShort";
 }
@@ -128,7 +128,7 @@ Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_String (const PICML::String & value)
+Visit_String (const PICML::String_in value)
 {
   this->out_ << "const char *";
 }
@@ -138,7 +138,7 @@ Visit_String (const PICML::String & value)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_WideString (const PICML::WideString & )
+Visit_WideString (const PICML::WideString_in )
 {
   this->out_ << "const wchar_t *";
 }
@@ -148,7 +148,7 @@ Visit_WideString (const PICML::WideString & )
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_FloatNumber (const PICML::FloatNumber &)
+Visit_FloatNumber (const PICML::FloatNumber_in)
 {
   this->out_ << "::CORBA::Float";
 }
@@ -158,7 +158,7 @@ Visit_FloatNumber (const PICML::FloatNumber &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_DoubleNumber (const PICML::DoubleNumber &)
+Visit_DoubleNumber (const PICML::DoubleNumber_in)
 {
   this->out_ << "::CORBA::Double";
 }
@@ -168,7 +168,7 @@ Visit_DoubleNumber (const PICML::DoubleNumber &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_LongDoubleNumber (const PICML::LongDoubleNumber &)
+Visit_LongDoubleNumber (const PICML::LongDoubleNumber_in)
 {
   this->out_ << "::CORBA::LongDouble";
 }
@@ -178,7 +178,7 @@ Visit_LongDoubleNumber (const PICML::LongDoubleNumber &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_GenericValue (const PICML::GenericValue &)
+Visit_GenericValue (const PICML::GenericValue_in)
 {
   this->out_ << "const ::CORBA::Any &";
 }
@@ -188,7 +188,7 @@ Visit_GenericValue (const PICML::GenericValue &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_GenericValueObject (const PICML::GenericValueObject &)
+Visit_GenericValueObject (const PICML::GenericValueObject_in)
 {
 
 }
@@ -198,7 +198,7 @@ Visit_GenericValueObject (const PICML::GenericValueObject &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_GenericObject (const PICML::GenericObject &)
+Visit_GenericObject (const PICML::GenericObject_in)
 {
   this->out_ << "::CORBA::Object_ptr";
 }
@@ -208,7 +208,7 @@ Visit_GenericObject (const PICML::GenericObject &)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_TypeKind (const PICML::TypeKind & value)
+Visit_TypeKind (const PICML::TypeKind_in value)
 {
   this->out_ << "::CORBA::TCKind";
 }
@@ -218,7 +218,7 @@ Visit_TypeKind (const PICML::TypeKind & value)
 //
 CUTS_INLINE
 void In_Type_Generator::
-Visit_TypeEncoding (const PICML::TypeEncoding & value)
+Visit_TypeEncoding (const PICML::TypeEncoding_in value)
 {
   this->out_ << "::CORBA::TypeCode_ptr";
 }

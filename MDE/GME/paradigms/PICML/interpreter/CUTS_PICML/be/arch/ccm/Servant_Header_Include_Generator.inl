@@ -3,8 +3,6 @@
 #include "Servant_Header_Include_Generator.h"
 #include "../../../lang/cpp/Cpp.h"
 
-#include "boost/bind.hpp"
-#include "Uml.h"
 #include <algorithm>
 
 namespace CUTS_BE_OpenSplice
@@ -33,84 +31,70 @@ Servant_Header_Include_Generator::
 //
 void Servant_Header_Include_Generator::
 Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer & container)
+const PICML::ComponentImplementationContainer_in container)
 {
-  std::set <PICML::MonolithicImplementation> monoimpls =
-    container.MonolithicImplementation_kind_children ();
-
-  for (auto monoimpl : monoimpls)
-    monoimpl.Accept (*this);
+  for (auto monoimpl : container->get_MonolithicImplementations ())
+    monoimpl->accept (this);
 }
 
 //
 // Visit_MonolithicImplementation
 //
 void Servant_Header_Include_Generator::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation & impl)
+Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in impl)
 {
-  PICML::Implements implements =  impl.dstImplements ();
+  if (!impl->has_src_of_Implements ())
+    return
 
-  if (Udm::null != implements)
-    implements.Accept (*this);
+  impl->src_of_Implements ()->accept (this);
 }
 
 //
 // Visit_Implements
 //
 void Servant_Header_Include_Generator::
-Visit_Implements (const PICML::Implements & impl)
+Visit_Implements (const PICML::Implements_in impl)
 {
-  PICML::ComponentRef ref = impl.dstImplements_end ();
-  ref.Accept (*this);
+  impl->dst_ComponentRef ()->accept (this);
 }
 
 //
 // Visit_ComponentRef
 //
 void Servant_Header_Include_Generator::
-Visit_ComponentRef (const PICML::ComponentRef & ref)
+Visit_ComponentRef (const PICML::ComponentRef_in ref)
 {
-  PICML::Component component = ref.ref ();
+  if (ref->Component_is_nil ())
+    return;
 
-  if (Udm::null != component)
-    component.Accept (*this);
+  ref->refers_to_Component ()->accept (this);
 }
 
 //
 // Visit_Component
 //
 void Servant_Header_Include_Generator::
-Visit_Component (const PICML::Component & component)
+Visit_Component (const PICML::Component_in component)
 {
-  PICML::MgaObject obj = component.parent ();
-
-  if (PICML::Package::meta == obj.type ())
-    PICML::Package::Cast (obj).Accept (*this);
-  else
-    PICML::File::Cast (obj).Accept (*this);
+  component->parent ()->accept (this);
 }
 
 //
 // Visit_Package
 //
 void Servant_Header_Include_Generator::
-Visit_Package (const PICML::Package & package)
+Visit_Package (const PICML::Package_in package)
 {
-  PICML::MgaObject obj = package.parent ();
-
-  if (PICML::Package::meta == obj.type ())
-    PICML::Package::Cast (obj).Accept (*this);
-  else
-    PICML::File::Cast (obj).Accept (*this);
+  package->parent ()->accept (this);
 }
 
 //
 // Visit_File
 //
 void Servant_Header_Include_Generator::
-Visit_File (const PICML::File & file)
+Visit_File (const PICML::File_in file)
 {
-  std::string name = file.name ();
+  std::string name = file->name ();
 
   if (this->seen_.end () != this->seen_.find (name))
     return;

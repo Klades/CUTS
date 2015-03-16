@@ -9,7 +9,6 @@
 #include "../../BE_algorithm.h"
 #include "../../BE_Options.h"
 #include "../../BE_Impl_Node.h"
-#include "boost/bind.hpp"
 
 template <typename COND>
 class generate_listing_t
@@ -173,8 +172,8 @@ generate (const CUTS_BE_Impl_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_Impl_Node>::
 generate_impl_project (const CUTS_BE_Impl_Node & node)
 {
-  std::string impl_basename = node.exec_artifact_.name ();
-  std::string container_name (node.container_.name ());
+  std::string impl_basename = node.exec_artifact_->name ();
+  std::string container_name (node.container_->name ());
 
   // Create the export name for the project.
   std::string impl_export (impl_basename);
@@ -204,12 +203,10 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
                node.references_.end (),
                nodes.begin ());
 
-    typedef bool (* FUNCTOR)(const CUTS_BE_IDL_Node *);
-
     std::vector <const CUTS_BE_IDL_Node *>::iterator last_iter =
       std::remove_if (nodes.begin (),
                       nodes.end (),
-                      reinterpret_cast <FUNCTOR> (&CUTS_BE::requires_executor));
+                      [&] (const CUTS_BE_IDL_Node * n) {return CUTS_BE::requires_executor (n);});
 
     this->ctx_.project_
       << "  after += ";
@@ -347,12 +344,12 @@ generate (const CUTS_BE_IDL_Node & node)
   // Construct the name of the project file.
   std::string pathname (CUTS_BE_OPTIONS ()->output_directory_);
 
-  const std::string filepath (node.file_.Path ());
+  const std::string filepath (node.file_->Path ());
 
   if (!filepath.empty ())
     pathname += "/" + filepath;
 
-  pathname += "/" + std::string (node.file_.name ()) + ".mpc";
+  pathname += "/" + std::string (node.file_->name ()) + ".mpc";
 
   // Open the project for writing.
   this->ctx_.project_.open (pathname.c_str ());
@@ -495,7 +492,7 @@ generate_stub_project (const CUTS_BE_IDL_Node & node)
     << "  sharedname    = " << stub_name << std::endl
     << "  dynamicflags += " << stub_export << "_BUILD_DLL" << std::endl
     << std::endl
-    << "  after        += " << node.file_.name () << "_IDL_Gen";
+    << "  after        += " << node.file_->name () << "_IDL_Gen";
 
   this->ctx_.traits_->write_stub_after (this->ctx_.project_, node);
 
@@ -670,7 +667,7 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
 generate_eidl_project (const CUTS_BE_IDL_Node & node)
 {
-  std::string name (node.file_.name ());
+  std::string name (node.file_->name ());
 
   this->ctx_.project_
     << "project (" << name << "_EIDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {" << std::endl
@@ -715,7 +712,7 @@ generate_eidl_project (const CUTS_BE_IDL_Node & node)
 void CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
 generate_exec_project (const CUTS_BE_IDL_Node & node)
 {
-  std::string name (node.file_.name ());
+  std::string name (node.file_->name ());
   std::string project_name = name + "_exec";
 
   std::string macro_basename (name);
@@ -745,12 +742,10 @@ generate_exec_project (const CUTS_BE_IDL_Node & node)
              node.references_.end (),
              nodes.begin ());
 
-  typedef bool (* FUNCTOR)(const CUTS_BE_IDL_Node *);
-
   std::vector <const CUTS_BE_IDL_Node *>::iterator last_iter =
     std::remove_if (nodes.begin (),
                     nodes.end (),
-                    reinterpret_cast <FUNCTOR> (&CUTS_BE::has_interface));
+                    [&] (const CUTS_BE_IDL_Node * n) {return CUTS_BE::has_interface (n);});
 
   this->visited_nodes_.clear ();
   std::for_each (node.references_.begin (),
@@ -809,7 +804,7 @@ CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
 generate_svnt_project (const CUTS_BE_IDL_Node & node)
 {
   // Construct the names of the servant and skeleton project.
-  std::string name (node.file_.name ());
+  std::string name (node.file_->name ());
   std::string svnt_project = name + "_svnt";
 
   // Create the export name for the project.

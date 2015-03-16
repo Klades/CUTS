@@ -7,7 +7,6 @@
 #endif
 
 #include "../../lang/cpp/Cpp.h"
-#include "boost/bind.hpp"
 #include <algorithm>
 
 namespace CUTS_BE_CCM
@@ -19,9 +18,9 @@ namespace Cpp
 // Visit_Component
 //
 void Context_Generator::
-Visit_Component (const PICML::Component & component)
+Visit_Component (const PICML::Component_in component)
 {
-  std::string name = component.name ();
+  std::string name = component->name ();
   std::string scope = CUTS_BE_CPP::scope (component);
   std::string servant = name + "_Servant";
   this->context_ = name + "_Servant_Context";
@@ -58,9 +57,8 @@ Visit_Component (const PICML::Component & component)
     << "{"
     << "}";
 
-  std::vector <PICML::OutEventPort> ports = component.OutEventPort_kind_children ();
-  for (auto port : ports)
-    port.Accept (*this);
+  for (auto port : component->get_OutEventPorts ())
+    port->accept (this);
 
   this->header_
     << "};";
@@ -70,15 +68,18 @@ Visit_Component (const PICML::Component & component)
 // Visit_OutEventPort
 //
 void Context_Generator::
-Visit_OutEventPort (const PICML::OutEventPort & port)
+Visit_OutEventPort (const PICML::OutEventPort_in port)
 {
-  PICML::EventType et = port.ref ();
-
-  if (et == Udm::null || et.type () != PICML::Event::meta)
+  if (port->EventType_is_nil ())
     return;
 
-  PICML::Event ev = PICML::Event::Cast (et);
-  std::string name = port.name ();
+  PICML::EventType et = port->refers_to_EventType ();
+
+  if (et->meta ()->name () != PICML::Event::impl_type::metaname)
+    return;
+
+  PICML::Event ev = et;
+  std::string name = port->name ();
   std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
   // Write the push method's definition.
@@ -97,7 +98,7 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
     << "this->" << name << "_.send_event (ev);"
     << "}";
 
-  if (port.single_destination ())
+  if (port->single_destination ())
   {
     // Write the accessor method's definition.
     this->header_

@@ -14,7 +14,6 @@
 #include "In_Type_Generator.h"
 #include "Retn_Type_Generator.h"
 
-#include "../../UDM_Utility_T.h"
 #include "../../lang/cpp/Cpp.h"
 #include "../../BE_algorithm.h"
 
@@ -23,7 +22,6 @@
 
 #include "CCF/CodeGenerationKit/IndentationCxx.hpp"
 #include "CCF/CodeGenerationKit/IndentationImplanter.hpp"
-#include "Uml.h"
 #include <algorithm>
 
 namespace CUTS_BE_CCM
@@ -50,9 +48,9 @@ public:
   /// Destructor.
   virtual ~Servant_Base_Member_Init (void) { }
 
-  virtual void Visit_InEventPort (const PICML::InEventPort & input)
+  virtual void Visit_InEventPort (const PICML::InEventPort_in input)
   {
-    std::string name = input.name ();
+    std::string name = input->name ();
 
     this->source_
       << "," << std::endl
@@ -80,20 +78,20 @@ public:
   /// Destructor.
   virtual ~Port_Binder (void) { }
 
-  virtual void Visit_InEventPort (const PICML::InEventPort & port)
+  virtual void Visit_InEventPort (const PICML::InEventPort_in port)
   {
-    std::string name = port.name ();
+    std::string name = port->name ();
 
     this->source_
       << "this->consumers_.bind (\"" << name << "\", &this->"
       << name << "_consumer_);";
   }
 
-  virtual void Visit_OutEventPort (const PICML::OutEventPort & port)
+  virtual void Visit_OutEventPort (const PICML::OutEventPort_in port)
   {
-    std::string name = port.name ();
+    std::string name = port->name ();
 
-    if (port.single_destination ())
+    if (port->single_destination ())
     {
       this->source_
         << "this->emits_.bind (\"" << name
@@ -116,34 +114,32 @@ private:
 // Visit_RootFolder
 //
 void Servant_Generator::
-Visit_RootFolder (const PICML::RootFolder & folder)
+Visit_RootFolder (const PICML::RootFolder_in root)
 {
-  std::set <PICML::InterfaceDefinitions> folders = folder.InterfaceDefinitions_children ();
-  for (auto folder : folders)
-    folder.Accept (*this);
+  for (auto folder : root->get_InterfaceDefinitions ())
+    folder->accept (this);
 }
 
 //
 // Visit_InterfaceDefinitions
 //
 void Servant_Generator::
-Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions & folder)
+Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions_in folder)
 {
-  std::vector <PICML::File> files = folder.File_children ();
-  for (auto file : files)
-    file.Accept (*this);
+  for (auto file : folder->get_Files ())
+    file->accept (this);
 }
 
 //
 // Visit_ComponentImplementations
 //
-void Servant_Generator::Visit_File (const PICML::File & file)
+void Servant_Generator::Visit_File (const PICML::File_in file)
 {
   if (!CUTS_BE::has_component (file))
     return;
 
   // Construct the name of the output file.
-  std::string name = file.name ();
+  std::string name = file->name ();
   std::string basename = name + "_svnt";
 
   std::string source_filename (this->outdir_);
@@ -168,7 +164,7 @@ void Servant_Generator::Visit_File (const PICML::File & file)
                   &::toupper);
 
   // Construct the exp macro for this file.
-  std::string export_filename = std::string (file.name ()) + "_svnt_export";
+  std::string export_filename = std::string (file->name ()) + "_svnt_export";
   this->export_macro_ = name + "_SVNT";
 
   std::transform (this->export_macro_.begin (),
@@ -211,7 +207,11 @@ void Servant_Generator::Visit_File (const PICML::File & file)
       << CUTS_BE_CPP::include ("cuts/arch/ccm/CCM_T")
       << std::endl;
 
-    this->Visit_FilePackage_i (file);
+    for (auto subcomponent : file->get_Components ())
+      subcomponent->accept (this);
+
+    for (auto subpackage : file->get_Packages ())
+      subpackage->accept (this);
 
     this->header_ << std::endl
                   << "#endif  // !defined " << hash_define << std::endl;
@@ -227,58 +227,39 @@ void Servant_Generator::Visit_File (const PICML::File & file)
 // Visit_Package
 //
 void Servant_Generator::
-Visit_Package (const PICML::Package & package)
+Visit_Package (const PICML::Package_in package)
 {
-  std::string name = package.name ();
+  std::string name = package->name ();
 
   this->source_ << "namespace " << name << "{";
   this->header_ << "namespace " << name << "{";
 
-  this->Visit_FilePackage_i (package);
+  for (auto subcomponent : package->get_Components ())
+    subcomponent->accept (this);
+
+  for (auto subpackage : package->get_Packages ())
+    subpackage->accept (this);
 
   this->source_ << "}";
   this->header_ << "}";
 }
 
 //
-// Visit_FilePackage_i
-//
-void Servant_Generator::
-Visit_FilePackage_i (const Udm::Object & obj)
-{
-  std::set <PICML::Component> components =
-    Udm::ChildrenAttr <PICML::Component> (obj.__impl (), Udm::NULLCHILDROLE);
-
-  for (auto component : components)
-    component.Accept (*this);
-
-  // Visit the remaining packages.
-  std::set <PICML::Package> packages =
-    Udm::ChildrenAttr <PICML::Package> (obj.__impl (), Udm::NULLCHILDROLE);
-
-  for (auto package : packages)
-    package.Accept (*this);
-}
-
-//
 // Visit_Component
 //
 void Servant_Generator::
-Visit_Component (const PICML::Component & component)
+Visit_Component (const PICML::Component_in component)
 {
   // First, generate the context for the component.
   Context_Generator ctx_gen (this->header_, this->source_, this->traits_);
-  PICML::Component (component).Accept (ctx_gen);
+  component->accept (&ctx_gen);
 
-  std::string name = component.name ();
-  this->component_ = component.name ();
+  std::string name = component->name ();
+  this->component_ = component->name ();
   std::string context = ctx_gen.context ();
   std::string fq_type = CUTS_BE_CPP::fq_type (component, "::", false);
 
   this->servant_ = name + "_Servant";
-
-  std::vector <PICML::OutEventPort> outputs = component.OutEventPort_kind_children ();
-  std::vector <PICML::InEventPort> inputs = component.InEventPort_kind_children ();
 
   std::string ns = "::CIAO_" + CUTS_BE_CPP::fq_type (component, "_", false) + "_Impl";
 
@@ -310,10 +291,13 @@ Visit_Component (const PICML::Component & component)
     << ns << "::" << name << "_Exec_ptr executor)" << std::endl
     << " : " << this->servant_ << "_Base (name, poa, executor)";
 
-  Servant_Base_Member_Init bmi (this->source_, this->servant_);
+  auto outputs = component->get_OutEventPorts ();
+  auto inputs = component->get_InEventPorts ();
 
+
+  Servant_Base_Member_Init bmi (this->source_, this->servant_);
   for (auto input : inputs)
-    input.Accept (bmi);
+    input->accept (&bmi);
 
   this->source_
     << "{";
@@ -321,13 +305,13 @@ Visit_Component (const PICML::Component & component)
   Port_Binder port_binder (this->source_);
 
   for (auto output : outputs)
-    output.Accept (port_binder);
+    output->accept (&port_binder);
 
   this->source_
     << std::endl;
 
   for (auto input : inputs)
-    input.Accept (port_binder);
+    input->accept (&port_binder);
 
   this->source_
     << "}"
@@ -337,38 +321,28 @@ Visit_Component (const PICML::Component & component)
     << "}";
 
   // Visit all the Attribute elements of the <component>.
-  typedef std::vector <PICML::Attribute> Attribute_Set;
-  Attribute_Set attrs = component.Attribute_kind_children ();
-
-  for (auto attr : attrs)
-    attr.Accept (*this);
+  for (auto attr : component->get_Attributes ())
+    attr->accept (this);
 
   // Visit all the ReadonlyAttribute elements of the <component>.
-  typedef std::vector <PICML::ReadonlyAttribute> ReadonlyAttribute_Set;
-  ReadonlyAttribute_Set ro_attrs = component.ReadonlyAttribute_kind_children ();
-
-  typedef is_type <PICML::ReadonlyAttribute> ReadonlyAttribute_Type;
-
-  std::for_each (boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.begin (), ro_attrs.end ()),
-                 boost::make_filter_iterator <ReadonlyAttribute_Type> (ro_attrs.end (), ro_attrs.end ()),
-                 boost::bind (&PICML::ReadonlyAttribute::Accept, _1, boost::ref (*this)));
-
+  for (auto ro_attr : component->get_ReadonlyAttributes ())
+    ro_attr->accept (this);
 
   // Make sure we generate the set_attribute () method since it is
   // used by the deployment tools to configure a component.
   CUTS_BE_CCM::Cpp::Servant_Set_Attribute_Decl set_attribute_decl_gen (this->header_);
   CUTS_BE_CCM::Cpp::Servant_Set_Attribute_Impl set_attribute_gen (this->source_);
 
-  PICML::Component (component).Accept (set_attribute_decl_gen);
-  PICML::Component (component).Accept (set_attribute_gen);
+  component->accept (&set_attribute_decl_gen);
+  component->accept (&set_attribute_gen);
 
   // Write methods for each of the event sources.
   for (auto output : outputs)
-    output.Accept (*this);
+    output->accept (this);
 
   // Write methods for each of the event sinks.
   for (auto input : inputs)
-    input.Accept (*this);
+    input->accept (this);
 
   this->header_
     << "};";
@@ -401,15 +375,18 @@ Visit_Component (const PICML::Component & component)
 // Visit_ComponentServantArtifact
 //
 void Servant_Generator::
-Visit_InEventPort (const PICML::InEventPort & port)
+Visit_InEventPort (const PICML::InEventPort_in port)
 {
-  PICML::EventType et = port.ref ();
-
-  if (et == Udm::null || et.type () != PICML::Event::meta)
+  if (port->EventType_is_nil ())
     return;
 
-  PICML::Event ev = PICML::Event::Cast (et);
-  std::string name = port.name ();
+  PICML::EventType et = port->refers_to_EventType ();
+
+  if (et->meta ()->name () != PICML::Event::impl_type::metaname)
+    return;
+
+  PICML::Event ev = et;
+  std::string name = port->name ();
   std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
   this->header_
@@ -450,19 +427,21 @@ Visit_InEventPort (const PICML::InEventPort & port)
 // Visit_OutEventPort
 //
 void Servant_Generator::
-Visit_OutEventPort (const PICML::OutEventPort & port)
+Visit_OutEventPort (const PICML::OutEventPort_in port)
 {
-  PICML::EventType et = port.ref ();
-
-  if (et == Udm::null || et.type () != PICML::Event::meta)
+  if (port->EventType_is_nil ())
     return;
 
-  PICML::Event ev = PICML::Event::Cast (et);
+  PICML::EventType et = port->refers_to_EventType ();
 
-  std::string name = port.name ();
+  if (et->meta ()->name () != PICML::Event::impl_type::metaname)
+    return;
+
+  PICML::Event ev = et;
+  std::string name = port->name ();
   std::string fq_type = CUTS_BE_CPP::fq_type (ev);
 
-  if (port.single_destination ())
+  if (port->single_destination ())
   {
     this->header_
       << CUTS_BE_CPP::single_line_comment ("Connect to " + name)
@@ -516,11 +495,11 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 // Visit_Attribute
 //
 void Servant_Generator::
-Visit_Attribute (const PICML::Attribute & attr)
+Visit_Attribute (const PICML::Attribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-  PICML::MemberType type = member.ref ();
-  const std::string name (attr.name ());
+  PICML::AttributeMember member = attr->get_AttributeMember ();
+  PICML::MemberType type = member->refers_to_MemberType ();
+  const std::string name (attr->name ());
 
   // Write the attribute in the header file.
   this->header_
@@ -551,18 +530,18 @@ Visit_Attribute (const PICML::Attribute & attr)
 
   // Write the getter method for this attribute.
   PICML::ReadonlyAttribute readonly (attr);
-  readonly.Accept (*this);
+  readonly->accept (this);
 }
 
 //
 // Visit_ReadonlyAttribute
 //
 void Servant_Generator::
-Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr)
+Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-  PICML::MemberType type = member.ref ();
-  const std::string name (attr.name ());
+  PICML::AttributeMember member = attr->get_AttributeMember ();
+  PICML::MemberType type = member->refers_to_MemberType ();
+  const std::string name (attr->name ());
 
   // Write the getter method's declaration.
   this->header_

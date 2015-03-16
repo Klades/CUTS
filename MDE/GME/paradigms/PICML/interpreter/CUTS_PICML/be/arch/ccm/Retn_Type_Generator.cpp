@@ -15,92 +15,56 @@ namespace Cpp
 // is_variable_type
 //
 bool Retn_Type_Generator::
-is_variable_type (const PICML::MemberType & type)
+is_variable_type (const PICML::MemberType_in type)
 {
-  bool result;
-  Uml::Class meta_type = type.type ();
+  std::string metaname = type->meta ()->name ();
 
-  if (Udm::IsDerivedFrom (meta_type, PICML::PredefinedType::meta))
-  {
-    result = (meta_type == PICML::String::meta || meta_type == PICML::GenericValue::meta);
-  }
-  else if (meta_type == PICML::Aggregate::meta)
+  if (metaname == PICML::String::impl_type::metaname)
+    return true;
+  else if (metaname == PICML::GenericValue::impl_type::metaname)
+    return true;
+  else if (metaname == PICML::Aggregate::impl_type::metaname)
   {
     // Extract the aggregate from the member type.
-    const PICML::Aggregate aggr = PICML::Aggregate::Cast (type);
+    const PICML::Aggregate aggr = type;
 
-    // Get the members of the aggregate.
-    typedef std::vector <PICML::Member> Member_Set;
-    Member_Set members = aggr.Member_children ();
-
-    Member_Set::const_iterator
-      iter = members.begin (),
-      iter_end = members.end ();
-
-    // Initialize the result.
-    result = false;
-
-    for (; iter != iter_end; iter ++)
+    for (auto member : aggr->get_Members ())
     {
-      // Get the next member in the data structure.
-      PICML::MemberType mtype = iter->ref ();
+      if (member->MemberType_is_nil ())
+        continue;
 
-      // Determine if it is a variable type.
-      if (mtype != Udm::null)
-        result |= this->is_variable_type (mtype);
-
-      // We can quit once we have found one.
-      if (result)
-        break;
+      if (this->is_variable_type (member->refers_to_MemberType ()))
+        return true;
     }
   }
-  else if (meta_type == PICML::SwitchedAggregate::meta)
+  else if (metaname == PICML::SwitchedAggregate::impl_type::metaname)
   {
-    const PICML::SwitchedAggregate swaggr = PICML::SwitchedAggregate::Cast (type);
+    const PICML::SwitchedAggregate swaggr = type;
 
-    // Get the members of the aggregate.
-    typedef std::vector <PICML::Member> Member_Set;
-    Member_Set members = swaggr.Member_children ();
-
-    Member_Set::const_iterator
-      iter = members.begin (),
-      iter_end = members.end ();
-
-    // Initialize the result.
-    result = false;
-
-    for (; iter != iter_end; iter ++)
+    for (auto member : swaggr->get_Members ())
     {
-      // Get the next member in the data structure.
-      PICML::MemberType mtype = iter->ref ();
+      if (member->MemberType_is_nil ())
+        continue;
 
-      // Determine if it is a variable type.
-      if (mtype != Udm::null)
-        result |= this->is_variable_type (mtype);
-
-      // We can quit once we have found one.
-      if (result)
-        break;
+      if (this->is_variable_type (member->refers_to_MemberType ()))
+        return true;
     }
   }
-  else if (meta_type == PICML::Collection::meta)
+  else if (metaname == PICML::Collection::impl_type::metaname)
   {
-    result = true;
+    return true;
   }
-  else if (meta_type == PICML::Alias::meta)
+  else if (metaname == PICML::Alias::impl_type::metaname)
   {
-    const PICML::Alias alias = PICML::Alias::Cast (type);
-    PICML::MemberType mtype = alias.ref ();
+    const PICML::Alias alias = type;
+    if (alias->MemberType_is_nil ())
+      return false;
 
-    if (mtype != Udm::null)
-      result = this->is_variable_type (mtype);
-  }
-  else
-  {
-    result = false;
+    if (this->is_variable_type (alias->refers_to_MemberType ()))
+      return true;
   }
 
-  return result;
+  return false;
 }
 
 }

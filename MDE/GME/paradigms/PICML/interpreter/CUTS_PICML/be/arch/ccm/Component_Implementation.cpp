@@ -13,7 +13,6 @@
 
 #include "../../BE_Options.h"
 #include "../../lang/cpp/Component_Impl_Generator.h"
-#include "Uml.h"
 
 /**
  * @class Visit_Component_Interface
@@ -31,18 +30,17 @@ protected:
 
   }
 
-  void Visit_MonolithicImplementation (const PICML::MonolithicImplementation & impl)
+  void Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in impl)
   {
-    PICML::Implements implements = impl.dstImplements ();
-
-    if (implements == Udm::null)
+    if (!impl->has_src_of_Implements ())
       return;
 
-    PICML::ComponentRef ref = implements.dstImplements_end ();
-    PICML::Component component = ref.ref ();
+    PICML::Implements implements = impl->src_of_Implements ();
 
-    if (ref != Udm::null)
-      component.Accept (*this);
+    PICML::ComponentRef ref = implements->dst_ComponentRef ();
+
+    if (!ref->Component_is_nil ())
+      ref->refers_to_Component ()->accept (this);
   }
 };
 
@@ -62,14 +60,14 @@ public:
 
   }
 
-  void Visit_Component (const PICML::Component & component)
+  void Visit_Component (const PICML::Component_in component)
   {
-    PICML::MgaObject parent = component.parent ();
+    GAME::Mga::Object parent = component->parent ();
 
-    while (parent.type () == PICML::Package::meta)
-      parent = PICML::MgaObject::Cast (parent.parent ());
+    while (parent->meta ()->name () == PICML::Package::impl_type::metaname)
+      parent = parent->parent ();
 
-    this->result_ = PICML::File::Cast (parent);
+    this->result_ = PICML::File::_narrow (parent);
   }
 
   PICML::File result_;
@@ -92,30 +90,25 @@ public:
 
   }
 
-  virtual void Visit_Component (const PICML::Component & component)
+  virtual void Visit_Component (const PICML::Component_in component)
   {
-    std::set < PICML::WorkerType > workers = component.WorkerType_children ();
-
-    for (auto worker : workers)
-      worker.Accept (*this);
+    for (auto worker : component->get_WorkerTypes ())
+      worker->accept (this);
   }
 
-  virtual void Visit_WorkerType (const PICML::WorkerType & wt)
+  virtual void Visit_WorkerType (const PICML::WorkerType_in wt)
   {
-    // Get the parent.
-    PICML::Worker worker = wt.ref ();
-
-    if (worker == Udm::null)
+    if (wt->Worker_is_nil ())
       return;
 
     // Locate the file that contains this worker.
-    PICML::MgaObject parent = worker.parent ();
+    GAME::Mga::Object parent = wt->refers_to_Worker ()->parent ();
 
-    while (parent.type () == PICML::WorkerPackage::meta)
-      parent = PICML::MgaObject::Cast (parent.parent ());
+    while (parent->meta ()->name () == PICML::WorkerPackage::impl_type::metaname)
+      parent = parent->parent ();
 
     // Write the file name to the stream.
-    this->out_ << CUTS_BE_CPP::include (parent.name ());
+    this->out_ << CUTS_BE_CPP::include (parent->name ());
   }
 
 private:
@@ -126,12 +119,12 @@ private:
 // CUTS_BE_File_Open_T
 
 void CUTS_BE_File_Open_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ComponentImplementationContainer & container,
-          const PICML::MonolithicImplementation & impl)
+generate (const PICML::ComponentImplementationContainer_in container,
+          const PICML::MonolithicImplementation_in impl)
 {
   // Construct the name of the file.
   std::string basename (CUTS_BE_OPTIONS ()->output_directory_);
-  basename += "/" + std::string (impl.name ());
+  basename += "/" + std::string (impl->name ());
 
   std::string source_name = basename + ".cpp";
   std::string header_name = basename + ".h";
@@ -148,8 +141,8 @@ generate (const PICML::ComponentImplementationContainer & container,
 // CUTS_BE_File_Close_T
 
 void CUTS_BE_File_Close_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ComponentImplementationContainer & container,
-          const PICML::MonolithicImplementation & impl)
+generate (const PICML::ComponentImplementationContainer_in container,
+          const PICML::MonolithicImplementation_in impl)
 {
   this->ctx_.header_formatter_.reset ();
 
@@ -175,10 +168,10 @@ generate (const std::string & include)
 // CUTS_BE_Prologue_T
 
 void CUTS_BE_Prologue_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ComponentImplementationContainer & container,
-          const PICML::MonolithicImplementation & impl)
+generate (const PICML::ComponentImplementationContainer_in container,
+          const PICML::MonolithicImplementation_in impl)
 {
-  std::string name (impl.name ());
+  std::string name (impl->name ());
 
   // Generate the hash definition for this file.
   std::string hashdef = "_" + name + "_H_";
@@ -188,15 +181,15 @@ generate (const PICML::ComponentImplementationContainer & container,
                   &::toupper);
 
   Locate_Parent_File locator;
-  PICML::MonolithicImplementation (impl).Accept (locator);
+  impl->accept (&locator);
 
   // Construct the pathname of the executor include file.
-  std::string pathname = locator.result_.Path ();
+  std::string pathname = locator.result_->Path ();
 
   if (!pathname.empty ())
     pathname += "/";
 
-  pathname += locator.result_.name ();
+  pathname += locator.result_->name ();
 
   this->ctx_.header_
     << "// -*- C++ -*-" << std::endl
@@ -216,7 +209,7 @@ generate (const PICML::ComponentImplementationContainer & container,
 
   // Write the includes for the worker files.
   Include_Worker_Files includes (this->ctx_.header_);
-  PICML::MonolithicImplementation (impl).Accept (includes);
+  impl->accept (&includes);
 
   this->ctx_.source_
     << CUTS_BE_CPP::single_line_comment ("This file was generated by:")
@@ -234,11 +227,11 @@ generate (const PICML::ComponentImplementationContainer & container,
 // CUTS_BE_Epilogue_T
 
 void CUTS_BE_Epilogue_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ComponentImplementationContainer & container,
-          const PICML::MonolithicImplementation & impl)
+generate (const PICML::ComponentImplementationContainer_in container,
+          const PICML::MonolithicImplementation_in impl)
 {
   // Generate the hash definition for this file.
-  std::string name (container.name ());
+  std::string name (container->name ());
   std::string hashdef = "_" + name + "_H_";
   std::transform (hashdef.begin (),
                   hashdef.end (),
@@ -262,17 +255,16 @@ generate (const PICML::ComponentImplementationContainer & container,
 // CUTS_BE_Component_Impl_Begin_T
 
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::MonolithicImplementation & impl,
-          const PICML::Component & component)
+generate (const PICML::MonolithicImplementation_in impl,
+          const PICML::Component_in component)
 {
   // This part of the code generates the header file.
-  std::string namespace_name (impl.name ());
-  std::string implname (component.name ());
+  std::string namespace_name (impl->name ());
+  std::string implname (component->name ());
 
-  std::vector <PICML::PeriodicEvent> periodics =
-    component.PeriodicEvent_kind_children ();
+  auto periodics = component->get_PeriodicEvents ();
 
-  if (!periodics.empty ())
+  if (!periodics.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Periodic_Event_T");
 
   this->ctx_.header_
@@ -280,17 +272,11 @@ generate (const PICML::MonolithicImplementation & impl,
     << "namespace " << namespace_name
     << "{";
 
-  typedef std::vector <PICML::OutEventPort> OutEventPort_Set;
-  OutEventPort_Set outevents = component.OutEventPort_kind_children ();
+  for (auto outevent : component->get_OutEventPorts ())
+    outevent->accept (this);
 
-  for (auto outevent : outevents)
-    outevent.Accept (*this);
-
-  std::vector <PICML::ProvidedRequestPort> facets =
-    component.ProvidedRequestPort_kind_children ();
-
-  for (auto facet : facets)
-    facet.Accept (*this);
+  for (auto facet : component->get_ProvidedRequestPorts ())
+    facet->accept (this);
 
   std::string destructor = "~" + implname;
 
@@ -344,22 +330,20 @@ generate (const PICML::MonolithicImplementation & impl,
     << implname << "::" << implname << " (void)";
 
   CUTS_BE_CPP::Base_Member_Init base_member_init (this->ctx_.source_);
-  PICML::Component (component).Accept (base_member_init);
+  component->accept (&base_member_init);
 
   this->ctx_.source_
     << "{";
 
-  std::vector <PICML::InEventPort> input_events = component.InEventPort_kind_children ();
-
   CUTS_BE_CPP::Initialize_Entity entity (this->ctx_.source_);
 
   for (auto periodic : periodics)
-    periodic.Accept (entity);
+    periodic->accept (&entity);
 
   if (this->ctx_.traits_->emulates_async ())
   {
-    for (auto event : input_events)
-      event.Accept (entity);
+    for (auto event : component->get_InEventPorts ())
+      event->accept (&entity);
   }
 
   // Finish the constructor.
@@ -373,16 +357,16 @@ generate (const PICML::MonolithicImplementation & impl,
 }
 
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
+Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort_in facet)
 {
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("Forward decl.")
-    << "class " << facet.name () << "_i;"
+    << "class " << facet->name () << "_i;"
     << std::endl;
 }
 
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_OutEventPort (const PICML::OutEventPort & port)
+Visit_OutEventPort (const PICML::OutEventPort_in port)
 {
   this->ctx_.outevent_mgr_.insert (PICML::OutEventPort (port));
 }
@@ -391,8 +375,8 @@ Visit_OutEventPort (const PICML::OutEventPort & port)
 // CUTS_BE_Component_Impl_End_T
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::MonolithicImplementation & impl,
-          const PICML::Component & component)
+generate (const PICML::MonolithicImplementation_in impl,
+          const PICML::Component_in component)
 {
   // This part of the code generates the header file.
   this->ctx_.header_
@@ -407,20 +391,22 @@ generate (const PICML::MonolithicImplementation & impl,
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_InEventPort (const PICML::InEventPort & port)
+Visit_InEventPort (const PICML::InEventPort_in port)
 {
-  PICML::Input input = port.dstInput ();
-  this->sink_name_ = port.name ();
+  if (!port->has_src_of_Input ())
+    return;
 
-  if (Udm::null != input)
-    input.Accept (*this);
+  PICML::Input input = port->src_of_Input ();
+  this->sink_name_ = port->name ();
+
+  input->accept (this);
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
+Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
 {
   std::string name ("periodic_");
-  name += periodic.name ();
+  name += periodic->name ();
 
   // Configure the periodic event.
   this->ctx_.header_
@@ -429,24 +415,14 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Input (const PICML::Input & input)
+Visit_Input (const PICML::Input_in input)
 {
-  PICML::InputAction action = input.dstInput_end ();
-  action.Accept (*this);
+  input->dst_InputAction ()->accept (this);
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_InputAction (const PICML::InputAction & action)
+Visit_InputAction (const PICML::InputAction_in action)
 {
-  std::vector <PICML::SimpleProperty> properties = action.SimpleProperty_kind_children ();
-
-  std::vector <PICML::SimpleProperty>::const_iterator iter =
-    std::find_if (properties.begin (),
-                  properties.end (),
-                  boost::bind (std::equal_to <std::string> (),
-                               "asynchronous",
-                               boost::bind (&PICML::Property::name, _1)));
-
   std::string varname ("push_");
   varname += this->sink_name_ + "_";
 
@@ -455,30 +431,30 @@ Visit_InputAction (const PICML::InputAction & action)
     << "&type::push_" << this->sink_name_ << "_i);"
     << "this->register_object (&this->" << varname << ");";
 
-  for (auto property : properties)
-    property.Accept (*this);
+  for (auto property : action->get_SimplePropertys ())
+    property->accept (this);
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Property (const PICML::Property & prop)
+Visit_Property (const PICML::Property_in prop)
 {
-  std::string name (prop.name ());
+  std::string name (prop->name ());
 
   if (name == "threadCount")
   {
-    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+    PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
 
     this->ctx_.source_
       << "this->push_" << name << "_.thread_count ("
-      << simple.Value () << ");";
+      << simple->Value () << ");";
   }
   else if (name == "threadAffinity")
   {
-    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+    PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
 
     this->ctx_.source_
       << "this->push_" << name << "_.affinity_mask ("
-      << simple.Value () << ");";
+      << simple->Value () << ");";
   }
 }
 
@@ -486,14 +462,14 @@ Visit_Property (const PICML::Property & prop)
 // CUTS_BE_Component_Impl_End_T
 
 void CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::MonolithicImplementation & monoimpl,
-          const PICML::ComponentImplementationArtifact & artifact)
+generate (const PICML::MonolithicImplementation_in monoimpl,
+          const PICML::ComponentImplementationArtifact_in artifact)
 {
-  std::string entrypoint (artifact.EntryPoint ());
-  PICML::ImplementationArtifact ia = artifact.ref ();
+  std::string entrypoint (artifact->EntryPoint ());
+  PICML::ImplementationArtifact ia = artifact->refers_to_ImplementationArtifact ();
 
   // Construct the export macro and export filename.
-  std::string export_basename (ia.name ());
+  std::string export_basename (ia->name ());
   std::string export_macro (export_basename);
 
   std::transform (export_macro.begin (),
@@ -518,12 +494,10 @@ generate (const PICML::MonolithicImplementation & monoimpl,
     << "  ::Components::EnterpriseComponent::_nil ();"
     << std::endl
     << "ACE_NEW_RETURN (retval," << std::endl
-    << "::" << monoimpl.name () << "::";
+    << "::" << monoimpl->name () << "::";
 
-  PICML::Implements implements = monoimpl.dstImplements ();
-
-  if (Udm::null != implements)
-    implements.Accept (*this);
+  if (monoimpl->has_src_of_Implements ())
+    monoimpl->src_of_Implements ()->accept (this);
 
   this->ctx_.source_
     << " ()," << std::endl
@@ -535,31 +509,30 @@ generate (const PICML::MonolithicImplementation & monoimpl,
 }
 
 void CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Implements (const PICML::Implements & implements)
+Visit_Implements (const PICML::Implements_in implements)
 {
-  PICML::ComponentRef ref = implements.dstImplements_end ();
-  PICML::Component component = ref.ref ();
+  PICML::ComponentRef ref = implements->dst_ComponentRef ();
 
-  if (Udm::null != component)
-    component.Accept (*this);
+  if (!ref->Component_is_nil ())
+    ref->refers_to_Component ()->accept (this);
 }
 
 void CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Component (const PICML::Component & component)
+Visit_Component (const PICML::Component_in component)
 {
   this->ctx_.source_
-    << component.name ();
+    << component->name ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Environment_Method_Begin_T
 
 void CUTS_BE_Environment_Method_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::MultiInputAction & action)
+generate (const PICML::MultiInputAction_in action)
 {
-  std::string name (action.name ());
-  PICML::Component parent = PICML::Component::Cast (action.parent ());
-  std::string parent_name = parent.name ();
+  std::string name (action->name ());
+  PICML::Component parent = action->parent ();
+  std::string parent_name = parent->name ();
 
   if ("activate" == name)
   {
@@ -603,10 +576,10 @@ generate (const PICML::MultiInputAction & action)
 // CUTS_BE_Environment_Method_End_T
 
 void CUTS_BE_Environment_Method_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::MultiInputAction & action)
+generate (const PICML::MultiInputAction_in action)
 {
-  std::string name (action.name ());
-  PICML::Component parent = PICML::Component::Cast (action.parent ());
+  std::string name (action->name ());
+  PICML::Component parent = action->parent ();
 
   if ("activate" == name)
   {
@@ -631,21 +604,21 @@ generate (const PICML::MultiInputAction & action)
 // CUTS_BE_Attribute_Begin_T
 
 void CUTS_BE_Attribute_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::Attribute & attr)
+generate (const PICML::Attribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-
-  if (Udm::null == member)
+  if (!attr->has_AttributeMember ())
     return;
 
-  PICML::MemberType member_type = member.ref ();
+  PICML::AttributeMember member = attr->get_AttributeMember ();
 
-  if (Udm::null == member_type)
+  if (member->MemberType_is_nil ())
     return;
 
-  std::string name (attr.name ());
-  PICML::Component parent = PICML::Component::Cast (attr.parent ());
-  std::string parent_name (parent.name ());
+  PICML::MemberType member_type = member->refers_to_MemberType ();
+
+  std::string name (attr->name ());
+  PICML::Component parent = attr->parent ();
+  std::string parent_name (parent->name ());
 
   // This part generates the header information.
   this->ctx_.header_
@@ -676,23 +649,25 @@ generate (const PICML::Attribute & attr)
 // CUTS_BE_Attribute_End_T
 
 void CUTS_BE_Attribute_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::Attribute & attr)
+generate (const PICML::Attribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-  if (Udm::null == member)
+  if (!attr->has_AttributeMember ())
     return;
 
-  PICML::MemberType type = member.ref ();
-  if (Udm::null == type)
+  PICML::AttributeMember member = attr->get_AttributeMember ();
+
+  if (member->MemberType_is_nil ())
     return;
 
-  Uml::Class meta = type.type ();
-  std::string attr_name (attr.name ());
+  PICML::MemberType type = member->refers_to_MemberType ();
+
+  const std::string meta = type->meta ()->name ();
+  std::string attr_name (attr->name ());
 
   this->ctx_.source_
     << "this->" << attr_name << "_ = ";
 
-  if (meta == PICML::GenericObject::meta)
+  if (meta == PICML::GenericObject::impl_type::metaname)
   {
     // We need to create a duplicate copy of the interface
     // before we store it.
@@ -700,7 +675,7 @@ generate (const PICML::Attribute & attr)
       << std::endl
       << "  ::CORBA::Object::_duplicate (" << attr_name << ");";
   }
-  else if (meta == PICML::TypeEncoding::meta)
+  else if (meta == PICML::TypeEncoding::impl_type::metaname)
   {
     // We need to create a duplicate copy of the typecode
     // interface before we store it.
@@ -725,18 +700,18 @@ generate (const PICML::Attribute & attr)
 // CUTS_BE_ReadonlyAttribute_Begin_T
 
 void CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ReadonlyAttribute & attr)
+generate (const PICML::ReadonlyAttribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-  if (member == Udm::null)
+  if (!attr->has_AttributeMember ())
     return;
+  PICML::AttributeMember member = attr->get_AttributeMember ();
 
-  PICML::MemberType type = member.ref ();
-  if (type == Udm::null)
+  if (member->MemberType_is_nil ())
     return;
+  PICML::MemberType type = member->refers_to_MemberType ();
 
-  std::string attr_name (attr.name ());
-  PICML::Component parent = PICML::Component::Cast (attr.parent ());
+  std::string attr_name (attr->name ());
+  PICML::Component parent = attr->parent ();
 
   // This part of the code generate to the header file.
   this->ctx_.header_
@@ -758,7 +733,7 @@ generate (const PICML::ReadonlyAttribute & attr)
   retn_source_gen.generate (type);
 
   this->ctx_.source_
-    << " " << parent.name () << "::" << attr_name << " (void)"
+    << " " << parent->name () << "::" << attr_name << " (void)"
     << "{";
 }
 
@@ -766,24 +741,24 @@ generate (const PICML::ReadonlyAttribute & attr)
 // CUTS_BE_ReadonlyAttribute_End_T
 
 void CUTS_BE_ReadonlyAttribute_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ReadonlyAttribute & attr)
+generate (const PICML::ReadonlyAttribute_in attr)
 {
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-
-  if (member == Udm::null)
+  if (!attr->has_AttributeMember ())
     return;
 
-  PICML::MemberType type = member.ref ();
+  PICML::AttributeMember member = attr->get_AttributeMember ();
 
-  if (type == Udm::null)
+  if (member->MemberType_is_nil ())
     return;
 
-  Uml::Class meta = type.type ();
-  std::string attr_name (attr.name ());
+  PICML::MemberType type = member->refers_to_MemberType ();
+
+  std::string meta = type->meta ()->name ();
+  std::string attr_name (attr->name ());
 
   // This section of the code write the source file.
 
-  if (meta == PICML::String::meta)
+  if (meta == PICML::String::impl_type::metaname)
   {
     // Strings are special case. We need to return a duplicate
     // copy of the string, or we will have major problems.
@@ -793,7 +768,7 @@ generate (const PICML::ReadonlyAttribute & attr)
       << attr_name << "_.c_str ());"
       << "return s._retn ();";
   }
-  else if (meta == PICML::GenericValue::meta)
+  else if (meta == PICML::GenericValue::impl_type::metaname)
   {
     // We need to create an <Any::_var_type> for temporary
     // storage and give control to the client using the
@@ -805,13 +780,13 @@ generate (const PICML::ReadonlyAttribute & attr)
       << "::CORBA::NO_MEMORY ());"
       << "return temp;";
   }
-  else if (meta == PICML::GenericObject::meta)
+  else if (meta == PICML::GenericObject::impl_type::metaname)
   {
     this->ctx_.source_
       << "return ::CORBA::Object::_duplicate (this->"
       << attr_name << "_.in ());";
   }
-  else if (meta == PICML::TypeEncoding::meta)
+  else if (meta == PICML::TypeEncoding::impl_type::metaname)
   {
     this->ctx_.source_
       << "return ::CORBA::TypeCode::_duplicate (this->"
@@ -820,7 +795,7 @@ generate (const PICML::ReadonlyAttribute & attr)
   else
   {
     this->ctx_.source_
-      << "return this->" << attr.name () << "_;";
+      << "return this->" << attr->name () << "_;";
   }
 
   this->ctx_.source_
@@ -832,13 +807,13 @@ generate (const PICML::ReadonlyAttribute & attr)
 // CUTS_BE_PeriodicEvent_Begin_T
 
 void CUTS_BE_PeriodicEvent_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::PeriodicEvent & periodic)
+generate (const PICML::PeriodicEvent_in periodic)
 {
-  std::string name = periodic.name ();
+  std::string name = periodic->name ();
   std::string func_name = "periodic_" + name;
 
-  PICML::Component parent (PICML::Component::Cast (periodic.parent ()));
-  std::string parent_name (parent.name ());
+  PICML::Component parent = periodic->parent ();
+  std::string parent_name (parent->name ());
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("PeriodicEvent: " + name)
@@ -855,7 +830,7 @@ generate (const PICML::PeriodicEvent & periodic)
 // CUTS_BE_PeriodicEvent_End_T
 
 void CUTS_BE_PeriodicEvent_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::PeriodicEvent & periodic)
+generate (const PICML::PeriodicEvent_in periodic)
 {
   this->ctx_.source_
     << "}";
@@ -865,29 +840,30 @@ generate (const PICML::PeriodicEvent & periodic)
 // CUTS_BE_InEventPort_Begin_T
 
 void CUTS_BE_InEventPort_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::InEventPort & sink,
+generate (const PICML::InEventPort_in sink,
           const std::vector <PICML::Property> & properties)
 {
+  if (sink->EventType_is_nil ())
+    return;
+
   // Make sure this is not a template event port.
-  PICML::EventType et = sink.ref ();
-  if (et == Udm::null || et.type () != PICML::Event::meta)
+  PICML::EventType et = sink->refers_to_EventType ();
+  if (et->meta ()->name () != PICML::Event::impl_type::metaname)
     return;
 
   // Determine if this input event is asynchronous.
   std::vector <PICML::Property>::const_iterator iter =
     std::find_if (properties.begin (),
                   properties.end (),
-                  boost::bind (std::equal_to <std::string> (),
-                               "asynchronous",
-                               boost::bind (&PICML::Property::name, _1)));
+                  [&] (PICML::Property p) {return p->name () == "asynchronous";});
 
   bool is_async = iter != properties.end ();
 
   // Generate the appropriate methods.
-  PICML::Event ev = PICML::Event::Cast (et);
-  PICML::Component parent = PICML::Component::Cast (sink.parent ());
-  std::string parent_name (parent.name ());
-  std::string name (sink.name ());
+  PICML::Event ev = et;
+  PICML::Component parent = sink->parent ();
+  std::string parent_name (parent->name ());
+  std::string name (sink->name ());
   std::string fq_name (CUTS_BE_CPP::fq_type (ev));
 
   this->ctx_.header_
@@ -929,7 +905,7 @@ generate (const PICML::InEventPort & sink,
 // CUTS_BE_InEventPort_End_T
 
 void CUTS_BE_InEventPort_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::InEventPort & attr,
+generate (const PICML::InEventPort_in attr,
           const std::vector <PICML::Property> & properties)
 {
   this->ctx_.source_
@@ -941,19 +917,19 @@ generate (const PICML::InEventPort & attr,
 // CUTS_BE_ProvidedRequestPort_Begin_T
 
 void CUTS_BE_ProvidedRequestPort_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ProvidedRequestPort & facet)
+generate (const PICML::ProvidedRequestPort_in facet)
 {
-  PICML::Object obj = PICML::Object::Cast (facet.ref ());
-
-  if (Udm::null == obj)
+  if (facet->Provideable_is_nil ())
     return;
 
-  PICML::Component parent (PICML::Component::Cast (facet.parent ()));
-  const std::string parent_name (parent.name ());
+  PICML::Object obj = facet->refers_to_Provideable ();
+
+  PICML::Component parent = facet->parent ();
+  const std::string parent_name (parent->name ());
   const std::string scope (CUTS_BE_CPP::scope (obj));
-  const std::string name (facet.name ());
+  const std::string name (facet->name ());
   const std::string func ("get_" + name);
-  const std::string obj_name (obj.name ());
+  const std::string obj_name (obj->name ());
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("facet: " + name)
@@ -972,15 +948,15 @@ generate (const PICML::ProvidedRequestPort & facet)
 // CUTS_BE_ProvidedRequestPort_End_T
 
 void CUTS_BE_ProvidedRequestPort_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ProvidedRequestPort & port)
+generate (const PICML::ProvidedRequestPort_in port)
 {
-  PICML::Object obj = PICML::Object::Cast (port.ref ());
-
-  if (obj == Udm::null)
+  if (port->Provideable_is_nil ())
     return;
 
+  PICML::Object obj = port->refers_to_Provideable ();
+
   std::string obj_scope (CUTS_BE_CPP::scope (obj));
-  std::string name (obj.name ());
+  std::string name (obj->name ());
 
   this->ctx_.source_
     << "return " << obj_scope << "CCM_" << name << "::_nil ();"
@@ -1014,16 +990,14 @@ Attribute_Method_Generator::~Attribute_Method_Generator (void)
 // Visit_Attribute
 //
 void Attribute_Method_Generator::
-Visit_Attribute (const PICML::Attribute & attr)
+Visit_Attribute (const PICML::Attribute_in attr)
 {
   // Write the name of the attribute method.
-  std::string name = attr.name ();
+  std::string name = attr->name ();
   this->out_ << name << " (";
 
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-
-  if (Udm::null != member)
-    member.Accept (*this);
+  if (attr->has_AttributeMember ())
+    attr->get_AttributeMember ()->accept (this);
 
   this->out_ << " " << name << ")";
 }
@@ -1032,24 +1006,22 @@ Visit_Attribute (const PICML::Attribute & attr)
 // Visit_AttributeMember
 //
 void Attribute_Method_Generator::
-Visit_AttributeMember (const PICML::AttributeMember & member)
+Visit_AttributeMember (const PICML::AttributeMember_in member)
 {
-  PICML::MemberType mtype = member.ref ();
+  if (member->MemberType_is_nil ())
+    return;
 
-  if (Udm::null != mtype)
-  {
-    In_Type_Generator intype (this->out_);
-    intype.generate (mtype);
-  }
+  In_Type_Generator intype (this->out_);
+  intype.generate (member->refers_to_MemberType ());
 }
 
 //
 // Visit_ReadonlyAttribute
 //
 void Attribute_Method_Generator::
-Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & ro_attr)
+Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute_in ro_attr)
 {
-  this->out_ << ro_attr.name () << " (void)";
+  this->out_ << ro_attr->name () << " (void)";
 }
 
 //
@@ -1074,9 +1046,9 @@ InEvent_Method_Generator::~InEvent_Method_Generator (void)
 // Visit_InEventPort
 //
 void InEvent_Method_Generator::
-Visit_InEventPort (const PICML::InEventPort & port)
+Visit_InEventPort (const PICML::InEventPort_in port)
 {
-  this->out_ << "push_" << port.name () << " (";
+  this->out_ << "push_" << port->name () << " (";
 }
 
 }   // namespace Cpp

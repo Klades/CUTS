@@ -15,8 +15,8 @@
 
 #include <ostream>
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "cuts/config.h"
-#include "../../UDM_Abstract_Type_Dispatcher_T.h"
 
 #include "CCM_export.h"
 
@@ -39,7 +39,7 @@ public:
    *
    * @param[in]       mt        Member type of interest.
    */
-  virtual void generate (const PICML::MemberType & mt);
+  virtual void generate (const PICML::MemberType_in mt);
 
 protected:
   /// Default constructor.
@@ -47,9 +47,6 @@ protected:
 
   /// Target output stream.
   std::ostream & out_;
-
-  /// Help for dispatching predefined type objects.
-  UDM_Abstract_Type_Dispatcher_T <PICML::Visitor> predefined_types_;
 };
 
 }

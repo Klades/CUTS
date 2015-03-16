@@ -14,6 +14,7 @@
 #define _CUTS_BE_CCM_WORKSPACE_GENERATOR_H_
 
 #include "../../BE_Workspace_Generators_T.h"
+#include "PICML/Visitor.h"
 #include "CCM.h"
 
 // Forward decl.

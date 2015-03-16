@@ -6,13 +6,31 @@
 
 #include "../../lang/cpp/Cpp.h"
 
-#include "boost/bind.hpp"
 #include <algorithm>
 
 namespace CUTS_BE_CCM
 {
 namespace Cpp
 {
+
+template <typename BASE>
+struct derives_from
+{
+public:
+template <typename T>
+bool operator () (const T & derived) const
+{
+  try
+  {
+    BASE base = BASE::_narrow (derived);
+    return true;
+  }
+  catch (GAME::Mga::Exception &)
+  {
+    return false;
+  }
+}
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Servant_Set_Attribute_Decl
@@ -35,11 +53,9 @@ Servant_Set_Attribute_Decl::~Servant_Set_Attribute_Decl (void)
 }
 
 void Servant_Set_Attribute_Decl::
-Visit_Component (const PICML::Component & c)
+Visit_Component (const PICML::Component_in c)
 {
-  std::vector <PICML::Attribute> attrs = c.Attribute_kind_children ();
-
-  if (attrs.empty ())
+  if (c->get_Attributes ().count () == 0)
     return;
 
   this->out_
@@ -68,16 +84,16 @@ Servant_Set_Attribute_Impl::~Servant_Set_Attribute_Impl (void)
 }
 
 void Servant_Set_Attribute_Impl::
-Visit_Component (const PICML::Component & c)
+Visit_Component (const PICML::Component_in c)
 {
-  std::vector <PICML::Attribute> attrs = c.Attribute_kind_children ();
+  auto attrs = c->get_Attributes ();
 
-  if (attrs.empty ())
+  if (attrs.count () == 0)
     return;
 
   this->out_
     << CUTS_BE_CPP::function_header ("set_attributes")
-    << "void " << c.name () << "_Servant::" << std::endl
+    << "void " << c->name () << "_Servant::" << std::endl
     << "set_attributes (const ::Components::ConfigValues & config)"
     << "{"
     << "const ::CORBA::ULong length = config.length ();"
@@ -88,18 +104,15 @@ Visit_Component (const PICML::Component & c)
     << "const ::Components::ConfigValue * value = config[i];"
     << std::endl;
 
-  std::vector <PICML::Attribute>::iterator
-    iter = attrs.begin (), iter_end = attrs.end ();
-
-  // Visit the first attribute since we are going to create a series
-  // of if-else statements.
-  iter->Accept (*this);
-
-  for (++ iter; iter != iter_end; ++ iter)
+  bool first = true;
+  for (auto attr : attrs)
   {
-    // Visit the next attribute in the collection.
-    this->out_ << "else ";
-    iter->Accept (*this);
+    if (!first)
+      this->out_ << "else ";
+    else
+      first = false;
+
+    attr->accept (this);
   }
 
   this->out_
@@ -111,18 +124,18 @@ Visit_Component (const PICML::Component & c)
 // Visit_Attribute
 //
 void Servant_Set_Attribute_Impl::
-Visit_Attribute (const PICML::Attribute & a)
+Visit_Attribute (const PICML::Attribute_in a)
 {
-  const std::string name (a.name ());
+  const std::string name (a->name ());
 
   this->out_
     << "if (0 == ACE_OS::strcmp (value->name (), \"" << name << "\"))"
     << "{";
 
-  PICML::AttributeMember am = a.AttributeMember_child ();
-  PICML::MemberType mt = am.ref ();
+  PICML::AttributeMember am = a->get_AttributeMember ();
+  PICML::MemberType mt = am->refers_to_MemberType ();
 
-  if (::Udm::IsDerivedFrom (mt.type (), PICML::PredefinedType::meta))
+  if (derives_from <PICML::PredefinedType> () (mt))
   {
     CUTS_BE_CCM::Cpp::In_Type_Generator type_gen (this->out_);
     type_gen.generate (mt);
@@ -138,7 +151,7 @@ Visit_Attribute (const PICML::Attribute & a)
   else
   {
     this->out_
-      << CUTS_BE_CPP::fq_type (PICML::NamedType::Cast (mt), "::") << " * ptr = 0;"
+      << CUTS_BE_CPP::fq_type (PICML::NamedType::_narrow (mt), "::") << " * ptr = 0;"
       << std::endl
       << "if (!(value->value () >>= ptr))"
       << std::endl

@@ -14,6 +14,7 @@
 #define _CUTS_BE_SERVANT_HEADER_GENERATOR_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "Traits.h"
 
 #include <fstream>
@@ -36,36 +37,33 @@ public:
   virtual ~Servant_Generator (void);
 
   virtual void Visit_RootFolder (
-    const PICML::RootFolder & folder);
+    const PICML::RootFolder_in folder);
 
   virtual void Visit_InterfaceDefinitions (
-    const PICML::InterfaceDefinitions &);
+    const PICML::InterfaceDefinitions_in);
 
   virtual void Visit_File (
-    const PICML::File &);
+    const PICML::File_in);
 
   virtual void Visit_Package (
-    const PICML::Package &);
+    const PICML::Package_in);
 
   virtual void Visit_Component (
-    const PICML::Component & component);
+    const PICML::Component_in component);
 
   virtual void Visit_OutEventPort (
-    const PICML::OutEventPort & port);
+    const PICML::OutEventPort_in port);
 
   virtual void Visit_InEventPort (
-    const PICML::InEventPort & port);
+    const PICML::InEventPort_in port);
 
   virtual void Visit_Attribute (
-    const PICML::Attribute & attr);
+    const PICML::Attribute_in attr);
 
   virtual void Visit_ReadonlyAttribute (
-    const PICML::ReadonlyAttribute & attr);
+    const PICML::ReadonlyAttribute_in attr);
 
 private:
-  // Visit a File and Package element.
-  virtual void Visit_FilePackage_i (const Udm::Object & obj);
-
   /// The target output directory.
   std::string outdir_;
 
