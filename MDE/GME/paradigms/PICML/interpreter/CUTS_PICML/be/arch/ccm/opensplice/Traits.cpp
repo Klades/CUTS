@@ -18,7 +18,7 @@ namespace CUTS_BE_OpenSplice
 void Traits::
 write_stub_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
-  const std::string name = node.file_.name ();
+  const std::string name = node.file_->name ();
 
   if (node.has_dds_events_)
   {
@@ -142,7 +142,7 @@ void Traits::
 write_exec_idl_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
   if (node.has_components_)
-    proj << "    " << node.file_.name () << "_iCCM.idl" << std::endl;
+    proj << "    " << node.file_->name () << "_iCCM.idl" << std::endl;
 }
 
 //
@@ -152,7 +152,7 @@ void Traits::
 write_exec_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
   if (node.has_components_)
-    proj << "    " << node.file_.name () << "_iCCMC.cpp" << std::endl;
+    proj << "    " << node.file_->name () << "_iCCMC.cpp" << std::endl;
 }
 
 }
