@@ -44,8 +44,10 @@ generate (const CUTS_BE_Impl_Graph & impls)
   workspace_begin.generate (workspace);
 
   // We are writing all the implementation projects.
-  for (auto graph : impls.graph ())
-    this->generate_impl_project (graph.second ());
+  // Not sure why I have to use std::get here.  Trying to use pair.second () causes a
+  // C2064 compilation error.
+  for (auto node_map : impls.graph ())
+    this->generate_impl_project (std::get <1> (node_map));
 
   // We are writing all the stub projects.
   for (auto stub : this->required_stubs_)
