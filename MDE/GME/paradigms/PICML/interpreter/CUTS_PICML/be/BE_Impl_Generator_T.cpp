@@ -15,36 +15,35 @@
 
 
 //
-// Visit_RootFolder
+// visit_RootFolder
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_RootFolder (const PICML::RootFolder_in root)
+visit_RootFolder (PICML::RootFolder_in root)
 {
   CUTS_BE::visit <CONTEXT> (root->get_ComponentImplementations (),
-    [this] (PICML::ComponentImplementation & i) {i->accept (this);})
+    [this] (PICML::ComponentImplementation & i) {i->accept (this);});
 
   CUTS_BE::visit <CONTEXT> (root->get_DeploymentPlans (),
-    [this] (PICML::DeploymentPlans & i) {i->accept (this);})
+    [this] (PICML::DeploymentPlans & i) {i->accept (this);});
 }
 
 //
-// Visit_ComponentImplementations
+// visit_ComponentImplementations
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ComponentImplementations (
-const PICML::ComponentImplementations_in impls)
+visit_ComponentImplementations (PICML::ComponentImplementations_in impls)
 {
   GAME::visit_all () (impls->get_ComponentImplementationContainers (), this);
 }
 
 //
-// Visit_ComponentImplementationContainer
+// visit_ComponentImplementationContainer
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ComponentImplementationContainer (const PICML::ComponentImplementationContainer_in container)
+visit_ComponentImplementationContainer (PICML::ComponentImplementationContainer_in container)
 {
   // Preprocess the container and extract as much information
   // as we can about the current component's implementation.
@@ -52,15 +51,15 @@ Visit_ComponentImplementationContainer (const PICML::ComponentImplementationCont
 
   // visit the monolithic implementations
   CUTS_BE::visit <CONTEXT> (container->children <PICML::ComponentImplementation> (),
-    [this] (PICML::MonolithicImplementation & i) {i->accept (this);})
+    [this] (PICML::MonolithicImplementation & i) {i->accept (this);});
 }
 
 //
-// Visit_MonolithicImplementation
+// visit_MonolithicImplementation
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimpl)
+visit_MonolithicImplementation (PICML::MonolithicImplementation_in monoimpl)
 {
   // Get the parent of the monolithic implementation.
   PICML::ComponentImplementationContainer container =
@@ -82,7 +81,7 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimp
 
   // Write the include files for this implementation.
   CUTS_BE::visit <CONTEXT> (impl->include_,
-    [this] (const std::string & s) {return this->Visit_Include (s);});
+    [this] (const std::string & s) {return this->visit_Include (s);});
 
   // Figure out what type of component we are implementing. Right
   // now there is a one-to-one implementation to component type
@@ -110,7 +109,7 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimp
     // Get all the facets in the component so that we can
     // generate their implementation.
     CUTS_BE::visit <CONTEXT> (component->get_ProvidedRequestPorts (),
-      [this] (const PICML::ProvidedRequestPort & p) {return this->Visit_ProvidedRequestPort_impl (p);});
+      [this] (const PICML::ProvidedRequestPort & p) {return this->visit_ProvidedRequestPort_impl (p);});
 
     // Find the component implementation artifact so we can generate
     // the entrypoint for this component's implementation.
@@ -143,11 +142,11 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimp
 }
 
 //
-// Visit_Component
+// visit_Component
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   // Determine if we are ready to write the variables.
   if (!CUTS_BE_Write_Variables_Last_T <CONTEXT>::result_type)
@@ -174,16 +173,8 @@ Visit_Component (const PICML::Component_in component)
     [this] (const PICML::Attribute & i) {return i->accept (this);});
 
   // Visit all the ReadonlyAttribute elements of the <component>.
-  GAME::Mga::Collection_T <PICML::ReadonlyAttribute> ro_attrs =
-    component->get_ReadonlyAttributes ();
-
-  typedef is_type <PICML::ReadonlyAttribute> ReadonlyAttribute_Type;
-
-  std::for_each (boost::make_filter_iterator <ReadonlyAttribute_Type> (
-                    ro_attrs.begin (), ro_attrs.end ()),
-                 boost::make_filter_iterator <ReadonlyAttribute_Type> (
-                    ro_attrs.end (), ro_attrs.end ()),
-                 [this] (PICML::ReadonlyAttribute & i) {i->accept (this);});
+  for (auto ro : component->get_ReadonlyAttributes ())
+    ro->accept (this);
 
   // Get the environment for the component.
   if (component->has_Environment ())
@@ -195,7 +186,7 @@ Visit_Component (const PICML::Component_in component)
     env_begin_gen.generate (component);
 
     CUTS_BE_Env_Visitor_T <CONTEXT> env_visitor (this->context_);
-    env.Accept (env_visitor);
+    env->accept (&env_visitor);
 
     // End generating environment related metadata.
     CUTS_BE_Environment_End_T <architecture_type> env_end_gen (this->context_);
@@ -208,35 +199,35 @@ Visit_Component (const PICML::Component_in component)
 }
 
 //
-// Visit_MonolithprimaryArtifact
+// visit_MonolithprimaryArtifact
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact_in primary)
+visit_MonolithprimaryArtifact (PICML::MonolithprimaryArtifact_in primary)
 {
-  this->Visit_ImplementationArtifactReference (primary->dst_ImplementationArtifactReference ());
+  this->visit_ImplementationArtifactReference (primary->dst_ImplementationArtifactReference ());
 }
 
 //
-// Visit_ImplementationArtifactReference
+// visit_ImplementationArtifactReference
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ImplementationArtifactReference (const PICML::ImplementationArtifactReference_in artref)
+visit_ImplementationArtifactReference (PICML::ImplementationArtifactReference_in artref)
 {
   if (artref->meta ()->name () == PICML::ComponentImplementationArtifact::impl_type::metaname)
   {
     CUTS_BE_Component_Impl_Entrypoint_T <architecture_type> entrypoint_gen (this->context_);
-    entrypoint_gen.generate (this->monoimpl_, artref);
+    entrypoint_gen.generate (this->monoimpl_, PICML::ComponentImplementationArtifact::_narrow (artref));
   }
 }
 
 //
-// Visit_InEventPort
+// visit_InEventPort
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_InEventPort (const PICML::InEventPort_in sink)
+visit_InEventPort (PICML::InEventPort_in sink)
 {
   std::vector <PICML::Property> properties;
 
@@ -261,11 +252,11 @@ Visit_InEventPort (const PICML::InEventPort_in sink)
 }
 
 //
-// Visit_ProvidedRequestPort
+// visit_ProvidedRequestPort
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort_in facet)
+visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet)
 {
   //// Begin the generation of the provided request port.
   //CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
@@ -280,11 +271,11 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort_in facet)
 }
 
 //
-// Visit_ProvidedRequestPort
+// visit_ProvidedRequestPort
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ProvidedRequestPort_impl (const PICML::ProvidedRequestPort_in facet)
+visit_ProvidedRequestPort_impl (PICML::ProvidedRequestPort_in facet)
 {
   // Get the parent component and the facet's interface/object.
   //PICML::Component component = PICML::Component::Cast (facet.parent ());
@@ -304,55 +295,55 @@ Visit_ProvidedRequestPort_impl (const PICML::ProvidedRequestPort_in facet)
 }
 
 //
-// Visit_Include
+// visit_Include
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Include (const std::string & include)
+visit_Include (const std::string & include)
 {
   CUTS_BE_Include_File_T <CONTEXT> include_gen (this->context_);
   include_gen.generate (include);
 }
 
 //
-// Visit_PeriodicEvent_Variable
+// visit_PeriodicEvent_Variable
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_PeriodicEvent_Variable (const PICML::PeriodicEvent_in periodic)
+visit_PeriodicEvent_Variable (PICML::PeriodicEvent_in periodic)
 {
   CUTS_BE_PeriodicEvent_Variable_T <behavior_type> var_gen (this->context_);
   var_gen.generate (periodic);
 }
 
 //
-// Visit_Include
+// visit_Include
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ReadonlyAttribute_Variable (const PICML::ReadonlyAttribute_in attr)
+visit_ReadonlyAttribute_Variable (PICML::ReadonlyAttribute_in attr)
 {
   CUTS_BE_Attribute_Variable_T <behavior_type> var_gen (this->context_);
   var_gen.generate (attr);
 }
 
 //
-// Visit_Variable
+// visit_Variable
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Variable (const PICML::Variable_in variable)
+visit_Variable (PICML::Variable_in variable)
 {
   CUTS_BE_Variable_T <behavior_type> var_gen (this->context_);
   var_gen.generate (variable);
 }
 
 //
-// Visit_ProvidedRequestPort
+// visit_ProvidedRequestPort
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
+visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 {
   // Begin the generation of the periodic event.
   CUTS_BE_PeriodicEvent_Begin_T <architecture_type> periodic_begin_gen (this->context_);
@@ -367,11 +358,11 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
 }
 
 //
-// Visit_InEventPort
+// visit_InEventPort
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Attribute (const PICML::Attribute_in attr)
+visit_Attribute (PICML::Attribute_in attr)
 {
   CUTS_BE_Attribute_Begin_T <architecture_type> attr_begin_gen (this->context_);
   attr_begin_gen.generate (attr);
@@ -381,11 +372,11 @@ Visit_Attribute (const PICML::Attribute_in attr)
 }
 
 //
-// Visit_ProvidedRequestPort
+// visit_ProvidedRequestPort
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute_in attr)
+visit_ReadonlyAttribute (PICML::ReadonlyAttribute_in attr)
 {
   CUTS_BE_ReadonlyAttribute_Begin_T <architecture_type> attr_begin_gen (this->context_);
   attr_begin_gen.generate (attr);
@@ -436,11 +427,11 @@ get_component_factory (const PICML::Component_in component,
 }
 
 //
-// Visit_WorkerType
+// visit_WorkerType
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_WorkerType (const PICML::WorkerType_in type)
+visit_WorkerType (PICML::WorkerType_in type)
 {
   PICML::Worker worker = type->refers_to_Worker ();
 
@@ -449,11 +440,11 @@ Visit_WorkerType (const PICML::WorkerType_in type)
 }
 
 //
-// Visit_TwowayOperation
+// visit_TwowayOperation
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_TwowayOperation (const PICML::TwowayOperation_in twoway)
+visit_TwowayOperation (PICML::TwowayOperation_in twoway)
 {
   //CUTS_BE_TwowayOperation_Begin_T <CONTEXT>::generate (twoway);
 
@@ -461,11 +452,11 @@ Visit_TwowayOperation (const PICML::TwowayOperation_in twoway)
 }
 
 //
-// Visit_OnewayOperation
+// visit_OnewayOperation
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_OnewayOperation (const PICML::OnewayOperation_in oneway)
+visit_OnewayOperation (PICML::OnewayOperation_in oneway)
 {
   //CUTS_BE_OnewayOperation_Begin_T <CONTEXT>::generate (oneway);
 
@@ -473,11 +464,11 @@ Visit_OnewayOperation (const PICML::OnewayOperation_in oneway)
 }
 
 //
-// Visit_ComponentFactory
+// visit_ComponentFactory
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ComponentFactory (const PICML::ComponentFactory_in factory)
+visit_ComponentFactory (PICML::ComponentFactory_in factory)
 {
   // Visit all the component's factory operations.
   CUTS_BE::visit <CONTEXT> (factory->get_FactoryOperations (),
@@ -490,11 +481,11 @@ Visit_ComponentFactory (const PICML::ComponentFactory_in factory)
 }
 
 //
-// Visit_ComponentFactory
+// visit_ComponentFactory
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_ComponentFactory_inherits (const PICML::Inherits_in inherits)
+visit_ComponentFactory_inherits (PICML::Inherits_in inherits)
 {
   //PICML::ComponentFactory factory =
   //  PICML::ComponentFactory::Cast (inherits.ref ());
@@ -504,11 +495,11 @@ Visit_ComponentFactory_inherits (const PICML::Inherits_in inherits)
 }
 
 //
-// Visit_FactoryOperation
+// visit_FactoryOperation
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_FactoryOperation (const PICML::FactoryOperation_in fop)
+visit_FactoryOperation (PICML::FactoryOperation_in fop)
 {
   //CUTS_BE_FactoryOperation_Begin_T <CONTEXT>::generate (fop);
 
@@ -516,11 +507,11 @@ Visit_FactoryOperation (const PICML::FactoryOperation_in fop)
 }
 
 //
-// Visit_Supports
+// visit_Supports
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Supports (const PICML::Supports_in supports)
+visit_Supports (PICML::Supports_in supports)
 {
   if (supports->Object_is_nil ())
     return;
@@ -532,11 +523,11 @@ Visit_Supports (const PICML::Supports_in supports)
 }
 
 //
-// Visit_Component_supports
+// visit_Component_supports
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Object (const PICML::Object_in object)
+visit_Object (PICML::Object_in object)
 {
   //// Write all the methods of the facet.
   //typedef std::vector <PICML::OnewayOperation> OnewayOperation_Set;

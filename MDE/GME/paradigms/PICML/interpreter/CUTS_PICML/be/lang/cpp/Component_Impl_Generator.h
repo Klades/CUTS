@@ -39,9 +39,9 @@ public:
   /// Destructor
   virtual ~Base_Member_Init (void);
 
-  virtual void Visit_Component (const PICML::Component_in component);
+  virtual void visit_Component (PICML::Component_in component);
 
-  virtual void Visit_Variable (const PICML::Variable_in variable);
+  virtual void visit_Variable (PICML::Variable_in variable);
 
 private:
   /// Target output stream.
@@ -61,9 +61,9 @@ public:
   /// Destructor
   virtual ~Initialize_Entity (void);
 
-  virtual void Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic);
+  virtual void visit_PeriodicEvent (PICML::PeriodicEvent_in periodic);
 
-  virtual void Visit_InEventPort (const PICML::InEventPort_in in);
+  virtual void visit_InEventPort (PICML::InEventPort_in in);
 
 private:
   /// Target output stream.

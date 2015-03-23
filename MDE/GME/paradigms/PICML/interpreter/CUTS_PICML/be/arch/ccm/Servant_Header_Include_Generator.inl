@@ -27,21 +27,20 @@ Servant_Header_Include_Generator::
 }
 
 //
-// Visit_ComponentImplementationContainer
+// visit_ComponentImplementationContainer
 //
 void Servant_Header_Include_Generator::
-Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer_in container)
+visit_ComponentImplementationContainer (PICML::ComponentImplementationContainer_in container)
 {
   for (auto monoimpl : container->get_MonolithicImplementations ())
     monoimpl->accept (this);
 }
 
 //
-// Visit_MonolithicImplementation
+// visit_MonolithicImplementation
 //
 void Servant_Header_Include_Generator::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in impl)
+visit_MonolithicImplementation (PICML::MonolithicImplementation_in impl)
 {
   if (!impl->has_src_of_Implements ())
     return
@@ -50,19 +49,19 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in impl)
 }
 
 //
-// Visit_Implements
+// visit_Implements
 //
 void Servant_Header_Include_Generator::
-Visit_Implements (const PICML::Implements_in impl)
+visit_Implements (PICML::Implements_in impl)
 {
   impl->dst_ComponentRef ()->accept (this);
 }
 
 //
-// Visit_ComponentRef
+// visit_ComponentRef
 //
 void Servant_Header_Include_Generator::
-Visit_ComponentRef (const PICML::ComponentRef_in ref)
+visit_ComponentRef (PICML::ComponentRef_in ref)
 {
   if (ref->Component_is_nil ())
     return;
@@ -71,28 +70,28 @@ Visit_ComponentRef (const PICML::ComponentRef_in ref)
 }
 
 //
-// Visit_Component
+// visit_Component
 //
 void Servant_Header_Include_Generator::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   component->parent ()->accept (this);
 }
 
 //
-// Visit_Package
+// visit_Package
 //
 void Servant_Header_Include_Generator::
-Visit_Package (const PICML::Package_in package)
+visit_Package (PICML::Package_in package)
 {
   package->parent ()->accept (this);
 }
 
 //
-// Visit_File
+// visit_File
 //
 void Servant_Header_Include_Generator::
-Visit_File (const PICML::File_in file)
+visit_File (PICML::File_in file)
 {
   std::string name = file->name ();
 

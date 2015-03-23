@@ -53,7 +53,7 @@ Servant_Set_Attribute_Decl::~Servant_Set_Attribute_Decl (void)
 }
 
 void Servant_Set_Attribute_Decl::
-Visit_Component (const PICML::Component_in c)
+visit_Component (PICML::Component_in c)
 {
   if (c->get_Attributes ().count () == 0)
     return;
@@ -84,7 +84,7 @@ Servant_Set_Attribute_Impl::~Servant_Set_Attribute_Impl (void)
 }
 
 void Servant_Set_Attribute_Impl::
-Visit_Component (const PICML::Component_in c)
+visit_Component (PICML::Component_in c)
 {
   auto attrs = c->get_Attributes ();
 
@@ -121,10 +121,10 @@ Visit_Component (const PICML::Component_in c)
 }
 
 //
-// Visit_Attribute
+// visit_Attribute
 //
 void Servant_Set_Attribute_Impl::
-Visit_Attribute (const PICML::Attribute_in a)
+visit_Attribute (PICML::Attribute_in a)
 {
   const std::string name (a->name ());
 

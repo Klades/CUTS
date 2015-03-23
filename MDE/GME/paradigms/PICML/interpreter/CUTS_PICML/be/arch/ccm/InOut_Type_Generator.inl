@@ -27,201 +27,201 @@ InOut_Type_Generator::~InOut_Type_Generator (void)
 }
 
 //
-// Visit_Boolean
+// visit_Boolean
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_Boolean (const PICML::Boolean_in value)
+visit_Boolean (PICML::Boolean_in value)
 {
   this->out_ << "::CORBA::Boolean &";
 }
 
 //
-// Visit_Byte
+// visit_Byte
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_Byte (const PICML::Byte_in )
+visit_Byte (PICML::Byte_in )
 {
   this->out_ << "::CORBA::Octet &";
 }
 
 //
-// Visit_Char
+// visit_Char
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_Char (const PICML::Char_in )
+visit_Char (PICML::Char_in )
 {
   this->out_ << "char &";
 }
 
 //
-// Visit_WideChar
+// visit_WideChar
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_WideChar (const PICML::WideChar_in )
+visit_WideChar (PICML::WideChar_in )
 {
   this->out_ << "wchar_t &";
 }
 
 //
-// Visit_LongInteger
+// visit_LongInteger
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_LongInteger (const PICML::LongInteger_in value)
+visit_LongInteger (PICML::LongInteger_in value)
 {
   this->out_ << "::CORBA::Long &";
 }
 
 //
-// Visit_UnsignedLongInteger
+// visit_UnsignedLongInteger
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger_in value)
+visit_UnsignedLongInteger (PICML::UnsignedLongInteger_in value)
 {
   this->out_ << "::CORBA::ULong &";
 }
 
 //
-// Visit_LongLongInteger
+// visit_LongLongInteger
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_LongLongInteger (const PICML::LongLongInteger_in value)
+visit_LongLongInteger (PICML::LongLongInteger_in value)
 {
   this->out_ << "::CORBA::LongLong &";
 }
 
 //
-// Visit_UnsignedLongInteger
+// visit_UnsignedLongInteger
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger_in value)
+visit_UnsignedLongLongInteger (PICML::UnsignedLongLongInteger_in value)
 {
   this->out_ << "::CORBA::ULongLong &";
 }
 
 //
-// Visit_ShortInteger
+// visit_ShortInteger
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_ShortInteger (const PICML::ShortInteger_in value)
+visit_ShortInteger (PICML::ShortInteger_in value)
 {
   this->out_ << "::CORBA::Short &";
 }
 
 //
-// Visit_UnsignedShortInteger
+// visit_UnsignedShortInteger
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger_in value)
+visit_UnsignedShortInteger (PICML::UnsignedShortInteger_in value)
 {
   this->out_ << "::CORBA::UShort &";
 }
 
 //
-// Visit_String
+// visit_String
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_String (const PICML::String_in value)
+visit_String (PICML::String_in value)
 {
   this->out_ << "::CORBA::String * &";
 }
 
 //
-// Visit_WideString
+// visit_WideString
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_WideString (const PICML::WideString_in value)
+visit_WideString (PICML::WideString_in value)
 {
   this->out_ << "::CORBA::WString * &";
 }
 
 //
-// Visit_FloatNumber
+// visit_FloatNumber
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_FloatNumber (const PICML::FloatNumber_in value)
+visit_FloatNumber (PICML::FloatNumber_in value)
 {
   this->out_ << "::CORBA::Float &";
 }
 
 //
-// Visit_DoubleNumber
+// visit_DoubleNumber
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_DoubleNumber (const PICML::DoubleNumber_in value)
+visit_DoubleNumber (PICML::DoubleNumber_in value)
 {
   this->out_ << "::CORBA::Double &";
 }
 
 //
-// Visit_LongDoubleNumber
+// visit_LongDoubleNumber
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_LongDoubleNumber (const PICML::LongDoubleNumber_in value)
+visit_LongDoubleNumber (PICML::LongDoubleNumber_in value)
 {
   this->out_ << "::CORBA::LongDouble &";
 }
 
 //
-// Visit_GenericValue
+// visit_GenericValue
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_GenericValue (const PICML::GenericValue_in value)
+visit_GenericValue (PICML::GenericValue_in value)
 {
   this->out_ << "::CORBA::Any &";
 }
 
 //
-// Visit_GenericValueObject
+// visit_GenericValueObject
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_GenericValueObject (const PICML::GenericValueObject_in value)
+visit_GenericValueObject (PICML::GenericValueObject_in value)
 {
 
 }
 
 //
-// Visit_GenericObject
+// visit_GenericObject
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_GenericObject (const PICML::GenericObject_in value)
+visit_GenericObject (PICML::GenericObject_in value)
 {
   this->out_ << "::CORBA::Object_ptr &";
 }
 
 //
-// Visit_TypeKind
+// visit_TypeKind
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_TypeKind (const PICML::TypeKind_in value)
+visit_TypeKind (PICML::TypeKind_in value)
 {
   this->out_ << "::CORBA::TCKind &";
 }
 
 //
-// Visit_TypeEncoding
+// visit_TypeEncoding
 //
 CUTS_INLINE
 void InOut_Type_Generator::
-Visit_TypeEncoding (const PICML::TypeEncoding_in value)
+visit_TypeEncoding (PICML::TypeEncoding_in value)
 {
   this->out_ << "::CORBA::TypeCode_ptr &";
 }

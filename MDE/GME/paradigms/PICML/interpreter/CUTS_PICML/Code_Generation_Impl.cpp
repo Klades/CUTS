@@ -48,6 +48,7 @@ Code_Generation_Impl::~Code_Generation_Impl (void)
 int Code_Generation_Impl::initialize (GAME::Mga::Project project)
 {
   GAME::Mga::Readonly_Transaction t (project);
+//  GAME::Mga::Transaction t (project);
 
   // Store the name of the project.
   CUTS_BE_OPTIONS ()->project_name_ = project.name ();
@@ -72,7 +73,8 @@ invoke_ex (GAME::Mga::Project project,
   try
   {
     // Start our transaction
-    GAME::Mga::Readonly_Transaction transaction (project);
+    //GAME::Mga::Readonly_Transaction transaction (project);
+    GAME::Mga::Transaction transaction (project);
 
     if (this->is_interactive_)
     {

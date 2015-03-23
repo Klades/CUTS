@@ -48,7 +48,7 @@ public:
   /// Destructor.
   virtual ~Servant_Base_Member_Init (void) { }
 
-  virtual void Visit_InEventPort (const PICML::InEventPort_in input)
+  virtual void visit_InEventPort (PICML::InEventPort_in input)
   {
     std::string name = input->name ();
 
@@ -78,7 +78,7 @@ public:
   /// Destructor.
   virtual ~Port_Binder (void) { }
 
-  virtual void Visit_InEventPort (const PICML::InEventPort_in port)
+  virtual void visit_InEventPort (PICML::InEventPort_in port)
   {
     std::string name = port->name ();
 
@@ -87,7 +87,7 @@ public:
       << name << "_consumer_);";
   }
 
-  virtual void Visit_OutEventPort (const PICML::OutEventPort_in port)
+  virtual void visit_OutEventPort (PICML::OutEventPort_in port)
   {
     std::string name = port->name ();
 
@@ -111,29 +111,29 @@ private:
 };
 
 //
-// Visit_RootFolder
+// visit_RootFolder
 //
 void Servant_Generator::
-Visit_RootFolder (const PICML::RootFolder_in root)
+visit_RootFolder (PICML::RootFolder_in root)
 {
   for (auto folder : root->get_InterfaceDefinitions ())
     folder->accept (this);
 }
 
 //
-// Visit_InterfaceDefinitions
+// visit_InterfaceDefinitions
 //
 void Servant_Generator::
-Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions_in folder)
+visit_InterfaceDefinitions (PICML::InterfaceDefinitions_in folder)
 {
   for (auto file : folder->get_Files ())
     file->accept (this);
 }
 
 //
-// Visit_ComponentImplementations
+// visit_ComponentImplementations
 //
-void Servant_Generator::Visit_File (const PICML::File_in file)
+void Servant_Generator::visit_File (PICML::File_in file)
 {
   if (!CUTS_BE::has_component (file))
     return;
@@ -224,10 +224,10 @@ void Servant_Generator::Visit_File (const PICML::File_in file)
 }
 
 //
-// Visit_Package
+// visit_Package
 //
 void Servant_Generator::
-Visit_Package (const PICML::Package_in package)
+visit_Package (PICML::Package_in package)
 {
   std::string name = package->name ();
 
@@ -245,10 +245,10 @@ Visit_Package (const PICML::Package_in package)
 }
 
 //
-// Visit_Component
+// visit_Component
 //
 void Servant_Generator::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   // First, generate the context for the component.
   Context_Generator ctx_gen (this->header_, this->source_, this->traits_);
@@ -372,10 +372,10 @@ Visit_Component (const PICML::Component_in component)
 }
 
 //
-// Visit_ComponentServantArtifact
+// visit_ComponentServantArtifact
 //
 void Servant_Generator::
-Visit_InEventPort (const PICML::InEventPort_in port)
+visit_InEventPort (PICML::InEventPort_in port)
 {
   if (port->EventType_is_nil ())
     return;
@@ -424,10 +424,10 @@ Visit_InEventPort (const PICML::InEventPort_in port)
 }
 
 //
-// Visit_OutEventPort
+// visit_OutEventPort
 //
 void Servant_Generator::
-Visit_OutEventPort (const PICML::OutEventPort_in port)
+visit_OutEventPort (PICML::OutEventPort_in port)
 {
   if (port->EventType_is_nil ())
     return;
@@ -492,10 +492,10 @@ Visit_OutEventPort (const PICML::OutEventPort_in port)
 }
 
 //
-// Visit_Attribute
+// visit_Attribute
 //
 void Servant_Generator::
-Visit_Attribute (const PICML::Attribute_in attr)
+visit_Attribute (PICML::Attribute_in attr)
 {
   PICML::AttributeMember member = attr->get_AttributeMember ();
   PICML::MemberType type = member->refers_to_MemberType ();
@@ -534,10 +534,10 @@ Visit_Attribute (const PICML::Attribute_in attr)
 }
 
 //
-// Visit_ReadonlyAttribute
+// visit_ReadonlyAttribute
 //
 void Servant_Generator::
-Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute_in attr)
+visit_ReadonlyAttribute (PICML::ReadonlyAttribute_in attr)
 {
   PICML::AttributeMember member = attr->get_AttributeMember ();
   PICML::MemberType type = member->refers_to_MemberType ();

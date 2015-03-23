@@ -36,32 +36,32 @@ public:
 
   virtual ~Servant_Generator (void);
 
-  virtual void Visit_RootFolder (
-    const PICML::RootFolder_in folder);
+  virtual void visit_RootFolder (
+    PICML::RootFolder_in folder);
 
-  virtual void Visit_InterfaceDefinitions (
-    const PICML::InterfaceDefinitions_in);
+  virtual void visit_InterfaceDefinitions (
+    PICML::InterfaceDefinitions_in);
 
-  virtual void Visit_File (
-    const PICML::File_in);
+  virtual void visit_File (
+    PICML::File_in);
 
-  virtual void Visit_Package (
-    const PICML::Package_in);
+  virtual void visit_Package (
+    PICML::Package_in);
 
-  virtual void Visit_Component (
-    const PICML::Component_in component);
+  virtual void visit_Component (
+    PICML::Component_in component);
 
-  virtual void Visit_OutEventPort (
-    const PICML::OutEventPort_in port);
+  virtual void visit_OutEventPort (
+    PICML::OutEventPort_in port);
 
-  virtual void Visit_InEventPort (
-    const PICML::InEventPort_in port);
+  virtual void visit_InEventPort (
+    PICML::InEventPort_in port);
 
-  virtual void Visit_Attribute (
-    const PICML::Attribute_in attr);
+  virtual void visit_Attribute (
+    PICML::Attribute_in attr);
 
-  virtual void Visit_ReadonlyAttribute (
-    const PICML::ReadonlyAttribute_in attr);
+  virtual void visit_ReadonlyAttribute (
+    PICML::ReadonlyAttribute_in attr);
 
 private:
   /// The target output directory.

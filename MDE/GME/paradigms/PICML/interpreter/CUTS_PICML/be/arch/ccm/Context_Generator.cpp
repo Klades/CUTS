@@ -15,10 +15,10 @@ namespace Cpp
 {
 
 //
-// Visit_Component
+// visit_Component
 //
 void Context_Generator::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   std::string name = component->name ();
   std::string scope = CUTS_BE_CPP::scope (component);
@@ -65,10 +65,10 @@ Visit_Component (const PICML::Component_in component)
 }
 
 //
-// Visit_OutEventPort
+// visit_OutEventPort
 //
 void Context_Generator::
-Visit_OutEventPort (const PICML::OutEventPort_in port)
+visit_OutEventPort (PICML::OutEventPort_in port)
 {
   if (port->EventType_is_nil ())
     return;

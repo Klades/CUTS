@@ -39,7 +39,7 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File_in file)
+  virtual void visit_File (PICML::File_in file)
   {
     if (this->result_)
       return;
@@ -53,7 +53,7 @@ public:
     }      
   }
 
-  virtual void Visit_Package (const PICML::Package_in package)
+  virtual void visit_Package (PICML::Package_in package)
   {
     if (this->result_)
       return;
@@ -87,7 +87,7 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File_in file)
+  virtual void visit_File (PICML::File_in file)
   {
     if (this->result_)
       return;
@@ -101,7 +101,7 @@ public:
     }      
   }
 
-  virtual void Visit_Package (const PICML::Package_in package)
+  virtual void visit_Package (PICML::Package_in package)
   {
     if (this->result_)
       return;
@@ -168,7 +168,7 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File_in file)
+  virtual void visit_File (PICML::File_in file)
   {
     if (this->result_)
       return;
@@ -182,7 +182,7 @@ public:
     }      
   }
 
-  virtual void Visit_Package (const PICML::Package_in package)
+  virtual void visit_Package (PICML::Package_in package)
   {
     if (this->result_)
       return;
@@ -230,7 +230,7 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File_in file)
+  virtual void visit_File (PICML::File_in file)
   {
     if (this->result_)
       return;
@@ -242,7 +242,7 @@ public:
       package->accept (this);
   }
 
-  virtual void Visit_Package (const PICML::Package_in package)
+  virtual void visit_Package (PICML::Package_in package)
   {
     if (this->result_)
       return;
@@ -254,7 +254,7 @@ public:
       package->accept (this);
   }
 
-  virtual void Visit_Aggregate (const PICML::Aggregate_in aggr)
+  virtual void visit_Aggregate ( PICML::Aggregate_in aggr)
   {
     if (aggr->has_Key ())
       this->result_ = true;
@@ -296,7 +296,7 @@ public:
     return this->result_;
   }
 
-  virtual void Visit_File (const PICML::File & file)
+  virtual void visit_File (PICML::File & file)
   {
     if (this->result_)
       return;
@@ -314,7 +314,7 @@ public:
       package->accept (this);
   }
 
-  virtual void Visit_Package (const PICML::Package_in package)
+  virtual void visit_Package (PICML::Package_in package)
   {
     if (this->result_)
       return;

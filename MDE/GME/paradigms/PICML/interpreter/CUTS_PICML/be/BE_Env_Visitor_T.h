@@ -39,14 +39,14 @@ public:
   virtual ~CUTS_BE_Env_Visitor_T (void);
 
 protected:
-  void Visit_Environment (
-    const PICML::Environment_in env);
+  void visit_Environment (
+    PICML::Environment_in env);
 
-  void Visit_MultiInput (
-    const PICML::MultiInput_in input);
+  void visit_MultiInput (
+    PICML::MultiInput_in input);
 
-  void Visit_MultiInputAction (
-    const PICML::MultiInputAction_in action);
+  void visit_MultiInputAction (
+    PICML::MultiInputAction_in action);
 
 private:
   /// Target context for generation.

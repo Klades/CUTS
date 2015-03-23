@@ -45,94 +45,94 @@ public:
   void generate (const PICML::RootFolder_in root);
 
   /// Visit a RootFolder element.
-  void Visit_RootFolder (
-    const PICML::RootFolder_in root);
+  void visit_RootFolder (
+    PICML::RootFolder_in root);
 
   /// Visit a ComponentImplementations folder.
-  void Visit_ComponentImplementations (
-    const PICML::ComponentImplementations_in impls);
+  void visit_ComponentImplementations (
+    PICML::ComponentImplementations_in impls);
 
   /// Visit a ComponentImplementationContainer element.
-  void Visit_ComponentImplementationContainer (
-    const PICML::ComponentImplementationContainer_in container);
+  void visit_ComponentImplementationContainer (
+    PICML::ComponentImplementationContainer_in container);
 
   /// Visit a MonolithicImplementation element.
-  void Visit_MonolithicImplementation (
-    const PICML::MonolithicImplementation_in monoimpl);
+  void visit_MonolithicImplementation (
+    PICML::MonolithicImplementation_in monoimpl);
 
   /// Visit a Component element.
-  void Visit_Component (
-    const PICML::Component_in component);
+  void visit_Component (
+    PICML::Component_in component);
 
-  void Visit_Supports (
-    const PICML::Supports_in supports);
+  void visit_Supports (
+    PICML::Supports_in supports);
 
   /// Visit a Component element.
-  void Visit_Object (
-    const PICML::Object_in object);
+  void visit_Object (
+    PICML::Object_in object);
 
   /// Visit a InEventPort element.
-  void Visit_InEventPort (
-    const PICML::InEventPort_in sink);
+  void visit_InEventPort (
+    PICML::InEventPort_in sink);
 
   /// Visit a ProvidedRequestPort element.
-  void Visit_ProvidedRequestPort (
-    const PICML::ProvidedRequestPort_in facet);
+  void visit_ProvidedRequestPort (
+    PICML::ProvidedRequestPort_in facet);
 
   /// Visit a ProvidedRequestPort element.
-  void Visit_ProvidedRequestPort_impl (
-    const PICML::ProvidedRequestPort_in facet);
+  void visit_ProvidedRequestPort_impl (
+    PICML::ProvidedRequestPort_in facet);
 
   /// Visit a ProvidedRequestPort element.
-  void Visit_PeriodicEvent (
-    const PICML::PeriodicEvent_in periodic);
+  void visit_PeriodicEvent (
+    PICML::PeriodicEvent_in periodic);
 
   /// Visit a ReadonlyAttribute element.
-  void Visit_ReadonlyAttribute (
-    const PICML::ReadonlyAttribute_in ro_attr);
+  void visit_ReadonlyAttribute (
+    PICML::ReadonlyAttribute_in ro_attr);
 
   /// Visit an Attribute element.
-  void Visit_Attribute (
-    const PICML::Attribute_in attr);
+  void visit_Attribute (
+    PICML::Attribute_in attr);
 
   /// Visit a Variable element.
-  void Visit_Variable (
-    const PICML::Variable_in variable);
+  void visit_Variable (
+    PICML::Variable_in variable);
 
   /// Visit a WorkerType element.
-  void Visit_WorkerType (
-    const PICML::WorkerType_in type);
+  void visit_WorkerType (
+    PICML::WorkerType_in type);
 
-  void Visit_OnewayOperation (
-    const PICML::OnewayOperation_in oneway);
+  void visit_OnewayOperation (
+    PICML::OnewayOperation_in oneway);
 
-  void Visit_TwowayOperation (
-    const PICML::TwowayOperation_in twoway);
+  void visit_TwowayOperation (
+    PICML::TwowayOperation_in twoway);
 
-  void Visit_ComponentFactory (
-    const PICML::ComponentFactory_in factory);
+  void visit_ComponentFactory (
+    PICML::ComponentFactory_in factory);
 
-  void Visit_ComponentFactory_inherits (
-    const PICML::Inherits_in inherits);
+  void visit_ComponentFactory_inherits (
+    PICML::Inherits_in inherits);
 
-  void Visit_FactoryOperation (
-    const PICML::FactoryOperation_in factory_op);
+  void visit_FactoryOperation (
+    PICML::FactoryOperation_in factory_op);
 
-  void Visit_MonolithprimaryArtifact (
-    const PICML::MonolithprimaryArtifact_in primary);
+  void visit_MonolithprimaryArtifact (
+    PICML::MonolithprimaryArtifact_in primary);
 
-  void Visit_ImplementationArtifactReference (
-    const PICML::ImplementationArtifactReference_in artref);
+  void visit_ImplementationArtifactReference (
+    PICML::ImplementationArtifactReference_in artref);
 
 protected:
-  void Visit_Include (
+  void visit_Include (
     const std::string & include);
 
-  void Visit_ReadonlyAttribute_Variable (
-    const PICML::ReadonlyAttribute_in attr);
+  void visit_ReadonlyAttribute_Variable (
+    PICML::ReadonlyAttribute_in attr);
 
-  void Visit_PeriodicEvent_Variable (
-    const PICML::PeriodicEvent_in periodic);
+  void visit_PeriodicEvent_Variable (
+    PICML::PeriodicEvent_in periodic);
 
 private:
   /// Target context for the generator.

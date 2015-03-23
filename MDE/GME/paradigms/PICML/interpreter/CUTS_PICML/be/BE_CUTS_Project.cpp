@@ -72,10 +72,10 @@ bool CUTS_BE_CUTS_Project::is_valid (void) const
 }
 
 //
-// Visit_RootFolder
+// visit_RootFolder
 //
 void CUTS_BE_CUTS_Project::
-Visit_RootFolder (const PICML::RootFolder_in root)
+visit_RootFolder (PICML::RootFolder_in root)
 {
   this->valid_ = true;
 
@@ -107,10 +107,10 @@ Visit_RootFolder (const PICML::RootFolder_in root)
 }
 
 //
-// Visit_InterfaceDefinitions
+// visit_InterfaceDefinitions
 //
 void CUTS_BE_CUTS_Project::
-Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions_in idefs)
+visit_InterfaceDefinitions (PICML::InterfaceDefinitions_in idefs)
 {
   // Locate the CUTS IDL file. If we are not able to find it then we
   // need to create a new one.
@@ -125,10 +125,10 @@ Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions_in idefs)
 }
 
 //
-// Visit_InterfaceDefinitions
+// visit_InterfaceDefinitions
 //
 void CUTS_BE_CUTS_Project::
-Visit_PredefinedTypes (const PICML::PredefinedTypes_in ptypes)
+visit_PredefinedTypes (PICML::PredefinedTypes_in ptypes)
 {
   // Get a listing of all the strings in the predefined types.
   GAME::Mga::Collection_T <PICML::String> strings = ptypes->children <PICML::String> ();
@@ -160,9 +160,9 @@ Visit_PredefinedTypes (const PICML::PredefinedTypes_in ptypes)
 }
 
 //
-// Visit_File
+// visit_File
 //
-void CUTS_BE_CUTS_Project::Visit_File (const PICML::File_in file)
+void CUTS_BE_CUTS_Project::visit_File (PICML::File_in file)
 {
   PICML::Package package;
 
@@ -177,9 +177,9 @@ void CUTS_BE_CUTS_Project::Visit_File (const PICML::File_in file)
 }
 
 //
-// Visit_Package
+// visit_Package
 //
-void CUTS_BE_CUTS_Project::Visit_Package (const PICML::Package_in package)
+void CUTS_BE_CUTS_Project::visit_Package (PICML::Package_in package)
 {
   if (GAME::create_if_not <GAME::Mga_t> (package, this->testing_service_,
       GAME::contains <GAME::Mga_t> ([&] (PICML::Object curr) {

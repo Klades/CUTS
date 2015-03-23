@@ -146,11 +146,11 @@ generate (const PICML::MultiInputBase_in base)
 }
 
 //
-// Visit_Input
+// visit_Input
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Input (const PICML::Input_in input)
+visit_Input (PICML::Input_in input)
 {
   CUTS_BE::visit <CONTEXT> (input->dst_InputAction (),
     [this] (PICML::InputAction action) { action->accept (this);});
@@ -158,22 +158,22 @@ Visit_Input (const PICML::Input_in input)
 
 
 //
-// Visit_MultiInput
+// visit_MultiInput
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_MultiInput (const PICML::MultiInput_in input)
+visit_MultiInput (PICML::MultiInput_in input)
 {
   CUTS_BE::visit <CONTEXT> (input->dst_MultiInputAction (),
     [this] (PICML::MultiInputAction action) { action->accept (this);});
 }
 
 //
-// Visit_InputAction
+// visit_InputAction
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_InputAction (const PICML::InputAction_in action)
+visit_InputAction (PICML::InputAction_in action)
 {
   // Add the <action> to the top of the stack.
   this->action_stack_.push (action);
@@ -189,11 +189,11 @@ Visit_InputAction (const PICML::InputAction_in action)
 }
 
 //
-// Visit_MultiInputAction
+// visit_MultiInputAction
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_MultiInputAction (const PICML::MultiInputAction_in action)
+visit_MultiInputAction (PICML::MultiInputAction_in action)
 {
   // Add the <action> to the top of the stack.
   this->action_stack_.push (action);
@@ -209,11 +209,11 @@ Visit_MultiInputAction (const PICML::MultiInputAction_in action)
 }
 
 //
-// Visit_InputEffect
+// visit_InputEffect
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_InputEffect (const PICML::InputEffect_in effect)
+visit_InputEffect (PICML::InputEffect_in effect)
 {
   // Write the postcondition for this <effect>.
   std::string postcondition = effect->Postcondition ();
@@ -229,11 +229,11 @@ Visit_InputEffect (const PICML::InputEffect_in effect)
 }
 
 //
-// Visit_Effect
+// visit_Effect
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Effect (const PICML::Effect_in effect)
+visit_Effect (PICML::Effect_in effect)
 {
   // Write the postcondition for this <effect>.
   std::string postcondition = effect->Postcondition ();
@@ -249,17 +249,17 @@ Visit_Effect (const PICML::Effect_in effect)
 }
 
 //
-// Visit_DoWhileState
+// visit_DoWhileState
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_DoWhileState (const PICML::DoWhileState_in do_while)
+visit_DoWhileState (PICML::DoWhileState_in do_while)
 {
   // Generate the implemenation for the do...while control block.
   CUTS_BE_Do_While_Begin_T <CONTEXT> do_while_begin (this->context_);
   do_while_begin.generate ();
 
-  this->Visit_LoopState (do_while);
+  this->visit_LoopState (do_while);
 
   CUTS_BE_Do_While_End_T <CONTEXT> do_while_end (this->context_);
   do_while_end.generate ();
@@ -280,11 +280,11 @@ Visit_DoWhileState (const PICML::DoWhileState_in do_while)
 }
 
 //
-// Visit_WhileState
+// visit_WhileState
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_WhileState (const PICML::WhileState_in while_state)
+visit_WhileState (PICML::WhileState_in while_state)
 {
   // We are starting to generate the do...while condition.
   CUTS_BE_While_Condition_Begin_T <CONTEXT> while_condition_begin (this->context_);
@@ -302,7 +302,7 @@ Visit_WhileState (const PICML::WhileState_in while_state)
   CUTS_BE_While_Begin_T <CONTEXT> while_begin_gen (this->context_);
   while_begin_gen.generate ();
 
-  this->Visit_LoopState (while_state);
+  this->visit_LoopState (while_state);
 
   CUTS_BE_While_End_T <CONTEXT> while_end_gen (this->context_);
   while_end_gen.generate ();
@@ -312,11 +312,11 @@ Visit_WhileState (const PICML::WhileState_in while_state)
 }
 
 //
-// Visit_ForState
+// visit_ForState
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_ForState (const PICML::ForState_in for_state)
+visit_ForState (PICML::ForState_in for_state)
 {
   // We are starting to generate the for (init; condition; final).
   CUTS_BE_For_Condition_Begin_T <CONTEXT> for_condition_begin (this->context_);
@@ -344,7 +344,7 @@ Visit_ForState (const PICML::ForState_in for_state)
   CUTS_BE_For_Begin_T <CONTEXT> for_begin_gen (this->context_);
   for_begin_gen.generate ();
 
-  this->Visit_LoopState (for_state);
+  this->visit_LoopState (for_state);
 
   CUTS_BE_For_End_T <CONTEXT> for_end_gen (this->context_);
   for_end_gen.generate ();
@@ -372,32 +372,32 @@ goto_to_terminal (void)
 }
 
 //
-// Visit_LoopTransition
+// visit_LoopTransition
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_LoopTransition (const PICML::LoopTransition_in transition)
+visit_LoopTransition (PICML::LoopTransition_in transition)
 {
-  this->Visit_ActionBase (transition->dst_ActionBase ());
+  this->visit_ActionBase (transition->dst_ActionBase ());
 }
 
 //
-// Visit_LoopState
+// visit_LoopState
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_LoopState (const PICML::LoopState_in loop_state)
+visit_LoopState (PICML::LoopState_in loop_state)
 {
   if (loop_state->has_src_of_LoopTransition ())
     loop_state->src_of_LoopTransition ()->accept (this);
 }
 
 //
-// Visit_State
+// visit_State
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_State (const PICML::State_in state)
+visit_State (PICML::State_in state)
 {
   // Generate information about the state.
   CUTS_BE_State_T <CONTEXT> state_gen (this->context_);
@@ -429,11 +429,11 @@ Visit_State (const PICML::State_in state)
 }
 
 //
-// Visit_BranchState
+// visit_BranchState
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_BranchState (const PICML::BranchState_in state)
+visit_BranchState (PICML::BranchState_in state)
 {
   // We use the greater than comparison so that empty string,
   // aspect = BehaviorState
@@ -458,11 +458,11 @@ Visit_BranchState (const PICML::BranchState_in state)
 }
 
 //
-// Visit_TerminalTransition
+// visit_TerminalTransition
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_TerminalTransition (const PICML::TerminalTransition_in transition)
+visit_TerminalTransition (PICML::TerminalTransition_in transition)
 {
   PICML::Terminal terminal = transition->dst_Terminal ();
 
@@ -474,42 +474,42 @@ Visit_TerminalTransition (const PICML::TerminalTransition_in transition)
 }
 
 //
-// Visit_Terminal
+// visit_Terminal
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Terminal (const PICML::Terminal_in terminal)
+visit_Terminal (PICML::Terminal_in terminal)
 {
   if (terminal->has_src_of_TerminalEffect ())
     terminal->src_of_TerminalEffect ()->accept (this);
 }
 
 //
-// Visit_TerminalEffect
+// visit_TerminalEffect
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_TerminalEffect (const PICML::TerminalEffect_in effect)
+visit_TerminalEffect (PICML::TerminalEffect_in effect)
 {
   effect->dst_StateBase ()->accept (this);
 }
 
 //
-// Visit_Transition
+// visit_Transition
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Transition (const PICML::Transition_in transition)
+visit_Transition (PICML::Transition_in transition)
 {
-  this->Visit_ActionBase (transition->dst_ActionBase ());
+  this->visit_ActionBase (transition->dst_ActionBase ());
 }
 
 //
-// Visit_BranchTransition
+// visit_BranchTransition
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_BranchTransition (const PICML::BranchTransition_in transition)
+visit_BranchTransition (PICML::BranchTransition_in transition)
 {
   std::string condition = transition->Condition ();
 
@@ -538,18 +538,18 @@ Visit_BranchTransition (const PICML::BranchTransition_in transition)
   CUTS_BE_Branch_Begin_T <CONTEXT> branch_begin_gen (this->context_);
   branch_begin_gen.generate ();
 
-  this->Visit_ActionBase (transition->dst_ActionBase ());
+  this->visit_ActionBase (transition->dst_ActionBase ());
 
   CUTS_BE_Branch_End_T <CONTEXT> branch_end_gen (this->context_);
   branch_end_gen.generate ();
 }
 
 //
-// Visit_ActionBase
+// visit_ActionBase
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_ActionBase (const PICML::ActionBase_in action_base)
+visit_ActionBase (PICML::ActionBase_in action_base)
 {
   std::string metaname = action_base->meta ()->name ();
 
@@ -570,11 +570,11 @@ Visit_ActionBase (const PICML::ActionBase_in action_base)
 }
 
 //
-// Visit_RequestAction
+// visit_RequestAction
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_RequestAction (const PICML::RequestAction_in action)
+visit_RequestAction (PICML::RequestAction_in action)
 {
   CUTS_BE_RequestAction_Begin_T <CONTEXT> req_begin (this->context_);
   req_begin.generate (action);
@@ -604,22 +604,22 @@ Visit_RequestAction (const PICML::RequestAction_in action)
 }
 
 //
-// Visit_SimpleProperty
+// visit_SimpleProperty
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_SimpleProperty (const PICML::SimpleProperty_in prop)
+visit_SimpleProperty (PICML::SimpleProperty_in prop)
 {
   CUTS_BE_Action_Property_T <CONTEXT> action_property_gen (this->context_);
   action_property_gen.generate (prop);
 }
 
 //
-// Visit_Action
+// visit_Action
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_Action (const PICML::Action_in action)
+visit_Action (PICML::Action_in action)
 {
   // Let's tell the <traits_> to begin generating an action.
   CUTS_BE_WorkerAction_Begin_T <CONTEXT> worker_action_begin (this->context_);
@@ -649,11 +649,11 @@ Visit_Action (const PICML::Action_in action)
 }
 
 //
-// Visit_OutputAction
+// visit_OutputAction
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_OutputAction (const PICML::OutputAction_in action)
+visit_OutputAction (PICML::OutputAction_in action)
 {
   CUTS_BE_OutputAction_Begin_T <CONTEXT> output_action_begin (this->context_);
   output_action_begin.generate (action);
@@ -662,18 +662,18 @@ Visit_OutputAction (const PICML::OutputAction_in action)
   Property_Set properties = action.Property_kind_children ();
 
   CUTS_BE::visit <CONTEXT> (action->children <PICML::Property> (),
-    [this] (PICML::Property p) { this->Visit_OutputAction_Property (p); });
+    [this] (PICML::Property p) { this->visit_OutputAction_Property (p); });
 
   CUTS_BE_OutputAction_End_T <CONTEXT> output_action_end (this->context_);
   output_action_end.generate (action);
 }
 
 //
-// Visit_OutputAction_Property
+// visit_OutputAction_Property
 //
 template <typename CONTEXT>
 void CUTS_BE_Execution_Visitor_T <CONTEXT>::
-Visit_OutputAction_Property (const PICML::Property_in prop)
+visit_OutputAction_Property (PICML::Property_in prop)
 {
   PICML::OutputAction parent = PICML::OutputAction::_narrow (prop->parent_ActionBase ());
   CUTS_BE_OutputAction_Property_T <CONTEXT> output_action_property (this->context_);

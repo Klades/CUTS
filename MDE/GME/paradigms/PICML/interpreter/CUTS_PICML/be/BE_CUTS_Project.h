@@ -51,15 +51,15 @@ public:
   const std::string & message (void) const;
 
 private:
-  void Visit_RootFolder (const PICML::RootFolder_in);
+  void visit_RootFolder (PICML::RootFolder_in);
 
-  void Visit_PredefinedTypes (const PICML::PredefinedTypes_in);
+  void visit_PredefinedTypes (PICML::PredefinedTypes_in);
 
-  void Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions_in);
+  void visit_InterfaceDefinitions (PICML::InterfaceDefinitions_in);
 
-  void Visit_Package (const PICML::Package_in);
+  void visit_Package (PICML::Package_in);
 
-  void Visit_File (const PICML::File_in);
+  void visit_File (PICML::File_in);
 
   PICML::Object testing_service_;
 

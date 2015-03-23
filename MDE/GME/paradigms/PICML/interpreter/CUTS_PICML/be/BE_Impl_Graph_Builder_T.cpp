@@ -40,23 +40,22 @@ CUTS_BE_Impl_Graph_Builder_T <T>::~CUTS_BE_Impl_Graph_Builder_T (void)
 }
 
 //
-// Visit_ComponentImplementationContainer
+// visit_ComponentImplementationContainer
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_ComponentImplementationContainer (
-const PICML::ComponentImplementationContainer_in container)
+visit_ComponentImplementationContainer (PICML::ComponentImplementationContainer_in container)
 {
   // Get all the monolithic implemenations in this <container>.
   visit_all () (container->get_MonolithicImplementations (), this);
 }
 
 //
-// Visit_MonolithicImplementation
+// visit_MonolithicImplementation
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimpl)
+visit_MonolithicImplementation (PICML::MonolithicImplementation_in monoimpl)
 {
   // Determine if we should preprocess the implementation. If
   // the element is preprocessed, then we will also include
@@ -84,31 +83,31 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimp
 }
 
 //
-// Visit_ComponentImplementationArtifact
+// visit_ComponentImplementationArtifact
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_ComponentImplementationArtifact (const PICML::ComponentImplementationArtifact_in cia)
+visit_ComponentImplementationArtifact (PICML::ComponentImplementationArtifact_in cia)
 {
   this->curr_impl_->exec_artifact_ = cia->refers_to_ImplementationArtifact ();
 }
 
 //
-// Visit_ComponentServantArtifact
+// visit_ComponentServantArtifact
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_ComponentServantArtifact (const PICML::ComponentServantArtifact_in csa)
+visit_ComponentServantArtifact (PICML::ComponentServantArtifact_in csa)
 {
   this->curr_impl_->svnt_artifact_ = csa->refers_to_ImplementationArtifact ();
 }
 
 //
-// Visit_Component
+// visit_Component
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   // Let's locate the parent file of this <component>.
   GAME::Mga::Object parent = component->parent ();
@@ -139,22 +138,22 @@ Visit_Component (const PICML::Component_in component)
 }
 
 //
-// Visit_WorkerType
+// visit_WorkerType
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_WorkerType (const PICML::WorkerType_in worker_type)
+visit_WorkerType (PICML::WorkerType_in worker_type)
 {
   if (!worker_type->Worker_is_nil ())
     worker_type->refers_to_Worker ()->accept (this);
 }
 
 //
-// Visit_Worker
+// visit_Worker
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_Worker (const PICML::Worker_in worker)
+visit_Worker (PICML::Worker_in worker)
 {
   // We need to locate the parent file for this worker. This may
   // mean iterating over muliple packages before finding the file.
@@ -170,11 +169,11 @@ Visit_Worker (const PICML::Worker_in worker)
 }
 
 //
-// Visit_WorkerFile
+// visit_WorkerFile
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_WorkerFile (const PICML::WorkerFile_in file)
+visit_WorkerFile (PICML::WorkerFile_in file)
 {
   // Add the name of the worker to the collection of
   // include files for this node.
@@ -191,11 +190,11 @@ Visit_WorkerFile (const PICML::WorkerFile_in file)
 }
 
 //
-// Visit_WorkerFile
+// visit_WorkerFile
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_WorkerLibrary (const PICML::WorkerLibrary_in library)
+visit_WorkerLibrary (PICML::WorkerLibrary_in library)
 {
   // Add the name of the library to the collection of
   // import libraries for this node.
@@ -204,11 +203,11 @@ Visit_WorkerLibrary (const PICML::WorkerLibrary_in library)
 }
 
 //
-// Visit_MonolithprimaryArtifact
+// visit_MonolithprimaryArtifact
 //
 template <typename T>
 void CUTS_BE_Impl_Graph_Builder_T <T>::
-Visit_MonolithprimaryArtifact (const PICML::MonolithprimaryArtifact_in primary)
+visit_MonolithprimaryArtifact (PICML::MonolithprimaryArtifact_in primary)
 {
   PICML::ImplementationArtifactReference ref = primary->dst_ImplementationArtifactReference ();
 

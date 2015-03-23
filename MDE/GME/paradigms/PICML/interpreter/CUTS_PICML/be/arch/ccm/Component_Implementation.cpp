@@ -15,22 +15,22 @@
 #include "../../lang/cpp/Component_Impl_Generator.h"
 
 /**
- * @class Visit_Component_Interface
+ * @class visit_Component_Interface
  */
-class Visit_Component_Interface : public PICML::Visitor
+class visit_Component_Interface : public PICML::Visitor
 {
 protected:
-  Visit_Component_Interface (void)
+  visit_Component_Interface (void)
   {
 
   }
 
-  virtual ~Visit_Component_Interface (void)
+  virtual ~visit_Component_Interface (void)
   {
 
   }
 
-  void Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in impl)
+  void visit_MonolithicImplementation (PICML::MonolithicImplementation_in impl)
   {
     if (!impl->has_src_of_Implements ())
       return;
@@ -47,7 +47,7 @@ protected:
 /**
  * @class Locate_Parent_File
  */
-class Locate_Parent_File : public Visit_Component_Interface
+class Locate_Parent_File : public visit_Component_Interface
 {
 public:
   Locate_Parent_File (void)
@@ -60,7 +60,7 @@ public:
 
   }
 
-  void Visit_Component (const PICML::Component_in component)
+  void visit_Component (PICML::Component_in component)
   {
     GAME::Mga::Object parent = component->parent ();
 
@@ -76,7 +76,7 @@ public:
 /**
  * @class Include_Worker_Files
  */
-class Include_Worker_Files : public Visit_Component_Interface
+class Include_Worker_Files : public visit_Component_Interface
 {
 public:
   Include_Worker_Files (std::ostream & out)
@@ -90,13 +90,13 @@ public:
 
   }
 
-  virtual void Visit_Component (const PICML::Component_in component)
+  virtual void visit_Component (PICML::Component_in component)
   {
     for (auto worker : component->get_WorkerTypes ())
       worker->accept (this);
   }
 
-  virtual void Visit_WorkerType (const PICML::WorkerType_in wt)
+  virtual void visit_WorkerType (PICML::WorkerType_in wt)
   {
     if (wt->Worker_is_nil ())
       return;
@@ -357,7 +357,7 @@ generate (const PICML::MonolithicImplementation_in impl,
 }
 
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort_in facet)
+visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet)
 {
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("Forward decl.")
@@ -366,7 +366,7 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort_in facet)
 }
 
 void CUTS_BE_Component_Impl_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_OutEventPort (const PICML::OutEventPort_in port)
+visit_OutEventPort (PICML::OutEventPort_in port)
 {
   this->ctx_.outevent_mgr_.insert (PICML::OutEventPort (port));
 }
@@ -391,7 +391,7 @@ generate (const PICML::MonolithicImplementation_in impl,
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_InEventPort (const PICML::InEventPort_in port)
+visit_InEventPort (PICML::InEventPort_in port)
 {
   if (!port->has_src_of_Input ())
     return;
@@ -403,7 +403,7 @@ Visit_InEventPort (const PICML::InEventPort_in port)
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
+visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 {
   std::string name ("periodic_");
   name += periodic->name ();
@@ -415,13 +415,13 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Input (const PICML::Input_in input)
+visit_Input (PICML::Input_in input)
 {
   input->dst_InputAction ()->accept (this);
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_InputAction (const PICML::InputAction_in action)
+visit_InputAction (PICML::InputAction_in action)
 {
   std::string varname ("push_");
   varname += this->sink_name_ + "_";
@@ -436,7 +436,7 @@ Visit_InputAction (const PICML::InputAction_in action)
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Property (const PICML::Property_in prop)
+visit_Property (PICML::Property_in prop)
 {
   std::string name (prop->name ());
 
@@ -509,7 +509,7 @@ generate (const PICML::MonolithicImplementation_in monoimpl,
 }
 
 void CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Implements (const PICML::Implements_in implements)
+visit_Implements (PICML::Implements_in implements)
 {
   PICML::ComponentRef ref = implements->dst_ComponentRef ();
 
@@ -518,7 +518,7 @@ Visit_Implements (const PICML::Implements_in implements)
 }
 
 void CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_CCM::Cpp::Context>::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   this->ctx_.source_
     << component->name ();
@@ -987,10 +987,10 @@ Attribute_Method_Generator::~Attribute_Method_Generator (void)
 }
 
 //
-// Visit_Attribute
+// visit_Attribute
 //
 void Attribute_Method_Generator::
-Visit_Attribute (const PICML::Attribute_in attr)
+visit_Attribute (PICML::Attribute_in attr)
 {
   // Write the name of the attribute method.
   std::string name = attr->name ();
@@ -1003,10 +1003,10 @@ Visit_Attribute (const PICML::Attribute_in attr)
 }
 
 //
-// Visit_AttributeMember
+// visit_AttributeMember
 //
 void Attribute_Method_Generator::
-Visit_AttributeMember (const PICML::AttributeMember_in member)
+visit_AttributeMember (PICML::AttributeMember_in member)
 {
   if (member->MemberType_is_nil ())
     return;
@@ -1016,10 +1016,10 @@ Visit_AttributeMember (const PICML::AttributeMember_in member)
 }
 
 //
-// Visit_ReadonlyAttribute
+// visit_ReadonlyAttribute
 //
 void Attribute_Method_Generator::
-Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute_in ro_attr)
+visit_ReadonlyAttribute (PICML::ReadonlyAttribute_in ro_attr)
 {
   this->out_ << ro_attr->name () << " (void)";
 }
@@ -1043,10 +1043,10 @@ InEvent_Method_Generator::~InEvent_Method_Generator (void)
 }
 
 //
-// Visit_InEventPort
+// visit_InEventPort
 //
 void InEvent_Method_Generator::
-Visit_InEventPort (const PICML::InEventPort_in port)
+visit_InEventPort (PICML::InEventPort_in port)
 {
   this->out_ << "push_" << port->name () << " (";
 }

@@ -25,10 +25,10 @@ Base_Member_Init::~Base_Member_Init (void)
 }
 
 //
-// Visit_Component
+// visit_Component
 //
 void Base_Member_Init::
-Visit_Component (const PICML::Component_in component)
+visit_Component (PICML::Component_in component)
 {
   std::vector <PICML::Variable> variables;
   for (auto variable : component->get_Variables ())
@@ -60,10 +60,10 @@ Visit_Component (const PICML::Component_in component)
 }
 
 //
-// Visit_Variable
+// visit_Variable
 //
 void Base_Member_Init::
-Visit_Variable (const PICML::Variable_in variable)
+visit_Variable (PICML::Variable_in variable)
 {
   std::string init_value (variable->InitialValue ());
 
@@ -95,7 +95,7 @@ Initialize_Entity::~Initialize_Entity (void)
 // ~Initialize_Entity
 //
 void Initialize_Entity::
-Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
+visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 {
   const std::string name = periodic->name ();
   PICML::Component parent = periodic->parent ();
@@ -121,9 +121,9 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic)
 }
 
 //
-// Visit_InEventPort
+// visit_InEventPort
 //
-void Initialize_Entity::Visit_InEventPort (const PICML::InEventPort_in in)
+void Initialize_Entity::visit_InEventPort (PICML::InEventPort_in in)
 {
   if (!in->has_src_of_Input ())
     return;

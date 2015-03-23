@@ -112,9 +112,9 @@ public:
   void generate (const PICML::MonolithicImplementation_in monoimpl,
                  const PICML::Component_in component);
 
-  virtual void Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort_in facet);
+  virtual void visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet);
 
-  virtual void Visit_OutEventPort (const PICML::OutEventPort_in port);
+  virtual void visit_OutEventPort (PICML::OutEventPort_in port);
 };
 
 /**
@@ -136,15 +136,15 @@ public:
   void generate (const PICML::MonolithicImplementation_in monoimpl,
                  const PICML::Component_in component);
 
-  virtual void Visit_InEventPort (const PICML::InEventPort_in port);
+  virtual void visit_InEventPort (PICML::InEventPort_in port);
 
-  virtual void Visit_Input (const PICML::Input_in input);
+  virtual void visit_Input (PICML::Input_in input);
 
-  virtual void Visit_InputAction (const PICML::InputAction_in action);
+  virtual void visit_InputAction (PICML::InputAction_in action);
 
-  virtual void Visit_PeriodicEvent (const PICML::PeriodicEvent_in periodic);
+  virtual void visit_PeriodicEvent (PICML::PeriodicEvent_in periodic);
 
-  virtual void Visit_Property (const PICML::Property_in property);
+  virtual void visit_Property (PICML::Property_in property);
 
 private:
   std::string sink_name_;
@@ -278,9 +278,9 @@ public:
   void generate (const PICML::MonolithicImplementation_in monoimpl,
                  const PICML::ComponentImplementationArtifact_in artifact);
 
-  virtual void Visit_Implements (const PICML::Implements_in implements);
+  virtual void visit_Implements (PICML::Implements_in implements);
 
-  virtual void Visit_Component (const PICML::Component_in component);
+  virtual void visit_Component (PICML::Component_in component);
 };
 
 /**
@@ -421,11 +421,11 @@ public:
 
   virtual ~Attribute_Method_Generator (void);
 
-  virtual void Visit_Attribute (const PICML::Attribute_in attr);
+  virtual void visit_Attribute (PICML::Attribute_in attr);
 
-  virtual void Visit_AttributeMember (const PICML::AttributeMember_in member);
+  virtual void visit_AttributeMember (PICML::AttributeMember_in member);
 
-  virtual void Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute_in attr);
+  virtual void visit_ReadonlyAttribute (PICML::ReadonlyAttribute_in attr);
 
 private:
   std::ostream & out_;
@@ -441,7 +441,7 @@ public:
 
   virtual ~InEvent_Method_Generator (void);
 
-  virtual void Visit_InEventPort (const PICML::InEventPort_in port);
+  virtual void visit_InEventPort (PICML::InEventPort_in port);
 
 private:
   std::ostream & out_;
