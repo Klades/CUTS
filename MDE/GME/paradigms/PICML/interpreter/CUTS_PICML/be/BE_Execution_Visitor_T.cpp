@@ -1,6 +1,5 @@
 // $Id$
 
-#include "UDM_Utility_T.h"
 #include "BE_algorithm.h"
 #include "game/mga/modelgen.h"
 #include "game/mga/utils/Position_Sort_T.h"

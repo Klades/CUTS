@@ -8,21 +8,11 @@
 #include "BE_Preprocessor_T.h"
 #include "BE_Env_Visitor_T.h"
 #include "BE_Execution_Visitor_T.h"
-#include "UDM_Utility_T.h"
+#include "game/mga/utils/modelgen.h"
 
 #include "boost/bind.hpp"
 #include "boost/iterator/filter_iterator.hpp"
 
-struct visit_all
-{
-public:
-template <typename T>
-void operator () (T & collection, PICML::Visitor * visitor) const
-{
-  for (auto item : collection)
-    item->accept (visitor);
-}
-};
 
 //
 // Visit_RootFolder
@@ -46,7 +36,7 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ComponentImplementations (
 const PICML::ComponentImplementations_in impls)
 {
-  visit_all () (impls->get_ComponentImplementationContainers (), this);
+  GAME::visit_all () (impls->get_ComponentImplementationContainers (), this);
 }
 
 //
@@ -56,16 +46,12 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 Visit_ComponentImplementationContainer (const PICML::ComponentImplementationContainer_in container)
 {
-
-  std::vector <PICML::ComponentImplementation> impls =
-    container.ComponentImplementation_children ();
-
   // Preprocess the container and extract as much information
   // as we can about the current component's implementation.
   this->pp_.preprocess (container);
 
   // visit the monolithic implementations
-  CUTS_BE::visit <CONTEXT> (container->get_MonolithicImplementations (),
+  CUTS_BE::visit <CONTEXT> (container->children <PICML::ComponentImplementation> (),
     [this] (PICML::MonolithicImplementation & i) {i->accept (this);})
 }
 
@@ -102,7 +88,7 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimp
   // now there is a one-to-one implementation to component type
   // mapping. Therefore, the component has the known behavior
   // for this respective implementation.
-  if (monoimpl->has_src_of_Implements)
+  if (monoimpl->has_src_of_Implements ())
   {
     PICML::Implements implements = monoimpl->src_of_Implements ();
 
@@ -129,7 +115,7 @@ Visit_MonolithicImplementation (const PICML::MonolithicImplementation_in monoimp
     // Find the component implementation artifact so we can generate
     // the entrypoint for this component's implementation.
     this->monoimpl_ = monoimpl;
-    visit_all () (monoimpl->src_of_MonolithprimaryArtifact (), this);
+    GAME::visit_all () (monoimpl->src_of_MonolithprimaryArtifact (), this);
 
     //PICML::ComponentFactory factory;
 
@@ -322,7 +308,7 @@ Visit_ProvidedRequestPort_impl (const PICML::ProvidedRequestPort_in facet)
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
-Visit_Include (const std::string_in include)
+Visit_Include (const std::string & include)
 {
   CUTS_BE_Include_File_T <CONTEXT> include_gen (this->context_);
   include_gen.generate (include);
@@ -579,16 +565,16 @@ write_variables_i (const PICML::Component_in component)
   var_begin_gen.generate (component);
 
   // Write all the basic variables.
-  visit_all () (component->get_Variables (), this);
+  GAME::visit_all () (component->get_Variables (), this);
 
   // Write all the worker related variables.
-  visit_all () (component->get_WorkerTypes (), this);
+  GAME::visit_all () (component->get_WorkerTypes (), this);
 
   // Write the attribute variables.
-  visit_all () (component->get_ReadonlyAttributes (), this);
+  GAME::visit_all () (component->get_ReadonlyAttributes (), this);
 
   // Write the periodic event variables.
-  visit_all () (component->get_PeriodicEvents (), this);
+  GAME::visit_all () (component->get_PeriodicEvents (), this);
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);
