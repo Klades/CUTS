@@ -406,13 +406,10 @@ visit_State (PICML::State_in state)
   // Check to see if this state has any finish connections. If it
   // does, then we need to see if any of the finish connections is
   // for the current input action.
-  PICML::Finish finish;
-
-  if (GAME::contains <GAME::Mga_t> (
-    [this] (PICML::Finish finish) -> bool { return this->action_stack.top () == finish->dst_BehaviorInputAction ();})
-    (state->src_of_Finish (), finish))
+  for (auto finish : state->src_of_Finish ())
   {
-    return;
+    if (this->action_stack_.top () == finish->dst_BehaviorInputAction ())
+      return;
   }
 
   // Visit the transition that connected to this state.
@@ -421,9 +418,7 @@ visit_State (PICML::State_in state)
   else
   {
     // Ok, so we are at a terminal transition.
-    PICML::TerminalTransition term = state.dstTerminalTransition ();
-
-    CUTS_BE::visit <CONTEXT> (state->src_of_TerminalTransition (),
+    CUTS_BE::visit <CONTEXT> (state->dst_of_TerminalEffect (),
       [this] (PICML::TerminalTransition t) { t->accept (this); });
   }
 }
@@ -583,9 +578,6 @@ visit_RequestAction (PICML::RequestAction_in action)
   GAME::Mga::Collection_T <PICML::Property> properties =
     action->children <PICML::Property> ();
 
-  typedef std::set <PICML::Property, Sort_By_Position <PICML::Property> > Property_Set;
-  Property_Set properties = action.Property_kind_children_sorted (Sort_By_Position <PICML::Property> ());
-
   if (properties.count ())
   {
     CUTS_BE_Action_Properties_Begin_T <CONTEXT> action_props_begin_gen (this->context_);
@@ -657,9 +649,6 @@ visit_OutputAction (PICML::OutputAction_in action)
 {
   CUTS_BE_OutputAction_Begin_T <CONTEXT> output_action_begin (this->context_);
   output_action_begin.generate (action);
-
-  typedef std::vector <PICML::Property> Property_Set;
-  Property_Set properties = action.Property_kind_children ();
 
   CUTS_BE::visit <CONTEXT> (action->children <PICML::Property> (),
     [this] (PICML::Property p) { this->visit_OutputAction_Property (p); });

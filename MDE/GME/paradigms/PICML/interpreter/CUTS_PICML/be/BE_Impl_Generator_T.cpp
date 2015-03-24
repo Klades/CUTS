@@ -22,10 +22,10 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_RootFolder (PICML::RootFolder_in root)
 {
   CUTS_BE::visit <CONTEXT> (root->get_ComponentImplementations (),
-    [this] (PICML::ComponentImplementation & i) {i->accept (this);});
+    [this] (PICML::ComponentImplementation i) {i->accept (this);});
 
   CUTS_BE::visit <CONTEXT> (root->get_DeploymentPlans (),
-    [this] (PICML::DeploymentPlans & i) {i->accept (this);});
+    [this] (PICML::DeploymentPlans i) {i->accept (this);});
 }
 
 //
@@ -50,7 +50,7 @@ visit_ComponentImplementationContainer (PICML::ComponentImplementationContainer_
   this->pp_.preprocess (container);
 
   // visit the monolithic implementations
-  CUTS_BE::visit <CONTEXT> (container->children <PICML::ComponentImplementation> (),
+  CUTS_BE::visit <CONTEXT> (container->get_MonolithicImplementations (),
     [this] (PICML::MonolithicImplementation & i) {i->accept (this);});
 }
 
@@ -237,7 +237,7 @@ visit_InEventPort (PICML::InEventPort_in sink)
 
     // Get the properties associate with the input port.
     PICML::InputAction action = input->dst_InputAction ();
-    GAME::Mga::iter_to_collection (action->children <PICML::Property> (), properties);
+    action->children <PICML::Property> (properties);
   }
 
   // We are generating a regular event port.

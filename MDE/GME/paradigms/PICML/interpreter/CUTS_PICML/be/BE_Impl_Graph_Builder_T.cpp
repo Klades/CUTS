@@ -67,7 +67,7 @@ visit_MonolithicImplementation (PICML::MonolithicImplementation_in monoimpl)
     // Locate the implementation in the graph. Also, set the container for
     // the implementation.
     this->impl_graph_.find (monoimpl->name (), this->curr_impl_);
-    this->curr_impl_->container_ = monoimpl->parent ();
+    this->curr_impl_->container_ = PICML::ComponentImplementation::_narrow (monoimpl->parent ());
 
     // Visit the component that is being implemented.
     if (monoimpl->has_src_of_Implements ())
@@ -121,7 +121,7 @@ visit_Component (PICML::Component_in component)
 
   // We are going to preprocess this file as well.
   CUTS_BE_IDL_Graph_Builder builder (this->idl_graph_);
-  file->accept (builder);
+  file->accept (&builder);
 
   // We need to locate this file in the graph.
   const CUTS_BE_IDL_Node * idl_node = 0;

@@ -178,6 +178,12 @@ namespace CUTS_BE
     static const bool result_type = true;
   };
 
+  template <typename T>
+  struct is_container <GAME::Mga::Collection_T <T> >
+  {
+    static const bool result_type = true;
+  };
+
   template <typename T, bool is_a_container>
   struct get_type { };
 

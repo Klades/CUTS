@@ -16,7 +16,7 @@ preprocess (const PICML::ComponentImplementationContainer_in container)
 {
   // Build the implementation dependency graph.
   CUTS_BE_Impl_Graph_Builder_T <T> builder (this->impl_graph_, this->idl_graph_);
-  container->accept (builder);
+  container->accept (&builder);
 
   return true;
 }
