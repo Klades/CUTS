@@ -67,7 +67,7 @@ visit_MonolithicImplementation (PICML::MonolithicImplementation_in monoimpl)
     // Locate the implementation in the graph. Also, set the container for
     // the implementation.
     this->impl_graph_.find (monoimpl->name (), this->curr_impl_);
-    this->curr_impl_->container_ = PICML::ComponentImplementation::_narrow (monoimpl->parent ());
+    this->curr_impl_->container_ = PICML::ComponentImplementationContainer::_narrow (monoimpl->parent ());
 
     // Visit the component that is being implemented.
     if (monoimpl->has_src_of_Implements ())
@@ -214,5 +214,5 @@ visit_MonolithprimaryArtifact (PICML::MonolithprimaryArtifact_in primary)
   if (!ref->ImplementationArtifact_is_nil ())
     this->curr_impl_->artifacts_.insert (ref->refers_to_ImplementationArtifact ());
 
-  primary->accept (this);
+  ref->accept (this);
 }

@@ -5,7 +5,7 @@
 #include "Main_Dialog.h"
 
 #include "boost/bind.hpp"
-#include "Utils/Utils.h"
+#include "game/mga/Utils.h"
 
 #include <algorithm>
 
@@ -139,6 +139,6 @@ void Main_Dialog::on_browse_clicked (void)
 
   // Let the user select the new output path and store it back
   // into this dialog if the user clicks <OK>.
-  if (Utils::getPath ("Select the output directory:", path, outdir.GetBuffer ()))
+  if (GAME::Utils::get_path ("Select the output directory:", path, outdir.GetBuffer ()))
     this->SetDlgItemText (IDC_OUTPUTDIR, path.c_str ());
 }

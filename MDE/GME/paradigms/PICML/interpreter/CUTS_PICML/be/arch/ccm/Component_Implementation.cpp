@@ -264,7 +264,7 @@ generate (const PICML::MonolithicImplementation_in impl,
 
   auto periodics = component->get_PeriodicEvents ();
 
-  if (!periodics.count ())
+  if (periodics.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Periodic_Event_T");
 
   this->ctx_.header_

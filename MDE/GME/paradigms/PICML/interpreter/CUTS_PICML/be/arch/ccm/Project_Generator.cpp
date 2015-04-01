@@ -206,7 +206,7 @@ generate_impl_project (const CUTS_BE_Impl_Node & node)
     std::vector <const CUTS_BE_IDL_Node *>::iterator last_iter =
       std::remove_if (nodes.begin (),
                       nodes.end (),
-                      [&] (const CUTS_BE_IDL_Node * n) {return CUTS_BE::requires_executor (n);});
+                      [&] (const CUTS_BE_IDL_Node * n) {return !CUTS_BE::requires_executor (n);});
 
     this->ctx_.project_
       << "  after += ";

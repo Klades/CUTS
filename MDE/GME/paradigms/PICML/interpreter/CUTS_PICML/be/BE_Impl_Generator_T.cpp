@@ -22,10 +22,10 @@ void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_RootFolder (PICML::RootFolder_in root)
 {
   CUTS_BE::visit <CONTEXT> (root->get_ComponentImplementations (),
-    [this] (PICML::ComponentImplementation i) {i->accept (this);});
+    [this] (PICML::ComponentImplementations & i) {i->accept (this);});
 
   CUTS_BE::visit <CONTEXT> (root->get_DeploymentPlans (),
-    [this] (PICML::DeploymentPlans i) {i->accept (this);});
+    [this] (PICML::DeploymentPlans & i) {i->accept (this);});
 }
 
 //
@@ -562,10 +562,15 @@ write_variables_i (const PICML::Component_in component)
   GAME::visit_all () (component->get_WorkerTypes (), this);
 
   // Write the attribute variables.
-  GAME::visit_all () (component->get_ReadonlyAttributes (), this);
+  for (auto ro : component->get_ReadonlyAttributes ())
+    this->visit_ReadonlyAttribute_Variable (ro);
+
+  for (auto ro : component->get_Attributes ())
+    this->visit_ReadonlyAttribute_Variable (ro);
 
   // Write the periodic event variables.
-  GAME::visit_all () (component->get_PeriodicEvents (), this);
+  for (auto periodic : component->get_PeriodicEvents ())
+    this->visit_PeriodicEvent_Variable (periodic);
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);

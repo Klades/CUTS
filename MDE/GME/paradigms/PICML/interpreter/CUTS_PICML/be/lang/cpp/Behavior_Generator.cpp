@@ -155,9 +155,11 @@ generate (const PICML::OutputAction_in action)
 
   if (this->ctx_.outevent_mgr_.get_scoped_typename (name, scoped_name))
   {
+    std::string id = action->id ();
+    std::replace (id.begin (), id.end (), '-', '_');
     this->ctx_.source_
       << "::" << scoped_name << "_var __event_"
-      << action->id () << "__ = this->ctx_->new_" << name << "_event ();";
+      << id << "__ = this->ctx_->new_" << name << "_event ();";
 
     this->ctx_.skip_action_ = false;
   }
@@ -175,8 +177,11 @@ void CUTS_BE_OutputAction_Property_T <CUTS_BE_CPP::Context>::
 generate (const PICML::OutputAction_in action,
           const PICML::Property_in prop)
 {
+  std::string id = action->id ();
+  std::replace (id.begin (), id.end (), '-', '_');
+
   std::ostringstream varname;
-  varname << "__event_" << action->id () << "__";
+  varname << "__event_" << id << "__";
 
   if (prop->meta ()->name () == PICML::SimpleProperty::impl_type::metaname)
   {
@@ -214,9 +219,12 @@ generate (const PICML::OutputAction_in action)
   if (this->ctx_.skip_action_)
     return;
 
+  std::string id = action->id ();
+  std::replace (id.begin (), id.end (), '-', '_');
+
   this->ctx_.source_
     << "this->ctx_->push_"
-    << action->name () << " (__event_" << action->id () << "__.in ());"
+    << action->name () << " (__event_" << id << "__.in ());"
     << std::endl;
 }
 

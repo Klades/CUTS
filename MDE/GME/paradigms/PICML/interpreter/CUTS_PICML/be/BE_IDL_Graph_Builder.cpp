@@ -165,10 +165,7 @@ visit_Component (PICML::Component_in component)
   // chance that it is located in another file. If this is the case
   // then we have to update its references.
   if (component->is_subtype ())
-  {
-    PICML::NamedType subtype = PICML::NamedType::_narrow (component)->archetype ();
-    this->visit_NamedType (subtype);
-  }
+    this->visit_NamedType (PICML::NamedType::_narrow (component->basetype ()));
 }
 
 //
