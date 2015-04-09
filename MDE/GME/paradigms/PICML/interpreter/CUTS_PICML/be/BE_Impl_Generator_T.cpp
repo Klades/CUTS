@@ -229,7 +229,7 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_InEventPort (PICML::InEventPort_in sink)
 {
-  std::vector <PICML::Property> properties;
+  GAME::Mga::Collection_T <PICML::Property> properties;
 
   if (sink->has_src_of_Input ())
   {
@@ -237,7 +237,7 @@ visit_InEventPort (PICML::InEventPort_in sink)
 
     // Get the properties associate with the input port.
     PICML::InputAction action = input->dst_InputAction ();
-    action->children <PICML::Property> (properties);
+    properties = action->children <PICML::Property> ();
   }
 
   // We are generating a regular event port.

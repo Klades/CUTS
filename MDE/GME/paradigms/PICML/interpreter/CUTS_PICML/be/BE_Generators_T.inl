@@ -658,7 +658,7 @@ template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_InEventPort_Begin_T <CONTEXT>::
 generate (const PICML::InEventPort_in ,
-          const std::vector <PICML::Property> & )
+          GAME::Mga::Collection_T <PICML::Property> & )
 {
 
 }
@@ -685,7 +685,7 @@ template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_InEventPort_End_T <CONTEXT>::
 generate (const PICML::InEventPort_in ,
-          const std::vector <PICML::Property> & )
+          GAME::Mga::Collection_T <PICML::Property> & )
 {
 
 }

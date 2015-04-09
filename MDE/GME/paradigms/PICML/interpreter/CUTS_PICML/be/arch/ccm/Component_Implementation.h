@@ -351,7 +351,7 @@ public:
   virtual ~CUTS_BE_InEventPort_Begin_T (void);
 
   void generate (const PICML::InEventPort_in sink,
-                 const std::vector <PICML::Property> & properties);
+                 GAME::Mga::Collection_T <PICML::Property> & properties);
 };
 
 /**
@@ -369,7 +369,7 @@ public:
   virtual ~CUTS_BE_InEventPort_End_T (void);
 
   void generate (const PICML::InEventPort_in sink,
-                 const std::vector <PICML::Property> & properties);
+                 GAME::Mga::Collection_T <PICML::Property> & properties);
 };
 
 /**

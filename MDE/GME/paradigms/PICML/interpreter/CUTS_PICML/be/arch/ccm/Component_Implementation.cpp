@@ -841,7 +841,7 @@ generate (const PICML::PeriodicEvent_in periodic)
 
 void CUTS_BE_InEventPort_Begin_T <CUTS_BE_CCM::Cpp::Context>::
 generate (const PICML::InEventPort_in sink,
-          const std::vector <PICML::Property> & properties)
+          GAME::Mga::Collection_T <PICML::Property> & properties)
 {
   if (sink->EventType_is_nil ())
     return;
@@ -852,12 +852,16 @@ generate (const PICML::InEventPort_in sink,
     return;
 
   // Determine if this input event is asynchronous.
-  std::vector <PICML::Property>::const_iterator iter =
-    std::find_if (properties.begin (),
-                  properties.end (),
-                  [&] (PICML::Property p) {return p->name () == "asynchronous";});
+  bool is_async = false;
 
-  bool is_async = iter != properties.end ();
+  for (auto prop : properties)
+  {
+    if (prop->name () == "asynchronous")
+    {
+      is_async = true;
+      break;
+    }
+  }
 
   // Generate the appropriate methods.
   PICML::Event ev = et;
@@ -906,7 +910,7 @@ generate (const PICML::InEventPort_in sink,
 
 void CUTS_BE_InEventPort_End_T <CUTS_BE_CCM::Cpp::Context>::
 generate (const PICML::InEventPort_in attr,
-          const std::vector <PICML::Property> & properties)
+          GAME::Mga::Collection_T <PICML::Property> & properties)
 {
   this->ctx_.source_
     << "ACE_UNUSED_ARG (ev);"
