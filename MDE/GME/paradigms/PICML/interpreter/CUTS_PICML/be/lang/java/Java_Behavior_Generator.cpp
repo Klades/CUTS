@@ -13,63 +13,62 @@
 // CUTS_BE_Variable_T
 
 void CUTS_BE_Variable_T <CUTS_BE_Java::Context>::
-generate (const PICML::Variable & variable)
+generate (const PICML::Variable_in variable)
 {
-  PICML::PredefinedType type = variable.ref ();
+  if (variable->PredefinedType_is_nil ())
+    return;
 
-  if (type != Udm::null)
-  {
-    std::string name (variable.name ());
-    CUTS_BE_Java::Variable_Type var_type (this->ctx_.source_);
+  PICML::PredefinedType type = variable->refers_to_PredefinedType ();
 
-    // Generate the getter method.
-    this->ctx_.source_
-      << "public ";
+  std::string name (variable->name ());
+  CUTS_BE_Java::Variable_Type var_type (this->ctx_.source_);
 
-    var_type.generate (type);
+  // Generate the getter method.
+  this->ctx_.source_
+    << "public ";
 
-    this->ctx_.source_
-      << " " << CUTS_BE_Java::getter_method (name) << " ()"
-      << "{"
-      << "return this." << name << "_;"
-      << "}"
-      << std::endl
-      // Generate the setter method.
-      << "public void "
-      << CUTS_BE_Java::setter_method (name) << " (";
+  var_type.generate (type);
 
-    var_type.generate (type);
+  this->ctx_.source_
+    << " " << CUTS_BE_Java::getter_method (name) << " ()"
+    << "{"
+    << "return this." << name << "_;"
+    << "}"
+    << std::endl
+    // Generate the setter method.
+    << "public void "
+    << CUTS_BE_Java::setter_method (name) << " (";
 
-    this->ctx_.source_
-      << " " << name << ")"
-      << "{"
-      << "this." << name << "_ = " << name << ";"
-      << "}"
-      << std::endl
-      // Generate the variable declaration.
-      << CUTS_BE_Java::single_line_comment ("variable: " + name)
-      << "private ";
+  var_type.generate (type);
 
-    var_type.generate (type);
+  this->ctx_.source_
+    << " " << name << ")"
+    << "{"
+    << "this." << name << "_ = " << name << ";"
+    << "}"
+    << std::endl
+    // Generate the variable declaration.
+    << CUTS_BE_Java::single_line_comment ("variable: " + name)
+    << "private ";
 
-    this->ctx_.source_
-      << " " << name << "_;"
-      << std::endl;
-  }
+  var_type.generate (type);
+
+  this->ctx_.source_
+    << " " << name << "_;"
+    << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Attribute_Variable_T
 
 void CUTS_BE_Attribute_Variable_T <CUTS_BE_Java::Context>::
-generate (const PICML::ReadonlyAttribute & attr)
+generate (const PICML::ReadonlyAttribute_in attr)
 {
-  std::string name = attr.name ();
-  PICML::AttributeMember member = attr.AttributeMember_child ();
-
+  std::string name = attr->name ();
+  PICML::AttributeMember member = attr->get_AttributeMember ();
   try
   {
-    PICML::PredefinedType type = PICML::PredefinedType::Cast (member.ref ());
+    PICML::PredefinedType type = member->refers_to_MemberType ();
 
     this->ctx_.source_
       << std::endl
@@ -94,25 +93,25 @@ generate (const PICML::ReadonlyAttribute & attr)
 // CUTS_BE_PeriodicEvent_Variable_T
 
 void CUTS_BE_Worker_Variable_T <CUTS_BE_Java::Context>::
-generate (const PICML::WorkerType & var, const PICML::Worker & worker)
+generate (const PICML::WorkerType_in var, const PICML::Worker_in worker)
 {
-  std::string name (var.name ());
+  std::string name (var->name ());
 
   this->ctx_.source_
     << CUTS_BE_Java::single_line_comment ("worker variable: " + name)
-    << worker.name () << " " << name << "_;" << std::endl;
+    << worker->name () << " " << name << "_;" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Action_Property_T
 
 void CUTS_BE_Action_Property_T <CUTS_BE_Java::Context>::
-generate (const PICML::Property & prop)
+generate (const PICML::Property_in prop)
 {
   // TODO Add support for complex properties.
 
-  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
-  this->ctx_.source_ << simple.Value ();
+  PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
+  this->ctx_.source_ << simple->Value ();
 
   if (-- this->ctx_.arg_count_ > 0)
     this->ctx_.source_ << ", ";
@@ -122,7 +121,7 @@ generate (const PICML::Property & prop)
 // CUTS_BE_WorkerAction_Begin_T
 
 void CUTS_BE_WorkerAction_Begin_T <CUTS_BE_Java::Context>::
-generate (const PICML::Action & action)
+generate (const PICML::Action_in action)
 {
   this->ctx_.skip_action_ = false;
 
@@ -130,29 +129,29 @@ generate (const PICML::Action & action)
   // then we need to invoke the logging method. If not, then we
   // need to invoke the non-logging method.
 
-  PICML::Action action_type = PICML::Action (action).Archetype ();
+  PICML::Action action_type = action->archetype ();
 
   this->ctx_.source_
-    << "this." << action.name () << "_."
-    << action_type.name () << " (";
+    << "this." << action->name () << "_."
+    << action_type->name () << " (";
 }
 
 //
 // CUTS_BE_RequestAction_Begin_T
 //
 void CUTS_BE_RequestAction_Begin_T <CUTS_BE_Java::Context>::
-generate (const PICML::RequestAction & action)
+generate (const PICML::RequestAction_in action)
 {
   this->ctx_.source_
-    << "this." << action.name () << "_."
-    << action.MethodName () << " (";
+    << "this." << action->name () << "_."
+    << action->MethodName () << " (";
 }
 
 //
 // CUTS_BE_RequestAction_End_T
 //
 void CUTS_BE_RequestAction_End_T <CUTS_BE_Java::Context>::
-generate (const PICML::RequestAction & action)
+generate (const PICML::RequestAction_in action)
 {
   this->ctx_.source_
     << ");";
@@ -162,22 +161,22 @@ generate (const PICML::RequestAction & action)
 // CUTS_BE_OutputAction_Begin_T
 
 void CUTS_BE_OutputAction_Begin_T <CUTS_BE_Java::Context>::
-generate (const PICML::OutputAction & action)
+generate (const PICML::OutputAction_in action)
 {
   // Locate the ev for the output action.
-  std::string name = action.name ();
+  std::string name = action->name ();
   PICML::Event ev = this->ctx_.sources_[name];
 
   // Construct the fully qualified name for the ev.
   std::string fq_name = CUTS_BE_Java::fq_type (ev, ".", false);
 
   std::ostringstream evid;
-  evid << "ev_" << action.uniqueId () << "_";
+  evid << "ev_" << action->id () << "_";
 
   if (fq_name != this->ctx_.jbi_anyevent_.first)
   {
     // We are working with a *regular* ev.
-    std::string tagname = ev.SpecifyIdTag ();
+    std::string tagname = ev->SpecifyIdTag ();
 
     tagname[0] = ::toupper (tagname[0]);
 
@@ -194,49 +193,49 @@ generate (const PICML::OutputAction & action)
 }
 
 void CUTS_BE_OutputAction_Property_T <CUTS_BE_Java::Context>::
-generate (const PICML::OutputAction & action,
-          const PICML::Property & prop)
+generate (const PICML::OutputAction_in action,
+          const PICML::Property_in prop)
 {
-  std::string name = prop.name ();
+  std::string name = prop->name ();
 
   if (name == "metadata")
   {
     // We handle the metadata property specially.
-    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+    PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
 
     this->ctx_.source_
-      << "ev_" << action.uniqueId () << "_." <<
-      CUTS_BE_Java::setter_method (prop.name ())
-      << " (" << simple.Value () << ");";
+      << "ev_" << action->id () << "_." <<
+      CUTS_BE_Java::setter_method (prop->name ())
+      << " (" << simple->Value () << ");";
   }
   else if (name == "payload")
   {
-    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+    PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
 
-    this->ctx_.source_ << "ev_" << action.uniqueId ()
-                              << "_.setPayload (" << simple.Value ()
+    this->ctx_.source_ << "ev_" << action->id ()
+                              << "_.setPayload (" << simple->Value ()
                               << ");";
   }
   else
   {
-    PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
+    PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
 
     this->ctx_.source_
-      << "ev_" << action.uniqueId () << "_.getMetadata ()." <<
-      CUTS_BE_Java::setter_method (prop.name ())
-      << " (" << simple.Value () << ");";
+      << "ev_" << action->id () << "_.getMetadata ()." <<
+      CUTS_BE_Java::setter_method (prop->name ())
+      << " (" << simple->Value () << ");";
   }
 }
 
 void CUTS_BE_OutputAction_End_T <CUTS_BE_Java::Context>::
-generate (const PICML::OutputAction & action)
+generate (const PICML::OutputAction_in action)
 {
   this->ctx_.source_
     << std::endl
     << "// Publishing the ev (ev_"
-    << action.uniqueId () << ")." << std::endl
-    << "this." << action.name () << "_.publishData (ev_"
-    << action.uniqueId () << "_);";
+    << action->id () << ")." << std::endl
+    << "this." << action->name () << "_.publishData (ev_"
+    << action->id () << "_);";
 }
 
 void CUTS_BE_Precondition_T <CUTS_BE_Java::Context>::
