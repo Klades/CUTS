@@ -81,7 +81,7 @@ public:
     const char * optargs = "n:";
     ACE_Get_Opt get_opt (argc, argv, optargs);
 
-    char opt;
+    int opt;
 
     while (EOF != (opt = get_opt ()))
     {

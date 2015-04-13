@@ -135,7 +135,7 @@ int CUTS_Antispam_App::parse_args (int argc, char * argv [])
   ACE_Get_Opt get_opt (argc, argv, optstr);
   get_opt.long_option ("file", 'f', ACE_Get_Opt::ARG_REQUIRED);
 
-  char opt;
+  int opt;
 
   while ((opt = get_opt ()) != EOF)
   {

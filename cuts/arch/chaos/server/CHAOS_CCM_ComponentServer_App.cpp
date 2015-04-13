@@ -33,7 +33,7 @@ parse_args (int argc, char * argv [])
 
   get_opt.long_option (ACE_TEXT("help"), 'h');
 
-  char opt;
+  int opt;
 
   while (EOF != (opt = get_opt ()))
   {

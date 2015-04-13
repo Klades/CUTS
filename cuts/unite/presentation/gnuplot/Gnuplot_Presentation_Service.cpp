@@ -58,7 +58,7 @@ int CUTS_Gnuplot_Presentation_Service::init (int argc, char * argv [])
 
   get_opt.long_option ("disable-group-title");
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {

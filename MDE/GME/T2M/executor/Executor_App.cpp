@@ -177,7 +177,7 @@ int CUTS_T2M_Executor_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("run-focus", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("disable-addons");
 
-  char opt;
+  int opt;
 
   while ((opt = get_opt ()) != EOF)
   {

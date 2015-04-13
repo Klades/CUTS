@@ -56,7 +56,7 @@ int CUTS_ACE_Log_Interceptor::init (int argc, ACE_TCHAR *argv [])
 
 int CUTS_ACE_Log_Interceptor::parse_args (int argc, char * argv [])
 {
-  char option;
+  int option;
 
   static const ACE_TCHAR options[]= ACE_TEXT ("");
 

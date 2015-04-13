@@ -80,7 +80,7 @@ int parse_args (int argc, char * argv [], options_t & opts)
   const char * optstr = "n:";
   ACE_Get_Opt get_opt (argc, argv, optstr);
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {

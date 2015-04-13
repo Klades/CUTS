@@ -165,7 +165,7 @@ int CUTS_Template_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("ignore-variables");
   get_opt.long_option ("ignore-commands");
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {

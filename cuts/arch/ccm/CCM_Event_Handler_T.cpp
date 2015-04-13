@@ -162,18 +162,13 @@ int CUTS_CCM_Event_Handler_T <T, EVENT>::svc (void)
 
     while (this->msg_queue_->state () == ACE_Message_Queue_Base::ACTIVATED)
     {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc - dequeue message\n")));
       // Get the next message from the queue.
       retval = this->msg_queue_->dequeue_head (ev);
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc - dequeued message type [%s]\n"),typeid(ev).name()));
+
       if (retval != -1)
       {
         if (ev != 0)
         {
-  ACE_ERROR ((LM_ERROR,
-              ACE_TEXT ("%T (%t) - %M - EventHandlerT::svc - make upcall\n")));
           // Make an upcall to the component.
           (*this->component_.*this->method_) (ev);
 

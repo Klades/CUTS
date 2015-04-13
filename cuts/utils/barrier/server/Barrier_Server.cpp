@@ -115,7 +115,7 @@ int CUTS_Barrier_Server::parse_args (int argc, char * argv [])
 
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
-  char op;
+  int op;
 
   while ((op = get_opt ()) != EOF)
   {

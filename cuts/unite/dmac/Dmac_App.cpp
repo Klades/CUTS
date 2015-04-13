@@ -391,7 +391,7 @@ void CUTS_Dmac_App::print_help (void)
 //  get_opt.long_option ("delims", 'd', ACE_Get_Opt::ARG_REQUIRED);
 //  get_opt.long_option ("help", 'h');
 //
-//  char ch;
+//  int ch;
 //
 //  while ((ch = get_opt ()) != EOF)
 //  {
@@ -455,7 +455,7 @@ int CUTS_Dmac_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("min-sup",'s', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h');
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {

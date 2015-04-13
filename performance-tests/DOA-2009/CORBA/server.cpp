@@ -90,7 +90,7 @@ public:
     const char * optstr = "o:";
     ACE_Get_Opt get_opt (argc, argv, optstr);
 
-    char opt;
+    int opt;
 
     while (EOF != (opt = get_opt ()))
     {

@@ -89,7 +89,7 @@ public:
 
     get_opt.long_option ("oneway");
 
-    char opt;
+    int opt;
 
     while (EOF != (opt = get_opt ()))
     {

@@ -103,7 +103,7 @@ int CUTS_Testing_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("trace", ACE_Get_Opt::NO_ARG);
 
-  char ch;
+  int ch;
   CUTS_Property_Parser property_parser (this->props_);
 
   while ((ch = get_opt ()) != EOF)

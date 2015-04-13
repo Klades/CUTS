@@ -26,7 +26,7 @@ int TCPIP_ORB::init (int argc, char * argv [])
   get_opt.long_option ("TCPIPEndpoint", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("TCPIPThreadpoolSize", ACE_Get_Opt::ARG_REQUIRED);
 
-  char opt;
+  int opt;
   int thrpool_size = CUTS_TCPIP_DEFAULT_THREADPOOL_SIZE;
   const char * listen_addr = CUTS_TCPIP_DEFAULT_ENDPOINT;
 
