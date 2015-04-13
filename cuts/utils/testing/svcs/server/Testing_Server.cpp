@@ -135,7 +135,7 @@ int CUTS_Testing_Server::parse_args (int argc, char * argv [])
 
     get_opt.long_option ("register-with-ns", ACE_Get_Opt::NO_ARG);
 
-    char opt;
+    int opt;
 
     while ((opt = get_opt ()) != EOF)
     {

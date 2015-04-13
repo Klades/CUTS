@@ -77,7 +77,7 @@ int CUTS_Trace_Importer_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("hostname", ACE_Get_Opt::ARG_REQUIRED);
 
-  char opt;
+  int opt;
 
   while ((opt = get_opt ()) != EOF)
   {

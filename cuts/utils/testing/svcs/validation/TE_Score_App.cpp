@@ -209,7 +209,7 @@ int CUTS_TE_Score_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("sandbox", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
-  char opt;
+  int opt;
 
   while ((opt = get_opt ()) != EOF)
   {

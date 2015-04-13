@@ -153,7 +153,7 @@ int CUTS_Test_Archive_Server::parse_args (int argc, char * argv [])
   get_opt.long_option ("username", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("password", ACE_Get_Opt::ARG_REQUIRED);
 
-  char opt;
+  int opt;
 
   while ((opt = get_opt ()) != EOF)
   {

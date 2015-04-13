@@ -80,7 +80,7 @@ int CUTS_Testing_Validation_Service::parse_args (int argc, char * argv [])
   get_opt.long_option ("datagraph", 'd', ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("help", 'h', ACE_Get_Opt::NO_ARG);
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {

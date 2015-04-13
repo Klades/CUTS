@@ -205,7 +205,7 @@ int CUTS_Logging_Client::parse_args (int argc, char * argv [])
   get_opt.long_option ("debug", ACE_Get_Opt::NO_ARG);
   get_opt.long_option ("trace", ACE_Get_Opt::NO_ARG);
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {

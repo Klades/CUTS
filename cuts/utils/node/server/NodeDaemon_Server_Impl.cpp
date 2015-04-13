@@ -124,7 +124,7 @@ int CUTS_NodeDaemon_Server_Impl::parse_args (int argc, char * argv [])
   get_opt.long_option ("register-with-ns", ACE_Get_Opt::ARG_REQUIRED);
   get_opt.long_option ("register-with-iortable", ACE_Get_Opt::ARG_REQUIRED);
 
-  char opt;
+  int opt;
 
   while (EOF != (opt = get_opt ()))
   {

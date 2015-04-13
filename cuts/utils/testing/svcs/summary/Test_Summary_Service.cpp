@@ -25,7 +25,7 @@ int CUTS_Test_Summary_Service::init (int argc, char * argv [])
 
   get_opt.long_option ("xml-format", ACE_Get_Opt::NO_ARG);
 
-  char opt;
+  int opt;
 
   while ((opt = get_opt ()) != EOF)
   {

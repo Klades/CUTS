@@ -266,7 +266,7 @@ int CUTS_Unite_App::parse_args (int argc, char * argv [])
   get_opt.long_option ("verbose", 'v');
   get_opt.long_option ("debug", 'd');
 
-  char ch;
+  int ch;
 
   while ((ch = get_opt ()) != EOF)
   {
