@@ -28,7 +28,7 @@ CUTS_BE_Impl_Generator_T <CONTEXT>::~CUTS_BE_Impl_Generator_T (void)
 //
 template <typename CONTEXT>
 CUTS_INLINE
-void CUTS_BE_Impl_Generator_T <CONTEXT>::generate (const PICML::RootFolder & root)
+void CUTS_BE_Impl_Generator_T <CONTEXT>::generate (const PICML::RootFolder_in root)
 {
-  PICML::RootFolder (root).Accept (*this);
+  root->accept (this);
 }

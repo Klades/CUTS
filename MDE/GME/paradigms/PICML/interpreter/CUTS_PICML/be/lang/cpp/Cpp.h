@@ -72,7 +72,7 @@ namespace CUTS_BE_CPP
    * @param[in]     separator       Separator element
    * @param[in]     leading         Include leading separator
    */
-  CUTS_BE_CPP_Export std::string scope (const PICML::NamedType & type,
+  CUTS_BE_CPP_Export std::string scope (const PICML::NamedType_in type,
                                         const std::string & separator = "::",
                                         bool leading = true);
 
@@ -83,7 +83,7 @@ namespace CUTS_BE_CPP
    * @param[in]     separator       Separator element
    * @param[in]     leading         Include leading separator
    */
-  CUTS_BE_CPP_Export std::string fq_type (const PICML::NamedType & type,
+  CUTS_BE_CPP_Export std::string fq_type (const PICML::NamedType_in type,
                                           const std::string & separator = "::",
                                           bool leading = true);
 

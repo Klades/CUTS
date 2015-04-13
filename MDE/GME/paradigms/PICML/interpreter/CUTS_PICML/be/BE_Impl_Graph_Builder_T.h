@@ -16,6 +16,7 @@
 #include "BE_Impl_Graph.h"
 #include "BE_IDL_Graph.h"
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 
 /**
  * @class CUTS_BE_Impl_Graph_Builder_T
@@ -35,42 +36,42 @@ public:
   virtual ~CUTS_BE_Impl_Graph_Builder_T (void);
 
   /// Visit a ComponentImplementationContainer object.
-  void Visit_ComponentImplementationContainer (
-    const PICML::ComponentImplementationContainer & container);
+  void visit_ComponentImplementationContainer (
+    PICML::ComponentImplementationContainer_in container);
 
   /// Visit a MonolithicImplementation object.
-  void Visit_MonolithicImplementation (
-    const PICML::MonolithicImplementation & monoimpl);
+  void visit_MonolithicImplementation (
+    PICML::MonolithicImplementation_in monoimpl);
 
-  void Visit_ComponentImplementationArtifact (
-    const PICML::ComponentImplementationArtifact & cia);
+  void visit_ComponentImplementationArtifact (
+    PICML::ComponentImplementationArtifact_in cia);
 
-  void Visit_ComponentServantArtifact (
-    const PICML::ComponentServantArtifact & csa);
+  void visit_ComponentServantArtifact (
+    PICML::ComponentServantArtifact_in csa);
 
   /// Visit a MonolithprimaryArtifact object.
-  void Visit_MonolithprimaryArtifact (
-    const PICML::MonolithprimaryArtifact & primary);
+  void visit_MonolithprimaryArtifact (
+    PICML::MonolithprimaryArtifact_in primary);
 
   /// Visit a Component object
-  void Visit_Component (
-    const PICML::Component & component);
+  void visit_Component (
+    PICML::Component_in component);
 
   /// Visit a WorkerType object
-  void Visit_WorkerType (
-    const PICML::WorkerType & worker_type);
+  void visit_WorkerType (
+    PICML::WorkerType_in worker_type);
 
   /// Visit a Worker object.
-  void Visit_Worker (
-    const PICML::Worker & worker);
+  void visit_Worker (
+    PICML::Worker_in worker);
 
   /// Visit a WorkerFile object.
-  void Visit_WorkerFile (
-    const PICML::WorkerFile & file);
+  void visit_WorkerFile (
+    PICML::WorkerFile_in file);
 
   /// Visit a WorkerLibrary object
-  void Visit_WorkerLibrary (
-    const PICML::WorkerLibrary & library);
+  void visit_WorkerLibrary (
+    PICML::WorkerLibrary_in library);
 
 private:
   /// Target implementation dependency graph for the builder.

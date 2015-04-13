@@ -16,6 +16,7 @@
 #define _CUTS_BE_WORKSPACE_GENERATORS_T_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "BE_Visitor_T.h"
 
 /**

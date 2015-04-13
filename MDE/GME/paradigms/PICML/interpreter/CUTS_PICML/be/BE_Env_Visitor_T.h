@@ -14,6 +14,7 @@
 #define _CUTS_BE_ENV_VISITOR_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "BE_Generators_T.h"
 
 /**
@@ -38,14 +39,14 @@ public:
   virtual ~CUTS_BE_Env_Visitor_T (void);
 
 protected:
-  void Visit_Environment (
-    const PICML::Environment & env);
+  void visit_Environment (
+    PICML::Environment_in env);
 
-  void Visit_MultiInput (
-    const PICML::MultiInput & input);
+  void visit_MultiInput (
+    PICML::MultiInput_in input);
 
-  void Visit_MultiInputAction (
-    const PICML::MultiInputAction & action);
+  void visit_MultiInputAction (
+    PICML::MultiInputAction_in action);
 
 private:
   /// Target context for generation.

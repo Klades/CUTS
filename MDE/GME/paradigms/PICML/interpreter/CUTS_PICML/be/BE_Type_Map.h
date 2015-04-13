@@ -15,7 +15,6 @@
 
 #include "BE_export.h"
 #include "PICML/PICML.h"
-#include "Uml.h"
 #include <string>
 #include <map>
 
@@ -31,15 +30,15 @@ public:
   /// Destructor.
   virtual ~CUTS_BE_Type_Map (void);
 
-  virtual std::string value (const PICML::MemberType & type);
+  virtual std::string value (const PICML::MemberType_in type);
 
-  virtual std::string value (const PICML::PredefinedType & type);
+  virtual std::string value (const PICML::PredefinedType_in type);
 
-  virtual std::string value (const PICML::NamedType & type);
+  virtual std::string value (const PICML::NamedType_in type);
 
 protected:
   /// Type definition for mapping predefined types.
-  typedef std::map <Uml::Class, std::string> Type_Map;
+  typedef std::map <std::string, std::string> Type_Map;
 
   /// Mapping of predefined types to concrete syntax.
   Type_Map predefined_type_map_;

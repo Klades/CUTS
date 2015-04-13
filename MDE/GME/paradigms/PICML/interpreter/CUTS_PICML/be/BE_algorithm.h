@@ -14,6 +14,7 @@
 #define _CUTS_BE_ALGORITHM_H_
 
 #include <algorithm>
+#include <set>
 #include "PICML/PICML.h"
 #include "BE_nil.h"
 #include "BE_export.h"
@@ -29,7 +30,7 @@ namespace CUTS_BE
    * @param[in]     file        File element to search.
    */
   CUTS_BE_Export
-  bool has_component (const PICML::File & file);
+  bool has_component (const PICML::File_in file);
 
   /**
    * Determine if a file has a component.
@@ -37,7 +38,7 @@ namespace CUTS_BE
    * @param[in]     file        File element to search.
    */
   CUTS_BE_Export
-  bool has_interface (const PICML::File & file);
+  bool has_interface (const PICML::File_in file);
 
   /**
    * Determine if a file has a component.
@@ -53,10 +54,10 @@ namespace CUTS_BE
    * @param[in]     file        File element to search.
    */
   CUTS_BE_Export
-  bool has_events (const PICML::File & file);
+  bool has_events (const PICML::File_in file);
 
   CUTS_BE_Export
-  bool has_dds_events (const PICML::File & file);
+  bool has_dds_events (const PICML::File_in file);
 
   /**
    * Determine if a file has a component.
@@ -72,7 +73,7 @@ namespace CUTS_BE
    * @param[in]     file        File element to search.
    */
   CUTS_BE_Export
-  bool requires_executor (const PICML::File & file);
+  bool requires_executor (const PICML::File_in file);
 
   /**
    * Get the pathname of the specified file. Also, prepend the specified
@@ -80,12 +81,12 @@ namespace CUTS_BE
    * name.
    */
   CUTS_BE_Export
-  std::string get_pathname (const PICML::File & file,
+  std::string get_pathname (const PICML::File_in file,
                             const std::string & separator = "/",
                             const std::string & prefix = "",
                             const std::string & suffix = "");
 
-  CUTS_BE_Export PICML::File get_file (const PICML::NamedType & n);
+  CUTS_BE_Export PICML::File get_file (const PICML::NamedType_in n);
 
   /**
    * @struct if_then_else
@@ -173,6 +174,12 @@ namespace CUTS_BE
 
   template <typename K, typename T, typename A>
   struct is_container <std::set <K, T, A> >
+  {
+    static const bool result_type = true;
+  };
+
+  template <typename T>
+  struct is_container <GAME::Mga::Collection_T <T> >
   {
     static const bool result_type = true;
   };

@@ -1,7 +1,6 @@
 // $Id$
 
 #include "Java.h"
-#include "Uml.h"
 #include <sstream>
 #include <stack>
 
@@ -32,20 +31,20 @@ std::string single_line_comment (const std::string & comment)
 //
 // scope
 //
-std::string scope (const PICML::NamedType & type,
+std::string scope (PICML::NamedType_in type,
                    const std::string & separator,
                    bool leading)
 {
   std::string scope;
-  std::stack <PICML::MgaObject> temp_stack;
+  std::stack <GAME::Mga::Object> temp_stack;
 
   // Continue walking up the tree until we reach a File object.
-  PICML::MgaObject parent = PICML::MgaObject::Cast (type.parent ());
+  GAME::Mga::Object parent = type->parent ();
 
-  while (PICML::File::meta != parent.type () )
+  while (PICML::File::impl_type::metaname != parent->meta ()->name ())
   {
     temp_stack.push (parent);
-    parent = PICML::MgaObject::Cast (parent.parent ());
+    parent = parent->parent ();
   }
 
   // Insert the leading separator, if applicable.
@@ -58,7 +57,7 @@ std::string scope (const PICML::NamedType & type,
     parent = temp_stack.top ();
     temp_stack.pop ();
 
-    scope += std::string (parent.name ()) + separator;
+    scope += std::string (parent->name ()) + separator;
   }
 
   return scope;
@@ -67,11 +66,11 @@ std::string scope (const PICML::NamedType & type,
 //
 // fq_type
 //
-std::string fq_type (const PICML::NamedType & type,
+std::string fq_type (PICML::NamedType_in type,
                      const std::string & separator,
                      bool leading)
 {
-  return scope (type, separator, leading) + std::string (type.name ());
+  return scope (type, separator, leading) + std::string (type->name ());
 }
 
 //
@@ -126,20 +125,20 @@ std::string classname (const std::string & str)
 //
 // import
 //
-std::string import (const PICML::Worker & worker)
+std::string import (PICML::Worker_in worker)
 {
   // Initialize the import scope.
   std::stack <std::string> scope;
-  scope.push (worker.name ());
+  scope.push (worker->name ());
 
   // Move up the tree until we reach a File (i.e., while we
   // are still working with Package elements).
-  PICML::MgaObject parent = worker.parent ();
+  GAME::Mga::Object parent = worker->parent ();
 
-  while (parent.type () != PICML::WorkerFile::meta)
+  while (parent->meta ()->name () != PICML::WorkerFile::impl_type::metaname)
   {
-    scope.push (parent.name ());
-    parent = ::PICML::MgaObject::Cast (parent.parent ());
+    scope.push (parent->name ());
+    parent = parent->parent ();
   }
 
   std::ostringstream ostr;

@@ -1,10 +1,9 @@
 // $Id$
 
 #include "Component_Impl_Generator.h"
-#include "../../UDM_Utility_T.h"
-#include "boost/bind.hpp"
 
 #include <functional>
+#include "game/mga/utils/Name_Sort_T.h"
 
 namespace CUTS_BE_CPP
 {
@@ -26,53 +25,52 @@ Base_Member_Init::~Base_Member_Init (void)
 }
 
 //
-// Visit_Component
+// visit_Component
 //
 void Base_Member_Init::
-Visit_Component (const PICML::Component & component)
+visit_Component (PICML::Component_in component)
 {
-  typedef std::vector <PICML::Variable> Variables;
-  Variables variables = component.Variable_kind_children_sorted (Sorted_By_Name <PICML::Variable> ());
+  std::vector <PICML::Variable> variables;
+  for (auto variable : component->get_Variables ())
+    variables.push_back (variable);
 
-  if (!variables.empty ())
+  if (variables.size ())
   {
+    std::sort (variables.begin (), variables.end (), GAME::Mga::Name_Sort_T ());
+
     // Locate the first variable with an initial value.
-    Variables::iterator iter =
+    auto iter =
       std::find_if (variables.begin (),
                     variables.end (),
-                    boost::bind (std::not_equal_to <std::string> (),
-                                 "",
-                                 boost::bind (&PICML::Variable::InitialValue, _1)));
+                    [&] (PICML::Variable v) {return v->InitialValue () != "";});
 
     if (iter != variables.end ())
     {
       // Write the initial value of the first variable.
       this->out_ << std::endl
-                 << ": " << iter->name () << "_ ("
-                 << iter->InitialValue () << ")";
+                 << ": " << (*iter)->name () << "_ ("
+                 << (*iter)->InitialValue () << ")";
 
       // Write the initial values of the remaining variables.
       std::for_each (++ iter,
                      variables.end (),
-                     boost::bind (&PICML::Variable::Accept,
-                                  _1,
-                                  boost::ref (*this)));
+                     [this] (PICML::Variable v) {v->accept (this);});
     }
   }
 }
 
 //
-// Visit_Variable
+// visit_Variable
 //
 void Base_Member_Init::
-Visit_Variable (const PICML::Variable & variable)
+visit_Variable (PICML::Variable_in variable)
 {
-  std::string init_value (variable.InitialValue ());
+  std::string init_value (variable->InitialValue ());
 
   if (!init_value.empty ())
   {
     this->out_ << "," << std::endl
-               << "  " << variable.name () << "_ (" << init_value << ")";
+               << "  " << variable->name () << "_ (" << init_value << ")";
   }
 }
 
@@ -97,18 +95,18 @@ Initialize_Entity::~Initialize_Entity (void)
 // ~Initialize_Entity
 //
 void Initialize_Entity::
-Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
+visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 {
-  const std::string name (periodic.name ());
-  PICML::Component parent (PICML::Component::Cast (periodic.parent ()));
-  const std::string parent_name (parent.name ());
+  const std::string name = periodic->name ();
+  PICML::Component parent = periodic->parent ();
+  const std::string parent_name = parent->name ();
 
   this->out_
     << "this->periodic_" << name << "_.init (this, &"
     << parent_name << "::periodic_" << name << ");"
     << "this->periodic_" << name << "_.configure (CUTS_Periodic_Event::";
 
-  std::string distribution (periodic.Distribution ());
+  std::string distribution = periodic->Distribution ();
 
   if (distribution == "Constant")
     this->out_ << "PE_CONSTANT, ";
@@ -118,40 +116,38 @@ Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic)
     this->out_ << "PE_UNDEFINED, ";
 
   this->out_
-    << periodic.Hertz () << ");"
+    << periodic->Hertz () << ");"
     << "this->register_object (&this->periodic_" << name << "_);";
 }
 
 //
-// Visit_InEventPort
+// visit_InEventPort
 //
-void Initialize_Entity::Visit_InEventPort (const PICML::InEventPort & in)
+void Initialize_Entity::visit_InEventPort (PICML::InEventPort_in in)
 {
-  // Get the Input connection from this port.
-  PICML::Input input = in.dstInput ();
-
-  if (input == Udm::null)
+  if (!in->has_src_of_Input ())
     return;
 
-  // Get the properties assigned to this input action.
-  PICML::InputAction action = input.dstInput_end ();
-  std::vector <PICML::Property> properties = action.Property_children ();
+  // Get the Input connection from this port.
+  PICML::Input input = in->src_of_Input ();
 
-  std::vector <PICML::Property>::const_iterator iter =
+  // Get the properties assigned to this input action.
+  PICML::InputAction action = input->dst_InputAction ();
+  auto properties = action->children <PICML::Property> ();
+
+  auto iter =
     std::find_if (properties.begin (),
                   properties.end (),
-                  boost::bind (std::equal_to <std::string> (),
-                               "asynchronous",
-                               boost::bind (&PICML::Property::name, _1)));
+                  [&] (PICML::Property p) {return p->name () == "asynchronous";});
 
   if (iter == properties.end ())
     return;
 
   // Register the event handler object.
-  const std::string name (in.name ());
+  const std::string name = in->name ();
   const std::string varname (name + "_event_handler_");
-  PICML::Component parent (PICML::Component::Cast (in.parent ()));
-  const std::string parent_name (parent.name ());
+  PICML::Component parent = in->parent ();
+  const std::string parent_name = parent->name ();
 
   this->out_
     << "this->" << varname << ".init (this, "

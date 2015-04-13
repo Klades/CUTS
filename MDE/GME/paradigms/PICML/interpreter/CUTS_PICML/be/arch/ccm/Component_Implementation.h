@@ -15,6 +15,7 @@
 
 #include "../../BE_Generators_T.h"
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "CCM.h"
 
 /**
@@ -33,8 +34,8 @@ public:
 
   virtual ~CUTS_BE_File_Open_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer & container,
-                 const PICML::MonolithicImplementation & impl);
+  void generate (const PICML::ComponentImplementationContainer_in container,
+                 const PICML::MonolithicImplementation_in impl);
 };
 
 
@@ -52,8 +53,8 @@ public:
 
   virtual ~CUTS_BE_File_Close_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer & container,
-                 const PICML::MonolithicImplementation & impl);
+  void generate (const PICML::ComponentImplementationContainer_in container,
+                 const PICML::MonolithicImplementation_in impl);
 };
 
 /**
@@ -70,8 +71,8 @@ public:
 
   virtual ~CUTS_BE_Prologue_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer & container,
-                 const PICML::MonolithicImplementation & impl);
+  void generate (const PICML::ComponentImplementationContainer_in container,
+                 const PICML::MonolithicImplementation_in impl);
 };
 
 /**
@@ -88,8 +89,8 @@ public:
 
   virtual ~CUTS_BE_Epilogue_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer & container,
-                 const PICML::MonolithicImplementation & impl);
+  void generate (const PICML::ComponentImplementationContainer_in container,
+                 const PICML::MonolithicImplementation_in impl);
 };
 
 /**
@@ -108,12 +109,12 @@ public:
 
   virtual ~CUTS_BE_Component_Impl_Begin_T (void);
 
-  void generate (const PICML::MonolithicImplementation & monoimpl,
-                 const PICML::Component & component);
+  void generate (const PICML::MonolithicImplementation_in monoimpl,
+                 const PICML::Component_in component);
 
-  virtual void Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet);
+  virtual void visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet);
 
-  virtual void Visit_OutEventPort (const PICML::OutEventPort & port);
+  virtual void visit_OutEventPort (PICML::OutEventPort_in port);
 };
 
 /**
@@ -132,18 +133,18 @@ public:
 
   virtual ~CUTS_BE_Component_Impl_End_T (void);
 
-  void generate (const PICML::MonolithicImplementation & monoimpl,
-                 const PICML::Component & component);
+  void generate (const PICML::MonolithicImplementation_in monoimpl,
+                 const PICML::Component_in component);
 
-  virtual void Visit_InEventPort (const PICML::InEventPort & port);
+  virtual void visit_InEventPort (PICML::InEventPort_in port);
 
-  virtual void Visit_Input (const PICML::Input & input);
+  virtual void visit_Input (PICML::Input_in input);
 
-  virtual void Visit_InputAction (const PICML::InputAction & action);
+  virtual void visit_InputAction (PICML::InputAction_in action);
 
-  virtual void Visit_PeriodicEvent (const PICML::PeriodicEvent & periodic);
+  virtual void visit_PeriodicEvent (PICML::PeriodicEvent_in periodic);
 
-  virtual void Visit_Property (const PICML::Property & property);
+  virtual void visit_Property (PICML::Property_in property);
 
 private:
   std::string sink_name_;
@@ -165,7 +166,7 @@ public:
 
   virtual ~CUTS_BE_Environment_Method_Begin_T (void);
 
-  void generate (const PICML::MultiInputAction & action);
+  void generate (const PICML::MultiInputAction_in action);
 };
 
 /**
@@ -184,7 +185,7 @@ public:
 
   virtual ~CUTS_BE_Environment_Method_End_T (void);
 
-  void generate (const PICML::MultiInputAction & action);
+  void generate (const PICML::MultiInputAction_in action);
 };
 
 /**
@@ -201,7 +202,7 @@ public:
 
   virtual ~CUTS_BE_ReadonlyAttribute_Begin_T (void);
 
-  void generate (const PICML::ReadonlyAttribute & readonly);
+  void generate (const PICML::ReadonlyAttribute_in readonly);
 };
 
 /**
@@ -218,7 +219,7 @@ public:
 
   virtual ~CUTS_BE_ReadonlyAttribute_End_T (void);
 
-  void generate (const PICML::ReadonlyAttribute & readonly);
+  void generate (const PICML::ReadonlyAttribute_in readonly);
 };
 
 /**
@@ -235,7 +236,7 @@ public:
 
   virtual ~CUTS_BE_Attribute_Begin_T (void);
 
-  void generate (const PICML::Attribute & attr);
+  void generate (const PICML::Attribute_in attr);
 };
 
 /**
@@ -252,7 +253,7 @@ public:
 
   virtual ~CUTS_BE_Attribute_End_T (void);
 
-  void generate (const PICML::Attribute & attr);
+  void generate (const PICML::Attribute_in attr);
 
 private:
   CUTS_BE_ReadonlyAttribute_Begin_T <CUTS_BE_CCM::Cpp::Context> readonly_begin_;
@@ -274,12 +275,12 @@ public:
 
   virtual ~CUTS_BE_Component_Impl_Entrypoint_T (void);
 
-  void generate (const PICML::MonolithicImplementation & monoimpl,
-                 const PICML::ComponentImplementationArtifact & artifact);
+  void generate (const PICML::MonolithicImplementation_in monoimpl,
+                 const PICML::ComponentImplementationArtifact_in artifact);
 
-  virtual void Visit_Implements (const PICML::Implements & implements);
+  virtual void visit_Implements (PICML::Implements_in implements);
 
-  virtual void Visit_Component (const PICML::Component & component);
+  virtual void visit_Component (PICML::Component_in component);
 };
 
 /**
@@ -296,7 +297,7 @@ public:
 
   virtual ~CUTS_BE_PeriodicEvent_Begin_T (void);
 
-  void generate (const PICML::PeriodicEvent & periodic);
+  void generate (const PICML::PeriodicEvent_in periodic);
 };
 
 /**
@@ -313,7 +314,7 @@ public:
 
   virtual ~CUTS_BE_PeriodicEvent_End_T (void);
 
-  void generate (const PICML::PeriodicEvent & periodic);
+  void generate (const PICML::PeriodicEvent_in periodic);
 };
 
 /**
@@ -349,8 +350,8 @@ public:
 
   virtual ~CUTS_BE_InEventPort_Begin_T (void);
 
-  void generate (const PICML::InEventPort & sink,
-                 const std::vector <PICML::Property> & properties);
+  void generate (const PICML::InEventPort_in sink,
+                 GAME::Mga::Collection_T <PICML::Property> & properties);
 };
 
 /**
@@ -367,8 +368,8 @@ public:
 
   virtual ~CUTS_BE_InEventPort_End_T (void);
 
-  void generate (const PICML::InEventPort & sink,
-                 const std::vector <PICML::Property> & properties);
+  void generate (const PICML::InEventPort_in sink,
+                 GAME::Mga::Collection_T <PICML::Property> & properties);
 };
 
 /**
@@ -385,7 +386,7 @@ public:
 
   virtual ~CUTS_BE_ProvidedRequestPort_Begin_T (void);
 
-  void generate (const PICML::ProvidedRequestPort & source);
+  void generate (const PICML::ProvidedRequestPort_in source);
 };
 
 /**
@@ -402,7 +403,7 @@ public:
 
   virtual ~CUTS_BE_ProvidedRequestPort_End_T (void);
 
-  void generate (const PICML::ProvidedRequestPort & source);
+  void generate (const PICML::ProvidedRequestPort_in source);
 };
 
 namespace CUTS_BE_CCM
@@ -420,11 +421,11 @@ public:
 
   virtual ~Attribute_Method_Generator (void);
 
-  virtual void Visit_Attribute (const PICML::Attribute & attr);
+  virtual void visit_Attribute (PICML::Attribute_in attr);
 
-  virtual void Visit_AttributeMember (const PICML::AttributeMember & member);
+  virtual void visit_AttributeMember (PICML::AttributeMember_in member);
 
-  virtual void Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute & attr);
+  virtual void visit_ReadonlyAttribute (PICML::ReadonlyAttribute_in attr);
 
 private:
   std::ostream & out_;
@@ -440,7 +441,7 @@ public:
 
   virtual ~InEvent_Method_Generator (void);
 
-  virtual void Visit_InEventPort (const PICML::InEventPort & port);
+  virtual void visit_InEventPort (PICML::InEventPort_in port);
 
 private:
   std::ostream & out_;

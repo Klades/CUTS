@@ -12,16 +12,16 @@
 //
 // value
 //
-std::string CUTS_BE_Type_Map::value (const PICML::MemberType & type)
+std::string CUTS_BE_Type_Map::value (const PICML::MemberType_in type)
 {
   try
   {
-    PICML::PredefinedType ptype = PICML::PredefinedType::Cast (type);
+    PICML::PredefinedType ptype = PICML::PredefinedType::_narrow (type);
     return this->value (ptype);
   }
   catch (...)
   {
-    PICML::NamedType ntype = PICML::NamedType::Cast (type);
+    PICML::NamedType ntype = PICML::NamedType::_narrow (type);
     return this->value (ntype);
   }
 
@@ -31,21 +31,21 @@ std::string CUTS_BE_Type_Map::value (const PICML::MemberType & type)
 //
 // value
 //
-std::string CUTS_BE_Type_Map::value (const PICML::NamedType & type)
+std::string CUTS_BE_Type_Map::value (const PICML::NamedType_in type)
 {
-  std::stack <PICML::MgaObject> scope;
+  std::stack <GAME::Mga::Object> scope;
 
   // Get the initial parent of the type.
-  PICML::MgaObject parent = type.parent ();
+  GAME::Mga::Object parent = type->parent ();
 
   // Locate the parent file for this type.
-  while (parent.type () != PICML::File::meta)
+  while (parent->meta ()->name () != PICML::File::impl_type::metaname)
   {
     // Push the next object onto the scope stack.
     scope.push (parent);
 
     // Get the next parent object.
-    parent = PICML::MgaObject::Cast (parent.parent ());
+    parent = parent->parent ();
   }
 
   std::ostringstream ostr;
@@ -58,11 +58,11 @@ std::string CUTS_BE_Type_Map::value (const PICML::NamedType & type)
 
     // Append the object's name and the scope separator. We
     // need to parameterize the scope seperator.
-    ostr << "::" << parent.name (); 
+    ostr << "::" << parent->name (); 
   }
 
   // Append the name of the type.
-  ostr << "::" << type.name ();
+  ostr << "::" << type->name ();
 
   // Return the scoped name of the type.
   return ostr.str ();

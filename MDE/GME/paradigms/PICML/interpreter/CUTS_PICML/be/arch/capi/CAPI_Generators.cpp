@@ -570,7 +570,7 @@ generate (const PICML::MonolithicImplementation & mono, const PICML::Component &
 //
 void CUTS_BE_InEventPort_Begin_T <CUTS_BE_Capi::Context>::
 generate (const PICML::InEventPort & sink,
-          const std::vector <PICML::Property> & properties)
+          GAME::Mga::Collection_T <PICML::Property> & properties)
 {
   // Save the sink's information for later usage.
   std::string name = sink.name ();
@@ -722,7 +722,7 @@ configure (const PICML::InEventPort & sink, const PICML::Property & prop)
 //
 void CUTS_BE_InEventPort_End_T <CUTS_BE_Capi::Context>::
 generate (const PICML::InEventPort & sink,
-          const std::vector <PICML::Property> & properties)
+          GAME::Mga::Collection_T <PICML::Property> & properties)
 {
   this->ctx_.source_
     << "}"

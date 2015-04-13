@@ -32,34 +32,34 @@ public:
 
   virtual ~Out_Type_Generator (void);
 
-  virtual void Visit_Boolean (const PICML::Boolean & value);
+  virtual void visit_Boolean (PICML::Boolean_in value);
 
-  virtual void Visit_Byte (const PICML::Byte & );
-  virtual void Visit_Char (const PICML::Char & );
-  virtual void Visit_WideChar (const PICML::WideChar & );
+  virtual void visit_Byte (PICML::Byte_in );
+  virtual void visit_Char (PICML::Char_in );
+  virtual void visit_WideChar (PICML::WideChar_in );
 
-  virtual void Visit_ShortInteger (const PICML::ShortInteger & );
-  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger &);
+  virtual void visit_ShortInteger (PICML::ShortInteger_in );
+  virtual void visit_UnsignedShortInteger (PICML::UnsignedShortInteger_in);
 
-  virtual void Visit_LongInteger (const PICML::LongInteger & );
-  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger &);
+  virtual void visit_LongInteger (PICML::LongInteger_in );
+  virtual void visit_UnsignedLongInteger (PICML::UnsignedLongInteger_in);
 
-  virtual void Visit_LongLongInteger (const PICML::LongLongInteger & );
-  virtual void Visit_UnsignedLongLongInteger (const PICML::UnsignedLongLongInteger & );
+  virtual void visit_LongLongInteger (PICML::LongLongInteger_in );
+  virtual void visit_UnsignedLongLongInteger (PICML::UnsignedLongLongInteger_in );
 
-  virtual void Visit_String (const PICML::String & );
-  virtual void Visit_WideString (const PICML::WideString & );
+  virtual void visit_String (PICML::String_in );
+  virtual void visit_WideString (PICML::WideString_in );
 
-  virtual void Visit_FloatNumber (const PICML::FloatNumber & );
-  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & );
-  virtual void Visit_LongDoubleNumber (const PICML::LongDoubleNumber & );
+  virtual void visit_FloatNumber (PICML::FloatNumber_in );
+  virtual void visit_DoubleNumber (PICML::DoubleNumber_in );
+  virtual void visit_LongDoubleNumber (PICML::LongDoubleNumber_in );
 
-  virtual void Visit_GenericValue (const PICML::GenericValue &);
-  virtual void Visit_GenericObject (const PICML::GenericObject & );
-  virtual void Visit_GenericValueObject (const PICML::GenericValueObject &);
+  virtual void visit_GenericValue (PICML::GenericValue_in);
+  virtual void visit_GenericObject (PICML::GenericObject_in );
+  virtual void visit_GenericValueObject (PICML::GenericValueObject_in);
 
-  virtual void Visit_TypeKind (const PICML::TypeKind & );
-  virtual void Visit_TypeEncoding (const PICML::TypeEncoding & );
+  virtual void visit_TypeKind (PICML::TypeKind_in );
+  virtual void visit_TypeEncoding (PICML::TypeEncoding_in );
 };
 
 }

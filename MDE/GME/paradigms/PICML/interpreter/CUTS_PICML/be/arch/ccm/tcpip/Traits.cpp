@@ -84,7 +84,7 @@ void CUTS_BE_TCPIP_Traits::
 write_exec_idl_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
   if (node.has_components_)
-    proj << "    " << node.file_.name () << "_iCCM.idl" << std::endl;
+    proj << "    " << node.file_->name () << "_iCCM.idl" << std::endl;
 }
 
 //
@@ -94,5 +94,5 @@ void CUTS_BE_TCPIP_Traits::
 write_exec_source_files (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 {
   if (node.has_components_)
-    proj << "    " << node.file_.name () << "_iCCMC.cpp" << std::endl;
+    proj << "    " << node.file_->name () << "_iCCMC.cpp" << std::endl;
 }

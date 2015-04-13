@@ -1,7 +1,7 @@
 // $Id$
 
-project (CUTS_GME_PICML) : cuts_codegenerationkit, cuts_picmllib, boost_base, cuts_gme, \
-                           picml_udm, cuts_game_mga_interpreter, cuts_game_mga_utils, cuts_cosmic {
+project (CUTS_GME_PICML) : cuts_codegenerationkit, boost_base, cuts_gme, \
+                           cuts_picml_game_mga, cuts_game_mga_interpreter, cuts_game_mga_utils, cuts_cosmic {
 
   sharedname = CUTS_GME_PICML
 

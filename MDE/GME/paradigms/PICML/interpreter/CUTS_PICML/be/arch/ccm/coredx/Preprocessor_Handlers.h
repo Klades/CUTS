@@ -29,7 +29,7 @@ public:
 
   virtual ~CUTS_BE_Preprocessor_WorkerLibrary_T (void);
 
-  void generate (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary & lib);
+  void generate (CUTS_BE_Impl_Node * node, const PICML::WorkerLibrary_in lib);
 };
 
 /**
@@ -45,7 +45,7 @@ public:
 
   virtual ~CUTS_BE_Preprocessor_WorkerFile_T (void);
 
-  void generate (CUTS_BE_Impl_Node * node, const PICML::WorkerFile &);
+  void generate (CUTS_BE_Impl_Node * node, const PICML::WorkerFile_in);
 };
 
 #if defined (__CUTS_INLINE__)

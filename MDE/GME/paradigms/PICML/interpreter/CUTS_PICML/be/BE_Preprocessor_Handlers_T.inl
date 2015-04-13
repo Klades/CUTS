@@ -7,7 +7,7 @@
 template <typename CONTEXT>
 CUTS_INLINE
 bool CUTS_BE_Preprocessor_Preprocess_Impl_T <CONTEXT>::
-generate (const PICML::MonolithicImplementation & impl)
+generate (const PICML::MonolithicImplementation_in impl)
 {
   return true;
 }
@@ -18,7 +18,7 @@ generate (const PICML::MonolithicImplementation & impl)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Preprocessor_WorkerFile_T <CONTEXT>::
-generate (CUTS_BE_Impl_Node * , const PICML::WorkerFile &)
+generate (CUTS_BE_Impl_Node * , const PICML::WorkerFile_in)
 {
 
 }
@@ -29,7 +29,7 @@ generate (CUTS_BE_Impl_Node * , const PICML::WorkerFile &)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_Preprocessor_WorkerLibrary_T <CONTEXT>::
-generate (CUTS_BE_Impl_Node *, const PICML::WorkerLibrary &)
+generate (CUTS_BE_Impl_Node *, const PICML::WorkerLibrary_in)
 {
 
 }
@@ -39,7 +39,7 @@ generate (CUTS_BE_Impl_Node *, const PICML::WorkerLibrary &)
 //
 template <typename CONTEXT>
 void CUTS_BE_Preprocessor_Worker_T <CONTEXT>::
-generate (CUTS_BE_Impl_Node *, const PICML::Worker &)
+generate (CUTS_BE_Impl_Node *, const PICML::Worker_in)
 {
 
 }

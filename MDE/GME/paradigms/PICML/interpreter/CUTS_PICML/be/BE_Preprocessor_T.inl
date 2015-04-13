@@ -66,7 +66,7 @@ CUTS_BE_Impl_Graph & CUTS_BE_Preprocessor_T <T>::impls (void)
 template <typename T>
 CUTS_INLINE
 void CUTS_BE_Preprocessor_T <T>::
-remove (const PICML::ComponentImplementationContainer & container)
+remove (const PICML::ComponentImplementationContainer_in container)
 {
-  this->impl_graph_.remove (container.name ());
+  this->impl_graph_.remove (container->name ());
 }

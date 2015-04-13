@@ -15,6 +15,7 @@
 
 #include <ostream>
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "Traits.h"
 
 namespace CUTS_BE_CCM
@@ -34,11 +35,11 @@ public:
   /// Destructor.
   virtual ~Context_Generator (void);
 
-  virtual void Visit_Component (
-    const PICML::Component & component);
+  virtual void visit_Component (
+    PICML::Component_in component);
 
-  virtual void Visit_OutEventPort (
-    const PICML::OutEventPort & port);
+  virtual void visit_OutEventPort (
+    PICML::OutEventPort_in port);
 
   const std::string & context (void) const;
 

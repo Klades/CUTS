@@ -4,7 +4,9 @@
 #define _CUTS_BE_TCPIP_SERVANT_HEADER_INCLUDE_GENERATOR_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include <ostream>
+#include <set>
 
 namespace CUTS_BE_OpenSplice
 {
@@ -15,26 +17,26 @@ public:
 
   virtual ~Servant_Header_Include_Generator (void);
 
-  virtual void Visit_ComponentImplementationContainer (
-    const PICML::ComponentImplementationContainer & container);
+  virtual void visit_ComponentImplementationContainer (
+    PICML::ComponentImplementationContainer_in container);
 
-  virtual void Visit_MonolithicImplementation (
-    const PICML::MonolithicImplementation & impl);
+  virtual void visit_MonolithicImplementation (
+    PICML::MonolithicImplementation_in impl);
 
-  virtual void Visit_Implements (
-    const PICML::Implements & impl);
+  virtual void visit_Implements (
+    PICML::Implements_in impl);
 
-  virtual void Visit_ComponentRef (
-    const PICML::ComponentRef & ref);
+  virtual void visit_ComponentRef (
+    PICML::ComponentRef_in ref);
 
-  virtual void Visit_Component (
-    const PICML::Component & component);
+  virtual void visit_Component (
+    PICML::Component_in component);
 
-  virtual void Visit_Package (
-    const PICML::Package & package);
+  virtual void visit_Package (
+    PICML::Package_in package);
 
-  virtual void Visit_File (
-    const PICML::File & file);
+  virtual void visit_File (
+    PICML::File_in file);
 
 private:
   std::ostream & out_;

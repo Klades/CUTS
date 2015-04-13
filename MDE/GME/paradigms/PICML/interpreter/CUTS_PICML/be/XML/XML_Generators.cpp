@@ -181,7 +181,7 @@ void CUTS_BE_Action_End_T <CUTS_BE_Xml>::generate (void)
 
 void CUTS_BE_InEventPort_Begin_T <CUTS_BE_Xml>::
 generate (const PICML::InEventPort & sink,
-          const std::vector <PICML::Property> &)
+          GAME::Mga::Collection_T <PICML::Property> &)
 {
   this->ctx_.outfile_
     << "<inevent name=\"" << sink.name () << "\" >" << std::endl;
@@ -192,7 +192,7 @@ generate (const PICML::InEventPort & sink,
 
 void CUTS_BE_InEventPort_End_T <CUTS_BE_Xml>::
 generate (const PICML::InEventPort & sink,
-          const std::vector <PICML::Property> &)
+          GAME::Mga::Collection_T <PICML::Property> &)
 {
   this->ctx_.outfile_ << "</inevent>" << std::endl;
 }

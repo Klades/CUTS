@@ -15,7 +15,7 @@
 
 #include <ostream>
 #include "PICML/PICML.h"
-#include "../../UDM_Abstract_Type_Dispatcher_T.h"
+#include "PICML/Visitor.h"
 #include "Java_export.h"
 
 namespace CUTS_BE_Java
@@ -36,7 +36,7 @@ public:
    *
    * @param[in]       mt        Member type of interest.
    */
-  virtual void generate (const PICML::MemberType & mt);
+  virtual void generate (const PICML::MemberType_in mt);
 
 protected:
   /// Default constructor.
@@ -44,9 +44,6 @@ protected:
 
   /// Target output stream.
   std::ostream & out_;
-
-  /// Help for dispatching predefined type objects.
-  UDM_Abstract_Type_Dispatcher_T <PICML::Visitor> predefined_types_;
 };
 
 /**
@@ -61,28 +58,28 @@ public:
 
   virtual ~Variable_Type (void);
 
-  virtual void Visit_Boolean (const PICML::Boolean & value);
+  virtual void Visit_Boolean (PICML::Boolean_in value);
 
-  virtual void Visit_Byte (const PICML::Byte & byte);
+  virtual void Visit_Byte (PICML::Byte_in byte);
 
-  virtual void Visit_LongInteger (const PICML::LongInteger & value);
-  virtual void Visit_UnsignedLongInteger (const PICML::UnsignedLongInteger & value);
+  virtual void Visit_LongInteger (PICML::LongInteger_in value);
+  virtual void Visit_UnsignedLongInteger (PICML::UnsignedLongInteger_in value);
 
-  virtual void Visit_ShortInteger (const PICML::ShortInteger & value);
-  virtual void Visit_UnsignedShortInteger (const PICML::UnsignedShortInteger & value);
+  virtual void Visit_ShortInteger (PICML::ShortInteger_in value);
+  virtual void Visit_UnsignedShortInteger (PICML::UnsignedShortInteger_in value);
 
-  virtual void Visit_String (const PICML::String & value);
+  virtual void Visit_String (PICML::String_in value);
 
-  virtual void Visit_DoubleNumber (const PICML::DoubleNumber & value);
-  virtual void Visit_FloatNumber (const PICML::FloatNumber & value);
+  virtual void Visit_DoubleNumber (PICML::DoubleNumber_in value);
+  virtual void Visit_FloatNumber (PICML::FloatNumber_in value);
 
-  virtual void Visit_GenericValue (const PICML::GenericValue & value);
+  virtual void Visit_GenericValue (PICML::GenericValue_in value);
 
-  virtual void Visit_GenericObject (const PICML::GenericObject & value);
+  virtual void Visit_GenericObject (PICML::GenericObject_in value);
 
-  virtual void Visit_TypeKind (const PICML::TypeKind & value);
+  virtual void Visit_TypeKind (PICML::TypeKind_in value);
 
-  virtual void Visit_TypeEncoding (const PICML::TypeEncoding & value);
+  virtual void Visit_TypeEncoding (PICML::TypeEncoding_in value);
 };
 }
 

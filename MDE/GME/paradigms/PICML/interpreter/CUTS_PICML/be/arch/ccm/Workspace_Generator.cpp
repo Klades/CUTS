@@ -70,12 +70,12 @@ void
 CUTS_BE_Workspace_Project_Include_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
 generate (const CUTS_BE_IDL_Node & node)
 {
-  std::string filename (node.file_.Path ());
+  std::string filename (node.file_->Path ());
 
   if (!filename.empty ())
     filename += "/";
 
-  filename += node.file_.name ();
+  filename += node.file_->name ();
 
   this->ctx_.workspace_
     << "  " << filename << ".mpc" << std::endl;

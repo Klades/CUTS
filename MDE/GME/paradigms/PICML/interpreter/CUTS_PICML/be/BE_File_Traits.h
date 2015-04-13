@@ -31,7 +31,7 @@ public:
   virtual ~CUTS_BE_File_Traits (void);
 
   virtual void close_file (
-    const PICML::ComponentImplementationContainer & container);
+    const PICML::ComponentImplementationContainer_in container);
 
 protected:
   /// Pointer to the output file stream.

@@ -12,11 +12,11 @@
 //
 template <typename T>
 bool CUTS_BE_Preprocessor_T <T>::
-preprocess (const PICML::ComponentImplementationContainer & container)
+preprocess (const PICML::ComponentImplementationContainer_in container)
 {
   // Build the implementation dependency graph.
   CUTS_BE_Impl_Graph_Builder_T <T> builder (this->impl_graph_, this->idl_graph_);
-  PICML::ComponentImplementationContainer (container).Accept (builder);
+  container->accept (&builder);
 
   return true;
 }
@@ -25,10 +25,10 @@ preprocess (const PICML::ComponentImplementationContainer & container)
 // preprocess
 //
 template <typename T>
-bool CUTS_BE_Preprocessor_T <T>::preprocess (const PICML::File & file)
+bool CUTS_BE_Preprocessor_T <T>::preprocess (const PICML::File_in file)
 {
   CUTS_BE_IDL_Graph_Builder builder (this->idl_graph_);
-  PICML::File (file).Accept (builder);
+  file->accept (builder);
 
   return true;
 }
@@ -38,9 +38,9 @@ bool CUTS_BE_Preprocessor_T <T>::preprocess (const PICML::File & file)
 //
 template <typename T>
 bool CUTS_BE_Preprocessor_T <T>::
-preprocess (const PICML::File & file, const CUTS_BE_IDL_Node * & node)
+preprocess (const PICML::File_in file, const CUTS_BE_IDL_Node * & node)
 {
   this->preprocess (file);
-  this->idl_graph_.find (file.name (), node);
+  this->idl_graph_.find (file->name (), node);
   return true;
 }

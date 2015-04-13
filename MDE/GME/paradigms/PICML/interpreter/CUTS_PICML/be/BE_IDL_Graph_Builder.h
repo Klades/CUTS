@@ -14,6 +14,7 @@
 #define _CUTS_BE_IDL_GRAPH_BUILDER_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "BE_IDL_Graph.h"
 
 /**
@@ -32,59 +33,59 @@ public:
   virtual ~CUTS_BE_IDL_Graph_Builder (void);
 
   /// Visit the RootFolder of a PICML model.
-  void Visit_RootFolder (const PICML::RootFolder &);
+  void visit_RootFolder (PICML::RootFolder_in);
 
   /// Visit InterfaceDefinitions folder in a PICML model.
-  void Visit_InterfaceDefinitions (const PICML::InterfaceDefinitions &);
+  void visit_InterfaceDefinitions (PICML::InterfaceDefinitions_in);
 
   /// Visit a File in a PICML model.
-  void Visit_File (const PICML::File &);
+  void visit_File (PICML::File_in);
 
   /// Visit a FileRef in a PICML model.
-  void Visit_FileRef (const PICML::FileRef & f);
+  void visit_FileRef (PICML::FileRef_in f);
 
   /// Visit a Package in a PICML model.
-  void Visit_Package (const PICML::Package &);
+  void visit_Package (PICML::Package_in);
 
   /// Visit a Component in a PICML model.
-  void Visit_Component (const PICML::Component &);
+  void visit_Component (PICML::Component_in);
 
   /// Visit an Object in a PICML model.
-  void Visit_Object (const PICML::Object &);
+  void visit_Object (PICML::Object_in);
 
   /// Visit an InEventPort of a PICML model.
-  void Visit_InEventPort (const PICML::InEventPort &);
+  void visit_InEventPort (PICML::InEventPort_in);
 
   /// Visit an OutEventPort of a PICML model.
-  void Visit_OutEventPort (const PICML::OutEventPort &);
+  void visit_OutEventPort (PICML::OutEventPort_in);
 
   /// Visit an ProvidedRequestPort of a PICML model.
-  void Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort &);
+  void visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in);
 
   /// Visit an RequiredRequestPort of a PICML model.
-  void Visit_RequiredRequestPort (const PICML::RequiredRequestPort &);
+  void visit_RequiredRequestPort (PICML::RequiredRequestPort_in);
 
   /// Visit an Event in a PICML model.
-  void Visit_Event (const PICML::Event &);
+  void visit_Event (PICML::Event_in);
 
   /// Visit a Providable element in a PICML model.
-  void Visit_Providable (const PICML::Provideable &);
+  void visit_Providable (PICML::Provideable_in);
 
   /// Visit a Supports element in a PICML model.
-  void Visit_Supports (const PICML::Supports &);
+  void visit_Supports (PICML::Supports_in);
 
   /// Visit a ReadonlyAttribute in a PICML model.
-  void Visit_ReadonlyAttribute (const PICML::ReadonlyAttribute &);
+  void visit_ReadonlyAttribute (PICML::ReadonlyAttribute_in);
 
   /// Visit a Member in a PICML model.
-  void Visit_Member (const PICML::Member & m);
+  void visit_Member (PICML::Member_in m);
 
   /// Visit a Aggregate in the PICML model
-  void Visit_Aggregate (const PICML::Aggregate & m);
+  void visit_Aggregate (PICML::Aggregate_in m);
 
 private:
   /// Visit a NameType element in a PICML model.
-  void Visit_NamedType (const PICML::NamedType & type);
+  void visit_NamedType (PICML::NamedType_in type);
 
   /**
    * Get the parent file of a named type.
@@ -92,15 +93,7 @@ private:
    * @param[in]     type      The source named type.
    * @return        The parent of the named type.
    */
-  PICML::File NamedType_parent (const PICML::NamedType & type);
-
-  /**
-   * Visit the contents of a File/Package element in a PICML
-   * model.
-   *
-   * @param[in]     object        The source object.
-   */
-  void visit_file_and_package_contents (const Udm::Object & object);
+  PICML::File NamedType_parent (const PICML::NamedType_in type);
 
   /// Target IDL graph.
   CUTS_BE_IDL_Graph & graph_;

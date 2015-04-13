@@ -15,6 +15,7 @@
 
 #include "CCM_export.h"
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 
 namespace CUTS_BE_CCM
 {
@@ -36,7 +37,7 @@ public:
   /// Destructor
   virtual ~Servant_Set_Attribute_Decl (void);
 
-  void Visit_Component (const PICML::Component & c);
+  void visit_Component (PICML::Component_in c);
 
 private:
   /// Reference to output stream.
@@ -58,9 +59,9 @@ public:
   /// Destructor
   virtual ~Servant_Set_Attribute_Impl (void);
 
-  void Visit_Component (const PICML::Component & c);
+  void visit_Component (PICML::Component_in c);
 
-  void Visit_Attribute (const PICML::Attribute & a);
+  void visit_Attribute (PICML::Attribute_in a);
 
 private:
   /// Reference to output stream.

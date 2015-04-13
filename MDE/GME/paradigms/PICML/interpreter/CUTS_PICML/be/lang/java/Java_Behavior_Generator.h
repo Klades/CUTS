@@ -30,7 +30,7 @@ public:
 
   virtual ~CUTS_BE_Attribute_Variable_T (void);
 
-  void generate (const PICML::ReadonlyAttribute & attr);
+  void generate (const PICML::ReadonlyAttribute_in attr);
 };
 
 /**
@@ -47,7 +47,7 @@ public:
 
   virtual ~CUTS_BE_Variable_T (void);
 
-  void generate (const PICML::Variable & variable);
+  void generate (const PICML::Variable_in variable);
 };
 
 /**
@@ -64,7 +64,7 @@ public:
 
   virtual ~CUTS_BE_Worker_Variable_T (void);
 
-  void generate (const PICML::WorkerType & type, const PICML::Worker & worker);
+  void generate (const PICML::WorkerType_in type, const PICML::Worker_in worker);
 };
 
 /**
@@ -234,7 +234,7 @@ public:
 
   virtual ~CUTS_BE_Action_Property_T (void);
 
-  void generate (const PICML::Property & property);
+  void generate (const PICML::Property_in property);
 };
 
 /**
@@ -251,7 +251,7 @@ public:
 
   virtual ~CUTS_BE_WorkerAction_Begin_T (void);
 
-  void generate (const PICML::Action & action);
+  void generate (const PICML::Action_in action);
 };
 
 /**
@@ -266,7 +266,7 @@ public:
 
   CUTS_BE_RequestAction_Begin_T (CUTS_BE_Java::Context & context);
 
-  void generate (const PICML::RequestAction & action);
+  void generate (const PICML::RequestAction_in action);
 };
 
 /**
@@ -281,7 +281,7 @@ public:
 
   CUTS_BE_RequestAction_End_T (CUTS_BE_Java::Context & context);
 
-  void generate (const PICML::RequestAction & action);
+  void generate (const PICML::RequestAction_in action);
 };
 
 /**
@@ -298,7 +298,7 @@ public:
 
   virtual ~CUTS_BE_OutputAction_Begin_T (void);
 
-  void generate (const PICML::OutputAction & action);
+  void generate (const PICML::OutputAction_in action);
 };
 
 /**
@@ -315,8 +315,8 @@ public:
 
   virtual ~CUTS_BE_OutputAction_Property_T (void);
 
-  void generate (const PICML::OutputAction & action,
-                 const PICML::Property & property);
+  void generate (const PICML::OutputAction_in action,
+                 const PICML::Property_in property);
 };
 
 /**
@@ -333,7 +333,7 @@ public:
 
   virtual ~CUTS_BE_OutputAction_End_T (void);
 
-  void generate (const PICML::OutputAction & action);
+  void generate (const PICML::OutputAction_in action);
 };
 
 /**

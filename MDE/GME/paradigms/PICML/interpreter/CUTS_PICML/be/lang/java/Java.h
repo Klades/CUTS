@@ -69,7 +69,7 @@ namespace CUTS_BE_Java
 
   CUTS_BE_JAVA_Export std::string classname (const std::string & str);
 
-  CUTS_BE_JAVA_Export std::string import (const PICML::Worker & worker);
+  CUTS_BE_JAVA_Export std::string import (const PICML::Worker_in worker);
 
   /**
    * Generate an include string using the provided filename. The
@@ -93,7 +93,7 @@ namespace CUTS_BE_Java
    * @param[in]     separator       Separator element
    * @param[in]     leading         Include leading separator
    */
-  CUTS_BE_JAVA_Export std::string scope (const PICML::NamedType & type,
+  CUTS_BE_JAVA_Export std::string scope (const PICML::NamedType_in type,
                                          const std::string & separator = ".",
                                          bool leading = true);
 
@@ -104,7 +104,7 @@ namespace CUTS_BE_Java
    * @param[in]     separator       Separator element
    * @param[in]     leading         Include leading separator
    */
-  CUTS_BE_JAVA_Export std::string fq_type (const PICML::NamedType & type,
+  CUTS_BE_JAVA_Export std::string fq_type (const PICML::NamedType_in type,
                                            const std::string & separator = ".",
                                            bool leading = true);
 

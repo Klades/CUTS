@@ -16,6 +16,7 @@
 #define _CUTS_BE_GENERATORS_T_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include "BE_Visitor_T.h"
 
 /**
@@ -75,7 +76,7 @@ public:
   /// Destructor.
   virtual ~CUTS_BE_Initialize_T (void);
 
-  void generate (const PICML::RootFolder & folder);
+  void generate (const PICML::RootFolder_in folder);
 };
 
 /**
@@ -101,7 +102,7 @@ public:
   /// Destructor.
   virtual ~CUTS_BE_Finalize_T (void);
 
-  void generate (const PICML::RootFolder & folder);
+  void generate (const PICML::RootFolder_in folder);
 };
 
 /**
@@ -120,8 +121,8 @@ public:
 
   virtual ~CUTS_BE_File_Open_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer &,
-                 const PICML::MonolithicImplementation &);
+  void generate (const PICML::ComponentImplementationContainer_in,
+                 const PICML::MonolithicImplementation_in);
 };
 
 /**
@@ -140,8 +141,8 @@ public:
 
   virtual ~CUTS_BE_File_Close_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer &,
-                 const PICML::MonolithicImplementation &);
+  void generate (const PICML::ComponentImplementationContainer_in,
+                 const PICML::MonolithicImplementation_in);
 };
 
 /**
@@ -150,8 +151,8 @@ public:
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_File_Open_T
 {
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::ComponentAssembly &)
+  static bool generate (const PICML::ComponentImplementationContainer_in,
+                        const PICML::ComponentAssembly_in)
   {
     return false;
   }
@@ -163,8 +164,8 @@ struct CUTS_BE_ComponentAssembly_File_Open_T
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_File_Close_T
 {
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::ComponentAssembly &)
+  static bool generate (const PICML::ComponentImplementationContainer_in,
+                        const PICML::ComponentAssembly_in)
   {
     return false;
   }
@@ -205,8 +206,8 @@ public:
 
   virtual ~CUTS_BE_Prologue_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer &,
-                 const PICML::MonolithicImplementation &);
+  void generate (const PICML::ComponentImplementationContainer_in,
+                 const PICML::MonolithicImplementation_in);
 };
 
 /**
@@ -225,8 +226,8 @@ public:
 
   virtual ~CUTS_BE_Epilogue_T (void);
 
-  void generate (const PICML::ComponentImplementationContainer &,
-                 const PICML::MonolithicImplementation &);
+  void generate (const PICML::ComponentImplementationContainer_in,
+                 const PICML::MonolithicImplementation_in);
 };
 
 /**
@@ -235,8 +236,8 @@ public:
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Prologue_T
 {
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::ComponentAssembly &)
+  static bool generate (const PICML::ComponentImplementationContainer_in,
+                        const PICML::ComponentAssembly_in)
   {
     return false;
   }
@@ -249,8 +250,8 @@ struct CUTS_BE_ComponentAssembly_Prologue_T
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Epilogue_T
 {
-  static bool generate (const PICML::ComponentImplementationContainer &,
-                        const PICML::ComponentAssembly &)
+  static bool generate (const PICML::ComponentImplementationContainer_in,
+                        const PICML::ComponentAssembly_in)
   {
     return false;
   }
@@ -272,8 +273,8 @@ public:
 
   virtual ~CUTS_BE_Component_Impl_Begin_T (void);
 
-  void generate (const PICML::MonolithicImplementation & monoimpl,
-                 const PICML::Component & component);
+  void generate (const PICML::MonolithicImplementation_in monoimpl,
+                 const PICML::Component_in component);
 };
 
 /**
@@ -292,8 +293,8 @@ public:
 
   virtual ~CUTS_BE_Component_Impl_End_T (void);
 
-  void generate (const PICML::MonolithicImplementation & monoimpl,
-                 const PICML::Component & component);
+  void generate (const PICML::MonolithicImplementation_in monoimpl,
+                 const PICML::Component_in component);
 };
 
 /**
@@ -312,7 +313,7 @@ public:
 
   virtual ~CUTS_BE_Environment_Begin_T (void);
 
-  void generate (const PICML::Component & component);
+  void generate (const PICML::Component_in component);
 };
 
 /**
@@ -331,7 +332,7 @@ public:
 
   virtual ~CUTS_BE_Environment_Method_Begin_T (void);
 
-  void generate (const PICML::MultiInputAction & action);
+  void generate (const PICML::MultiInputAction_in action);
 };
 
 /**
@@ -350,7 +351,7 @@ public:
 
   virtual ~CUTS_BE_Environment_Method_End_T (void);
 
-  void generate (const PICML::MultiInputAction & action);
+  void generate (const PICML::MultiInputAction_in action);
 };
 
 /**
@@ -369,7 +370,7 @@ public:
 
   virtual ~CUTS_BE_Environment_End_T (void);
 
-  void generate (const PICML::Component & component);
+  void generate (const PICML::Component_in component);
 };
 
 /**
@@ -386,7 +387,7 @@ public:
 
   virtual ~CUTS_BE_ReadonlyAttribute_Begin_T (void);
 
-  void generate (const PICML::ReadonlyAttribute & readonly);
+  void generate (const PICML::ReadonlyAttribute_in readonly);
 };
 
 /**
@@ -403,7 +404,7 @@ public:
 
   virtual ~CUTS_BE_ReadonlyAttribute_End_T (void);
 
-  void generate (const PICML::ReadonlyAttribute & readonly);
+  void generate (const PICML::ReadonlyAttribute_in readonly);
 };
 
 /**
@@ -420,7 +421,7 @@ public:
 
   virtual ~CUTS_BE_Attribute_Begin_T (void);
 
-  void generate (const PICML::Attribute & attr);
+  void generate (const PICML::Attribute_in attr);
 };
 
 /**
@@ -437,7 +438,7 @@ public:
 
   virtual ~CUTS_BE_Attribute_End_T (void);
 
-  void generate (const PICML::Attribute & attr);
+  void generate (const PICML::Attribute_in attr);
 };
 
 /**
@@ -454,8 +455,8 @@ public:
 
   virtual ~CUTS_BE_Component_Impl_Entrypoint_T (void);
 
-  void generate (const PICML::MonolithicImplementation & monoimpl,
-                 const PICML::ComponentImplementationArtifact & artifact);
+  void generate (const PICML::MonolithicImplementation_in monoimpl,
+                 const PICML::ComponentImplementationArtifact_in artifact);
 };
 
 /**
@@ -464,9 +465,9 @@ public:
 template <typename CONTEXT>
 struct CUTS_BE_Factory_Impl_Begin_T
 {
-  static bool generate (const PICML::ComponentFactory & factory,
-                        const PICML::MonolithicImplementation & monoimpl,
-                        const PICML::Component & component)
+  static bool generate (const PICML::ComponentFactory_in factory,
+                        const PICML::MonolithicImplementation_in monoimpl,
+                        const PICML::Component_in component)
     { return false; }
 };
 
@@ -476,9 +477,9 @@ struct CUTS_BE_Factory_Impl_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_Factory_Impl_End_T
 {
-  static bool generate (const PICML::ComponentFactory & factory,
-                        const PICML::MonolithicImplementation & monoimpl,
-                        const PICML::Component & component)
+  static bool generate (const PICML::ComponentFactory_in factory,
+                        const PICML::MonolithicImplementation_in monoimpl,
+                        const PICML::Component_in component)
     { return false; }
 };
 
@@ -488,8 +489,8 @@ struct CUTS_BE_Factory_Impl_End_T
 template <typename CONTEXT>
 struct CUTS_BE_Object_Impl_Begin_T
 {
-  static bool generate (const PICML::Component & component,
-                        const PICML::ProvidedRequestPort & facet)
+  static bool generate (const PICML::Component_in component,
+                        const PICML::ProvidedRequestPort_in facet)
     { return false; }
 };
 
@@ -499,8 +500,8 @@ struct CUTS_BE_Object_Impl_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_Object_Impl_End_T
 {
-  static bool generate (const PICML::Component & component,
-                        const PICML::ProvidedRequestPort & facet)
+  static bool generate (const PICML::Component_in component,
+                        const PICML::ProvidedRequestPort_in facet)
     { return false; }
 };
 
@@ -518,7 +519,7 @@ public:
 
   virtual ~CUTS_BE_Variables_Begin_T (void);
 
-  void generate (const PICML::Component & component);
+  void generate (const PICML::Component_in component);
 };
 
 /**
@@ -535,7 +536,7 @@ public:
 
   virtual ~CUTS_BE_Attribute_Variable_T (void);
 
-  void generate (const PICML::ReadonlyAttribute & attr);
+  void generate (const PICML::ReadonlyAttribute_in attr);
 };
 
 /**
@@ -552,7 +553,7 @@ public:
 
   virtual ~CUTS_BE_Variable_T (void);
 
-  void generate (const PICML::Variable & variable);
+  void generate (const PICML::Variable_in variable);
 };
 
 /**
@@ -569,7 +570,7 @@ public:
 
   virtual ~CUTS_BE_Worker_Variable_T (void);
 
-  void generate (const PICML::WorkerType & type, const PICML::Worker & worker);
+  void generate (const PICML::WorkerType_in type, const PICML::Worker_in worker);
 };
 
 /**
@@ -586,7 +587,7 @@ public:
 
   virtual ~CUTS_BE_PeriodicEvent_Variable_T (void);
 
-  void generate (const PICML::PeriodicEvent & periodic);
+  void generate (const PICML::PeriodicEvent_in periodic);
 };
 
 /**
@@ -603,7 +604,7 @@ public:
 
   virtual ~CUTS_BE_Variables_End_T (void);
 
-  void generate (const PICML::Component & component);
+  void generate (const PICML::Component_in component);
 };
 
 /**
@@ -620,8 +621,8 @@ public:
 
   virtual ~CUTS_BE_InEventPort_Begin_T (void);
 
-  void generate (const PICML::InEventPort & sink,
-                 const std::vector <PICML::Property> & properties);
+  void generate (const PICML::InEventPort_in sink,
+                 GAME::Mga::Collection_T <PICML::Property> & properties);
 };
 
 /**
@@ -638,8 +639,8 @@ public:
 
   virtual ~CUTS_BE_InEventPort_End_T (void);
 
-  void generate (const PICML::InEventPort & sink,
-                 const std::vector <PICML::Property> & properties);
+  void generate (const PICML::InEventPort_in sink,
+                 GAME::Mga::Collection_T <PICML::Property> & properties);
 };
 
 /**
@@ -656,7 +657,7 @@ public:
 
   virtual ~CUTS_BE_ProvidedRequestPort_Begin_T (void);
 
-  void generate (const PICML::ProvidedRequestPort & source);
+  void generate (const PICML::ProvidedRequestPort_in source);
 };
 
 /**
@@ -673,7 +674,7 @@ public:
 
   virtual ~CUTS_BE_ProvidedRequestPort_End_T (void);
 
-  void generate (const PICML::ProvidedRequestPort & source);
+  void generate (const PICML::ProvidedRequestPort_in source);
 };
 
 /**
@@ -690,7 +691,7 @@ public:
 
   virtual ~CUTS_BE_PeriodicEvent_Begin_T (void);
 
-  void generate (const PICML::PeriodicEvent & periodic);
+  void generate (const PICML::PeriodicEvent_in periodic);
 };
 
 /**
@@ -707,7 +708,7 @@ public:
 
   virtual ~CUTS_BE_PeriodicEvent_End_T (void);
 
-  void generate (const PICML::PeriodicEvent & periodic);
+  void generate (const PICML::PeriodicEvent_in periodic);
 };
 
 //=============================================================================
@@ -719,7 +720,7 @@ public:
 template <typename CONTEXT>
 struct CUTS_BE_OnewayOperation_Begin_T
 {
-  static bool generate (const PICML::OnewayOperation & oneway)
+  static bool generate (const PICML::OnewayOperation_in oneway)
     { return false; }
 };
 
@@ -732,7 +733,7 @@ struct CUTS_BE_OnewayOperation_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_OnewayOperation_End_T
 {
-  static bool generate (const PICML::OnewayOperation & oneway)
+  static bool generate (const PICML::OnewayOperation_in oneway)
     { return false; }
 };
 
@@ -745,7 +746,7 @@ struct CUTS_BE_OnewayOperation_End_T
 template <typename CONTEXT>
 struct CUTS_BE_TwowayOperation_Begin_T
 {
-  static bool generate (const PICML::TwowayOperation & twoway)
+  static bool generate (const PICML::TwowayOperation_in twoway)
     { return false; }
 };
 
@@ -758,7 +759,7 @@ struct CUTS_BE_TwowayOperation_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_TwowayOperation_End_T
 {
-  static bool generate (const PICML::TwowayOperation & twoway)
+  static bool generate (const PICML::TwowayOperation_in twoway)
     { return false; }
 };
 
@@ -771,7 +772,7 @@ struct CUTS_BE_TwowayOperation_End_T
 template <typename CONTEXT>
 struct CUTS_BE_FactoryOperation_Begin_T
 {
-  static bool generate (const PICML::FactoryOperation & factory)
+  static bool generate (const PICML::FactoryOperation_in factory)
     { return false; }
 };
 
@@ -784,7 +785,7 @@ struct CUTS_BE_FactoryOperation_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_FactoryOperation_End_T
 {
-  static bool generate (const PICML::FactoryOperation & factory)
+  static bool generate (const PICML::FactoryOperation_in factory)
     { return false; }
 };
 
@@ -802,7 +803,7 @@ public:
   typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
 
   CUTS_BE_RequestAction_Begin_T (CONTEXT & context);
-  void generate (const PICML::RequestAction & action);
+  void generate (const PICML::RequestAction_in action);
 };
 
 /**
@@ -816,7 +817,7 @@ public:
   typedef CUTS_BE_Visitor_T <CUTS_BE::NIL, PICML::Visitor> visitor_type;
 
   CUTS_BE_RequestAction_End_T (CONTEXT & context);
-  void generate (const PICML::RequestAction & action);
+  void generate (const PICML::RequestAction_in action);
 };
 
 /**
@@ -1224,7 +1225,7 @@ public:
 
   virtual ~CUTS_BE_Action_Property_T (void);
 
-  void generate (const PICML::Property & prop);
+  void generate (const PICML::Property_in prop);
 };
 
 /**
@@ -1258,7 +1259,7 @@ public:
 
   virtual ~CUTS_BE_WorkerAction_Begin_T (void);
 
-  void generate (const PICML::Action & action);
+  void generate (const PICML::Action_in action);
 };
 
 /**
@@ -1275,7 +1276,7 @@ public:
 
   virtual ~CUTS_BE_OutputAction_Begin_T (void);
 
-  void generate (const PICML::OutputAction & action);
+  void generate (const PICML::OutputAction_in action);
 };
 
 /**
@@ -1292,8 +1293,8 @@ public:
 
   virtual ~CUTS_BE_OutputAction_Property_T (void);
 
-  void generate (const PICML::OutputAction & action,
-                 const PICML::Property & prop);
+  void generate (const PICML::OutputAction_in action,
+                 const PICML::Property_in prop);
 };
 
 /**
@@ -1310,7 +1311,7 @@ public:
 
   virtual ~CUTS_BE_OutputAction_End_T (void);
 
-  void generate (const PICML::OutputAction & action);
+  void generate (const PICML::OutputAction_in action);
 };
 
 /**
@@ -1344,7 +1345,7 @@ public:
 
   virtual ~CUTS_BE_State_T (void);
 
-  void generate (const PICML::State & state);
+  void generate (const PICML::State_in state);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1359,7 +1360,7 @@ public:
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Begin_T
 {
-  static bool generate (const PICML::ComponentAssembly & assembly)
+  static bool generate (const PICML::ComponentAssembly_in assembly)
     { return false; }
 };
 
@@ -1372,7 +1373,7 @@ struct CUTS_BE_ComponentAssembly_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_End_T
 {
-  static bool generate (const PICML::ComponentAssembly & assembly)
+  static bool generate (const PICML::ComponentAssembly_in assembly)
     { return false; }
 };
 
@@ -1385,7 +1386,7 @@ struct CUTS_BE_ComponentAssembly_End_T
 template <typename CONTEXT>
 struct CUTS_BE_Component_Instance_T
 {
-  static bool generate (const PICML::Component & component)
+  static bool generate (const PICML::Component_in component)
     { return false; }
 };
 
@@ -1398,7 +1399,7 @@ struct CUTS_BE_Component_Instance_T
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Connections_Begin_T
 {
-  static bool generate (const PICML::ComponentAssembly & assembly)
+  static bool generate (const PICML::ComponentAssembly_in assembly)
     { return false; }
 };
 
@@ -1412,7 +1413,7 @@ struct CUTS_BE_ComponentAssembly_Connections_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_ComponentAssembly_Connections_End_T
 {
-  static bool generate (const PICML::ComponentAssembly & assembly)
+  static bool generate (const PICML::ComponentAssembly_in assembly)
     { return false; }
 };
 
@@ -1425,7 +1426,7 @@ struct CUTS_BE_ComponentAssembly_Connections_End_T
 template <typename CONTEXT>
 struct CUTS_BE_DeploymentPlan_Begin_T
 {
-  static bool generate (const PICML::DeploymentPlan &)
+  static bool generate (const PICML::DeploymentPlan_in)
     { return false; }
 };
 
@@ -1438,7 +1439,7 @@ struct CUTS_BE_DeploymentPlan_Begin_T
 template <typename CONTEXT>
 struct CUTS_BE_DeploymentPlan_End_T
 {
-  static bool generate (const PICML::DeploymentPlan &)
+  static bool generate (const PICML::DeploymentPlan_in)
     { return false; }
 };
 
@@ -1451,7 +1452,7 @@ struct CUTS_BE_DeploymentPlan_End_T
 template <typename CONTEXT>
 struct CUTS_BE_Deployment_Node_T
 {
-  static bool generate (const PICML::Node & node)
+  static bool generate (const PICML::Node_in node)
     { return false; }
 };
 
@@ -1464,8 +1465,8 @@ struct CUTS_BE_Deployment_Node_T
 template <typename CONTEXT>
 struct CUTS_BE_Deployment_Location_T
 {
-  static bool generate (const PICML::Component & component,
-                        const PICML::Node & node)
+  static bool generate (const PICML::Component_in component,
+                        const PICML::Node_in node)
   {
     return false;
   }

@@ -285,7 +285,7 @@ template < >
 struct CUTS_BE_InEventPort_Begin_T <CUTS_BE_Tioa>
 {
   static bool generate (const PICML::InEventPort & sink,
-                        const std::vector <PICML::Property> &);
+                        GAME::Mga::Collection_T <PICML::Property> &);
 };
 
 //=============================================================================
@@ -298,7 +298,7 @@ template < >
 struct CUTS_BE_InEventPort_End_T <CUTS_BE_Tioa>
 {
   static bool generate (const PICML::InEventPort & sink,
-                        const std::vector <PICML::Property> &);
+                        GAME::Mga::Collection_T <PICML::Property> &);
 };
 
 //=============================================================================

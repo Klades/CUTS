@@ -47,7 +47,7 @@ bool CUTS_UDM_Port_Manager_T <PORTTYPE>::
 insert_i (PORTTYPE & port, std::string & scoped_name)
 {
   std::pair <Port_Map::iterator, bool> result =
-    this->ports_.insert (Port_Map::value_type (port.name (), scoped_name));
+    this->ports_.insert (Port_Map::value_type (port->name (), scoped_name));
 
   return result.first != this->ports_.end ();
 }
@@ -79,17 +79,16 @@ template <typename PORTTYPE>
 void CUTS_UDM_Port_Manager_T <PORTTYPE>::
 get_scoped_typename_i (PORTTYPE & port, std::string & dest)
 {
-  PICML::MgaObject object = PICML::MgaObject::Cast (port.ref ());
-  PICML::MgaObject parent = PICML::MgaObject::Cast (object.parent ());
+  GAME::Mga::Object object = port->refers_to ();
+  GAME::Mga::Object parent = object->parent ();
 
-  dest = object.name ();
+  dest = object->name ();
 
-  while ((std::string)parent.type ().name () !=
-         (std::string)PICML::File::meta.name ())
+  while (parent->meta ()->name () != PICML::File::impl_type::metaname)
   {
     dest.insert (0, "::");
-    dest.insert (0, parent.name ());
+    dest.insert (0, parent->name ());
 
-    parent = PICML::MgaObject::Cast (parent.parent ());
+    parent = parent->parent ();
   }
 }

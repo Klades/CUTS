@@ -15,6 +15,7 @@
 
 #include "BE_IDL_Graph.h"
 #include "BE_Impl_Graph.h"
+#include "PICML/Visitor.h"
 
 #include "ace/Singleton.h"
 #include "ace/Null_Mutex.h"
@@ -45,7 +46,7 @@ public:
    * @retval        true            Success
    * @retval        false           Failure
    */
-  bool preprocess (const PICML::File & file);
+  bool preprocess (const PICML::File_in file);
 
   /**
    * Preprocess a file.
@@ -54,7 +55,7 @@ public:
    * @retval        true            Success
    * @retval        false           Failure
    */
-  bool preprocess (const PICML::File & file,
+  bool preprocess (const PICML::File_in file,
                    const CUTS_BE_IDL_Node * & );
 
   /**
@@ -64,14 +65,14 @@ public:
    * @retval        true            Success
    * @retval        false           Failure
    */
-  bool preprocess (const PICML::ComponentImplementationContainer &);
+  bool preprocess (const PICML::ComponentImplementationContainer_in);
 
   /**
    * Remove an implementation from the proprocessor.
    *
    * @param[in]     container       The target containe to remove.
    */
-  void remove (const PICML::ComponentImplementationContainer &);
+  void remove (const PICML::ComponentImplementationContainer_in);
 
   /**
    * Get a reference to the preprocessed implementations. Clients

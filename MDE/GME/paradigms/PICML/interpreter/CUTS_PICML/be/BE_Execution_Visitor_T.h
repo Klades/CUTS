@@ -14,6 +14,7 @@
 #define _CUTS_BE_EXECUTION_VISITOR_H_
 
 #include "PICML/PICML.h"
+#include "PICML/Visitor.h"
 #include <stack>
 
 //=============================================================================
@@ -42,79 +43,77 @@ public:
   /// Destructor.
   virtual ~CUTS_BE_Execution_Visitor_T (void);
 
-  void generate (const PICML::SingleInputBase & input);
+  void generate (const PICML::SingleInputBase_in input);
 
-  void generate (const PICML::MultiInputBase & input);
+  void generate (const PICML::MultiInputBase_in input);
 
 protected:
   /// Visit an MultiInput element.
-  void Visit_MultiInput (const PICML::MultiInput & input);
+  void visit_MultiInput (PICML::MultiInput_in input);
 
   /// Visit an InputAction element.
-  void Visit_Input (const PICML::Input & input);
+  void visit_Input (PICML::Input_in input);
 
   /// Visit an MulitInputAction
-  void Visit_MultiInputAction (const PICML::MultiInputAction &);
+  void visit_MultiInputAction (PICML::MultiInputAction_in);
 
   /// Visit an InputAction element.
-  void Visit_InputAction (const PICML::InputAction &);
+  void visit_InputAction (PICML::InputAction_in);
 
   /// Visit an Effect element.
-  void Visit_InputEffect (const PICML::InputEffect &);
+  void visit_InputEffect (PICML::InputEffect_in);
 
   /// Visit an Effect element.
-  void Visit_Effect (const PICML::Effect &);
+  void visit_Effect (PICML::Effect_in);
 
   /// Visit a State element.
-  void Visit_State (const PICML::State &);
+  void visit_State (PICML::State_in);
 
   /// Visit a BranchState connection.
-  void Visit_BranchState (const PICML::BranchState &);
+  void visit_BranchState (PICML::BranchState_in);
 
   /// Visit a Transition element.
-  void Visit_Transition (const PICML::Transition &);
+  void visit_Transition (PICML::Transition_in);
 
   /// Visit a BranchTransition element.
-  void Visit_BranchTransition (const PICML::BranchTransition &);
+  void visit_BranchTransition (PICML::BranchTransition_in);
 
   /// Visit a DoWhileState element.
-  void Visit_DoWhileState (const PICML::DoWhileState & );
+  void visit_DoWhileState (PICML::DoWhileState_in);
 
-  void Visit_WhileState (const PICML::WhileState &);
+  void visit_WhileState (PICML::WhileState_in);
 
-  void Visit_ForState (const PICML::ForState &);
+  void visit_ForState (PICML::ForState_in);
 
   /// Visit a Property element.
-  void Visit_SimpleProperty (const PICML::SimpleProperty &);
+  void visit_SimpleProperty (PICML::SimpleProperty_in);
 
   /// Visit an Action element.
-  void Visit_Action (const PICML::Action &);
+  void visit_Action (PICML::Action_in);
 
   /// Visit an OutputAction element.
-  void Visit_OutputAction (const PICML::OutputAction &);
+  void visit_OutputAction (PICML::OutputAction_in);
 
-  void Visit_RequestAction (const PICML::RequestAction & );
+  void visit_RequestAction (PICML::RequestAction_in);
 
   ///// Visit a CompositeAction element.
-  //void Visit_CompositeAction (const PICML::CompositeAction &);
+  //void visit_CompositeAction (PICML::CompositeAction_in);
 
-  void Visit_TerminalTransition (const PICML::TerminalTransition &);
+  void visit_TerminalTransition (PICML::TerminalTransition_in);
 
-  void Visit_Terminal (const PICML::Terminal &);
+  void visit_Terminal (PICML::Terminal_in);
 
-  void Visit_TerminalEffect (const PICML::TerminalEffect &);
+  void visit_TerminalEffect (PICML::TerminalEffect_in);
 
-  void Visit_LoopTransition (const PICML::LoopTransition &);
+  void visit_LoopTransition (PICML::LoopTransition_in);
 
 protected:
-  void Visit_OutputAction_Property (const PICML::Property & property);
+  void visit_OutputAction_Property (PICML::Property_in property);
 
 private:
-  void Visit_StateBase (const PICML::StateBase &);
+  void visit_ActionBase (PICML::ActionBase_in);
 
-  void Visit_ActionBase (const PICML::ActionBase &);
-
-  void Visit_LoopState (const PICML::LoopState &);
+  void visit_LoopState (PICML::LoopState_in);
 
   void goto_to_terminal (void);
 
