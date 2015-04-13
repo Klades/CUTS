@@ -101,7 +101,7 @@ int parse_args (int argc, char * argv [], opts_t & opts)
 
   get_opt.long_option ("client", ACE_Get_Opt::ARG_REQUIRED);
 
-  char opt;
+  int opt;
 
   while (EOF != (opt = get_opt ()))
   {
