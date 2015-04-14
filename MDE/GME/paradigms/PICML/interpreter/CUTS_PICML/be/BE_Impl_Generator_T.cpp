@@ -169,11 +169,8 @@ visit_Component (PICML::Component_in component)
     [this] (const PICML::PeriodicEvent & i) {return i->accept (this);});
 
   // Visit all the ApplicationTask elements of the <component>.
-  typedef std::vector <PICML::ApplicationTask> ApplicationTask_Set;
-  ApplicationTask_Set apptasks = component.ApplicationTask_kind_children ();
-
-  CUTS_BE::visit <CONTEXT> (apptasks,
-    boost::bind (&ApplicationTask_Set::value_type::Accept, _1, boost::ref (*this)));
+  CUTS_BE::visit <CONTEXT> (component->get_ApplicationTasks (),
+    [this] (const PICML::ApplicationTask & i) {return i->accept (this);});
 
   // Visit all the Attribute elements of the <component>.
   CUTS_BE::visit <CONTEXT> (component->get_Attributes (),
@@ -281,21 +278,21 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_ProvidedRequestPort_impl (PICML::ProvidedRequestPort_in facet)
 {
+  if (facet->Provideable_is_nil ())
+    return;
+
   // Get the parent component and the facet's interface/object.
-  PICML::Component component = PICML::Component::Cast (facet.parent ());
-  PICML::Object object = PICML::Object::Cast (facet.ref ());
+  PICML::Component component = facet->parent ();
+  PICML::Object object = facet->refers_to_Provideable ();
 
-  if (object != Udm::null)
-  {
-    // Write the beginning of the facet's implementation.
-    CUTS_BE_Object_Impl_Begin_T <CONTEXT>::generate (component, facet);
+  // Write the beginning of the facet's implementation.
+  CUTS_BE_Object_Impl_Begin_T <CONTEXT>::generate (component, facet);
 
-    CUTS_BE::visit <CONTEXT> (object,
-      boost::bind (&PICML::Object::Accept, _1, boost::ref (*this)));
+  CUTS_BE::visit <CONTEXT> (object,
+    [this] (const PICML::Object & i) {return i->accept (this);});
 
-    // Write the end of the facet's implementation.
-    CUTS_BE_Object_Impl_End_T <CONTEXT>::generate (component, facet);
-  }
+  // Write the end of the facet's implementation.
+  CUTS_BE_Object_Impl_End_T <CONTEXT>::generate (component, facet);
 }
 
 //
@@ -607,14 +604,8 @@ write_variables_i (const PICML::Component_in component)
     this->visit_PeriodicEvent_Variable (periodic);
 
   // Write the application task variables.
-  typedef std::vector <PICML::ApplicationTask> ApplicationTask_Set;
-  ApplicationTask_Set apptasks = component.ApplicationTask_kind_children ();
-
-  std::for_each (apptasks.begin (),
-                 apptasks.end (),
-                 boost::bind (&CUTS_BE_Impl_Generator_T::Visit_ApplicationTask_Variable,
-                              this,
-                              _1));
+  for (auto apptask : component->get_ApplicationTasks ())
+    this->visit_ApplicationTask_Variable (apptask);
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);

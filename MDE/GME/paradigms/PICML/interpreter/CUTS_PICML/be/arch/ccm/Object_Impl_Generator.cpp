@@ -8,60 +8,67 @@
 
 #include "boost/bind.hpp"
 #include <algorithm>
-#include "../../UDM_Utility_T.h"
 #include "../../lang/cpp/Behavior_Generator.h"
 #include "../../BE_Execution_Visitor_T.h"
 #include "In_Type_Generator.h"
 #include "Out_Type_Generator.h"
 #include "InOut_Type_Generator.h"
 #include "Retn_Type_Generator.h"
+#include "game/mga/utils/Position_Sort_T.h"
 
 namespace CUTS_BE_CCM
 {
 namespace Cpp
 {
 
+template <typename T, typename SORTER>
+struct collection_sort
+{
+public:
+std::vector <T> operator () (GAME::Mga::Collection_T <T> & collection, const std::string & aspect) const
+{
+  typedef GAME::Mga::Position_Sort_T <T, SORTER> sorter_t;
+  sorter_t sorter (aspect, SORTER ());
+
+  std::vector <T> result;
+
+  for (T item : collection)
+    result.push_back (item);
+
+  std::sort (result.begin (), result.end (), sorter);
+  return result;
+}
+};
+
 //
 // generate
 //
 void Object_Impl_Generator::
-generate (const PICML::Component & component)
+generate (const PICML::Component_in component)
 {
-  this->component_name_ = component.name ();
-  std::vector <PICML::ProvidedRequestPort> facets =
-    component.ProvidedRequestPort_kind_children ();
+  this->component_name_ = component->name ();
 
-  std::for_each (facets.begin (),
-                 facets.end (),
-                 boost::bind (&PICML::ProvidedRequestPort::Accept,
-                              _1,
-                              boost::ref (*this)));
+  for (auto facet : component->get_ProvidedRequestPorts ())
+    facet->accept (this);
 }
 
 //
 // Visit_ProvidedRequestPort
 //
 void Object_Impl_Generator::
-Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
+visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet)
 {
-  PICML::Object obj = PICML::Object::Cast (facet.ref ());
-
-  if (obj == Udm::null)
-    return;
+  PICML::Object obj = facet->refers_to_Provideable ();
 
   // Gather all the MultiInputAction elements in a map <name, MultiInputAction>
   // such that the MultiInputAction can be located when we visit the corresponding
   // OneWayOperation and TwoWayOperation to generates its behavior.
-  typedef std::set <PICML::MultiInput> MultiInput_Set;
-  MultiInput_Set inputs = facet.dstMultiInput ();
-  std::for_each (inputs.begin (),
-                 inputs.end (),
-                 boost::bind (&Object_Impl_Generator::build_inputs,
-                              this, _1));
+  for (auto input : facet->src_of_MultiInput ())
+    this->build_inputs (input);
 
-  std::string basetype (obj.name ());
+  std::string basetype (obj->name ());
   const std::string scope (CUTS_BE_CPP::scope (obj));
-  this->impl_name_ = facet.name ();
+  this->impl_name_ = facet->name ();
   this->impl_name_ += "_i";
   this->impl_name_[0] = toupper (this->impl_name_[0]);
 
@@ -98,7 +105,7 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
     << "{}";
 
   // Visit the objet
-  obj.Accept (*this);
+  obj->accept (this);
 
   // Close the class
   this->ctx_.header_
@@ -112,50 +119,34 @@ Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet)
 // build_inputs
 //
 void Object_Impl_Generator::
-build_inputs (const PICML::MultiInput & input)
+build_inputs (PICML::MultiInput_in input)
 {
-  PICML::MultiInputAction action = input.dstMultiInput_end ();
+  PICML::MultiInputAction action = input->dst_MultiInputAction ();
   this->actions_.insert (std::pair <std::string,
                                     PICML::MultiInputAction>
-                         (action.name (), action));
+                         (action->name (), action));
 }
 
 //
 // Visit_Object
 //
 void Object_Impl_Generator::
-Visit_Object (const PICML::Object & object)
+visit_Object (PICML::Object_in object)
 {
-  typedef std::vector <PICML::OnewayOperation> OnewayOperation_Set;
-  OnewayOperation_Set oneways = object.OnewayOperation_kind_children ();
+  for (auto oneway : object->get_OnewayOperations ())
+    oneway->accept (this);
 
-  std::for_each (oneways.begin (),
-                 oneways.end (),
-                 boost::bind (&PICML::OnewayOperation::Accept,
-                 _1, boost::ref (*this)));
-
-  typedef std::vector <PICML::TwowayOperation> TwowayOperation_Set;
-  TwowayOperation_Set twoways = object.TwowayOperation_kind_children ();
-
-  std::for_each (twoways.begin (),
-                 twoways.end (),
-                 boost::bind (&PICML::TwowayOperation::Accept,
-                 _1, boost::ref (*this)));
+  for (auto twoway : object->get_TwowayOperations ())
+    twoway->accept (this);
 }
 
 //
 // Visit_OnewayOperation
 //
 void Object_Impl_Generator::
-Visit_OnewayOperation (const PICML::OnewayOperation & oneway)
+visit_OnewayOperation (PICML::OnewayOperation_in oneway)
 {
-  std::string method_name (oneway.name ());
-
-  // Get the parameters
-  typedef std::vector <PICML::ParameterType> ParameterType_Set;
-  ParameterType_Set params =
-    oneway.ParameterType_kind_children_sorted (
-    Sort_By_Position <PICML::ParameterType> ());
+  std::string method_name (oneway->name ());
 
   // Write the prefix
   this->ctx_.header_
@@ -166,19 +157,22 @@ Visit_OnewayOperation (const PICML::OnewayOperation & oneway)
     << "void ";
 
   // Write the signature
-  this->write_signature (method_name, params);
+  typedef collection_sort <PICML::ParameterType, GAME::Mga::PS_Left_To_Right> param_sorter;
+  this->write_signature (method_name, param_sorter () (oneway->children <PICML::ParameterType> (), "InterfaceDefinition"));
 
   // Write the implementation
   this->ctx_.source_
     << "{";
 
   CUTS_BE_Execution_Visitor_T <CUTS_BE_CPP::Context> exec_visitor (this->ctx_);
+
   typedef std::map <std::string, PICML::MultiInputAction>::iterator Map_Iter;
-  Map_Iter iter = this->actions_.find (oneway.name ());
+  Map_Iter iter = this->actions_.find (oneway->name ());
+
   if (iter != this->actions_.end ())
-    iter->second.Accept (exec_visitor);
+    iter->second->accept (&exec_visitor);
   else
-    this->ctx_.source_ << "// Unable to find MultiInputAction for operation " << oneway.name () << std::endl;
+    this->ctx_.source_ << "// Unable to find MultiInputAction for operation " << oneway->name () << std::endl;
 
   this->ctx_.source_
     << "}";
@@ -188,18 +182,9 @@ Visit_OnewayOperation (const PICML::OnewayOperation & oneway)
 // Visit_TwowayOperation
 //
 void Object_Impl_Generator::
-Visit_TwowayOperation (const PICML::TwowayOperation & twoway)
+visit_TwowayOperation (PICML::TwowayOperation_in twoway)
 {
-  std::string method_name (twoway.name ());
-
-  // Get the return type
-  PICML::ReturnType retn_type = twoway.ReturnType_child ();
-
-  // Get the parameters
-  typedef std::vector <PICML::ParameterType> ParameterType_Set;
-  ParameterType_Set params =
-    twoway.ParameterType_kind_children_sorted (
-    Sort_By_Position <PICML::ParameterType> ());
+  std::string method_name (twoway->name ());
 
   // Write the prefix
   this->ctx_.header_
@@ -208,19 +193,31 @@ Visit_TwowayOperation (const PICML::TwowayOperation & twoway)
     << CUTS_BE_CPP::function_header (method_name);
 
   // Write the signature
-  this->write_signature (retn_type, method_name, params);
+  typedef collection_sort <PICML::ParameterType, GAME::Mga::PS_Left_To_Right> param_sorter;
+
+  // Get the return type
+  if (twoway->has_ReturnType ())
+    this->write_signature (twoway->get_ReturnType (), method_name, param_sorter () (twoway->children <PICML::ParameterType> (), "InterfaceDefinition"));
+  else
+  {
+    this->ctx_.header_ << "void ";
+    this->ctx_.source_ << "void ";
+    this->write_signature (method_name, param_sorter () (twoway->children <PICML::ParameterType> (), "InterfaceDefinition"));
+  }
 
   // Write the implementation
   this->ctx_.source_
     << "{";
 
   CUTS_BE_Execution_Visitor_T <CUTS_BE_CPP::Context> exec_visitor (this->ctx_);
+
   typedef std::map <std::string, PICML::MultiInputAction>::iterator Map_Iter;
-  Map_Iter iter = this->actions_.find (twoway.name ());
+  Map_Iter iter = this->actions_.find (twoway->name ());
+
   if (iter != this->actions_.end ())
-    iter->second.Accept (exec_visitor);
+    iter->second->accept (&exec_visitor);
   else
-    this->ctx_.source_ << "// Unable to find MultiInputAction for operation " << twoway.name () << std::endl;
+    this->ctx_.source_ << "// Unable to find MultiInputAction for operation " << twoway->name () << std::endl;
 
   this->ctx_.source_
     << "}";
@@ -230,23 +227,20 @@ Visit_TwowayOperation (const PICML::TwowayOperation & twoway)
 // write_signature
 //
 void Object_Impl_Generator::
-write_signature (const PICML::ReturnType & retn,
+write_signature (PICML::ReturnType_in retn,
                  std::string & method_name,
                  std::vector <PICML::ParameterType> & params)
 {
   // Generate the return value
-  if (retn != Udm::null)
+  if (!retn->MemberType_is_nil ())
   {
-    PICML::MemberType retn_member = retn.ref ();
-    if (retn_member != Udm::null)
-    {
-      Retn_Type_Generator retn_gen_h (this->ctx_.header_);
-      Retn_Type_Generator retn_gen_cpp (this->ctx_.source_);
-      retn_gen_h.generate (retn_member);
-      retn_gen_cpp.generate (retn_member);
-      this->ctx_.header_ << " ";
-      this->ctx_.source_ << " ";
-    }
+    PICML::MemberType retn_member = retn->refers_to_MemberType ();
+    Retn_Type_Generator retn_gen_h (this->ctx_.header_);
+    Retn_Type_Generator retn_gen_cpp (this->ctx_.source_);
+    retn_gen_h.generate (retn_member);
+    retn_gen_cpp.generate (retn_member);
+    this->ctx_.header_ << " ";
+    this->ctx_.source_ << " ";
   }
   else
   {
@@ -303,10 +297,10 @@ write_signature (std::string & method_name,
 // write_parameter
 //
 void Object_Impl_Generator::
-write_parameter (const PICML::ParameterType & param, bool comma_prefix)
+write_parameter (PICML::ParameterType_in param, bool comma_prefix)
 {
-  Uml::Class type = param.type ();
-  PICML::MemberType member = param.ref ();
+  std::string type (param->meta ()->name ());
+  PICML::MemberType member = param->refers_to_MemberType ();
 
   if (comma_prefix)
   {
@@ -315,21 +309,21 @@ write_parameter (const PICML::ParameterType & param, bool comma_prefix)
   }
 
   // Write the appropriate type
-  if (type == PICML::InParameter::meta)
+  if (type == PICML::InParameter::impl_type::metaname)
   {
     In_Type_Generator in_gen_h (this->ctx_.header_);
     In_Type_Generator in_gen_cpp (this->ctx_.source_);
     in_gen_h.generate (member);
     in_gen_cpp.generate (member);
   }
-  else if (type == PICML::OutParameter::meta)
+  else if (type == PICML::OutParameter::impl_type::metaname)
   {
     Out_Type_Generator out_gen_h (this->ctx_.header_);
     Out_Type_Generator out_gen_cpp (this->ctx_.source_);
     out_gen_h.generate (member);
     out_gen_cpp.generate (member);
   }
-  else if (type == PICML::InoutParameter::meta)
+  else if (type == PICML::InoutParameter::impl_type::metaname)
   {
     InOut_Type_Generator inout_gen_h (this->ctx_.header_);
     InOut_Type_Generator inout_gen_cpp (this->ctx_.source_);
@@ -339,9 +333,9 @@ write_parameter (const PICML::ParameterType & param, bool comma_prefix)
 
   // Name the variable
   this->ctx_.header_
-    << " " << param.name ();
+    << " " << param->name ();
   this->ctx_.source_
-    << " " << param.name ();
+    << " " << param->name ();
 }
 
 } // namespace CUTS_BE_CCM

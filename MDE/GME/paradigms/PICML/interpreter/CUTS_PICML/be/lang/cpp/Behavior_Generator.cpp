@@ -90,14 +90,14 @@ generate (const PICML::PeriodicEvent_in periodic)
 // CUTS_BE_Application_Task_Variable_T
 
 void CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::
-generate (const PICML::ApplicationTask & apptask)
+generate (const PICML::ApplicationTask_in apptask)
 {
-  std::string name (apptask.name ());
-  PICML::Component parent = PICML::Component::Cast (apptask.parent ());
+  std::string name (apptask->name ());
+  PICML::Component parent = apptask->parent ();
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("apptask: " + name)
-    << "CUTS_Application_Task_T < " << parent.name ()
+    << "CUTS_Application_Task_T < " << parent->name ()
     << " > apptask_" << name << "_;" << std::endl;
 }
 
@@ -247,31 +247,33 @@ generate (const PICML::OutputAction_in action)
 // CUTS_BE_CallAction_Begin_T
 
 void CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context>::
-generate (const PICML::CallAction & action)
+generate (const PICML::CallAction_in action)
 {
-  PICML::TargetRequiredRequestPort target = action.TargetRequiredRequestPort_child ();
-  PICML::RequiredRequestPort port = target.ref ();
+  if (!action->has_TargetRequiredRequestPort ())
+    return;
+
+  PICML::TargetRequiredRequestPort target = action->get_TargetRequiredRequestPort ();
+  PICML::RequiredRequestPort port = target->refers_to_RequiredRequestPort ();
 
   this->ctx_.source_
-    << "this->ctx_->get_connection_" << port.name () << " ()->" << action.name () << " (";
+    << "this->ctx_->get_connection_" << port->name () << " ()->" << action->name () << " (";
 
   // Get the children properties
-  std::vector <PICML::Property> properties = action.Property_children ();
-  this->ctx_.arg_count_ = properties.size ();
+  this->ctx_.arg_count_ = action->children <PICML::Property> ().count ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_CallAction_Property_T
 
 void CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context>::
-generate (const PICML::CallAction & action,
-          const PICML::Property & prop)
+generate (const PICML::CallAction_in action,
+          const PICML::Property_in prop)
 {
   // TODO Add support for complex properties.
 
   // Write the value of the prop.
-  PICML::SimpleProperty simple = PICML::SimpleProperty::Cast (prop);
-  this->ctx_.source_ << simple.Value ();
+  PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
+  this->ctx_.source_ << simple->Value ();
 
   if (this->ctx_.arg_count_ > 1)
   {
@@ -288,7 +290,7 @@ generate (const PICML::CallAction & action,
 // CUTS_BE_CallAction_End_T
 
 void CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context>::
-generate (const PICML::CallAction & action)
+generate (const PICML::CallAction_in action)
 {
   this->ctx_.source_
     << ");" << std::endl;

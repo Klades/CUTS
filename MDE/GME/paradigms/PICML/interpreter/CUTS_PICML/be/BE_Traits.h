@@ -88,10 +88,10 @@ public:
     const PICML::PeriodicEvent_in periodic);
 
   virtual void write_ApplicationTask_begin (
-    const PICML::ApplicationTask & apptask);
+    const PICML::ApplicationTask_in apptask);
 
   virtual void write_ApplicationTask_end (
-    const PICML::ApplicationTask & apptask);
+    const PICML::ApplicationTask_in apptask);
 
   virtual void write_environment_begin (
     const PICML::Component_in component);

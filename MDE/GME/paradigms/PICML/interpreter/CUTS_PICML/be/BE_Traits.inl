@@ -176,13 +176,6 @@ write_PeriodicEvent_end (const PICML::PeriodicEvent_in periodic)
 
 CUTS_INLINE
 void CUTS_BE_Traits::
-write_OnewayOperation_begin (const PICML::OnewayOperation_in oneway)
-{
-
-}
-
-CUTS_INLINE
-void CUTS_BE_Traits::
 write_ApplicationTask_begin (const PICML::ApplicationTask_in apptask)
 {
 

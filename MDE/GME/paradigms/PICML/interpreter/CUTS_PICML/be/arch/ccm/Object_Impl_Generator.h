@@ -40,20 +40,20 @@ public:
   virtual ~Object_Impl_Generator (void);
 
   // generate
-  void generate (const PICML::Component & component);
+  void generate (const PICML::Component_in component);
 
   // Visit methods
-  virtual void Visit_ProvidedRequestPort (const PICML::ProvidedRequestPort & facet);
-  virtual void Visit_Object (const PICML::Object & object);
-  virtual void Visit_OnewayOperation (const PICML::OnewayOperation & oneway);
-  virtual void Visit_TwowayOperation (const PICML::TwowayOperation & twoway);
+  virtual void visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet);
+  virtual void visit_Object (PICML::Object_in object);
+  virtual void visit_OnewayOperation (PICML::OnewayOperation_in oneway);
+  virtual void visit_TwowayOperation (PICML::TwowayOperation_in twoway);
 
 private:
   // Helper for gathering input actions
-  void build_inputs (const PICML::MultiInput & input);
+  void build_inputs (PICML::MultiInput_in input);
 
   // Helper for writing signatures
-  void write_signature (const PICML::ReturnType & retn,
+  void write_signature (PICML::ReturnType_in retn,
                         std::string & method_name,
                         std::vector <PICML::ParameterType> & params);
 
@@ -62,7 +62,7 @@ private:
                         std::vector <PICML::ParameterType> & params);
 
   // Helper for writing parameters
-  void write_parameter (const PICML::ParameterType & param, bool comma_prefix);
+  void write_parameter (PICML::ParameterType_in param, bool comma_prefix);
 
   // The parent component class name
   std::string component_name_;

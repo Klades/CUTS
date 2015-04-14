@@ -689,20 +689,16 @@ generate_skel_project (const CUTS_BE_IDL_Node & node)
 // file_has_object_with_refrence
 //
 bool CUTS_BE_Project_Write_T <CUTS_BE_CCM::Cpp::Context, CUTS_BE_IDL_Node>::
-file_has_object_with_reference (const PICML::File & file)
+file_has_object_with_reference (const PICML::File_in file)
 {
-  std::set <PICML::ProvidedRequestPort> pvdports;
-  std::set <PICML::RequiredRequestPort> reqports;
-  std::vector <PICML::Object> objects = file.Object_kind_children ();
-  std::vector <PICML::Object>::iterator iter = objects.begin (),
-                                        end = objects.end ();
-
-  for (; iter != end; ++iter)
+  for (auto obj : file->get_Objects ())
   {
-    pvdports = (*iter).referedbyProvidedRequestPort ();
-    reqports = (*iter).referedbyRequiredRequestPort ();
-    if (pvdports.size () != 0 || reqports.size () != 0)
-      return true;
+    for (auto ref : obj->referenced_by ())
+    {
+      if (ref->meta ()->name () == PICML::ProvidedRequestPort::impl_type::metaname ||
+          ref->meta ()->name () == PICML::RequiredRequestPort::impl_type::metaname)
+        return true;
+    }
   }
 
   return false;

@@ -278,13 +278,6 @@ generate (const PICML::MonolithicImplementation_in impl,
   if (apptasks.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Application_Task_T");
 
-  // Generate the object implementations
-  CUTS_BE_CCM::Cpp::Object_Impl_Generator obj_impl_gen (this->ctx_);
-  obj_impl_gen.generate (component);
-
-  if (!facets.empty ())
-    this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T");
-
   this->ctx_.header_
     << std::endl
     << "namespace " << namespace_name
@@ -300,12 +293,12 @@ generate (const PICML::MonolithicImplementation_in impl,
   for (auto outevent : component->get_OutEventPorts ())
     outevent->accept (this);
 
-  for (auto facet : facets)
-    facet->accept (this);
-
   // Generate the object implementations
   CUTS_BE_CCM::Cpp::Object_Impl_Generator obj_impl_gen (this->ctx_);
   obj_impl_gen.generate (component);
+
+  for (auto facet : facets)
+    facet->accept (this);
 
   std::string destructor = "~" + implname;
 
@@ -367,9 +360,6 @@ generate (const PICML::MonolithicImplementation_in impl,
   // Generate ApplicationTask initalization
   for (auto task : apptasks)
     task->accept (&entity);
-
-  for (auto apptask : apptasks)
-    apptask.Accept (entity);
 
   if (this->ctx_.traits_->emulates_async ())
   {
@@ -647,24 +637,19 @@ generate (const PICML::MultiInputAction_in action)
 // CUTS_BE_Variables_Begin_T
 
 void CUTS_BE_Variables_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::Component & component)
+generate (const PICML::Component_in component)
 {
-  typedef std::vector <PICML::Variable> Variable_Set;
-  Variable_Set vars = component.Variable_kind_children ();
-  Variable_Set::iterator iter = vars.begin ();
-
-  for (; iter != vars.end (); ++iter)
+  for (auto variable : component->get_Variables ())
   {
-    PICML::Variable & variable = *iter;
-    PICML::PredefinedType type = variable.ref ();
-
-    if (type != Udm::null)
+    if (!variable->PredefinedType_is_nil ())
     {
-      // Generate the setter methods
-      std::string name (variable.name ());
+      PICML::PredefinedType type = variable->refers_to_PredefinedType ();
 
-      PICML::Component parent = PICML::Component::Cast (variable.parent ());
-      std::string parent_name (parent.name ());
+      // Generate the setter methods
+      std::string name (variable->name ());
+
+      PICML::Component parent = variable->parent ();
+      std::string parent_name (parent->name ());
 
       // This part generates the header information.
       this->ctx_.header_
@@ -960,13 +945,13 @@ generate (const PICML::PeriodicEvent_in periodic)
 // CUTS_BE_ApplicationTask_Begin_T
 
 void CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ApplicationTask & apptask)
+generate (const PICML::ApplicationTask_in apptask)
 {
-  std::string name = apptask.name ();
+  std::string name = apptask->name ();
   std::string func_name = "apptask_" + name;
 
-  PICML::Component parent (PICML::Component::Cast (apptask.parent ()));
-  std::string parent_name (parent.name ());
+  PICML::Component parent = apptask->parent ();
+  std::string parent_name (parent->name ());
 
   this->ctx_.header_
     << CUTS_BE_CPP::single_line_comment ("ApplicationTask: " + name)
@@ -983,40 +968,7 @@ generate (const PICML::ApplicationTask & apptask)
 // CUTS_BE_ApplicationTask_End_T
 
 void CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ApplicationTask & apptask)
-{
-  this->ctx_.source_
-    << "}";
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// CUTS_BE_ApplicationTask_Begin_T
-
-void CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ApplicationTask & apptask)
-{
-  std::string name = apptask.name ();
-  std::string func_name = "apptask_" + name;
-
-  PICML::Component parent (PICML::Component::Cast (apptask.parent ()));
-  std::string parent_name (parent.name ());
-
-  this->ctx_.header_
-    << CUTS_BE_CPP::single_line_comment ("ApplicationTask: " + name)
-    << "void " << func_name << " (void);"
-    << std::endl;
-
-  this->ctx_.source_
-    << CUTS_BE_CPP::function_header ("ApplicationTask: " + name)
-    << "void " << parent_name << "::" << func_name << " (void)"
-    << "{";
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// CUTS_BE_ApplicationTask_End_T
-
-void CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
-generate (const PICML::ApplicationTask & apptask)
+generate (const PICML::ApplicationTask_in apptask)
 {
   this->ctx_.source_
     << "}";

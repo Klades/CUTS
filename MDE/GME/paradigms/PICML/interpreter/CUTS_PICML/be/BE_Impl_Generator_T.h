@@ -88,8 +88,8 @@ public:
     PICML::PeriodicEvent_in periodic);
 
   /// Visit an ApplicationTask element.
-  void Visit_ApplicationTask (
-    const PICML::ApplicationTask & apptask);
+  void visit_ApplicationTask (
+    PICML::ApplicationTask_in apptask);
 
   /// Visit a ReadonlyAttribute element.
   void visit_ReadonlyAttribute (

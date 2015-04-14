@@ -238,7 +238,7 @@ public:
 
   virtual ~CUTS_BE_Variables_Begin_T (void);
 
-  void generate (const PICML::Component & component);
+  void generate (const PICML::Component_in component);
 };
 
 /**
@@ -350,7 +350,7 @@ public:
 
   virtual ~CUTS_BE_ApplicationTask_Begin_T (void);
 
-  void generate (const PICML::ApplicationTask & apptask);
+  void generate (const PICML::ApplicationTask_in apptask);
 };
 
 /**
@@ -367,7 +367,7 @@ public:
 
   virtual ~CUTS_BE_ApplicationTask_End_T (void);
 
-  void generate (const PICML::ApplicationTask & apptask);
+  void generate (const PICML::ApplicationTask_in apptask);
 };
 
 /**
