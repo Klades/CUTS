@@ -102,6 +102,23 @@ public:
 };
 
 /**
+ * @class CUTS_BE_ApplicationTask_Variable_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_ApplicationTask_Variable_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_ApplicationTask_Variable_T (void);
+
+  void generate (const PICML::ApplicationTask_in apptask);
+};
+
+/**
  * @class CUTS_BE_Precondition_T
  */
 template < >
@@ -338,6 +355,58 @@ public:
   virtual ~CUTS_BE_OutputAction_End_T (void);
 
   void generate (const PICML::OutputAction_in action);
+};
+
+/**
+ * @class CUTS_BE_CallAction_Begin_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_Begin_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_CallAction_Begin_T (void);
+
+  void generate (const PICML::CallAction_in action);
+};
+
+/**
+ * @class CUTS_BE_CallAction_Property_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_Property_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_CallAction_Property_T (void);
+
+  void generate (const PICML::CallAction_in action,
+                 const PICML::Property_in property);
+};
+
+/**
+ * @class CUTS_BE_CallAction_End_T
+ */
+template < >
+class CUTS_BE_CPP_Export CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context> :
+  public CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor>
+{
+public:
+  typedef CUTS_BE_Visitor_T <CUTS_BE_CPP::Context, PICML::Visitor> visitor_type;
+
+  CUTS_BE_CallAction_End_T (CUTS_BE_CPP::Context & context);
+
+  virtual ~CUTS_BE_CallAction_End_T (void);
+
+  void generate (const PICML::CallAction_in action);
 };
 
 /**

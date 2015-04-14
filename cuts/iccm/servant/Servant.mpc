@@ -11,6 +11,7 @@ project (iCCM_Servant) : ccm_svnt, cutslib {
     Publisher.cpp
     Publisher_Table.cpp
     Servant.cpp
+    Receptacle.cpp
   }
 
   Template_Files {
@@ -19,5 +20,7 @@ project (iCCM_Servant) : ccm_svnt, cutslib {
     EventConsumer_T.cpp
     Publisher_Table_T.cpp
     Servant_T.cpp
+	Receptacle_T.cpp
+	FacetImpl_T.cpp
   }
 }

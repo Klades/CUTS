@@ -2,24 +2,6 @@
 // $Id$
 
 ///////////////////////////////////////////////////////////////////////////////
-// CUTS_BE_Variables_Begin_T
-
-CUTS_INLINE
-CUTS_BE_Variables_Begin_T <CUTS_BE_CPP::Context>::
-CUTS_BE_Variables_Begin_T (CUTS_BE_CPP::Context & context)
-: visitor_type (context)
-{
-
-}
-
-CUTS_INLINE
-CUTS_BE_Variables_Begin_T <CUTS_BE_CPP::Context>::
-~CUTS_BE_Variables_Begin_T (void)
-{
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Variable_T
 
 CUTS_INLINE
@@ -83,6 +65,23 @@ CUTS_BE_PeriodicEvent_Variable_T (CUTS_BE_CPP::Context & context)
 
 CUTS_INLINE
 CUTS_BE_PeriodicEvent_Variable_T <CUTS_BE_CPP::Context>::~CUTS_BE_PeriodicEvent_Variable_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Variable_T
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::
+CUTS_BE_ApplicationTask_Variable_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::~CUTS_BE_ApplicationTask_Variable_T (void)
 {
 
 }
@@ -325,6 +324,57 @@ CUTS_BE_OutputAction_End_T (CUTS_BE_CPP::Context & context)
 
 CUTS_INLINE
 CUTS_BE_OutputAction_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_OutputAction_End_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Begin_T
+
+CUTS_INLINE
+CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context>::
+CUTS_BE_CallAction_Begin_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context>::~CUTS_BE_CallAction_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Property_T
+
+CUTS_INLINE
+CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context>::
+CUTS_BE_CallAction_Property_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context>::~CUTS_BE_CallAction_Property_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_End_T
+
+CUTS_INLINE
+CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context>::
+CUTS_BE_CallAction_End_T (CUTS_BE_CPP::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context>::~CUTS_BE_CallAction_End_T (void)
 {
 
 }

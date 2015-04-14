@@ -194,6 +194,8 @@ private:
 
   void generate_svnt_project (const CUTS_BE_IDL_Node & node);
 
+  bool file_has_object_with_reference (const PICML::File_in file);
+
   typedef std::set <const CUTS_BE_IDL_Node *> IDL_Node_Set;
 
   IDL_Node_Set visited_nodes_;

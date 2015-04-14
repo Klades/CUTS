@@ -558,6 +558,32 @@ generate (const PICML::PeriodicEvent_in )
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Variable_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Variable_T <CONTEXT>::
+CUTS_BE_ApplicationTask_Variable_T (CONTEXT &)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Variable_T <CONTEXT>::~CUTS_BE_ApplicationTask_Variable_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_ApplicationTask_Variable_T <CONTEXT>::
+generate (const PICML::ApplicationTask_in )
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Attribute_Variable_T
 
 template <typename CONTEXT>
@@ -740,6 +766,60 @@ template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_PeriodicEvent_End_T <CONTEXT>::
 generate (const PICML::PeriodicEvent_in )
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Begin_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Begin_T <CONTEXT>::
+CUTS_BE_ApplicationTask_Begin_T (CONTEXT & context)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Begin_T <CONTEXT>::
+~CUTS_BE_ApplicationTask_Begin_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_ApplicationTask_Begin_T <CONTEXT>::
+generate (const PICML::ApplicationTask_in )
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_End_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_ApplicationTask_End_T <CONTEXT>::
+CUTS_BE_ApplicationTask_End_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_ApplicationTask_End_T <CONTEXT>::
+~CUTS_BE_ApplicationTask_End_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_ApplicationTask_End_T <CONTEXT>::
+generate (const PICML::ApplicationTask_in )
 {
 
 }
@@ -1522,6 +1602,84 @@ template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_OutputAction_End_T <CONTEXT>::
 generate (const PICML::OutputAction_in)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Begin_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Begin_T <CONTEXT>::
+CUTS_BE_CallAction_Begin_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Begin_T <CONTEXT>::~CUTS_BE_CallAction_Begin_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_CallAction_Begin_T <CONTEXT>::
+generate (const PICML::CallAction_in)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Property_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Property_T <CONTEXT>::
+CUTS_BE_CallAction_Property_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_Property_T <CONTEXT>::~CUTS_BE_CallAction_Property_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_CallAction_Property_T <CONTEXT>::
+generate (const PICML::CallAction_in, const PICML::Property_in property)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_End_T
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_End_T <CONTEXT>::
+CUTS_BE_CallAction_End_T (CONTEXT & )
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+CUTS_BE_CallAction_End_T <CONTEXT>::~CUTS_BE_CallAction_End_T (void)
+{
+
+}
+
+template <typename CONTEXT>
+CUTS_INLINE
+void CUTS_BE_CallAction_End_T <CONTEXT>::
+generate (const PICML::CallAction_in)
 {
 
 }

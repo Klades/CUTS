@@ -557,6 +557,8 @@ visit_ActionBase (PICML::ActionBase_in action_base)
     action_base->accept (this);
   else if (metaname == PICML::RequestAction::impl_type::metaname)
     action_base->accept (this);
+  else if (metaname == PICML::CallAction::impl_type::metaname)
+    action_base->accept (this);
   else
     return;
 
@@ -667,4 +669,33 @@ visit_OutputAction_Property (PICML::Property_in prop)
   PICML::OutputAction parent = PICML::OutputAction::_narrow (prop->parent_ActionBase ());
   CUTS_BE_OutputAction_Property_T <CONTEXT> output_action_property (this->context_);
   output_action_property.generate (parent, prop);
+}
+
+//
+// visit_CallAction
+//
+template <typename CONTEXT>
+void CUTS_BE_Execution_Visitor_T <CONTEXT>::
+visit_CallAction (PICML::CallAction_in action)
+{
+  CUTS_BE_CallAction_Begin_T <CONTEXT> call_action_begin (this->context_);
+  call_action_begin.generate (action);
+
+  CUTS_BE::visit <CONTEXT> (action->children <PICML::Property> (),
+    [this] (PICML::Property p) { this->visit_CallAction_Property (p); });
+
+  CUTS_BE_CallAction_End_T <CONTEXT> call_action_end (this->context_);
+  call_action_end.generate (action);
+}
+
+//
+// visit_CallAction_Property
+//
+template <typename CONTEXT>
+void CUTS_BE_Execution_Visitor_T <CONTEXT>::
+visit_CallAction_Property (PICML::Property_in prop)
+{
+  PICML::CallAction parent = prop->parent ();
+  CUTS_BE_CallAction_Property_T <CONTEXT> call_action_property (this->context_);
+  call_action_property.generate (parent, prop);
 }

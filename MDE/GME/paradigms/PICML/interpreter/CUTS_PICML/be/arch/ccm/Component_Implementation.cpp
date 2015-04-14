@@ -8,6 +8,7 @@
 
 #include "In_Type_Generator.h"
 #include "Retn_Type_Generator.h"
+#include "Object_Impl_Generator.h"
 
 #include "boost/bind.hpp"
 
@@ -267,15 +268,36 @@ generate (const PICML::MonolithicImplementation_in impl,
   if (periodics.count ())
     this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Periodic_Event_T");
 
+  auto facets = component->get_ProvidedRequestPorts ();
+
+  if (facets.count ())
+    this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/iccm/servant/FacetImpl_T");
+
+  auto apptasks = component->get_ApplicationTasks ();
+
+  if (apptasks.count ())
+    this->ctx_.header_ << CUTS_BE_CPP::include ("cuts/Application_Task_T");
+
   this->ctx_.header_
     << std::endl
+    << "namespace " << namespace_name
+    << "{"
+    << "// Forward decl of the component executor" << std::endl
+    << "class " << implname << ";" << std::endl;
+
+  // This part of the code generates the source file.
+  this->ctx_.source_
     << "namespace " << namespace_name
     << "{";
 
   for (auto outevent : component->get_OutEventPorts ())
     outevent->accept (this);
 
-  for (auto facet : component->get_ProvidedRequestPorts ())
+  // Generate the object implementations
+  CUTS_BE_CCM::Cpp::Object_Impl_Generator obj_impl_gen (this->ctx_);
+  obj_impl_gen.generate (component);
+
+  for (auto facet : facets)
     facet->accept (this);
 
   std::string destructor = "~" + implname;
@@ -321,11 +343,6 @@ generate (const PICML::MonolithicImplementation_in impl,
 
   // This part of the code generates the source file.
   this->ctx_.source_
-    << "namespace " << namespace_name
-    << "{";
-
-  // This part of the code generates the source file.
-  this->ctx_.source_
     << CUTS_BE_CPP::function_header (implname)
     << implname << "::" << implname << " (void)";
 
@@ -339,6 +356,10 @@ generate (const PICML::MonolithicImplementation_in impl,
 
   for (auto periodic : periodics)
     periodic->accept (&entity);
+
+  // Generate ApplicationTask initalization
+  for (auto task : apptasks)
+    task->accept (&entity);
 
   if (this->ctx_.traits_->emulates_async ())
   {
@@ -418,6 +439,18 @@ void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
 visit_Input (PICML::Input_in input)
 {
   input->dst_InputAction ()->accept (this);
+}
+
+void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
+visit_ApplicationTask (PICML::ApplicationTask_in apptask)
+{
+  std::string name ("apptask_");
+  name += apptask->name ();
+
+  // Configure the apptask event.
+  this->ctx_.header_
+    << "this->" << name << "_.init (this, &type::" << name << ");"
+    << "this->register_object   (&this->" << name << "_);";
 }
 
 void CUTS_BE_Component_Impl_End_T <CUTS_BE_CCM::Cpp::Context>::
@@ -598,6 +631,78 @@ generate (const PICML::MultiInputAction_in action)
     this->ctx_.source_
       << "}";
   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Variables_Begin_T
+
+void CUTS_BE_Variables_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::Component_in component)
+{
+  for (auto variable : component->get_Variables ())
+  {
+    if (!variable->PredefinedType_is_nil ())
+    {
+      PICML::PredefinedType type = variable->refers_to_PredefinedType ();
+
+      // Generate the setter methods
+      std::string name (variable->name ());
+
+      PICML::Component parent = variable->parent ();
+      std::string parent_name (parent->name ());
+
+      // This part generates the header information.
+      this->ctx_.header_
+        << "public:" << std::endl
+        << CUTS_BE_CPP::single_line_comment ("variable setter: " + name)
+        << "virtual void " << name << " (";
+
+      CUTS_BE_CCM::Cpp::In_Type_Generator in_type_header_gen (this->ctx_.header_);
+      in_type_header_gen.generate (type);
+
+      this->ctx_.header_
+        << " " << name << ");"
+        << std::endl;
+
+      CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_header_gen (this->ctx_.header_);
+
+      this->ctx_.header_
+        << CUTS_BE_CPP::single_line_comment ("variable getter: " + name)
+        << "virtual ";
+      retn_type_header_gen.generate (type);
+      this->ctx_.header_
+        << " " << name << " (void);" << std::endl;
+
+      // This part generates the source information.
+      this->ctx_.source_
+        << CUTS_BE_CPP::function_header ("variable setter: " + name)
+        << "void " << parent_name << "::" << name << " (";
+
+      CUTS_BE_CCM::Cpp::In_Type_Generator in_type_source_gen (this->ctx_.source_);
+      in_type_source_gen.generate (type);
+
+      this->ctx_.source_
+        << " " << name << ")"
+        << "{"
+        << "this->" << name << "_ = " << name << ";"
+        << "}";
+
+      CUTS_BE_CCM::Cpp::Retn_Type_Generator retn_type_source_gen (this->ctx_.source_);
+
+      this->ctx_.source_
+        << CUTS_BE_CPP::function_header ("variable getter: " + name);
+
+      retn_type_source_gen.generate (type);
+      this->ctx_.source_
+        << " " << parent_name << "::" << name << " (void)"
+        << "{"
+        << "return this->" << name << "_;"
+        << "}";
+    }
+  }
+
+  this->ctx_.header_
+    << "private:" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -837,6 +942,39 @@ generate (const PICML::PeriodicEvent_in periodic)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Begin_T
+
+void CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::ApplicationTask_in apptask)
+{
+  std::string name = apptask->name ();
+  std::string func_name = "apptask_" + name;
+
+  PICML::Component parent = apptask->parent ();
+  std::string parent_name (parent->name ());
+
+  this->ctx_.header_
+    << CUTS_BE_CPP::single_line_comment ("ApplicationTask: " + name)
+    << "void " << func_name << " (void);"
+    << std::endl;
+
+  this->ctx_.source_
+    << CUTS_BE_CPP::function_header ("ApplicationTask: " + name)
+    << "void " << parent_name << "::" << func_name << " (void)"
+    << "{";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_End_T
+
+void CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
+generate (const PICML::ApplicationTask_in apptask)
+{
+  this->ctx_.source_
+    << "}";
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_InEventPort_Begin_T
 
 void CUTS_BE_InEventPort_Begin_T <CUTS_BE_CCM::Cpp::Context>::
@@ -939,7 +1077,9 @@ generate (const PICML::ProvidedRequestPort_in facet)
     << CUTS_BE_CPP::single_line_comment ("facet: " + name)
     << "virtual " << scope << "CCM_" << obj_name << "_ptr" << std::endl
     << "  " << func << " (void);"
-    << std::endl;
+    << "private:" << std::endl
+    << scope << "CCM_" << obj_name << "_var " << name << "_i_;"
+    << "public:" << std::endl;
 
   this->ctx_.source_
     << CUTS_BE_CPP::function_header ("facet: " + name)
@@ -961,9 +1101,22 @@ generate (const PICML::ProvidedRequestPort_in port)
 
   std::string obj_scope (CUTS_BE_CPP::scope (obj));
   std::string name (obj->name ());
+  std::string port_class (port->name ());
+  port_class[0] = toupper (port_class[0]);
+  port_class += "_i";
 
   this->ctx_.source_
-    << "return " << obj_scope << "CCM_" << name << "::_nil ();"
+    << "if ( ::CORBA::is_nil (this->" << port->name () << "_i_.in ()))"
+    << "{"
+    << port_class << " * tmp = 0;"
+    << "ACE_NEW_RETURN (" << std::endl
+    << "tmp," << std::endl
+    << port_class << " (this)," << std::endl
+    << "CCM_" << name << "::_nil ());"
+    << "this->" << port->name () << "_i_ = tmp;"
+    << "}"
+    << "return CCM_" << name << "::_duplicate (" << std::endl
+    << "this->" << port->name () << "_i_.in ());"
     << "}";
 }
 

@@ -7,6 +7,7 @@
 #include "EventConsumer.h"
 #include "Publisher.h"
 #include "Publisher_Table.h"
+#include "Cookie.h"
 
 namespace iCCM
 {
@@ -205,6 +206,70 @@ unsubscribe (const char * name, ::Components::Cookie * cookie)
     throw ::Components::InvalidName ();
 
   return table->unsubscribe (cookie);
+}
+
+//
+// connect
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_INLINE
+::Components::Cookie *
+Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+connect (const char * name, ::CORBA::Object_ptr object_ptr)
+{
+  ::iCCM::Receptacle * rec;
+  if (0 != this->receptacles_.find (name, rec))
+    throw ::CORBA::INTERNAL ();
+  return rec->connect (object_ptr);
+}
+
+//
+// disconnect
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_INLINE
+::CORBA::Object_ptr
+Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+disconnect (const char * name, ::Components::Cookie * c)
+{
+  ::iCCM::Receptacle * rec;
+  if (0 != this->receptacles_.find (name, rec))
+    throw ::CORBA::INTERNAL ();
+  return rec->disconnect (c);
+}
+
+//
+// add_facet
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_INLINE
+void
+Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_facet (const char * name, ::CORBA::Object_ptr ref)
+{
+  facets_values_type value;
+  ACE_Utils::UUID uuid;
+
+  ::CORBA::Object_var object_var (ref);
+  object_var->_add_ref ();
+  value = std::make_pair (object_var, uuid);
+
+  this->facets_.bind (name, value);
+}
+
+//
+// provide_facet
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+CUTS_INLINE
+::CORBA::Object_ptr
+Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::provide_facet (const char * name)
+{
+  facets_values_type value;
+  if (0 != this->facets_.find (name, value))
+    throw ::Components::InvalidName ();
+
+  return ::CORBA::Object::_duplicate (value.first);
 }
 
 //

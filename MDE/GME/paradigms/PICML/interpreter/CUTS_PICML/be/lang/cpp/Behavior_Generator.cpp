@@ -87,6 +87,21 @@ generate (const PICML::PeriodicEvent_in periodic)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Application_Task_Variable_T
+
+void CUTS_BE_ApplicationTask_Variable_T <CUTS_BE_CPP::Context>::
+generate (const PICML::ApplicationTask_in apptask)
+{
+  std::string name (apptask->name ());
+  PICML::Component parent = apptask->parent ();
+
+  this->ctx_.header_
+    << CUTS_BE_CPP::single_line_comment ("apptask: " + name)
+    << "CUTS_Application_Task_T < " << parent->name ()
+    << " > apptask_" << name << "_;" << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_PeriodicEvent_Variable_T
 
 void CUTS_BE_Worker_Variable_T <CUTS_BE_CPP::Context>::
@@ -226,6 +241,59 @@ generate (const PICML::OutputAction_in action)
     << "this->ctx_->push_"
     << action->name () << " (__event_" << id << "__.in ());"
     << std::endl;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Begin_T
+
+void CUTS_BE_CallAction_Begin_T <CUTS_BE_CPP::Context>::
+generate (const PICML::CallAction_in action)
+{
+  if (!action->has_TargetRequiredRequestPort ())
+    return;
+
+  PICML::TargetRequiredRequestPort target = action->get_TargetRequiredRequestPort ();
+  PICML::RequiredRequestPort port = target->refers_to_RequiredRequestPort ();
+
+  this->ctx_.source_
+    << "this->ctx_->get_connection_" << port->name () << " ()->" << action->name () << " (";
+
+  // Get the children properties
+  this->ctx_.arg_count_ = action->children <PICML::Property> ().count ();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_Property_T
+
+void CUTS_BE_CallAction_Property_T <CUTS_BE_CPP::Context>::
+generate (const PICML::CallAction_in action,
+          const PICML::Property_in prop)
+{
+  // TODO Add support for complex properties.
+
+  // Write the value of the prop.
+  PICML::SimpleProperty simple = PICML::SimpleProperty::_narrow (prop);
+  this->ctx_.source_ << simple->Value ();
+
+  if (this->ctx_.arg_count_ > 1)
+  {
+    // If there are anymore argurments remaining, we need to place a
+    // comma separator for the next argument.
+    this->ctx_.source_ << ", ";
+
+    // Decrement the argument count.
+    -- this->ctx_.arg_count_;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_CallAction_End_T
+
+void CUTS_BE_CallAction_End_T <CUTS_BE_CPP::Context>::
+generate (const PICML::CallAction_in action)
+{
+  this->ctx_.source_
+    << ");" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

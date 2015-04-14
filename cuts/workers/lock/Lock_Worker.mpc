@@ -1,0 +1,18 @@
+// $Id$
+
+project (CUTS_Lock_Worker) : boost_base, cuts_utils, cuts_lib, cutslib {
+  sharedname   += CUTS_Lock_Worker
+  dynamicflags += CUTS_LOCK_WORKER_BUILD_DLL
+
+  Source_Files {
+    Lock_Worker.cpp
+  }
+
+  Header_Files {
+    Lock_Worker.h
+  }
+
+  Inline_Files {
+    Lock_Worker.inl
+  }
+}

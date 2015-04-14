@@ -96,6 +96,9 @@ protected:
 
   void visit_RequestAction (PICML::RequestAction_in);
 
+  /// Visit an CallAction element.
+  void visit_CallAction (PICML::CallAction_in);
+
   ///// Visit a CompositeAction element.
   //void visit_CompositeAction (PICML::CompositeAction_in);
 
@@ -109,6 +112,8 @@ protected:
 
 protected:
   void visit_OutputAction_Property (PICML::Property_in property);
+
+  void visit_CallAction_Property (PICML::Property_in property);
 
 private:
   void visit_ActionBase (PICML::ActionBase_in);

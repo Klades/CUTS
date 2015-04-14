@@ -28,9 +28,17 @@ namespace HelloSenderImpl
   //
   void HelloSender::periodic_EventCreator (void)
   {
-    ::MessageEvent_var __event_100000010__ = this->ctx_->new_greeting_event ();
-    __event_100000010__->content (this->message_.c_str ());
-    this->ctx_->push_greeting (__event_100000010__.in ());
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Pushing greeting\n")));
+    ::MessageEvent_var __event_id_0065_0000000c__ = this->ctx_->new_greeting_event ();
+    __event_id_0065_0000000c__->content (this->message_.c_str ());
+    this->ctx_->push_greeting (__event_id_0065_0000000c__.in ());
+
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Greeting event sent\n")));
+
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Incrementing count on messenger_object\n")));
+    this->ctx_->get_connection_messenger_object ()->increment_count ();
+
+    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Count incremented\n")));
   }
 
   //

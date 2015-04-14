@@ -1,13 +1,9 @@
 // $Id$
 
 project {
-  specific {
-    iccm_portico = $(CUTS_ROOT)/bin/iccm_portico
-  }
-
   Define_Custom (ICCM) {
-    command               = $(ICCM_PORTICO)
-    dependent             = $(ICCM_PORTICO)
+    command               = $(CUTS_ROOT)/bin/iccm_portico
+    dependent             = $(CUTS_ROOT)/bin/iccm_portico
     inputext              = .idl
 
     source_outputext      = C.cpp

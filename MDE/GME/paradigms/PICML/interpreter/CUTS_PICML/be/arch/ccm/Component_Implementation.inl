@@ -154,6 +154,43 @@ CUTS_BE_PeriodicEvent_End_T <CUTS_BE_CCM::Cpp::Context>::
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_Begin_T
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+CUTS_BE_ApplicationTask_Begin_T (CUTS_BE_CCM::Cpp::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+~CUTS_BE_ApplicationTask_Begin_T (void)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_ApplicationTask_End_T
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
+CUTS_BE_ApplicationTask_End_T (CUTS_BE_CCM::Cpp::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_ApplicationTask_End_T <CUTS_BE_CCM::Cpp::Context>::
+~CUTS_BE_ApplicationTask_End_T (void)
+{
+
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Environment_Method_Begin_T
 
 CUTS_INLINE
@@ -207,6 +244,23 @@ CUTS_BE_Component_Impl_Entrypoint_T <CUTS_BE_CCM::Cpp::Context>::
 
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// CUTS_BE_Variables_Begin_T
+
+CUTS_INLINE
+CUTS_BE_Variables_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+CUTS_BE_Variables_Begin_T (CUTS_BE_CCM::Cpp::Context & context)
+: visitor_type (context)
+{
+
+}
+
+CUTS_INLINE
+CUTS_BE_Variables_Begin_T <CUTS_BE_CCM::Cpp::Context>::
+~CUTS_BE_Variables_Begin_T (void)
+{
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // CUTS_BE_Attribute_Begin_T

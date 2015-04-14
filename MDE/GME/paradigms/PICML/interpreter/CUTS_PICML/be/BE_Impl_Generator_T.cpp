@@ -168,6 +168,10 @@ visit_Component (PICML::Component_in component)
   CUTS_BE::visit <CONTEXT> (component->get_PeriodicEvents (),
     [this] (const PICML::PeriodicEvent & i) {return i->accept (this);});
 
+  // Visit all the ApplicationTask elements of the <component>.
+  CUTS_BE::visit <CONTEXT> (component->get_ApplicationTasks (),
+    [this] (const PICML::ApplicationTask & i) {return i->accept (this);});
+
   // Visit all the Attribute elements of the <component>.
   CUTS_BE::visit <CONTEXT> (component->get_Attributes (),
     [this] (const PICML::Attribute & i) {return i->accept (this);});
@@ -258,16 +262,13 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_ProvidedRequestPort (PICML::ProvidedRequestPort_in facet)
 {
-  //// Begin the generation of the provided request port.
-  //CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
-  //port_begin_gen.generate (facet);
+  // Begin the generation of the provided request port.
+  CUTS_BE_ProvidedRequestPort_Begin_T <architecture_type> port_begin_gen (this->context_);
+  port_begin_gen.generate (facet);
 
-  //CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
-  //exec_visitor.generate (facet);
-
-  //// End the generation of the provided request port.
-  //CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
-  //port_end_gen.generate (facet);
+  // End the generation of the provided request port.
+  CUTS_BE_ProvidedRequestPort_End_T <architecture_type> port_end_gen (this->context_);
+  port_end_gen.generate (facet);
 }
 
 //
@@ -277,21 +278,21 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_ProvidedRequestPort_impl (PICML::ProvidedRequestPort_in facet)
 {
+  if (facet->Provideable_is_nil ())
+    return;
+
   // Get the parent component and the facet's interface/object.
-  //PICML::Component component = PICML::Component::Cast (facet.parent ());
-  //PICML::Object object = PICML::Object::Cast (facet.ref ());
+  PICML::Component component = facet->parent ();
+  PICML::Object object = facet->refers_to_Provideable ();
 
-  //if (object != Udm::null)
-  //{
-  //  // Write the beginning of the facet's implementation.
-  //  CUTS_BE_Object_Impl_Begin_T <CONTEXT>::generate (component, facet);
+  // Write the beginning of the facet's implementation.
+  CUTS_BE_Object_Impl_Begin_T <CONTEXT>::generate (component, facet);
 
-  //  CUTS_BE::visit <CONTEXT> (object,
-  //    boost::bind (&PICML::Object::Accept, _1, boost::ref (*this)));
+  CUTS_BE::visit <CONTEXT> (object,
+    [this] (const PICML::Object & i) {return i->accept (this);});
 
-  //  // Write the end of the facet's implementation.
-  //  CUTS_BE_Object_Impl_End_T <CONTEXT>::generate (component, facet);
-  //}
+  // Write the end of the facet's implementation.
+  CUTS_BE_Object_Impl_End_T <CONTEXT>::generate (component, facet);
 }
 
 //
@@ -317,7 +318,18 @@ visit_PeriodicEvent_Variable (PICML::PeriodicEvent_in periodic)
 }
 
 //
-// visit_Include
+// Visit_ApplicationTask_Variable
+//
+template <typename CONTEXT>
+void CUTS_BE_Impl_Generator_T <CONTEXT>::
+visit_ApplicationTask_Variable (PICML::ApplicationTask_in apptask)
+{
+  CUTS_BE_ApplicationTask_Variable_T <behavior_type> var_gen (this->context_);
+  var_gen.generate (apptask);
+}
+
+//
+// Visit_ReadonlyAttribute_Variable
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
@@ -358,7 +370,26 @@ visit_PeriodicEvent (PICML::PeriodicEvent_in periodic)
 }
 
 //
-// visit_InEventPort
+// Visit_ApplicationTask
+//
+template <typename CONTEXT>
+void CUTS_BE_Impl_Generator_T <CONTEXT>::
+visit_ApplicationTask (PICML::ApplicationTask_in apptask)
+{
+  // Begin the generation of the application task.
+  CUTS_BE_ApplicationTask_Begin_T <architecture_type> apptask_begin_gen (this->context_);
+  apptask_begin_gen.generate (apptask);
+
+  CUTS_BE_Execution_Visitor_T <behavior_type> exec_visitor (this->context_);
+  exec_visitor.generate (apptask);
+
+  // End the generation of the application task.
+  CUTS_BE_ApplicationTask_End_T <architecture_type> apptask_end_gen (this->context_);
+  apptask_end_gen.generate (apptask);
+}
+
+//
+// Visit_Attribute
 //
 template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
@@ -446,9 +477,9 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_TwowayOperation (PICML::TwowayOperation_in twoway)
 {
-  //CUTS_BE_TwowayOperation_Begin_T <CONTEXT>::generate (twoway);
+  CUTS_BE_TwowayOperation_Begin_T <CONTEXT>::generate (twoway);
 
-  //CUTS_BE_TwowayOperation_End_T <CONTEXT>::generate (twoway);
+  CUTS_BE_TwowayOperation_End_T <CONTEXT>::generate (twoway);
 }
 
 //
@@ -458,9 +489,9 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 visit_OnewayOperation (PICML::OnewayOperation_in oneway)
 {
-  //CUTS_BE_OnewayOperation_Begin_T <CONTEXT>::generate (oneway);
+  CUTS_BE_OnewayOperation_Begin_T <CONTEXT>::generate (oneway);
 
-  //CUTS_BE_OnewayOperation_End_T <CONTEXT>::generate (oneway);
+  CUTS_BE_OnewayOperation_End_T <CONTEXT>::generate (oneway);
 }
 
 //
@@ -552,7 +583,7 @@ template <typename CONTEXT>
 void CUTS_BE_Impl_Generator_T <CONTEXT>::
 write_variables_i (const PICML::Component_in component)
 {
-  CUTS_BE_Variables_Begin_T <behavior_type> var_begin_gen (this->context_);
+  CUTS_BE_Variables_Begin_T <architecture_type> var_begin_gen (this->context_);
   var_begin_gen.generate (component);
 
   // Write all the basic variables.
@@ -571,6 +602,10 @@ write_variables_i (const PICML::Component_in component)
   // Write the periodic event variables.
   for (auto periodic : component->get_PeriodicEvents ())
     this->visit_PeriodicEvent_Variable (periodic);
+
+  // Write the application task variables.
+  for (auto apptask : component->get_ApplicationTasks ())
+    this->visit_ApplicationTask_Variable (apptask);
 
   // End the generation of the variables.
   CUTS_BE_Variables_End_T <behavior_type> var_end_gen (this->context_);

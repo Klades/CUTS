@@ -87,6 +87,10 @@ public:
   void visit_PeriodicEvent (
     PICML::PeriodicEvent_in periodic);
 
+  /// Visit an ApplicationTask element.
+  void visit_ApplicationTask (
+    PICML::ApplicationTask_in apptask);
+
   /// Visit a ReadonlyAttribute element.
   void visit_ReadonlyAttribute (
     PICML::ReadonlyAttribute_in ro_attr);
@@ -133,6 +137,12 @@ protected:
 
   void visit_PeriodicEvent_Variable (
     PICML::PeriodicEvent_in periodic);
+
+  void visit_ApplicationTask_Variable (
+    PICML::ApplicationTask_in apptask);
+
+  void visit_ComponentImplementation (
+    PICML::ComponentImplementation_in);
 
 private:
   /// Target context for the generator.

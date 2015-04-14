@@ -1,13 +1,9 @@
 // $Id$
 
 project {
-  specific {
-    iccm_tcpip = $(CUTS_ROOT)/bin/iccm_tcpip
-  }
-
   Define_Custom (ICCM) {
-    command               = $(ICCM_TCPIP)
-    dependent             = $(ICCM_TCPIP)
+    command               = $(CUTS_ROOT)/bin/iccm_tcpip
+    dependent             = $(CUTS_ROOT)/bin/iccm_tcpip
     inputext              = .idl
 
     source_outputext      = C.cpp

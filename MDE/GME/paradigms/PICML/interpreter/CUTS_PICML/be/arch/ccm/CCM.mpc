@@ -1,6 +1,6 @@
 // $Id$
 
-project (CUTS_BE_CCM) : boost_base, cuts_picml_game_mga, cuts_be_cpp, cuts_cosmic {
+project (CUTS_BE_CCM) : boost_base, cuts_picml_game_mga, cuts_game_mga_utils, cuts_be_cpp, cuts_cosmic {
   sharedname    = CUTS_BE_CCM
   dynamicflags += CUTS_BE_CCM_BUILD_DLL
 
@@ -19,5 +19,6 @@ project (CUTS_BE_CCM) : boost_base, cuts_picml_game_mga, cuts_be_cpp, cuts_cosmi
     Traits.cpp
     Type_System.cpp
     Workspace_Generator.cpp
+    Object_Impl_Generator.cpp
   }
 }

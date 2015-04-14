@@ -176,6 +176,20 @@ write_PeriodicEvent_end (const PICML::PeriodicEvent_in periodic)
 
 CUTS_INLINE
 void CUTS_BE_Traits::
+write_ApplicationTask_begin (const PICML::ApplicationTask_in apptask)
+{
+
+}
+
+CUTS_INLINE
+void CUTS_BE_Traits::
+write_ApplicationTask_end (const PICML::ApplicationTask_in apptask)
+{
+
+}
+
+CUTS_INLINE
+void CUTS_BE_Traits::
 write_OnewayOperation_begin (const PICML::OnewayOperation_in oneway)
 {
 
@@ -262,6 +276,13 @@ write_ReadonlyAttribute_variable (const PICML::ReadonlyAttribute_in type)
 CUTS_INLINE
 void CUTS_BE_Traits::
 write_PeriodicEvent_variable (const PICML::PeriodicEvent_in periodic)
+{
+
+}
+
+CUTS_INLINE
+void CUTS_BE_Traits::
+write_ApplicationTask_variable (const PICML::ApplicationTask & apptask)
 {
 
 }

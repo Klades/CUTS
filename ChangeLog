@@ -88,6 +88,550 @@ Tue Aug 12 15:11:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/Event_Creator.cpp:
         * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
 
+Tue Aug 19 13:35:06 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node2.pl:
+
+          Missed a local variable (OSPL_HOME)
+
+Tue Aug 19 13:31:50 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node2.pl:
+
+          Fixed scripts to start/stop ospl server
+
+Mon Aug 18 19:05:26 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * bin/handlers/coredx.locality.config:
+
+          Forgot to add CoreDX locality config file
+
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_node2.pl:
+
+          Fixed copy/paste error with locality configs
+
+Mon Aug 18 18:36:00 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_node2.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_node2.pl:
+
+          Modified scripts to have one perl script per node.
+
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/run_test.pl:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/run_test.pl:
+
+          Removed these files.
+
+Mon Aug 18 18:31:07 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node2.pl:
+
+          Fixed typos.
+
+Mon Aug 18 18:25:14 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/two_nodes:
+        * tests/iccm/two_nodes/HelloWorld:
+        * tests/iccm/two_nodes/HelloWorld/coredx:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/coredx/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/models:
+        * tests/iccm/two_nodes/HelloWorld/models/HelloWorld.xme:
+        * tests/iccm/two_nodes/HelloWorld/opensplice:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/portico:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/portico/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/rtidds:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/tao:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/tcpip:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/HelloWorld.cdd:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node1.pl:
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_node2.pl:
+
+          Created HelloWorld two node test.  This executes the HelloWorld example
+          on two seperate nodes within Emulab.
+
+        * tests/iccm/two_nodes/HelloWorld/tcpip/descriptors/run_test.pl:
+
+          Removed this file.
+
+Mon Aug 18 15:46:38 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/models/HelloWorld.xme:
+
+          Updated model to include debugging messages
+
+        * examples/iccm/HelloWorld/coredx/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/coredx/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/portico/HelloWorld.idl:
+        * examples/iccm/HelloWorld/portico/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/portico/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+
+          Regenerated files from GME.
+
+Fri Aug 15 15:36:20 UTC 2014  Dennis Feiock <dfeiock at iupui dot edu>
+
+        * MPC/config/iccm_coredx.mpb:
+        * MPC/config/iccm_ospl.mpb:
+        * MPC/config/iccm_portico.mpb:
+        * MPC/config/iccm_rtidds.mpb:
+        * MPC/config/iccm_tao.mpb:
+        * MPC/config/iccm_tcpip.mpb:
+
+          Reverted changes to MPB files.  Found that specific variables
+          do not work on linux with gnuace type.
+
+Fri Aug 15 15:25:27 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/servant/Receptacle_T.cpp:
+
+          Fixed compilation error on Linux
+
+Wed Aug 13 13:49:25 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/coredx/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/coredx/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/coredx/HelloWorld.idl:
+        * examples/iccm/HelloWorld/coredx/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/coredx/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.idl:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/opensplice/SACPP/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/opensplice/SACPP/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/rtidds/corba/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/rtidds/corba/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tcpip/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld.mwc:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tcpip/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdd:
+        * examples/iccm/HelloWorld/tcpip/descriptors/HelloWorld.cdp:
+
+          Regenerated files from model with facet/receptacle
+
+Tue Aug 12 19:55:13 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MPC/config/cuts_coredx.mpb:
+        * MPC/config/iccm_coredx_skel.mpb:
+        * MPC/config/iccm_coredx_stub.mpb:
+        * MPC/config/iccm_coredx_svnt.mpb:
+        * MPC/config/requires_coredx.mpb:
+
+          Fixed missing files and merge problems.
+
+Mon Jul 28 15:47:59 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/CUTS_GME_PICML.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation_Impl.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+
+          Added CoreDX middleware to the CUTS interpreter
+
+Wed Feb 12 18:56:32 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/T2M/executor/Executor_App.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/quotas/javap/Quotas_Javap_Importer_App.cpp:
+        * cuts/iccm/arch/tcpip/stub/TCPIP_ORB.cpp:
+        * cuts/unite/dmac/Dmac_App.cpp:
+        * cuts/unite/presentation/gnuplot/Gnuplot_Presentation_Service.cpp:
+        * cuts/utils/antispam/Antispam_App.cpp:
+        * cuts/utils/archiving/client/Test_Archive_Client.cpp:
+        * cuts/utils/archiving/server/Test_Archive_Server.cpp:
+        * cuts/utils/barrier/client/Barrier_Client.cpp:
+        * cuts/utils/barrier/server/Barrier_Server.cpp:
+        * cuts/utils/deployment/unique-deployments.cpp:
+        * cuts/utils/logging/client/interceptors/acelog/ACE_Log_Interceptor.cpp:
+        * cuts/utils/node/client/NodeDaemon_Client_App.cpp:
+        * cuts/utils/node/server/NodeDaemon_Server_Impl.cpp:
+        * cuts/utils/template/Template_App.cpp:
+        * cuts/utils/testing/Testing_App.cpp:
+        * cuts/utils/testing/svcs/logging/Trace_Importer_App.cpp:
+        * cuts/utils/testing/svcs/server/Testing_Server.cpp:
+        * cuts/utils/testing/svcs/summary/Test_Summary_Service.cpp:
+        * cuts/utils/testing/svcs/validation/TE_Score_App.cpp:
+        * cuts/utils/testing/svcs/validation/Testing_Validation_Service.cpp:
+        * performance-tests/DOA-2009/CORBA/client.cpp:
+        * performance-tests/DOA-2009/CORBA/server.cpp:
+        * performance-tests/DOA-2009/EISA/client.cpp:
+        * performance-tests/DOA-2009/EISA/server.cpp:
+        * performance-tests/DOA-2009/overhead/client.cpp:
+        * performance-tests/DOA-2009/overhead/dac-server.cpp:
+        * performance-tests/DOA-2009/overhead/server.cpp:
+        * performance-tests/cuts/utils/unite/scalability.cpp:
+
+          Fixed get_opt data type for embedded devices.
+
+Wed Feb 12 18:36:27 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+
+          Fixed IDL flags for facets.  Thank Marianne!
+
+Tue Feb 11 17:10:53 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+
+          Changed facet getter implementation to not make a call to the behavior generator
+          (#622).  Thanks Marianne!
+
+Mon Feb 10 15:07:49 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * tests/iccm/compiler/models:
+        * tests/iccm/compiler/models/SmokeTest.xme:
+
+          Started on a model for the compiler smoke test.  Still not complete,
+          but it's a start.
+
+Mon Feb 10 14:59:38 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/Latency:
+        * examples/iccm/Latency/models:
+        * examples/iccm/Latency/models/latency.xme:
+
+          Modelled latency performance test based on RTIDDS's implementation.
+          Need to generate artifacts from the model, but am having problems
+          with GME right now.
+
+Thu Feb  6 20:36:54 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/workers/lock:
+        * cuts/workers/lock/Lock_Worker.h:
+        * cuts/workers/lock/Lock_Worker.inl:
+        * cuts/workers/lock/Lock_Worker.cpp:
+        * cuts/workers/lock/Lock_Worker.mpc:
+        * cuts/workers/lock/Lock_Worker_export.h:
+        * cuts/workers/lock/models:
+        * cuts/workers/lock/models/CUTS_Lock_Worker.xme:
+
+          Implemented a lock worker.  This can be used with application tasks
+          to block a thread.
+
+Thu Feb  6 20:30:02 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/Application_Task.h:
+        * cuts/Application_Task.inl:
+        * cuts/Application_Task.cpp:
+        * cuts/Application_Task_T.h:
+        * cuts/Application_Task_T.cpp:
+
+          Redesign of the application task.  Thanks James!
+
+Fri Jan 24 16:40:13 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+
+          Fixed code generation to only include facet implementation header if
+          the component provides a facet.
+
+Fri Jan 24 16:08:04 UTC 2014  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Method_Visitor.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Method_Visitor.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Set.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Set.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Traits.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Traits.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Component_Impl_Generator.cpp:
+
+          Added code generation for Application Tasks
+
+        * cuts/Application_Task.h:
+        * cuts/Application_Task.inl:
+        * cuts/Application_Task.cpp:
+        * cuts/Application_Task_T.h:
+        * cuts/Application_Task_T.inl:
+        * cuts/Application_Task_T.cpp:
+        * cuts/CUTS.mpc:
+
+          Added base classes for Application Tasks.  These tasks run in a separate
+          thread and make a single call into method the initalized method on the
+          component when activated.  At this time, application task activation only
+          occurs when the component is activated.
+
+Tue Dec 17 16:11:13 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+
+          Added support for eventtype handling by facets
+
+Tue Dec 17 15:52:31 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+
+          Added support for inout parameters on interfaces
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Fixed code generation for WString attributes
+
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+
+          Added inout parameters to interface
+
+Thu Dec 12 05:29:09 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+
+          Added support for out variables
+
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+
+          Extended tests to include out variables on interfaces.
+
+Thu Dec 12 04:35:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Compiler.mpc:
+        * cuts/iccm/compiler/Provides_Svnt_Impl.h:
+        * cuts/iccm/compiler/Provides_Svnt_Impl.cpp:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Updated compiler to support more facet methods.  Currently all basic
+          types, enums, and structs are supported as in variables.
+
+        * tests/iccm/compiler/tao/Smoke_Test.idl:
+
+          Expanded smoke test to include interface, uses, and provides.
+
+Mon Aug 26 05:47:08 UTC 2013  James H. Hill  <hillj at cs dot iupui dot edu>
+
+        * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/Code_Generation.idl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/dds2ccm/dds2ccm_Component.idl:
+        * cuts/workers/CPU/Calibration_Details.cpp:
+
+          Updated to latest version of GME.
+
+Mon Jul 29 14:25:24 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * examples/iccm/HelloWorld/models/HelloWorld.xme:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloReceiverImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.h:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.cpp:
+        * examples/iccm/HelloWorld/tao/HelloSenderImpl.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld.mpc:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.idl:
+        * examples/iccm/HelloWorld/tao/HelloWorld_Components.mpc:
+        * examples/iccm/HelloWorld/tao/descriptors/HelloWorld.cdp:
+
+          Updated HelloWorld example to use Multi-Input facets (echo) and objects (Messenger).
+
+Mon Jul 29 13:40:32 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.cpp:
+
+          Reverted previous change.  Objects now get their parent component via the constructor.
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Fixed object servant class name to be capitalized.
+
+Fri Jul 26 17:42:20 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Implemented argument handling for object operations
+
+Fri Jul 26 16:25:16 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.cpp:
+
+          Changed Object implementations to not receive the parent component in the constructor
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Added generation for CallAction behavior
+
+        * cuts/iccm/compiler/Servant_Context.cpp:
+        * cuts/iccm/compiler/Servant_File.cpp:
+        * cuts/iccm/compiler/Servant_Impl.cpp:
+
+          Added generation for facets (uses and provides IDL keywords).
+
+        * cuts/iccm/servant/Receptacle.h:
+        * cuts/iccm/servant/Receptacle.inl:
+        * cuts/iccm/servant/Receptacle.cpp:
+        * cuts/iccm/servant/Receptacle_T.h:
+        * cuts/iccm/servant/Receptacle_T.inl:
+        * cuts/iccm/servant/Receptacle_T.cpp:
+
+          Created abstraction for RequiredRequestPorts.
+
+        * cuts/iccm/servant/Servant.mpc:
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Servant_T's now aggregate a map of receptacles and implement the connect and disconnect
+          methods
+
+Wed Jul 24 16:26:31 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Execution_Visitor_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Generators_T.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Added support for CallAction elements.
+
+        * cuts/iccm/deployment/Component_Instance_Handler_T.cpp:
+
+          Added support for Simplex Recepticals.
+
+        * cuts/iccm/servant/Servant_T.h:
+        * cuts/iccm/servant/Servant_T.inl:
+        * cuts/iccm/servant/Servant_T.cpp:
+
+          Added facet map and connect/disconnect methods.
+
+Wed Jun 26 17:28:19 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Project_Generator.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Traits.cpp:
+
+          Updated to generate executor and EIDL if the file contains an object with referenced
+          operations.
+
+Mon Jun 17 17:28:57 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/ciao/CIAO_Generators.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/lang/cpp/Behavior_Generator.cpp:
+
+          Updated to generate getters and setters for component variables
+
+Thu Jun 13 19:17:26 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/BE_Impl_Generator_T.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/CCM.mpc:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Component_Implementation.cpp:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.h:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.inl:
+        * MDE/GME/paradigms/PICML/interpreter/CUTS_PICML/be/arch/ccm/Object_Impl_Generator.cpp:
+
+          Started modifications for facet/MultiInput support.
+
+Thu Jun 13 19:17:26 UTC 2013  Dennis Feiock  <dfeiock at iupui dot edu>
+
           Fixed compilation errors on vc11.
 
         * MDE/GME/paradigms/CHAOS/interpreters/codegen/codegen.mpc:
