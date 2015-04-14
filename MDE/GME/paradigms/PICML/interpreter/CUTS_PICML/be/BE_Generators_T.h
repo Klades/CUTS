@@ -604,7 +604,7 @@ public:
 
   virtual ~CUTS_BE_ApplicationTask_Variable_T (void);
 
-  void generate (const PICML::ApplicationTask & apptask);
+  void generate (const PICML::ApplicationTask_in apptask);
 };
 
 /**
@@ -742,7 +742,7 @@ public:
 
   virtual ~CUTS_BE_ApplicationTask_Begin_T (void);
 
-  void generate (const PICML::ApplicationTask & apptask);
+  void generate (const PICML::ApplicationTask_in apptask);
 };
 
 /**
@@ -759,7 +759,7 @@ public:
 
   virtual ~CUTS_BE_ApplicationTask_End_T (void);
 
-  void generate (const PICML::ApplicationTask & apptask);
+  void generate (const PICML::ApplicationTask_in apptask);
 };
 
 //=============================================================================
@@ -1379,7 +1379,7 @@ public:
 
   virtual ~CUTS_BE_CallAction_Begin_T (void);
 
-  void generate (const PICML::CallAction & action);
+  void generate (const PICML::CallAction_in action);
 };
 
 /**
@@ -1396,8 +1396,8 @@ public:
 
   virtual ~CUTS_BE_CallAction_Property_T (void);
 
-  void generate (const PICML::CallAction & action,
-                 const PICML::Property & prop);
+  void generate (const PICML::CallAction_in action,
+                 const PICML::Property_in prop);
 };
 
 /**
@@ -1414,7 +1414,7 @@ public:
 
   virtual ~CUTS_BE_CallAction_End_T (void);
 
-  void generate (const PICML::CallAction & action);
+  void generate (const PICML::CallAction_in action);
 };
 
 /**

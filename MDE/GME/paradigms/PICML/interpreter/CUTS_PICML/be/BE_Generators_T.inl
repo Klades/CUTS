@@ -578,7 +578,7 @@ CUTS_BE_ApplicationTask_Variable_T <CONTEXT>::~CUTS_BE_ApplicationTask_Variable_
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ApplicationTask_Variable_T <CONTEXT>::
-generate (const PICML::ApplicationTask & )
+generate (const PICML::ApplicationTask_in )
 {
 
 }
@@ -792,7 +792,7 @@ CUTS_BE_ApplicationTask_Begin_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ApplicationTask_Begin_T <CONTEXT>::
-generate (const PICML::ApplicationTask & )
+generate (const PICML::ApplicationTask_in )
 {
 
 }
@@ -819,7 +819,7 @@ CUTS_BE_ApplicationTask_End_T <CONTEXT>::
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_ApplicationTask_End_T <CONTEXT>::
-generate (const PICML::ApplicationTask & )
+generate (const PICML::ApplicationTask_in )
 {
 
 }
@@ -1627,7 +1627,7 @@ CUTS_BE_CallAction_Begin_T <CONTEXT>::~CUTS_BE_CallAction_Begin_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_CallAction_Begin_T <CONTEXT>::
-generate (const PICML::CallAction &)
+generate (const PICML::CallAction_in)
 {
 
 }
@@ -1653,7 +1653,7 @@ CUTS_BE_CallAction_Property_T <CONTEXT>::~CUTS_BE_CallAction_Property_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_CallAction_Property_T <CONTEXT>::
-generate (const PICML::CallAction &, const PICML::Property & property)
+generate (const PICML::CallAction_in, const PICML::Property_in property)
 {
 
 }
@@ -1679,7 +1679,7 @@ CUTS_BE_CallAction_End_T <CONTEXT>::~CUTS_BE_CallAction_End_T (void)
 template <typename CONTEXT>
 CUTS_INLINE
 void CUTS_BE_CallAction_End_T <CONTEXT>::
-generate (const PICML::CallAction &)
+generate (const PICML::CallAction_in)
 {
 
 }
