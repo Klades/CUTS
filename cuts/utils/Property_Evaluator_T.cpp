@@ -10,8 +10,8 @@
 template <typename ACTOR>
 bool CUTS_Property_Evaluator_T <ACTOR>::evaluate (const char * str)
 {
-  boost::spirit::parse_info < > info =
-    boost::spirit::parse (str, this->grammar_);
+  boost::spirit::classic::parse_info < > info =
+    boost::spirit::classic::parse (str, this->grammar_);
 
   return info.full;
 }
@@ -24,8 +24,8 @@ template <typename IteratorT>
 bool CUTS_Property_Evaluator_T <ACTOR>::
 evaluate (IteratorT begin, IteratorT end)
 {
-  boost::spirit::parse_info <IteratorT> info =
-    boost::spirit::parse (begin, end, this->grammar_);
+  boost::spirit::classic::parse_info <IteratorT> info =
+    boost::spirit::classic::parse (begin, end, this->grammar_);
 
   return info.full;
 }

@@ -2,7 +2,7 @@
 
 #include "Property_Map_File.h"
 #include "Property_Parser.h"
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "boost/spirit/include/classic_file_iterator.hpp"
 #include "ace/streams.h"
 
 //
@@ -28,7 +28,7 @@ CUTS_Property_Map_File::~CUTS_Property_Map_File (void)
 bool CUTS_Property_Map_File::read (const char * filename)
 {
   typedef char char_t;
-  typedef boost::spirit::file_iterator <char_t> iterator_t;
+  typedef boost::spirit::classic::file_iterator <char_t> iterator_t;
 
   // Get an iterator to the beginning of the file.
   iterator_t begin (filename);

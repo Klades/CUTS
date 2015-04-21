@@ -6,7 +6,7 @@
 #include "Template_Engine.inl"
 #endif
 
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "boost/spirit/include/classic_file_iterator.hpp"
 
 //
 // process
@@ -18,12 +18,12 @@ bool CUTS_Template_Engine::process (const char * filename,
                                     bool ignore_commands)
 {
   // Find the start of the file.
-  boost::spirit::file_iterator <char> begin (filename);
+  boost::spirit::classic::file_iterator <char> begin (filename);
 
   if (begin)
   {
     // Find the end of the file.
-    boost::spirit::file_iterator <char> end = begin.make_end ();
+    boost::spirit::classic::file_iterator <char> end = begin.make_end ();
 
     return this->tp_.evaluate (begin,
                                end,

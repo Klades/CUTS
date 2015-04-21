@@ -13,8 +13,8 @@
 #include "adbc/Query.h"
 #include "adbc/SQLite/Types.h"
 
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_file_iterator.hpp"
 #include "ace/streams.h"
 
 static const char * __INSERT_STMT__ =
@@ -58,7 +58,7 @@ namespace actors
  * @struct CUTS_Trace_Importer_Parser_Grammar
  */
 struct CUTS_Trace_Importer_Parser_Grammar :
-  boost::spirit::grammar <CUTS_Trace_Importer_Parser_Grammar>
+  boost::spirit::classic::grammar <CUTS_Trace_Importer_Parser_Grammar>
 {
   /**
    * Initializing constructor
@@ -82,7 +82,7 @@ struct CUTS_Trace_Importer_Parser_Grammar :
      */
     definition (CUTS_Trace_Importer_Parser_Grammar const & self)
     {
-      using namespace boost::spirit;
+      using namespace boost::spirit::classic;
 
       this->log_message_ =
         (*(anychar_p - eol_p))[::actors::insert_message (self.query_)] >> eol_p;
@@ -90,15 +90,15 @@ struct CUTS_Trace_Importer_Parser_Grammar :
       this->execution_trace_ = *this->log_message_;
     }
 
-    const boost::spirit::rule <ScannerT> & start (void) const
+    const boost::spirit::classic::rule <ScannerT> & start (void) const
     {
       return this->execution_trace_;
     }
 
   private:
-    boost::spirit::rule <ScannerT> log_message_;
+    boost::spirit::classic::rule <ScannerT> log_message_;
 
-    boost::spirit::rule <ScannerT> execution_trace_;
+    boost::spirit::classic::rule <ScannerT> execution_trace_;
   };
 
 private:
@@ -120,7 +120,7 @@ import_trace (const ACE_CString & trace_file, const ACE_CString & hostname)
                        ACE_TEXT ("%T (%t) - %M - failed to initialize database\n")),
                        false);
 
-  using namespace boost::spirit;
+  using namespace boost::spirit::classic;
 
   // Re-open the temp file using an iterator this time.
   file_iterator < > iter_begin (trace_file.c_str ());

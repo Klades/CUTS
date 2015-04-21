@@ -6,7 +6,7 @@
 #include "File_Generator.inl"
 #endif
 
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "boost/spirit/include/classic_file_iterator.hpp"
 #include "cuts/utils/Text_Processor.h"
 #include <fstream>
 #include <sstream>
@@ -39,13 +39,13 @@ handle_config (const CUTS_Property_Map & config)
   outfile.open (ostr.str ().c_str ());
 
   // Open the template file for parsing.
-  boost::spirit::
+  boost::spirit::classic::
     file_iterator < > file_begin (this->template_.c_str ());
 
   if (file_begin)
   {
     // Locate the end of the template file.
-    boost::spirit::file_iterator < > file_end = file_begin.make_end ();
+    boost::spirit::classic::file_iterator < > file_end = file_begin.make_end ();
 
     if (outfile.is_open ())
     {
