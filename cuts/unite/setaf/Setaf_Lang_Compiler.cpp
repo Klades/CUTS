@@ -1,14 +1,14 @@
 // $Id:
 
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/utility/confix.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_confix.hpp"
 #include "ace/streams.h"
 #include "ace/CORBA_macros.h"
 #include "Setaf_Lang_Compiler.h"
 #include "Setaf_Code_Generator.h"
 
 
-namespace spirit = boost::spirit;
+namespace spirit = boost::spirit::classic;
 
 /**
  * @struct create_setaf_log_format
@@ -145,7 +145,7 @@ private:
  * @struct CUTS_Setaf_Lang_Compiler_Grammar
  */
 struct CUTS_Setaf_Lang_Compiler_Grammar :
-  boost::spirit::grammar <CUTS_Setaf_Lang_Compiler_Grammar>
+  boost::spirit::classic::grammar <CUTS_Setaf_Lang_Compiler_Grammar>
 {
   /**
    * Initializing constructor
@@ -253,7 +253,7 @@ struct CUTS_Setaf_Lang_Compiler_Grammar :
 
     }
 
-    const boost::spirit::rule <ScannerT> & start (void) const
+    const boost::spirit::classic::rule <ScannerT> & start (void) const
     {
       return this->spec_;
     }
@@ -262,22 +262,22 @@ struct CUTS_Setaf_Lang_Compiler_Grammar :
 
     // Grammar rules
 
-    boost::spirit::rule <ScannerT> spec_;
-    boost::spirit::rule <ScannerT> variables_;
-    boost::spirit::rule <ScannerT> init_;
-    boost::spirit::rule <ScannerT> reset_;
-    boost::spirit::rule <ScannerT> type_;
-    boost::spirit::rule <ScannerT> ident_;
-    boost::spirit::rule <ScannerT> variable_decl_;
-    boost::spirit::rule <ScannerT> columns_;
-    boost::spirit::rule <ScannerT> column_decl_;
-    boost::spirit::rule <ScannerT> log_format_ident_;
-    boost::spirit::rule <ScannerT> relation_decl_;
-    boost::spirit::rule <ScannerT> relations_;
-    boost::spirit::rule <ScannerT> log_format_adapts_;
-    boost::spirit::rule <ScannerT> adaption_code_;
-    boost::spirit::rule <ScannerT> init_code_;
-    boost::spirit::rule <ScannerT> reset_code_;
+    boost::spirit::classic::rule <ScannerT> spec_;
+    boost::spirit::classic::rule <ScannerT> variables_;
+    boost::spirit::classic::rule <ScannerT> init_;
+    boost::spirit::classic::rule <ScannerT> reset_;
+    boost::spirit::classic::rule <ScannerT> type_;
+    boost::spirit::classic::rule <ScannerT> ident_;
+    boost::spirit::classic::rule <ScannerT> variable_decl_;
+    boost::spirit::classic::rule <ScannerT> columns_;
+    boost::spirit::classic::rule <ScannerT> column_decl_;
+    boost::spirit::classic::rule <ScannerT> log_format_ident_;
+    boost::spirit::classic::rule <ScannerT> relation_decl_;
+    boost::spirit::classic::rule <ScannerT> relations_;
+    boost::spirit::classic::rule <ScannerT> log_format_adapts_;
+    boost::spirit::classic::rule <ScannerT> adaption_code_;
+    boost::spirit::classic::rule <ScannerT> init_code_;
+    boost::spirit::classic::rule <ScannerT> reset_code_;
 
     std::string var_type_;
     std::string log_format_string_;
@@ -338,8 +338,8 @@ bool CUTS_Setaf_Lang_Compiler::compile (const char * file_content,
     entries, relations, var_decls, codes, init_code, reset_code);
 
   // Parse the adaptation spec using the grammaar.
-  boost::spirit::parse_info < > result =
-    boost::spirit::parse (file_content, grammar, boost::spirit::space_p);
+  boost::spirit::classic::parse_info < > result =
+    boost::spirit::classic::parse (file_content, grammar, boost::spirit::classic::space_p);
 
   return result.full;
 }

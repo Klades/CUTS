@@ -8,7 +8,7 @@
 
 #include "cuts/utils/Property_Map.h"
 #include "cuts/utils/Property_Parser.h"
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "boost/spirit/include/classic_file_iterator.hpp"
 
 //
 // handle_import
@@ -17,11 +17,11 @@ int CUTS_Text_Variable_Importer::
 handle_import (const ACE_CString & location, CUTS_Property_Map & vars)
 {
   // Open the file for parsing.
-  boost::spirit::file_iterator <char> begin_iter (location.c_str ());
+  boost::spirit::classic::file_iterator <char> begin_iter (location.c_str ());
 
   if (begin_iter)
   {
-    boost::spirit::file_iterator <char> end_iter = begin_iter.make_end ();
+    boost::spirit::classic::file_iterator <char> end_iter = begin_iter.make_end ();
 
     CUTS_Property_Parser parser (vars);
     if (parser.parse (begin_iter, end_iter))

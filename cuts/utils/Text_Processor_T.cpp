@@ -3,7 +3,7 @@
 #include "ace/CORBA_macros.h"
 #include "ace/FILE_Connector.h"
 #include "ace/FILE_IO.h"
-#include "boost/spirit/iterator/file_iterator.hpp"
+#include "boost/spirit/include/classic_file_iterator.hpp"
 
 //
 // evaluate
@@ -70,11 +70,11 @@ bool CUTS_Text_Processor::evaluate (IteratorT begin,
   if (retval)
   {
     // Reopen the temp file using an iterator this time.
-    boost::spirit::file_iterator < > temp_begin (tempname);
+    boost::spirit::classic::file_iterator < > temp_begin (tempname);
 
     if (temp_begin)
     {
-      boost::spirit::file_iterator < > temp_end = temp_begin.make_end ();
+      boost::spirit::classic::file_iterator < > temp_end = temp_begin.make_end ();
       retval = this->command_sub_.evaluate (temp_begin, temp_end, out);
     }
     else

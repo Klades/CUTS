@@ -14,8 +14,8 @@
 #define _CUTS_CONFIG_LIST_PARSER_T_H_
 
 #include "cuts/utils/Property_Parser.h"
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/utility/confix.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_confix.hpp"
 #include <string>
 
 /**
@@ -26,7 +26,7 @@
  */
 template <typename ACTOR>
 class CUTS_Config_List_Parser_Grammar_T :
-  public boost::spirit::grammar <CUTS_Config_List_Parser_Grammar_T <ACTOR> >
+  public boost::spirit::classic::grammar <CUTS_Config_List_Parser_Grammar_T <ACTOR> >
 {
 public:
   /// Type definition of the actor.
@@ -61,7 +61,7 @@ public:
       */
     definition (CUTS_Config_List_Parser_Grammar_T const & self)
     {
-      using namespace boost::spirit;
+      using namespace boost::spirit::classic;
 
       this->identifer_ =
         lexeme_d[(alpha_p | '_') >> *(alnum_p | '_')];
@@ -95,7 +95,7 @@ public:
       }
     }
 
-    const boost::spirit::rule <ScannerT> & start (void) const
+    const boost::spirit::classic::rule <ScannerT> & start (void) const
     {
       return this->config_list_;
     }
@@ -266,19 +266,19 @@ public:
     std::string name_;
 
     /// rule: base_
-    boost::spirit::rule <ScannerT> base_;
+    boost::spirit::classic::rule <ScannerT> base_;
 
     /// rule: config_
-    boost::spirit::rule <ScannerT> config_;
+    boost::spirit::classic::rule <ScannerT> config_;
 
     /// rule: identifer_
-    boost::spirit::rule <ScannerT> identifer_;
+    boost::spirit::classic::rule <ScannerT> identifer_;
 
     /// rule: config_types_
-    boost::spirit::rule <ScannerT> config_types_;
+    boost::spirit::classic::rule <ScannerT> config_types_;
 
     /// rule: config_list_
-    boost::spirit::rule <ScannerT> config_list_;
+    boost::spirit::classic::rule <ScannerT> config_list_;
   };
 
 private:

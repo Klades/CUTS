@@ -15,15 +15,15 @@
 
 #include "Property_Map.h"
 #include "Text_Processor.h"
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/utility/lists.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_lists.hpp"
 #include "ace/Log_Msg.h"
 
 /**
  * @class CUTS_Property_Parser_Grammar
  */
 class CUTS_Property_Parser_Grammar :
-  public boost::spirit::grammar <CUTS_Property_Parser_Grammar>
+  public boost::spirit::classic::grammar <CUTS_Property_Parser_Grammar>
 {
 public:
   CUTS_Property_Parser_Grammar (CUTS_Property_Map & prop_map)
@@ -90,7 +90,7 @@ public:
   public:
     definition (CUTS_Property_Parser_Grammar const & self)
     {
-      using namespace boost::spirit;
+      using namespace boost::spirit::classic;
 
       this->property_name_ =
         lexeme_d[(alpha_p | '_') >> *(alnum_p | '_' | '.')];
@@ -106,19 +106,19 @@ public:
         *(this->property_[insert_property (self.prop_map_, this->name_, this->value_)]);
     }
 
-    const boost::spirit::rule <ScannerT> & start (void) const
+    const boost::spirit::classic::rule <ScannerT> & start (void) const
     {
       return this->property_list_;
     }
 
   private:
-    boost::spirit::rule <ScannerT> property_;
+    boost::spirit::classic::rule <ScannerT> property_;
 
-    boost::spirit::rule <ScannerT> property_name_;
+    boost::spirit::classic::rule <ScannerT> property_name_;
 
-    boost::spirit::rule <ScannerT> property_value_;
+    boost::spirit::classic::rule <ScannerT> property_value_;
 
-    boost::spirit::rule <ScannerT> property_list_;
+    boost::spirit::classic::rule <ScannerT> property_list_;
 
     std::string name_;
 
@@ -161,11 +161,11 @@ public:
   {
     CUTS_Property_Parser_Grammar grammar (this->prop_map_);
 
-    boost::spirit::parse_info <IteratorT> result =
-      boost::spirit::parse (begin,
-                            end,
-                            grammar >> !boost::spirit::end_p,
-                            boost::spirit::space_p);
+    boost::spirit::classic::parse_info <IteratorT> result =
+      boost::spirit::classic::parse (begin,
+                                     end,
+                                     grammar >> !boost::spirit::classic::end_p,
+                                     boost::spirit::classic::space_p);
 
     return result.full;
   }

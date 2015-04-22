@@ -17,8 +17,8 @@
 #include "ace/OS_NS_stdlib.h"
 #include "ace/streams.h"
 #include "ace/Log_Msg.h"
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/utility/confix.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_confix.hpp"
 
 // Forward decl.
 template <typename T>
@@ -123,7 +123,7 @@ private:
  */
 template <typename T>
 class CUTS_Property_Evaluator_Grammar :
-  public boost::spirit::grammar <CUTS_Property_Evaluator_Grammar <T> >
+  public boost::spirit::classic::grammar <CUTS_Property_Evaluator_Grammar <T> >
 {
 public:
   /**
@@ -164,7 +164,7 @@ public:
       */
     definition (CUTS_Property_Evaluator_Grammar const & self)
     {
-      using namespace boost::spirit;
+      using namespace boost::spirit::classic;
 
       this->special_chars_ = ch_p ('.') | '_';
 
@@ -176,10 +176,10 @@ public:
         lexeme_d[(alpha_p >> *(alnum_p | this->special_chars_))];
 
       this->text_ =
-        *(boost::spirit::anychar_p - this->open_tag_);
+        *(boost::spirit::classic::anychar_p - this->open_tag_);
 
       this->property_ =
-        boost::spirit::confix_p (
+        boost::spirit::classic::confix_p (
           this->open_tag_,
           this->property_name_[expand (self.prop_map_, self.config_, self.actor_)],
           this->close_tag_);
@@ -189,7 +189,7 @@ public:
         *(this->property_ >> this->text_[append (self.actor_)]);
     }
 
-    const boost::spirit::rule <ScannerT> & start (void) const
+    const boost::spirit::classic::rule <ScannerT> & start (void) const
     {
       return this->content_;
     }
@@ -240,22 +240,22 @@ public:
     };
 
     /// rule: var_name_;
-    boost::spirit::rule <ScannerT> property_name_;
+    boost::spirit::classic::rule <ScannerT> property_name_;
 
     /// rule: env_var_
-    boost::spirit::rule <ScannerT> property_;
+    boost::spirit::classic::rule <ScannerT> property_;
 
     /// rule: text_;
-    boost::spirit::rule <ScannerT> text_;
+    boost::spirit::classic::rule <ScannerT> text_;
 
     /// rule: content_;
-    boost::spirit::rule <ScannerT> content_;
+    boost::spirit::classic::rule <ScannerT> content_;
 
-    boost::spirit::rule <ScannerT> special_chars_;
+    boost::spirit::classic::rule <ScannerT> special_chars_;
 
-    boost::spirit::rule <ScannerT> open_tag_;
+    boost::spirit::classic::rule <ScannerT> open_tag_;
 
-    boost::spirit::rule <ScannerT> close_tag_;
+    boost::spirit::classic::rule <ScannerT> close_tag_;
   };
 
 private:

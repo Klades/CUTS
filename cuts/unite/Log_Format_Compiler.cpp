@@ -2,8 +2,8 @@
 
 #include "Log_Format_Compiler.h"
 #include "Variable.h"
-#include "boost/spirit/core.hpp"
-#include "boost/spirit/utility/confix.hpp"
+#include "boost/spirit/include/classic_core.hpp"
+#include "boost/spirit/include/classic_confix.hpp"
 #include "ace/CORBA_macros.h"
 #include "ace/streams.h"
 
@@ -297,7 +297,7 @@ private:
  * @struct CUTS_Log_Format_Compiler_Grammar
  */
 struct CUTS_Log_Format_Compiler_Grammar :
-  boost::spirit::grammar <CUTS_Log_Format_Compiler_Grammar>
+  boost::spirit::classic::grammar <CUTS_Log_Format_Compiler_Grammar>
 {
   /**
    * Initializing constructor
@@ -324,22 +324,22 @@ struct CUTS_Log_Format_Compiler_Grammar :
     definition (CUTS_Log_Format_Compiler_Grammar const & self)
     {
       this->text_ =
-        *(boost::spirit::anychar_p - (boost::spirit::ch_p ('{') | '}'));
+        *(boost::spirit::classic::anychar_p - (boost::spirit::classic::ch_p ('{') | '}'));
 
-      this->dt_chars_ = (boost::spirit::ch_p ('(') | boost::spirit::ch_p (')') |
-        boost::spirit::ch_p (':') | boost::spirit::ch_p ('-') | boost::spirit::ch_p ('%') |
-        boost::spirit::ch_p ('.'));
+      this->dt_chars_ = (boost::spirit::classic::ch_p ('(') | boost::spirit::classic::ch_p (')') |
+        boost::spirit::classic::ch_p (':') | boost::spirit::classic::ch_p ('-') | boost::spirit::classic::ch_p ('%') |
+        boost::spirit::classic::ch_p ('.'));
 
       this->ident_ =
-        boost::spirit::lexeme_d[boost::spirit::alpha_p >> *(boost::spirit::alnum_p | this->dt_chars_)];
+        boost::spirit::classic::lexeme_d[boost::spirit::classic::alpha_p >> *(boost::spirit::classic::alnum_p | this->dt_chars_)];
 
       this->variable_tag_ =
-        boost::spirit::confix_p ('{',
+        boost::spirit::classic::confix_p ('{',
         this->variable_[capture (self.expr_, this->vartype_, this->varname_, this->date_time_format_)], '}');
 
       this->variable_ =
-        this->ident_[boost::spirit::assign (this->vartype_)] >>
-        *boost::spirit::space_p >>
+        this->ident_[boost::spirit::classic::assign (this->vartype_)] >>
+        *boost::spirit::classic::space_p >>
         this->ident_[insert (self.vars_, this->vartype_, this->varname_, this->date_time_format_)];
 
       this->format_ =
@@ -347,23 +347,23 @@ struct CUTS_Log_Format_Compiler_Grammar :
         *(this->variable_tag_ >> this->text_[append (self.expr_)]);
     }
 
-    const boost::spirit::rule <ScannerT> & start (void) const
+    const boost::spirit::classic::rule <ScannerT> & start (void) const
     {
       return this->format_;
     }
 
   private:
-    boost::spirit::rule <ScannerT> text_;
+    boost::spirit::classic::rule <ScannerT> text_;
 
-    boost::spirit::rule <ScannerT> ident_;
+    boost::spirit::classic::rule <ScannerT> ident_;
 
-    boost::spirit::rule <ScannerT> variable_;
+    boost::spirit::classic::rule <ScannerT> variable_;
 
-    boost::spirit::rule <ScannerT> variable_tag_;
+    boost::spirit::classic::rule <ScannerT> variable_tag_;
 
-    boost::spirit::rule <ScannerT> format_;
+    boost::spirit::classic::rule <ScannerT> format_;
 
-    boost::spirit::rule <ScannerT> dt_chars_;
+    boost::spirit::classic::rule <ScannerT> dt_chars_;
 
     std::string varname_;
 
@@ -405,8 +405,8 @@ bool CUTS_Log_Format_Compiler::compile (const char * format,
 
   CUTS_Log_Format_Compiler_Grammar grammar (expr, vars);
 
-  boost::spirit::parse_info < > result =
-    boost::spirit::parse (format, grammar);
+  boost::spirit::classic::parse_info < > result =
+    boost::spirit::classic::parse (format, grammar);
 
   return result.full;
 }
