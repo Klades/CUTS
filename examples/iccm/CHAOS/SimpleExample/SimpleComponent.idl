@@ -1,0 +1,36 @@
+
+#ifndef SIMPLECOMPONENT_IDL
+#define SIMPLECOMPONENT_IDL
+
+#include <Components.idl>
+#include "ModelDDSData.idl"
+
+module Example
+{
+  component SimpleComponent
+  {
+    emits Outer::TestData_DDS app_op_ndds;
+    
+    consumes Outer::TestData_DDS ndds_read_test_data;
+    
+    consumes Outer::TestData_DDS ospl_read_test_data;
+    
+    consumes Outer::TestData_DDS corba_read_test_data;
+    
+    consumes Outer::TestData_DDS tcpip_read_test_data;
+    
+    emits Outer::TestData_DDS app_op_ospl;
+    
+    emits Outer::TestData_DDS app_op_tcpip;
+    
+    emits Outer::TestData_DDS app_op_corba;
+  };
+  
+  home SimpleComponentHome
+    manages SimpleComponent
+  {
+  };
+};
+
+#endif // SIMPLECOMPONENT_IDL
+
