@@ -39,9 +39,6 @@ public:
   /// Destructor.
   virtual ~CHAOS_Publisher_T (void);
 
-  /// Connect the consumer.
-  virtual void connect (::Components::EventConsumerBase_ptr consumer);
-
   /// Allocate a new event.
   EVENT * allocate_event (void);
 
@@ -52,9 +49,6 @@ public:
    * @param[in]         ev            The event to send
    */
   void send_event (EVENT * ev);
-
-protected:
-  /// INSERT CODE HERE
 };
 
 }

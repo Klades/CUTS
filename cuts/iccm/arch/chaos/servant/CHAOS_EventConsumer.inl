@@ -9,6 +9,7 @@ namespace iCCM
 //
 CUTS_INLINE
 CHAOS_EventConsumer::CHAOS_EventConsumer (void)
+: impl_ (0)
 {
 
 }
@@ -21,5 +22,24 @@ CHAOS_EventConsumer::~CHAOS_EventConsumer (void)
 {
 
 }
+
+//
+// activate
+//
+CUTS_INLINE
+void CHAOS_EventConsumer::activate (void)
+{
+  this->impl_->activate ();
+}
+
+//
+// passivate
+//
+CUTS_INLINE
+void CHAOS_EventConsumer::passivate (void)
+{
+  this->impl_->passivate ();
+}
+
 
 }

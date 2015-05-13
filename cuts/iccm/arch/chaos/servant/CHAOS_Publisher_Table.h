@@ -27,6 +27,9 @@ namespace iCCM
 
 /**
  * @class CHAOS_Publisher_Table
+ *
+ * CHAOS does not have its own Publisher_Tables.  Instead, it is a proxy
+ * to architecture-specific Publisher_Tables.
  */
 class ICCM_CHAOS_SVNT_Export CHAOS_Publisher_Table :
   public Publisher_Table
@@ -38,10 +41,30 @@ public:
   /// Destructor.
   virtual ~CHAOS_Publisher_Table (void);
 
-  /// INSERT CODE HERE
+  /**
+   * Subscribe a consumer to this publisher.
+   *
+   * @param[in]         consumer        Target consumer
+   * @return            Subscription cookie
+   */
+  virtual ::Components::Cookie * subscribe (::Components::EventConsumerBase_ptr consumer);
 
-private:
-  /// INSERT CODE HERE
+  /**
+   * Unsubscribe a consumer. The consumer to be unsubscribed is identifed
+   * be the cookie parameter. If there cookie cannot be found, then an
+   * exception is thrown.
+   *
+   * @param[in]         c               Subscription cookie
+   * @return            The once connected consumer
+   */
+  virtual ::Components::EventConsumerBase_ptr unsubscribe (::Components::Cookie * c);
+
+  /// CCM Lifecycle events
+  virtual void activate (void);
+  virtual void passivate (void);
+
+protected:
+  Publisher_Table * impl_;
 };
 
 }

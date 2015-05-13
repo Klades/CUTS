@@ -32,6 +32,9 @@ namespace iCCM
  * The base class for all CHAOS publishers that are integrated into
  * the iCCM architecture. In essence, this class is an adapter class that
  * allows a CHAOS publisher to integrate with the iCCM architecture.
+ *
+ * CHAOS does not have its own Publishers.  Instead, it is a proxy
+ * to architecture-specific Publishers.
  */
 class ICCM_CHAOS_SVNT_Export CHAOS_Publisher :
   public Publisher
@@ -54,13 +57,13 @@ public:
   /// Disconnect the consumer.
   virtual ::Components::EventConsumerBase_ptr disconnect (void);
 
-  /// INSERT CODE HERE
+  /// CCM lifecycle events
+  virtual void activate (void);
+  virtual void passivate (void);
 
 protected:
-  /// The consumer connected to this publisher.
-  ::Components::CHAOS::EventConsumer_var consumer_;
-
-  /// INSERT CODE HERE
+  /// The underlying publisher
+  Publisher * impl_;
 };
 
 }

@@ -36,6 +36,9 @@ class CHAOS_Servant;
  * object that is defined in CHAOS_Events.idl. This class also
  * inherits from iCCM::EventConsumer so that it can be used in the Servant_T
  * class, which implements common behavior for all CCM servant objects.
+ *
+ * CHAOS does not have its own EventConsumers.  Instead, it is a proxy
+ * to architecture-specific EventConsumers.
  */
 class ICCM_CHAOS_SVNT_Export CHAOS_EventConsumer :
   public virtual EventConsumer,
@@ -48,10 +51,12 @@ public:
   /// Destructor.
   virtual ~CHAOS_EventConsumer (void);
 
-  /// INSERT CODE HERE
+  /// CCM Lifecycle event calls
+  virtual void activate (void);
+  virtual void passivate (void);
 
-private:
-  /// INSERT CODE HERE
+protected:
+  ::iCCM::EventConsumer * impl_;
 };
 
 }

@@ -45,29 +45,11 @@ public:
   /// Destructor.
   virtual ~CHAOS_Publisher_Table_T (void);
 
-  /**
-   * Subscribe an event consumer.
-   *
-   * @param[in]       consumer          Event consumer object
-   * @return          Cookie object
-   */
-  virtual ::Components::Cookie * subscribe (::Components::EventConsumerBase_ptr);
-
-  /**
-   * Unsubscribe an event consumer.
-   *
-   * @param[in]       consumer         Cookie object
-   * @return          Event consumer object
-   */
-  virtual ::Components::EventConsumerBase_ptr unsubscribe (::Components::Cookie *);
-
   /// Send an event.
   void send_event (EVENT * ev);
 
   /// Allocate a new event.
   EVENT * allocate_event (void);
-
-private:
 };
 
 }
