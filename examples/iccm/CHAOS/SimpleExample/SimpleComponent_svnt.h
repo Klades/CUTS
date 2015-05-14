@@ -3,156 +3,136 @@
 #ifndef _SIMPLECOMPONENT_SVNT_H_
 #define _SIMPLECOMPONENT_SVNT_H_
 
-#include "SimpleComponentEC.h"
+#include "SimpleComponent_iCCMC.h"
 #include "SimpleComponentS.h"
 
-// include event conversion files
-#include "OpenSplice_SimpleComponentC.h"
-#include "RTIDDS_SimpleComponentC.h"
-#include "TCPIP_SimpleComponentC.h"
+#include "SimpleComponentC.h"
+#include "CHAOS_ModelDDSDataC.h"
 
-// include component architecture files
-#include "cuts/arch/ccm/CCM_Context_T.h"
-#include "cuts/arch/chaos/ccm/CHAOS_CCM_Servant_T.h"
-#include "cuts/arch/chaos/ccm/CHAOS_CCM_Single_Subscriber.h"
-#include "cuts/arch/chaos/ccm/CHAOS_CCM_Subscriber_Table.h"
-#include "cuts/arch/chaos/ccm/CHAOS_CCM_EventConsumer.h"
+#include "cuts/iccm/servant/Context_T.h"
+#include "cuts/iccm/arch/chaos/servant/CHAOS_Servant_T.h"
 
-// include export definitions
+#include "cuts/iccm/servant/Receptacle_T.h"
 #include "SimpleComponent_svnt_export.h"
 
-namespace Example
+namespace Example {
+// Forward decl.
+class SimpleComponent_Servant;
+
+// Type definition of the servant type.
+typedef iCCM::Context_T < iCCM_SimpleComponent_Context, SimpleComponent_Servant > SimpleComponent_Context_Base;
+
+/**
+ * @class SimpleComponent_Context
+ *
+ * Implementation of the iCCM_SimpleComponent_Context interface.
+ */
+class SIMPLECOMPONENT_SVNT_Export SimpleComponent_Context :
+  public SimpleComponent_Context_Base
 {
-  // Forward decl.
-  class SimpleComponent_Servant;
+  public:
+  // Default constructor
+  SimpleComponent_Context (SimpleComponent_Servant & parent);
 
-  typedef CUTS_CCM_Context_T < 
-  ::Example::CCM_SimpleComponent_Context, 
-  SimpleComponent_Servant > SimpleComponent_Servant_Context_Base;
+  // Destructor
+  virtual ~SimpleComponent_Context (void);
 
-  class SimpleComponent_Servant_Context : public SimpleComponent_Servant_Context_Base
-  {
-    public:
-    // Initializing constructor
-    SimpleComponent_Servant_Context (SimpleComponent_Servant & parent);
+  virtual void push_app_op_ndds (::Outer::TestData_DDS *ev);
 
-    // Destructor
-    virtual ~SimpleComponent_Servant_Context (void);
+  virtual void push_app_op_ospl (::Outer::TestData_DDS *ev);
 
-    public:
-    // push method for output event port: app_op_ndds
-    virtual void push_app_op_ndds (::Outer::TestData_DDS * ev);
+  virtual void push_app_op_tcpip (::Outer::TestData_DDS *ev);
 
-    CUTS_CCM_Single_Subscriber & subscriber_app_op_ndds (void);
+  virtual void push_app_op_corba (::Outer::TestData_DDS *ev);
 
-    private:
-    CUTS_RTIDDS_CCM_Subscriber_T < ::CUTS_NDDS::Outer::TestData_DDS > app_op_ndds_;
+  virtual ::Outer::TestData_DDS * new_app_op_ndds_event (void);
 
-    public:
-    // push method for output event port: app_op_ospl
-    virtual void push_app_op_ospl (::Outer::TestData_DDS * ev);
+  virtual ::Outer::TestData_DDS * new_app_op_ospl_event (void);
 
-    CUTS_CCM_Single_Subscriber & subscriber_app_op_ospl (void);
+  virtual ::Outer::TestData_DDS * new_app_op_tcpip_event (void);
 
-    private:
-    CUTS_OpenSplice_CCM_Subscriber_T < ::CUTS_OSPL::Outer::TestData_DDS > app_op_ospl_;
+  virtual ::Outer::TestData_DDS * new_app_op_corba_event (void);
 
-    public:
-    // push method for output event port: app_op_corba
-    virtual void push_app_op_corba (::Outer::TestData_DDS * ev);
+  iCCM::CHAOS_Publisher & get_app_op_ndds_publisher (void);
 
-    CUTS_CCM_Single_Subscriber & subscriber_app_op_corba (void);
+  iCCM::CHAOS_Publisher & get_app_op_ospl_publisher (void);
 
-    private:
-    CUTS_CCM_Single_Subscriber_T < ::Outer::TestData_DDS > app_op_corba_;
+  iCCM::CHAOS_Publisher & get_app_op_tcpip_publisher (void);
 
-    public:
-    // push method for output event port: app_op_tcpip
-    virtual void push_app_op_tcpip (::Outer::TestData_DDS * ev);
+  iCCM::CHAOS_Publisher & get_app_op_corba_publisher (void);
 
-    CUTS_CCM_Single_Subscriber & subscriber_app_op_tcpip (void);
+  private:
+  iCCM::CHAOS_Publisher_T < Outer::TestData_DDS > app_op_ndds_;
 
-    private:
-    CUTS_TCPIP_CCM_Remote_Endpoint_T < ::Outer::TestData_DDS > app_op_tcpip_;
-  };
+  iCCM::CHAOS_Publisher_T < Outer::TestData_DDS > app_op_ospl_;
 
-  typedef CUTS_CHAOS_CCM_Servant_T < 
-    SimpleComponent_Servant,
-    SimpleComponent_Servant_Context,
-    ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec,
-    ::POA_Example::SimpleComponent > SimpleComponent_Servant_Base;
+  iCCM::CHAOS_Publisher_T < Outer::TestData_DDS > app_op_tcpip_;
 
-  class SimpleComponent_Servant : public SimpleComponent_Servant_Base
-  {
-    public:
-    // Initializing constructor
-    SimpleComponent_Servant (const char * name,
-                             ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec_ptr executor);
+  iCCM::CHAOS_Publisher_T < Outer::TestData_DDS > app_op_corba_;
+};
 
-    virtual ~SimpleComponent_Servant (void);
+// Type definition of the servant base type.
+typedef iCCM::CHAOS_Servant_T < 
+  SimpleComponent_Servant,
+  SimpleComponent_Context,
+  ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec,
+  ::POA_Example::SimpleComponent > SimpleComponent_Servant_Base;
 
-    void connect_app_op_ndds (::Outer::TestData_DDSConsumer_ptr);
+class SIMPLECOMPONENT_SVNT_Export SimpleComponent_Servant
+  : public SimpleComponent_Servant_Base
+{
+  /// typedef for generated implementation code
+  typedef SimpleComponent_Servant self_type;
 
-    ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_ndds (void);
+  /// Default constructor
+  public:
+  SimpleComponent_Servant (const char * name,
+                           ::PortableServer::POA_ptr poa,
+                           ::CIAO_Example_SimpleComponent_Impl::SimpleComponent_Exec_ptr executor);
 
-    void connect_app_op_ospl (::Outer::TestData_DDSConsumer_ptr);
+  /// Destructor
+  virtual ~SimpleComponent_Servant (void);
 
-    ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_ospl (void);
+  virtual void set_attributes (const ::Components::ConfigValues &);
 
-    void connect_app_op_corba (::Outer::TestData_DDSConsumer_ptr);
+  virtual void connect_app_op_ndds (::Outer::TestData_DDSConsumer_ptr);
+  virtual ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_ndds (void);
 
-    ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_corba (void);
+  virtual void connect_app_op_ospl (::Outer::TestData_DDSConsumer_ptr);
+  virtual ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_ospl (void);
 
-    void connect_app_op_tcpip (::Outer::TestData_DDSConsumer_ptr);
+  virtual void connect_app_op_tcpip (::Outer::TestData_DDSConsumer_ptr);
+  virtual ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_tcpip (void);
 
-    ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_tcpip (void);
+  virtual void connect_app_op_corba (::Outer::TestData_DDSConsumer_ptr);
+  virtual ::Outer::TestData_DDSConsumer_ptr disconnect_app_op_corba (void);
 
-    public:
-    ::Outer::TestData_DDSConsumer_ptr get_consumer_ospl_read_test_data (void);
+  virtual void push_ndds_read_test_data (::Outer::TestData_DDS *ev);
 
-    private:
-    static void upcall_ospl_read_test_data (SimpleComponent_Servant *,
-                                            const ::CUTS_OSPL::Outer::TestData_DDS& dds_event);
+  virtual void push_ospl_read_test_data (::Outer::TestData_DDS *ev);
 
-    CUTS_OpenSplice_CCM_EventConsumer_T < 
-      SimpleComponent_Servant,
-      ::CUTS_OSPL::Outer::TestData_DDS > ospl_read_test_data_consumer_;
+  virtual void push_corba_read_test_data (::Outer::TestData_DDS *ev);
 
-    public:
-    ::Outer::TestData_DDSConsumer_ptr get_consumer_corba_read_test_data (void);
+  virtual void push_tcpip_read_test_data (::Outer::TestData_DDS *ev);
 
-    private:
-    static int upcall_corba_read_test_data (SimpleComponent_Servant *,
-                                            ::Outer::TestData_DDS *);
+  virtual ::Outer::TestData_DDSConsumer_ptr get_ndds_read_test_data_consumer (void);
 
-    CUTS_CCM_EventConsumer_T < ::Outer::TestData_DDS, SimpleComponent_Servant > corba_read_test_data_consumer_;
+  virtual ::Outer::TestData_DDSConsumer_ptr get_ospl_read_test_data_consumer (void);
 
-    public:
-    ::Outer::TestData_DDSConsumer_ptr get_consumer_ndds_read_test_data (void);
+  virtual ::Outer::TestData_DDSConsumer_ptr get_corba_read_test_data_consumer (void);
 
-    private:
-    static void upcall_ndds_read_test_data (SimpleComponent_Servant *,
-                                            const ::CUTS_NDDS::Outer::TestData_DDS& dds_event);
+  virtual ::Outer::TestData_DDSConsumer_ptr get_tcpip_read_test_data_consumer (void);
 
-    CUTS_RTIDDS_CCM_EventConsumer_T < 
-      SimpleComponent_Servant,
-      ::CUTS_NDDS::Outer::TestData_DDS > ndds_read_test_data_consumer_;
+  iCCM::CHAOS_EventConsumer_T < SimpleComponent_Servant, ::Outer::TestData_DDS > ndds_read_test_data_consumer_;
+  iCCM::CHAOS_EventConsumer_T < SimpleComponent_Servant, ::Outer::TestData_DDS > ospl_read_test_data_consumer_;
+  iCCM::CHAOS_EventConsumer_T < SimpleComponent_Servant, ::Outer::TestData_DDS > corba_read_test_data_consumer_;
+  iCCM::CHAOS_EventConsumer_T < SimpleComponent_Servant, ::Outer::TestData_DDS > tcpip_read_test_data_consumer_;
+};
 
-    public:
-    ::Outer::TestData_DDSConsumer_ptr get_consumer_tcpip_read_test_data (void);
+extern "C" SIMPLECOMPONENT_SVNT_Export ::PortableServer::Servant
+create_Example_SimpleComponent_Servant (const char * name,
+                                        ::PortableServer::POA_ptr poa,
+                                        ::Components::EnterpriseComponent_ptr p);
 
-    private:
-    static int upcall_tcpip_read_test_data (SimpleComponent_Servant *,
-                                            CUTS_TCPIP_InputCDR &);
-
-    CUTS_TCPIP_CCM_EventConsumer tcpip_read_test_data_consumer_;
-  };
-
-
-  extern "C" SIMPLECOMPONENT_SVNT_Export
-  ::PortableServer::Servant
-  create_Example_SimpleComponent_Servant (const char * name, ::Components::EnterpriseComponent_ptr p);
 }
-
-
 #endif  // !defined _SIMPLECOMPONENT_SVNT_H_
