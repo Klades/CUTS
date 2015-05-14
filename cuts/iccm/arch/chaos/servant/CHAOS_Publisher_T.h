@@ -40,7 +40,7 @@ public:
   virtual ~CHAOS_Publisher_T (void);
 
   /// Allocate a new event.
-  EVENT * allocate_event (void);
+  virtual EVENT * allocate_event (void);
 
   /**
    * Publish a CORBA event. This method will transform the CORBA event
@@ -49,6 +49,8 @@ public:
    * @param[in]         ev            The event to send
    */
   void send_event (EVENT * ev);
+
+  virtual void send_event (::Components::EventBase * ev);
 };
 
 }

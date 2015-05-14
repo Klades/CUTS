@@ -61,6 +61,9 @@ public:
   virtual void activate (void);
   virtual void passivate (void);
 
+  virtual void send_event (::Components::EventBase * ev);
+  virtual ::Components::EventBase * allocate_event (void);
+
 protected:
   /// The underlying publisher
   Publisher * impl_;

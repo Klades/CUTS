@@ -22,4 +22,18 @@ void Publisher_Table::passivate (void)
 
 }
 
+CUTS_INLINE
+void
+Publisher_Table::send_event (::Components::EventBase * ev)
+{
+
+}
+
+CUTS_INLINE
+::Components::EventBase * Publisher_Table::allocate_event (void)
+{
+  throw CORBA::NO_IMPLEMENT ();
+}
+
+
 }
