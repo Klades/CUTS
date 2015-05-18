@@ -1,0 +1,16 @@
+// $Id$
+
+project {
+  Define_Custom (ICCM) {
+    command               = $(CUTS_ROOT)/bin/iccm_qpidpb
+    dependent             = $(CUTS_ROOT)/bin/iccm_qpidpb
+    inputext              = .idl
+
+    source_outputext      = C.cpp
+    header_outputext      = C.h
+    source_pre_filename   = QpidPB_
+    generic_outputext     = _iCCM.idl
+
+    keyword iccm_qpidpb_flags = commandflags
+  }
+}
