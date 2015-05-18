@@ -1,6 +1,0 @@
-// $Id$
-
-workspace (QpidPB_iCCM) {
-  cmdline += -include $CUTS_ROOT/MPC/config \
-             -feature_file $CUTS_ROOT/default.features
-}
