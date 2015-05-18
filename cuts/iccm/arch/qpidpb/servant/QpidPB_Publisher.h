@@ -59,6 +59,8 @@ public:
   virtual void activate (void);
   virtual void passivate (void);
 
+  virtual void configure_broker (const std::string & host, int port);
+
 protected:
   /// The consumer connected to this publisher.
   ::Components::QpidPB::EventConsumer_var consumer_;

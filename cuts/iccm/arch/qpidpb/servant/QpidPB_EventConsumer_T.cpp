@@ -11,6 +11,11 @@ template <typename SERVANT, typename EVENT>
 void QpidPB_EventConsumer_T <SERVANT, EVENT>::activate (void)
 {
   // Establish the connection
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Opening connection to ")
+              ACE_TEXT ("Qpid Broker [%s:%d]\n"),
+              this->host_,
+              this->port_));
   this->connection_.open (this->host_, this->port_);
 
   typedef QpidPB_Listener_T <self_type, EVENT> listener_type;

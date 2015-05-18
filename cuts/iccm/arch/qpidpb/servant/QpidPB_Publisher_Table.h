@@ -43,6 +43,8 @@ public:
   virtual void activate (void);
   virtual void passivate (void);
 
+  virtual void configure_broker (const std::string & host, int port);
+
 protected:
   /// The qpid broker information
   std::string host_;

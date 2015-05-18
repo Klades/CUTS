@@ -57,6 +57,12 @@ QpidPB_Publisher::disconnect (void)
 void QpidPB_Publisher::activate (void)
 {
   iCCM::Publisher::activate ();
+
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Opening connection to ")
+              ACE_TEXT ("Qpid Broker [%s:%d]\n"),
+              this->host_.c_str (),
+              this->port_));
   this->connection_.open (this->host_, this->port_);
 }
 

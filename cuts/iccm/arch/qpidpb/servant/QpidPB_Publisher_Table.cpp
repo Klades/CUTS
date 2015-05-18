@@ -14,6 +14,11 @@ namespace iCCM
 //
 void QpidPB_Publisher_Table::activate (void)
 {
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Opening connection to ")
+              ACE_TEXT ("Qpid Broker [%s:%d]\n"),
+              this->host_.c_str (),
+              this->port_));
   this->connection_.open (this->host_, this->port_);
 }
 

@@ -14,8 +14,7 @@ QpidPB_EventConsumer_T (SERVANT * servant, CALLBACK_METHOD callback)
   callback_ (callback),
   listener_ (0)
 {
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("EventConsumer_T ctor called")));
+
 }
 
 //

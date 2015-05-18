@@ -60,6 +60,8 @@ public:
 
   /// Destructor.
   virtual ~QpidPB_Servant_T (void);
+
+  virtual void configure_broker (const std::string & host, int port);
 };
 
 }
