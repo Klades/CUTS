@@ -2,6 +2,8 @@
 
 #include "Context.h"
 
+#include "Stub_File.h"
+
 #include "ast_component.h"
 #include "ast_module.h"
 #include "ast_root.h"
@@ -49,6 +51,8 @@ Context::~Context (void)
 //
 void Context::post_produce (void)
 {
+  iCCM::Stub_File stub_file;
+  idl_global->root ()->ast_accept (&stub_file);
 }
 
 //

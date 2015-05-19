@@ -29,6 +29,10 @@ project (iCCM_QpidPB_Compiler) : iccm_compiler {
   }
 
   Source_Files {
+    Upcall_Event.cpp
+    Downcall_Event.cpp
+    Event_Traits.cpp
+    Stub_File.cpp
     Compiler.cpp
     Context.cpp
   }
