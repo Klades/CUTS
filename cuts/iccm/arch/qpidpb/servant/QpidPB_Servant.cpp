@@ -9,12 +9,4 @@
 namespace iCCM
 {
 
-//
-// configure_broker
-//
-void QpidPB_Servant::configure_broker (const std::string & host, int port)
-{
-
-};
-
 }

@@ -34,6 +34,10 @@ start (qpid::client::Connection & connection, std::string queue)
                             this->queue_,
                             SubscriptionSettings (FlowControl::unlimited (),
                                                   ACCEPT_MODE_NONE));
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Activating listener on queue [%s]\n"),
+              queue.c_str ()));
+
   this->manager_->start ();
 }
 

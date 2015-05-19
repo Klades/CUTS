@@ -28,11 +28,14 @@ configure_servant (::PortableServer::Servant servant,
 
   size_t length = values.length ();
   const char * broker = 0;
+  bool unique_queues = false;
 
   for (size_t i = 0; i < length; ++i)
   {
     if (0 == ACE_OS::strcmp (values[i]->name (), "QPIDBroker"))
       values[i]->value () >>= broker;
+    else if (0 == ACE_OS::strcmp (values[i]->name (), "QPIDUniqueQueues"))
+      unique_queues = true;
   }
 
   if (broker == 0)
@@ -60,6 +63,9 @@ configure_servant (::PortableServer::Servant servant,
 
     svnt->configure_broker (host, port);
   }
+
+  // Set the queue names on the servant
+  svnt->set_queues (unique_queues);
 }
 
 }

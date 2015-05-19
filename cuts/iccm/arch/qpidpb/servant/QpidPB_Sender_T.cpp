@@ -17,6 +17,10 @@ activate (qpid::client::Connection & connection,
 {
   using namespace qpid::client;
 
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Activating sender on queue [%s]\n"),
+              queue.c_str ()));
+
   this->session_ = connection.newSession ();
   this->session_.queueDeclare (arg::queue=queue,
                                arg::autoDelete=true);

@@ -36,4 +36,14 @@ QpidPB_Publisher::configure_broker (const std::string & host, int port)
   this->port_ = port;
 }
 
+//
+// queue
+//
+CUTS_INLINE
+void
+QpidPB_Publisher::queue (const std::string & queue)
+{
+  this->queue_ = queue;
+}
+
 }

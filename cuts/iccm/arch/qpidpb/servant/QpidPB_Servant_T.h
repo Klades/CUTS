@@ -62,6 +62,7 @@ public:
   virtual ~QpidPB_Servant_T (void);
 
   virtual void configure_broker (const std::string & host, int port);
+  virtual void set_queues (bool prefix_name);
 };
 
 }

@@ -36,4 +36,17 @@ QpidPB_Publisher_Table::configure_broker (const std::string & host, int port)
   this->port_ = port;
 }
 
+//
+// queue
+//
+CUTS_INLINE
+void
+QpidPB_Publisher_Table::queue (const std::string & queue)
+{
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("\n\n%T (%t) - %M - setting queue [%s]\n"),
+              queue.c_str ()));
+  this->queue_ = queue;
+}
+
 }
