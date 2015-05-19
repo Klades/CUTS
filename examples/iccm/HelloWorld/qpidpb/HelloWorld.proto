@@ -1,7 +1,0 @@
-package qpidpb;
-
-message Message
-{
-  required int32 time = 1;
-  required string content = 2;
-}

@@ -140,6 +140,29 @@
         </value>
       </value>
     </configProperty>
+    <configProperty>
+      <name>QPIDBroker</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>QPIDUniqueQueues</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+
   </instance>
 
   <instance xmi:id="_187CFE54-267D-11E1-8000-000C29A84559">
@@ -147,6 +170,29 @@
     <node>SecondNode</node>
     <source/>
     <implementation xmi:idref="_B88B0130-267C-11E1-8000-000C29A84559"/>
+    <configProperty>
+      <name>QPIDBroker</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>QPIDUniqueQueues</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+
   </instance>
 
   <instance xmi:id="MainNode.DefaultGroup">
