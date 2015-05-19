@@ -43,12 +43,15 @@ namespace QpidPB
 class Context : public ::BE_GlobalData
 {
 public:
+  typedef ::BE_GlobalData base_type;
+
   // Constructor.
   Context (void);
 
   // Destructor.
   virtual ~Context (void);
 
+  virtual void prep_be_arg (char * s);
   virtual void post_produce (void);
 
   // BEGIN: ARCHITECTURE SPECIFIC VALUES.
@@ -65,6 +68,11 @@ public:
   virtual const ACE_CString & get_publisher_table_typename (void) const;
   virtual const ACE_CString & get_publisher_table_template_typename (void) const;
 
+  // BEGIN: GENERATOR SPECIFIC VALUES.
+  virtual const ACE_CString & get_proto_filename (void);
+private:
+  bool generate_proto_;
+  ACE_CString proto_filename_;
 };
 
 }
