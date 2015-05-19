@@ -1,0 +1,15 @@
+// $Id:
+
+project {
+  Define_Custom(IDL2Proto) {
+    command               = $(CUTS_ROOT)/bin/iccm_qpidpb
+    dependent             = $(CUTS_ROOT)/bin/iccm_qpidpb
+
+    commandflags          = -Wb,generate_proto
+    inputext              = .idl
+
+    generic_outputext     = .proto
+
+    keyword iccm_qpidpb_idl2proto_flags = commandflags
+  }
+}
