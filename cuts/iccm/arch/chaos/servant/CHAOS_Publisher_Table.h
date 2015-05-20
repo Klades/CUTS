@@ -69,6 +69,7 @@ public:
   /// Method for allocating a new event
   virtual ::Components::EventBase * allocate_event (void);
 
+  virtual void impl (Publisher_Table * impl);
 
 protected:
   Publisher_Table * impl_;
