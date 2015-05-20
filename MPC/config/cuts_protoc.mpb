@@ -8,7 +8,7 @@ project {
     commandflags          = --cpp_out=.
     inputext              = .proto
 
-    generic_outputext     = *.pb.*
+    generic_outputext     = .pb.cc
 
     keyword cuts_protoc_flags = commandflags
   }

@@ -5,7 +5,7 @@ project : boost_base {
   includes += $(QPID_ROOT)/include $(QPID_ROOT)/src $(QPID_ROOT)/src/include $(PROTOBUF_ROOT)/include
   libpaths += $(QPID_ROOT)/lib $(PROTOBUF_ROOT)/lib
 
-  libs     += protobuf qpidclient
+  libs     += protobuf qpidclient qpidcommon
 }
 
 feature (qpidpb) {

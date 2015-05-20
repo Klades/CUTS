@@ -8,7 +8,7 @@ project {
     commandflags          = -Wb,generate_proto
     inputext              = .idl
 
-    generic_outputext     = *.proto
+    generic_outputext     = .proto
 
     keyword iccm_qpidpb_idl2proto_flags = commandflags
   }
