@@ -41,5 +41,13 @@ void CHAOS_EventConsumer::passivate (void)
   this->impl_->passivate ();
 }
 
+//
+// push_event
+//
+CUTS_INLINE
+void CHAOS_EventConsumer::push_event (::Components::EventBase * ev)
+{
+  this->impl_->push_event (ev);
+}
 
 }

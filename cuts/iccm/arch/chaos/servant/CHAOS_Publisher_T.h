@@ -49,8 +49,6 @@ public:
    * @param[in]         ev            The event to send
    */
   void send_event (EVENT * ev);
-
-  virtual void send_event (::Components::EventBase * ev);
 };
 
 }

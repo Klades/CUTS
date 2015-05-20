@@ -63,4 +63,24 @@ CHAOS_Publisher_Table::passivate (void)
   this->impl_->passivate ();
 }
 
+//
+// send_event
+//
+CUTS_INLINE
+void
+CHAOS_Publisher_Table::send_event (::Components::EventBase * ev)
+{
+  this->impl_->send_event (ev);
+}
+
+//
+// allocate_event
+//
+CUTS_INLINE
+::Components::EventBase *
+CHAOS_Publisher_Table::allocate_event (void)
+{
+  return this->impl_->allocate_event ();
+}
+
 }

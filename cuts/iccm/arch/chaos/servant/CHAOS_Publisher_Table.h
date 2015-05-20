@@ -63,6 +63,13 @@ public:
   virtual void activate (void);
   virtual void passivate (void);
 
+  /// Method for sending a CORBA event.
+  virtual void send_event (::Components::EventBase *);
+
+  /// Method for allocating a new event
+  virtual ::Components::EventBase * allocate_event (void);
+
+
 protected:
   Publisher_Table * impl_;
 };

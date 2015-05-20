@@ -46,10 +46,10 @@ public:
   virtual ~CHAOS_Publisher_Table_T (void);
 
   /// Send an event.
-  void send_event (EVENT * ev);
+  virtual void send_event (EVENT * ev);
 
   /// Allocate a new event.
-  EVENT * allocate_event (void);
+  virtual EVENT * allocate_event (void);
 };
 
 }

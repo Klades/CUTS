@@ -30,7 +30,7 @@ template <typename EVENT>
 CUTS_INLINE
 EVENT * CHAOS_Publisher_Table_T <EVENT>::allocate_event (void)
 {
-  return 0;
+  return dynamic_cast <EVENT *> (this->impl_->allocate_event ());
 }
 
 //
@@ -40,7 +40,7 @@ template <typename EVENT>
 CUTS_INLINE
 void CHAOS_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
 {
-
+  this->impl_->send_event (ev);
 }
 
 }
