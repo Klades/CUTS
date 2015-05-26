@@ -37,7 +37,7 @@ send_event (::Components::EventBase * base)
   if (0 == ev)
     throw ::Components::BadEventType ();
 
-  this->push_event (ev);
+  this->send_event (ev);
 }
 
 }
