@@ -92,7 +92,7 @@ project (HelloWorld_Components_IDL_Gen) : componentidldefaults, cuts_codegen_def
   }
 }
 
-project (HelloWorld_Components_NDDS_stub) : avoids_ace_for_tao, iccm_rtidds_stub, cuts_codegen_defaults {
+project (HelloWorld_Components_NDDS_stub) : avoids_ace_for_tao, iccm_rtidds_svnt, cuts_codegen_defaults {
   sharedname    = HelloWorld_Components_NDDS_stub
   dynamicflags += HELLOWORLD_COMPONENTS_STUB_BUILD_DLL
 
@@ -118,6 +118,7 @@ project (HelloWorld_Components_NDDS_stub) : avoids_ace_for_tao, iccm_rtidds_stub
   Source_Files {
     HelloWorld_ComponentsC.cpp
     RTIDDS_HelloWorld_ComponentsC.cpp
+	rtidds/factory.cpp
   }
 
   Header_Files {
@@ -129,7 +130,7 @@ project (HelloWorld_Components_NDDS_stub) : avoids_ace_for_tao, iccm_rtidds_stub
   }
 }
 
-project (HelloWorld_Components_OSPL_stub) : avoids_ace_for_tao, iccm_opensplice_stub, cuts_codegen_defaults {
+project (HelloWorld_Components_OSPL_stub) : avoids_ace_for_tao, iccm_opensplice_svnt, cuts_codegen_defaults {
   sharedname    = HelloWorld_Components_OSPL_stub
   dynamicflags += HELLOWORLD_COMPONENTS_STUB_BUILD_DLL
 
@@ -151,6 +152,7 @@ project (HelloWorld_Components_OSPL_stub) : avoids_ace_for_tao, iccm_opensplice_
   Source_Files {
     HelloWorld_ComponentsC.cpp
     OpenSplice_HelloWorld_ComponentsC.cpp
+	opensplice/factory.cpp
   }
 
   Header_Files {
