@@ -1,0 +1,6 @@
+// $Id$
+
+project : iccm_chaos_skel, iccm_servant {
+  libs  += iCCM_CHAOS_svnt
+  after += iCCM_CHAOS_svnt
+}
