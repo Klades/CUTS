@@ -1,0 +1,32 @@
+#ifndef _HELLOWORLD_COMPONENTS_IDL_
+#define _HELLOWORLD_COMPONENTS_IDL_
+
+#include "HelloWorld.idl"
+#include <Components.idl>
+
+#pragma ciao lem "HelloWorld_ComponentsE.idl"
+
+eventtype MessageEvent
+{
+  public string content;
+  public long time;
+};
+
+component HelloReceiver
+{
+  consumes ::MessageEvent greeting_ospl;
+  consumes ::MessageEvent greeting_ndds;
+  consumes ::MessageEvent greeting_tcpip;
+  
+};
+
+component HelloSender
+{
+  publishes ::MessageEvent greeting_ospl;
+  publishes ::MessageEvent greeting_ndds;
+  publishes ::MessageEvent greeting_tcpip;
+  attribute string message;
+};
+
+#endif    // !defined _HELLOWORLD_COMPONENTS_IDL_
+

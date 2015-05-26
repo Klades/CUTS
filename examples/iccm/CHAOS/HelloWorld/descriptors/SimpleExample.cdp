@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <UUID>8574AE71-A208-4EA1-B157-98F834FB9B16</UUID>
+
+  <implementation xmi:id="_38BD5B43-C74E-4176-AB38-C95306B3F8C0">
+    <name>SimpleExample.ComponentImplementations.SimpleComponent.SimpleComponent_Basic_Impl</name>
+    <source/>
+    <artifact xmi:idref="_3270E53B-7640-435B-9EA5-035EFA8F36AB"/>
+    <artifact xmi:idref="_F2C95587-D133-4EAE-95F6-42A173F1E5AA"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_SimpleComponent_Basic_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_Basic_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_Example_SimpleComponent_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="_4076CD60-9F8B-4887-8A31-1346A98E220C">
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_38BD5B43-C74E-4176-AB38-C95306B3F8C0"/>
+  </instance>
+
+  <connection>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:app_op_tcpip::SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:tcpip_read_test_data</name>
+    <internalEndpoint>
+      <portName>app_op_tcpip</portName>
+      <provider>false</provider>
+      <kind>EventEmitter</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>tcpip_read_test_data</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:app_op_corba::SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:corba_read_test_data</name>
+    <internalEndpoint>
+      <portName>app_op_corba</portName>
+      <provider>false</provider>
+      <kind>EventEmitter</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>corba_read_test_data</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:app_op_ospl::SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:ospl_read_test_data</name>
+    <internalEndpoint>
+      <portName>app_op_ospl</portName>
+      <provider>false</provider>
+      <kind>EventEmitter</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>ospl_read_test_data</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:app_op_ndds::SimpleExample.ComponentImplementations.SimpleComponentAssembly.HelloWorld.HelloWorld:ndds_read_test_data</name>
+    <internalEndpoint>
+      <portName>app_op_ndds</portName>
+      <provider>false</provider>
+      <kind>EventEmitter</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>ndds_read_test_data</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+    </internalEndpoint>
+  </connection>
+
+  <artifact xmi:id="_3270E53B-7640-435B-9EA5-035EFA8F36AB">
+    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_Basic_Impl</name>
+    <source/>
+    <node/>
+    <location>SimpleComponent_Basic_Impl</location>
+  </artifact>
+
+  <artifact xmi:id="_F2C95587-D133-4EAE-95F6-42A173F1E5AA">
+    <name>SimpleExample.ImplementationArtifacts.SimpleComponent.SimpleComponent_svnt</name>
+    <source/>
+    <node/>
+    <location>SimpleComponent_svnt</location>
+  </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="_4076CD60-9F8B-4887-8A31-1346A98E220C"/>
+  </localityConstraint>
+
+</Deployment:DeploymentPlan>
