@@ -56,6 +56,8 @@ public:
   virtual void passivate (void);
 
   virtual void push_event (::Components::EventBase *);
+  virtual void impl (iCCM::EventConsumer * impl);
+
 protected:
   ::iCCM::EventConsumer * impl_;
 };

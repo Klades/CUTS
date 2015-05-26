@@ -24,6 +24,15 @@ CHAOS_Publisher_Table::~CHAOS_Publisher_Table (void)
 }
 
 //
+// impl
+//
+CUTS_INLINE
+void CHAOS_Publisher_Table::impl (Publisher_Table * impl)
+{
+  this->impl_ = impl;
+}
+
+//
 // subscribe
 //
 CUTS_INLINE

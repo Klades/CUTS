@@ -24,6 +24,16 @@ CHAOS_Publisher::~CHAOS_Publisher (void)
 }
 
 //
+// impl
+//
+CUTS_INLINE
+void
+CHAOS_Publisher::impl (Publisher * impl)
+{
+  this->impl_ = impl;
+}
+
+//
 // connect
 //
 CUTS_INLINE

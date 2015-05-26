@@ -24,6 +24,15 @@ CHAOS_EventConsumer::~CHAOS_EventConsumer (void)
 }
 
 //
+// impl
+//
+CUTS_INLINE
+void CHAOS_EventConsumer::impl (iCCM::EventConsumer * impl)
+{
+  this->impl_ = impl;
+}
+
+//
 // activate
 //
 CUTS_INLINE

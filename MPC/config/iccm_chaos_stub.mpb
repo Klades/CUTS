@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_stub {
+  libs  += iCCM_CHAOS_stub
+  after += iCCM_CHAOS_stub
+}

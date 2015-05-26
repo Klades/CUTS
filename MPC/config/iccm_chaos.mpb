@@ -1,0 +1,16 @@
+// $Id$
+
+project {
+  Define_Custom (ICCM) {
+    command               = $(CUTS_ROOT)/bin/iccm_chaos
+    dependent             = $(CUTS_ROOT)/bin/iccm_chaos
+    inputext              = .idl
+
+    source_outputext      = C.cpp
+    header_outputext      = C.h
+    source_pre_filename   = CHAOS_
+    generic_outputext     = _iCCM.idl
+
+    keyword iccm_chaos_flags = commandflags
+  }
+}
