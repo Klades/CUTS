@@ -21,25 +21,25 @@ project (HelloWorld_OSPL_IDL_Gen) : splice_ts_defaults, requires_opensplice {
   after += HelloWorld_IDL_Gen
 
   idlflags += -o ./opensplice \
-              -Wb,export_macro=MODELDDSDATA_STUB_Export \
-              -Wb,export_include=../ModelDDSData_stub_export.h
+              -Wb,export_macro=HELLOWORLD_STUB_Export \
+              -Wb,export_include=../HelloWorld_stub_export.h
 
   splice_ts_flags += -d ./opensplice \
                      -I $(TAO_ROOT) -I $(CIAO_ROOT) -I $(CIAO_ROOT)/ccm
 
   specific (prop:windows) {
-    splice_ts_flags += -P MODELDDSDATA_STUB_Export,../ModelDDSData_stub_export.h
+    splice_ts_flags += -P HELLOWORLD_STUB_Export,../HelloWorld_stub_export.h
   }
 
   SpliceTypeSupport_Files {
     gendir = ./opensplice
+
     HelloWorld.idl
   }
 
   IDL_Files {
     gendir = ./opensplice
 
-    HelloWorld.idl
     ./opensplice/HelloWorldDcps.idl
   }
 }
@@ -51,9 +51,8 @@ project (HelloWorld_IDL_Gen) : ciaoidldefaults, cuts_codegen_defaults {
               -Wb,stub_export_include=HelloWorld_stub_export.h \
               -Wb,skel_export_macro=HELLOWORLD_SKEL_Export \
               -Wb,skel_export_include=HelloWorld_skel_export.h \
-              -Sa -Sal
-//              -Gxhst -Gxhsk \
-//              -Sa -Sal -St
+              -Gxhst -Gxhsk \
+              -Sa -Sal -St
 
   IDL_Files {
     HelloWorld.idl
@@ -64,7 +63,7 @@ project (HelloWorld_NDDS_stub) : avoids_ace_for_tao, iccm_rtidds_stub, cuts_code
   sharedname    = HelloWorld_NDDS_stub
   dynamicflags += HELLOWORLD_STUB_BUILD_DLL
 
-  after        += HelloWorld_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen HelloWorld_NDDS_IDL_Gen
+  after        += HelloWorld_IDL_Gen HelloWorld_NDDS_IDL_Gen
 
   specific (prop:windows) {
     dynamicflags += NDDS_USER_DLL_EXPORT
@@ -94,7 +93,7 @@ project (HelloWorld_OSPL_stub) : avoids_ace_for_tao, iccm_opensplice_stub, cuts_
   sharedname    = HelloWorld_OSPL_stub
   dynamicflags += HELLOWORLD_STUB_BUILD_DLL
 
-  after += HelloWorld_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen HelloWorld_OSPL_IDL_Gen
+  after += HelloWorld_IDL_Gen HelloWorld_OSPL_IDL_Gen
 
   IDL_Files {
 
@@ -102,12 +101,9 @@ project (HelloWorld_OSPL_stub) : avoids_ace_for_tao, iccm_opensplice_stub, cuts_
 
   Source_Files {
     HelloWorldC.cpp
-    ./opensplice/HelloWorldC.cpp
-    ./opensplice/HelloWorldC.cpp
-    ./opensplice/HelloWorldS.cpp
+    ./opensplice/HelloWorldDcpsC.cpp
+	./opensplice/HelloWorldSplDcps.cpp
     ./opensplice/HelloWorldDcps_impl.cpp
-    ./opensplice/HelloWorldS.cpp
-    ./opensplice/HelloWorldSplDcps.cpp
   }
 
 
@@ -124,7 +120,7 @@ project (HelloWorld_TCPIP_stub) : avoids_ace_for_tao, iccm_tcpip_stub, cuts_code
   sharedname    = HelloWorld_TCPIP_stub
   dynamicflags += HELLOWORLD_STUB_BUILD_DLL
 
-  after += HelloWorld_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen
+  after += HelloWorld_IDL_Gen
 
   IDL_Files {
 
