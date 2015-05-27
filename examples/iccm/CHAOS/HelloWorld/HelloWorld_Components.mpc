@@ -298,7 +298,7 @@ project (HelloWorld_Components_exec) : iccm_rtidds_skel, cuts_codegen_defaults {
   }
 }
 
-project (HelloWorld_Components_svnt) : iccm_rtidds_svnt, cuts_codegen_defaults {
+project (HelloWorld_Components_svnt) : iccm_chaos_svnt, cuts_codegen_defaults {
   sharedname   = HelloWorld_Components_svnt
   dynamicflags += HELLOWORLD_COMPONENTS_SVNT_BUILD_DLL
 

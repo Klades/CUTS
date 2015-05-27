@@ -136,7 +136,40 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>Hello, World!</string>
+          <string>Hello, World?</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_ospl</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_OSPL_stub</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_ndds</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_NDDS_stub</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_tcpip</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_TCPIP_stub</string>
         </value>
       </value>
     </configProperty>
@@ -147,21 +180,36 @@
     <node>SecondNode</node>
     <source/>
     <implementation xmi:idref="_B88B0130-267C-11E1-8000-000C29A84559"/>
-  </instance>
-
-  <instance xmi:id="MainNode.DefaultGroup">
-    <name>MainNode.DefaultGroup</name>
-    <node>MainNode</node>
-    <source/>
-    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
     <configProperty>
-      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <name>CHAOSPortType:greeting_ospl</name>
       <value>
         <type>
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>DefaultGroup</string>
+          <string>HelloWorld_Components_OSPL_stub</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_ndds</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_NDDS_stub</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_tcpip</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_TCPIP_stub</string>
         </value>
       </value>
     </configProperty>
@@ -185,16 +233,34 @@
     </configProperty>
   </instance>
 
+  <instance xmi:id="MainNode.DefaultGroup">
+    <name>MainNode.DefaultGroup</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
   <connection>
-    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.greeting::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.greeting</name>
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.greeting_ospl::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.greeting_ospl</name>
     <internalEndpoint>
-      <portName>greeting</portName>
+      <portName>greeting_ospl</portName>
       <provider>false</provider>
       <kind>EventPublisher</kind>
       <instance xmi:idref="_138A3272-267D-11E1-8000-000C29A84559"/>
     </internalEndpoint>
     <internalEndpoint>
-      <portName>greeting</portName>
+      <portName>greeting_ospl</portName>
       <provider>true</provider>
       <kind>EventConsumer</kind>
       <instance xmi:idref="_187CFE54-267D-11E1-8000-000C29A84559"/>
