@@ -39,7 +39,9 @@ CUTS_INLINE
 ::Components::Cookie *
 CHAOS_Publisher_Table::subscribe (::Components::EventConsumerBase_ptr consumer)
 {
-  return this->impl_->subscribe (consumer);
+  if (this->impl_ != 0)
+    return this->impl_->subscribe (consumer);
+  return 0;
 }
 
 //
@@ -49,7 +51,9 @@ CUTS_INLINE
 ::Components::EventConsumerBase_ptr
 CHAOS_Publisher_Table::unsubscribe (::Components::Cookie * c)
 {
-  return this->impl_->unsubscribe (c);
+  if (this->impl_ != 0)
+    return this->impl_->unsubscribe (c);
+  return 0;
 }
 
 //
@@ -59,7 +63,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher_Table::activate (void)
 {
-  this->impl_->activate ();
+  if (this->impl_ != 0)
+    this->impl_->activate ();
 }
 
 //
@@ -69,7 +74,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher_Table::passivate (void)
 {
-  this->impl_->passivate ();
+  if (this->impl_ != 0)
+    this->impl_->passivate ();
 }
 
 //
@@ -79,7 +85,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher_Table::send_event (::Components::EventBase * ev)
 {
-  this->impl_->send_event (ev);
+  if (this->impl_ != 0)
+    this->impl_->send_event (ev);
 }
 
 //
@@ -89,7 +96,9 @@ CUTS_INLINE
 ::Components::EventBase *
 CHAOS_Publisher_Table::allocate_event (void)
 {
-  return this->impl_->allocate_event ();
+  if (this->impl_ != 0)
+    return this->impl_->allocate_event ();
+  return 0;
 }
 
 }

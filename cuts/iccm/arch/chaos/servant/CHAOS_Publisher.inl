@@ -40,7 +40,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher::connect (::Components::EventConsumerBase_ptr consumer)
 {
-  this->impl_->connect (consumer);
+  if (this->impl_ != 0)
+    this->impl_->connect (consumer);
 }
 
 //
@@ -50,7 +51,9 @@ CUTS_INLINE
 ::Components::EventConsumerBase_ptr
 CHAOS_Publisher::disconnect (void)
 {
-  return this->impl_->disconnect ();
+  if (this->impl_ != 0)
+    return this->impl_->disconnect ();
+  return 0;
 }
 
 //
@@ -60,7 +63,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher::activate (void)
 {
-  this->impl_->activate ();
+  if (this->impl_ != 0)
+    this->impl_->activate ();
 }
 
 //
@@ -70,7 +74,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher::passivate (void)
 {
-  this->impl_->passivate ();
+  if (this->impl_ != 0)
+    this->impl_->passivate ();
 }
 
 //
@@ -80,7 +85,8 @@ CUTS_INLINE
 void
 CHAOS_Publisher::send_event (::Components::EventBase * ev)
 {
-  this->impl_->send_event (ev);
+  if (this->impl_ != 0)
+    this->impl_->send_event (ev);
 }
 
 //
@@ -90,7 +96,9 @@ CUTS_INLINE
 ::Components::EventBase *
 CHAOS_Publisher::allocate_event (void)
 {
-  return this->impl_->allocate_event ();
+  if (this->impl_ != 0)
+    return this->impl_->allocate_event ();
+  return 0;
 }
 
 }

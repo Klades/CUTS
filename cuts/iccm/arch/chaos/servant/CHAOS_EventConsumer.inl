@@ -38,7 +38,8 @@ void CHAOS_EventConsumer::impl (iCCM::EventConsumer * impl)
 CUTS_INLINE
 void CHAOS_EventConsumer::activate (void)
 {
-  this->impl_->activate ();
+  if (this->impl_ != 0)
+    this->impl_->activate ();
 }
 
 //
@@ -47,7 +48,8 @@ void CHAOS_EventConsumer::activate (void)
 CUTS_INLINE
 void CHAOS_EventConsumer::passivate (void)
 {
-  this->impl_->passivate ();
+  if (this->impl_ != 0)
+    this->impl_->passivate ();
 }
 
 //
@@ -56,7 +58,8 @@ void CHAOS_EventConsumer::passivate (void)
 CUTS_INLINE
 void CHAOS_EventConsumer::push_event (::Components::EventBase * ev)
 {
-  this->impl_->push_event (ev);
+  if (this->impl_ != 0)
+    this->impl_->push_event (ev);
 }
 
 }
