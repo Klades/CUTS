@@ -160,6 +160,18 @@ public:
   int get_publisher_table (const char * name,
                            typename SERVANT_BASE::publisher_table_type * & result) const;
 
+  virtual void add_eventconsumer (const char * name,
+                                  typename SERVANT_BASE::eventconsumer_type * consumer);
+  virtual void add_eventconsumer (const char * name, EventConsumer * consumer);
+
+  virtual void add_publisher (const char * name,
+                              typename SERVANT_BASE::publisher_type * publisher);
+  virtual void add_publisher (const char * name, Publisher * publisher);
+
+  virtual void add_publisher_table (const char * name,
+                                    typename SERVANT_BASE::publisher_table_type * publisher_table);
+  virtual void add_publisher_table (const char * name, Publisher_Table * publisher_table);
+
 protected:
   /// Collection of consumers for the servant.
   typedef ACE_Hash_Map_Manager <ACE_CString,

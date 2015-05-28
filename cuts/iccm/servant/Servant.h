@@ -23,6 +23,11 @@
 namespace iCCM
 {
 
+// Forward decls.
+class EventConsumer;
+class Publisher;
+class Publisher_Table;
+
 /**
  * @class Servant
  *
@@ -64,6 +69,10 @@ public:
    * setter method on the component implementation.
    */
   virtual void set_attributes (const ::Components::ConfigValues &);
+
+  virtual void add_eventconsumer (const char * name, EventConsumer *) = 0;
+  virtual void add_publisher (const char * name, Publisher *) = 0;
+  virtual void add_publisher_table (const char * name, Publisher_Table *) = 0;
 
 protected:
   /// Name of the CCM servant.

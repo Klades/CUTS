@@ -34,6 +34,80 @@ get_publisher_table (const char * name, typename SERVANT_BASE::publisher_table_t
   return this->publishes_.find (name, result);
 }
 
+//
+// add_eventconsumer
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_eventconsumer (const char * name, typename SERVANT_BASE::eventconsumer_type * consumer)
+{
+  this->consumers_.bind (name, consumer);
+}
+
+//
+// add_eventconsumer
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_eventconsumer (const char * name, EventConsumer * consumer)
+{
+  typename SERVANT_BASE::eventconsumer_type * ec =
+    dynamic_cast < typename SERVANT_BASE::eventconsumer_type * > (consumer);
+
+  if (ec != 0)
+    this->add_eventconsumer (name, ec);
+}
+
+//
+// add_publisher
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_publisher (const char * name,
+               typename SERVANT_BASE::publisher_type * publisher)
+{
+  this->emits_.bind (name, publisher);
+}
+
+//
+// add_publisher
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_publisher (const char * name, Publisher * publisher)
+{
+  typename SERVANT_BASE::publisher_type * p =
+    dynamic_cast < typename SERVANT_BASE::publisher_type * > (publisher);
+
+  if (p != 0)
+    this->add_publisher (name, p);
+}
+
+//
+// add_publisher_table
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_publisher_table (const char * name,
+                     typename SERVANT_BASE::publisher_table_type * publisher_table)
+{
+  this->publishes_.bind (name, publisher_table);
+}
+
+//
+// add_publisher_table
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+add_publisher_table (const char * name, Publisher_Table * publisher_table)
+{
+  typename SERVANT_BASE::publisher_table_type * pt =
+    dynamic_cast < typename SERVANT_BASE::publisher_table_type * > (publisher_table);
+
+  if (pt != 0)
+    this->add_publisher_table (name, pt);
+}
+
 #if !defined (CCM_LW)
 
 //
