@@ -56,6 +56,9 @@ public:
   /// Method for removing a component.
   virtual void remove (void);
 
+  /// Method for handling configuration values from the PICML model
+  virtual void handle_config (const ::Components::ConfigValues & values);
+
   /**
    * Get the instance's name.
    *

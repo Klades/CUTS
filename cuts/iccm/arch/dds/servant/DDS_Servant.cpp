@@ -4,6 +4,9 @@
 #include "DDS_Servant.inl"
 #endif
 
+#include "cuts/iccm/ddsxml/DDS_Participant_File.h"
+#include "XSC/utils/XML_Error_Handler.h"
+
 namespace iCCM
 {
 
@@ -25,6 +28,67 @@ DDS_Servant <T>::DDS_Servant (const char * name)
                                  T::STATUS_MASK_NONE);
 }
 
+//
+// configure
+//
+template <typename T>
+void DDS_Servant <T>::handle_config (const ::Components::ConfigValues & config)
+{
+  // Locate the DDSParticipantQoS property.
+  size_t length = config.length ();
+  const char * filename = 0;
+
+  for (size_t i = 0; i < length; ++ i)
+  {
+    if (0 == ACE_OS::strcmp (config[i]->name (), "ParticipantQoS"))
+    {
+      config[i]->value () >>= filename;
+      break;
+    }
+  }
+
+  if (0 != filename)
+  {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - configuring %s using %s\n"),
+                this->name ().c_str (),
+                filename));
+
+    // Read the contents of the extracted filename.
+    iCCM::DDS_Participant_File file;
+    XSC::XML::XML_Error_Handler error_handler;
+    file->setErrorHandler (&error_handler);
+
+    if (file.read (filename))
+    {
+      // Extract the contents of the XML document.
+      iccm::DomainParticipantQos qos_value;
+      file >>= qos_value;
+
+      // Configure the DDS servant.
+      this->configure (qos_value);
+    }
+    else
+    {
+      // Unable to read file, use default configuration
+      ACE_ERROR ((LM_ERROR,
+                  ACE_TEXT ("%T (%t) - %M - failed to read %s, ")
+                  ACE_TEXT ("using default configuration"),
+                  filename));
+      this->configure ();
+    }
+  }
+  else
+  {
+    ACE_ERROR ((LM_DEBUG,
+                ACE_TEXT ("%T (%t) - %M - using default configuration ")
+                ACE_TEXT ("for %s\n"),
+                this->name ().c_str ()));
+
+    // Use the default configuration.
+    this->configure ();
+  }
+}
 
 //
 // do_default_configure
