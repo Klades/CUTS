@@ -51,7 +51,7 @@ public:
    * but simply provides a mechanism to configure underlying EventConsumers,
    * Publishers, and Publisher_Tables
    */
-  DDS_Servant_T (const char * name);
+  OpenSplice_Servant_T (const char * name);
 
   /// Destructor.
   virtual ~OpenSplice_Servant_T (void);
