@@ -66,6 +66,13 @@ public:
              ::PortableServer::POA_ptr poa,
              typename EXECUTOR::_ptr_type exec);
 
+  /**
+   * Inactive constructor.  This constructor will not activate the object
+   * but simply provides a mechanism to configure underlying EventConsumers,
+   * Publishers, and Publisher_Tables
+   */
+  Servant_T (const char * name);
+
   /// Destructor.
   virtual ~Servant_T (void);
 

@@ -5,6 +5,17 @@ namespace iCCM
 {
 
 //
+// Servant_T
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+Servant_T (const char * name)
+: SERVANT_BASE (name)
+{
+
+}
+
+//
 // get_consumer
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
