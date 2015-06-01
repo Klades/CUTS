@@ -46,6 +46,13 @@ public:
                         ::PortableServer::POA_ptr port_poa,
                         typename EXECUTOR::_ptr_type impl);
 
+  /**
+   * Inactive constructor.  This constructor will not activate the object
+   * but simply provides a mechanism to configure underlying EventConsumers,
+   * Publishers, and Publisher_Tables
+   */
+  DDS_Servant_T (const char * name);
+
   /// Destructor.
   virtual ~OpenSplice_Servant_T (void);
 };

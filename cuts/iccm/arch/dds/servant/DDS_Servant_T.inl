@@ -20,6 +20,18 @@ DDS_Servant_T (T * _this,
 }
 
 //
+// DDS_Servant_T
+//
+template <typename TRAIT, typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
+CUTS_INLINE
+DDS_Servant_T <TRAIT, T, CONTEXT, EXECUTOR, POA_EXEC>::
+DDS_Servant_T (const char * name)
+: base_type (name)
+{
+
+}
+
+//
 // ~DDS_Servant_T
 //
 template <typename TRAIT, typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
