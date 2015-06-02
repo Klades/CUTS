@@ -4,6 +4,7 @@
 namespace iCCM
 {
 
+#ifndef CUTS_INACTIVE_SUBSERVANT
 //
 // DDS_Servant_T
 //
@@ -18,6 +19,7 @@ DDS_Servant_T (T * _this,
 {
 
 }
+#endif
 
 //
 // DDS_Servant_T

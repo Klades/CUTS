@@ -44,10 +44,12 @@ public:
    * @param[in]       port_poa          The POA for activating ports
    * @param[in]       impl              Reference to the implementation
    */
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   DDS_Servant_T (T * _this,
                  const char * name,
                  ::PortableServer::POA_ptr port_poa,
                  typename EXECUTOR::_ptr_type impl);
+  #endif
 
   /**
    * Inactive constructor.  This constructor will not activate the object
