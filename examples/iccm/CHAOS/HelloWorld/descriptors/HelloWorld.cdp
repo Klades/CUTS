@@ -136,29 +136,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>Hello, World?</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
-      <name>CHAOSPortType:greeting_ospl</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorld_Components_OSPL_stub</string>
-        </value>
-      </value>
-    </configProperty>
-    <configProperty>
-      <name>CHAOSPortType:greeting_ndds</name>
-      <value>
-        <type>
-          <kind>tk_string</kind>
-        </type>
-        <value>
-          <string>HelloWorld_Components_NDDS_stub</string>
+          <string>Hello, World!</string>
         </value>
       </value>
     </configProperty>
@@ -169,7 +147,29 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld_Components_TCPIP_stub</string>
+          <string>HelloWorld_Components_OSPL_stub:create_HelloSender_Servant_MessageEvent_publisher_table</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_ndds</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_OSPL_stub:create_HelloSender_Servant_MessageEvent_publisher_table</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>CHAOSPortType:greeting_ospl</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld_Components_OSPL_stub:create_HelloSender_Servant_MessageEvent_publisher_table</string>
         </value>
       </value>
     </configProperty>
@@ -187,7 +187,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld_Components_OSPL_stub</string>
+          <string>HelloWorld_Components_OSPL_stub:create_HelloReceiver_Servant_greeting_ospl_consumer</string>
         </value>
       </value>
     </configProperty>
@@ -198,7 +198,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld_Components_NDDS_stub</string>
+          <string>HelloWorld_Components_OSPL_stub:create_HelloReceiver_Servant_greeting_ndds_consumer</string>
         </value>
       </value>
     </configProperty>
@@ -209,7 +209,7 @@
           <kind>tk_string</kind>
         </type>
         <value>
-          <string>HelloWorld_Components_TCPIP_stub</string>
+          <string>HelloWorld_Components_OSPL_stub:create_HelloReceiver_Servant_greeting_tcpip_consumer</string>
         </value>
       </value>
     </configProperty>

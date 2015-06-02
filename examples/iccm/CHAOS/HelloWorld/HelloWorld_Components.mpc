@@ -199,8 +199,8 @@ project (HelloWorld_Components_stub) : avoids_ace_for_tao, iccm_chaos_stub, cuts
   sharedname    = HelloWorld_Components_stub
   dynamicflags += HELLOWORLD_COMPONENTS_STUB_BUILD_DLL
 
-  after        += HelloWorld_Components_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen \
-				  HelloWorld_Components_NDDS_stub HelloWorld_Components_OSPL_stub HelloWorld_Components_TCPIP_stub
+  after        += HelloWorld_Components_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen
+//				  HelloWorld_Components_NDDS_stub HelloWorld_Components_OSPL_stub HelloWorld_Components_TCPIP_stub
 
   // listing of project dependencies
   after += \
