@@ -41,7 +41,9 @@ class Publisher_Table;
  */
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 class Servant_T :
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   public POA_EXEC,
+  #endif
   public SERVANT_BASE
 {
 public:
@@ -55,6 +57,7 @@ public:
   typedef typename SERVANT_BASE::publisher_type publisher_type;
   typedef typename SERVANT_BASE::publisher_table_type publisher_table_type;
 
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   /**
    * Initializing constructor.
    *
@@ -65,6 +68,7 @@ public:
              const char * name,
              ::PortableServer::POA_ptr poa,
              typename EXECUTOR::_ptr_type exec);
+  #endif
 
   /**
    * Inactive constructor.  This constructor will not activate the object
@@ -222,11 +226,13 @@ protected:
 
   facets_map_type facets_;
 
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   /// The actual context for the servant.
   ACE_Auto_Ptr <CONTEXT> ctx_;
 
   /// The implemenation for this servant.
   typename EXECUTOR::_var_type impl_;
+  #endif
 
   // Helper method for adding facets
   void add_facet (const char *, ::CORBA::Object_ptr);

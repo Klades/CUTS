@@ -12,6 +12,7 @@
 namespace iCCM
 {
 
+#ifndef CUTS_INACTIVE_SUBSERVANT
 //
 // Servant_T
 //
@@ -39,6 +40,7 @@ Servant_T (T * this_,
   if (0 != this->impl_)
     this->impl_->set_session_context (this->ctx_.get ());
 }
+#endif
 
 //
 // ~Servant_T
@@ -56,8 +58,10 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, ty
 CUTS_INLINE void
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::configuration_complete (void)
 {
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   if (0 != this->impl_)
     this->impl_->configuration_complete ();
+  #endif
 }
 
 //
@@ -66,10 +70,12 @@ Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::configuration_complete
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::activate_component (void)
 {
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   if (0 != this->impl_)
     this->impl_->ccm_activate ();
 
   this->activate_ports ();
+  #endif
 }
 
 //
@@ -78,10 +84,12 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::activate_componen
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_component (void)
 {
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   if (0 != this->impl_)
     this->impl_->ccm_passivate ();
 
   this->deactivate_ports ();
+  #endif
 }
 
 //
@@ -90,6 +98,8 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::remove (void)
 {
+  #ifndef CUTS_INACTIVE_SUBSERVANT
+
   if (0 != this->impl_)
     this->impl_->ccm_remove ();
 
@@ -100,6 +110,7 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::remove (void)
   // We are also going to destroy the port POA.
   if (!::CORBA::is_nil (this->port_POA_.in ()))
     this->port_POA_->destroy (0, 0);
+  #endif
 }
 
 //
@@ -393,6 +404,7 @@ create_servant (const char * name,
                 ::PortableServer::POA_ptr port_POA,
                 ::Components::EnterpriseComponent_ptr p)
 {
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   // First, convert the pointer to its concrete type.
   typename EXECUTOR::_var_type executor = EXECUTOR::_narrow (p);
 
@@ -407,6 +419,7 @@ create_servant (const char * name,
                   0);
 
   return servant;
+  #endif
 }
 
 }
