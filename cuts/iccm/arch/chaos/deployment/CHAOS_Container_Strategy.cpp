@@ -34,6 +34,11 @@ configure_servant (::PortableServer::Servant servant,
   // by using 'dynamic_cast <CHAOS_Servant *> (servant)'.
   // Also, the ConfigValues passed into this method are the same
   // configuration values attached to a component instance.
+
+  CHAOS_Servant * svnt = dynamic_cast < CHAOS_Servant * > (servant);
+
+  if (svnt != 0)
+    svnt->handle_config (values);
 }
 
 //

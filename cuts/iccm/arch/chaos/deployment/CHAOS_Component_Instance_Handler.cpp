@@ -22,12 +22,6 @@ configure (const ::Deployment::Properties & config)
   // NOTE: The Properties passed to this method are those that are
   // attached to a locality manager. In PICML, this would be the Property
   // elements attached to a CollocationGroup.
-  size_t length = config.length ();
-
-  for (size_t i = 0; i < length; ++i)
-    ACE_ERROR ((LM_DEBUG,
-                ACE_TEXT ("\n\nGot property: %s\n"),
-                config[i].name));
 }
 
 

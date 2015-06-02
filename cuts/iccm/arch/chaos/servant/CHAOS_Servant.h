@@ -38,6 +38,8 @@ class ICCM_CHAOS_SVNT_Export CHAOS_Servant :
   public Servant
 {
 public:
+  static const char * PORT_TYPE_PREFIX;
+
   /// Trait definitions for iCCM::Servant_T object.
   typedef CHAOS_EventConsumer eventconsumer_type;
   typedef CHAOS_Publisher publisher_type;
@@ -48,6 +50,11 @@ public:
 
   /// Destructor.
   virtual ~CHAOS_Servant (void);
+
+  virtual void handle_config (const ::Components::ConfigValues & values);
+
+protected:
+  virtual void load_port (const char * port_name, const char * dll, const char * entrypt);
 };
 
 }

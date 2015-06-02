@@ -60,6 +60,20 @@ public:
 
   /// Destructor.
   virtual ~CHAOS_Servant_T (void);
+
+  virtual void set_attributes (const ::Components::ConfigValues &);
+  virtual void handle_config (const ::Components::ConfigValues & values);
+
+protected:
+  /// Collection of subservants.
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                iCCM::Servant *,
+                                ACE_RW_Thread_Mutex>
+                                servant_map_type;
+
+  servant_map_type servants_;
+
+  virtual void load_port (const char * port, const char * dll, const char * entrypt);
 };
 
 }
