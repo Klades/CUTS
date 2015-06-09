@@ -4,7 +4,6 @@
 #include "HelloReceiverImpl.h"
 #include "cuts/arch/ccm/CCM_Events_T.h"
 
-
 namespace HelloReceiverImpl
 {
   //

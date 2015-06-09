@@ -40,6 +40,9 @@ namespace HelloReceiverImpl
     HelloReceiver * parent_;
   };
 
+  // Forward decl.
+  class echo_i;
+
   // Type definition of the implentation base type
   typedef CUTS_CCM_Component_T < CIAO_HelloReceiver_Impl::HelloReceiver_Exec, ::iCCM_HelloReceiver_Context > HelloReceiver_Base;
 
