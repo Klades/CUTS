@@ -4,6 +4,7 @@
 namespace iCCM
 {
 
+#ifndef CUTS_INACTIVE_SUBSERVANT
 //
 // OpenSplice_Servant_T
 //
@@ -18,6 +19,7 @@ OpenSplice_Servant_T (T * _this,
 {
 
 }
+#endif
 
 //
 // OpenSplice_Servant_T
