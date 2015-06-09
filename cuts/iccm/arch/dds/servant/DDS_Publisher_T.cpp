@@ -129,7 +129,7 @@ void DDS_Publisher_T <T, EVENT>::passivate (void)
 template <typename T, typename EVENT>
 void DDS_Publisher_T <T, EVENT>::send_event (::Components::EventBase * base)
 {
-  typename EVENT * ev = dynamic_cast < EVENT * > (base);
+  EVENT * ev = dynamic_cast < EVENT * > (base);
   return this->writer_->send_event (ev);
 }
 
