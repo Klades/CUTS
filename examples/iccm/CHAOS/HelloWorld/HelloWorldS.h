@@ -28,23 +28,29 @@
 // TAO_IDL - Generated from
 // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_codegen.cpp:461
 
-#ifndef _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSS_NEC8WK_H_
-#define _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSS_NEC8WK_H_
+#ifndef _TAO_IDL_HELLOWORLDS_22Y1G5_H_
+#define _TAO_IDL_HELLOWORLDS_22Y1G5_H_
 
 #include /**/ "ace/pre.h"
 
-#include "HelloWorldDcpsC.h"
-#include "dds_dcpsS.h"
-#include "HelloWorldS.h"
+#include "HelloWorldC.h"
 #include "tao/PortableServer/Basic_SArguments.h"
 #include "tao/PortableServer/Special_Basic_SArguments.h"
 #include "tao/PortableServer/Fixed_Size_SArgument_T.h"
 #include "tao/PortableServer/Var_Size_SArgument_T.h"
+#include "tao/PortableServer/UB_String_SArguments.h"
 
 #if !defined (ACE_LACKS_PRAGMA_ONCE)
 # pragma once
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
+
+#include /**/ "HelloWorld_skel_export.h"
+
+#if defined (TAO_EXPORT_MACRO)
+#undef TAO_EXPORT_MACRO
+#endif
+#define TAO_EXPORT_MACRO HELLOWORLD_SKEL_Export
 
 // TAO_IDL - Generated from
 // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_visitor_arg_traits.cpp:68
@@ -57,13 +63,13 @@ namespace TAO
 {
 
   // TAO_IDL - Generated from
-  // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_visitor_arg_traits.cpp:685
+  // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_visitor_arg_traits.cpp:947
 
   template<>
-  class SArg_Traits< ::MessageSeq>
+  class SArg_Traits< ::Message>
     : public
         Var_Size_SArg_Traits_T<
-            ::MessageSeq,
+            ::Message,
             TAO::Any_Insert_Policy_Noop
           >
   {

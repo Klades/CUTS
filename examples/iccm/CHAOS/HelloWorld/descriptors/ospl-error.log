@@ -1,0 +1,993 @@
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4972> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2080
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/172818092
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <2824> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3268
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/163078508
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4972> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2080
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/174301021
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <2824> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3268
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/163480775
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4972> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2080
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/174551921
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <2824> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3268
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/163797726
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:04:27 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4972> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u a8c88054-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2080
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/174896852
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <3112> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1052
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/523079754
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <1296> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3620
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/518583571
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <3112> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1052
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/523332030
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <3112> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1052
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/523451747
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <1296> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3620
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/518873918
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <3112> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1052
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/523574675
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <1296> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3620
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/519083537
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:05:27 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <1296> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u ccc03a10-0938-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3620
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/519302330
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <1220> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3308
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/753903026
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <1220> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3308
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/754206676
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <1220> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3308
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/754329603
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <1220> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3308
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/754441064
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <3168> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2024
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/766229724
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <3168> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2024
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/766497596
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <3168> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2024
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/766617771
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:12:55 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <3168> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d7f68618-0939-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2024
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/766730607
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4300> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3240
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/976656712
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <716> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3780
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/973310148
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <716> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3780
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/973460596
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4300> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3240
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/977454365
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <716> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3780
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/973582148
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4300> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3240
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/977641050
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:28:03 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4300> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u f54be5d0-093b-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3240
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/977765354
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4600> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3344
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/63793715
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4600> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3344
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/64485871
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4600> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3344
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/64676684
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4600> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3344
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/64849608
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <720> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 4884
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/74975164
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <720> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 4884
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/75297619
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <720> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 4884
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/75466415
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:29:07 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <720> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 1ae278b8-093c-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 4884
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/75623744
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <3712> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4440
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/759272458
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <2780> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4560
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/757484505
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <3712> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4440
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/759975622
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <2780> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4560
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/757861085
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <3712> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4440
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/760466415
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <2780> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4560
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/758270232
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:38:41 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <2780> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 716ed1a8-093d-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4560
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/758517004
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4892> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4104
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/108787180
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4892> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4104
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/109490344
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4892> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4104
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/109824266
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4892> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4104
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/110122411
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <3764> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2948
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/124021022
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <3764> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2948
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/124267794
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <3764> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2948
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/124430628
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:50:04 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <3764> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 08289736-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 2948
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/124590250
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4916> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3716
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/611218143
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4916> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3716
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/611948369
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4916> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3716
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/612297887
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4916> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3716
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/612621718
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4848> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3424
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/628334123
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4848> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3424
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/628619884
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4848> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3424
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/628755654
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:52:29 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4848> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 5ee45092-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3424
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/628970778
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <2484> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3732
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/470953873
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <2484> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3732
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/471679054
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <2484> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3732
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/472008848
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <2484> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3732
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/472309287
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <1132> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4984
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/477906160
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <1132> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4984
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/478203388
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <1132> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4984
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/478366680
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:54:48 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <1132> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u b1a6308e-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4984
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/478651523
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4408> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3100
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/525884076
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4408> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3100
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/526425783
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4408> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3100
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/526679436
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4408> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3100
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/526906485
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <5036> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3952
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/540302531
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <5036> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3952
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/540514902
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <5036> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3952
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/540642416
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:55:53 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <5036> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u d86b8e1c-093f-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3952
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/540758463
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <3836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3660
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/840006039
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <3836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3660
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/840317945
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <3836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3660
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/840444542
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <3836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 3660
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/840596367
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4548> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1664
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/856461818
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4548> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1664
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/856665016
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4548> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1664
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/856773265
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 11:58:39 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4548> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 3b8f03c0-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1664
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/856878763
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <2752> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 668
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/592792788
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4444> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1688
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/598451278
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <2752> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 668
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/593654657
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <2752> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 668
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/593912437
+49/0/599393876
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4444> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1688
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/599700277
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <2752> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 668
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/594271588
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:03:33 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4444> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u eaa31fc2-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1688
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/599942463
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <3860> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4196
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/627247756
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <5076> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4992
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/617571645
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <3860> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4196
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/627911015
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <5076> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4992
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/618307375
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <3860> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4196
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/628168337
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <5076> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4992
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/618604144
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <3860> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4196
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/628405936
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:04:06 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <5076> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u fe2ac2fc-0940-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4992
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/618841284
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <808> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3392
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/810693990
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <1072> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4884
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/804036179
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <808> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3392
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/811445774
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <808> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3392
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/811644385
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <1072> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4884
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/804912726
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <808> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:0100000027000000494
+Thread      : 3392
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/811828776
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <1072> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4884
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/805175552
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:34:22 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <1072> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 38dac308-0945-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4884
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/805551215
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4912> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4376
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/474111269
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4912> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4376
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/474573623
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4912> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4376
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/474780032
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4912> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4376
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/474967634
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <2120> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4696
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/490277705
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <2120> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4696
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/490508423
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <2120> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4696
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/490618966
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:14 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <2120> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 75c57c76-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4696
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/490726299
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <4504> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4332
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/895478867
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : os_findKeyFile: Could not find any key file: C:\Users\dfeiock.ADS\AppData\Local\Temp\osp*.tmp
+Node        : dfeiock-vmx64
+Process     : PID <2836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1444
+Internals   : V5.5.1OSS/u_domainOpen/u_domain.c/52/0/895881592
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <4504> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4332
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/896206341
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : os_sharedMemoryAttach failed
+Node        : dfeiock-vmx64
+Process     : PID <2836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1444
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/749/0/896367798
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <4504> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4332
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/896742543
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : c_open failed
+Node        : dfeiock-vmx64
+Process     : PID <2836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1444
+Internals   : V5.5.1OSS/user::u_domain::u_domainOpen/u_domain.c/764/0/896916844
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <4504> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 4332
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/897086557
+========================================================================================
+Report      : ERROR
+Date        : Tue Jun 02 12:43:43 2015
+Description : Failure to open the domain, URI=""file://C:\Users\dfeiock.ADS\Documents\HDE\\x86.win32\etc\config\ospl.xml""
+Node        : dfeiock-vmx64
+Process     : PID <2836> C:\Users\dfeiock.ADS\Documents\SEM\\Middleware\DAnCE/bin/dance_locality_manager  --plugin-config C:\Users\dfeiock.ADS\Documents\SEM\\SEM\CUTS/bin/handlers/chaos.locality.config  -u 874bc75c-0946-11e5-8000-080027df0391 -c IOR:010000002700000049
+Thread      : 1444
+Internals   : V5.5.1OSS/u_participantNew/u_participant.c/160/0/897265903

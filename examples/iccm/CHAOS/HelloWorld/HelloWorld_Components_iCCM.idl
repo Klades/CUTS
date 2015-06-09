@@ -1,0 +1,19 @@
+// -*- IDL -*-
+
+#ifndef _HELLOWORLD_COMPONENTS_ICCM_IDL_
+#define _HELLOWORLD_COMPONENTS_ICCM_IDL_
+
+#include "HelloWorld_ComponentsE.idl"
+
+local interface iCCM_HelloReceiver_Context : CCM_HelloReceiver_Context
+{
+};
+
+local interface iCCM_HelloSender_Context : CCM_HelloSender_Context
+{
+  ::MessageEvent new_greeting_ospl_event ();
+  ::MessageEvent new_greeting_ndds_event ();
+  ::MessageEvent new_greeting_tcpip_event ();
+};
+
+#endif  // !defined _HELLOWORLD_COMPONENTS_ICCM_IDL_

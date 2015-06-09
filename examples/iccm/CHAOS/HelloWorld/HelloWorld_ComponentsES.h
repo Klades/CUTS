@@ -28,23 +28,31 @@
 // TAO_IDL - Generated from
 // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_codegen.cpp:461
 
-#ifndef _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSS_NEC8WK_H_
-#define _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSS_NEC8WK_H_
+#ifndef _TAO_IDL_HELLOWORLD_COMPONENTSES_YQ1MBS_H_
+#define _TAO_IDL_HELLOWORLD_COMPONENTSES_YQ1MBS_H_
 
 #include /**/ "ace/pre.h"
 
-#include "HelloWorldDcpsC.h"
-#include "dds_dcpsS.h"
-#include "HelloWorldS.h"
+#include "HelloWorld_ComponentsEC.h"
+#include "ccm/CCM_EventsS.h"
+#include "ccm/CCM_HomeS.h"
+#include "ccm/CCM_ObjectS.h"
+#include "ccm/CCM_CCMExceptionS.h"
+#include "ccm/CCM_HomeExecutorBaseS.h"
+#include "ccm/Session/CCM_SessionComponentS.h"
+#include "HelloWorld_ComponentsS.h"
 #include "tao/PortableServer/Basic_SArguments.h"
 #include "tao/PortableServer/Special_Basic_SArguments.h"
 #include "tao/PortableServer/Fixed_Size_SArgument_T.h"
 #include "tao/PortableServer/Var_Size_SArgument_T.h"
+#include "tao/PortableServer/Object_SArg_Traits.h"
+#include "tao/PortableServer/UB_String_SArguments.h"
+#include "tao/PortableServer/Object_SArg_Traits.h"
+#include "tao/PortableServer/get_arg.h"
+#include "tao/Special_Basic_Arguments.h"
+#include "tao/UB_String_Arguments.h"
 
-#if !defined (ACE_LACKS_PRAGMA_ONCE)
-# pragma once
-#endif /* ACE_LACKS_PRAGMA_ONCE */
-
+// Skeleton file generation suppressed with command line option -SS
 
 // TAO_IDL - Generated from
 // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_visitor_arg_traits.cpp:68
@@ -55,19 +63,6 @@ TAO_BEGIN_VERSIONED_NAMESPACE_DECL
 // Arg traits specializations.
 namespace TAO
 {
-
-  // TAO_IDL - Generated from
-  // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_visitor_arg_traits.cpp:685
-
-  template<>
-  class SArg_Traits< ::MessageSeq>
-    : public
-        Var_Size_SArg_Traits_T<
-            ::MessageSeq,
-            TAO::Any_Insert_Policy_Noop
-          >
-  {
-  };
 }
 
 TAO_END_VERSIONED_NAMESPACE_DECL

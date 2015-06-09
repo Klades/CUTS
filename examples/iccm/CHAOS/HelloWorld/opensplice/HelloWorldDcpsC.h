@@ -28,8 +28,8 @@
 // TAO_IDL - Generated from
 // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_codegen.cpp:152
 
-#ifndef _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSC_ZZGY0M_H_
-#define _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSC_ZZGY0M_H_
+#ifndef _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSC_RLC5XP_H_
+#define _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSC_RLC5XP_H_
 
 #include /**/ "ace/pre.h"
 

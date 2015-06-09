@@ -29,11 +29,11 @@
 // TAO_IDL - Generated from
 // c:\users\dfeiock.ads\documents\sem\middleware\tao\tao_idl\be\be_codegen.cpp:652
 
-#ifndef _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSS_NEC8WK_CPP_
-#define _TAO_IDL___OPENSPLICE_HELLOWORLDDCPSS_NEC8WK_CPP_
+#ifndef _TAO_IDL_HELLOWORLDS_22Y1G5_CPP_
+#define _TAO_IDL_HELLOWORLDS_22Y1G5_CPP_
 
 
-#include "HelloWorldDcpsS.h"
+#include "HelloWorldS.h"
 
 #endif /* ifndef */
 

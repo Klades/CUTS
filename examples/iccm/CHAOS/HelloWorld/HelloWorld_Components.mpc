@@ -54,7 +54,7 @@ project (HelloWorld_Components_TCPIP_iCCM_IDL_Gen) : iccm_tcpip, requires_tcpip 
 project (HelloWorld_Components_iCCM_IDL_Gen) : iccm_chaos {
   custom_only = 1
 
-  after += HelloWorld_Components_IDL_Gen
+  after += HelloWorld_Components_IDL_Gen HelloWorld_Components_TCPIP_iCCM_IDL_Gen
 
   iccm_chaos_flags += -Wb,stub_export_macro=HELLOWORLD_COMPONENTS_STUB_Export \
                        -Wb,stub_export_include=HelloWorld_Components_stub_export.h \
@@ -138,10 +138,10 @@ project (HelloWorld_Components_OSPL_stub) : avoids_ace_for_tao, iccm_opensplice_
 
   // listing of project dependencies
   after += \
-    HelloWorld_OSPL_stub
+    HelloWorld_OSPL_stub HelloWorld_Components_svnt
 
   libs  += \
-    HelloWorld_OSPL_stub
+    HelloWorld_OSPL_stub HelloWorld_Components_svnt
 
   includes += ./opensplice
 
