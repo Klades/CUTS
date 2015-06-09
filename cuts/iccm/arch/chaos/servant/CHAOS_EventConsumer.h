@@ -56,7 +56,10 @@ public:
   virtual void passivate (void);
 
   virtual void push_event (::Components::EventBase *);
+  virtual void allocate (ptrdiff_t & symbol);
+
   virtual void impl (iCCM::EventConsumer * impl);
+  virtual iCCM::EventConsumer * impl (void);
 
 protected:
   ::iCCM::EventConsumer * impl_;

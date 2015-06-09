@@ -35,11 +35,17 @@ CHAOS_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::handle_config (const ::Compone
 
   for (; !iter.done (); ++ iter)
     iter->item ()->handle_config (props);
-
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - DONE\n")));
 }
 
+//
+// test
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC>
+void CHAOS_Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC>::test (void)
+{
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - SERVANT_T TEST\n")));
+}
 
 //
 // load_port
@@ -95,12 +101,11 @@ load_port (const char * port, const char * location, const char * entrypt)
 
   if (0 == this->consumers_.find (port, consumer))
   {
-    typedef iCCM::EventConsumer * (*EventConsumerFactoryMethod) (iCCM::CHAOS_Servant *);
-    EventConsumerFactoryMethod factory_method = reinterpret_cast <EventConsumerFactoryMethod> (tmp_ptr);
-
-    iCCM::EventConsumer * p = (*factory_method) (this);
-    consumer->impl (p);
-    svnt->add_eventconsumer (port, p);
+    // The consumer callback to the servant is model-specific, so we can't
+    // handle it in a generic manner at this location.  Instead, we defer
+    // the call to the factory method to the eventconsumer.
+    consumer->allocate (tmp_ptr);
+    svnt->add_eventconsumer (port, consumer->impl ());
   }
   else if (0 == this->emits_.find (port, emits))
   {

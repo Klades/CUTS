@@ -63,7 +63,7 @@ public:
 
   virtual void set_attributes (const ::Components::ConfigValues &);
   virtual void handle_config (const ::Components::ConfigValues & values);
-
+  virtual void test (void);
 protected:
   /// Collection of subservants.
   typedef ACE_Hash_Map_Manager <ACE_CString,

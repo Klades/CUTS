@@ -51,6 +51,9 @@ public:
   /// Destructor.
   virtual ~CHAOS_EventConsumer_T (void);
 
+  /// Allocate our concrete EventConsumer from the provided symbol
+  virtual void allocate (ptrdiff_t & symbol);
+
 private:
   /// Servant to pass event.
   SERVANT * servant_;

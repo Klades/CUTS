@@ -33,6 +33,24 @@ void CHAOS_EventConsumer::impl (iCCM::EventConsumer * impl)
 }
 
 //
+// impl
+//
+CUTS_INLINE
+iCCM::EventConsumer * CHAOS_EventConsumer::impl (void)
+{
+  return this->impl_;
+}
+
+//
+// allocate
+//
+CUTS_INLINE
+void CHAOS_EventConsumer::allocate (ptrdiff_t & symbol)
+{
+
+};
+
+//
 // activate
 //
 CUTS_INLINE
