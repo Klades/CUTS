@@ -2,10 +2,13 @@
 extern "C" \
 EXPORT \
 iCCM::EventConsumer * \
-create_##SERVANT##_##PORT##_consumer (iCCM::CHAOS_Servant * servant) \
+create_##SERVANT##_##PORT##_consumer (HelloReceiver_Servant * servant, void (HelloReceiver_Servant::*CALLBACK_METHOD) (EVENT *)) \
 { \
-  SERVANT * svnt = dynamic_cast < SERVANT * > (servant); \
-  return new TYPE_T < SERVANT, EVENT> (svnt, &SERVANT::push_##PORT##); \
+  ACE_ERROR ((LM_DEBUG, ACE_TEXT ("%T (%t) - %M - Creating consumer with servant [%s]\n"), servant->name ().c_str ())); \
+  HelloReceiver_Servant * svnt = dynamic_cast < HelloReceiver_Servant * > (servant); \
+  svnt->test (); \
+  ACE_ERROR ((LM_DEBUG, ACE_TEXT ("%T (%t) - %M - Finished push_greeting call\n"))); \
+  return new TYPE_T < HelloReceiver_Servant, EVENT> (servant, CALLBACK_METHOD); \
 } \
  \
 
@@ -15,7 +18,7 @@ EXPORT \
 iCCM::Publisher * \
 create_##SERVANT##_##EVENT##_publisher (void) \
 { \
-  return new TYPE_T < ##EVENT## > (); \
+  return new TYPE_T < EVENT > (); \
 } \
  \
 
@@ -25,7 +28,7 @@ EXPORT \
 iCCM::Publisher_Table * \
 create_##SERVANT##_##EVENT##_publisher_table (void) \
 { \
-  return new TYPE_T < ##EVENT## > (); \
+  return new TYPE_T < EVENT > (); \
 } \
  \
 
