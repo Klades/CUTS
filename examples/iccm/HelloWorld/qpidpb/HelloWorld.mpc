@@ -18,6 +18,12 @@ project (HelloWorld_QpidPB_Proto_Gen) : requires_qpidpb, cuts_protoc {
 
   after += HelloWorld_QpidPB_IDL2Proto_Gen
 
+  specific(prop:windows) {
+    cuts_protoc_flags += --cpp_out=dllexport_decl=HELLOWORLD_STUB_Export:.
+  } else {
+    cuts_protoc_flags += --cpp_out=.
+  }
+
   Protoc_Files {
     gendir = .
 
@@ -49,6 +55,10 @@ project (HelloWorld_stub) : avoids_ace_for_tao, iccm_qpidpb_stub, cuts_codegen_d
   dynamicflags += HELLOWORLD_STUB_BUILD_DLL
 
   after        += HelloWorld_IDL_Gen HelloWorld_Components_iCCM_IDL_Gen HelloWorld_QpidPB_Proto_Gen
+
+  specific(prop:windows) {
+     compile_flags += /FIHelloWorld_stub_export.h
+  }
 
   IDL_Files {
 
