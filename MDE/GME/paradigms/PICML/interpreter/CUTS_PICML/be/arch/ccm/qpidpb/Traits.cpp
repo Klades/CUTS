@@ -77,6 +77,12 @@ void Traits::write_top (std::ostream & proj, const CUTS_BE_IDL_Node & node)
       << std::endl
       << "  after += " << idl2proto_project_name << std::endl
       << std::endl
+      << "  specific(prop:windows) {" << std::endl
+      << "    cuts_protoc_flags += --cpp_out=dllexport_decl=" << macro_basename << "_STUB_Export:." << std::endl
+      << "  } else {" << std::endl
+      << "    cuts_protoc_flags += --cpp_out=." << std::endl
+      << "  }" << std::endl
+      << std::endl
       << "  Protoc_Files {" << std::endl
       << "    gendir = ." << std::endl
       << std::endl
@@ -128,6 +134,20 @@ write_stub_after (std::ostream & proj, const CUTS_BE_IDL_Node & node)
 
   for (; iter != iter_end; ++ iter)
     proj << " " << *iter;
+}
+
+//
+// write_stub_custom
+//
+void Traits::write_stub_custom (std::ostream & proj, const CUTS_BE_IDL_Node & node)
+{
+  const std::string & name = node.name_;
+
+  proj
+    << std::endl
+    << "  specific(prop:windows) {" << std::endl
+    << "    compile_flags += /FI" << name << "_stub_export.h" << std::endl
+    << "  }"; 
 }
 
 //
