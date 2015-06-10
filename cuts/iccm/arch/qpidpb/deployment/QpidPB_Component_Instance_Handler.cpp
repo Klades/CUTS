@@ -35,6 +35,8 @@ void QpidPB_Component_Instance_Handler::close (void)
   this->base_type::close ();
 }
 
+}
+
 //
 // create_QpidPB_Component_Instance_Handler
 //
@@ -48,6 +50,5 @@ create_iCCM_QpidPB_Component_Instance_Handler (void)
                   handler);
 
   return handler;
-}
 
 }
