@@ -20,6 +20,10 @@
 
 #include "cuts/iccm/servant/Publisher_Table.h"
 
+#ifdef _WIN32
+  #undef max
+  #undef min
+#endif
 #include "qpid/client/Connection.h"
 
 #include "QpidPB_svnt_export.h"

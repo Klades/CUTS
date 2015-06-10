@@ -13,6 +13,10 @@
 #ifndef _ICCM_QPIDPB_SENDER_T_H_
 #define _ICCM_QPIDPB_SENDER_T_H_
 
+#ifdef _WIN32
+  #undef max
+  #undef min
+#endif
 #include "qpid/client/Session.h"
 #include "qpid/client/Message.h"
 #include "qpid/client/Connection.h"

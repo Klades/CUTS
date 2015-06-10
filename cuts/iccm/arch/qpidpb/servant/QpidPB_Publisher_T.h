@@ -13,10 +13,10 @@
 #ifndef _ICCM_QPIDPB_PUBLISHER_T_H_
 #define _ICCM_QPIDPB_PUBLISHER_T_H_
 
+#include "QpidPB_Publisher.h"
 #include "QpidPB_Sender_T.h"
 
 #include "QpidPB_EventsC.h"
-#include "QpidPB_Publisher.h"
 
 namespace iCCM
 {

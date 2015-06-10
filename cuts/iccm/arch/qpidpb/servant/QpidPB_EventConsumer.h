@@ -23,6 +23,10 @@
 #include "QpidPB_EventsS.h"
 #include "QpidPB_svnt_export.h"
 
+#ifdef _WIN32
+  #undef max
+  #undef min
+#endif
 #include "qpid/client/Connection.h"
 
 namespace iCCM
