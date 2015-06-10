@@ -66,7 +66,7 @@ public:
     case AST_PredefinedType::PT_char:
     case AST_PredefinedType::PT_wchar:
     case AST_PredefinedType::PT_octet:
-      this->out_ = "string";
+      this->out_ = "bytes";
       break;
 
     case AST_PredefinedType::PT_short:
@@ -188,9 +188,6 @@ int Proto_File::visit_module (AST_Module * node)
 //
 int Proto_File::visit_structure (AST_Structure * node)
 {
-//  if (!be_global->is_wrapper_eventtype (node))
-//    return 0;
-
   const char * local_name = node->local_name ()->get_string ();
 
   this->proto_file_

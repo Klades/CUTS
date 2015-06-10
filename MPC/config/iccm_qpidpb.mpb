@@ -9,6 +9,7 @@ project {
     source_outputext      = C.cpp
     header_outputext      = C.h
     source_pre_filename   = QpidPB_
+    header_pre_filename   = QpidPB_
     generic_outputext     = _iCCM.idl
 
     keyword iccm_qpidpb_flags = commandflags

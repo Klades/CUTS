@@ -6,6 +6,14 @@ project : boost_base {
   libpaths += $(QPID_ROOT)/lib $(PROTOBUF_ROOT)/lib
 
   libs     += protobuf qpidclient qpidcommon
+
+  specific(prop:microsoft) {
+    DisableSpecificWarnings += 4101 
+  }
+
+  verbatim(gnuace, macros) {
+    override no_hidden_visibility = 1
+  }
 }
 
 feature (qpidpb) {
