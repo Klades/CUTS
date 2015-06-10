@@ -2,10 +2,9 @@
 
 project {
   Define_Custom(Protoc) {
-    command               = <%quote%>$(PROTOBUF_ROOT)/bin/protoc<%quote%>
-    dependent             = <%quote%>$(PROTOBUF_ROOT)/bin/protoc<%quote%>
+    command               = $(PROTOBUF_ROOT)/bin/protoc
+    dependent             = $(PROTOBUF_ROOT)/bin/protoc
 
-    commandflags          = --cpp_out=.
     inputext              = .proto
 
     source_outputext      = .pb.cc

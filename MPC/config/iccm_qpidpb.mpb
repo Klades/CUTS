@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : requires_qpidpb {
   Define_Custom (ICCM) {
     command               = $(CUTS_ROOT)/bin/iccm_qpidpb
     dependent             = $(CUTS_ROOT)/bin/iccm_qpidpb
