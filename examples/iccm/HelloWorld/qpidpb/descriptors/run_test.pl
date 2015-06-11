@@ -5,6 +5,8 @@ eval '(exit $?0)' && eval 'exec perl -S $0 ${1+"$@"}'
 # $Id$
 # -*- perl -*-
 
+print "$^O\n";
+
 use lib "$ENV{'ACE_ROOT'}/bin";
 use PerlACE::Run_Test;
 
@@ -12,6 +14,8 @@ $CUTS_ROOT = "$ENV{'CUTS_ROOT'}";
 $CIAO_ROOT = "$ENV{'CIAO_ROOT'}";
 $TAO_ROOT = "$ENV{'TAO_ROOT'}";
 $DANCE_ROOT = "$ENV{'DANCE_ROOT'}";
+
+$QPID_ROOT = "$ENV{'QPID_ROOT'}";
 
 $daemons_running = 0;
 $em_running = 0;
@@ -141,6 +145,17 @@ if (PerlACE::waitforfile_timed ("EM.ior", $PerlACE::wait_interval_for_process_cr
 
 $em_running = 1;
 
+# Start the server
+print "Invoke Qpidd - start the server -\n";
+if (index ($^O, "Win") != -1) {
+  $qpidd = "$QPID_ROOT/bin/qpidd";
+} else {
+  $qpidd = "$QPID_ROOT/sbin/qpidd";
+}
+$OSPL = new PerlACE::Process ($qpidd, "--auth no");
+$OSPL->Spawn ();
+sleep (2);
+
 # Invoke executor - start the application -.
 print "Invoking executor - start the application -\n";
 $E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-x $cdp_file -k file://EM.ior");
@@ -156,6 +171,11 @@ $E = new PerlACE::Process ("$DANCE_ROOT/bin/dance_plan_launcher", "-k file://EM.
 $E->SpawnWaitKill (3000);
 
 print "Executor returned.\n";
+
+# Stop the server -
+print "Invoke Qpidd - stop the server -\n";
+$OSPL->Kill ();
+
 print "Shutting down rest of the processes.\n";
 
 delete_ior_files ();
