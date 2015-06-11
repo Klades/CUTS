@@ -34,6 +34,9 @@ activate (qpid::client::Connection & connection,
 template <typename EVENT>
 void  QpidPB_Sender_T <EVENT>::passivate (void)
 {
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Passivating sender on queue [%s]\n"),
+              queue.c_str ()));
   this->session_.close ();
 }
 

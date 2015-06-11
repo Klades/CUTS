@@ -65,7 +65,13 @@ template <typename CONSUMER_T, typename EVENT>
 void QpidPB_Listener_T <CONSUMER_T, EVENT>::
 stop (void)
 {
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Passivating listener on queue [%s]\n"),
+              this->queue_.c_str ()));
+
   this->manager_->cancel (this->queue_);
+  this->manager_->stop ();
+  this->manager_->wait ();
   this->session_.close ();
   delete this->manager_;
   this->manager_ = 0;
