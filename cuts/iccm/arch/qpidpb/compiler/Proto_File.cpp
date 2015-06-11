@@ -25,7 +25,7 @@ namespace iCCM
 /**
  * @class Proto_Type
  *
- * Identifies the proper datat type in Proto from the provided
+ * Identifies the proper data type in Proto from the provided
  * IDL type.
  */
 class Proto_Type : public Scope_Visitor
@@ -71,7 +71,7 @@ public:
 
     case AST_PredefinedType::PT_short:
     case AST_PredefinedType::PT_long:
-      this->out_ = "int32";
+      this->out_ = "sint32";
       break;
 
     case AST_PredefinedType::PT_ushort:
@@ -80,7 +80,7 @@ public:
       break;
 
     case AST_PredefinedType::PT_longlong:
-      this->out_ = "int64";
+      this->out_ = "sint64";
       break;
 
     case AST_PredefinedType::PT_ulonglong:
@@ -222,14 +222,14 @@ int Proto_File::visit_field (AST_Field * node)
   if (!proto_type.empty ())
   {
     this->proto_file_
-      << "  required " << proto_type << " " << local_name
+      << "  optional " << proto_type << " " << local_name
       << " = " << this->counter_ << ";" << std::endl;
     return 0;
   }
   else
   {
     this->proto_file_
-      << "  required " << param_type << " " << local_name
+      << "  optional " << param_type << " " << local_name
       << " = " << this->counter_ << ";" << std::endl;
   }
 
