@@ -50,7 +50,9 @@ void QpidPB_Sender_T <EVENT>::send_event (EVENT * ev)
   {
     downcall->protobuf_event ().SerializeToString (&this->pb_event_stream_);
     this->message_.setData (this->pb_event_stream_);
-    this->session_.messageTransfer (arg::content=this->message_);
+    this->session_.messageTransfer (arg::content=this->message_,
+                                    arg::destination="amq.topic",
+                                    arg::acceptMode=1);
   }  
 }
 

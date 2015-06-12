@@ -29,11 +29,14 @@ start (qpid::client::Connection & connection, std::string queue)
 
   this->session_.queueDeclare (arg::queue=queue,
                                arg::autoDelete=true);
+  this->session_.exchangeBind (qpid::client::arg::exchange="amq.topic",
+                               qpid::client::arg::queue=queue,
+                               qpid::client::arg::bindingKey=queue);
 
   this->manager_->subscribe (*this,
-                            this->queue_,
-                            SubscriptionSettings (FlowControl::unlimited (),
-                                                  ACCEPT_MODE_NONE));
+                             this->queue_,
+                             SubscriptionSettings (FlowControl::unlimited (),
+                                                   ACCEPT_MODE_NONE));
   ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - Activating listener on queue [%s]\n"),
               queue.c_str ()));
