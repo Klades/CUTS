@@ -8,13 +8,17 @@
 #endif /* ACE_LACKS_PRAGMA_ONCE */
 
 #include "ace/pre.h"
-#include "HelloWorld_Components_iCCMC.h"
 
+#include "HelloWorld_Components_iCCMC.h"
 #include "cuts/arch/ccm/CCM_Component_T.h"
+
 #include "cuts/Periodic_Event_T.h"
 
 namespace HelloSenderImpl
 {
+  // Forward decl of the component executor
+  class HelloSender;
+
   // Type definition of the implentation base type
   typedef CUTS_CCM_Component_T < CIAO_HelloSender_Impl::HelloSender_Exec, ::iCCM_HelloSender_Context > HelloSender_Base;
 
