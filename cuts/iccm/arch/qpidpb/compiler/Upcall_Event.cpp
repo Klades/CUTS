@@ -116,6 +116,11 @@ int Upcall_Event::visit_field (AST_Field * node)
   AST_Type * field_type = node->field_type ();
   const char * local_name = node->local_name ()->get_string ();
   const char * param_type = field_type->full_name ();
+  ACE_CString qpidpb_name = local_name;
+  std::transform (qpidpb_name.begin (),
+                  qpidpb_name.end (),
+                  qpidpb_name.begin (),
+                  &::tolower);
 
   switch (field_type->node_type ())
   {
@@ -128,11 +133,11 @@ int Upcall_Event::visit_field (AST_Field * node)
     this->sfile_
       << "void " << this->upcall_event_ << "::"
       << local_name << " (const ::" << param_type << " val){"
-      << "this->protobuf_event_.set_" << local_name << " (val);"
+      << "this->protobuf_event_.set_" << qpidpb_name << " (val);"
       << "}"
       << param_type << " " << this->upcall_event_ << "::"
       << local_name << " (void) const{"
-      << "return this->protobuf_event_." << local_name << " ();"
+      << "return this->protobuf_event_." << qpidpb_name << " ();"
       << "}";
     break;
 
@@ -145,11 +150,11 @@ int Upcall_Event::visit_field (AST_Field * node)
     this->sfile_
       << "void " << this->upcall_event_ << "::"
       << local_name << " (const ::" << param_type << " val){"
-      << "this->protobuf_event_.set_" << local_name << " (val);"
+      << "this->protobuf_event_.set_" << qpidpb_name << " (val);"
       << "}"
       << param_type << " " << this->upcall_event_ << "::"
       << local_name << " (void) const{"
-      << "return this->protobuf_event_." << local_name << " ();"
+      << "return this->protobuf_event_." << qpidpb_name << " ();"
       << "}";
     break;
 
@@ -164,20 +169,20 @@ int Upcall_Event::visit_field (AST_Field * node)
     this->sfile_
       << "void " << this->upcall_event_
       << "::" << local_name << " (" << param_type << " val){"
-      << "this->protobuf_event_.set_" << local_name << " (val);"
+      << "this->protobuf_event_.set_" << qpidpb_name << " (val);"
       << "}"
       << "void " << this->upcall_event_
       << "::" << local_name << " (const " << param_type << " val){"
-      << "this->protobuf_event_.set_" << local_name << " (CORBA::string_dup (val));"
+      << "this->protobuf_event_.set_" << qpidpb_name << " (CORBA::string_dup (val));"
       << "}"
       << "void " << this->upcall_event_
       << "::" << local_name << " (const ::CORBA::String_var & val){"
       << "::CORBA::String_var dup = val;"
-      << "this->protobuf_event_.set_" << local_name << " (dup._retn ());"
+      << "this->protobuf_event_.set_" << qpidpb_name << " (dup._retn ());"
       << "}"
       << "const " << param_type << " " << this->upcall_event_
       << "::" << local_name << " (void) const {"
-      << "return this->protobuf_event_." << local_name << " ().c_str ();"
+      << "return this->protobuf_event_." << qpidpb_name << " ().c_str ();"
       << "}";
     break;
 
@@ -191,15 +196,15 @@ int Upcall_Event::visit_field (AST_Field * node)
     this->sfile_
       << "void " << this->upcall_event_
       << "::" << local_name << " (const ::" << param_type << " & val){"
-      << "this->protobuf_event_.set_" << local_name << " (val);"
+      << "this->protobuf_event_.set_" << qpidpb_name << " (val);"
       << "}"
       << "const " << param_type << " & "
       << this->upcall_event_ << "::" << local_name << " (void) const{"
-      << "return this->protobuf_event_." << local_name << " ();"
+      << "return this->protobuf_event_." << qpidpb_name << " ();"
       << "}"
       << param_type << " & " << this->upcall_event_
       << "::" << local_name << " (void){"
-      << "return this->protobuf_event_." << local_name << " ();"
+      << "return this->protobuf_event_." << qpidpb_name << " ();"
       << "}";
   }
 
