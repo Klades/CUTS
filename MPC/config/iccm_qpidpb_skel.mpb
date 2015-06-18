@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_svnt, iccm_qpidpb_stub {
+  libs  += iCCM_QpidPB_skel
+  after += iCCM_QpidPB_skel
+}

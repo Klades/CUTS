@@ -12,6 +12,7 @@
 #include "be/arch/ccm/ciao/CIAO_Manager.h"
 #include "be/arch/ccm/coredx/Manager.h"
 #include "be/arch/ccm/opensplice/Manager.h"
+#include "be/arch/ccm/qpidpb/Manager.h"
 #include "be/arch/ccm/rtidds/Manager.h"
 #include "be/arch/ccm/tcpip/TCPIP_Manager.h"
 #include "be/BE_Options.h"
@@ -26,10 +27,11 @@ Code_Generation_Impl::Code_Generation_Impl (void)
 : GAME::Mga::Interpreter_Impl_Base ("CUTS Code Generation", "CUTS.Interpreter.PICML", "PICML"),
   selected_backend_ (-1)
 {
-  /// Note, this must match the order of the elements in GME or the wrong manager will be used.
+  /// Note, this must match the order of the elements in GME (alpha-numeric) or the wrong manager will be used.
   this->backends_.push_back (backend_t ("ciao", "Component Intergrated ACE ORB (CIAO)", &CUTS_BE_CIAO::Manager::_create));
   this->backends_.push_back (backend_t ("coredx", "CoreDX", &CUTS_BE_CoreDX::Manager::_create));
   this->backends_.push_back (backend_t ("opensplice", "OpenSplice", &CUTS_BE_OpenSplice::Manager::_create));
+  this->backends_.push_back (backend_t ("qpidpb", "QpidPB", &CUTS_BE_QpidPB::Manager::_create));
   this->backends_.push_back (backend_t ("rtidds", "RTI-DDS", &CUTS_BE_RTIDDS::Manager::_create));
   this->backends_.push_back (backend_t ("tcpip", "TCP/IP", &CUTS_BE_TCPIP::Manager::_create));
 }

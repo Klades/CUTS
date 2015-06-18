@@ -1,0 +1,6 @@
+// $Id$
+
+project : ccm_stub, requires_qpidpb {
+  libs  += iCCM_QpidPB_stub
+  after += iCCM_QpidPB_stub
+}
