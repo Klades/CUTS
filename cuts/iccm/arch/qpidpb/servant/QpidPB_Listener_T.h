@@ -45,7 +45,7 @@ public:
 
   /// Start receving events
   virtual void start (qpid::client::Connection & connection,
-                      std::string queue);
+                      std::string key);
 
   /// Stop receving events
   virtual void stop (void);

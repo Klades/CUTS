@@ -12,12 +12,10 @@ namespace iCCM
 //
 template <typename CONSUMER_T, typename EVENT>
 void QpidPB_Listener_T <CONSUMER_T, EVENT>::
-start (qpid::client::Connection & connection, std::string queue)
+start (qpid::client::Connection & connection, std::string key)
 {
   using namespace qpid::client;
   using namespace qpid::framing;
-
-  this->queue_ = queue;
 
   this->session_ = connection.newSession ();
 
@@ -27,19 +25,26 @@ start (qpid::client::Connection & connection, std::string queue)
                     ::CORBA::NO_MEMORY ());
   this->manager_ = mgr;
 
-  this->session_.queueDeclare (arg::queue=queue,
+  // Queues are round-robin for all subscribers.  We need to make sure this
+  // event consumer receives all events from the publisher, regardless of
+  // if others are listening or not.  Generate a random UUID for our queue
+  // name and use the bindingKey to force the broker to copy any events
+  // into our queue.
+  this->queue_ = ACE_Utils::UUID_GENERATOR::instance ()->generate_UUID ()->to_string ()->c_str ();
+
+  this->session_.queueDeclare (arg::queue=this->queue_,
                                arg::autoDelete=true);
   this->session_.exchangeBind (qpid::client::arg::exchange="amq.topic",
-                               qpid::client::arg::queue=queue,
-                               qpid::client::arg::bindingKey=queue);
+                               qpid::client::arg::queue=this->queue_,
+                               qpid::client::arg::bindingKey=key);
 
   this->manager_->subscribe (*this,
                              this->queue_,
                              SubscriptionSettings (FlowControl::unlimited (),
                                                    ACCEPT_MODE_NONE));
   ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Activating listener on queue [%s]\n"),
-              queue.c_str ()));
+              ACE_TEXT ("%T (%t) - %M - Activating listener on queue [%s:%s]\n"),
+              this->queue_.c_str (), key.c_str ()));
 
   this->manager_->start ();
 }
