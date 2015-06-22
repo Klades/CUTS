@@ -45,6 +45,8 @@ public:
 
   typedef QpidPB_EventConsumer_T <SERVANT, EVENT> self_type;
 
+  typedef QpidPB_Listener_T <self_type, EVENT> listener_type;
+
   /**
    * Initializing constructor.
    *
@@ -55,6 +57,9 @@ public:
 
   /// Destructor.
   virtual ~QpidPB_EventConsumer_T (void);
+
+  /// Configure the consumer
+  virtual void configure (const char * host, int port, const char * queue);
 
   /// CCM lifecycle events
   virtual void activate (void);
@@ -70,8 +75,12 @@ private:
   /// Method for deserializing an event.
   CALLBACK_METHOD callback_;
 
-  /// The listener
-  QpidPB_Listener_T <self_type, EVENT> * listener_;
+  typedef ACE_Hash_Map_Manager <ACE_CString,
+                                listener_type *,
+                                ACE_RW_Thread_Mutex> listeners_map_type;
+
+  /// Collection of registered listeners.
+  listeners_map_type listeners_;
 };
 
 }

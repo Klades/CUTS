@@ -55,13 +55,12 @@ public:
   virtual ~QpidPB_EventConsumer (void);
 
   /// Configure the consumer
-  virtual void configure (const char * host, int port, const char * queue);
+  virtual void configure (const char * host, int port, const char * queue) = 0;
 
 protected:
   /// Connection properties
   std::string host_;
   int port_;
-  std::string queue_;
 
   /// The qpid connection
   qpid::client::Connection connection_;
