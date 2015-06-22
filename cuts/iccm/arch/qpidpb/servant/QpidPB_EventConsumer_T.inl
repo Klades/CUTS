@@ -11,8 +11,7 @@ CUTS_INLINE
 QpidPB_EventConsumer_T <SERVANT, EVENT>::
 QpidPB_EventConsumer_T (SERVANT * servant, CALLBACK_METHOD callback)
 : servant_ (servant),
-  callback_ (callback),
-  listener_ (0)
+  callback_ (callback)
 {
 
 }

@@ -77,9 +77,6 @@ stop (void)
               ACE_TEXT ("%T (%t) - %M - Passivating listener on queue [%s]\n"),
               this->queue_.c_str ()));
 
-  this->manager_->cancel (this->queue_);
-  this->manager_->stop ();
-  this->manager_->wait ();
   this->session_.close ();
   delete this->manager_;
   this->manager_ = 0;

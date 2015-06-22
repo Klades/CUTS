@@ -28,6 +28,7 @@ void QpidPB_Publisher_Table::activate (void)
 void QpidPB_Publisher_Table::passivate (void)
 {
   this->connection_.close ();
+  iCCM::Publisher_Table::passivate ();
 }
 
 }

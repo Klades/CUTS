@@ -10,8 +10,7 @@ namespace iCCM
 CUTS_INLINE
 QpidPB_EventConsumer::QpidPB_EventConsumer (void)
 : host_ ("localhost"),
-  port_ (5672),
-  queue_ ("default")
+  port_ (5672)
 {
 
 }
@@ -23,18 +22,6 @@ CUTS_INLINE
 QpidPB_EventConsumer::~QpidPB_EventConsumer (void)
 {
 
-}
-
-//
-// configure
-//
-CUTS_INLINE
-void QpidPB_EventConsumer::
-configure (const char * host, int port, const char * queue)
-{
-  this->host_ = host;
-  this->port_ = port;
-  this->queue_ = queue;
 }
 
 }
