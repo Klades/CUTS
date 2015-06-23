@@ -17,25 +17,25 @@ namespace CUTS
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("location"))
+      if (n == "location")
       {
         location_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
         location_->container (this);
       }
 
-      else if (n == ACE_TEXT("entryPoint"))
+      else if (n == "entryPoint")
       {
         entryPoint_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
         entryPoint_->container (this);
       }
 
-      else if (n == ACE_TEXT("params"))
+      else if (n == "params")
       {
         ::XMLSchema::string< char > t (e);
         params (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -44,7 +44,7 @@ namespace CUTS
     {
       ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-      if (n == "id")
+      if (n ==  ("id"))
       {
         id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
         id_->container (this);
@@ -53,7 +53,7 @@ namespace CUTS
         add_id(temp, dynamic_cast<XSCRT::Type*> (this));
       }
 
-      else
+      else 
       {
       }
     }
@@ -74,13 +74,13 @@ namespace CUTS
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("service"))
+      if (n == "service")
       {
         ACE_Refcounted_Auto_Ptr < ::CUTS::serviceDescription, ACE_Null_Mutex >  t (new ::CUTS::serviceDescription (e));
         add_service (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -101,31 +101,31 @@ namespace CUTS
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("startup"))
+      if (n == "startup")
       {
         ::CUTS::processOptions t (e);
         startup (t);
       }
 
-      else if (n == ACE_TEXT("testops"))
+      else if (n == "testops")
       {
         ::CUTS::CommandList t (e);
         testops (t);
       }
 
-      else if (n == ACE_TEXT("shutdown"))
+      else if (n == "shutdown")
       {
         ::CUTS::processOptions t (e);
         shutdown (t);
       }
 
-      else if (n == ACE_TEXT("services"))
+      else if (n == "services")
       {
         ::CUTS::serviceList t (e);
         services (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -146,37 +146,37 @@ namespace CUTS
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("executable"))
+      if (n == "executable")
       {
         executable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
         executable_->container (this);
       }
 
-      else if (n == ACE_TEXT("arguments"))
+      else if (n == "arguments")
       {
         ::XMLSchema::string< char > t (e);
         arguments (t);
       }
 
-      else if (n == ACE_TEXT("workingdirectory"))
+      else if (n == "workingdirectory")
       {
         ::XMLSchema::string< char > t (e);
         workingdirectory (t);
       }
 
-      else if (n == ACE_TEXT("output"))
+      else if (n == "output")
       {
         ::XMLSchema::string< char > t (e);
         output (t);
       }
 
-      else if (n == ACE_TEXT("error"))
+      else if (n == "error")
       {
         ::XMLSchema::string< char > t (e);
         error (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -197,37 +197,37 @@ namespace CUTS
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("executable"))
+      if (n == "executable")
       {
         executable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
         executable_->container (this);
       }
 
-      else if (n == ACE_TEXT("arguments"))
+      else if (n == "arguments")
       {
         ::XMLSchema::string< char > t (e);
         arguments (t);
       }
 
-      else if (n == ACE_TEXT("workingdirectory"))
+      else if (n == "workingdirectory")
       {
         ::XMLSchema::string< char > t (e);
         workingdirectory (t);
       }
 
-      else if (n == ACE_TEXT("output"))
+      else if (n == "output")
       {
         ::XMLSchema::string< char > t (e);
         output (t);
       }
 
-      else if (n == ACE_TEXT("error"))
+      else if (n == "error")
       {
         ::XMLSchema::string< char > t (e);
         error (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -236,7 +236,7 @@ namespace CUTS
     {
       ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-      if (n == "id")
+      if (n ==  ("id"))
       {
         id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
         id_->container (this);
@@ -245,19 +245,19 @@ namespace CUTS
         add_id(temp, dynamic_cast<XSCRT::Type*> (this));
       }
 
-      else if (n == "delay")
+      else if (n ==  ("delay"))
       {
         ::XMLSchema::double_ t (a);
         delay (t);
       }
 
-      else if (n == "waitforcompletion")
+      else if (n ==  ("waitforcompletion"))
       {
         ::XMLSchema::boolean t (a);
         waitforcompletion (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -278,13 +278,13 @@ namespace CUTS
       ::XSCRT::XML::Element< char > e (p.next_element ());
       ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-      if (n == ACE_TEXT("command"))
+      if (n == "command")
       {
         ACE_Refcounted_Auto_Ptr < ::CUTS::CommandOptions, ACE_Null_Mutex >  t (new ::CUTS::CommandOptions (e));
         add_command (t);
       }
 
-      else
+      else 
       {
       }
     }
@@ -320,3 +320,4 @@ namespace CUTS
     }
   }
 }
+

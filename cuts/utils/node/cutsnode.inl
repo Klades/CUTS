@@ -48,35 +48,38 @@ namespace CUTS
     ProcessOptions& ProcessOptions::
     operator= (ProcessOptions const& s)
     {
-      executable (*s.executable_);
+      if (&s != this)
+      {
+        executable (*s.executable_);
 
-      if (s.arguments_.get ())
-        arguments (*(s.arguments_));
-      else
-        arguments_.reset (0);
+        if (s.arguments_.get ())
+          arguments (*(s.arguments_));
+        else
+          arguments_.reset (0);
 
-      if (s.workingdirectory_.get ())
-        workingdirectory (*(s.workingdirectory_));
-      else
-        workingdirectory_.reset (0);
+        if (s.workingdirectory_.get ())
+          workingdirectory (*(s.workingdirectory_));
+        else
+          workingdirectory_.reset (0);
 
-      if (s.output_.get ())
-        output (*(s.output_));
-      else
-        output_.reset (0);
+        if (s.output_.get ())
+          output (*(s.output_));
+        else
+          output_.reset (0);
 
-      if (s.error_.get ())
-        error (*(s.error_));
-      else
-        error_.reset (0);
+        if (s.error_.get ())
+          error (*(s.error_));
+        else
+          error_.reset (0);
 
-      id (s.id ());
+        id (s.id ());
 
-      if (s.delay_.get ()) delay (*(s.delay_));
-      else delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
+        if (s.delay_.get ()) delay (*(s.delay_));
+        else delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-      if (s.waitforcompletion_.get ()) waitforcompletion (*(s.waitforcompletion_));
-      else waitforcompletion_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+        if (s.waitforcompletion_.get ()) waitforcompletion (*(s.waitforcompletion_));
+        else waitforcompletion_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+      }
 
       return *this;
     }
@@ -353,7 +356,10 @@ namespace CUTS
     ProcessList& ProcessList::
     operator= (ProcessList const& s)
     {
-      process_ = s.process_;
+      if (&s != this)
+      {
+        process_ = s.process_;
+      }
 
       return *this;
     }
@@ -429,7 +435,10 @@ namespace CUTS
     NodeConfig& NodeConfig::
     operator= (NodeConfig const& s)
     {
-      environment_ = s.environment_;
+      if (&s != this)
+      {
+        environment_ = s.environment_;
+      }
 
       return *this;
     }
@@ -507,7 +516,10 @@ namespace CUTS
     DependsItem& DependsItem::
     operator= (DependsItem const& s)
     {
-      id (s.id ());
+      if (&s != this)
+      {
+        id (s.id ());
+      }
 
       return *this;
     }
@@ -591,28 +603,31 @@ namespace CUTS
     EnvConfig& EnvConfig::
     operator= (EnvConfig const& s)
     {
-      if (s.variables_.get ())
-        variables (*(s.variables_));
-      else
-        variables_.reset (0);
+      if (&s != this)
+      {
+        if (s.variables_.get ())
+          variables (*(s.variables_));
+        else
+          variables_.reset (0);
 
-      if (s.startup_.get ())
-        startup (*(s.startup_));
-      else
-        startup_.reset (0);
+        if (s.startup_.get ())
+          startup (*(s.startup_));
+        else
+          startup_.reset (0);
 
-      if (s.shutdown_.get ())
-        shutdown (*(s.shutdown_));
-      else
-        shutdown_.reset (0);
+        if (s.shutdown_.get ())
+          shutdown (*(s.shutdown_));
+        else
+          shutdown_.reset (0);
 
-      id (s.id ());
+        id (s.id ());
 
-      if (s.inherit_.get ()) inherit (*(s.inherit_));
-      else inherit_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+        if (s.inherit_.get ()) inherit (*(s.inherit_));
+        else inherit_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
 
-      if (s.active_.get ()) active (*(s.active_));
-      else active_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+        if (s.active_.get ()) active (*(s.active_));
+        else active_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+      }
 
       return *this;
     }
@@ -848,9 +863,12 @@ namespace CUTS
     Variable& Variable::
     operator= (Variable const& s)
     {
-      name (s.name ());
+      if (&s != this)
+      {
+        name (s.name ());
 
-      value (s.value ());
+        value (s.value ());
+      }
 
       return *this;
     }
@@ -929,9 +947,12 @@ namespace CUTS
     VariableList& VariableList::
     operator= (VariableList const& s)
     {
-      import_ = s.import_;
+      if (&s != this)
+      {
+        import_ = s.import_;
 
-      variable_ = s.variable_;
+        variable_ = s.variable_;
+      }
 
       return *this;
     }
@@ -1058,9 +1079,12 @@ namespace CUTS
     VariableImport& VariableImport::
     operator= (VariableImport const& s)
     {
-      location (s.location ());
+      if (&s != this)
+      {
+        location (s.location ());
 
-      type (s.type ());
+        type (s.type ());
+      }
 
       return *this;
     }

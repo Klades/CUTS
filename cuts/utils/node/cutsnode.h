@@ -39,7 +39,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < ProcessOptions, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::ProcessOptions, ACE_Null_Mutex > _ptr;
 
       // executable
       // 
@@ -142,7 +142,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < ProcessList, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::ProcessList, ACE_Null_Mutex > _ptr;
 
       // process
       // 
@@ -180,7 +180,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < NodeConfig, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::NodeConfig, ACE_Null_Mutex > _ptr;
 
       // environment
       // 
@@ -218,7 +218,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < DependsItem, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::DependsItem, ACE_Null_Mutex > _ptr;
 
       // id
       // 
@@ -252,7 +252,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < EnvConfig, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::EnvConfig, ACE_Null_Mutex > _ptr;
 
       // variables
       // 
@@ -335,7 +335,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < Variable, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex > _ptr;
 
       // name
       // 
@@ -377,7 +377,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < VariableList, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableList, ACE_Null_Mutex > _ptr;
 
       // import
       // 
@@ -432,7 +432,7 @@ namespace CUTS
       typedef ::XSCRT::Type Base;
 
       public:
-      typedef ACE_Refcounted_Auto_Ptr < VariableImport, ACE_Null_Mutex > _ptr;
+      typedef ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex > _ptr;
 
       // location
       // 
