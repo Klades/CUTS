@@ -1,15 +1,15 @@
 namespace CUTS
 {
   // serviceDescription
-  //
+  // 
 
   inline
   serviceDescription::
   serviceDescription (::XMLSchema::string< char > const& location__,
                       ::XMLSchema::string< char > const& entryPoint__,
                       ::XMLSchema::ID< char > const& id__)
-  :
-  ::XSCRT::Type (),
+  : 
+  ::XSCRT::Type (), 
   location_ (new ::XMLSchema::string< char > (location__)),
   entryPoint_ (new ::XMLSchema::string< char > (entryPoint__)),
   id_ (new ::XMLSchema::ID< char > (id__)),
@@ -41,23 +41,26 @@ namespace CUTS
   serviceDescription& serviceDescription::
   operator= (serviceDescription const& s)
   {
-    location (*s.location_);
+    if (&s != this)
+    {
+      location (*s.location_);
 
-    entryPoint (*s.entryPoint_);
+      entryPoint (*s.entryPoint_);
 
-    if (s.params_.get ())
-      params (*(s.params_));
-    else
-      params_.reset (0);
+      if (s.params_.get ())
+        params (*(s.params_));
+      else
+        params_.reset (0);
 
-    id (s.id ());
+      id (s.id ());
+    }
 
     return *this;
   }
 
 
   // serviceDescription
-  //
+  // 
   inline
   ::XMLSchema::string< char > const& serviceDescription::
   location () const
@@ -73,7 +76,7 @@ namespace CUTS
   }
 
   // serviceDescription
-  //
+  // 
   inline
   ::XMLSchema::string< char > const& serviceDescription::
   entryPoint () const
@@ -89,7 +92,7 @@ namespace CUTS
   }
 
   // serviceDescription
-  //
+  // 
   inline
   bool serviceDescription::
   params_p () const
@@ -121,7 +124,7 @@ namespace CUTS
   }
 
   // serviceDescription
-  //
+  // 
   inline
   ::XMLSchema::ID< char > const& serviceDescription::
   id () const
@@ -145,12 +148,12 @@ namespace CUTS
 
 
   // serviceList
-  //
+  // 
 
   inline
   serviceList::
   serviceList ()
-  :
+  : 
   regulator__ ()
   {
   }
@@ -169,14 +172,17 @@ namespace CUTS
   serviceList& serviceList::
   operator= (serviceList const& s)
   {
-    service_ = s.service_;
+    if (&s != this)
+    {
+      service_ = s.service_;
+    }
 
     return *this;
   }
 
 
   // serviceList
-  //
+  // 
   inline
   serviceList::service_iterator serviceList::
   begin_service ()
@@ -221,12 +227,12 @@ namespace CUTS
 
 
   // testFile
-  //
+  // 
 
   inline
   testFile::
   testFile ()
-  :
+  : 
   regulator__ ()
   {
   }
@@ -252,32 +258,35 @@ namespace CUTS
   testFile& testFile::
   operator= (testFile const& s)
   {
-    if (s.startup_.get ())
-      startup (*(s.startup_));
-    else
-      startup_.reset (0);
+    if (&s != this)
+    {
+      if (s.startup_.get ())
+        startup (*(s.startup_));
+      else
+        startup_.reset (0);
 
-    if (s.testops_.get ())
-      testops (*(s.testops_));
-    else
-      testops_.reset (0);
+      if (s.testops_.get ())
+        testops (*(s.testops_));
+      else
+        testops_.reset (0);
 
-    if (s.shutdown_.get ())
-      shutdown (*(s.shutdown_));
-    else
-      shutdown_.reset (0);
+      if (s.shutdown_.get ())
+        shutdown (*(s.shutdown_));
+      else
+        shutdown_.reset (0);
 
-    if (s.services_.get ())
-      services (*(s.services_));
-    else
-      services_.reset (0);
+      if (s.services_.get ())
+        services (*(s.services_));
+      else
+        services_.reset (0);
+    }
 
     return *this;
   }
 
 
   // testFile
-  //
+  // 
   inline
   bool testFile::
   startup_p () const
@@ -309,7 +318,7 @@ namespace CUTS
   }
 
   // testFile
-  //
+  // 
   inline
   bool testFile::
   testops_p () const
@@ -341,7 +350,7 @@ namespace CUTS
   }
 
   // testFile
-  //
+  // 
   inline
   bool testFile::
   shutdown_p () const
@@ -373,7 +382,7 @@ namespace CUTS
   }
 
   // testFile
-  //
+  // 
   inline
   bool testFile::
   services_p () const
@@ -406,12 +415,12 @@ namespace CUTS
 
 
   // processOptions
-  //
+  // 
 
   inline
   processOptions::
   processOptions (::XMLSchema::string< char > const& executable__)
-  :
+  : 
   executable_ (new ::XMLSchema::string< char > (executable__)),
   regulator__ ()
   {
@@ -441,34 +450,37 @@ namespace CUTS
   processOptions& processOptions::
   operator= (processOptions const& s)
   {
-    executable (*s.executable_);
+    if (&s != this)
+    {
+      executable (*s.executable_);
 
-    if (s.arguments_.get ())
-      arguments (*(s.arguments_));
-    else
-      arguments_.reset (0);
+      if (s.arguments_.get ())
+        arguments (*(s.arguments_));
+      else
+        arguments_.reset (0);
 
-    if (s.workingdirectory_.get ())
-      workingdirectory (*(s.workingdirectory_));
-    else
-      workingdirectory_.reset (0);
+      if (s.workingdirectory_.get ())
+        workingdirectory (*(s.workingdirectory_));
+      else
+        workingdirectory_.reset (0);
 
-    if (s.output_.get ())
-      output (*(s.output_));
-    else
-      output_.reset (0);
+      if (s.output_.get ())
+        output (*(s.output_));
+      else
+        output_.reset (0);
 
-    if (s.error_.get ())
-      error (*(s.error_));
-    else
-      error_.reset (0);
+      if (s.error_.get ())
+        error (*(s.error_));
+      else
+        error_.reset (0);
+    }
 
     return *this;
   }
 
 
   // processOptions
-  //
+  // 
   inline
   ::XMLSchema::string< char > const& processOptions::
   executable () const
@@ -484,7 +496,7 @@ namespace CUTS
   }
 
   // processOptions
-  //
+  // 
   inline
   bool processOptions::
   arguments_p () const
@@ -516,7 +528,7 @@ namespace CUTS
   }
 
   // processOptions
-  //
+  // 
   inline
   bool processOptions::
   workingdirectory_p () const
@@ -548,7 +560,7 @@ namespace CUTS
   }
 
   // processOptions
-  //
+  // 
   inline
   bool processOptions::
   output_p () const
@@ -580,7 +592,7 @@ namespace CUTS
   }
 
   // processOptions
-  //
+  // 
   inline
   bool processOptions::
   error_p () const
@@ -613,13 +625,13 @@ namespace CUTS
 
 
   // CommandOptions
-  //
+  // 
 
   inline
   CommandOptions::
   CommandOptions (::XMLSchema::string< char > const& executable__,
                   ::XMLSchema::ID< char > const& id__)
-  :
+  : 
   executable_ (new ::XMLSchema::string< char > (executable__)),
   id_ (new ::XMLSchema::ID< char > (id__)),
   regulator__ ()
@@ -657,42 +669,45 @@ namespace CUTS
   CommandOptions& CommandOptions::
   operator= (CommandOptions const& s)
   {
-    executable (*s.executable_);
+    if (&s != this)
+    {
+      executable (*s.executable_);
 
-    if (s.arguments_.get ())
-      arguments (*(s.arguments_));
-    else
-      arguments_.reset (0);
+      if (s.arguments_.get ())
+        arguments (*(s.arguments_));
+      else
+        arguments_.reset (0);
 
-    if (s.workingdirectory_.get ())
-      workingdirectory (*(s.workingdirectory_));
-    else
-      workingdirectory_.reset (0);
+      if (s.workingdirectory_.get ())
+        workingdirectory (*(s.workingdirectory_));
+      else
+        workingdirectory_.reset (0);
 
-    if (s.output_.get ())
-      output (*(s.output_));
-    else
-      output_.reset (0);
+      if (s.output_.get ())
+        output (*(s.output_));
+      else
+        output_.reset (0);
 
-    if (s.error_.get ())
-      error (*(s.error_));
-    else
-      error_.reset (0);
+      if (s.error_.get ())
+        error (*(s.error_));
+      else
+        error_.reset (0);
 
-    id (s.id ());
+      id (s.id ());
 
-    if (s.delay_.get ()) delay (*(s.delay_));
-    else delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
+      if (s.delay_.get ()) delay (*(s.delay_));
+      else delay_ = ::std::auto_ptr< ::XMLSchema::double_ > (0);
 
-    if (s.waitforcompletion_.get ()) waitforcompletion (*(s.waitforcompletion_));
-    else waitforcompletion_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+      if (s.waitforcompletion_.get ()) waitforcompletion (*(s.waitforcompletion_));
+      else waitforcompletion_ = ::std::auto_ptr< ::XMLSchema::boolean > (0);
+    }
 
     return *this;
   }
 
 
   // CommandOptions
-  //
+  // 
   inline
   ::XMLSchema::string< char > const& CommandOptions::
   executable () const
@@ -708,7 +723,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   bool CommandOptions::
   arguments_p () const
@@ -740,7 +755,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   bool CommandOptions::
   workingdirectory_p () const
@@ -772,7 +787,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   bool CommandOptions::
   output_p () const
@@ -804,7 +819,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   bool CommandOptions::
   error_p () const
@@ -836,7 +851,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   ::XMLSchema::ID< char > const& CommandOptions::
   id () const
@@ -859,7 +874,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   bool CommandOptions::
   delay_p () const
@@ -898,7 +913,7 @@ namespace CUTS
   }
 
   // CommandOptions
-  //
+  // 
   inline
   bool CommandOptions::
   waitforcompletion_p () const
@@ -938,12 +953,12 @@ namespace CUTS
 
 
   // CommandList
-  //
+  // 
 
   inline
   CommandList::
   CommandList ()
-  :
+  : 
   regulator__ ()
   {
   }
@@ -962,14 +977,17 @@ namespace CUTS
   CommandList& CommandList::
   operator= (CommandList const& s)
   {
-    command_ = s.command_;
+    if (&s != this)
+    {
+      command_ = s.command_;
+    }
 
     return *this;
   }
 
 
   // CommandList
-  //
+  // 
   inline
   CommandList::command_iterator CommandList::
   begin_command ()
@@ -1012,3 +1030,4 @@ namespace CUTS
     return command_.size ();
   }
 }
+

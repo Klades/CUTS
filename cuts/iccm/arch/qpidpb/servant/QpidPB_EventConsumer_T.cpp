@@ -45,8 +45,8 @@ void QpidPB_EventConsumer_T <SERVANT, EVENT>::activate (void)
   this->connection_.open (this->host_, this->port_);
 
   // Start our listeners
-  listeners_map_type::ITERATOR end = this->listeners_.end ();
-  for (listeners_map_type::ITERATOR it = this->listeners_.begin (); it != end; ++it)
+  typename listeners_map_type::ITERATOR end = this->listeners_.end ();
+  for (typename listeners_map_type::ITERATOR it = this->listeners_.begin (); it != end; ++it)
     (*it).item ()->start (this->connection_, (*it).key ().c_str ());
 }
 
@@ -54,8 +54,8 @@ template <typename SERVANT, typename EVENT>
 void QpidPB_EventConsumer_T <SERVANT, EVENT>::passivate (void)
 {
   // Stop our listeners
-  listeners_map_type::ITERATOR end = this->listeners_.end ();
-  for (listeners_map_type::ITERATOR it = this->listeners_.begin (); it != end; ++it)
+  typename listeners_map_type::ITERATOR end = this->listeners_.end ();
+  for (typename listeners_map_type::ITERATOR it = this->listeners_.begin (); it != end; ++it)
     (*it).item ()->stop ();
 
   // Disconnect from the qpid broker
