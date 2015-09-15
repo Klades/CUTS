@@ -48,3 +48,11 @@ lib/
 *.mta
 *.xmp
 *.xmp.log
+
+# Auto-generated files
+*C.h
+*C.cpp
+*C.inl
+*S.h
+*S.cpp
+*S.inl
