@@ -55,7 +55,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::testConfig, ACE_Null_Mutex > _ptr;
 
       // name
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& name () const;
       void name (::XMLSchema::string< char > const& );
@@ -64,7 +64,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > name_;
 
       // description
-      //
+      // 
       public:
       bool description_p () const;
       ::XMLSchema::string< char > const& description () const;
@@ -74,7 +74,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > description_;
 
       // evaluation
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& evaluation () const;
       void evaluation (::XMLSchema::string< char > const& );
@@ -83,7 +83,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > evaluation_;
 
       // aggregation
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& aggregation () const;
       void aggregation (::XMLSchema::string< char > const& );
@@ -92,7 +92,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > aggregation_;
 
       // datagraph
-      //
+      // 
       public:
       ::CUTS::XML::datagraphLink const& datagraph () const;
       void datagraph (::CUTS::XML::datagraphLink const& );
@@ -101,7 +101,7 @@ namespace CUTS
       ::std::auto_ptr< ::CUTS::XML::datagraphLink > datagraph_;
 
       // grouping
-      //
+      // 
       public:
       bool grouping_p () const;
       ::CUTS::XML::groupingType const& grouping () const;
@@ -111,7 +111,7 @@ namespace CUTS
       ::std::auto_ptr< ::CUTS::XML::groupingType > grouping_;
 
       // services
-      //
+      // 
       public:
       bool services_p () const;
       ::CUTS::XML::serviceList const& services () const;
@@ -145,7 +145,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatType, ACE_Null_Mutex > _ptr;
 
       // value
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& value () const;
       void value (::XMLSchema::string< char > const& );
@@ -154,7 +154,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > value_;
 
       // relations
-      //
+      // 
       public:
       bool relations_p () const;
       ::CUTS::XML::relationList const& relations () const;
@@ -164,7 +164,7 @@ namespace CUTS
       ::std::auto_ptr< ::CUTS::XML::relationList > relations_;
 
       // id
-      //
+      // 
       public:
       ::XMLSchema::ID< char > const& id () const;
       ::XMLSchema::ID< char >& id ();
@@ -196,7 +196,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationList, ACE_Null_Mutex > _ptr;
 
       // relation
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationType, ACE_Null_Mutex > >::iterator relation_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationType, ACE_Null_Mutex > >::const_iterator relation_const_iterator;
@@ -234,7 +234,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::causalityType, ACE_Null_Mutex > _ptr;
 
       // cause
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& cause () const;
       ::XMLSchema::string< char >& cause ();
@@ -244,7 +244,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > cause_;
 
       // effect
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& effect () const;
       ::XMLSchema::string< char >& effect ();
@@ -276,7 +276,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::relationType, ACE_Null_Mutex > _ptr;
 
       // causality
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::causalityType, ACE_Null_Mutex > >::iterator causality_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::causalityType, ACE_Null_Mutex > >::const_iterator causality_const_iterator;
@@ -293,7 +293,7 @@ namespace CUTS
       ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::causalityType, ACE_Null_Mutex > > causality_;
 
       // effectref
-      //
+      // 
       public:
       ::XMLSchema::NCName< char > const& effectref () const;
       ::XMLSchema::NCName< char >& effectref ();
@@ -324,7 +324,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatList, ACE_Null_Mutex > _ptr;
 
       // logformat
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatType, ACE_Null_Mutex > >::iterator logformat_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::logformatType, ACE_Null_Mutex > >::const_iterator logformat_const_iterator;
@@ -362,7 +362,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupitemType, ACE_Null_Mutex > _ptr;
 
       // name
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& name () const;
       ::XMLSchema::string< char >& name ();
@@ -393,7 +393,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupingType, ACE_Null_Mutex > _ptr;
 
       // groupitem
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupitemType, ACE_Null_Mutex > >::iterator groupitem_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::groupitemType, ACE_Null_Mutex > >::const_iterator groupitem_const_iterator;
@@ -431,7 +431,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::datagraphType, ACE_Null_Mutex > _ptr;
 
       // name
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& name () const;
       void name (::XMLSchema::string< char > const& );
@@ -440,7 +440,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > name_;
 
       // adapter
-      //
+      // 
       public:
       bool adapter_p () const;
       ::XMLSchema::string< char > const& adapter () const;
@@ -450,7 +450,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > adapter_;
 
       // interpreter
-      //
+      // 
       public:
       bool interpreter_p () const;
       ::XMLSchema::string< char > const& interpreter () const;
@@ -460,7 +460,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > interpreter_;
 
       // logformats
-      //
+      // 
       public:
       bool logformats_p () const;
       ::CUTS::XML::logformatList const& logformats () const;
@@ -491,7 +491,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::datagraphLink, ACE_Null_Mutex > _ptr;
 
       // location
-      //
+      // 
       public:
       ::XMLSchema::anyURI< char > const& location () const;
       ::XMLSchema::anyURI< char >& location ();
@@ -522,7 +522,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterList, ACE_Null_Mutex > _ptr;
 
       // filter
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterType, ACE_Null_Mutex > >::iterator filter_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterType, ACE_Null_Mutex > >::const_iterator filter_const_iterator;
@@ -560,7 +560,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterType, ACE_Null_Mutex > _ptr;
 
       // variable
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > >::iterator variable_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > >::const_iterator variable_const_iterator;
@@ -577,7 +577,7 @@ namespace CUTS
       ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > > variable_;
 
       // id
-      //
+      // 
       public:
       ::XMLSchema::ID< char > const& id () const;
       ::XMLSchema::ID< char >& id ();
@@ -587,7 +587,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::ID< char > > id_;
 
       // target
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& target () const;
       ::XMLSchema::string< char >& target ();
@@ -620,7 +620,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::filterVariableType, ACE_Null_Mutex > _ptr;
 
       // name
-      //
+      // 
       public:
       bool name_p () const;
       ::XMLSchema::string< char > const& name () const;
@@ -631,7 +631,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > name_;
 
       // when
-      //
+      // 
       public:
       bool when_p () const;
       ::XMLSchema::string< char > const& when () const;
@@ -663,7 +663,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceType, ACE_Null_Mutex > _ptr;
 
       // location
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& location () const;
       void location (::XMLSchema::string< char > const& );
@@ -672,7 +672,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > location_;
 
       // classname
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& classname () const;
       void classname (::XMLSchema::string< char > const& );
@@ -681,7 +681,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > classname_;
 
       // params
-      //
+      // 
       public:
       bool params_p () const;
       ::XMLSchema::string< char > const& params () const;
@@ -691,7 +691,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > params_;
 
       // id
-      //
+      // 
       public:
       ::XMLSchema::ID< char > const& id () const;
       ::XMLSchema::ID< char >& id ();
@@ -724,7 +724,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceList, ACE_Null_Mutex > _ptr;
 
       // service
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceType, ACE_Null_Mutex > >::iterator service_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::serviceType, ACE_Null_Mutex > >::const_iterator service_const_iterator;
@@ -772,10 +772,10 @@ namespace CUTS
       Value
       integral () const;
 
-      friend bool CUTS_UNITE_XML_Export
+      friend bool CUTS_UNITE_XML_Export 
       operator== (joinType const& a, joinType const& b);
 
-      friend bool CUTS_UNITE_XML_Export
+      friend bool CUTS_UNITE_XML_Export 
       operator!= (joinType const& a, joinType const& b);
 
       private:
@@ -797,7 +797,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::expressionType, ACE_Null_Mutex > _ptr;
 
       // format
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& format () const;
       ::XMLSchema::string< char >& format ();
@@ -807,7 +807,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > format_;
 
       // variable
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& variable () const;
       ::XMLSchema::string< char >& variable ();
@@ -817,7 +817,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > variable_;
 
       // value
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& value () const;
       ::XMLSchema::string< char >& value ();
@@ -827,7 +827,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > value_;
 
       // negate
-      //
+      // 
       public:
       bool negate_p () const;
       ::XMLSchema::boolean const& negate () const;
@@ -861,7 +861,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::aspectType, ACE_Null_Mutex > _ptr;
 
       // name
-      //
+      // 
       public:
       bool name_p () const;
       ::XMLSchema::ID< char > const& name () const;
@@ -871,7 +871,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
 
       // viewpoint
-      //
+      // 
       public:
       bool viewpoint_p () const;
       ::CUTS::XML::viewpointType const& viewpoint () const;
@@ -881,7 +881,7 @@ namespace CUTS
       ::std::auto_ptr< ::CUTS::XML::viewpointType > viewpoint_;
 
       // condition
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& condition () const;
       void condition (::XMLSchema::string< char > const& );
@@ -911,7 +911,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::viewpointType, ACE_Null_Mutex > _ptr;
 
       // before
-      //
+      // 
       public:
       bool before_p () const;
       ::XMLSchema::unsignedInt const& before () const;
@@ -922,7 +922,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::unsignedInt > before_;
 
       // after
-      //
+      // 
       public:
       bool after_p () const;
       ::XMLSchema::unsignedInt const& after () const;
@@ -954,7 +954,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > _ptr;
 
       // condition
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& condition () const;
       void condition (::XMLSchema::string< char > const& );
@@ -963,7 +963,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > condition_;
 
       // name
-      //
+      // 
       public:
       ::XMLSchema::ID< char > const& name () const;
       ::XMLSchema::ID< char >& name ();
@@ -973,7 +973,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::ID< char > > name_;
 
       // priority
-      //
+      // 
       public:
       ::XMLSchema::unsignedInt const& priority () const;
       ::XMLSchema::unsignedInt& priority ();
@@ -983,7 +983,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::unsignedInt > priority_;
 
       // minoccurs
-      //
+      // 
       public:
       bool minoccurs_p () const;
       ::XMLSchema::unsignedInt const& minoccurs () const;
@@ -994,7 +994,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::unsignedInt > minoccurs_;
 
       // maxoccurs
-      //
+      // 
       public:
       bool maxoccurs_p () const;
       ::XMLSchema::string< char > const& maxoccurs () const;
@@ -1005,7 +1005,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > maxoccurs_;
 
       // isvalid
-      //
+      // 
       public:
       bool isvalid_p () const;
       ::XMLSchema::boolean const& isvalid () const;
@@ -1039,7 +1039,7 @@ namespace CUTS
       typedef ACE_Refcounted_Auto_Ptr < ::CUTS::XML::validationType, ACE_Null_Mutex > _ptr;
 
       // datagraph
-      //
+      // 
       public:
       ::XMLSchema::string< char > const& datagraph () const;
       void datagraph (::XMLSchema::string< char > const& );
@@ -1048,7 +1048,7 @@ namespace CUTS
       ::std::auto_ptr< ::XMLSchema::string< char > > datagraph_;
 
       // state
-      //
+      // 
       public:
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > >::iterator state_iterator;
       typedef ::std::list< ACE_Refcounted_Auto_Ptr < ::CUTS::XML::stateType, ACE_Null_Mutex > >::const_iterator state_const_iterator;

@@ -7,8 +7,8 @@ project (CUTS_GME_PICML) : cuts_codegenerationkit, boost_base, cuts_gme, \
 
 
   // -- dependencies
-  after += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_CoreDX CUTS_BE_TCPIP
-  libs  += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_CoreDX CUTS_BE_TCPIP
+  after += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_CoreDX CUTS_BE_TCPIP CUTS_BE_QpidPB
+  libs  += CUTS_BE CUTS_BE_CIAO CUTS_BE_RTIDDS CUTS_BE_OpenSplice CUTS_BE_CoreDX CUTS_BE_TCPIP CUTS_BE_QpidPB
 
   Source_Files {
     Code_Generation.idl

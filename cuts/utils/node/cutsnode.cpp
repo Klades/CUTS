@@ -19,31 +19,31 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == ACE_TEXT("executable"))
+        if (n == "executable")
         {
           executable_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (e));
           executable_->container (this);
         }
 
-        else if (n == ACE_TEXT("arguments"))
+        else if (n == "arguments")
         {
           ::XMLSchema::string< char > t (e);
           arguments (t);
         }
 
-        else if (n == ACE_TEXT("workingdirectory"))
+        else if (n == "workingdirectory")
         {
           ::XMLSchema::string< char > t (e);
           workingdirectory (t);
         }
 
-        else if (n == ACE_TEXT("output"))
+        else if (n == "output")
         {
           ::XMLSchema::string< char > t (e);
           output (t);
         }
 
-        else if (n == ACE_TEXT("error"))
+        else if (n == "error")
         {
           ::XMLSchema::string< char > t (e);
           error (t);
@@ -58,7 +58,7 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "id")
+        if (n ==  ("id"))
         {
           id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
           id_->container (this);
@@ -67,13 +67,13 @@ namespace CUTS
           add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
-        else if (n == "delay")
+        else if (n ==  ("delay"))
         {
           ::XMLSchema::double_ t (a);
           delay (t);
         }
 
-        else if (n == "waitforcompletion")
+        else if (n ==  ("waitforcompletion"))
         {
           ::XMLSchema::boolean t (a);
           waitforcompletion (t);
@@ -100,7 +100,7 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == ACE_TEXT("process"))
+        if (n == "process")
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::ProcessOptions, ACE_Null_Mutex >  t (new ::CUTS::schemas::ProcessOptions (e));
           add_process (t);
@@ -127,7 +127,7 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == ACE_TEXT("environment"))
+        if (n == "environment")
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::EnvConfig, ACE_Null_Mutex >  t (new ::CUTS::schemas::EnvConfig (e));
           add_environment (t);
@@ -153,7 +153,7 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "id")
+        if (n ==  ("id"))
         {
           id_ = ::std::auto_ptr< ::XMLSchema::IDREF< char > > (new ::XMLSchema::IDREF< char > (a));
           id_->container (this);
@@ -184,19 +184,19 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == ACE_TEXT("variables"))
+        if (n == "variables")
         {
           ::CUTS::schemas::VariableList t (e);
           variables (t);
         }
 
-        else if (n == ACE_TEXT("startup"))
+        else if (n == "startup")
         {
           ::CUTS::schemas::ProcessList t (e);
           startup (t);
         }
 
-        else if (n == ACE_TEXT("shutdown"))
+        else if (n == "shutdown")
         {
           ::CUTS::schemas::ProcessList t (e);
           shutdown (t);
@@ -211,7 +211,7 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "id")
+        if (n ==  ("id"))
         {
           id_ = ::std::auto_ptr< ::XMLSchema::ID< char > > (new ::XMLSchema::ID< char > (a));
           id_->container (this);
@@ -220,13 +220,13 @@ namespace CUTS
           add_id(temp, dynamic_cast<XSCRT::Type*> (this));
         }
 
-        else if (n == "inherit")
+        else if (n ==  ("inherit"))
         {
           ::XMLSchema::boolean t (a);
           inherit (t);
         }
 
-        else if (n == "active")
+        else if (n ==  ("active"))
         {
           ::XMLSchema::boolean t (a);
           active (t);
@@ -252,13 +252,13 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "name")
+        if (n ==  ("name"))
         {
           name_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (a));
           name_->container (this);
         }
 
-        else if (n == "value")
+        else if (n ==  ("value"))
         {
           value_ = ::std::auto_ptr< ::XMLSchema::string< char > > (new ::XMLSchema::string< char > (a));
           value_->container (this);
@@ -285,13 +285,13 @@ namespace CUTS
         ::XSCRT::XML::Element< char > e (p.next_element ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (e.name ()));
 
-        if (n == ACE_TEXT("import"))
+        if (n == "import")
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::VariableImport, ACE_Null_Mutex >  t (new ::CUTS::schemas::VariableImport (e));
           add_import (t);
         }
 
-        else if (n == ACE_TEXT("variable"))
+        else if (n == "variable")
         {
           ACE_Refcounted_Auto_Ptr < ::CUTS::schemas::Variable, ACE_Null_Mutex >  t (new ::CUTS::schemas::Variable (e));
           add_variable (t);
@@ -317,13 +317,13 @@ namespace CUTS
       {
         ::XSCRT::XML::Attribute< char > a (p.next_attribute ());
         ::std::basic_string< char > n (::XSCRT::XML::uq_name (a.name ()));
-        if (n == "location")
+        if (n ==  ("location"))
         {
           location_ = ::std::auto_ptr< ::XMLSchema::anyURI< char > > (new ::XMLSchema::anyURI< char > (a));
           location_->container (this);
         }
 
-        else if (n == "type")
+        else if (n ==  ("type"))
         {
           type_ = ::std::auto_ptr< ::CUTS::schemas::FileType > (new ::CUTS::schemas::FileType (a));
           type_->container (this);
@@ -344,8 +344,8 @@ namespace CUTS
     {
       ::std::basic_string< char > v (e.value ());
 
-      if (v == "text") v_ = text_l;
-      else if (v == "xml") v_ = xml_l;
+      if (v ==  ("text")) v_ = text_l;
+      else if (v ==  ("xml")) v_ = xml_l;
       else 
       {
       }
@@ -357,8 +357,8 @@ namespace CUTS
     {
       ::std::basic_string< char > v (a.value ());
 
-      if (v == "text") v_ = text_l;
-      else if (v == "xml") v_ = xml_l;
+      if (v ==  ("text")) v_ = text_l;
+      else if (v ==  ("xml")) v_ = xml_l;
       else 
       {
       }

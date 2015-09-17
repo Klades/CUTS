@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Deployment:DeploymentPlan xmlns:Deployment="http://www.omg.org/Deployment" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/Deployment Deployment.xsd">
+
+  <label/>
+
+  <UUID>B991F41E-22AB-11E1-8000-000C29A84559</UUID>
+
+  <implementation xmi:id="_C56D505C-E6A3-11DF-8DD2-000C2958D27B">
+    <name>HelloWorld.ComponentImplementations.HelloSenderImpl.HelloSenderImpl</name>
+    <source/>
+    <artifact xmi:idref="_C56D505C-E6A3-11DF-8DD0-000C2958D27B"/>
+    <artifact xmi:idref="_C56D505C-E6A3-11DF-8DD1-000C2958D27B"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloSender_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloSender_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloSender_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloSender_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_B88B0130-267C-11E1-8000-000C29A84559">
+    <name>HelloWorld.ComponentImplementations.HelloReceiverImpl.HelloReceiverImpl</name>
+    <source/>
+    <artifact xmi:idref="_B889F61E-267C-11E1-8000-000C29A84559"/>
+    <artifact xmi:idref="_B88A4272-267C-11E1-8000-000C29A84559"/>
+    <execParameter>
+      <name>component factory</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloReceiver_Impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ExecutorArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloReceiverArtifacts.HelloReceiver_impl</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantEntrypoint</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>create_HelloReceiver_Servant</string>
+        </value>
+      </value>
+    </execParameter>
+    <execParameter>
+      <name>edu.vanderbilt.dre.CIAO.ServantArtifact</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>HelloWorld.ImplementationArtifacts.HelloReceiverArtifacts.HelloReceiver_svnt</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <implementation xmi:id="_1C073253-AACD-4130-B0A8-6AED69931E25_">
+    <name>DAnCE_LocalityManager_Impl</name>
+    <source/>
+    <artifact xmi:idref="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1"/>
+    <execParameter>
+      <name>edu.vanderbilt.dre.DAnCE.ImplementationType</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>edu.vanderbilt.dre.DAnCE.LocalityManager</string>
+        </value>
+      </value>
+    </execParameter>
+  </implementation>
+
+  <instance xmi:id="_138A3272-267D-11E1-8000-000C29A84559">
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_C56D505C-E6A3-11DF-8DD2-000C2958D27B"/>
+    <configProperty>
+      <name>message</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>Hello, World!</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>QPIDBroker</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>QPIDUniqueQueues</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+
+  </instance>
+
+  <instance xmi:id="_187CFE54-267D-11E1-8000-000C29A84559">
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver</name>
+    <node>SecondNode</node>
+    <source/>
+    <implementation xmi:idref="_B88B0130-267C-11E1-8000-000C29A84559"/>
+    <configProperty>
+      <name>QPIDBroker</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+    <configProperty>
+      <name>QPIDUniqueQueues</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>localhost:5672</string>
+        </value>
+      </value>
+    </configProperty>
+
+  </instance>
+
+  <instance xmi:id="MainNode.DefaultGroup">
+    <name>MainNode.DefaultGroup</name>
+    <node>MainNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <instance xmi:id="SecondNode.DefaultGroup">
+    <name>SecondNode.DefaultGroup</name>
+    <node>SecondNode</node>
+    <source/>
+    <implementation xmi:idref="_1C073253-AACD-4130-B0A8-6AED69931E25_"/>
+    <configProperty>
+      <name>edu.vanderbilt.dre.DAnCE.LocalityManager.ProcessName</name>
+      <value>
+        <type>
+          <kind>tk_string</kind>
+        </type>
+        <value>
+          <string>DefaultGroup</string>
+        </value>
+      </value>
+    </configProperty>
+  </instance>
+
+  <connection>
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.greeting::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.greeting</name>
+    <internalEndpoint>
+      <portName>greeting</portName>
+      <provider>false</provider>
+      <kind>EventPublisher</kind>
+      <instance xmi:idref="_138A3272-267D-11E1-8000-000C29A84559"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>greeting</portName>
+      <provider>true</provider>
+      <kind>EventConsumer</kind>
+      <instance xmi:idref="_187CFE54-267D-11E1-8000-000C29A84559"/>
+    </internalEndpoint>
+  </connection>
+
+  <connection>
+    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.messenger_object::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.echo</name>
+    <internalEndpoint>
+      <portName>messenger_object</portName>
+      <provider>false</provider>
+      <kind>SimplexReceptacle</kind>
+      <instance xmi:idref="_138A3272-267D-11E1-8000-000C29A84559"/>
+    </internalEndpoint>
+    <internalEndpoint>
+      <portName>echo</portName>
+      <provider>true</provider>
+      <kind>Facet</kind>
+      <instance xmi:idref="_187CFE54-267D-11E1-8000-000C29A84559"/>
+    </internalEndpoint>
+  </connection>
+
+  <artifact xmi:id="_C56D505C-E6A3-11DF-8DD0-000C2958D27B">
+    <name>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloSender_svnt</name>
+    <source/>
+    <node/>
+    <location>HelloWorld_Components_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_C56D505C-E6A3-11DF-8DD1-000C2958D27B">
+    <name>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloSender_impl</name>
+    <source/>
+    <node/>
+    <location>HelloSender_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_B889F61E-267C-11E1-8000-000C29A84559">
+    <name>HelloWorld.ImplementationArtifacts.HelloReceiverArtifacts.HelloReceiver_svnt</name>
+    <source/>
+    <node/>
+    <location>HelloWorld_Components_svnt</location>
+  </artifact>
+
+  <artifact xmi:id="_B88A4272-267C-11E1-8000-000C29A84559">
+    <name>HelloWorld.ImplementationArtifacts.HelloReceiverArtifacts.HelloReceiver_impl</name>
+    <source/>
+    <node/>
+    <location>HelloReceiver_impl</location>
+  </artifact>
+
+  <artifact xmi:id="_2DBE7BA9-5DB7-48e2-A260-D141CB66DEB1">
+    <name>DAnCE_LocalityManager_Artifact</name>
+    <source/>
+    <node/>
+    <location>dance_locality_manager</location>
+  </artifact>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="MainNode.DefaultGroup"/>
+    <!--HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender-->
+    <constrainedInstance xmi:idref="_138A3272-267D-11E1-8000-000C29A84559"/>
+  </localityConstraint>
+
+  <localityConstraint>
+    <constraint>SameProcess</constraint>
+    <constrainedInstance xmi:idref="SecondNode.DefaultGroup"/>
+    <!--HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver-->
+    <constrainedInstance xmi:idref="_187CFE54-267D-11E1-8000-000C29A84559"/>
+  </localityConstraint>
+
+</Deployment:DeploymentPlan>

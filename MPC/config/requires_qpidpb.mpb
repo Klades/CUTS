@@ -1,0 +1,19 @@
+project : boost_base {
+  requires += qpidpb
+  includes += $(QPID_ROOT)/include $(PROTOBUF_ROOT)/include
+  libpaths += $(QPID_ROOT)/lib $(PROTOBUF_ROOT)/lib
+
+  libs     += protobuf qpidclient qpidcommon
+
+  specific(prop:microsoft) {
+    DisableSpecificWarnings += 4101 
+  }
+
+  verbatim(gnuace, macros) {
+    override no_hidden_visibility = 1
+  }
+}
+
+feature (qpidpb) {
+  macros += CUTS_HAS_QPIDPB
+}

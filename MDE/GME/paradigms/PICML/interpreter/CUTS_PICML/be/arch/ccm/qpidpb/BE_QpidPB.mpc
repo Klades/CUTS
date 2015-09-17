@@ -1,0 +1,23 @@
+// $Id$
+
+project (CUTS_BE_QpidPB) : boost_base, cuts_picml_game_mga, cuts_be_ccm, cuts_cosmic, cuts_game_mga_utils {
+  sharedname    += CUTS_BE_QpidPB
+  dynamicflags  += CUTS_BE_QPIDPB_BUILD_DLL
+
+  includes += $(CUTS_ROOT)/MDE/GME/paradigms/PICML
+
+  Source_Files {
+    Generators.cpp
+    Manager.cpp
+    Preprocessor_Handlers.cpp
+    Traits.cpp
+  }
+
+  Header_Files {
+    Context.h
+  }
+
+  Inline_Files {
+
+  }
+}

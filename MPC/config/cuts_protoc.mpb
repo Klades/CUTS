@@ -1,0 +1,15 @@
+// $Id:
+
+project {
+  Define_Custom(Protoc) {
+    command               = $(PROTOBUF_ROOT)/bin/protoc
+    dependent             = $(PROTOBUF_ROOT)/bin/protoc
+
+    inputext              = .proto
+
+    source_outputext      = .pb.cc
+    header_outputext      = .pb.h
+
+    keyword cuts_protoc_flags = commandflags
+  }
+}
