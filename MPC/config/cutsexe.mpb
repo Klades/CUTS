@@ -9,9 +9,10 @@ project : aceexe, cuts_base {
   
   specific (prop:windows) {
     subsystem = 0
+    macros += _SCL_SECURE_NO_WARNINGS
   }
 
-  specific (vc11) {
+  specific (vc11, vc12) {
     subsystem = NotSet
   }
 }
