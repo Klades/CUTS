@@ -23,15 +23,18 @@
  *     http://www.dre.vanderbilt.edu/~schmidt/TAO.html
  **/
 
-
 // TAO_IDL - Generated from
-// e:\proj\vc11\middleware\tao\tao_idl\be\be_codegen.cpp:649
+// e:\proj\vc11\middleware\tao\tao_idl\be\be_codegen.cpp:1254
 
-#ifndef _TAO_IDL_HELLOWORLDS_8MCBOD_CPP_
-#define _TAO_IDL_HELLOWORLDS_8MCBOD_CPP_
+#ifndef CIAO_SERVANT_HELLOWORLD_SVNT_T_FDIOZP_CPP_
+#define CIAO_SERVANT_HELLOWORLD_SVNT_T_FDIOZP_CPP_
 
 
-#include "HelloWorldS.h"
+#include "ciao/Valuetype_Factories/Cookies.h"
+#include "tao/SystemException.h"
+#include "tao/Valuetype/ValueFactory.h"
+#include "tao/ORB_Core.h"
+#include "ace/SString.h"
 
 #endif /* ifndef */
 
