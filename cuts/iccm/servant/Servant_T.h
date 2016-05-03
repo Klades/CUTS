@@ -66,6 +66,13 @@ public:
              ::PortableServer::POA_ptr poa,
              typename EXECUTOR::_ptr_type exec);
 
+  /**
+   * Inactive constructor.  This constructor will not activate the object
+   * but simply provides a mechanism to configure underlying EventConsumers,
+   * Publishers, and Publisher_Tables
+   */
+  Servant_T (const char * name);
+
   /// Destructor.
   virtual ~Servant_T (void);
 
@@ -92,6 +99,10 @@ public:
   virtual Components::EventConsumerBase_ptr
     disconnect_consumer (const char *);
 
+  virtual int get_publisher (const char * name, Publisher * & publisher);
+  virtual int get_publisher_table (const char * name, Publisher_Table * &table);
+  virtual int get_event_consumer (const char * name, EventConsumer * & consumer);
+
 #if !defined (CCM_LW)
   virtual Components::ConsumerDescriptions *
     get_all_consumers (void);
@@ -114,8 +125,6 @@ public:
 
   // facet/receptacle methods
 
-  ::CORBA::Object_ptr provide_facet (const char *);
-
 #if !defined (CCM_LW)
   ::Components::FacetDescriptions * get_all_facets (void);
 
@@ -134,6 +143,7 @@ public:
   ::Components::ReceptacleDescriptions * get_named_receptacles (const Components::NameList &);
 #endif
 
+  virtual ::CORBA::Object_ptr provide_facet (const char *);
 
 #if !defined (CCM_LW)
   ::CORBA::Boolean same_component (::CORBA::Object_ptr);
@@ -150,15 +160,6 @@ public:
   virtual void configuration_complete (void);
 
   virtual void remove (void);
-
-  int get_consumer (const char * name,
-                    typename SERVANT_BASE::eventconsumer_type * & result) const;
-
-  int get_publisher (const char * name,
-                     typename SERVANT_BASE::publisher_type * & result) const;
-
-  int get_publisher_table (const char * name,
-                           typename SERVANT_BASE::publisher_table_type * & result) const;
 
 protected:
   /// Collection of consumers for the servant.
@@ -208,9 +209,6 @@ protected:
 
   /// The implemenation for this servant.
   typename EXECUTOR::_var_type impl_;
-
-  // Helper method for adding facets
-  void add_facet (const char *, ::CORBA::Object_ptr);
 
 private:
   // Helper method to create the port POA.

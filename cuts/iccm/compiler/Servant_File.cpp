@@ -121,8 +121,12 @@ public:
 
     /// @todo This needs to use information from the BE_GlobalData to
     /// ensure the source code is portable across differnt backends.
-    this->hfile_ << include_t (be_global->get_stub_file_prefix () + basename + "C.h");
-    this->includes_.insert (node->file_name ());
+
+    if (be_global->requires_event_stub_)
+    {
+      this->hfile_ << include_t (be_global->get_stub_file_prefix () + basename + "C.h");
+      this->includes_.insert (node->file_name ());
+    }
 
     // We also need to include any referenced header files since
     // those files may contains the DDS events.
@@ -198,11 +202,14 @@ int Servant_File::visit_root (AST_Root * node)
   // TODO THIS CODE HERE SHOULD BE CUSTOMIZED FOR EACH IMPLEMENTATION OF
   // AN ICCM BACKEND.
 
-  this->hfile_
-    << include_t (be_global->get_source_basename () + "C.h");
+  if (be_global->requires_event_stub_)
+  {
+    this->hfile_
+      << include_t (be_global->get_source_basename () + "C.h");
 
-  Include_Event_Stub_Header_File event_stub_header (this->hfile_);
-  event_stub_header.visit_scope (node);
+    Include_Event_Stub_Header_File event_stub_header (this->hfile_);
+    event_stub_header.visit_scope (node);
+  }
 
   this->hfile_
     << std::endl
@@ -266,6 +273,12 @@ int Servant_File::visit_component (AST_Component * node)
   Indentation::Implanter <Indentation::Cxx, char> h_implanter (this->hfile_);
   Indentation::Implanter <Indentation::Cxx, char> s_implanter (this->sfile_);
 
+  if (be_global->has_impl_namespace ())
+  {
+    this->hfile_ << "namespace " << be_global->impl_namespace () << "{";
+    this->sfile_ << "namespace " << be_global->impl_namespace () << "{";
+  }
+
   // Generate the servant's context.
   Servant_Context sc (this->hfile_, this->sfile_);
   node->ast_accept (&sc);
@@ -273,6 +286,12 @@ int Servant_File::visit_component (AST_Component * node)
   // Generate the servant's implementation.
   Servant_Impl si (this->hfile_, this->sfile_);
   node->ast_accept (&si);
+
+  if (be_global->has_impl_namespace ())
+  {
+    this->hfile_ << "}";
+    this->sfile_ << "}";
+  }
 
   return 0;
 }

@@ -20,6 +20,15 @@
 namespace iCCM
 {
 
+class ICCM_SERVANT_Export EventConsumer_Listener
+{
+public:
+  EventConsumer_Listener (void);
+  virtual ~EventConsumer_Listener (void) = 0;
+
+  virtual void handle_event (::Components::EventBase *) = 0;
+};
+
 /**
  * @class EventConsumer
  *
@@ -46,7 +55,12 @@ public:
   /// Method for passivating the consumer
   virtual void passivate (void);
 
+  void listener (EventConsumer_Listener * listener);
+
 private:
+  /// Registered listener for events.
+  EventConsumer_Listener * listener_;
+
   // prevent the following operations
   EventConsumer (const EventConsumer &);
   const EventConsumer & operator = (const EventConsumer &);

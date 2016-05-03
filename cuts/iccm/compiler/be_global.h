@@ -86,6 +86,12 @@ public:
   /// Generate servant file.
   bool generate_svnt_;
 
+  /// The compiler requires the event stub.
+  bool requires_event_stub_;
+
+  bool has_impl_namespace (void) const;
+  const std::string & impl_namespace (void) const;
+
   ACE_CString stub_export_macro_;
   ACE_CString stub_export_macro_filename_;
 
@@ -142,6 +148,12 @@ public:
                                          std::ofstream & hfile,
                                          std::ofstream & sfile,
                                          const ACE_CString & servant) const;
+
+protected:
+  bool has_impl_namespace_;
+
+  std::string impl_namespace_;
+
 private:
   /// Basename for the source file.
   mutable ACE_CString source_basename_;

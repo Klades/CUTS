@@ -33,6 +33,7 @@ class OpenSplice_Servant_T :
   public DDS_Servant_T <OpenSplice, T, CONTEXT, EXECUTOR, POA_EXEC>
 {
 public:
+  #ifndef CUTS_INACTIVE_SUBSERVANT
   /**
    * Initializing constructor.
    *
@@ -45,6 +46,14 @@ public:
                         const char * name,
                         ::PortableServer::POA_ptr port_poa,
                         typename EXECUTOR::_ptr_type impl);
+  #endif
+
+  /**
+   * Inactive constructor.  This constructor will not activate the object
+   * but simply provides a mechanism to configure underlying EventConsumers,
+   * Publishers, and Publisher_Tables
+   */
+  OpenSplice_Servant_T (const char * name);
 
   /// Destructor.
   virtual ~OpenSplice_Servant_T (void);

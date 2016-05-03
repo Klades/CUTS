@@ -25,7 +25,7 @@ project (dds2ccm) : boost_base, cuts_codegenerationkit, tao_idl_fe, cutsexe {
     macros += _SCL_SECURE_NO_WARNINGS
   }
 
-  specific (vc11) {
+  specific (vc11, vc12) {
     subsystem = NotSet
   }
 

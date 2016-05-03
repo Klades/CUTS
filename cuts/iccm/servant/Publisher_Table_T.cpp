@@ -42,6 +42,8 @@ subscribe (::Components::EventConsumerBase_ptr consumer)
 
   if (AUTO_CONNECT)
     publisher->connect (consumer);
+  else
+    ACE_DEBUG ((LM_DEBUG, "No auto-connect!!!\n"));
 
   // Allocate a new cookie for the subscriber.
   OBV_Components::Cookie * cookie = 0;

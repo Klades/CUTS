@@ -56,6 +56,9 @@ public:
    * @param[in]         ev          The event to publish
    */
   virtual void send_event (event_type * ev) = 0;
+  virtual void send_event (::Components::EventBase * ev);
+
+  virtual event_type * allocate_event (void) = 0;
 
   /// Method for activating the publisher
   virtual void activate (void);
