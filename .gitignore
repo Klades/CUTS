@@ -56,3 +56,9 @@ lib/
 *S.h
 *S.cpp
 *S.inl
+*E.idl
+*EC.idl
+
+*_export.h
+*_svnt.*
+*_iCCM.idl
