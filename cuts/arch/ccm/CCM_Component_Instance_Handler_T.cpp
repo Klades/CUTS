@@ -538,6 +538,10 @@ instance_configured (const ::Deployment::DeploymentPlan & plan,
 
   // Invoke the configuration complete method on the component.
   comp->configuration_complete ();
+
+  ACE_DEBUG ((LM_DEBUG,
+            ACE_TEXT ("%T (%t) - %M - %s configuration is ready"),
+            idd.name.in ()));
 }
 
 //

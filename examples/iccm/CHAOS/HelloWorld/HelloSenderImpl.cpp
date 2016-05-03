@@ -34,6 +34,7 @@ namespace HelloSenderImpl
     __event_id_0065_0000000c__->time (0);
     this->ctx_->push_greeting_ospl (__event_id_0065_0000000c__.in ());
 
+    /*
     ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Pushing greeting_ndds\n")));
     ::MessageEvent_var __event_id_0065_00000029__ = this->ctx_->new_greeting_ndds_event ();
     __event_id_0065_00000029__->content (this->message_.c_str ());
@@ -44,7 +45,7 @@ namespace HelloSenderImpl
     ::MessageEvent_var __event_id_0065_0000002a__ = this->ctx_->new_greeting_tcpip_event ();
     __event_id_0065_0000002a__->content (this->message_.c_str ());
     __event_id_0065_0000002a__->time (0);
-    this->ctx_->push_greeting_tcpip (__event_id_0065_0000002a__.in ());
+    this->ctx_->push_greeting_tcpip (__event_id_0065_0000002a__.in ());*/
   }
 
   //

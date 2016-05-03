@@ -7,36 +7,6 @@
 namespace HelloReceiverImpl
 {
   //
-  // Echo_i
-  //
-  Echo_i::Echo_i (HelloReceiver * parent)
-  : base_type (parent)
-  {
-  }
-
-  //
-  // ~Echo_i
-  //
-  Echo_i::~Echo_i (void)
-  {
-  }
-
-  //
-  // increment_count
-  //
-  void Echo_i::
-  increment_count (void)
-  {
-    ::CORBA::ULong i = this->getParent ().count ();
-
-    i++;
-
-    this->getParent ().count (i);
-
-    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver: Facet Request increment count = %d\n"), this->getParent ().count () ) );
-  }
-
-  //
   // HelloReceiver
   //
   HelloReceiver::HelloReceiver (void)
@@ -58,26 +28,6 @@ namespace HelloReceiverImpl
   {
     ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Receiver InputAction Effect for content = %s, count = %d\n"), ev->content (),  this->count ()));
     ACE_UNUSED_ARG (ev);
-  }
-
-  //
-  // facet: echo
-  //
-  ::CCM_Messenger_ptr
-    HelloReceiver::get_echo (void)
-  {
-    if ( ::CORBA::is_nil (this->echo_i_.in ()))
-    {
-      Echo_i * tmp = 0;
-      ACE_NEW_RETURN (
-        tmp,
-        Echo_i (this),
-        CCM_Messenger::_nil ());
-      this->echo_i_ = tmp;
-    }
-
-    return CCM_Messenger::_duplicate (
-      this->echo_i_.in ());
   }
 
   //

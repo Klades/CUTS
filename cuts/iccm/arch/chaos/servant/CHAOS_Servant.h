@@ -38,7 +38,12 @@ class ICCM_CHAOS_SVNT_Export CHAOS_Servant :
   public Servant
 {
 public:
-  static const char * PORT_TYPE_PREFIX;
+  /// Collection of servants mapped by their architecture type.
+  typedef ACE_Hash_Map_Manager <std::string,
+                                iCCM::Servant *,
+                                ACE_RW_Thread_Mutex>
+                                servant_map_type;
+
 
   /// Trait definitions for iCCM::Servant_T object.
   typedef CHAOS_EventConsumer eventconsumer_type;
@@ -51,10 +56,19 @@ public:
   /// Destructor.
   virtual ~CHAOS_Servant (void);
 
-  virtual void handle_config (const ::Components::ConfigValues & values);
+  const servant_map_type & servants (void) const;
 
 protected:
-  virtual void load_port (const char * port_name, const char * dll, const char * entrypt);
+  ::PortableServer::POA_ptr 
+    create_servant_POA (const std::string & name, 
+                        ::PortableServer::POA_ptr poa);
+
+  servant_map_type servants_;
+
+private:
+  ACE_Hash_Map_Manager <std::string, 
+                        ::PortableServer::POA_var,
+                        ACE_RW_Thread_Mutex> servant_POAs_;
 };
 
 }

@@ -15,6 +15,7 @@
 
 #include "tao/PortableServer/Servant_Base.h"
 #include "ccm/CCM_StandardConfiguratorC.h"
+#include "ccm/CCM_EventConsumerBaseC.h"
 
 #include "ace/SString.h"
 
@@ -73,9 +74,25 @@ public:
    */
   virtual void set_attributes (const ::Components::ConfigValues &);
 
-  virtual void add_eventconsumer (const char * name, EventConsumer *) = 0;
-  virtual void add_publisher (const char * name, Publisher *) = 0;
-  virtual void add_publisher_table (const char * name, Publisher_Table *) = 0;
+  /**
+   * Get the publisher port from the servant.
+   *
+   * @param[in]     name          Name of the port
+   * @param[in]     publisher     The located Publisher
+   */
+  virtual int get_publisher (const char * name, Publisher * & publisher) = 0;
+
+  /**
+   * Get the publisher table port from the servant.
+   */
+  virtual int get_publisher_table (const char * name, Publisher_Table * &table) = 0;
+
+  /**
+   * Get the event consumer port from the servant.
+   */
+  virtual int get_event_consumer (const char * name, EventConsumer * & consumer) = 0;
+
+  virtual ::Components::EventConsumerBase_ptr get_consumer (const char *) = 0;
 
 protected:
   /// Name of the CCM servant.

@@ -4,9 +4,6 @@
 namespace iCCM
 {
 
-//
-// CHAOS_Servant
-//
 CUTS_INLINE
 CHAOS_Servant::CHAOS_Servant (const char * name)
 : Servant (name)
@@ -14,13 +11,10 @@ CHAOS_Servant::CHAOS_Servant (const char * name)
 
 }
 
-//
-// ~CHAOS_Servant
-//
 CUTS_INLINE
-CHAOS_Servant::~CHAOS_Servant (void)
+const CHAOS_Servant::servant_map_type & CHAOS_Servant::servants (void) const
 {
-
+  return this->servants_;
 }
 
 }

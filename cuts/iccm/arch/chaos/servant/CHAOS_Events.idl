@@ -32,7 +32,8 @@ module Components
      */
     interface EventConsumer : ::Components::EventConsumerBase
     {
-      // INSERT DEFINITIONS HERE
+      /// Get the managed event consumer.
+      ::Components::EventConsumerBase get_consumer ();
     };
   };
 };

@@ -19,9 +19,11 @@
 #define _ICCM_CHAOS_CONTAINER_H_
 
 #include "cuts/iccm/deployment/Container_T.h"
-
 #include "../servant/CHAOS_Servant.h"
+
 #include "CHAOS_Container_Strategy.h"
+
+#include <map>
 
 namespace iCCM
 {
@@ -60,6 +62,9 @@ public:
 
   /// Destructor.
   virtual ~CHAOS_Container (void);
+
+private:
+  std::map <std::string, ::CIAO::Session_Container *> containers_;
 };
 
 }

@@ -41,9 +41,7 @@ class Publisher_Table;
  */
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 class Servant_T :
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   public POA_EXEC,
-  #endif
   public SERVANT_BASE
 {
 public:
@@ -57,7 +55,6 @@ public:
   typedef typename SERVANT_BASE::publisher_type publisher_type;
   typedef typename SERVANT_BASE::publisher_table_type publisher_table_type;
 
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   /**
    * Initializing constructor.
    *
@@ -68,7 +65,6 @@ public:
              const char * name,
              ::PortableServer::POA_ptr poa,
              typename EXECUTOR::_ptr_type exec);
-  #endif
 
   /**
    * Inactive constructor.  This constructor will not activate the object
@@ -103,6 +99,10 @@ public:
   virtual Components::EventConsumerBase_ptr
     disconnect_consumer (const char *);
 
+  virtual int get_publisher (const char * name, Publisher * & publisher);
+  virtual int get_publisher_table (const char * name, Publisher_Table * &table);
+  virtual int get_event_consumer (const char * name, EventConsumer * & consumer);
+
 #if !defined (CCM_LW)
   virtual Components::ConsumerDescriptions *
     get_all_consumers (void);
@@ -125,8 +125,6 @@ public:
 
   // facet/receptacle methods
 
-  ::CORBA::Object_ptr provide_facet (const char *);
-
 #if !defined (CCM_LW)
   ::Components::FacetDescriptions * get_all_facets (void);
 
@@ -145,6 +143,7 @@ public:
   ::Components::ReceptacleDescriptions * get_named_receptacles (const Components::NameList &);
 #endif
 
+  virtual ::CORBA::Object_ptr provide_facet (const char *);
 
 #if !defined (CCM_LW)
   ::CORBA::Boolean same_component (::CORBA::Object_ptr);
@@ -161,27 +160,6 @@ public:
   virtual void configuration_complete (void);
 
   virtual void remove (void);
-
-  int get_consumer (const char * name,
-                    typename SERVANT_BASE::eventconsumer_type * & result) const;
-
-  int get_publisher (const char * name,
-                     typename SERVANT_BASE::publisher_type * & result) const;
-
-  int get_publisher_table (const char * name,
-                           typename SERVANT_BASE::publisher_table_type * & result) const;
-
-  virtual void add_eventconsumer (const char * name,
-                                  typename SERVANT_BASE::eventconsumer_type * consumer);
-  virtual void add_eventconsumer (const char * name, EventConsumer * consumer);
-
-  virtual void add_publisher (const char * name,
-                              typename SERVANT_BASE::publisher_type * publisher);
-  virtual void add_publisher (const char * name, Publisher * publisher);
-
-  virtual void add_publisher_table (const char * name,
-                                    typename SERVANT_BASE::publisher_table_type * publisher_table);
-  virtual void add_publisher_table (const char * name, Publisher_Table * publisher_table);
 
 protected:
   /// Collection of consumers for the servant.
@@ -226,16 +204,11 @@ protected:
 
   facets_map_type facets_;
 
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   /// The actual context for the servant.
   ACE_Auto_Ptr <CONTEXT> ctx_;
 
   /// The implemenation for this servant.
   typename EXECUTOR::_var_type impl_;
-  #endif
-
-  // Helper method for adding facets
-  void add_facet (const char *, ::CORBA::Object_ptr);
 
 private:
   // Helper method to create the port POA.

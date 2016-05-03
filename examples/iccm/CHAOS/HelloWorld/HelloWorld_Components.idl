@@ -16,15 +16,15 @@ component HelloReceiver
 {
   consumes ::MessageEvent greeting_ospl;
   consumes ::MessageEvent greeting_ndds;
-  consumes ::MessageEvent greeting_tcpip;
-  
+  consumes ::MessageEvent greeting_tcpip;  
 };
 
 component HelloSender
 {
-  publishes ::MessageEvent greeting_ospl;
-  publishes ::MessageEvent greeting_ndds;
-  publishes ::MessageEvent greeting_tcpip;
+  emits ::MessageEvent greeting_ospl;
+  emits ::MessageEvent greeting_ndds;
+  emits ::MessageEvent greeting_tcpip;
+
   attribute string message;
 };
 

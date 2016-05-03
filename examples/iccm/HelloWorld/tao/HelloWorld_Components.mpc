@@ -84,10 +84,9 @@ project (HelloWorld_Components_skel) : avoids_ace_for_tao, iccm_tao_skel, cuts_c
 
 
   after += \
-    HelloWorld_skel
+    HelloWorld_stub
 
   libs  += \
-    HelloWorld_skel \
     HelloWorld_stub
 
   IDL_Files {
@@ -129,12 +128,10 @@ project (HelloWorld_Components_exec) : iccm_tao_skel, cuts_codegen_defaults {
 
   after += HelloWorld_Components_EIDL_Gen \
     HelloWorld_Components_stub \
-    HelloWorld_stub \
-    HelloWorld_exec
+    HelloWorld_stub 
 
   libs  += HelloWorld_Components_stub \
-    HelloWorld_stub \
-    HelloWorld_exec
+    HelloWorld_stub
 
   Source_Files {
     HelloWorld_ComponentsEC.cpp
@@ -157,14 +154,10 @@ project (HelloWorld_Components_svnt) : iccm_tao_svnt, cuts_codegen_defaults {
   dynamicflags += HELLOWORLD_COMPONENTS_SVNT_BUILD_DLL
 
   after += HelloWorld_Components_exec HelloWorld_Components_stub HelloWorld_Components_skel \
-    HelloWorld_stub \
-    HelloWorld_skel \
-    HelloWorld_exec
+    HelloWorld_stub 
 
   libs += HelloWorld_Components_exec HelloWorld_Components_stub HelloWorld_Components_skel \
-    HelloWorld_stub \
-    HelloWorld_skel \
-    HelloWorld_exec
+    HelloWorld_stub 
 
   Source_Files {
     HelloWorld_Components_svnt.cpp

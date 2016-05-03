@@ -74,11 +74,28 @@ void TAO_Publisher_T <EVENT>::send_event (EVENT * ev)
     if (!::CORBA::is_nil (this->consumer_.in ()))
       this->consumer_->push_event (ev);
   }
+  catch (const ::CORBA::Exception & ex)
+  {
+    ACE_ERROR ((LM_ERROR,
+                ACE_TEXT ("%T (%t) - %M - %s\n"),
+                ex._info ().c_str ()));
+  }
   catch (...)
   {
     ACE_ERROR ((LM_ERROR,
             ACE_TEXT ("%T (%t) - %M - Error sending event\n")));
   }
 }
+
+//
+// send_event
+//
+template <typename EVENT>
+void TAO_Publisher_T <EVENT>::send_event (::Components::EventBase * base)
+{
+  EVENT * ev = dynamic_cast < EVENT * > (base);
+  return this->send_event (ev);
+}
+
 
 }

@@ -19,6 +19,9 @@ workspace (HelloWorld) {
   HelloSenderImpl.mpc
   HelloWorld_Components.mpc
   HelloWorld.mpc
+
+  tao/HelloWorld_Components.mpc
+  tao/HelloWorld.mpc
 }
 
 // end of auto-generated workspace

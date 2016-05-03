@@ -5,3 +5,8 @@
 #if !defined (__CUTS_INLINE__)
 #include "CHAOS_EventConsumer.inl"
 #endif
+
+namespace iCCM
+{
+
+}

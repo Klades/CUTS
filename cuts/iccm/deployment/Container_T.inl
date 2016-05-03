@@ -55,9 +55,6 @@ init (const char * name)
   this->name_ = name;
 }
 
-//
-// fini
-//
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 CUTS_INLINE
 void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::fini (void)
@@ -65,4 +62,11 @@ void Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::fini (void)
 
 }
 
+template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
+CUTS_INLINE
+Container_Strategy * Container_T <T, INST_HANDLER, STRATEGY, SERVANT_BASE>::get_strategy (void) const
+{
+  return this->strategy_.get ();
+}
+   
 }

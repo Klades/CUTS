@@ -61,7 +61,7 @@ project (iCCM_CHAOS_skel) : ccm_svnt, cutslib {
   }
 }
 
-project (iCCM_CHAOS_svnt) : iccm_servant, cutslib {
+project (iCCM_CHAOS_svnt) : boost_base, iccm_servant, cutslib {
   sharedname    = iCCM_CHAOS_svnt
   dynamicflags += ICCM_CHAOS_SVNT_BUILD_DLL
 
@@ -73,6 +73,7 @@ project (iCCM_CHAOS_svnt) : iccm_servant, cutslib {
     CHAOS_Servant.cpp
     CHAOS_Publisher.cpp
     CHAOS_Publisher_Table.cpp
+    CHAOS_Servant_Configuration.cpp
   }
 
   Template_Files {

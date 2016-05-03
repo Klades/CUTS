@@ -19,6 +19,7 @@
 #define _ICCM_CHAOS_CONTAINER_STRATEGY_H_
 
 #include "cuts/iccm/deployment/Container_Strategy_T.h"
+#include <map>
 
 #include "CHAOS_Deployment_Handlers_export.h"
 
@@ -78,6 +79,10 @@ public:
    * @param[in]     servant         Servant to install
    */
   virtual void remove_servant (::PortableServer::Servant servant);
+
+private:
+  /// Collection of supported/known container strategies.
+  std::map <std::string, Container_Strategy *> stragegies_;
 };
 
 }

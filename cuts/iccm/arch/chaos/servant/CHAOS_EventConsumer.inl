@@ -23,36 +23,31 @@ CHAOS_EventConsumer::~CHAOS_EventConsumer (void)
 
 }
 
-//
-// impl
-//
 CUTS_INLINE
-void CHAOS_EventConsumer::impl (iCCM::EventConsumer * impl)
+void CHAOS_EventConsumer::
+impl (iCCM::EventConsumer * impl,  ::Components::EventConsumerBase_ptr obj)
 {
   this->impl_ = impl;
+  this->obj_ = ::Components::EventConsumerBase::_duplicate (obj);
 }
 
-//
-// impl
-//
 CUTS_INLINE
 iCCM::EventConsumer * CHAOS_EventConsumer::impl (void)
 {
   return this->impl_;
 }
 
-//
-// allocate
-//
+::Components::EventConsumerBase_ptr CHAOS_EventConsumer::get_consumer (void)
+{
+  return ::Components::EventConsumerBase::_duplicate (this->obj_.in ());
+}
+
 CUTS_INLINE
 void CHAOS_EventConsumer::allocate (ptrdiff_t & symbol)
 {
 
 };
 
-//
-// activate
-//
 CUTS_INLINE
 void CHAOS_EventConsumer::activate (void)
 {
@@ -60,9 +55,6 @@ void CHAOS_EventConsumer::activate (void)
     this->impl_->activate ();
 }
 
-//
-// passivate
-//
 CUTS_INLINE
 void CHAOS_EventConsumer::passivate (void)
 {
@@ -70,9 +62,6 @@ void CHAOS_EventConsumer::passivate (void)
     this->impl_->passivate ();
 }
 
-//
-// push_event
-//
 CUTS_INLINE
 void CHAOS_EventConsumer::push_event (::Components::EventBase * ev)
 {

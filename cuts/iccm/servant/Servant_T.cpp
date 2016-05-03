@@ -4,6 +4,8 @@
 #include "Servant_T.inl"
 #endif
 
+#include "ace/OS_NS_unistd.h"
+
 #include "EventConsumer.h"
 #include "Publisher.h"
 #include "Publisher_Table.h"
@@ -12,7 +14,6 @@
 namespace iCCM
 {
 
-#ifndef CUTS_INACTIVE_SUBSERVANT
 //
 // Servant_T
 //
@@ -40,7 +41,6 @@ Servant_T (T * this_,
   if (0 != this->impl_)
     this->impl_->set_session_context (this->ctx_.get ());
 }
-#endif
 
 //
 // ~Servant_T
@@ -58,10 +58,8 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, ty
 CUTS_INLINE void
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::configuration_complete (void)
 {
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   if (0 != this->impl_)
     this->impl_->configuration_complete ();
-  #endif
 }
 
 //
@@ -70,12 +68,10 @@ Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::configuration_complete
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::activate_component (void)
 {
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   if (0 != this->impl_)
     this->impl_->ccm_activate ();
 
   this->activate_ports ();
-  #endif
 }
 
 //
@@ -84,12 +80,10 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::activate_componen
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_component (void)
 {
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   if (0 != this->impl_)
     this->impl_->ccm_passivate ();
 
   this->deactivate_ports ();
-  #endif
 }
 
 //
@@ -98,8 +92,6 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::remove (void)
 {
-  #ifndef CUTS_INACTIVE_SUBSERVANT
-
   if (0 != this->impl_)
     this->impl_->ccm_remove ();
 
@@ -110,7 +102,6 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::remove (void)
   // We are also going to destroy the port POA.
   if (!::CORBA::is_nil (this->port_POA_.in ()))
     this->port_POA_->destroy (0, 0);
-  #endif
 }
 
 //
@@ -160,12 +151,16 @@ connect_consumer (const char * name, Components::EventConsumerBase_ptr consumer)
     throw ::Components::InvalidName ();
 
   ACE_DEBUG ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - connecting consumer to <%s> [type=%s]\n"),
-              name,
-              consumer->_interface_repository_id ()));
+              ACE_TEXT ("%T (%t) - %M - connecting consumer to <%s>\n"),
+              name));
 
   // Now, signal the endpoint to connect.
   publisher->connect (consumer);
+
+  ACE_DEBUG ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - we are done making connection\n"),
+              name,
+              consumer->_interface_repository_id ()));
 }
 
 //
@@ -195,6 +190,8 @@ template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, ty
 Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
 subscribe (const char * name, ::Components::EventConsumerBase_ptr consumer)
 {
+  ACE_DEBUG ((LM_DEBUG, "!!!!! subscribing !!!!!\n"));
+
   publisher_table_type * table = 0;
 
   if (0 != this->publishes_.find (name, table))
@@ -247,25 +244,6 @@ disconnect (const char * name, ::Components::Cookie * c)
   if (0 != this->receptacles_.find (name, rec))
     throw ::CORBA::INTERNAL ();
   return rec->disconnect (c);
-}
-
-//
-// add_facet
-//
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-CUTS_INLINE
-void
-Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-add_facet (const char * name, ::CORBA::Object_ptr ref)
-{
-  facets_values_type value;
-  ACE_Utils::UUID uuid;
-
-  ::CORBA::Object_var object_var (ref);
-  object_var->_add_ref ();
-  value = std::make_pair (object_var, uuid);
-
-  this->facets_.bind (name, value);
 }
 
 //
@@ -395,23 +373,53 @@ activate_ports (void)
     emit_iter->item ()->activate ();
 }
 
-//
-// create_servant
-//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+int Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+get_publisher (const char * name, Publisher * & publisher)
+{
+  typename SERVANT_BASE::publisher_type * pt = 0;
+
+  if (0 != this->emits_.find (name, pt))
+    return -1;
+
+  publisher = pt;
+  return 0;
+}
+
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+int Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+get_publisher_table (const char * name, Publisher_Table * & table)
+{
+  typename SERVANT_BASE::publisher_table_type * tmp = 0;
+
+  if (0 != this->publishes_.find (name, tmp))
+    return -1;
+
+  table = tmp;
+  return 0;
+}
+
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+int Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+get_event_consumer (const char * name, EventConsumer * & consumer)
+{
+  typename SERVANT_BASE::eventconsumer_type * tmp = 0;
+
+  if (0 != this->consumers_.find (name, tmp))
+    return -1;
+
+  consumer = tmp;
+  return 0;
+}
+
 template <typename EXECUTOR, typename SERVANT>
 ::PortableServer::Servant
 create_servant (const char * name,
                 ::PortableServer::POA_ptr port_POA,
                 ::Components::EnterpriseComponent_ptr p)
 {
-  #ifndef CUTS_INACTIVE_SUBSERVANT
   // First, convert the pointer to its concrete type.
   typename EXECUTOR::_var_type executor = EXECUTOR::_narrow (p);
-
-  if (::CORBA::is_nil (executor.in ()))
-    return 0;
-
-  // Now, create the servant for the executor.
   SERVANT * servant = 0;
 
   ACE_NEW_RETURN (servant,
@@ -419,7 +427,6 @@ create_servant (const char * name,
                   0);
 
   return servant;
-  #endif
 }
 
 }

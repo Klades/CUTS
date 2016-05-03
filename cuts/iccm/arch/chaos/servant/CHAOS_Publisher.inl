@@ -28,20 +28,9 @@ CHAOS_Publisher::~CHAOS_Publisher (void)
 //
 CUTS_INLINE
 void
-CHAOS_Publisher::impl (Publisher * impl)
+CHAOS_Publisher::impl (Publisher * publisher)
 {
-  this->impl_ = impl;
-}
-
-//
-// connect
-//
-CUTS_INLINE
-void
-CHAOS_Publisher::connect (::Components::EventConsumerBase_ptr consumer)
-{
-  if (this->impl_ != 0)
-    this->impl_->connect (consumer);
+  this->impl_ = publisher;
 }
 
 //
@@ -53,6 +42,7 @@ CHAOS_Publisher::disconnect (void)
 {
   if (this->impl_ != 0)
     return this->impl_->disconnect ();
+
   return 0;
 }
 
@@ -98,6 +88,7 @@ CHAOS_Publisher::allocate_event (void)
 {
   if (this->impl_ != 0)
     return this->impl_->allocate_event ();
+
   return 0;
 }
 

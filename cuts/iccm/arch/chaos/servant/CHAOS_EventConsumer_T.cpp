@@ -6,19 +6,32 @@
 
 namespace iCCM
 {
-
-//
-// allocate
-//
 template <typename SERVANT, typename EVENT>
-void
-CHAOS_EventConsumer_T <SERVANT, EVENT>::allocate (ptrdiff_t & symbol)
+void CHAOS_EventConsumer_T <SERVANT, EVENT>::
+impl (iCCM::EventConsumer * impl, ::Components::EventConsumerBase_ptr obj)
 {
-    typedef typename iCCM::EventConsumer * (*EventConsumerFactoryMethod) (SERVANT *, CALLBACK_METHOD);
-    EventConsumerFactoryMethod factory_method = reinterpret_cast <EventConsumerFactoryMethod> (symbol);
+  // Unregister the current listener.
+  if (this->impl_ != 0)
+    this->impl_->listener (0);
 
-    iCCM::EventConsumer * impl = (*factory_method) (this->servant_, this->callback_);
-    this->impl (impl);
+  // Pass control to the base class.
+  CHAOS_EventConsumer::impl (impl, obj);
+
+  // Register the listener with the new implementation.
+  this->impl_->listener (this);
+}
+
+template <typename SERVANT, typename EVENT>
+void CHAOS_EventConsumer_T <SERVANT, EVENT>::
+handle_event (::Components::EventBase * base)
+{
+  EVENT * ev = dynamic_cast < EVENT * > (base);
+
+  if (0 == ev)
+    throw ::Components::BadEventType ();
+
+  if (0 != this->servant_)
+    (*this->servant_.*this->callback_) (ev);
 }
 
 }

@@ -41,6 +41,7 @@ CHAOS_Publisher_Table::subscribe (::Components::EventConsumerBase_ptr consumer)
 {
   if (this->impl_ != 0)
     return this->impl_->subscribe (consumer);
+
   return 0;
 }
 
@@ -53,6 +54,7 @@ CHAOS_Publisher_Table::unsubscribe (::Components::Cookie * c)
 {
   if (this->impl_ != 0)
     return this->impl_->unsubscribe (c);
+
   return 0;
 }
 

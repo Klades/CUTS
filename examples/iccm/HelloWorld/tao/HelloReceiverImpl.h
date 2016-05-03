@@ -19,32 +19,11 @@ namespace HelloReceiverImpl
   // Forward decl of the component executor
   class HelloReceiver;
 
-  // Object class implementation
-  typedef ::iCCM::FacetImpl_T < HelloReceiver, CCM_Messenger> Echo_i_Base;
-  class Echo_i
-  : public virtual Echo_i_Base
-  {
-    public:
-    typedef Echo_i_Base base_type;
-    // Constructor
-    Echo_i (HelloReceiver * parent);
-
-    // Destructor
-    ~Echo_i (void);
-
-    // increment_count
-    void increment_count (void);
-
-    private:
-    // The parent component
-    HelloReceiver * parent_;
-  };
-
-  // Forward decl.
-  class echo_i;
-
   // Type definition of the implentation base type
-  typedef CUTS_CCM_Component_T < CIAO_HelloReceiver_Impl::HelloReceiver_Exec, ::iCCM_HelloReceiver_Context > HelloReceiver_Base;
+  typedef CUTS_CCM_Component_T <
+    CIAO_HelloReceiver_Impl::HelloReceiver_Exec, 
+    ::iCCM_HelloReceiver_Context >
+    HelloReceiver_Base;
 
   /**
    * @class HelloReceiver
@@ -54,7 +33,7 @@ namespace HelloReceiverImpl
   class HelloReceiver :
     public HelloReceiver_Base
   {
-    public:
+  public:
     // Type definition of the base component type
     typedef HelloReceiver_Base base_type;
 
@@ -67,13 +46,6 @@ namespace HelloReceiverImpl
     // sink: greeting
     virtual void push_greeting (::MessageEvent * ev);
 
-    // facet: echo
-    virtual ::CCM_Messenger_ptr
-      get_echo (void);
-    private:
-    ::CCM_Messenger_var echo_i_;
-    public:
-    public:
     // variable setter: count
     virtual void count (::CORBA::ULong count);
 

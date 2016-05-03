@@ -33,7 +33,9 @@ namespace CHAOS
 //
 Context::Context (void)
 {
-
+  this->requires_event_stub_ = false;
+  this->has_impl_namespace_ = true;
+  this->impl_namespace_ = "CHAOS";
 }
 
 //

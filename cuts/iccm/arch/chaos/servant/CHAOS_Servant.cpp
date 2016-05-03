@@ -9,52 +9,48 @@
 namespace iCCM
 {
 
-const char * CHAOS_Servant::PORT_TYPE_PREFIX = "CHAOSPortType:";
-
-//
-// handle_config
-//
-void
-CHAOS_Servant::handle_config (const ::Components::ConfigValues & values)
+CHAOS_Servant::~CHAOS_Servant (void)
 {
-  size_t len = values.length ();
-  size_t prefix_len = ACE_OS::strlen (this->PORT_TYPE_PREFIX);
-  size_t tok = 0;
+  for (auto entry : this->servant_POAs_)
+    entry.int_id_->destroy (false, false);
 
-  for (size_t i = 0; i < len; ++i)
-  {
-    std::string name (values[i]->name ());
-    tok = name.find (this->PORT_TYPE_PREFIX);
-    if (tok == std::string::npos)
-      continue;
-
-    std::string dll_entry;
-    values[i]->value () >>= dll_entry;
-
-    tok = dll_entry.find (':');
-    if (tok == std::string::npos)
-    {
-      ACE_ERROR ((LM_ERROR,
-                  ACE_TEXT ("%T (%t) - %M - invalid dll/entry point for property [%s]; %m\n"),
-                  values[i]->name ()));
-      continue;
-    }
-
-    std::string port_name = name.substr (prefix_len);
-    std::string dll = dll_entry.substr (0, tok);
-    std::string entrypt = dll_entry.substr (tok+1);
-
-    this->load_port (port_name.c_str (), dll.c_str (), entrypt.c_str ());
-  }
+  this->servant_POAs_.unbind_all ();
 }
 
-//
-// load_port
-//
-void
-CHAOS_Servant::load_port (const char * port, const char * dll, const char * entrypt)
+PortableServer::POA_ptr CHAOS_Servant::
+create_servant_POA (const std::string & name, ::PortableServer::POA_ptr parent)
 {
+  PortableServer::POA_var child;
 
+  if (0 == this->servant_POAs_.find (name, child))
+    return child._retn ();
+  
+  CORBA::PolicyList policies (6);
+  policies.length (6);
+
+  policies[0] = parent->create_thread_policy (PortableServer::ORB_CTRL_MODEL);
+  policies[1] = parent->create_servant_retention_policy (PortableServer::RETAIN);
+  policies[2] = parent->create_id_assignment_policy (PortableServer::USER_ID);
+  policies[3] = parent->create_id_uniqueness_policy (PortableServer::UNIQUE_ID);
+  policies[4] = parent->create_lifespan_policy (PortableServer::TRANSIENT);
+  policies[5] = parent->create_request_processing_policy (PortableServer::USE_ACTIVE_OBJECT_MAP_ONLY);
+
+  // Use the policies above to create the child POA that will be
+  // used when activating servants.
+  child = parent->create_POA (name.c_str (),
+                              ::PortableServer::POAManager::_nil (),
+                              policies);
+
+  // Activate the POA manager.
+  ::PortableServer::POAManager_var mgr = child->the_POAManager ();
+  mgr->activate ();
+
+  // Destroy the POA policies
+  for (::CORBA::ULong i = 0; i < policies.length (); ++ i)
+    policies[i]->destroy ();
+
+  return child._retn ();
 }
+
 
 }

@@ -28,7 +28,8 @@ namespace iCCM
  */
 template <typename SERVANT, typename EVENT>
 class CHAOS_EventConsumer_T :
-  public CHAOS_EventConsumer
+  public CHAOS_EventConsumer,
+  public EventConsumer_Listener
 {
 public:
   /// Type definition of the servant type.
@@ -51,8 +52,8 @@ public:
   /// Destructor.
   virtual ~CHAOS_EventConsumer_T (void);
 
-  /// Allocate our concrete EventConsumer from the provided symbol
-  virtual void allocate (ptrdiff_t & symbol);
+  virtual void impl (iCCM::EventConsumer * impl,  ::Components::EventConsumerBase_ptr obj);
+  virtual void handle_event (::Components::EventBase * ev);
 
 private:
   /// Servant to pass event.

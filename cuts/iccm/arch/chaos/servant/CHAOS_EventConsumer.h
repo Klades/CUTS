@@ -58,11 +58,14 @@ public:
   virtual void push_event (::Components::EventBase *);
   virtual void allocate (ptrdiff_t & symbol);
 
-  virtual void impl (iCCM::EventConsumer * impl);
+  virtual void impl (iCCM::EventConsumer * impl,  ::Components::EventConsumerBase_ptr obj);
   virtual iCCM::EventConsumer * impl (void);
+
+  virtual ::Components::EventConsumerBase_ptr get_consumer (void);
 
 protected:
   ::iCCM::EventConsumer * impl_;
+  ::Components::EventConsumerBase_var obj_;
 };
 
 }

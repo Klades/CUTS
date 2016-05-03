@@ -1,6 +1,6 @@
 // $Id$
 
-project (iCCM_CHAOS_Deployment_Handlers) : iccm_deployment_handlers, dance_deployment_scheduler, cutslib, iccm_chaos_svnt {
+project (iCCM_CHAOS_Deployment_Handlers) : integrated_archs, iccm_deployment_handlers, dance_deployment_scheduler, cutslib, iccm_chaos_svnt {
   sharedname    = iCCM_CHAOS_Deployment_Handlers
   dynamicflags += ICCM_CHAOS_DEPLOYMENT_HANDLERS_BUILD_DLL
   after += iCCM_CHAOS_stub
@@ -11,3 +11,4 @@ project (iCCM_CHAOS_Deployment_Handlers) : iccm_deployment_handlers, dance_deplo
     CHAOS_Component_Instance_Handler.cpp
   }
 }
+

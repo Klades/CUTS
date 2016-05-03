@@ -41,6 +41,8 @@ public:
                                        ::DAnCE::InstanceDeploymentHandler,
                                        CHAOS_Container> base_type;
 
+  typedef std::map <std::string, Component_Instance_Handler *> handler_map_t;
+
   /// Default constructor.
   CHAOS_Component_Instance_Handler (void);
 
@@ -58,9 +60,13 @@ public:
 
   /// Close the instance handler.
   virtual void close (void);
+  
+  /// Get the supported instance handlers.
+  const handler_map_t & instance_handlers (void) const;
 
 private:
-  /// INSERT YOUR VARIABLES HERE
+  /// Collection of supported/known handlers.
+  handler_map_t known_handlers_;
 };
 
 }

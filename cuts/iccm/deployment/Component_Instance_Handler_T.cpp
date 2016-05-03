@@ -16,27 +16,18 @@
 namespace iCCM
 {
 
-//
-// Component_Instance_Handler_T
-//
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::Component_Instance_Handler_T (void)
 {
 
 }
 
-//
-// ~Component_Instance_Handler_T
-//
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::~Component_Instance_Handler_T (void)
 {
 
 }
 
-//
-// dependencies
-//
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 ::CORBA::StringSeq *
 Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::dependencies (void)
@@ -48,36 +39,30 @@ Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::dependencie
   return retval;
 }
 
-//
-// close
-//
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::close (void)
 {
 
 }
 
-//
-// instance_type
-//
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 char * Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::instance_type (void)
 {
   return ::CORBA::string_dup (DAnCE::CCM_COMPONENT);
 }
 
-//
-// get_orb
-//
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 ::CORBA::ORB_ptr Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::get_orb (void)
 {
   return ::CORBA::ORB::_duplicate (this->orb_.in ());
 }
 
-//
-// install_instance
-//
+template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
+Container * Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::get_container (void) const
+{
+  return this->container_.get ();
+}
+
 template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 void Component_Instance_Handler_T <HANDLER, ABSTRACT_HANDLER, CONTAINER>::
 install_instance (const ::Deployment::DeploymentPlan & plan,
@@ -432,14 +417,23 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
     {
     case ::Deployment::EventPublisher:
       {
+        ACE_DEBUG ((LM_DEBUG,
+                    ACE_TEXT ("%T (%t) - %M - connecting an event publisher\n")));
+
         ::Components::EventConsumerBase_var consumer =
           ::Components::EventConsumerBase::_narrow (obj.in ());
 
         if (::CORBA::is_nil (consumer.in ()))
+        {
+          ACE_DEBUG ((LM_DEBUG,
+                      ACE_TEXT ("%T (%t) - %M - endpoint <%s> is not an event consumer\n"),
+                      ep.portName.in ()));
+
           throw StartError ("connect_instance", "object is not an EventConsumerBase");
+        }
 
         // Subscribe the consumer the correct port.
-        ::Components::Cookie_var cookie =
+        ::Components::Cookie_var cookie = 
           comp->subscribe (ep.portName.in (), consumer);
 
         // Save this cookie in the components registry.
@@ -449,6 +443,9 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
 
     case ::Deployment::EventEmitter:
       {
+        ACE_DEBUG ((LM_DEBUG,
+                    ACE_TEXT ("%T (%t) - %M - connecting to an event emitter\n")));
+
         ::Components::EventConsumerBase_var consumer =
           ::Components::EventConsumerBase::_narrow (obj.in ());
 
@@ -456,7 +453,7 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
           throw StartError ("connect_instance", "object is not an EventConsumerBase");
 
         // Just connect the emitter to the correct port. This is probably
-        // the most simple connection to make. ;-)[
+        // the most simple connection to make.
         comp->connect_consumer (ep.portName.in (), consumer);
       }
       break;
@@ -470,11 +467,15 @@ connect_instance (const ::Deployment::DeploymentPlan & plan,
         comp->connect (ep.portName.in (), consumer);
       }
       break;
+
     case ::Deployment::MultiplexReceptacle:
       throw PlanError ("provide_endpoint_reference", "receptacle connections not supports");
       break;
 
     default:
+      ACE_DEBUG ((LM_DEBUG,
+                  ACE_TEXT ("%T (%t) - %M - invalid connection type\n")));
+
       throw PlanError ("provide_endpoint_reference", "invalid connection type");
     }
 
@@ -575,6 +576,10 @@ instance_configured (const ::Deployment::DeploymentPlan & plan,
 
   // Invoke the configuration complete method on the component.
   comp->configuration_complete ();
+
+  ACE_DEBUG ((LM_DEBUG,
+          ACE_TEXT ("%T (%t) - %M - %s configuration is ready"),
+          idd.name.in ()));
 }
 
 //

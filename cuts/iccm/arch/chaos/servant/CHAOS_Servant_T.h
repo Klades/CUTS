@@ -55,25 +55,23 @@ public:
   CHAOS_Servant_T (
     T * _this,
     const char * name,
-    ::PortableServer::POA_ptr port_poa,
+    ::PortableServer::POA_ptr poa,
     typename EXECUTOR::_ptr_type impl);
 
   /// Destructor.
   virtual ~CHAOS_Servant_T (void);
 
   virtual void set_attributes (const ::Components::ConfigValues &);
+  
   virtual void handle_config (const ::Components::ConfigValues & values);
-  virtual void test (void);
+  
 protected:
-  /// Collection of subservants.
-  typedef ACE_Hash_Map_Manager <ACE_CString,
-                                iCCM::Servant *,
-                                ACE_RW_Thread_Mutex>
-                                servant_map_type;
+  ::PortableServer::POA_var the_POA_;
 
-  servant_map_type servants_;
+  typename EXECUTOR::_var_type impl_;
 
-  virtual void load_port (const char * port, const char * dll, const char * entrypt);
+private:
+  bool load_servant_configuration (const std::string & filename);
 };
 
 }

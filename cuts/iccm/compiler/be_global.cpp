@@ -29,7 +29,9 @@ BE_GlobalData::BE_GlobalData (void)
   executor_idl_suffix_ ("_iCCM.idl"),
   wrapper_event_suffix_ ("Event"),
   generate_lem_ (false),
-  generate_svnt_ (false)
+  generate_svnt_ (false),
+  requires_event_stub_ (true),
+  has_impl_namespace_ (false)
 {
 
 }
@@ -422,3 +424,12 @@ generate_class_postamble (AST_Component * node,
 
 }
 
+bool BE_GlobalData::has_impl_namespace (void) const
+{
+  return this->has_impl_namespace_;
+}
+
+const std::string & BE_GlobalData::impl_namespace (void) const
+{
+  return this->impl_namespace_;
+}

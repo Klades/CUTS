@@ -8,11 +8,13 @@
 #pragma opendds typesupport "HelloWorldTypeSupportC.h"
 #pragma splice typesupport "HelloWorldDscpC.h"
 
+/*
 interface Messenger
 {
   void increment_count ();
   
 };
+*/
 
 #pragma DCPS_DATA_TYPE "Message"
 #pragma DCPS_DATA_KEY "Message time"

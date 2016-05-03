@@ -64,7 +64,7 @@ public:
   virtual void send_event (::Components::EventBase * ev);
   virtual ::Components::EventBase * allocate_event (void);
 
-  virtual void impl (Publisher * impl);
+  virtual void impl (Publisher * publisher);
 
 protected:
   /// The underlying publisher
