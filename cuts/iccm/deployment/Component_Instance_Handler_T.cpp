@@ -538,7 +538,68 @@ configure (const ::Deployment::Properties & prop)
 
   this->container_.reset (temp);
 
-  ACE_UNUSED_ARG (prop);
+  // Handle properties
+  auto num_properties = prop.length ();
+  for (unsigned int i = 0; i < num_properties; ++i) 
+  {
+    auto p = prop[i];
+    std::string name(p.name.out ());
+
+    // Handle CPU Affinity property
+    if (name == "CPU Affinity")
+    {
+      const int STR_BUFFER_SIZE = 10;
+
+      // String buffer for pulling the value out of the Property
+      char * aff_str = new char[STR_BUFFER_SIZE];
+
+      // Get the value string out and set up a stringstream for token extraction
+      ACE_InputCDR::to_string affinity_string_conversion (aff_str, STR_BUFFER_SIZE);
+      p.value >>= affinity_string_conversion;
+
+      std::string affinity_string (aff_str);
+      std::stringstream affinity_stream (affinity_string);
+      std::string core_string;
+
+      // Extract individual core numbers and set
+      const char delim (',');
+
+#ifdef ACE_HAS_PTHREADS
+      // Setup cpu_set
+      cpu_set_t cpuset;
+      CPU_ZERO (&cpuset);
+
+      // Setup property value
+     
+      while (std::getline (affinity_stream,
+        core_string,
+        delim));
+      {
+        int core = std::stoi (core_string);
+        CPU_SET (core, &cpuset);
+      }
+
+      ACE_hthread_t thread_id;
+      ACE_Thread_Manager::instance->thr_self (thread_id);
+      ACE_OS::thr_set_affinity (thread_id, sizeof (cpuset), &cpuset);
+
+#endif //ACE_HAS_PTHREADS
+
+#ifdef ACE_WIN32
+      HANDLE process = GetCurrentProcess ();
+      DWORD_PTR mask = 0;
+
+      while (std::getline (affinity_stream, core_string, delim))
+      {
+        mask |= (1 << (std::stoi (core_string) - 1));
+      }
+
+      if (!SetProcessAffinityMask (process, mask))
+        throw std::runtime_error ("Could not set CPU affinity");
+#endif
+      delete[] aff_str;
+    }
+  }
 }
 
 //
