@@ -1,0 +1,89 @@
+// $Id$
+
+project (iCCM_CHAOS_stub) : ccm_stub, cutslib {
+  sharedname    = iCCM_CHAOS_stub
+  dynamicflags += ICCM_CHAOS_STUB_BUILD_DLL
+
+  idlflags += -Wb,stub_export_macro=ICCM_CHAOS_STUB_Export \
+              -Wb,stub_export_include=CHAOS_stub_export.h \
+              -Wb,skel_export_macro=ICCM_CHAOS_SKEL_Export \
+              -Wb,skel_export_include=CHAOS_skel_export.h \
+              -Wb,svnt_export_macro=ICCM_CHAOS_SVNT_Export \
+              -Wb,svnt_export_include=CHAOS_svnt_export.h \
+              -Gxhst -Gxhsk -Gxhsv
+
+  IDL_Files {
+    CHAOS_Events.idl
+  }
+
+  Source_Files {
+    CHAOS_EventsC.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_CHAOS_skel) : ccm_svnt, cutslib {
+  sharedname    = iCCM_CHAOS_skel
+  dynamicflags += ICCM_CHAOS_SKEL_BUILD_DLL
+
+  after += iCCM_CHAOS_stub
+  libs  += iCCM_CHAOS_stub
+
+  Source_Files {
+    CHAOS_EventsS.cpp
+  }
+
+  Template_Files {
+
+  }
+
+  IDL_Files {
+
+  }
+
+  Header_Files {
+
+  }
+
+  Inline_Files {
+
+  }
+}
+
+project (iCCM_CHAOS_svnt) : boost_base, iccm_servant, cutslib {
+  sharedname    = iCCM_CHAOS_svnt
+  dynamicflags += ICCM_CHAOS_SVNT_BUILD_DLL
+
+  after += iCCM_CHAOS_skel
+  libs  += iCCM_CHAOS_skel iCCM_CHAOS_stub
+
+  Source_Files {
+    CHAOS_EventConsumer.cpp
+    CHAOS_Servant.cpp
+    CHAOS_Publisher.cpp
+    CHAOS_Publisher_Table.cpp
+    CHAOS_Servant_Configuration.cpp
+  }
+
+  Template_Files {
+    CHAOS_EventConsumer_T.cpp
+    CHAOS_Servant_T.cpp
+    CHAOS_Publisher_T.cpp
+    CHAOS_Publisher_Table_T.cpp
+  }
+
+  IDL_Files {
+
+  }
+}

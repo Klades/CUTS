@@ -1,0 +1,14 @@
+// $Id$
+
+project (iCCM_CHAOS_Compiler) : iccm_compiler {
+  exename   = iccm_chaos
+
+  Source_Files {
+    Compiler.cpp
+    Context.cpp
+  }
+
+  Header_Files {
+
+  }
+}

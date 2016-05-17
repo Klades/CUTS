@@ -5,33 +5,14 @@ namespace iCCM
 {
 
 //
-// get_consumer
+// Servant_T
 //
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-int Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-get_consumer (const char * name, typename SERVANT_BASE::eventconsumer_type * & result) const
+Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
+Servant_T (const char * name)
+: SERVANT_BASE (name)
 {
-  return this->consumers_.find (name, result);
-}
 
-//
-// get_publisher
-//
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-int Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-get_publisher (const char * name, typename SERVANT_BASE::publisher_type * & result) const
-{
-  return this->emits_.find (name, result);
-}
-
-//
-// get_publisher_table
-//
-template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
-int Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::
-get_publisher_table (const char * name, typename SERVANT_BASE::publisher_table_type * & result) const
-{
-  return this->publishes_.find (name, result);
 }
 
 #if !defined (CCM_LW)

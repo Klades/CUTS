@@ -1,5 +1,3 @@
-// $Id$
-
 project : boost_base {
   requires += qpidpb
   includes += $(QPID_ROOT)/include $(PROTOBUF_ROOT)/include

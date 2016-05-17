@@ -29,7 +29,7 @@ project (iCCM_Compiler) : boost_base, cuts_codegenerationkit, tao_idl_fe, cutsli
     macros += _SCL_SECURE_NO_WARNINGS
   }
   
-  specific (vc11) {
+  specific (vc11, vc12) {
     subsystem = NotSet
   }
 

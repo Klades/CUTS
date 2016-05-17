@@ -47,6 +47,7 @@ public:
 
   /// Send an event via the consumer.
   void send_event (EVENT * ev);
+  void send_event (::Components::EventBase * ev);
 };
 
 }

@@ -1,11 +1,13 @@
 // $Id$
 
-project (iCCM_Deployment_Handlers) : ciao_container_base_stub, ccm_lem_stub, cutslib {
+project (iCCM_Deployment_Handlers) : dance_deployment_stub, ciao_container_base_stub, ccm_lem_stub, cutslib {
   sharedname = iCCM_Deployment_Handlers
 
   dynamicflags += ICCM_DEPLOYENT_HANDLERS_BUILD_DLL
 
   Source_Files {
+    Component_Instance_Handler.cpp
+    Container.cpp
     Container_Strategy.cpp
   }
 

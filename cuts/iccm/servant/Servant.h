@@ -15,6 +15,7 @@
 
 #include "tao/PortableServer/Servant_Base.h"
 #include "ccm/CCM_StandardConfiguratorC.h"
+#include "ccm/CCM_EventConsumerBaseC.h"
 
 #include "ace/SString.h"
 
@@ -22,6 +23,11 @@
 
 namespace iCCM
 {
+
+// Forward decls.
+class EventConsumer;
+class Publisher;
+class Publisher_Table;
 
 /**
  * @class Servant
@@ -51,6 +57,9 @@ public:
   /// Method for removing a component.
   virtual void remove (void);
 
+  /// Method for handling configuration values from the PICML model
+  virtual void handle_config (const ::Components::ConfigValues & values);
+
   /**
    * Get the instance's name.
    *
@@ -64,6 +73,26 @@ public:
    * setter method on the component implementation.
    */
   virtual void set_attributes (const ::Components::ConfigValues &);
+
+  /**
+   * Get the publisher port from the servant.
+   *
+   * @param[in]     name          Name of the port
+   * @param[in]     publisher     The located Publisher
+   */
+  virtual int get_publisher (const char * name, Publisher * & publisher) = 0;
+
+  /**
+   * Get the publisher table port from the servant.
+   */
+  virtual int get_publisher_table (const char * name, Publisher_Table * &table) = 0;
+
+  /**
+   * Get the event consumer port from the servant.
+   */
+  virtual int get_event_consumer (const char * name, EventConsumer * & consumer) = 0;
+
+  virtual ::Components::EventConsumerBase_ptr get_consumer (const char *) = 0;
 
 protected:
   /// Name of the CCM servant.

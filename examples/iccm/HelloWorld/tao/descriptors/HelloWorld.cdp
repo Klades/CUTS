@@ -201,22 +201,6 @@
     </internalEndpoint>
   </connection>
 
-  <connection>
-    <name>HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Sender.messenger_object::HelloWorld.ComponentImplementations.HelloWorld_asm.HelloWorld_asm.Receiver.echo</name>
-    <internalEndpoint>
-      <portName>messenger_object</portName>
-      <provider>false</provider>
-      <kind>SimplexReceptacle</kind>
-      <instance xmi:idref="_138A3272-267D-11E1-8000-000C29A84559"/>
-    </internalEndpoint>
-    <internalEndpoint>
-      <portName>echo</portName>
-      <provider>true</provider>
-      <kind>Facet</kind>
-      <instance xmi:idref="_187CFE54-267D-11E1-8000-000C29A84559"/>
-    </internalEndpoint>
-  </connection>
-
   <artifact xmi:id="_C56D505C-E6A3-11DF-8DD0-000C2958D27B">
     <name>HelloWorld.ImplementationArtifacts.HelloWorldArtifacts.HelloSender_svnt</name>
     <source/>

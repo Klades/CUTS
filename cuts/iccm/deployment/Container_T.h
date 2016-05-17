@@ -22,6 +22,7 @@
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
 
+#include "Container.h"
 #include "Container_Strategy_T.h"
 
 namespace iCCM
@@ -32,7 +33,8 @@ namespace iCCM
  */
 template <typename T, typename INST_HANDLER, typename STRATEGY, typename SERVANT_BASE>
 class Container_T :
-  public ::CIAO::Session_Container
+  public ::CIAO::Session_Container,
+  public Container
 {
 public:
   /// Type definition of the container type.
@@ -163,6 +165,11 @@ public:
 #if !(CIAO_MAJOR_VERSION >= 1 && (CIAO_MINOR_VERSION > 0 || (CIAO_MINOR_VERSION == 0 && CIAO_BETA_VERSION > 5)))
   virtual ::CIAO::Servant_Activator_ptr ports_servant_activator (void);
 #endif
+
+  /**
+   * Get the underlying strategy for the container.
+   */
+  Container_Strategy * get_strategy (void) const;
 
 protected:
   void initialize_the_POA (::PortableServer::POA_ptr);

@@ -20,6 +20,9 @@ push_event (::Components::EventBase * base)
     throw ::Components::BadEventType ();
 
   this->push_event (ev);
+
+  // Pass control to the base class.
+  TAO_EventConsumer::push_event (ev);
 }
 
 }

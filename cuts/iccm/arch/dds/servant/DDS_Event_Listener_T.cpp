@@ -89,6 +89,9 @@ template <typename T, typename SERVANT, typename EVENT>
 void DDS_Event_Listener_T <T, SERVANT, EVENT>::
 on_data_available (datareader_ptr_type data_reader)
 {
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Data Available\n")));
+
   typename event_traits_type::dds_event_sequence_type event_seq;
   typedef typename T::sampleinfoseq_type sampleinfoseq_type;
   typedef typename T::returncode_type returncode_type;
@@ -116,6 +119,9 @@ on_data_available (datareader_ptr_type data_reader)
                                          T::ANY_INSTANCE_STATE);
   #endif
 
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Took Data\n")));
+
   switch (status)
   {
   case T::RETCODE_OK:
@@ -127,6 +133,8 @@ on_data_available (datareader_ptr_type data_reader)
       #else
         const size_t length = event_seq.length ();
       #endif
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Got Size\n")));
 
       for (size_t i = 0; i < length; ++ i)
       {
@@ -135,6 +143,10 @@ on_data_available (datareader_ptr_type data_reader)
         #else
           typename event_traits_type::upcall_event_type upcall_event (event_seq[i]);
         #endif
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Making upcall to [%02x:%02x]\n"), this->servant_, this->callback_));
+  ACE_ERROR ((LM_DEBUG,
+              ACE_TEXT ("%T (%t) - %M - Upcall event type is [%s] at [0x%02x]\n"), typeid (upcall_event).name (), &upcall_event));
         (this->servant_->*this->callback_) (&upcall_event);
       }
 

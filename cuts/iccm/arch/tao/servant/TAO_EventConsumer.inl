@@ -26,9 +26,9 @@ TAO_EventConsumer::~TAO_EventConsumer (void)
 // push_event
 //
 CUTS_INLINE
-void TAO_EventConsumer::push_event (Components::EventBase *)
+void TAO_EventConsumer::push_event (Components::EventBase * ev)
 {
-  throw CORBA::NO_IMPLEMENT ();
+  ::iCCM::EventConsumer::push_event (ev);
 }
 
 }

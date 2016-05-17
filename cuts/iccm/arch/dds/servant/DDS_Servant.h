@@ -58,6 +58,9 @@ public:
   /// Destructor.
   virtual ~DDS_Servant (void);
 
+  /// Configuration hook from deployment plan
+  virtual void handle_config (const ::Components::ConfigValues & values);
+
   /// Perform default configuration.
   virtual void configure (void);
 

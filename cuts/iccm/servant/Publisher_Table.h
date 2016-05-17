@@ -51,6 +51,12 @@ public:
    */
   virtual ::Components::EventConsumerBase_ptr unsubscribe (::Components::Cookie * c) = 0;
 
+  /// Method for sending a CORBA event.
+  virtual void send_event (::Components::EventBase *) = 0;
+
+  /// Method for allocating a new event
+  virtual ::Components::EventBase * allocate_event (void) = 0;
+
   /// Method for activating the publisher
   virtual void activate (void);
 

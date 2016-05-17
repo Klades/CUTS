@@ -24,19 +24,6 @@ project : boost_base, cuts_codegenerationkit, tao_idl_fe, cutsexe {
     endif
   }
 
-  specific (prop:microsoft) {
-    subsystem = 0
-    macros += _SCL_SECURE_NO_WARNINGS
-  }
-  
-  specific (vc11) {
-    subsystem = NotSet
-  }
-
-  specific (vc11) {
-    subsystem = NotSet
-  }
-
   Source_Files {
     $(TAO_ROOT)/TAO_IDL/driver/drv_args.cpp
     $(TAO_ROOT)/TAO_IDL/driver/drv_preproc.cpp

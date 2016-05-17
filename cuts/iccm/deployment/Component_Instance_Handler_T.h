@@ -25,6 +25,8 @@
 #include "tao/PortableServer/PortableServer.h"
 #include "tao/LocalObject.h"
 
+#include "Component_Instance_Handler.h"
+
 #include <set>
 #include <map>
 
@@ -37,7 +39,7 @@ namespace iCCM
   template <typename HANDLER, typename ABSTRACT_HANDLER, typename CONTAINER>
 class Component_Instance_Handler_T :
   public virtual ABSTRACT_HANDLER,
-  public virtual ::CORBA::LocalObject
+  public Component_Instance_Handler
 {
 public:
   /// Type definition of the handler type.
@@ -89,6 +91,8 @@ public:
   virtual void configure (const Deployment::Properties &);
 
   virtual void close (void);
+
+  Container * get_container (void) const;
 
 protected:
   /// The only and only container for now. :-)

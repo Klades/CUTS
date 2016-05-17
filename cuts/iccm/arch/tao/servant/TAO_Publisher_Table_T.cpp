@@ -108,6 +108,7 @@ void TAO_Publisher_Table_T <EVENT>::send_event (EVENT * ev)
   {
     try
     {
+      ACE_DEBUG ((LM_DEBUG, "===== sending event =====\n"));
       iter->item ()->send_event (ev);
     }
     catch (...)

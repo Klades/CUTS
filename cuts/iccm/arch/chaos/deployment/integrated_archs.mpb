@@ -1,0 +1,6 @@
+feature(tao) {
+  after  += iCCM_TAO_Deployment_Handlers
+  libs   += iCCM_TAO_Deployment_Handlers
+
+  macros += ICCM_CHAOS_HAS_TAO
+}

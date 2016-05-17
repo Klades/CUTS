@@ -35,10 +35,10 @@ namespace HelloSenderImpl
 
     ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Greeting event sent\n")));
 
-    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Incrementing count on messenger_object\n")));
-    this->ctx_->get_connection_messenger_object ()->increment_count ();
+    //ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Incrementing count on messenger_object\n")));
+    //this->ctx_->get_connection_messenger_object ()->increment_count ();
 
-    ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Count incremented\n")));
+    //ACE_DEBUG ((LM_DEBUG, ACE_TEXT ("Sender: Count incremented\n")));
   }
 
   //

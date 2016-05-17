@@ -24,7 +24,7 @@ Servant::~Servant (void)
 }
 
 //
-// ~Servant
+// name
 //
 CUTS_INLINE
 const ACE_CString & Servant::name (void) const
@@ -33,7 +33,7 @@ const ACE_CString & Servant::name (void) const
 }
 
 //
-// ~Servant
+// activate_component
 //
 CUTS_INLINE
 void Servant::activate_component (void)
@@ -51,7 +51,7 @@ void Servant::passivate_component (void)
 }
 
 //
-// ~Servant
+// remove
 //
 CUTS_INLINE
 void Servant::remove (void)
@@ -65,6 +65,14 @@ void Servant::remove (void)
 CUTS_INLINE
 void Servant::
 set_attributes (const ::Components::ConfigValues &)
+{
+
+}
+
+//
+// handle_config
+//
+void Servant::handle_config (const ::Components::ConfigValues & values)
 {
 
 }
