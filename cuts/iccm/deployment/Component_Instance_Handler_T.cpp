@@ -544,26 +544,32 @@ configure (const ::Deployment::Properties & prop)
   for (unsigned int i = 0; i < num_properties; ++i) 
   {
     auto p = prop[i];
-    std::string name(p.name.out ());
+
+    std::stringstream name;
+    name << p.name;
 
     // Handle CPU Affinity property
-    if (name == "CPU Affinity")
+    if (name.str () == "edu.vanderbilt.dre.DAnCE.LocalityManager.CPUAffinity")
     {
-      const int STR_BUFFER_SIZE = 10;
+      // Pull value out of the property
+      // We're expecting a string
+      const char * aff_str;
+      std::stringstream affinity_stream;
 
-      // String buffer for pulling the value out of the Property
-      char * aff_str = new char[STR_BUFFER_SIZE];
+      if (p.value >>= aff_str)
+      {
+        affinity_stream << aff_str;
+      }
+      else
+      {
+        // Property was malformed somehow.
+        throw std::runtime_error ("CPUAffinity has invalid type (expected string)");
+      }
 
-      // Get the value string out and set up a stringstream for token extraction
-      ACE_InputCDR::to_string affinity_string_conversion (aff_str, STR_BUFFER_SIZE);
-      p.value >>= affinity_string_conversion;
-
-      std::string affinity_string (aff_str);
-      std::stringstream affinity_stream (affinity_string);
-      std::string core_string;
 
       // Extract individual core numbers and set
       const char delim (',');
+      std::string core_string;
 
 #ifdef ACE_HAS_PTHREADS
       // Setup cpu_set
@@ -571,7 +577,7 @@ configure (const ::Deployment::Properties & prop)
       CPU_ZERO (&cpuset);
 
       // Setup property value
-     
+
       while (std::getline (affinity_stream,
         core_string,
         delim));
@@ -598,7 +604,6 @@ configure (const ::Deployment::Properties & prop)
       if (!SetProcessAffinityMask (process, mask))
         throw std::runtime_error ("Could not set CPU affinity");
 #endif
-      delete[] aff_str;
     }
   }
 }
