@@ -540,12 +540,12 @@ configure (const ::Deployment::Properties & prop)
   this->container_.reset (temp);
 
   // Handle properties
-  auto num_properties = prop.length ();
+  unsigned int num_properties = prop.length ();
   for (unsigned int i = 0; i < num_properties; ++i) 
   {
-    auto p = prop[i];
-
+    ::Deployment::Property p = prop[i];
     std::stringstream name;
+
     name << p.name;
 
     // Handle CPU Affinity property
@@ -566,28 +566,22 @@ configure (const ::Deployment::Properties & prop)
         throw std::runtime_error ("CPUAffinity has invalid type (expected string)");
       }
 
-
-      // Extract individual core numbers and set
-      const char delim (',');
-      std::string core_string;
-
 #ifdef ACE_HAS_PTHREADS
+
       // Setup cpu_set
       cpu_set_t cpuset;
       CPU_ZERO (&cpuset);
 
       // Setup property value
 
-      while (std::getline (affinity_stream,
-        core_string,
-        delim));
+      int core;
+      while (affinity_stream >> core);
       {
-        int core = std::stoi (core_string);
+        
         CPU_SET (core, &cpuset);
       }
 
-      ACE_hthread_t thread_id;
-      ACE_Thread_Manager::instance->thr_self (thread_id);
+      ACE_hthread_t thread_id = pthread_self();
       ACE_OS::thr_set_affinity (thread_id, sizeof (cpuset), &cpuset);
 
 #endif //ACE_HAS_PTHREADS
@@ -596,7 +590,8 @@ configure (const ::Deployment::Properties & prop)
       HANDLE process = GetCurrentProcess ();
       DWORD_PTR mask = 0;
 
-      while (std::getline (affinity_stream, core_string, delim))
+      int core;
+      while (affinity_stream >> core)
       {
         mask |= (1 << (std::stoi (core_string) - 1));
       }
