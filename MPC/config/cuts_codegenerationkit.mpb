@@ -1,6 +1,6 @@
 // $Id$
 
-project : {
+project {
   after += CodeGenerationKit
 
   specific (prop:microsoft) {
