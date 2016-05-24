@@ -86,4 +86,8 @@ project (iCCM_CHAOS_svnt) : boost_base, iccm_servant, cutslib {
   IDL_Files {
 
   }
+
+  specific (gnuace) {
+    compile_flags += -std=c++11
+  }
 }
