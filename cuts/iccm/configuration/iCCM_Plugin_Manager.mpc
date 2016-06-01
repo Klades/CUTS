@@ -1,0 +1,9 @@
+project (iCCM_Plugin_Manager) : dance_deployment_stub, cutslib {
+  sharedname = iCCM_Plugin_Manager
+    
+  dynamicflags += ICCM_PLUGIN_MANAGER_BUILD_DLL
+    
+  Source_Files {
+      iCCM_Plugin_Manager.cpp
+  }
+}
