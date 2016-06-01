@@ -46,7 +46,7 @@ namespace iCCM
      * Will process each property that a plugin exists to handle
      * @param[in]   props     Collection of properties to process
      */
-    void handle_properties (Deployment::Properties & props);
+    void handle_properties (const ::Deployment::Properties & props);
 
   private:
     /// Plugin collection

@@ -133,7 +133,7 @@ namespace iCCM
     }
   }
 
-  void iCCM_Plugin_Manager::handle_properties (Deployment::Properties & props)
+  void iCCM_Plugin_Manager::handle_properties (const ::Deployment::Properties & props)
   {
     unsigned int num_properties = props.length ();
 
