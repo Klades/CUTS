@@ -534,13 +534,16 @@ configure (const ::Deployment::Properties & prop)
   HANDLER * handler = dynamic_cast <HANDLER *> (this);
 
   ACE_NEW_THROW_EX (temp,
-                    CONTAINER (handler, this->poa_.in ()),
-                    ::CORBA::NO_MEMORY ());
+    CONTAINER (handler, this->poa_.in ()),
+    ::CORBA::NO_MEMORY ());
 
   this->container_.reset (temp);
 
   // Handle properties
-  unsigned int num_properties = prop.length ();
+  iCCM::PLUGIN_MANAGER::instance ()->handle_properties (prop);
+
+#ifdef REMOVE_IF_WORKS
+  auto num_properties = prop.length ();
   for (unsigned int i = 0; i < num_properties; ++i) 
   {
     ::Deployment::Property p = prop[i];
@@ -601,6 +604,7 @@ configure (const ::Deployment::Properties & prop)
 #endif
     }
   }
+#endif
 }
 
 //
