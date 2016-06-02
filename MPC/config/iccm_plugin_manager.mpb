@@ -1,0 +1,4 @@
+project {
+  libs += iCCM_Plugin_Manager
+  after += iCCM_Plugin_Manager
+}
