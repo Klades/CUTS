@@ -14,6 +14,7 @@
 #include "ace/Singleton.h"
 
 #include "dance/Deployment/Deployment_BaseC.h"
+#include "dance/DAnCE_LocalityManagerC.h"
 #include "iCCM_Plugin_Manager_export.h"
 #include <map>
 #include <string>
@@ -30,6 +31,8 @@ namespace iCCM
   class ICCM_PLUGIN_MANAGER_Export iCCM_Plugin_Manager
   {
   public:
+    typedef std::map <std::string, iCCM_Plugin *> PLUGIN_MAP;
+
     iCCM_Plugin_Manager (void);
     ~iCCM_Plugin_Manager (void);
 
@@ -50,7 +53,6 @@ namespace iCCM
 
   private:
     /// Plugin collection
-    typedef std::map <std::string, DAnCE::LocalityConfiguration_var> PLUGIN_MAP;
     PLUGIN_MAP plugins_;
   };
 

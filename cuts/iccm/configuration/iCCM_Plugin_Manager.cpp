@@ -1,17 +1,17 @@
 #include "iCCM_Plugin_Manager.h"
-#include "dance\Logger\Log_Macros.h"
-#include "dance\Deployment\Deployment_PlanErrorC.h"
-#include "dance\DAnCE_LocalityManagerC.h"
+#include "Plugins/iCCM_Plugin.h"
+#include "dance/Logger/Log_Macros.h"
+#include "dance/Deployment/Deployment_PlanErrorC.h"
+#include "dance/DAnCE_LocalityManagerC.h"
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <string>
 
 namespace iCCM
 {
   // Load a plugin from a shared library
-  template <typename PLUGIN>
-  typename PLUGIN::_ptr_type
-    load_plugin (const char * artifact, const char * entrypoint)
+  iCCM_Plugin * load_plugin (const char * artifact, const char * entrypoint)
   {
     ACE_DLL plugin_dll;
 
@@ -38,10 +38,10 @@ namespace iCCM
     void * void_ptr = plugin_dll.symbol (entrypoint);
     ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (void_ptr);
 
-    typedef typename PLUGIN::_ptr_type (*PluginFactory) (void);
-    PluginFactory pcreator = reinterpret_cast<PluginFactory> (tmp_ptr);
+    typedef iCCM_Plugin * (*PLUGIN_FACTORY_METHOD) (void);
+    PLUGIN_FACTORY_METHOD plugin_factory_method = reinterpret_cast<PLUGIN_FACTORY_METHOD> (tmp_ptr);
 
-    if (!pcreator)
+    if (!plugin_factory_method)
     {
       DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
         (LM_ERROR, DLINFO
@@ -52,9 +52,9 @@ namespace iCCM
       throw ::Deployment::PlanError (ACE_TEXT_ALWAYS_CHAR (artifact), "Invalid entrypoint");
     }
 
-    typename PLUGIN::_var_type plugin = pcreator ();
+    iCCM_Plugin * plugin = plugin_factory_method ();
 
-    if (CORBA::is_nil (plugin))
+    if (!plugin)
     {
       DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
         (LM_ERROR, DLINFO
@@ -72,7 +72,7 @@ namespace iCCM
       artifact,
       entrypoint));
 
-    return plugin._retn ();
+    return plugin;
   }
 
   iCCM_Plugin_Manager::iCCM_Plugin_Manager (void)
@@ -86,29 +86,30 @@ namespace iCCM
       register_plugin (artifact.c_str (), entrypoint.c_str ());
     }
   }
+
   template<typename T>
   struct PluginCloser
   {
-    void operator() () (T& item)
+    void operator() (T & item)
     {
-      item.second->close ();
+      item.second->destroy ();
     }
   };
 
   iCCM_Plugin_Manager::~iCCM_Plugin_Manager (void)
   {
-    std::for_each (plugins_.begin (), plugins_.end (), PluginCloser<PLUGIN_MAP::value_type> ());
+    std::for_each (plugins_.begin (), plugins_.end (), iCCM::PluginCloser<PLUGIN_MAP::value_type> ());
   }
 
   void iCCM_Plugin_Manager::register_plugin (const char * artifact, const char * entrypoint)
   {
-    DAnCE::LocalityConfiguration_var plugin = load_plugin< DAnCE::LocalityConfiguration > (artifact, entrypoint);
+    iCCM_Plugin * plugin = load_plugin (artifact, entrypoint);
 
     try
     {
-      CORBA::String_var id = plugin->type ();
+      std::string name = plugin->name ();
 
-      this->plugins_[id.in ()] = plugin._retn ();
+      this->plugins_[name] = plugin;
     }
     catch (const CORBA::Exception & ex)
     {

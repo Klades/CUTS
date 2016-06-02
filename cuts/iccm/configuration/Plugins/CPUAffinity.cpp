@@ -7,19 +7,14 @@
 
 namespace iCCM
 {
-  iCCM_CPU_Affinity::iCCM_CPU_Affinity (void)
+  iCCM_CPU_Affinity::iCCM_CPU_Affinity (void) : iCCM_Plugin ("edu.vanderbilt.dre.DAnCE.LocalityManager.CPUAffinity")
   {
   }
 
   iCCM_CPU_Affinity::~iCCM_CPU_Affinity (void)
   {
   }
-
-  char * iCCM_CPU_Affinity::type (void)
-  {
-    return CORBA::string_dup (DAnCE::DANCE_LM_CPUAFFINITY);
-  }
-
+  
   void iCCM_CPU_Affinity::configure (const ::Deployment::Property & prop)
   {
 #if defined (ACE_HAS_PTHREADS) || defined (ACE_WIN32)
@@ -114,14 +109,11 @@ namespace iCCM
   }
 }
 
-extern "C"
+iCCM::iCCM_Plugin * create_CPUAffinity_plugin (void)
 {
-  DAnCE::LocalityConfiguration_ptr create_CPUAffinity_plugin (void)
-  {
-    DAnCE::LocalityConfiguration_ptr retval (0);
+  iCCM::iCCM_Plugin * retval (0);
 
-    ACE_NEW_RETURN (retval, iCCM::iCCM_CPU_Affinity (), 0);
+  ACE_NEW_RETURN (retval, iCCM::iCCM_CPU_Affinity (), 0);
 
-    return retval;
-  }
+  return retval;
 }
