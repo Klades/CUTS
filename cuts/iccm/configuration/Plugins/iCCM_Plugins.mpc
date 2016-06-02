@@ -1,6 +1,8 @@
-project (iCCM_Plugins) : dance_deployment_stub, cutslib {
+project (iCCM_Plugins) : install, dance_deployment_stub, dance_stub, dance_lib, dance_output {
   sharedname = iCCM_Plugins
   dynamicflags += ICCM_CPUAFFINITY_BUILD_DLL
+  
+  after += 
   
   Source_Files {
     CPUAffinity.cpp
