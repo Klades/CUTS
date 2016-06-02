@@ -8,7 +8,7 @@
 #include "ciao/Version.h"
 #include "ccm/CCM_ObjectC.h"
 
-//#include "cuts/iccm/configuration/iCCM_Plugin_Manager.h"
+#include "cuts/iccm/configuration/iCCM_Plugin_Manager.h"
 #include "dance/LocalityManager/Scheduler/Plugin_Manager.h"
 #include "dance/DAnCE_PropertiesC.h"
 
@@ -541,7 +541,7 @@ configure (const ::Deployment::Properties & prop)
   this->container_.reset (temp);
 
   // Handle properties
-//  iCCM::PLUGIN_MANAGER::instance ()->handle_properties (prop);
+  iCCM::PLUGIN_MANAGER::instance ()->handle_properties (prop);
 
 #ifdef REMOVE_IF_WORKS
   auto num_properties = prop.length ();
