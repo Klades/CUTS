@@ -1,0 +1,11 @@
+// $Id$
+
+project {
+  specific {
+    CCF_ROOT = $(CUTS_ROOT)/contrib/CCF/CCF
+  }
+
+  verbatim (gnuace, top) {
+    CCF_ROOT = $(CUTS_ROOT)/contrib/CCF/CCF
+  }
+}
