@@ -11,9 +11,12 @@ namespace iCCM
 
 CHAOS_Servant::~CHAOS_Servant (void)
 {
-  for (auto entry : this->servant_POAs_)
-    entry.int_id_->destroy (false, false);
-
+  for (servant_poa_map_type::iterator it = this->servant_POAs_.begin();
+       it != this->servant_POAs_.end();
+       ++it)
+  {
+    it->int_id_->destroy (false, false);
+  }
   this->servant_POAs_.unbind_all ();
 }
 
