@@ -540,7 +540,7 @@ configure (const ::Deployment::Properties & prop)
   this->container_.reset (temp);
 
   // Handle properties
-  auto num_properties = prop.length ();
+  unsigned int num_properties = prop.length ();
   for (unsigned int i = 0; i < num_properties; ++i) 
   {
     ::Deployment::Property p = prop[i];
@@ -581,8 +581,8 @@ configure (const ::Deployment::Properties & prop)
         CPU_SET (core, &cpuset);
       }
 
-      ACE_hthread_t thread_id = pthread_self();
-      ACE_OS::thr_set_affinity (thread_id, sizeof (cpuset), &cpuset);
+      thread_t thread_id = pthread_self();
+      sched_setaffinity_np (thread_id, sizeof (cpuset), &cpuset);
 
 #endif //ACE_HAS_PTHREADS
 
