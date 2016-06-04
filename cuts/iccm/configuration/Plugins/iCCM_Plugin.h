@@ -8,17 +8,18 @@
 #define ICCM_PLUGIN_H_
 
 #include "dance/DAnCE_LocalityManagerC.h"
+#include "iCCM_Plugins_export.h"
 #include <string>
 
 namespace iCCM
 {
-  class iCCM_Plugin
+  class ICCM_PLUGINS_Export Plugin
   {
   protected:
-    iCCM_Plugin (std::string);
+    Plugin (std::string);
 
   public:
-    virtual ~iCCM_Plugin (void);
+    virtual ~Plugin (void);
 
     std::string name (void);
     virtual void configure (const ::Deployment::Property & prop) = 0;

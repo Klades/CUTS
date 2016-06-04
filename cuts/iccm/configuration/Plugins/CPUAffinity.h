@@ -12,22 +12,22 @@
 
 #include "dance/DAnCE_LocalityManagerC.h"
 #include "iCCM_Plugin.h"
-#include "iCCM_CPU_Affinity_export.h"
+#include "iCCM_Plugins_export.h"
 
 namespace iCCM
 {
-  class iCCM_CPU_Affinity : public iCCM_Plugin
+  class CPU_Affinity : public Plugin
   {
   public:
-    iCCM_CPU_Affinity (void);
+    CPU_Affinity (void);
 
-    virtual ~iCCM_CPU_Affinity (void);
+    virtual ~CPU_Affinity (void);
 
     virtual void configure (const ::Deployment::Property & prop);
   };
 }
 
-extern "C" ICCM_CPU_AFFINITY_Export iCCM::iCCM_Plugin * create_CPUAffinity_plugin (void);
+extern "C" ICCM_PLUGINS_Export iCCM::Plugin * create_CPUAffinity_plugin (void);
 
 #include "ace/post.h"
 #endif

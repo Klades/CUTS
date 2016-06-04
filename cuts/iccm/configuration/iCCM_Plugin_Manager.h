@@ -22,19 +22,19 @@
 namespace iCCM
 {
   // Forward declaration
-  class iCCM_Plugin;
+  class Plugin;
 
   /**
    * @class iCCM_Plugin_Manager
    * Manages plugins and handles Deployment Properties for Locality Managers, containers, and components
    */
-  class ICCM_PLUGIN_MANAGER_Export iCCM_Plugin_Manager
+  class ICCM_PLUGIN_MANAGER_Export Plugin_Manager
   {
   public:
-    typedef std::map <std::string, iCCM_Plugin *> PLUGIN_MAP;
+    typedef std::map <std::string, Plugin *> PLUGIN_MAP;
 
-    iCCM_Plugin_Manager (void);
-    ~iCCM_Plugin_Manager (void);
+    Plugin_Manager (void);
+    ~Plugin_Manager (void);
 
     /**
      * Register a plugin
@@ -56,8 +56,8 @@ namespace iCCM
     PLUGIN_MAP plugins_;
   };
 
-  typedef ACE_Singleton <iCCM_Plugin_Manager, ACE_SYNCH_MUTEX> PLUGIN_MANAGER;
+  typedef ACE_Singleton <Plugin_Manager, ACE_SYNCH_MUTEX> PLUGIN_MANAGER;
 }
 
-ACE_EXPORT_SINGLETON_DECLARE (ACE_Singleton, iCCM::iCCM_Plugin_Manager, ACE_SYNCH_MUTEX)
+ACE_EXPORT_SINGLETON_DECLARE (ACE_Singleton, iCCM::Plugin_Manager, ACE_SYNCH_MUTEX)
 #endif

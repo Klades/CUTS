@@ -11,7 +11,7 @@
 namespace iCCM
 {
   // Load a plugin from a shared library
-  iCCM_Plugin * load_plugin (const char * artifact, const char * entrypoint)
+  Plugin * load_plugin (const char * artifact, const char * entrypoint)
   {
     ACE_DLL plugin_dll;
 
@@ -38,7 +38,7 @@ namespace iCCM
     void * void_ptr = plugin_dll.symbol (entrypoint);
     ptrdiff_t tmp_ptr = reinterpret_cast <ptrdiff_t> (void_ptr);
 
-    typedef iCCM_Plugin * (*PLUGIN_FACTORY_METHOD) (void);
+    typedef Plugin * (*PLUGIN_FACTORY_METHOD) (void);
     PLUGIN_FACTORY_METHOD plugin_factory_method = reinterpret_cast<PLUGIN_FACTORY_METHOD> (tmp_ptr);
 
     if (!plugin_factory_method)
@@ -52,7 +52,7 @@ namespace iCCM
       throw ::Deployment::PlanError (ACE_TEXT_ALWAYS_CHAR (artifact), "Invalid entrypoint");
     }
 
-    iCCM_Plugin * plugin = plugin_factory_method ();
+    Plugin * plugin = plugin_factory_method ();
 
     if (!plugin)
     {
@@ -75,7 +75,7 @@ namespace iCCM
     return plugin;
   }
 
-  iCCM_Plugin_Manager::iCCM_Plugin_Manager (void)
+  Plugin_Manager::Plugin_Manager (void)
   {
     std::ifstream plugin_list ("bin/plugins.config");
     std::string artifact;
@@ -96,14 +96,14 @@ namespace iCCM
     }
   };
 
-  iCCM_Plugin_Manager::~iCCM_Plugin_Manager (void)
+  Plugin_Manager::~Plugin_Manager (void)
   {
     std::for_each (plugins_.begin (), plugins_.end (), iCCM::PluginCloser<PLUGIN_MAP::value_type> ());
   }
 
-  void iCCM_Plugin_Manager::register_plugin (const char * artifact, const char * entrypoint)
+  void Plugin_Manager::register_plugin (const char * artifact, const char * entrypoint)
   {
-    iCCM_Plugin * plugin = load_plugin (artifact, entrypoint);
+    Plugin * plugin = load_plugin (artifact, entrypoint);
 
     try
     {
@@ -134,7 +134,7 @@ namespace iCCM
     }
   }
 
-  void iCCM_Plugin_Manager::handle_properties (const ::Deployment::Properties & props)
+  void Plugin_Manager::handle_properties (const ::Deployment::Properties & props)
   {
     unsigned int num_properties = props.length ();
 

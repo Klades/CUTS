@@ -2,21 +2,21 @@
 
 namespace iCCM
 {
-  iCCM_Plugin::iCCM_Plugin (std::string name)
+  Plugin::Plugin (std::string name)
   {
     name_ = name;
   }
 
-  iCCM_Plugin::~iCCM_Plugin (void)
+  Plugin::~Plugin (void)
   {
   }
 
-  std::string iCCM_Plugin::name (void)
+  std::string Plugin::name (void)
   {
     return this->name_;
   }
 
-  void iCCM_Plugin::destroy (void)
+  void Plugin::destroy (void)
   {
     delete this;
   }
