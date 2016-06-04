@@ -76,7 +76,7 @@ namespace iCCM
       {
         DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
           (LM_ERROR, DLINFO
-          ACE_TEXT ("iCCM_CPU_Affinity::configure - ")
+          ACE_TEXT ("iCCM::CPU_Affinity::configure - ")
           ACE_TEXT ("All affinity values should be greater than 0")));
         throw ::Deployment::StartError (prop.name.in (), "All affinity values should be greater than 0");
       }
@@ -84,25 +84,28 @@ namespace iCCM
 
     ACE_OS::free (affinity);
 
+    // I strongly dislike this and need to fix it later.
+    // sched_setaffinity returns 0 on success
+    // SetProcessAffinityMask returns 0 on failure
 #ifdef ACE_HAS_PTHREADS
     int retval = sched_setaffinity (thread_id, sizeof (cpu_set_t), &mask);
+    if (retval != 0)
 #endif
 #ifdef ACE_WIN32
     int retval = SetProcessAffinityMask (thread_id, mask);
+    if (retval == 0)
 #endif
-
-    if (retval != 0)
     {
       std::stringstream str;
-      ACE_Auto_Basic_Array_Ptr<char> safe_error (ACE_OS::strerror (ACE_OS::last_error ()));
-
-      str << "Unable to set CPU Affinity to <" << extracted_affinity << ">: " << safe_error.get ();
-
+      std::string safe_error (ACE_OS::strerror (ACE_OS::last_error ()));
+      
+      str << "Unable to set CPU Affinity to <" << extracted_affinity << ">: " << safe_error;
+      const char * msg = str.str ().c_str ();
       DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
         (LM_ERROR, DLINFO
-        ACE_TEXT ("iCCM_CPU_Affinity::configure - %C\n"),
-        str.str ().c_str ()));
-      throw ::Deployment::StartError (prop.name.in (), str.str ().c_str ());
+        ACE_TEXT ("iCCM::CPU_Affinity::configure - %C\n"),
+        msg));
+      throw ::Deployment::StartError (prop.name.in (), msg);
     }
 #else
     throw ::Deployment::StartError (prop.name.in (), "CPU Affinity not supported on this platform");

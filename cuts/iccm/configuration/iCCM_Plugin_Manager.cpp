@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <sstream>
 #include <string>
+#include <fstream>
+#include <cstdlib>
 
 namespace iCCM
 {
@@ -75,16 +77,59 @@ namespace iCCM
     return plugin;
   }
 
+  void replace_slash (char c)
+  {
+    if (c == '\\')
+    {
+      c = '/';
+    }
+  }
+
   Plugin_Manager::Plugin_Manager (void)
   {
-    std::ifstream plugin_list ("bin/plugins.config");
+    // Get the CUTS_ROOT environment variable and make sure it's set
+    char * cuts_root = std::getenv ("CUTS_ROOT");
+    if (cuts_root == 0)
+    {
+      DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
+        (LM_ERROR, DLINFO
+        ACE_TEXT ("CUTS_ROOT environment variable not set, cannot load plugins.config")
+        ));
+      throw ::Deployment::PlanError ("CUTS_ROOT", "Environment variable not set");
+    }
+
+    // Use CUTS_ROOT to define path to plugins.config
+    std::string file_path (cuts_root);
+
+    // Replace those slashes if we're on Windows. Maybe not necessary?
+#ifdef ACE_WIN32
+    std::for_each (file_path.begin (), file_path.end (), replace_slash);
+#endif
+
+    file_path += "/bin/plugins.config";
+
+    std::ifstream plugin_list (file_path.c_str ());
     std::string artifact;
     std::string entrypoint;
+    // Debugging log file
+    std::ofstream log_file ("plugin_manager_log.txt");
 
-    while (plugin_list >> artifact >> entrypoint)
-    {
-      register_plugin (artifact.c_str (), entrypoint.c_str ());
+    if (!plugin_list.good ()) {
+      log_file << "Error: File not found" << std::endl;
+      plugin_list.close ();
     }
+    else
+    {
+      log_file << "Loading plugins..." << std::endl;
+      while (plugin_list >> artifact >> entrypoint)
+      {
+        log_file << "Registering plugin " << entrypoint << std::endl;
+        register_plugin (artifact.c_str (), entrypoint.c_str ());
+      }
+      plugin_list.close ();
+    }
+
+    log_file.close ();
   }
 
   template<typename T>
@@ -115,7 +160,7 @@ namespace iCCM
     {
       DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
         (LM_ERROR, DLINFO
-        ACE_TEXT ("iCCM_Plugin_Manager::register_plugin - ")
+        ACE_TEXT ("iCCM::Plugin_Manager::register_plugin - ")
         ACE_TEXT ("CORBA exception caught while loading artifact <%s>:<%s> - %C\n"),
         artifact,
         entrypoint,
@@ -126,7 +171,7 @@ namespace iCCM
     {
       DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
         (LM_ERROR, DLINFO
-        ACE_TEXT ("iCCM_Plugin_Manager::register_plugin - ")
+        ACE_TEXT ("iCCM::Plugin_Manager::register_plugin - ")
         ACE_TEXT ("Unknown C++ exception while configuring plugin from <%s>:<%s>\n"),
         artifact,
         entrypoint));
@@ -148,13 +193,21 @@ namespace iCCM
       if (plugins_.count (name.str ()))
       {
         // Use plugin
-        std::cout << "Using plugin " << name.str () << std::endl;
+        DANCE_DEBUG (DANCE_LOG_EVENT_TRACE,
+          (LM_TRACE, DLINFO
+          ACE_TEXT ("Using plugin <%s>"),
+          name.str ().c_str ()));
+
         plugins_[name.str ()]->configure (p);
       }
       else
       {
         // No plugin was found for property
         std::cout << "Plugin " << name.str () << " not found, skipping" << std::endl;
+        DANCE_DEBUG (DANCE_LOG_EVENT_TRACE,
+          (LM_TRACE, DLINFO
+          ACE_TEXT ("Plugin <%s> not found, skipping"),
+          name.str ().c_str ()));
       }
     }
   }
