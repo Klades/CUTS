@@ -37,8 +37,11 @@ configure (const ::Deployment::Properties & config)
   // NOTE: The Properties passed to this method are those that are
   // attached to a locality manager. In PICML, this would be the Property
   // elements attached to a CollocationGroup.
-  for (auto entry : this->known_handlers_)
-    entry.second->configure (config);
+  
+  for (handler_map_t::iterator it = this->known_handlers_.begin (); it != this->known_handlers_.end (); ++it)
+  {
+    it->second->configure (config);
+  }
 }
 
 //
@@ -51,8 +54,10 @@ void CHAOS_Component_Instance_Handler::close (void)
   this->base_type::close ();
 
   // Close all the loaded handlers, then empty our collection.
-  for (auto entry : this->known_handlers_)
-    entry.second->close ();
+  for (handler_map_t::iterator it = this->known_handlers_.begin (); it != this->known_handlers_.end (); ++it)
+  {
+    it->second->close ();
+  }
 
   this->known_handlers_.clear ();
 }

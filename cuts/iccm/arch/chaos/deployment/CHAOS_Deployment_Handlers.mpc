@@ -10,9 +10,5 @@ project (iCCM_CHAOS_Deployment_Handlers) : integrated_archs, iccm_deployment_han
     CHAOS_Container_Strategy.cpp
     CHAOS_Component_Instance_Handler.cpp
   }
-
-  specific (gnuace) {
-    compile_flags += -std=c++11
-  }
 }
 

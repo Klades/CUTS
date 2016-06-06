@@ -534,12 +534,73 @@ configure (const ::Deployment::Properties & prop)
   HANDLER * handler = dynamic_cast <HANDLER *> (this);
 
   ACE_NEW_THROW_EX (temp,
-                    CONTAINER (handler, this->poa_.in ()),
-                    ::CORBA::NO_MEMORY ());
+    CONTAINER (handler, this->poa_.in ()),
+    ::CORBA::NO_MEMORY ());
 
   this->container_.reset (temp);
 
-  ACE_UNUSED_ARG (prop);
+  // Handle properties
+  unsigned int num_properties = prop.length ();
+  for (unsigned int i = 0; i < num_properties; ++i) 
+  {
+    ::Deployment::Property p = prop[i];
+    std::stringstream name;
+
+    name << p.name;
+
+    // Handle CPU Affinity property
+    if (name.str () == "edu.vanderbilt.dre.DAnCE.LocalityManager.CPUAffinity")
+    {
+      // Pull value out of the property
+      // We're expecting a string
+      const char * aff_str;
+      std::stringstream affinity_stream;
+
+      if (p.value >>= aff_str)
+      {
+        affinity_stream << aff_str;
+      }
+      else
+      {
+        // Property was malformed somehow.
+        throw std::runtime_error ("CPUAffinity has invalid type (expected string)");
+      }
+
+#ifdef ACE_HAS_PTHREADS
+
+      // Setup cpu_set
+      cpu_set_t cpuset;
+      CPU_ZERO (&cpuset);
+
+      // Setup property value
+
+      int core;
+      while (affinity_stream >> core);
+      {
+        
+        CPU_SET (core, &cpuset);
+      }
+
+      thread_t thread_id = pthread_self();
+      sched_setaffinity_np (thread_id, sizeof (cpuset), &cpuset);
+
+#endif //ACE_HAS_PTHREADS
+
+#ifdef ACE_WIN32
+      HANDLE process = GetCurrentProcess ();
+      DWORD_PTR mask = 0;
+
+      int core;
+      while (affinity_stream >> core)
+      {
+        mask |= (1 << (core - 1));
+      }
+
+      if (!SetProcessAffinityMask (process, mask))
+        throw std::runtime_error ("Could not set CPU affinity");
+#endif
+    }
+  }
 }
 
 //

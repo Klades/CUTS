@@ -120,7 +120,7 @@ private:
 
 CHAOS_Servant_Configuration::
 CHAOS_Servant_Configuration (const std::string & filename)
-  : file_ (filename)
+  : file_ (filename.c_str ())
 {
 
 }

@@ -65,10 +65,11 @@ protected:
 
   servant_map_type servants_;
 
-private:
-  ACE_Hash_Map_Manager <std::string, 
+  private:
+  typedef ACE_Hash_Map_Manager <std::string, 
                         ::PortableServer::POA_var,
-                        ACE_RW_Thread_Mutex> servant_POAs_;
+                        ACE_RW_Thread_Mutex> servant_poa_map_type;
+  servant_poa_map_type servant_POAs_;
 };
 
 }

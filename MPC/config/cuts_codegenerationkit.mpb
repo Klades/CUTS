@@ -1,6 +1,6 @@
 // $Id$
 
-project {
+project : cuts_ccf_root {
   after += CodeGenerationKit
 
   specific (prop:microsoft) {
@@ -9,6 +9,6 @@ project {
     libs += CodeGenerationKit
   }
 
-  includes += $(CUTS_ROOT)/contrib/CCF/CCF $(CUTS_ROOT)/contrib/CCF/utility
-  libpaths += $(CUTS_ROOT)/contrib/CCF/CCF/CCF
+  includes += $(CCF_ROOT) $(CUTS_ROOT)/contrib/CCF/utility
+  libpaths += $(CCF_ROOT)/CCF
 }

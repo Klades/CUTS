@@ -38,10 +38,19 @@ configure_servant (::PortableServer::Servant s, const ::Components::ConfigValues
   // It would be better if each servant and deployment handler shared a 
   // common value that can could be used to determine if a servant could 
   // be configured by a deployment handler.
-  
-  for (auto servant : svnt->servants ())
-    for (auto handler : this->container_.inst_handler ()->instance_handlers ())
-      handler.second->get_container ()->get_strategy ()->configure_servant (servant.item (), values);
+  typedef CHAOS_Servant::servant_map_type::const_iterator servant_iterator;
+  typedef CHAOS_Component_Instance_Handler::handler_map_t::const_iterator handler_iterator;
+
+  const CHAOS_Servant::servant_map_type & servants = svnt->servants ();
+  const CHAOS_Component_Instance_Handler::handler_map_t & handlers = this->container_.inst_handler ()->instance_handlers ();
+
+  for (servant_iterator svIt = servants.begin (); svIt != servants.end (); ++svIt)
+  {
+    for (handler_iterator hdIt = handlers.begin (); hdIt != handlers.end (); ++hdIt)
+    {
+      hdIt->second->get_container ()->get_strategy ()->configure_servant (svIt->item (), values);
+    }
+  }
 }
 
 //
