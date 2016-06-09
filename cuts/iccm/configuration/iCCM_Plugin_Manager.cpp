@@ -193,6 +193,7 @@ namespace iCCM
       if (plugins_.count (name.str ()))
       {
         // Use plugin
+        std::cout << "Using plugin " << name.str () << std::endl;
         DANCE_DEBUG (DANCE_LOG_EVENT_TRACE,
           (LM_TRACE, DLINFO
           ACE_TEXT ("Using plugin <%s>"),
