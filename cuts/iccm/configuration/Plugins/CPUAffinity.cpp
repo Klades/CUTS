@@ -5,6 +5,7 @@
 #include "ace/Tokenizer_T.h"
 
 #include <sstream>
+#include <iostream>
 
 namespace iCCM
 {
@@ -88,7 +89,7 @@ namespace iCCM
     // sched_setaffinity returns 0 on success
     // SetProcessAffinityMask returns 0 on failure
 #ifdef ACE_HAS_PTHREADS
-    int retval = sched_setaffinity (thread_id, sizeof (cpu_set_t), &mask);
+    int retval = pthread_setaffinity_np (thread_id, sizeof (cpu_set_t), &mask);
     if (retval != 0)
 #endif
 #ifdef ACE_WIN32
@@ -100,12 +101,17 @@ namespace iCCM
       std::string safe_error (ACE_OS::strerror (ACE_OS::last_error ()));
       
       str << "Unable to set CPU Affinity to <" << extracted_affinity << ">: " << safe_error;
+
       const char * msg = str.str ().c_str ();
       DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
         (LM_ERROR, DLINFO
         ACE_TEXT ("iCCM::CPU_Affinity::configure - %C\n"),
         msg));
       throw ::Deployment::StartError (prop.name.in (), msg);
+    }
+    else
+    {
+      std::cout << "Affinity for thread " << pthread_self () << " set to " << extracted_affinity << std::endl;
     }
 #else
     throw ::Deployment::StartError (prop.name.in (), "CPU Affinity not supported on this platform");
