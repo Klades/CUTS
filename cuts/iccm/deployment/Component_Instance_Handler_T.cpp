@@ -261,6 +261,7 @@ passivate_instance (const ::Deployment::DeploymentPlan & ,
 
   this->container_->passivate_component (comp_ref);
 
+  std::cout << "Thread " << pthread_self () << " is running on CPU " << sched_getcpu () << std::endl;
   ACE_UNUSED_ARG (index);
 }
 
