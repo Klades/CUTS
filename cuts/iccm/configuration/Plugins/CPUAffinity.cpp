@@ -67,10 +67,10 @@ namespace iCCM
           i));
 
 #ifdef ACE_HAS_PTHREADS
-        CPU_SET (i-1, &mask);
+        CPU_SET (i, &mask);
 #endif
 #ifdef ACE_WIN32
-        mask |= (1 << (i - 1));
+        mask |= (1 << i);
 #endif
       }
       else
