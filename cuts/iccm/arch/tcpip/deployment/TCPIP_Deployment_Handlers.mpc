@@ -1,6 +1,6 @@
 // $Id$
 
-project (iCCM_TCPIP_Deployment_Handlers) : iccm_tcpip_svnt, iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
+project (iCCM_TCPIP_Deployment_Handlers) : iccm_plugin_manager, iccm_tcpip_svnt, iccm_deployment_handlers, dance_deployment_scheduler, cutslib {
   sharedname    = iCCM_TCPIP_Deployment_Handlers
   dynamicflags += ICCM_TCPIP_DEPLOYMENT_HANDLERS_BUILD_DLL
 

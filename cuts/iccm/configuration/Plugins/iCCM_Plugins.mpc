@@ -1,0 +1,10 @@
+project (iCCM_Plugins) : install, dance_deployment_stub, dance_stub, dance_lib, dance_output {
+  sharedname = iCCM_Plugins
+  dynamicflags += ICCM_PLUGINS_BUILD_DLL
+  
+  Source_Files {
+    CPUAffinity.cpp
+    iCCM_Plugin.cpp
+  }
+}
+  
