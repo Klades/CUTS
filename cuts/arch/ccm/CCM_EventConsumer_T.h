@@ -16,6 +16,7 @@
 #include "tao/Valuetype/ValueFactory.h"
 #include "tao/ORB_Core.h"
 #include "CCM_EventConsumer.h"
+#include "Consumer_Task.h"
 
 /**
  * @class CUTS_CCM_EventConsumer_T
@@ -30,6 +31,9 @@ public:
 
   /// Type definition of the servant type.
   typedef SERVANT servant_type;
+
+  /// Type definition of the task type.
+  typedef Consumer_Task<SERVANT, T> task_type;
 
   /// Type definition of the upcall method into servant.
   typedef int (*upcall_method_type) (SERVANT *, T *);
@@ -55,6 +59,9 @@ private:
 
   /// Callback function back into the servant.
   upcall_method_type upcall_;
+
+  /// Task to send events to
+  task_type * task_;
 };
 
 #if defined (__CUTS_INLINE__)
