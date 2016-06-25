@@ -109,10 +109,6 @@ namespace iCCM
         msg));
       throw ::Deployment::StartError (prop.name.in (), msg);
     }
-    else
-    {
-      std::cout << "Affinity for thread " << pthread_self () << " set to " << extracted_affinity << std::endl;
-    }
 #else
     throw ::Deployment::StartError (prop.name.in (), "CPU Affinity not supported on this platform");
 #endif
