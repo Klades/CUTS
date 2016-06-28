@@ -3,7 +3,6 @@
 #include "dance/DAnCE_PropertiesC.h"
 #include "dance/Logger/Log_Macros.h"
 #include "ace/Tokenizer_T.h"
-
 #include <sstream>
 #include <iostream>
 
@@ -36,23 +35,7 @@ namespace iCCM
     tokenizer.delimiter (',');
 
     char * token = 0;
-
-#ifdef ACE_HAS_PTHREADS
-    // Setup CPU mask
-    cpu_set_t mask;
-
-    CPU_ZERO (&mask);
-
-    // Get process ID
-    pthread_t thread_id = pthread_self ();
-#endif
-#ifdef ACE_WIN32
-    // Setup CPU mask
-    DWORD_PTR mask = 0;
-
-    // Get process ID
-    HANDLE thread_id = GetCurrentProcess ();
-#endif
+    CPU_Mask mask;
 
     while ((token = tokenizer.next ()))
     {
@@ -66,12 +49,7 @@ namespace iCCM
           ACE_TEXT ("Toggling affinity for CPU %i\n"),
           i));
 
-#ifdef ACE_HAS_PTHREADS
-        CPU_SET (i, &mask);
-#endif
-#ifdef ACE_WIN32
-        mask |= (1 << i);
-#endif
+        mask.set (i);
       }
       else
       {
@@ -88,14 +66,7 @@ namespace iCCM
     // I strongly dislike this and need to fix it later.
     // sched_setaffinity returns 0 on success
     // SetProcessAffinityMask returns 0 on failure
-#ifdef ACE_HAS_PTHREADS
-    int retval = pthread_setaffinity_np (thread_id, sizeof (cpu_set_t), &mask);
-    if (retval != 0)
-#endif
-#ifdef ACE_WIN32
-    int retval = SetProcessAffinityMask (thread_id, mask);
-    if (retval == 0)
-#endif
+    if (set_affinity (&mask))
     {
       std::stringstream str;
       std::string safe_error (ACE_OS::strerror (ACE_OS::last_error ()));
@@ -112,6 +83,20 @@ namespace iCCM
 #else
     throw ::Deployment::StartError (prop.name.in (), "CPU Affinity not supported on this platform");
 #endif
+  }
+
+  int CPU_Affinity::set_affinity (CPU_Mask * mask)
+  {
+#ifdef ACE_HAS_PTHREADS
+    int retval = pthread_setaffinity_np (pthread_self (), sizeof (cpu_set_t), mask->get ());
+#endif
+#ifdef ACE_WIN32
+    int retval = SetProcessAffinityMask (GetCurrentProcess (), *(mask->get ()));
+    if (retval) {
+      retval = 0;
+    }
+#endif
+    return retval;
   }
 }
 

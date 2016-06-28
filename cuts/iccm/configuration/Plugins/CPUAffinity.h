@@ -13,6 +13,7 @@
 #include "dance/DAnCE_LocalityManagerC.h"
 #include "iCCM_Plugin.h"
 #include "iCCM_Plugins_export.h"
+#include "CPU_Mask.h"
 
 namespace iCCM
 {
@@ -24,6 +25,8 @@ namespace iCCM
     virtual ~CPU_Affinity (void);
 
     virtual void configure (const ::Deployment::Property & prop);
+
+    int set_affinity (CPU_Mask * mask);
   };
 }
 
