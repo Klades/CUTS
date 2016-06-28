@@ -60,7 +60,6 @@ project (CUTS_CCM) : cuts_ccm_stub, cuts_component_dnc, \
     CCM_Publisher_Table_T.cpp
     CCM_Servant_T.cpp
     CCM_T.cpp
-	Consumer_Task.cpp
   }
 
   Header_Files {
