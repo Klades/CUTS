@@ -135,8 +135,8 @@ private:
   size_t test_min_msec_;
   size_t test_max_msec_;
   size_t test_inc_msec_;
-  float cpu_error_max_;
-  float cpu_error_min_;
+  double cpu_error_max_;
+  double cpu_error_min_;
   size_t try_count_;
 };
 
