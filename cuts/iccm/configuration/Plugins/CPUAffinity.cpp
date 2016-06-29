@@ -92,10 +92,10 @@ namespace iCCM
 #endif
 #ifdef ACE_WIN32
     int retval = SetProcessAffinityMask (GetCurrentProcess (), *(mask->get ()));
+#endif
     if (retval) {
       retval = 0;
     }
-#endif
     return retval;
   }
 }
