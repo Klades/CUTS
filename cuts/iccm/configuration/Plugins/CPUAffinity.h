@@ -20,12 +20,21 @@ namespace iCCM
   class CPU_Affinity : public Plugin
   {
   public:
+    /// Constructor
     CPU_Affinity (void);
 
+    /// Destructor
     virtual ~CPU_Affinity (void);
 
+    /*
+     * Processes a Deployment::Property
+     * @param[in]   prop    Property to process
+     */
     virtual void configure (const ::Deployment::Property & prop);
-
+    /*
+     * Sets the CPU affinity of the current process
+     * @param[in]   mask    The CPU affinity to set
+     */
     int set_affinity (CPU_Mask * mask);
   };
 }

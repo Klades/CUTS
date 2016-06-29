@@ -51,6 +51,13 @@ namespace iCCM
      */
     void handle_properties (const ::Deployment::Properties & props);
 
+    /**
+     * Get a specific plugin reference
+     * @param[in]   name    Name of the plugin to find
+     * @retval      0       No plugin was found
+     */
+    Plugin * get_plugin (const std::string & name);
+
   private:
     /// Plugin collection
     PLUGIN_MAP plugins_;
