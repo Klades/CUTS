@@ -19,7 +19,7 @@
 #define _ICCM_TAO_EVENTCONSUMER_T_H_
 
 #include "TAO_EventConsumer.h"
-
+#include "TAO_EventConsumer_Task_T.h"
 namespace iCCM
 {
 
@@ -63,6 +63,9 @@ private:
 
   /// Method for deserializing an event.
   CALLBACK_METHOD callback_;
+
+  /// Task to run threads in
+  TAO_EventConsumer_Task<SERVANT, EVENT> task_;
 };
 
 }

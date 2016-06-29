@@ -11,7 +11,8 @@ CUTS_INLINE
 TAO_EventConsumer_T <SERVANT, EVENT>::
 TAO_EventConsumer_T (SERVANT * servant, CALLBACK_METHOD callback)
 : servant_ (servant),
-  callback_ (callback)
+  callback_ (callback),
+  task_ (servant, callback)
 {
 
 }
@@ -23,7 +24,8 @@ template <typename SERVANT, typename EVENT>
 CUTS_INLINE
 TAO_EventConsumer_T <SERVANT, EVENT>::~TAO_EventConsumer_T (void)
 {
-
+  task_->msg_queue ()->deactivate ();
+  task_->wait ();
 }
 
 //
@@ -33,8 +35,7 @@ template <typename SERVANT, typename EVENT>
 CUTS_INLINE
 void TAO_EventConsumer_T <SERVANT, EVENT>::push_event (EVENT * ev)
 {
-  if (0 != this->servant_)
-    (*this->servant_.*this->callback_) (ev);
+  task_->putq (ev);
 }
 
 }

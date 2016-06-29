@@ -1,6 +1,6 @@
 // $Id$
 
-project (iCCM_Servant) : ccm_svnt, cutslib {
+project (iCCM_Servant) : ccm_svnt, cutslib, iccm_plugin_manager {
   sharedname = iCCM_Servant
 
   dynamicflags += ICCM_SERVANT_BUILD_DLL
@@ -18,9 +18,10 @@ project (iCCM_Servant) : ccm_svnt, cutslib {
     Container_T.cpp
     Context_T.cpp
     EventConsumer_T.cpp
+    EventConsumer_Task_Base_T.cpp
     Publisher_Table_T.cpp
     Servant_T.cpp
-	Receptacle_T.cpp
-	FacetImpl_T.cpp
+    Receptacle_T.cpp
+    FacetImpl_T.cpp
   }
 }

@@ -78,6 +78,7 @@ project (iCCM_TAO_svnt) : iccm_servant, cutslib {
 
   Template_Files {
     TAO_EventConsumer_T.cpp
+	TAO_EventConsumer_Task_T.cpp
     TAO_Servant_T.cpp
     TAO_Publisher_T.cpp
     TAO_Publisher_Table_T.cpp
