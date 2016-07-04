@@ -12,9 +12,10 @@ DDS_Event_Listener_T <T, SERVANT, EVENT>::
 DDS_Event_Listener_T (SERVANT * servant, DESERIALIZE_METHOD callback)
 : reader_ (0),
   servant_ (servant),
-  callback_ (callback)
+  callback_ (callback),
+  task_ (new task_type (servant, callback))
 {
-
+  task_->open();
 }
 
 //
@@ -24,7 +25,8 @@ template <typename T, typename SERVANT, typename EVENT>
 CUTS_INLINE
 DDS_Event_Listener_T <T, SERVANT, EVENT>::~DDS_Event_Listener_T (void)
 {
-
+  task_->msg_queue ()->deactivate ();
+  task_->wait ();
 }
 
 //
@@ -92,7 +94,7 @@ on_data_available (datareader_ptr_type data_reader)
   ACE_ERROR ((LM_DEBUG,
               ACE_TEXT ("%T (%t) - %M - Data Available\n")));
 
-  typename event_traits_type::dds_event_sequence_type event_seq;
+  typename event_traits_type::dds_event_sequence_type * event_seq = new event_traits_type::dds_event_sequence_type;
   typedef typename T::sampleinfoseq_type sampleinfoseq_type;
   typedef typename T::returncode_type returncode_type;
 
@@ -102,17 +104,17 @@ on_data_available (datareader_ptr_type data_reader)
 
   typed_reader_var_type reader = T::template _reader_cast < typed_reader_type > (data_reader);
 
-  sampleinfoseq_type sample_info;
+  sampleinfoseq_type * sample_info = new sample_info;
   #ifdef ICCM_DDS_USES_POINTERS
-  returncode_type status = reader->take (&event_seq,
-                                         &sample_info,
+  returncode_type status = reader->take (event_seq,
+                                         sample_info,
                                          T::LENGTH_UNLIMITED,
                                          T::ANY_SAMPLE_STATE,
                                          T::ANY_VIEW_STATE,
                                          T::ANY_INSTANCE_STATE);
   #else
-  returncode_type status = reader->take (event_seq,
-                                         sample_info,
+  returncode_type status = reader->take (*event_seq,
+                                         *sample_info,
                                          T::LENGTH_UNLIMITED,
                                          T::ANY_SAMPLE_STATE,
                                          T::ANY_VIEW_STATE,
@@ -128,34 +130,8 @@ on_data_available (datareader_ptr_type data_reader)
     {
       // Push each event in the sequence to the servant so it can
       // pass it along to the implementation.
-      #ifdef ICCM_DDS_SEQ_USES_SIZE
-        const size_t length = event_seq.size ();
-      #else
-        const size_t length = event_seq.length ();
-      #endif
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Got Size\n")));
-
-      for (size_t i = 0; i < length; ++ i)
-      {
-        #ifdef ICCM_DDS_USES_POINTERS
-          typename event_traits_type::upcall_event_type upcall_event (*event_seq[i]);
-        #else
-          typename event_traits_type::upcall_event_type upcall_event (event_seq[i]);
-        #endif
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Making upcall to [%02x:%02x]\n"), this->servant_, this->callback_));
-  ACE_ERROR ((LM_DEBUG,
-              ACE_TEXT ("%T (%t) - %M - Upcall event type is [%s] at [0x%02x]\n"), typeid (upcall_event).name (), &upcall_event));
-        (this->servant_->*this->callback_) (&upcall_event);
-      }
-
-      // Return our loan back to the system.
-      #ifdef ICCM_DDS_USES_POINTERS
-        reader->return_loan (&event_seq, &sample_info);
-      #else
-        reader->return_loan (event_seq, sample_info);
-      #endif
+      package_type * pkg = new package_type(event_seq, sample_info, reader);
+      task_->putq(pkg);
     }
     break;
 

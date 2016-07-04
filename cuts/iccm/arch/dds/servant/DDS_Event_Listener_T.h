@@ -13,6 +13,9 @@
 #ifndef _ICCM_DDS_EVENT_LISTENER_T_H_
 #define _ICCM_DDS_EVENT_LISTENER_T_H_
 
+#include "DDS_EventConsumer_Task_T.h"
+#include "EventPackage.h"
+
 namespace iCCM
 {
 
@@ -83,6 +86,13 @@ class DDS_Event_Listener_T :
       const typename T::sampleloststatus_type & status);
 
 private:
+  // Typedef for EventPackage
+  typedef EventPackage<event_traits_type,
+          typename T::sampleinfoseq_type sampleinfoseq_type> package_type;
+
+  // Typedef for the task
+  typedef DDS_EventConsumer_Task_T<SERVANT, EVENT, package_type> task_type;
+
   /// Reader assigned to this listener.
   typename T::datareader_var_type reader_;
 
@@ -91,6 +101,8 @@ private:
 
   /// Target method for serializing the event.
   DESERIALIZE_METHOD callback_;
+
+  task_type * task_;
 };
 
 }
