@@ -13,7 +13,7 @@ CPU_Mask::CPU_Mask (void)
 
 CPU_Mask::~CPU_Mask (void)
 {
-  delete mask_;
+  delete this->mask_;
 }
 
 void CPU_Mask::set (int affinity)
@@ -29,7 +29,7 @@ void CPU_Mask::set (int affinity)
 void CPU_Mask::clear (int affinity)
 {
 #ifdef ACE_HAS_PTHREADS
-  CPU_CLEAR (affinity, mask_);
+  CPU_CLR (affinity, mask_);
 #endif
 #ifdef ACE_WIN32
   *mask_ &= ~(1 << affinity);

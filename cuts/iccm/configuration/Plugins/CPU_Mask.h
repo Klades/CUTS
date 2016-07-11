@@ -1,7 +1,7 @@
 #ifndef _CPU_MASK_H_
 #define _CPU_MASK_H_
 
-#include "dance/DAnCE_PropertiesC.h"
+#include "ace/config-all.h"
 #include <string>
 
 class CPU_Mask
