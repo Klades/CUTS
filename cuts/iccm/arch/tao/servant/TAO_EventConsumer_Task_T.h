@@ -6,7 +6,7 @@
 namespace iCCM
 {
   template <typename SERVANT, typename EVENT>
-  class TAO_EventConsumer_Task_T : public EventConsumer_Task_Base<EVENT>
+  class TAO_EventConsumer_Task_T : public EventConsumer_Task_Base_T<EVENT>
   {
   public:
     typedef void (SERVANT::*CALLBACK_METHOD) (EVENT *);

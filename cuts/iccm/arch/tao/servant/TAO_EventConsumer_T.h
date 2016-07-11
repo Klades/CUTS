@@ -65,7 +65,7 @@ private:
   CALLBACK_METHOD callback_;
 
   /// Task to run threads in
-  TAO_EventConsumer_Task<SERVANT, EVENT> task_;
+  TAO_EventConsumer_Task_T<SERVANT, EVENT> task_;
 };
 
 }

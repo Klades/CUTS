@@ -1,7 +1,7 @@
 #ifndef _CUTS_EVENTCONSUMER_TASK_BASE_T_H_
 #define _CUTS_EVENTCONSUMER_TASK_BASE_T_H_
 
-#include "ace/Task.h"
+#include "ace/Task_Ex_T.h"
 #include "ace/Synch.h"
 #include "cuts/iccm/configuration/Plugins/CPU_Mask.h"
 

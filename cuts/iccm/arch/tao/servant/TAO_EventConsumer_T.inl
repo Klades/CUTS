@@ -24,8 +24,8 @@ template <typename SERVANT, typename EVENT>
 CUTS_INLINE
 TAO_EventConsumer_T <SERVANT, EVENT>::~TAO_EventConsumer_T (void)
 {
-  task_->msg_queue ()->deactivate ();
-  task_->wait ();
+  task_.msg_queue ()->deactivate ();
+  task_.wait ();
 }
 
 //
@@ -35,7 +35,7 @@ template <typename SERVANT, typename EVENT>
 CUTS_INLINE
 void TAO_EventConsumer_T <SERVANT, EVENT>::push_event (EVENT * ev)
 {
-  task_->putq (ev);
+  task_.putq (ev);
 }
 
 }
