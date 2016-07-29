@@ -26,7 +26,6 @@ CUTS_INLINE
 DDS_Event_Listener_T <T, SERVANT, EVENT>::~DDS_Event_Listener_T (void)
 {
   task_->msg_queue ()->deactivate ();
-  task_->wait ();
 }
 
 //
