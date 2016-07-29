@@ -34,9 +34,6 @@ public:
   virtual int svc (void) = 0;
 
 protected:
-  /// Flag indicating if CPU affinity should be set
-  bool setting_affinity_;
-
   /// To be called in svc to set each thread's CPU affinity
   void set_affinity (void);
 

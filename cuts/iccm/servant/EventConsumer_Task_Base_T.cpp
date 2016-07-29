@@ -6,17 +6,15 @@ namespace iCCM
 {
 template <typename EVENT>
 EventConsumer_Task_Base_T<EVENT>::EventConsumer_Task_Base_T (int max_threads)
-  : setting_affinity_ (false)
-  , max_threads_ (max_threads)
-  , mask_ (0)
+  : max_threads_ (max_threads),
+    mask_ (0)
 {
 }
 
 template <typename EVENT>
 EventConsumer_Task_Base_T<EVENT>::EventConsumer_Task_Base_T (int max_threads, CPU_Mask * mask)
-  : setting_affinity_ (true)
-  , max_threads_ (max_threads)
-  , mask_ (mask)
+  : max_threads_ (max_threads),
+    mask_ (mask)
 {
 }
 
@@ -45,6 +43,10 @@ int EventConsumer_Task_Base_T<EVENT>::close (u_long)
 template <typename EVENT>
 void EventConsumer_Task_Base_T<EVENT>::set_affinity (void)
 {
+  if (mask_ == 0) {
+    return;
+  }
+
   std::string name ("edu.vanderbilt.dre.DAnCE.LocalityManager.CPUAffinity");
   CPU_Affinity * affinity_plugin = 
     reinterpret_cast<CPU_Affinity*>(PLUGIN_MANAGER::instance ()->get_plugin (name));
