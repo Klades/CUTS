@@ -19,10 +19,7 @@ namespace iCCM
   template <typename SERVANT, typename EVENT>
   int TAO_EventConsumer_Task_T<SERVANT, EVENT>::svc (void)
   {
-    if (this->setting_affinity_)
-    {
-      this->set_affinity ();
-    }
+    this->set_affinity ();
 
     EVENT * ev;
 
@@ -32,6 +29,7 @@ namespace iCCM
       if (0 != this->servant_)
       {
         (*this->servant_.*this->callback_) (ev);
+        CORBA::remove_ref (ev);
       }
     }
 
