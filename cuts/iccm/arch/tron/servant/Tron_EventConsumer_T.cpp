@@ -45,7 +45,8 @@ push_event (Tron_Event * base)
   if (0 == ev)
     throw ::Components::BadEventType ();
 
-  (*this->servant_.*this->callback_) (ev);
+  CORBA::add_ref (ev);
+  task_.putq (ev);
 }
 
 }
