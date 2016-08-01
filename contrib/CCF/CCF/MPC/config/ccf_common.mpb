@@ -10,6 +10,6 @@ project : boost_filesystem, boost_regex, crosscompile {
   }
 
   verbatim(gnuace, top) {
-    include $(CUTS_ROOT)/contrib/CCF/Config.rules
+    include $(CUTS_ROOT)/contrib/CCF/CCF/Config.rules
   }
 }
