@@ -4,13 +4,16 @@
 #include "ace/Task_Ex_T.h"
 #include "ace/Synch.h"
 #include "cuts/iccm/configuration/Plugins/CPU_Mask.h"
+#include "EventConsumer_Task_Base.h"
 
 namespace iCCM 
 {
 template <typename EVENT>
-class EventConsumer_Task_Base_T : public ACE_Task_Ex<ACE_MT_SYNCH, EVENT>
+class EventConsumer_Task_Base_T : public ACE_Task_Ex<ACE_MT_SYNCH, EVENT>, public EventConsumer_Task_Base
 {
 public:
+  /// Default constructor
+  EventConsumer_Task_Base_T (void);
   /**
    * Non-CPU binding constructor
    * @param[in]   max_threads   Maximum number of threads for this task to spawn
@@ -26,6 +29,12 @@ public:
   
   /// Destructor
   virtual ~EventConsumer_Task_Base_T (void);
+
+  /// Set max_threads
+  void set_max_threads (int max_threads);
+
+  /// Set CPU mask
+  void set_cpu_mask (CPU_Mask * mask);
 
   /// Begin the task
   int open (void * args = 0);

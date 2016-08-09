@@ -4,6 +4,13 @@
 
 namespace iCCM
 {
+
+template <typename EVENT>
+EventConsumer_Task_Base_T<EVENT>::EventConsumer_Task_Base_T (void)
+  : max_threads_(1),
+    mask_(0)
+{
+}
 template <typename EVENT>
 EventConsumer_Task_Base_T<EVENT>::EventConsumer_Task_Base_T (int max_threads)
   : max_threads_ (max_threads),
@@ -22,6 +29,18 @@ template <typename EVENT>
 EventConsumer_Task_Base_T<EVENT>::~EventConsumer_Task_Base_T (void)
 {
   delete mask_;
+}
+
+template <typename EVENT>
+void EventConsumer_Task_Base_T<EVENT>::set_max_threads (int max_threads)
+{
+  max_threads_ = max_threads;
+}
+
+template <typename EVENT>
+void EventConsumer_Task_Base_T<EVENT>::set_cpu_mask (CPU_Mask * mask)
+{
+  mask_ = mask;
 }
 
 template <typename EVENT>

@@ -11,6 +11,9 @@
 #include "Publisher_Table.h"
 #include "Cookie.h"
 
+#include <algorithm>
+#include <iostream>
+
 namespace iCCM
 {
 
@@ -86,6 +89,18 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
   this->deactivate_ports ();
 }
 
+//
+// handle_config
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (const ::Components::ConfigValues & values)
+{
+  typename consumer_map_type::iterator it = consumers_.begin ();
+  for (; it != consumers_.end(); ++it)
+  {
+    std::cout << it->key() << std::endl;
+  }
+}
 //
 // remove
 //
