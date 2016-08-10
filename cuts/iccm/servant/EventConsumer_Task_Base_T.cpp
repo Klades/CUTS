@@ -28,7 +28,10 @@ EventConsumer_Task_Base_T<EVENT>::EventConsumer_Task_Base_T (int max_threads, CP
 template <typename EVENT>
 EventConsumer_Task_Base_T<EVENT>::~EventConsumer_Task_Base_T (void)
 {
-  delete mask_;
+  if (mask_)
+  {
+    delete mask_;
+  }
 }
 
 template <typename EVENT>
