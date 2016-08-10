@@ -1,18 +1,10 @@
+#include "ccm/CCM_StandardConfiguratorC.h"
 namespace iCCM
 {
   template <typename SERVANT, typename EVENT>
-  TAO_EventConsumer_Task_T<SERVANT, EVENT>::TAO_EventConsumer_Task_T (SERVANT * servant, CALLBACK_METHOD callback, int max_threads)
-    : EventConsumer_Task_Base_T<EVENT> (max_threads)
-    , servant_ (servant)
-    , callback_ (callback)
-  {
-  }
-
-  template <typename SERVANT, typename EVENT>
-  TAO_EventConsumer_Task_T<SERVANT, EVENT>::TAO_EventConsumer_Task_T (SERVANT * servant, CALLBACK_METHOD callback, CPU_Mask * mask, int max_threads)
-    : EventConsumer_Task_Base_T<EVENT> (max_threads, mask)
-    , servant_ (servant)
-    , callback_ (callback)
+  TAO_EventConsumer_Task_T<SERVANT, EVENT>::TAO_EventConsumer_Task_T (SERVANT * servant, CALLBACK_METHOD callback)
+    : servant_ (servant),
+      callback_ (callback)
   {
   }
 
@@ -22,7 +14,6 @@ namespace iCCM
     this->set_affinity ();
 
     EVENT * ev;
-
     // Main loop
     while (this->getq (ev) != -1)
     {
