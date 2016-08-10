@@ -1,4 +1,4 @@
-project {
+project : dance_deployment_stub {
   libs += iCCM_Plugin_Manager
   after += iCCM_Plugin_Manager
 }
