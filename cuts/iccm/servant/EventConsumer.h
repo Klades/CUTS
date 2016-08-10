@@ -43,12 +43,6 @@ protected:
   /// Default constructor.
   EventConsumer (void);
 
-  /// Task initializing constructor
-  EventConsumer (EventConsumer_Task_Base * task);
-
-  /// Thread pool task
-  EventConsumer_Task_Base * task_;
-
 public:
   /// Destructor.
   virtual ~EventConsumer (void);
@@ -62,11 +56,8 @@ public:
   /// Method for passivating the consumer
   virtual void passivate (void);
 
-  /// Set the task
-  void set_task (EventConsumer_Task_Base * task);
-
   /// Configure this consumer's task
-  void configure_task (int max_threads, CPU_Mask * mask);
+  virtual void configure_task (int max_threads, CPU_Mask * mask);
 
   void listener (EventConsumer_Listener * listener);
 

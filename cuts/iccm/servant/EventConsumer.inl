@@ -18,14 +18,6 @@ EventConsumer_Listener::~EventConsumer_Listener (void)
 
 CUTS_INLINE
 EventConsumer::EventConsumer (void)
-  : task_(0)
-{
-
-}
-
-CUTS_INLINE
-EventConsumer::EventConsumer (EventConsumer_Task_Base * task)
-  : task_(task)
 {
 
 }
@@ -57,24 +49,9 @@ EventConsumer::passivate (void)
 }
 
 CUTS_INLINE
-void EventConsumer::set_task (EventConsumer_Task_Base * task)
-{
-  task_ = task;
-}
-
-CUTS_INLINE
 void EventConsumer::configure_task (int max_threads, CPU_Mask * mask)
 {
-  if (max_threads > 0) 
-  {
-    task_->set_max_threads (max_threads);
-  }
-  if (mask)
-  {
-  task_->set_cpu_mask (mask);
-  }
-
-  task_->open ();
+  
 }
 
 CUTS_INLINE

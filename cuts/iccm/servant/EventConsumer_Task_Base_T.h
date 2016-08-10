@@ -3,13 +3,13 @@
 
 #include "ace/Task_Ex_T.h"
 #include "ace/Synch.h"
-#include "cuts/iccm/configuration/Plugins/CPU_Mask.h"
 #include "EventConsumer_Task_Base.h"
+#include "cuts/iccm/configuration/Plugins/CPU_Mask.h"
 
 namespace iCCM 
 {
 template <typename EVENT>
-class EventConsumer_Task_Base_T : public ACE_Task_Ex<ACE_MT_SYNCH, EVENT>, public EventConsumer_Task_Base
+class EventConsumer_Task_Base_T : public ACE_Task_Ex<ACE_MT_SYNCH, EVENT>
 {
 public:
   /// Default constructor
