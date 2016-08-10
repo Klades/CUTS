@@ -37,6 +37,9 @@ public:
   /// Type definition of the event type.
   typedef EVENT event_type;
 
+  /// Type definition of the task type
+  typedef TAO_EventConsumer_Task_T<SERVANT, EVENT> task_type;
+
   /// Type definition of the servant callback method.
   typedef void (SERVANT::*CALLBACK_METHOD) (EVENT *);
 
@@ -54,6 +57,9 @@ public:
   /// Push templated event
   virtual void push_event (EVENT * ev);
 
+  /// Task configuration
+  virtual void configure_task (int max_threads, CPU_Mask * mask);
+
   /// Push CORBA event
   virtual void push_event (::Components::EventBase * ev);
 
@@ -64,8 +70,8 @@ private:
   /// Method for deserializing an event.
   CALLBACK_METHOD callback_;
 
-  /// Task to run threads in
-  TAO_EventConsumer_Task_T<SERVANT, EVENT> task_;
+  /// Task
+  task_type task_;
 };
 
 }
