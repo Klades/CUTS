@@ -10,9 +10,8 @@
 #include "Publisher.h"
 #include "Publisher_Table.h"
 #include "Cookie.h"
-
-#include <algorithm>
-#include <iostream>
+#include "cuts/utils/Property_Map.h"
+#include "cuts/utils/Property_Map_File.h"
 
 namespace iCCM
 {
@@ -95,12 +94,29 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (const ::Components::ConfigValues & values)
 {
+  
+  for (::CORBA::ULong index = 0; index < values.length (); ++index)
+  {
+    std::string name (values[index]->name ());
+    if (name == "CUTS.PortConfig")
+    {
+      const char * val;
+      values[index]->value() >>= val;
+      std::cout << "FOUND " << val << std::endl;
+    }
+  }
+  
+  ::CUTS_Property_Map props;
+  //CUTS_Property_Map_File props_file (props);
+  
   typename consumer_map_type::iterator it = consumers_.begin ();
   for (; it != consumers_.end(); ++it)
   {
-    std::cout << it->key() << std::endl;
+    it->item()->configure_task(1, 0);    
+    std::cout << "Configured " << it->key() << std::endl;
   }
 }
+
 //
 // remove
 //

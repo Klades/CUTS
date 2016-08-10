@@ -1,6 +1,6 @@
 // $Id$
 
-project (iCCM_Servant) : ccm_svnt, cutslib, dance_deployment_stub, dance_stub, iccm_plugin_manager {
+project (iCCM_Servant) : ccm_svnt, cutslib, dance_deployment_stub, dance_stub, iccm_plugin_manager, cuts_utils {
   sharedname = iCCM_Servant
 
   dynamicflags += ICCM_SERVANT_BUILD_DLL
