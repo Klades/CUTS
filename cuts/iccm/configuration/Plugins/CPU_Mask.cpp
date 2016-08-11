@@ -30,12 +30,19 @@ CPU_Mask::~CPU_Mask (void)
 }
 
 CPU_Mask::CPU_Mask (const CPU_Mask & mask)
-  : mask_ (mask.mask_)
 {
+  *this = mask;
 }
 
 CPU_Mask & CPU_Mask::operator= (const CPU_Mask & rhs)
 {
+#ifdef ACE_HAS_PTHREADS
+  mask_ = new cpu_set_t;
+#endif
+#ifdef ACE_WIN32
+  mask_ = new DWORD_PTR;
+#endif
+
   *(this->mask_) = *(rhs.mask_);
 
   return *this;
