@@ -13,6 +13,8 @@
 #include "cuts/utils/Property_Map.h"
 #include "cuts/utils/Property_Map_File.h"
 
+#include <fstream>
+#include "boost/spirit/include/classic_file_iterator.hpp"
 namespace iCCM
 {
 
@@ -94,21 +96,36 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
 template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
 void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (const ::Components::ConfigValues & values)
 {
-  
+  // Find the PortConfig file and parse it
+  const char * filename = 0;
   for (::CORBA::ULong index = 0; index < values.length (); ++index)
   {
     std::string name (values[index]->name ());
     if (name == "CUTS.PortConfig")
     {
-      const char * val;
-      values[index]->value() >>= val;
-      std::cout << "FOUND " << val << std::endl;
+      values[index]->value() >>= filename;
     }
   }
   
-  ::CUTS_Property_Map props;
-  //CUTS_Property_Map_File props_file (props);
-  
+  if (filename) 
+  {
+    CUTS_Property_Map props;
+    CUTS_Property_Map_File props_file (props);
+    
+    if (props_file.read(filename)) {
+      std::cout << "Read file..." << std::endl;
+    }
+    else {
+      std::cout << "File failure!" << std::endl;
+    }
+
+    typename CUTS_Property_Map::iterator prop_it = props.begin();
+
+    std::cout << "Printing properties..." << std::endl;
+    for (; prop_it != props.end(); ++prop_it) {
+      std::cout << "Property: " << prop_it->key() << " " << prop_it->item() << std::endl;
+    }
+  }
   typename consumer_map_type::iterator it = consumers_.begin ();
   for (; it != consumers_.end(); ++it)
   {
