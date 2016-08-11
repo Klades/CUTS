@@ -29,40 +29,7 @@ namespace iCCM
       throw ::Deployment::StartError (prop.name.in (), "Unable to extract CPU Affinity string");
     }
 
-    char * affinity = ACE_OS::strdup (extracted_affinity);
-
-    ACE_Tokenizer_T<char> tokenizer (affinity);
-    tokenizer.delimiter (',');
-
-    char * token = 0;
-    CPU_Mask mask;
-
-    while ((token = tokenizer.next ()))
-    {
-      int i = ACE_OS::atoi (token);
-
-      if (i >= 0)
-      {
-        DANCE_DEBUG (DANCE_LOG_MINOR_EVENT,
-          (LM_DEBUG, DLINFO
-          ACE_TEXT ("iCCM_CPU_Affinity::configure - ")
-          ACE_TEXT ("Toggling affinity for CPU %i\n"),
-          i));
-
-        mask.set (i);
-      }
-      else
-      {
-        DANCE_ERROR (DANCE_LOG_TERMINAL_ERROR,
-          (LM_ERROR, DLINFO
-          ACE_TEXT ("iCCM::CPU_Affinity::configure - ")
-          ACE_TEXT ("All affinity values should be greater than 0")));
-        throw ::Deployment::StartError (prop.name.in (), "All affinity values should be greater than 0");
-      }
-    }
-
-    ACE_OS::free (affinity);
-
+    CPU_Mask mask (extracted_affinity);
     // I strongly dislike this and need to fix it later.
     // sched_setaffinity returns 0 on success
     // SetProcessAffinityMask returns 0 on failure

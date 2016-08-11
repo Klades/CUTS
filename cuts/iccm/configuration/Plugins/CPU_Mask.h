@@ -7,8 +7,16 @@
 class CPU_Mask
 {
 public:
+  /// Default constructor
   CPU_Mask (void);
+
+  /// Initializing constructor
+  CPU_Mask (const char * affinity);
   ~CPU_Mask (void);
+
+  CPU_Mask (const CPU_Mask & mask);
+
+  CPU_Mask& operator= (const CPU_Mask & rhs);
 
   void set (int affinity);
   void clear (int affinity);
@@ -29,6 +37,7 @@ private:
   DWORD_PTR * mask_;
 #endif
 
+  void parse_set (const char * affinity);
 };
 
 #endif
