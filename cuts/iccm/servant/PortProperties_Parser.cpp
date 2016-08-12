@@ -11,7 +11,7 @@ bool not_space (char c)
   return (c != ' ' && c != '\t');
 }
 
-std::string trim_space (std::string & str)
+void trim_space (std::string & str)
 {
   std::string::iterator first = str.begin();
   std::string::iterator last = str.end();
@@ -34,15 +34,18 @@ std::string trim_space (std::string & str)
     }
   }
 
-  return std::string(first, last+1);
+  str = std::string(first, last+1);
 }
 
-std::pair<std::string, std::string> split (std::string & line, char delimit)
+std::pair<std::string, std::string> split (const std::string & line, char delimit)
 {
   size_t index = line.find (delimit);
 
-  std::string first = trim_space(line.substr(0, index));
-  std::string second = trim_space(line.substr(index+1, line.length()));
+  std::string first = line.substr(0, index);
+  std::string second = line.substr(index+1, line.length());
+
+  trim_space(first);
+  trim_space(second);
 
   return std::make_pair(first, second);
 }
