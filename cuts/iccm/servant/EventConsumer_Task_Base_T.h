@@ -25,7 +25,7 @@ public:
    * @param[in]   max_threads   Maximum number of threads for this task to spawn
    * @param[in]   mask          CPU mask to bind threads to. The task takes ownership.
    */
-  EventConsumer_Task_Base_T (int max_threads, CPU_Mask * mask);
+  EventConsumer_Task_Base_T (int max_threads, CPU_Mask mask);
   
   /// Destructor
   virtual ~EventConsumer_Task_Base_T (void);
@@ -34,7 +34,7 @@ public:
   void set_max_threads (int max_threads);
 
   /// Set CPU mask
-  void set_cpu_mask (CPU_Mask * mask);
+  void set_cpu_mask (CPU_Mask mask);
 
   /// Begin the task
   int open (void * args = 0);
@@ -54,7 +54,7 @@ private:
   int max_threads_;
 
   /// Mask to use when setting CPU affinity
-  CPU_Mask * mask_;
+  CPU_Mask mask_;
 };
 }
 
