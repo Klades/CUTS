@@ -6,12 +6,47 @@ PortProperties_Parser::PortProperties_Parser (void)
 {
 }
 
+bool not_space (char c)
+{
+  return (c != ' ' && c != '\t');
+}
+
+std::string trim_space (std::string & str)
+{
+  std::string::iterator first = str.begin();
+  std::string::iterator last = str.end();
+  std::string::iterator it = first;
+
+  for (; it != str.end(); ++it)
+  {
+    if (not_space(*it))
+    {    
+      first = it;
+      break;
+    }
+  }
+
+  for (; it != str.end(); ++it)
+  {
+    if (not_space(*it))
+    {
+      last = it;
+    }
+  }
+
+  return std::string(first, last+1);
+}
+
 std::pair<std::string, std::string> split (std::string & line, char delimit)
 {
   size_t index = line.find (delimit);
 
-  return std::make_pair(line.substr(0, index), line.substr(index+1, line.length()));
+  std::string first = trim_space(line.substr(0, index));
+  std::string second = trim_space(line.substr(index+1, line.length()));
+
+  return std::make_pair(first, second);
 }
+
 bool PortProperties_Parser::parse (std::ifstream & file)
 {
   string_map * temp = process_file (file);
