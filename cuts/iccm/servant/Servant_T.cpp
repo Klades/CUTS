@@ -10,11 +10,9 @@
 #include "Publisher.h"
 #include "Publisher_Table.h"
 #include "Cookie.h"
-#include "cuts/utils/Property_Map.h"
-#include "cuts/utils/Property_Map_File.h"
 
-#include <fstream>
-#include "boost/spirit/include/classic_file_iterator.hpp"
+#include "PortProperties_Parser.h"
+
 namespace iCCM
 {
 
@@ -109,28 +107,34 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
   
   if (filename) 
   {
-    CUTS_Property_Map props;
-    CUTS_Property_Map_File props_file (props);
-    
-    if (props_file.read(filename)) {
-      std::cout << "Read file..." << std::endl;
-    }
-    else {
-      std::cout << "File failure!" << std::endl;
+    PortProperties_Parser parser;
+    parser.parse (filename);
+
+    PortProperties_Parser::properties_map & props = parser.get_map();
+
+    PortProperties defaults;
+
+    if (props.count("@default"))
+    {
+      defaults = props["@default"];
     }
 
-    typename CUTS_Property_Map::iterator prop_it = props.begin();
+    typename consumer_map_type::iterator it = consumers_.begin ();
+    for (; it != consumers_.end(); ++it)
+    {
+      std::string consumer_name(it->key());
 
-    std::cout << "Printing properties..." << std::endl;
-    for (; prop_it != props.end(); ++prop_it) {
-      std::cout << "Property: " << prop_it->key() << " " << prop_it->item() << std::endl;
+      PortProperties this_props = defaults;
+
+      if (props.count(consumer_name)) 
+      {
+        this_props = props[consumer_name];
+      }
+      
+      it->item->configure_task(this_props);
+      std::cout << "Configured " << it->key() << std::endl;
+      
     }
-  }
-  typename consumer_map_type::iterator it = consumers_.begin ();
-  for (; it != consumers_.end(); ++it)
-  {
-    it->item()->configure_task(1, 0);    
-    std::cout << "Configured " << it->key() << std::endl;
   }
 }
 
