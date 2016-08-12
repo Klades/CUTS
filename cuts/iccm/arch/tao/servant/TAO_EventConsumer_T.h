@@ -58,7 +58,7 @@ public:
   virtual void push_event (EVENT * ev);
 
   /// Task configuration
-  virtual void configure_task (int max_threads, CPU_Mask * mask);
+  virtual void configure_task (PortProperties props);
 
   /// Push CORBA event
   virtual void push_event (::Components::EventBase * ev);

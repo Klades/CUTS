@@ -31,17 +31,11 @@ TAO_EventConsumer_T <SERVANT, EVENT>::~TAO_EventConsumer_T (void)
 //
 template <typename SERVANT, typename EVENT>
 CUTS_INLINE
-void TAO_EventConsumer_T <SERVANT, EVENT>::configure_task (int max_threads, CPU_Mask * mask)
+void TAO_EventConsumer_T <SERVANT, EVENT>::configure_task (PortProperties props)
 {
-  if (max_threads > 0)
-  {
-    task_.set_max_threads(max_threads);
-  }
+  task_.set_max_threads(max_threads);
 
-  if (mask)
-  {
-    task_.set_cpu_mask(mask);
-  }
+  task_.set_cpu_mask(mask);
 
   task_.open();
 }
