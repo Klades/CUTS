@@ -8,6 +8,8 @@ project (iCCM_Servant) : ccm_svnt, cutslib, dance_deployment_stub, dance_stub, i
   Source_Files {
     Cookie.cpp
     EventConsumer.cpp
+    PortProperties.cpp
+    PortProperties_Parser.cpp
     Publisher.cpp
     Publisher_Table.cpp
     Servant.cpp
