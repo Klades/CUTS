@@ -49,7 +49,7 @@ EventConsumer::passivate (void)
 }
 
 CUTS_INLINE
-void EventConsumer::configure_task (int max_threads, CPU_Mask * mask)
+void EventConsumer::configure_task (PortProperties props)
 {
   
 }
