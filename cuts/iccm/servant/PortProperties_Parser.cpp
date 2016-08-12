@@ -46,10 +46,17 @@ PortProperties_Parser::string_map * PortProperties_Parser::process_file (std::if
 
 void PortProperties_Parser::process_map (string_map & temp_map)
 {
-  std::stringstream converter_stream;
+  PortProperties_Builder builder(temp_map);
 
-  // Find the defaults
-  PortProperties default_props;  
-  
   // Process the rest
+  for (string_map::iterator it = temp_map.begin(); it != temp_map.end(); ++it)
+  {
+    std::string prefix = split(it->first, '.').first;
+
+    // We could have a prefix show up twice, so we don't want to remake the portproperties the second time
+    if (!map_.count(prefix))
+    {
+      map_[prefix] = builder(prefix);
+    }
+  } 
 }
