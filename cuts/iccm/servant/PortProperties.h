@@ -10,14 +10,14 @@ class PortProperties
   public:
     friend class PortProperties_Builder;
 
-    PortProperties (PortProperties & props);
-    PortProperties & operator= (PortProperties & rhs);
+    PortProperties (void);
+    PortProperties (const PortProperties & props);
+    PortProperties & operator= (const PortProperties & rhs);
 
     int max_threads (void);
     CPU_Mask mask (void);
 
   private:
-    PortProperties (void);
     PortProperties (int threads, CPU_Mask cores);
 
     int max_threads_;
@@ -32,7 +32,7 @@ class PortProperties_Builder
     PortProperties_Builder (prop_map & map);
 
     /// Create a PortProperties item based on the name of the port and a map of property strings
-    PortProperties operator() (std::string & prefix, prop_map & property_map);
+    PortProperties operator() (std::string & prefix);
 
   private:
     PortProperties default_props;

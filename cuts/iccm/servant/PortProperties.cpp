@@ -1,9 +1,9 @@
 #include "PortProperties.h"
 
-#include <sstring>
+#include <sstream>
 
 PortProperties::PortProperties (void)
-  : max_threads_ (1),
+  : max_threads_ (1)
 {
 }
 
@@ -26,20 +26,18 @@ CPU_Mask PortProperties::mask (void)
 PortProperties_Builder::PortProperties_Builder (prop_map & map)
   : property_map (map)
 {
-  default_props = operator() ("@default");
+  std::string def("@default");
+  default_props = operator() (def);
 }
 
-PortProperties PortProperties_Builder::operator() (
-    std::string & prefix,
-    std::map<std::string, std::string> & property_map
-    )
+PortProperties PortProperties_Builder::operator() (std::string & prefix)
 {
-  std::string thread_name = prefix + ".max_threads";
+  std::string thread_name = prefix + ".thread_count";
   std::string cores_name = prefix + ".cores";
 
 
-  int threads = default_props.max_threads;
-  CPU_Mask mask = default_props.mask;
+  int threads = default_props.max_threads();
+  CPU_Mask mask = default_props.mask();
 
   if (property_map.count (thread_name))
   {
