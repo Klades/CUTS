@@ -5,22 +5,37 @@
 #include <string>
 #include <map>
 
-struct PortProperties
+class PortProperties
 {
-  int max_threads;
-  CPU_Mask mask;
+  public:
+    friend class PortProperties_Builder;
+
+    PortProperties (PortProperties & props);
+    PortProperties & operator= (PortProperties & rhs);
+
+    int max_threads (void);
+    CPU_Mask mask (void);
+
+  private:
+    PortProperties (void);
+    PortProperties (int threads, CPU_Mask cores);
+
+    int max_threads_;
+    CPU_Mask mask_;
 };
 
+/// Builder for PortProperties objects to ensure all PortProperties are in a valid state
 class PortProperties_Builder
 {
   public:
-    PortProperties_Builder (void);
+    typedef std::map<std::string, std::string> prop_map;
+    PortProperties_Builder (prop_map & map);
 
-    void set_defaults (PortProperties defaults);
-
-    PortProperties operator() (std::string & prefix, std::map<std::string, std::string> & property_map);
+    /// Create a PortProperties item based on the name of the port and a map of property strings
+    PortProperties operator() (std::string & prefix, prop_map & property_map);
 
   private:
     PortProperties default_props;
+    prop_map & property_map;
 };
 #endif
