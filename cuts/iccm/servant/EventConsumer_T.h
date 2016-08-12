@@ -17,8 +17,6 @@
 #include "tao/ORB_Core.h"
 
 #include "EventConsumer.h"
-#include "cuts/iccm/configuration/Plugins/CPU_Mask.h"
-#include "EventConsumer_Task_Base_T.h"
 
 namespace iCCM
 {
@@ -39,7 +37,6 @@ public:
   /// Type definition of the upcall method into servant.
   typedef int (*callback_method) (SERVANT *, T *);
 
-  typedef EventConsumer_Task_Base_T<T> task_type;
   /**
    * Initializing constructor.
    *
@@ -48,8 +45,6 @@ public:
    * @param[in]       task          Task to run method call through
    */
   EventConsumer_T (SERVANT * servant, callback_method upcall, task_type * task = 0);
-
-  EventConsumer_T (task_type * task);
 
   /// Destructor.
   virtual ~EventConsumer_T (void);

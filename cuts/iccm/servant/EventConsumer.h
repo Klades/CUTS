@@ -16,7 +16,6 @@
 #include "ccm/CCM_EventConsumerBaseS.h"
 
 #include "Servant_export.h"
-#include "EventConsumer_Task_Base.h"
 #include "PortProperties.h"
 
 namespace iCCM

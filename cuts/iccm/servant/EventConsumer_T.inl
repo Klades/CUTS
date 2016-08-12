@@ -16,14 +16,6 @@ EventConsumer_T (SERVANT * servant, callback_method callback, task_type * task)
 {
 }
 
-template <typename T, typename SERVANT>
-CUTS_INLINE
-EventConsumer_T <T, SERVANT>::
-EventConsumer_T (task_type * task)
-  : EventConsumer (task)
-{
-}
-
 //
 // ~EventConsumer_T
 //
