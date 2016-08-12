@@ -110,7 +110,7 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
     PortProperties_Parser parser;
     parser.parse (filename);
 
-    PortProperties_Parser::properties_map & props = parser.get_map();
+    PortProperties_Parser::property_map & props = parser.get_map();
 
     PortProperties defaults;
 
@@ -122,7 +122,7 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
     typename consumer_map_type::iterator it = consumers_.begin ();
     for (; it != consumers_.end(); ++it)
     {
-      std::string consumer_name(it->key());
+      std::string consumer_name(it->key().c_str());
 
       PortProperties this_props = defaults;
 
@@ -131,7 +131,7 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
         this_props = props[consumer_name];
       }
       
-      it->item->configure_task(this_props);
+      it->item()->configure_task(this_props);
       std::cout << "Configured " << it->key() << std::endl;
       
     }
