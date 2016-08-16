@@ -2,9 +2,10 @@
 #define _CPU_MASK_H_
 
 #include "ace/config-all.h"
+#include "iCCM_Plugins_export.h"
 #include <string>
 
-class CPU_Mask
+class ICCM_PLUGINS_Export CPU_Mask
 {
 public:
   /// Default constructor
@@ -31,10 +32,10 @@ public:
 
 private:
 #ifdef ACE_HAS_PTHREADS
-  cpu_set_t * mask_;
+  cpu_set_t mask_;
 #endif
 #ifdef ACE_WIN32
-  DWORD_PTR * mask_;
+  DWORD_PTR mask_;
 #endif
 
   void parse_set (const char * affinity);
