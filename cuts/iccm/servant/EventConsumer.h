@@ -57,7 +57,7 @@ public:
   virtual void passivate (void);
 
   /// Configure this consumer's task
-  virtual void configure_task (PortProperties props);
+  virtual void configure_task (PortProperties * props);
 
   void listener (EventConsumer_Listener * listener);
 

@@ -49,7 +49,7 @@ EventConsumer::passivate (void)
 }
 
 CUTS_INLINE
-void EventConsumer::configure_task (PortProperties props)
+void EventConsumer::configure_task (PortProperties * props)
 {
   
 }
