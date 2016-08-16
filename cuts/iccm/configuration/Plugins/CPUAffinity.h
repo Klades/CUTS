@@ -17,7 +17,7 @@
 
 namespace iCCM
 {
-  class CPU_Affinity : public Plugin
+  class ICCM_PLUGINS_Export CPU_Affinity : public Plugin
   {
   public:
     /// Constructor
