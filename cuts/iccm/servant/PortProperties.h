@@ -34,7 +34,8 @@ class PortProperties_Builder
 
     /// Create a PortProperties item based on the name of the port and a map of property strings
 
-    PortProperties * operator() (std::string & prefix);
+    PortProperties * operator() (const std::string & prefix);
+ 
   private:
     int def_threads;
     CPU_Mask def_mask; 

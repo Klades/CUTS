@@ -37,15 +37,22 @@ PortProperties_Builder::PortProperties_Builder (prop_map * map)
     def_mask (),
     property_map (map)
 {
+  // Alter the architecture defaults based on the @default parameter, if it exists in the map
+  std::string def("@default");
+  PortProperties * defaults = operator() (def);
+  def_threads = defaults->max_threads();
+  def_mask = defaults->mask();
+
+  delete defaults;
 }
 
-PortProperties * PortProperties_Builder::operator() (std::string & prefix)
+PortProperties * PortProperties_Builder::operator() (const std::string & prefix)
 {
   std::string thread_name = prefix + ".thread_count";
   std::string cores_name = prefix + ".cores";
 
-  int threads = 1;
-  CPU_Mask mask;
+  int threads = def_threads;
+  CPU_Mask mask = def_mask;
 
   if (property_map->count (thread_name))
   {

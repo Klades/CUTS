@@ -115,10 +115,12 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
 
     PortProperties_Parser::property_map & props = parser.get_map();
 
-    PortProperties * defaults;
+    // This approach needs to be replaced with smart pointers or something
+    PortProperties * defaults = new PortProperties();
 
     if (props.count("@default"))
     {
+      delete defaults;
       defaults = props["@default"];
     }
 
