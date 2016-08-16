@@ -2,8 +2,20 @@
 
 #include <sstream>
 
+#include <iostream>
+
 PortProperties_Parser::PortProperties_Parser (void)
 {
+}
+
+PortProperties_Parser::~PortProperties_Parser (void)
+{
+  typename property_map::iterator it;
+
+  for (it = map_.begin(); it != map_.end(); ++it)
+  {
+    delete it->second;
+  }
 }
 
 bool not_space (char c)
@@ -53,7 +65,9 @@ std::pair<std::string, std::string> split (const std::string & line, char delimi
 bool PortProperties_Parser::parse (std::ifstream & file)
 {
   string_map * temp = process_file (file);
-  process_map (*temp);  
+  process_map (temp);  
+
+  delete temp;
   return true;
 }
 
@@ -82,12 +96,12 @@ PortProperties_Parser::string_map * PortProperties_Parser::process_file (std::if
   return temp_map;
 }
 
-void PortProperties_Parser::process_map (string_map & temp_map)
+void PortProperties_Parser::process_map (string_map * temp_map)
 {
   PortProperties_Builder builder(temp_map);
 
   // Process the rest
-  for (string_map::iterator it = temp_map.begin(); it != temp_map.end(); ++it)
+  for (string_map::iterator it = temp_map->begin(); it != temp_map->end(); ++it)
   {
     std::string prefix = split(it->first, '.').first;
 
