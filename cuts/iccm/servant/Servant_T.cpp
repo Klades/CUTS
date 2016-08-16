@@ -12,6 +12,7 @@
 #include "Cookie.h"
 
 #include "PortProperties_Parser.h"
+#include "PortProperties.h"
 
 namespace iCCM
 {
@@ -108,11 +109,13 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
   if (filename) 
   {
     PortProperties_Parser parser;
+
+
     parser.parse (filename);
 
     PortProperties_Parser::property_map & props = parser.get_map();
 
-    PortProperties defaults;
+    PortProperties * defaults;
 
     if (props.count("@default"))
     {
@@ -124,8 +127,7 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (co
     {
       std::string consumer_name(it->key().c_str());
 
-      PortProperties this_props = defaults;
-
+      PortProperties * this_props = defaults;
       if (props.count(consumer_name)) 
       {
         this_props = props[consumer_name];
