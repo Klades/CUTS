@@ -42,8 +42,9 @@ public:
    *
    * @param[in]       servant       Servant to callback
    * @param[in]       upcall        Method for upcall
+   * @param[in]       task          Task to run method call through
    */
-  EventConsumer_T (SERVANT * servant, callback_method upcall);
+  EventConsumer_T (SERVANT * servant, callback_method upcall, task_type * task = 0);
 
   /// Destructor.
   virtual ~EventConsumer_T (void);

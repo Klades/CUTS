@@ -4,6 +4,7 @@ project (iCCM_Plugins) : install, dance_deployment_stub, dance_stub, dance_lib, 
   
   Source_Files {
     CPUAffinity.cpp
+    CPU_Mask.cpp
     iCCM_Plugin.cpp
   }
 }

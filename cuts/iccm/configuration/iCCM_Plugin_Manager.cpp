@@ -212,4 +212,13 @@ namespace iCCM
       }
     }
   }
+
+  Plugin * Plugin_Manager::get_plugin (const std::string & name)
+  {
+    if (plugins_.count (name))
+    {
+      return plugins_[name];
+    }
+    return 0;
+  }
 }

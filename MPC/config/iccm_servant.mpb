@@ -1,6 +1,6 @@
 // $Id$
 
-project : ccm_svnt {
+project : ccm_svnt, iccm_plugin_manager {
   libs  += iCCM_Servant
   after += iCCM_Servant
 }

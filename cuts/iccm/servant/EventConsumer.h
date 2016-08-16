@@ -16,6 +16,7 @@
 #include "ccm/CCM_EventConsumerBaseS.h"
 
 #include "Servant_export.h"
+#include "PortProperties.h"
 
 namespace iCCM
 {
@@ -54,6 +55,9 @@ public:
 
   /// Method for passivating the consumer
   virtual void passivate (void);
+
+  /// Configure this consumer's task
+  virtual void configure_task (PortProperties * props);
 
   void listener (EventConsumer_Listener * listener);
 

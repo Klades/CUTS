@@ -25,7 +25,6 @@ EventConsumer::EventConsumer (void)
 CUTS_INLINE
 EventConsumer::~EventConsumer (void)
 {
-
 }
 
 CUTS_INLINE
@@ -47,6 +46,12 @@ void
 EventConsumer::passivate (void)
 {
 
+}
+
+CUTS_INLINE
+void EventConsumer::configure_task (PortProperties * props)
+{
+  
 }
 
 CUTS_INLINE

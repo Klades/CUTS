@@ -19,6 +19,7 @@
 #define _ICCM_TRON_EVENTCONSUMER_T_H_
 
 #include "Tron_EventConsumer.h"
+#include "Tron_EventConsumer_Task_T.h"
 
 namespace iCCM
 {
@@ -65,6 +66,9 @@ private:
 
   /// Method for deserializing an event.
   CALLBACK_METHOD callback_;
+
+  /// Task to handle the events in
+  Tron_EventConsumer_Task_T<SERVANT, EVENT> task_;
 };
 
 }

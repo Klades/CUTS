@@ -11,6 +11,9 @@
 #include "Publisher_Table.h"
 #include "Cookie.h"
 
+#include "PortProperties_Parser.h"
+#include "PortProperties.h"
+
 namespace iCCM
 {
 
@@ -84,6 +87,59 @@ void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::passivate_compone
     this->impl_->ccm_passivate ();
 
   this->deactivate_ports ();
+}
+
+//
+// handle_config
+//
+template <typename T, typename CONTEXT, typename EXECUTOR, typename POA_EXEC, typename SERVANT_BASE>
+void Servant_T <T, CONTEXT, EXECUTOR, POA_EXEC, SERVANT_BASE>::handle_config (const ::Components::ConfigValues & values)
+{
+  // Find the PortConfig file and parse it
+  const char * filename = 0;
+  for (::CORBA::ULong index = 0; index < values.length (); ++index)
+  {
+    std::string name (values[index]->name ());
+    if (name == "CUTS.PortConfig")
+    {
+      values[index]->value() >>= filename;
+    }
+  }
+  
+  if (filename) 
+  {
+    PortProperties_Parser parser;
+
+
+    parser.parse (filename);
+
+    PortProperties_Parser::property_map & props = parser.get_map();
+
+    // This approach needs to be replaced with smart pointers or something
+    PortProperties * defaults = new PortProperties();
+
+    if (props.count("@default"))
+    {
+      delete defaults;
+      defaults = props["@default"];
+    }
+
+    typename consumer_map_type::iterator it = consumers_.begin ();
+    for (; it != consumers_.end(); ++it)
+    {
+      std::string consumer_name(it->key().c_str());
+
+      PortProperties * this_props = defaults;
+      if (props.count(consumer_name)) 
+      {
+        this_props = props[consumer_name];
+      }
+      
+      it->item()->configure_task(this_props);
+      std::cout << "Configured " << it->key() << std::endl;
+      
+    }
+  }
 }
 
 //

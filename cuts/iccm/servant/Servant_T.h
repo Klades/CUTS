@@ -14,7 +14,7 @@
 #define _ICCM_SERVANT_T_H_
 
 #include "ccm/CCM_ObjectS.h"
-
+#include "ccm/CCM_StandardConfiguratorC.h"
 #include "ace/Hash_Map_Manager.h"
 #include "ace/RW_Thread_Mutex.h"
 #include "ace/SString.h"
@@ -81,6 +81,9 @@ public:
 
   /// Passivate the component.
   virtual void passivate_component (void);
+
+  /// Handle configuration
+  virtual void handle_config (const ::Components::ConfigValues & values);
 
   // event-related methods
   virtual ::Components::Cookie *

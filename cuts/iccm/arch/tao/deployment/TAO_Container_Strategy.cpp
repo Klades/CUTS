@@ -42,6 +42,8 @@ configure_servant (::PortableServer::Servant servant,
   // Register the servant's value types with the orb
   ::CORBA::ORB_ptr orb = this->container_.inst_handler ()->orb ();
   tao_servant->register_value_factories (orb);
+
+  tao_servant->handle_config (values);
 }
 
 //
