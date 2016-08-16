@@ -1,11 +1,12 @@
 #ifndef _PORT_PROPERTIES_H_
 #define _PORT_PROPERTIES_H_
 
+#include "Servant_export.h"
 #include "cuts/iccm/configuration/Plugins/CPU_Mask.h"
 #include <string>
 #include <map>
 
-class PortProperties
+class ICCM_SERVANT_Export PortProperties
 {
   public:
     friend class PortProperties_Builder;
@@ -29,13 +30,14 @@ class PortProperties_Builder
 {
   public:
     typedef std::map<std::string, std::string> prop_map;
-    PortProperties_Builder (prop_map & map);
+    PortProperties_Builder (prop_map * map);
 
     /// Create a PortProperties item based on the name of the port and a map of property strings
-    PortProperties operator() (std::string & prefix);
 
+    PortProperties * operator() (std::string & prefix);
   private:
-    PortProperties default_props;
-    prop_map & property_map;
+    int def_threads;
+    CPU_Mask def_mask; 
+    prop_map * property_map;
 };
 #endif
