@@ -58,6 +58,16 @@ void CPU_Mask::zero (void)
 #endif
 }
 
+bool CPU_Mask::is_set (int cpu)
+{
+#ifdef ACE_HAS_PTHREADS
+  return CPU_ISSET (cpu, &mask_);
+#endif
+#ifdef ACE_WIN32
+  return mask_ & (1 << cpu);
+#endif
+}
+
 #ifdef ACE_HAS_PTHREADS
 cpu_set_t * CPU_Mask::get (void) 
 {

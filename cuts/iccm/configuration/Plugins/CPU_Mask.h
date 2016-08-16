@@ -22,6 +22,7 @@ public:
   void set (int affinity);
   void clear (int affinity);
   void zero (void);
+  bool is_set (int cpu);
 
 #ifdef ACE_HAS_PTHREADS
   cpu_set_t * get (void);
