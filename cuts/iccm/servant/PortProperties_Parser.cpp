@@ -90,7 +90,7 @@ PortProperties_Parser::string_map * PortProperties_Parser::process_file (std::if
   while (std::getline (file, line))
   {
     // Skip comments
-    if (file[0] == '#') {
+    if (line[0] == '#') {
       continue;
     }
     std::pair<std::string, std::string> split_line = split (line, '=');
